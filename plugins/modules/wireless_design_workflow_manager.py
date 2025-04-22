@@ -56,7 +56,11 @@ options:
     required: true
     suboptions:
       ssids:
-        description: Configure SSIDs for Enterprise and Guest Wireless Networks.
+        description:
+          - Configure SSIDs for Enterprise and Guest Wireless Networks.
+          - When updating SSIDs, if passphrase or mpsk_passphrase is included, the Cisco Catalyst Center returns these values in an encrypted format.
+            This prevents comparison with existing values. As a result, even if no other parameters change, the operation is treated as an update
+            to ensure the provided passphrase or mpsk_passphrase is applied.
         type: list
         elements: dict
         suboptions:
@@ -267,6 +271,9 @@ options:
                     - ASCII - Must be between 8 and 63 characters.
                     - HEX - Must be exactly 64 characters.
                   - During an update operation, if a passphrase is provided, the update proceeds even if there are no changes to the existing passphrase.
+                  - When updating SSIDs, if passphrase is included, the Cisco Catalyst Center returns these values in an encrypted format.
+                    This prevents comparison with existing values. As a result, even if no other parameters change, the operation is treated as an update
+                    to ensure the provided passphrase is applied.
                 type: str
               mpsk_settings:
                 description:
@@ -298,7 +305,9 @@ options:
                       - Required when configuring MPSK.
                       - If "mpsk_passphrase_type" is set to "ASCII", the passphrase must be between 8 and 63 characters.
                       - If "mpsk_passphrase_type" is set to "HEX", the passphrase must be exactly 64 characters.
-                      - For update operations, if an "mpsk_passphrase" is provided, the update will proceed even if there are no changes to the passphrase.
+                      - When updating SSIDs, if "mpsk_passphrase" is included, the Cisco Catalyst Center returns these values in an encrypted format.
+                        This prevents comparison with existing values. As a result, even if no other parameters change, the operation is treated as an update
+                        to ensure the provided "mpsk_passphrase" is applied.
                     type: str
           fast_transition:
             description:
@@ -2686,7 +2695,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -2711,7 +2720,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -2749,7 +2758,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -2810,7 +2819,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -2845,7 +2854,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -2880,7 +2889,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -2933,7 +2942,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -2970,7 +2979,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -3007,7 +3016,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -3046,7 +3055,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -3099,7 +3108,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -3138,7 +3147,7 @@ EXAMPLES = r"""
             security_settings:
               awips: true
               awips_forensic: false
-              rogue_detection: true
+              rogue_detection_enabled: true
               minimum_rssi: -71
               transient_interval: 300
               report_interval: 60
@@ -3774,7 +3783,7 @@ EXAMPLES = r"""
                 device_priority: 1
                 device_nat_ip_address: "10.0.0.12"
                 mobility_group_name: "Branch_Mobility_Group"
-                managed_device: "WLC_Branch_2"
+                managed_device: false
               - device_name: Device2
                 device_ip_address: "192.168.0.14"
                 device_mac_address: "00:1A:2B:3C:4D:5B"
@@ -4144,7 +4153,6 @@ class WirelessDesign(DnacBase):
                             "srg_obss_pd_min_threshold": {"type": "int"},
                             "srg_obss_pd_max_threshold": {"type": "int"},
                         }
-
                     },
                     "radio_bands_5ghz_settings": {
                         "type": "dict",
@@ -6462,9 +6470,21 @@ class WirelessDesign(DnacBase):
         self.log("Validating 'device_mac_address' for mobility anchor: {0}".format(anchor), "DEBUG")
 
         device_mac_address = anchor.get("device_mac_address")
-        if device_mac_address and not re.match(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$', device_mac_address):
-            self.msg = ("Device MAC Address '{0}' is not in a valid format.").format(device_mac_address)
-            self.fail_and_exit(self.msg)
+        if device_mac_address:
+            # Define regex patterns for valid MAC address formats
+            valid_mac_patterns = [
+                # Format: 00:11:22:33:44:55 or 00-11-22-33-44-55
+                r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$',
+                # Format: 0a0b.0c01.0211
+                r'^([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}$',
+                # Format: 0a0b0c010211
+                r'^[0-9A-Fa-f]{12}$'
+            ]
+
+            # Check if the MAC address matches any of the valid patterns
+            if not any(re.match(pattern, device_mac_address) for pattern in valid_mac_patterns):
+                self.msg = ("Device MAC Address '{0}' is not in a valid format.").format(device_mac_address)
+                self.fail_and_exit(self.msg)
 
         self.log("'device_mac_address' is valid for mobility anchor: {0}".format(anchor), "INFO")
 
@@ -9290,83 +9310,84 @@ class WirelessDesign(DnacBase):
         """
         # Compare dictionaries key by key
         if isinstance(requested_value, dict) and isinstance(existing_value, dict):
-            self.log("Comparing dictionaries.", "DEBUG")
+            self.log("Comparing dictionaries. Requested: {0}, Existing: {1}".format(requested_value, existing_value), "DEBUG")
             for sub_key in requested_value:
                 if not self.compare_values(requested_value[sub_key], existing_value.get(sub_key)):
-                    self.log("Mismatch found in dictionary comparison for key: {0}".format(sub_key), "DEBUG")
+                    self.log("Mismatch found in dictionary comparison for key: {0}. Requested: {1}, Existing: {2}".format(
+                        sub_key, requested_value[sub_key], existing_value.get(sub_key)), "DEBUG")
                     return False
 
         # Compare lists by sorting and comparing elements
         elif isinstance(requested_value, list) and isinstance(existing_value, list):
-            self.log("Comparing lists.", "DEBUG")
+            self.log("Comparing lists. Requested: {0}, Existing: {1}".format(requested_value, existing_value), "DEBUG")
+            # Check if one list is empty while the other is not
+            if not requested_value and existing_value:
+                self.log("Requested value is an empty list, but existing value is not: {0}".format(existing_value), "DEBUG")
+                return False
+            if requested_value and not existing_value:
+                self.log("Existing value is an empty list, but requested value is not: {0}".format(requested_value), "DEBUG")
+                return False
+            # Compare lists element by element
             requested_sorted = sorted(requested_value, key=str)
             existing_sorted = sorted(existing_value, key=str)
-            # requested_sorted = sorted(requested_value, key=lambda x: str(x))
-            # existing_sorted = sorted(existing_value, key=lambda x: str(x))
-            comparison_result = all(self.compare_values(r, e) for r, e in zip(requested_sorted, existing_sorted))
-            self.log("List comparison result: {0}".format(comparison_result), "DEBUG")
-            return comparison_result
+            for r, e in zip(requested_sorted, existing_sorted):
+                if not self.compare_values(r, e):
+                    self.log("Mismatch found in list comparison. Requested element: {0}, Existing element: {1}".format(r, e), "DEBUG")
+                    return False
+            self.log("Lists match after comparison.", "DEBUG")
+            return True
 
         # Normalize and compare time strings
         elif isinstance(requested_value, str) and isinstance(existing_value, str):
-            self.log("Comparing string values.", "DEBUG")
+            self.log("Comparing string values. Requested: {0}, Existing: {1}".format(requested_value, existing_value), "DEBUG")
             requested_value = self.normalize_time(requested_value)
             existing_value = self.normalize_time(existing_value)
             comparison_result = requested_value == existing_value
-            self.log("String comparison result: {0}".format(comparison_result), "DEBUG")
+            self.log("String comparison result: {0}. Normalized Requested: {1}, Normalized Existing: {2}".format(
+                comparison_result, requested_value, existing_value), "DEBUG")
             return comparison_result
 
         # Direct comparison for other types
         else:
-            self.log("Directly comparing values: {0} and {1}".format(requested_value, existing_value), "DEBUG")
+            self.log("Directly comparing values. Requested: {0}, Existing: {1}".format(requested_value, existing_value), "DEBUG")
             return requested_value == existing_value
 
         return True
 
     def recursive_update(self, existing, updates):
         """
-        Recursively update a dictionary with values from another dictionary.
-        This function handles nested dictionaries and lists of dictionaries, updating
-        entries in `existing` with corresponding entries in `updates`.
+        Recursively update the existing dictionary or list with the updates provided.
         Args:
-            existing (dict): The dictionary to be updated.
-            updates (dict): The dictionary containing updates.
+            existing (dict or list): The existing data structure to be updated.
+            updates (dict or list): The updates to apply.
         """
-        # Iterate over each key-value pair in the updates dictionary
         for key, value in updates.items():
             if isinstance(value, dict) and key in existing and isinstance(existing[key], dict):
-                # If the value is a dictionary and exists in the existing dictionary, recursively update it
-                self.log("Recursively updating dictionary for key: {0}".format(key), "DEBUG")
+                self.log(f"Recursively updating dictionary for key: {key}", "DEBUG")
                 self.recursive_update(existing[key], value)
             elif isinstance(value, list) and key in existing and isinstance(existing[key], list):
-                # If the value is a list, handle lists of dictionaries
-                self.log("Handling list of dictionaries for key: {0}".format(key), "DEBUG")
-                existing_list = existing[key]
-                updates_list = value
-
-                # Iterate over each dictionary in the updates list
-                for update_dict in updates_list:
-                    if isinstance(update_dict, dict):
-                        # Assume each dictionary has a unique identifier key to match
-                        identifier_keys = ["powerProfileName"]
-                        matched = False
-
-                        # Check for matches in the existing list
-                        for existing_dict in existing_list:
-                            if any(existing_dict.get(id_key) == update_dict.get(id_key) for id_key in identifier_keys if id_key in update_dict):
-                                # If a match is found, recursively update the existing dictionary
-                                self.log("Match found for update. Recursively updating existing dictionary.", "DEBUG")
-                                self.recursive_update(existing_dict, update_dict)
-                                matched = True
-                                break
-
-                        if not matched:
-                            # If no match is found, append the update_dict as a new entry
-                            self.log("No match found. Appending new dictionary to existing list.", "DEBUG")
-                            existing_list.append(update_dict)
+                self.log(f"Handling list for key: {key}", "DEBUG")
+                # If the requested list is empty, replace the existing list
+                if not value:
+                    self.log(f"Requested list for key '{key}' is empty. Replacing existing list.", "DEBUG")
+                    existing[key] = value
+                else:
+                    # Handle list of dictionaries
+                    for update_dict in value:
+                        if isinstance(update_dict, dict):
+                            matched = False
+                            for existing_dict in existing[key]:
+                                if all(existing_dict.get(id_key) == update_dict.get(id_key) for id_key in update_dict.keys() if id_key in existing_dict):
+                                    self.log(f"Match found for update in list for key '{key}'. Recursively updating.", "DEBUG")
+                                    self.recursive_update(existing_dict, update_dict)
+                                    matched = True
+                                    break
+                            if not matched:
+                                self.log(f"No match found. Appending new dictionary to list for key '{key}'.", "DEBUG")
+                                existing[key].append(update_dict)
             else:
-                # For non-dictionary or non-list values, directly update the existing value
-                self.log("Updating value for key: {0}".format(key), "DEBUG")
+                # Directly update the value
+                self.log(f"Updating value for key: {key}. Requested: {value}, Existing: {existing.get(key)}", "DEBUG")
                 existing[key] = value
 
     def verify_create_update_access_point_profiles_requirement(self, access_point_profiles):
@@ -9423,6 +9444,47 @@ class WirelessDesign(DnacBase):
                                 ),
                                 "DEBUG"
                             )
+
+                            # Handle the specific case for time_zone
+                            if key == "timeZone" and requested_value in ["NOT CONFIGURED", "CONTROLLER"]:
+                                # Ensure timeZoneOffsetHour and timeZoneOffsetMinutes are set to zero
+                                requested_profile["timeZoneOffsetHour"] = 0
+                                requested_profile["timeZoneOffsetMinutes"] = 0
+                                self.log(
+                                    "Setting 'timeZoneOffsetHour' and 'timeZoneOffsetMinutes' to 0 for profile '{0}' "
+                                    "as 'timeZone' is set to 'NOT CONFIGURED'.".format(profile_name),
+                                    "DEBUG"
+                                )
+
+                            # Handle the specific case for calendarPowerProfiles
+                            if key == "calendarPowerProfiles":
+                                self.log("Updating calendarPowerProfiles for profile '{0}'.".format(profile_name), "DEBUG")
+                                for calendar_profile in requested_value:
+                                    # Ensure the 'duration' field exists
+                                    if "duration" not in calendar_profile:
+                                        calendar_profile["duration"] = {}
+
+                                    # Update fields based on the schedulerType
+                                    scheduler_type = calendar_profile.get("schedulerType")
+                                    if scheduler_type == "DAILY":
+                                        calendar_profile["duration"]["schedulerDay"] = None
+                                        calendar_profile["duration"]["schedulerDate"] = None
+                                        self.log(
+                                            "Set 'schedulerDay' to [] and 'schedulerDate' to '' for schedulerType 'DAILY' in profile '{0}'.".format(profile_name),
+                                            "DEBUG"
+                                        )
+                                    elif scheduler_type == "WEEKLY":
+                                        calendar_profile["duration"]["schedulerDate"] = None
+                                        self.log(
+                                            "Set 'schedulerDate' to '' for schedulerType 'WEEKLY' in profile '{0}'.".format(profile_name),
+                                            "DEBUG"
+                                        )
+                                    elif scheduler_type == "MONTHLY":
+                                        calendar_profile["duration"]["schedulerDay"] = None
+                                        self.log(
+                                            "Set 'schedulerDay' to [] for schedulerType 'MONTHLY' in profile '{0}'.".format(profile_name),
+                                            "DEBUG"
+                                        )
                             break
 
                 if update_needed:
