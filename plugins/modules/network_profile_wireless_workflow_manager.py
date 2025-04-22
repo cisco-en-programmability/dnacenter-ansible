@@ -81,7 +81,7 @@ options:
               This profile defines advanced Wi-Fi 7 (802.11be) parameters to optimize
               network performance and efficiency.
             type: str
-            required: true
+            required: false
           enable_fabric:
             description: |
               Set to `True` to enable fabric mode for this SSID.
@@ -354,7 +354,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             'ssid_details': {
                 'type': 'list',
                 'elements': 'dict',
-                'ssid': {'type': 'str', 'required': False},
+                'ssid': {'type': 'str', 'required': True},
                 'dot11be_profile_name': {'type': 'str', 'required': False},
                 'enable_fabric': {'type': 'bool', 'default': False},
                 'vlan_group_name': {'type': 'str', 'required': False},
@@ -1223,7 +1223,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                                                             localToVlan=ssid_value)
                                         ssid_data[mapped_ssidkey] = ssid_value
                                 if ssid_data.get("enableFabric"):
-                                    remove_keys = ["aflexConnect", "localToVlan",
+                                    remove_keys = ["flexConnect", "localToVlan",
                                                    "interfaceName", "anchorGroupName",
                                                    "vlanGroupName"]
                                     for rm_key in remove_keys:
@@ -1425,25 +1425,39 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         self.changed = False
         profile_id = None
 
+        profile_name = config.get("profile_name")
+        ssid_details = config.get("ssid_details")
+        ap_zones = config.get("ap_zones")
+        additional_interfaces = config.get("additional_interfaces")
+
         unmatch_stat = self.have["wireless_profile"].get("profile_compare_stat")
         profile_response = {"profile_name": config["profile_name"], "status": "Failed"}
 
+        self.log("Checking for existing wireless profile with name: '{0}'".format(
+            profile_name), "DEBUG")
+
         for profile in self.have["wireless_profile_list"]:
             if profile.get("name") == config.get("profile_name"):
-                if not unmatch_stat:
-                    profile_id = profile.get("id")
-                else:
-                    self.msg = "No changes required, profile(s) are already exist"
+                self.log("Found existing profile: {0}".format(profile), "DEBUG")
+                if unmatch_stat:
+                    self.msg = "No changes required, profile(s) already exist"
                     self.log(self.msg, "INFO")
                     self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
                     return self
+                profile_id = profile.get("id")
+                self.log("Matching profile found with ID: {0}".format(profile_id), "DEBUG")
+                break
+        else:
+            self.log("No existing profile matched for name: '{0}'. Proceeding to create a new one.".
+                     format(profile_name), "DEBUG")
 
-        if profile_id and not unmatch_stat and (config.get("ssid_details") or
-                                                config.get("ap_zones") or
-                                                config.get("additional_interfaces")):
+        if profile_id and not unmatch_stat and (ssid_details or ap_zones or additional_interfaces):
+            self.log("Updating existing wireless profile '{0}' (ID: {1}) with new config.".format(
+                profile_name, profile_id), "INFO")
             task_details = self.create_update_wireless_profile(config, profile_id)
             if task_details:
                 profile_response["status"] = task_details["progress"]
+                self.log("Task response for the profile update: {0}".format(profile_response), "INFO")
         else:
             self.log("Creating wireless profile for the config: {0}".format(config), "INFO")
             task_details = self.create_update_wireless_profile(config)
@@ -1469,15 +1483,22 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         site_id_list = []
         site_name_list = []
         if have_site and isinstance(have_site, list) and profile_id:
+            self.log("Collecting site IDs and names for profile: '{0}'".format(
+                profile_name), "DEBUG")
             for each_site in have_site:
                 if each_site["site_exist"]:
                     site_id_list.append(each_site["site_id"])
                     site_name_list.append(each_site["site_names"])
+                    self.log("Site exists: ID={0}, Name={1}".format(
+                        each_site["site_id"], each_site["site_names"]), "DEBUG")
 
         if site_id_list and profile_id:
+            self.log("Assigning wireless profile '{0}' to sites.".format(profile_name), "INFO")
             assign_response = []
             site_index = 0
             for site in site_id_list:
+                self.log("Assigning profile ID '{0}' to site: {1}".format(
+                    profile_id, site_name_list[site_index]), "DEBUG")
                 assign_response.append(self.assign_site_to_network_profile(
                     profile_id, site, config.get("profile_name"),
                     site_name_list[site_index]))
@@ -1486,7 +1507,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         ob_template = self.have["wireless_profile"].get("onboarding_templates")
         dn_template = self.have["wireless_profile"].get("day_n_templates")
         previous_templates = self.have["wireless_profile"].get("previous_templates")
-        profile_name = config.get("profile_name")
 
         if ob_template and profile_id:
             template_response = self.process_templates(ob_template, previous_templates,
