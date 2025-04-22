@@ -1898,11 +1898,19 @@ class NetworkSettings(DnacBase):
         response = None
         while True:
             try:
-                response = self.dnac._exec(
-                    family="network_settings",
-                    function="get_global_pool",
-                    params={"offset": offset}
-                )
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+                    response = self.dnac._exec(
+                        family="network_settings",
+                        function="get_global_pool",
+                        params={"offset": offset}
+                    )
+                else:
+                    response = self.dnac._exec(
+                        family="network_settings",
+                        function="retrieves_global_ip_address_pools_v1",
+                        params={"offset": offset,
+                                "limit": 500}
+                    )
             except Exception as msg:
                 self.msg = (
                     "Exception occurred while getting the global pool details with name '{name}': {msg}"
@@ -3445,6 +3453,22 @@ class NetworkSettings(DnacBase):
 
     def update_global_pool(self, global_pool):
         """
+        Dispatcher for updating/creating global pools based on the version.
+
+        Parameters:
+            global_pool (list of dict): Global Pool playbook details
+            version (int): Version of the update logic to use (1 or 2)
+
+        Returns:
+            self
+        """
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+            return self.update_global_pool_v1(global_pool)
+
+        return self.update_global_pool_v2(global_pool)
+
+    def update_global_pool_v1(self, global_pool):
+        """
         Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook
 
         Parameters:
@@ -3583,6 +3607,102 @@ class NetworkSettings(DnacBase):
 
         self.log("Global pool configuration operations completed successfully.", "INFO")
         return self
+
+    def update_global_pool_v2(self, global_pool):
+        """
+        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook
+
+        Parameters:
+            global_pool (list of dict) - Global Pool playbook details
+
+        Returns:
+            None
+        """
+
+        create_global_pool = []
+        update_global_pool = []
+        global_pool_index = 0
+        result_global_pool = self.result.get("response")[0].get("globalPool")
+        want_global_pool = self.want.get("wantGlobal").get("settings").get("ippool")
+        self.log("Global pool playbook details: {0}".format(global_pool), "DEBUG")
+        for item in self.have.get("globalPool"):
+            result_global_pool.get("msg") \
+                .update({want_global_pool[global_pool_index].get("ipPoolName"): {}})
+            if item.get("exists") is True:
+                update_global_pool.append(want_global_pool[global_pool_index])
+            else:
+                create_global_pool.append(want_global_pool[global_pool_index])
+
+            global_pool_index += 1
+
+        # Check create_global_pool; if yes, create the global pool
+        if create_global_pool:
+            self.log("Global pool(s) details to be created: {0}".format(create_global_pool), "INFO")
+            pool_params = {
+                "settings": {
+                    "ippool": copy.deepcopy(create_global_pool)
+                }
+            }
+            response = self.dnac._exec(
+                family="network_settings",
+                function="create_a_global_ip_address_pool",
+                op_modifies=True,
+                params=pool_params,
+            )
+            self.check_execution_response_status(response).check_return_status()
+            self.log("Successfully created global pool successfully.", "INFO")
+            for item in pool_params.get("settings").get("ippool"):
+                name = item.get("ipPoolName")
+                self.log("Global pool '{0}' created successfully.".format(name), "INFO")
+                result_global_pool.get("response").update({"created": pool_params})
+                result_global_pool.get("msg").update({name: "Global Pool Created Successfully"})
+
+        if update_global_pool:
+            final_update_global_pool = []
+            # Pool exists, check update is required
+            for item in update_global_pool:
+                name = item.get("ipPoolName")
+                for pool_value in self.have.get("globalPool"):
+                    if pool_value.get("exists") and pool_value.get("details").get("ipPoolName") == name:
+                        if not self.requires_update(pool_value.get("details"), item, self.global_pool_obj_params):
+                            self.log("Global pool '{0}' doesn't require an update".format(name), "INFO")
+                            result_global_pool.get("msg").update({name: "Global pool doesn't require an update"})
+                        elif item not in final_update_global_pool:
+                            final_update_global_pool.append(item)
+
+            if final_update_global_pool:
+                self.log("Global pool requires update", "INFO")
+
+                # Pool(s) needs update
+                pool_params = {
+                    "settings": {
+                        "ippool": copy.deepcopy(final_update_global_pool)
+                    }
+                }
+                self.log("Desired State for global pool (want): {0}".format(pool_params), "DEBUG")
+                keys_to_remove = ["IpAddressSpace", "ipPoolCidr", "type"]
+                for item in pool_params["settings"]["ippool"]:
+                    for key in keys_to_remove:
+                        del item[key]
+
+                self.log("Desired global pool details (want): {0}".format(pool_params), "DEBUG")
+                response = self.dnac._exec(
+                    family="network_settings",
+                    function="updates_a_global_ip_address_pool_v1",
+                    op_modifies=True,
+                    params=pool_params,
+                )
+
+                self.check_execution_response_status(response).check_return_status()
+                for item in pool_params.get("settings").get("ippool"):
+                    name = item.get("ipPoolName")
+                    self.log("Global pool '{0}' Updated successfully.".format(name), "INFO")
+                    result_global_pool.get("response").update({"globalPool Details": pool_params})
+                    result_global_pool.get("msg").update({name: "Global Pool Updated Successfully"})
+
+        self.log("Global pool configuration operations completed successfully.", "INFO")
+        return
+
 
     def update_reserve_pool(self, reserve_pool):
         """
@@ -4134,7 +4254,6 @@ class NetworkSettings(DnacBase):
             return self.check_return_status()
 
         return self
-
 
     def get_diff_merged(self, config):
         """
