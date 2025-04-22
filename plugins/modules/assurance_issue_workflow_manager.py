@@ -501,6 +501,439 @@ facility_mnemonic_map = r"""
 }
 """
 
+description_value_types = r"""
+#Description Value types of all Family type parameters.
+
+#Family type: ROUTER
+Access Contract (SGACL) access policy installation failed on the device
+Assurance telemetry status is poor
+BGP session to Control Plane node down
+BGP Session to Spine Node Down
+BGP Tunnel Connectivity
+Excessive time lag between Cisco Catalyst Center and Network Device
+Expected Peer not present on Fabric Node
+Fabric BGP session from Border node to Transit Control Plane node is down
+Fabric BGP session status is down with Peer Device
+Fabric BGP session status is down with Peer Device (per VN)
+Fabric Border node internet is unavailable
+Fabric Border node internet is unavailable (per VN)
+Fabric Border node remote internet may be unavailable
+Fabric Border node remote internet may be unavailable (per VN)
+Fabric Devices Connectivity - Multicast RP
+Fabric Devices Connectivity - Multicast RP (per VN)
+Fabric LISP PubSub session status is down
+Fabric LISP PubSub session status is down (per VN)
+Fabric LISP Session Status to Control Plane node
+Failure to install an access policy for SGT
+High input/output discard on Router interfaces
+    Description: |
+    - [1. Interface Input Discard - (0 to 100%)]
+    - [2. Interface Output Discard - (0 to 100%)]
+High input/output discard on Router WAN interfaces
+    Description: |
+    - [1. WAN Interface Input Discard -(0 to 100%)]
+    - [2. WAN Interface Output Discard -(0 to 100%)]
+High input/output error on Router interfaces
+    Description: |
+    - [1. Interface Input Error -(0 to 100%)]
+    - [2. Interface Output Error -(0 to 100%)]
+High input/output utilization on Router interfaces
+    Description: |
+    - [1. Interface Input Utilization -(0 to 100%)]
+    - [2. Interface Output Utilization -(0 to 100%)]
+High input/output utilization on Router WAN interfaces
+    Description: |
+    - [1. WAN Interface Input Utilization -(0 to 100%)]
+    - [2. Wan Interface Output Utilization -(0 to 100%)]
+Interface Connecting Network Devices is Down
+Issues based on Syslog events - High Temperature
+Layer 2 loop symptoms
+Network Device HA Switchover
+Network Device Interface Connectivity - BGP Down
+    Description: |
+    - [Time duration BGP on a Router/Switch can be down for before issue is generated-(0 to 10 minutes)
+Network Device Interface Connectivity - BGP Flap
+Network Device Interface Connectivity - EIGRP Adjacency Failure
+Network Device Interface Connectivity - ISIS Adjacency Failure
+Network Device Interface Connectivity - OSPF Adjacency Failure
+Radius server is not responding
+Router experiencing high CPU utilization
+    Description: |
+    - [CPU Utilization - (0 to 100 %)]
+Router experiencing high memory utilization
+    Description: |
+    - [Memory Utilization - (0 to 100 %)]
+Router unreachable
+SGACL TCAM table is full
+SGT access policy download failed on the device
+Unable to download SGT access policy from the Policy Server
+Uninstall of SGT access policy failed on the device
+VNI(s) Down on Fabric Node
+VNI(s) Down on Fabric Node (per VN)
+WAN Interface Down
+
+#Family type: SWITCH_AND_HUB
+Access Contract (SGACL) access policy installation failed on the device
+AP(s) disconnected from WLC on Switch
+Assurance telemetry status is poor
+BGP session to Control Plane node down
+BGP Session to Spine Node Down
+BGP Tunnel Connectivity
+Cisco TrustSec environment data download status
+Device Reboot
+Dual-Active Detection Link has failed
+Excessive time lag between Cisco Catalyst Center and Network Device
+Expected Peer not present on Fabric Node
+Fabric AAA Server Status
+Fabric BGP session from Border node to Transit Control Plane node is down
+Fabric BGP session status is down with Peer Device
+Fabric BGP session status is down with Peer Device (per VN)
+Fabric Border node internet is unavailable
+Fabric Border node internet is unavailable (per VN)
+Fabric Border node remote internet may be unavailable
+Fabric Border node remote internet may be unavailable (per VN)
+Fabric Devices Connectivity - AAA Server
+Fabric Devices Connectivity - Border Overlay
+Fabric Devices Connectivity - Border Underlay
+Fabric Devices Connectivity - Control Border Underlay
+Fabric Devices Connectivity - Control Underlay
+Fabric Devices Connectivity - DHCP Overlay
+Fabric Devices Connectivity - DHCP Underlay
+Fabric Devices Connectivity - DNS Overlay
+Fabric Devices Connectivity - DNS Underlay
+Fabric Devices Connectivity - Multicast RP
+Fabric Devices Connectivity - Multicast RP (per VN)
+Fabric facing port channel connectivity
+Fabric LISP Extranet policy status is down
+Fabric LISP PubSub session status is down
+Fabric LISP PubSub session status is down (per VN)
+Fabric LISP session status on Control Plane node
+Fabric LISP Session Status to Control Plane node
+Failure to install an access policy for SGT
+High input/output discard on Switch interfaces
+    Description: |
+    - [1. Interface Input Discard - (0 to 100%)]
+    - [2. Interface Output Discard - (0 to 100%)]
+High input/output discard on Switch WAN interfaces
+    Description: |
+    - [1. WAN Interface Input Discard -(0 to 100%)]
+    - [2. WAN Interface Output Discard -(0 to 100%)]
+High input/output error on Switch interfaces
+    Description: |
+    - [1. Interface Input Error -(0 to 100%)]
+    - [2.Interface Output Error -(0 to 100%)]
+High input/output utilization on Switch interfaces
+    Description: |
+    - [1. Interface Input Utilization -(0 to 100%)]
+    - [2. Interface Output Utilization -(0 to 100%)]
+High input/output utilization on Switch WAN interfaces
+    Description: |
+    - [1. WAN Interface Input Utilization -(0 to 100%)]
+    - [2. Wan Interface Output Utilization -(0 to 100%)]
+Interface Connecting Network Devices is Down
+Interface is Flapping on Network Device
+    Description: |
+    - [A port interface is flapping on a switch - 0 to 100 times]
+Issues based on Syslog events - High Temperature
+Issues based on Syslog events - POE
+Layer 2 loop symptoms
+Map cache limit reached
+Network Device HA Switchover
+Network Device Interface Connectivity - BGP Down
+    Description: |
+    - [Time duration BGP on a Router/Switch can be down for before issue is generated-(0 to 10 minutes)]
+Network Device Interface Connectivity - BGP Flap
+Network Device Interface Connectivity - EIGRP Adjacency Failure
+Network Device Interface Connectivity - ISIS Adjacency Failure
+Network Device Interface Connectivity - OSPF Adjacency Failure
+PoE port in error state
+PoE powered device flagged faulty
+Power denied for PoE powered device
+Radius server is not responding.
+SGACL TCAM table is full
+SGT access policy download failed on the device
+Stack Member Removal
+Stack Member Running Incompatible Image
+Stack Port Link has failed
+StackWise Virtual Link has failed
+Switch experiencing high CPU utilization
+    Description: |
+    - [CPU Utilization (0 to 100 %)]
+Switch experiencing high memory utilization
+    Description: |
+    - [Memory Utilization (0 to 100 %)]
+Switch fan failure
+Switch power failure
+Switch unreachable
+TCAM Utilization High Issues
+    Description: |
+    - [TCAM Utilization (0 to 100 %)]
+Unable to download SGT access policy from the Policy Server
+Uninstall of SGT access policy failed on the device
+VNI(s) Down on Fabric Node
+VNI(s) Down on Fabric Node (per VN)
+WAN Interface Down
+
+#Family Type: CONTROLLER
+AP License Exhausted on WLC
+Assurance telemetry status is poor
+Excessive time lag between Cisco Catalyst Center and Network Device
+Fabric WLC to MapServer Connectivity
+Interface Connecting Network Devices is Down
+Network Device HA Switchover
+Radius server is not responding
+WLC Memory High Utilization
+WLC Monitor
+WLC Power Supply Failure
+WLC Reboot Unexpectedly
+WLC unreachable
+
+#Family Type: UNIFIED_AP
+AP Anomaly
+AP Coverage Hole
+AP CPU High Utilization
+    Description: |
+    - [CPU Utilization of Access Points - (0 to 100%)]
+AP disconnected from WLC
+AP Flap
+    Description: |
+    - Number of flaps in 15 minutes - (1 to 100 Times)
+AP Memory High Utilization
+    - Memory Utilization of Access Points - ( 0 to 100%)
+AP Reboot Crash
+No Activity on Radio (2.4 GHz)
+    Description: |
+    - No Activity on Radio (2.4 GHz) - (60 to 240 minutes)
+No Activity on Radio (5 GHz)
+    Description: |
+    - No Activity on Radio (5 GHz) - (60 to 240 minutes)
+No Activity on Radio (6 GHz)
+    Description: |
+    - No Activity on Radio (6 GHz) - (60 to 240 minutes)
+Poor RF (2.4 GHz) on a floor
+    Description: |
+    - [1.RF Interference (2.4GHz) - (0 to 100%)]
+    - [2.RF Noise (2.4GHz) - (-120 to 0 dBm)]
+Poor RF (5 GHz) on a floor
+    Description: |
+    - 1.RF Interference (5GHz)  - (0 to 100%)
+    - 2.RF Noise (5GHz) – (-120 to 0 dBm)
+Poor RF (6 GHz) on a floor
+    Description: |
+    - [1. RF Interference (6GHz) - (0 to 100%)]
+    - [2. RF Noise (6GHz) - (-120 to 0 dBm)]
+Radio Down (2.4 GHz)
+Radio Down (5 GHz)
+Radio Down (6 GHz)
+Radio High Utilization (2.4 GHz)
+    Description: |
+    - Radio channel utilization for APs - (0 to 100%)
+Radio High Utilization (5 GHz)
+    Description: |
+    - Radio channel utilization for APs - (0 to 100%)
+Radio High Utilization (6 GHz)
+    - Radio channel utilization for APs - (0 to 100%)
+Radio Poor RF (2.4 GHz)
+    Description: |
+    - [1.Poor RF Window (2.4 GHz) – (5 to 240 minutes)]
+    - [2.RF Interference (2.4GHz) - (0 to 100%)]
+    - [3.RF Noise (2.4GHz) - (-120 to 0 dBm)]
+Radio Poor RF (5 GHz)
+    Description: |
+    - [1.Poor RF Window (5 GHz) – (5 to 240 minutes)]
+    - [2.RF Interference (5 GHz) - (0 to 100%)]
+    - [3.RF Noise (5 GHz) - (-120 to 0 dBm)]
+Radio Poor RF (6 GHz)
+    Description: |
+    - [1.Poor RF Window (6 GHz) – (5 to 240 minutes)]
+    - [2.RF Interference (6 GHz) - (0 to 100%)]
+    - [3.RF Noise (6 GHz) - (-120 to 0 dBm)]
+
+#Family type: WIRED_CLIENT
+Assurance telemetry status is poor
+Client DHCP reachability issue
+Wired client failed to authenticate – 802.1X authentication failure
+Wired client failed to authenticate – MAB authentication failure
+Wired client failed to connect – authorization failure
+
+#Family type: WIRELESS_CLIENT
+802.11r client roaming slowly
+Assurance telemetry status is poor
+Drop in radio throughput for Cloud Applications
+Drop in radio throughput for Collaboration Applications
+Drop in radio throughput for Media Applications
+Drop in radio throughput for Social Applications
+Drop in total radio throughput
+Dual Band capable client prefers 2.4 GHz over 5 GHz
+Excessive failures to Associate - High deviation from baseline
+Excessive failures to connect - High deviation from baseline
+Excessive failures to get an IP address - High deviation from baseline
+Excessive failures to get Authenticated - High deviation from baseline
+Excessive failures to roam - High deviation from baseline
+Excessive time for onboarding - Excessive time due to auth timeouts
+Excessive time to connect - High deviation from baseline
+Excessive time to get an IP Address - High deviation from baseline
+Excessive time to get Associated - High deviation from baseline
+Excessive time to get Authenticated - High deviation from baseline
+Wireless client excluded - Client was Excluded before roaming
+Wireless client excluded - IP Theft Issue
+Wireless client failed to connect - AAA Server Rejected Client
+Wireless client failed to connect - AAA Server Timeout
+Wireless client failed to connect - Client PMK Not Found
+Wireless client failed to connect - Client Timeout
+Wireless client failed to connect - DHCP Server Timeout
+Wireless client failed to connect - DHCP Timeout
+Wireless client failed to connect - Failed to get an IP Address due to Client Timeout
+Wireless client failed to connect - Incorrect PSK
+Wireless client failed to connect - Security Parameter Mismatch
+Wireless client failed to connect - WLC configuration error
+Wireless client failed to connect - WLC Internal Error
+Wireless client failed to roam - AAA Server Rejected Client
+Wireless client failed to roam - AAA Server Timeout
+Wireless client failed to roam - Client PMK Not Found
+Wireless client failed to roam - Client Timeout
+Wireless client failed to roam - Security Parameter Mismatch
+Wireless client failed to roam - WLC configuration error
+Wireless client failed to roam - WLC Internal Error
+Wireless client failed to roam between APs - External Error
+Wireless client failed to roam between APs - WLC configuration mismatch
+Wireless client shows sticky behavior
+    Description: |
+    - [1.Max. RSSI - (-128 to 0 dBm)]
+    - [2.Max. difference with neighbor RSSI - (-128 to 0 dBm)]
+Wireless client took a long time to connect - Excessive time due to authentication timeouts
+    Description: |
+    - [1. Time needed to authenticate with AAA server - (0 to 120 seconds)]
+    - [2. Time needed to obtain an IP Address from DHCP server - (0 to 120 seconds)]
+Wireless client took a long time to connect - Excessive time due to DHCP server failures
+    Description: |
+    - [1. Time needed to authenticate with AAA server - (0 to 120 seconds)]
+    - [2. Time needed to obtain an IP Address from DHCP server - (0 to 120 seconds)]
+Wireless client took a long time to connect - Excessive time due to failed credentials
+    Description: |
+    - [1. Time needed to authenticate with AAA server - (0 to 120 seconds)]
+    - [2. Time needed to obtain an IP Address from DHCP server - (0 to 120 seconds)]
+Wireless client took a long time to connect - Excessive time due to WLC failures
+    Description: |
+    - [1. Time needed to authenticate with AAA server - (0 to 120 seconds)]
+    - [2. Time needed to obtain an IP Address from DHCP server - (0 to 120 seconds)]
+Wireless clients excluded - IP Theft Issue
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to connect - AAA Server Rejected Clients
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to connect - AAA Server Timeout
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to connect - Client PMK Not Found
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless Clients failed to connect - DHCP Server timeout
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to connect - Failed to authenticate due to Client Timeouts
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to connect - Failed to get an IP Address due to Client Timeouts
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to connect - Failed to get an IP Address due to DHCP Server or Client Timeouts
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to connect - Incorrect PSK
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to connect - Security Parameter Mismatch
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to connect - WLC configuration error
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to roam - Client Exclusion Policies on the WLC
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to roam - Clients were Excluded before roaming
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients failed to roam - WLC configuration mismatch
+    Description: |
+    - Number of clients failed to roam in 30 mins - (1 to 10000 times)
+Wireless clients took a long time to connect - Excessive time due to DHCP server failures
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients took a long time to connect - Failed credentials
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+Wireless clients took a long time to connect - WLC failures
+    Description: |
+    - At least (1 to 10000) clients or (1 to 100%) of total clients in a location failed to connect within 30 minutes.
+
+#Family type: APPLICATION
+Application Latency Issues
+
+#Family type: SENSOR
+Sensors - DHCP Failures
+Sensors - IPerf Invalid Config Error
+Sensors - IPSLA No Response
+Sensors - IPerf Undefined Error
+Sensors - IPerf Test Network Error
+Sensors - FTP Unreachable
+Sensors - Failed Authentication during Onboarding
+Sensors - Web Socket Error
+Sensors - No NDT Server
+Sensors - NDT Test Uplink Timeout
+Sensors - Outlook Server Test Fail
+Sensors - IPSLA No IP Address
+Sensors - IPerf Server busy
+Sensors - IPSLA Test Fail
+Sensors - NDT Test HTTP Error
+Sensors - Unreachable Radius
+Sensors - NDT Test Generic Error
+Sensors - Mail Server Unreachable
+Sensors - Failed Association during Onboarding
+Sensors - IPSLA Unsupported Probe Type
+Sensors - Unreachable Host
+Sensors - Outlook Server Unreachable
+Sensors - Mail Server Test Fail
+Sensors - Radius Authentication Fail
+Sensors - NDT Test Uplink Proxy Error
+Sensors - Web Server Test Failed
+Sensors - NDT Test URL Error
+Sensors - IPSLA Socket Error
+Sensors - NDT Test Fail
+Sensors - FTP Test Fail
+Sensors - DNS Resolution Failed
+Sensors - Query Server Timeout
+Sensors - Web Server Unreachable
+Sensors - FTP Transfer Fail
+Sensors - Web Authentication Fail
+Sensors - Onboarding Failures
+
+#Family type: THIRD_PARTY_DEVICE
+High input/output discard on Third Party Device interfaces
+    Description: |
+    - [1. Interface Input Discard - (0 to 100%)]
+    - [2. Interface Output Discard - (0 to 100%)]
+High input/output discard on Third Party Device WAN interfaces
+    Description: |
+    - [1.WAN Interface Input Discard - (0 to 100%)]
+    - [2.WAN Interface Output Discard - (0 to 100%)]
+High input/output utilization on Third Party Device WAN interfaces
+    Description: |
+    - [1. WAN Interface Input Utilization - (0 to 100%)]
+    - [2. Wan Interface Output Utilization - (0 to 100%)]
+High input/output error on Third Party Device interfaces
+    Description: |
+    - [1. Interface Input Error - (0 to 100%)]
+    - [2. Interface Output Error - (0 to 100%)]
+High input/output utilization on Third Party Device interfaces
+    Description: |
+    - [1. Interface Input Utilization - (0 to 100%)]
+    - [2. Interface Output Utilization - (0 to 100%)]
+Excessive time lag between Cisco Catalyst Center and Network Device
+"""
+
 EXAMPLES = r"""
 ---
 - hosts: dnac_servers
