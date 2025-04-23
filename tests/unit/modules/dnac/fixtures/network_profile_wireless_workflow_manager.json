@@ -1,7 +1,5 @@
 {
     "profile_creation_config": [{
-        "wireless_profile": [
-            {
                 "profile_name": "Test_WL_1",
                 "site_name": [
                     "Global/Chennai/LTTS/FLOOR11",
@@ -35,10 +33,12 @@
                 ],
                 "additional_interfaces": [
                     {
-                        "interface_name": "tea"
+                        "interface_name": "tea",
+                        "vlan_id": 2002
                     },
                     {
-                        "interface_name": "12"
+                        "interface_name": "12",
+                        "vlan_id": 2003
                     }
                 ],
                 "onboarding_template": [
@@ -47,9 +47,9 @@
                 "day_n_template": [
                     "WLC Template"
                 ]
-            }
-        ]
+
     }],
+
     "wireless_profile_list": {
         "response": [
             {
@@ -70,7 +70,9 @@
         ],
         "version": "1.0"
     },
+
     "no_response_received": null,
+
     "available_templates": [
         {
             "name": "Ansible_PNP_Switch",
@@ -446,6 +448,29 @@
             ]
         }
     ],
+
+    "get_site_details_global":{
+        "response": [
+          {
+            "id": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+            "name": "Global",
+            "type": "global"
+          }
+        ]
+      },
+
+    "get_site_details_chn": {
+        "response": [
+          {
+            "id": "b0292a67-36ff-49ad-9135-5e79b056019e",
+            "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+            "name": "Chennai",
+            "nameHierarchy": "Global/Chennai",
+            "type": "area"
+          }
+        ]
+      },
+
     "get_site_details1": {
         "response": [
             {
@@ -1116,6 +1141,32 @@
         },
         "version": "1.0"
     },
+    "get_sitelist_for_profile": {
+            "response": [
+            {
+                "id": "c3293908-c136-45b9-b74f-d5dfaabb26a9"
+            },
+            {
+                "id": "61a79a23-210b-44d8-84fa-6f0a7d08f73b"
+            },
+            {
+                "id": "b0292a67-36ff-49ad-9135-5e79b056019e"
+            },
+            {
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813"
+            },
+            {
+                "id": "65761e39-fd3f-4eec-b174-ba968c0c7fee"
+            },
+            {
+                "id": "9e35764a-b591-4301-b52c-6f8d33e5e919"
+            },
+            {
+                "id": "976ec932-e5b3-403c-add8-09ebc0af0f03"
+            }
+        ],
+        "version": "1.0"
+      },
     "recreate_profile_task_details": {
         "response": {
             "endTime": 1738760524871,
