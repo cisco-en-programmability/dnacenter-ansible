@@ -27,7 +27,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
     """
     module = network_profile_wireless_workflow_manager
 
-    test_data = loadPlaybookData("network_wireless_profile_workflow_manager")
+    test_data = loadPlaybookData("network_profile_wireless_workflow_manager")
     profile_creation_config = test_data.get("profile_creation_config")
 
     def setUp(self):
