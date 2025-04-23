@@ -870,9 +870,8 @@ class PnP(DnacBase):
             if update_response and isinstance(update_response, dict):
                 return update_response
 
-            self.msg = "Received unexpected response from 'update_device' API for device ID {0}".format(device_id)
-            self.log(self.msg, "ERROR")
-            self.fail_and_exit(self.msg)
+            self.log("Received unexpected response from 'update_device' API for device ID {0}".
+                     format(device_id), "ERROR")
 
         except Exception as e:
             self.msg = "Unable execute the function 'update_device' for the payload: '{0}'. ".format(
