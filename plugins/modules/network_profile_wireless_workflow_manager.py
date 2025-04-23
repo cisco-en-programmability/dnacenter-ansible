@@ -212,7 +212,6 @@ EXAMPLES = r"""
         config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        offset_limit: 500
         state: merged
         config:
           - profile_name: "Corporate_Wireless_Profile"
