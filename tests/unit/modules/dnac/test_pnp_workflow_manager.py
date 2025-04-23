@@ -605,5 +605,5 @@ class TestDnacPnpWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('response'),
-            "Unable execute the function 'reset_device' for the payload: '\"671b1d88c301a454b89d2c84\"'. "
+            "Failed to execute 'reset_device' for device ID '671b1d88c301a454b89d2c84': "
         )
