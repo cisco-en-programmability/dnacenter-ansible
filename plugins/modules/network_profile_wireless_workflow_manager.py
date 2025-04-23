@@ -35,11 +35,6 @@ options:
       the configuration state after the change is applied.
     type: bool
     default: false
-  offset_limit:
-    description: |
-      Set the offset limit based on the API data limit for each pagination.
-    type: int
-    default: 500
   state:
     description: |
       Specifies the desired state for the configuration. If "merged", the module
@@ -227,13 +222,13 @@ EXAMPLES = r"""
             ssid_details:
               - ssid_name: "Corporate_WiFi"
                 enable_fabric: false
-                profile_name: "Corporate_WiFi_Profile"
-                policy_profile_name: "Corporate_Access_Policy"
+                wlan_profile_name: "Corporate_WiFi_Profile"
+                policy_profile_name: "Corporate_WiFi_Profile"
                 vlan_group_name: "Corporate_VLAN_Group"
               - ssid_name: "Guest_WiFi"
                 enable_fabric: false
-                profile_name: "Guest_WiFi_Profile"
-                policy_profile_name: "Guest_Access_Policy"
+                wlan_profile_name: "Guest_WiFi_Profile"
+                policy_profile_name: "Guest_WiFi_Profile"
                 interface_name: "guest_network"
                 local_to_vlan: 3002
             ap_zones:
@@ -690,7 +685,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         self.have["wireless_profile"], self.have["wireless_profile_list"] = {}, []
         offset = 1
-        limit = int(self.payload.get("offset_limit"))
+        limit = int(self.payload.get("offset_limit", 500))
 
         while True:
             profiles = self.get_network_profile("Wireless", offset, limit)
@@ -1009,15 +1004,15 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     unmatched_keys.append(given_site)
 
         if onboarding_templates_list:
+            self.log("Checking onboarding template: {0}".format(onboarding_templates_list), "DEBUG")
             for each_template in onboarding_templates_list:
-                self.log("Checking onboarding template: {0}".format(each_template), "DEBUG")
                 if not self.value_exists(have_ob_templates, "template_name", each_template):
                     self.log("Template '{0}' not found in existing onboarding templates.".
                              format(each_template), "INFO")
                     unmatched_keys.append(each_template)
 
         if day_n_templates_list:
-            self.log("Checking Day-N template: {0}".format(each_template), "DEBUG")
+            self.log("Checking Day-N template: {0}".format(day_n_templates_list), "DEBUG")
             for each_template in day_n_templates_list:
                 if not self.value_exists(have_dn_templates, "template_name", each_template):
                     self.log("Template '{0}' not found in existing Day-N templates.".
@@ -1086,7 +1081,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         """
 
         self.log("Fetching SSID information for site {0}: {1}".format(site_name, site_id), "INFO")
-        offset_limit = int(self.payload.get("offset_limit"))
+        offset_limit = int(self.payload.get("offset_limit", 500))
         payload = {
             "site_id": site_id,
             "limit": offset_limit,
@@ -1739,7 +1734,6 @@ def main():
         "config_verify": {"type": 'bool', "default": False},
         "dnac_api_task_timeout": {"type": 'int', "default": 1200},
         "dnac_task_poll_interval": {"type": 'int', "default": 2},
-        "offset_limit": {"type": 'int', "default": 500},
         "config": {"type": 'list', "required": True, "elements": 'dict'},
         "state": {"default": 'merged', "choices": ["merged", "deleted"]},
         "validate_response_schema": {"type": 'bool', "default": True},
