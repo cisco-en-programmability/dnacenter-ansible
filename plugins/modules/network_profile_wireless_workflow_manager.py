@@ -222,13 +222,11 @@ EXAMPLES = r"""
             ssid_details:
               - ssid_name: "Corporate_WiFi"
                 enable_fabric: false
-                wlan_profile_name: "Corporate_WiFi_Profile"
-                policy_profile_name: "Corporate_WiFi_Profile"
+                dot11be_profile_name: "Corporate_VLAN"
                 vlan_group_name: "Corporate_VLAN_Group"
               - ssid_name: "Guest_WiFi"
                 enable_fabric: false
-                wlan_profile_name: "Guest_WiFi_Profile"
-                policy_profile_name: "Guest_WiFi_Profile"
+                dot11be_profile_name: "Corporate_VLAN"
                 interface_name: "guest_network"
                 local_to_vlan: 3002
             ap_zones:
