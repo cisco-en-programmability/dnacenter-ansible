@@ -3942,7 +3942,7 @@ class WirelessDesign(DnacBase):
                     },
                     "fast_transition": {"type": "str"},
                     "fast_transition_over_the_ds": {"type": "bool"},
-                    "wpa_encryption":  {"type": "list"},
+                    "wpa_encryption": {"type": "list"},
                     "auth_key_management": {"type": "list"},
                     "cckm_timestamp_tolerance": {"type": "int"},
                     "l3_security": {
