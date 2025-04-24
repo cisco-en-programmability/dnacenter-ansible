@@ -58,9 +58,9 @@ options:
       ssids:
         description:
           - Configure SSIDs for Enterprise and Guest Wireless Networks.
-          - When updating SSIDs, if passphrase or mpsk_passphrase is included, the Cisco Catalyst Center returns these values in an encrypted format.
+          - When updating SSIDs, if "passphrase" or "mpsk_passphrase" is included, the Cisco Catalyst Center returns these values in an encrypted format.
             This prevents comparison with existing values. As a result, even if no other parameters change, the operation is treated as an update
-            to ensure the provided passphrase or mpsk_passphrase is applied.
+            to ensure the provided "passphrase" or "mpsk_passphrase" is applied.
         type: list
         elements: dict
         suboptions:
@@ -262,7 +262,7 @@ options:
                 default: "ASCII"
               passphrase:
                 description:
-                  - A passphrase is a security key used to authenticate devices connecting to the SSID.
+                  - A "passphrase" is a security key used to authenticate devices connecting to the SSID.
                   - Required when the L2 Authentication Type is one of the following
                     - "WPA2_PERSONAL"
                     - "WPA3_PERSONAL"
@@ -270,10 +270,10 @@ options:
                   - Passphrase format requirements
                     - ASCII - Must be between 8 and 63 characters.
                     - HEX - Must be exactly 64 characters.
-                  - During an update operation, if a passphrase is provided, the update proceeds even if there are no changes to the existing passphrase.
-                  - When updating SSIDs, if passphrase is included, the Cisco Catalyst Center returns these values in an encrypted format.
+                  - During an update operation, if a "passphrase" is provided, the update proceeds even if there are no changes to the existing passphrase.
+                  - When updating SSIDs, if "passphrase" is included, the Cisco Catalyst Center returns these values in an encrypted format.
                     This prevents comparison with existing values. As a result, even if no other parameters change, the operation is treated as an update
-                    to ensure the provided passphrase is applied.
+                    to ensure the provided "passphrase" is applied.
                 type: str
               mpsk_settings:
                 description:
@@ -705,7 +705,7 @@ options:
                     type: str
                   mpsk_settings:
                     description:
-                      - Certain arameters within "mpsk_settings" are eligible for site-specific overrides.
+                      - Certain parameters within "mpsk_settings" are eligible for site-specific overrides.
                       -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
                     type: list
                     elements: dict
@@ -1028,7 +1028,7 @@ options:
                   - Indicates whether rogue detection is enabled on the AP.
                 type: bool
                 default: false
-              minimum_rss:
+              minimum_rssi:
                 description:
                   - Specifies the minimum RSSI (Received Signal Strength Indicator) for rogue detection.
                   - Value should be between -128 to -70 decibel milliwatts.
@@ -3381,7 +3381,7 @@ EXAMPLES = r"""
                 non_srg_obss_pd_max_threshold: -63
             radio_bands_5ghz_settings:
               parent_profile: "LOW"
-              flexible_radio_assigment:
+              flexible_radio_assignment:
                 client_aware: true
                 client_reset: 5
             radio_bands_6ghz_settings:
@@ -3453,7 +3453,7 @@ EXAMPLES = r"""
                 voice_rssi_threshold: -70
                 exception_level: 4
               client_limit: 100
-              flexible_radio_assigment:
+              flexible_radio_assignment:
                 client_aware: true
                 client_select: 30
                 client_reset: 10
@@ -3483,7 +3483,7 @@ EXAMPLES = r"""
                 voice_rssi_threshold: -68
                 exception_level: 6
               client_limit: 150
-              flexible_radio_assigment:
+              flexible_radio_assignment:
                 client_reset_count: 10
                 client_utilization_threshold: 10
               discovery_frames_6ghz: "FILS Discovery"
@@ -3942,7 +3942,7 @@ class WirelessDesign(DnacBase):
                     },
                     "fast_transition": {"type": "str"},
                     "fast_transition_over_the_ds": {"type": "bool"},
-                    "wpa_encryption": {"type": "str"},
+                    "wpa_encryption":  {"type": "list"},
                     "auth_key_management": {"type": "list"},
                     "cckm_timestamp_tolerance": {"type": "int"},
                     "l3_security": {
@@ -3966,7 +3966,7 @@ class WirelessDesign(DnacBase):
                     },
                     "mfp_client_protection": {"type": "str"},
                     "protected_management_frame": {"type": "str"},
-                    "11k_neighbor_list": {"type": "str"},
+                    "11k_neighbor_list": {"type": "bool"},
                     "coverage_hole_detection": {"type": "bool"},
                     "wlan_timeouts": {
                         "type": "dict",
@@ -3983,7 +3983,7 @@ class WirelessDesign(DnacBase):
                     },
                     "nas_id": {"type": "list"},
                     "client_rate_limit": {"type": "int"},
-                    "sites_specifc_override_settings": {
+                    "sites_specific_override_settings": {
                         "type": "list",
                         "elements": "dict",
                         "required": False,
@@ -3995,7 +3995,7 @@ class WirelessDesign(DnacBase):
                                 "l2_auth_type": {"type": "str"},
                                 "open_ssid": {"type": "str"},
                                 "passphrase": {"type": "str"},
-                                "mpsk_settings:": {
+                                "mpsk_settings": {
                                     "type": "list",
                                     "elements": "dict",
                                     "options": {
@@ -4007,7 +4007,7 @@ class WirelessDesign(DnacBase):
                             },
                             "fast_transition": {"type": "str"},
                             "fast_transition_over_the_ds": {"type": "bool"},
-                            "wpa_encryption": {"type": "str"},
+                            "wpa_encryption": {"type": "list"},
                             "auth_key_management": {"type": "list"},
                             "aaa": {
                                 "type": "dict",
@@ -4096,7 +4096,7 @@ class WirelessDesign(DnacBase):
                     },
                     "power_settings": {
                         "type": "dict",
-                        "ap_powwer_profile_name": {"type": "str"},
+                        "ap_power_profile_name": {"type": "str"},
                         "calendar_power_profiles": {
                             "type": "list",
                             "elements": "dict",
@@ -4176,7 +4176,7 @@ class WirelessDesign(DnacBase):
                             "exception_level": {"type": "int"},
                         },
                         "client_limit": {"type": "int"},
-                        "flexible_radio_assigment": {
+                        "flexible_radio_assignment": {
                             "type": "dict",
                             "client_aware": {"type": "bool"},
                             "client_select": {"type": "int"},
@@ -4214,10 +4214,10 @@ class WirelessDesign(DnacBase):
                             "exception_level": {"type": "int"},
                         },
                         "client_limit": {"type": "int"},
-                        "flexible_radio_assigment": {
+                        "flexible_radio_assignment": {
                             "type": "dict",
                             "client_reset_count": {"type": "int"},
-                            "client_utilization_thresthold": {"type": "int"},
+                            "client_utilization_threshold": {"type": "int"},
                         },
                         "discovery_frames_6ghz": {"type": "str"},
                         "broadcast_probe_response_interval": {"type": "int"},
@@ -6220,7 +6220,7 @@ class WirelessDesign(DnacBase):
                     "max_length": 2,
                     "subset_of": "supported_data_rates_list",
                 },
-                "flexible_radio_assigment": {
+                "flexible_radio_assignment": {
                     "client_select": (0, 100),
                     "client_reset": (0, 100),
                 },
@@ -6240,7 +6240,7 @@ class WirelessDesign(DnacBase):
                     "subset_of": "supported_data_rates_list",
                 },
                 "discovery_frames_6ghz": ["None", "Broadcast Probe Response", "FILS Discovery"],
-                "flexible_radio_assigment": {
+                "flexible_radio_assignment": {
                     "client_reset_count": (1, 10),
                     "client_utilization_threshold": (1, 100),
                 },
@@ -6470,6 +6470,7 @@ class WirelessDesign(DnacBase):
         self.log("Validating 'device_mac_address' for mobility anchor: {0}".format(anchor), "DEBUG")
 
         device_mac_address = anchor.get("device_mac_address")
+        self.log("Validating device MAC address: {0}".format(device_mac_address), "DEBUG")
         if device_mac_address:
             # Define regex patterns for valid MAC address formats
             valid_mac_patterns = [
@@ -6661,7 +6662,7 @@ class WirelessDesign(DnacBase):
                     )
 
                     self.log(
-                        "Response recevied from API call for family '{0}', function '{1}': {2}".format(api_family, api_function, response),
+                        "Response received from API call for family '{0}', function '{1}': {2}".format(api_family, api_function, response),
                         "INFO"
                     )
 
@@ -6731,7 +6732,7 @@ class WirelessDesign(DnacBase):
 
         # Map the user-provided SSID name to the expected API parameter
         if ssid_name:
-            get_ssids_params["ssid_name"] = ssid_name
+            get_ssids_params["ssid"] = ssid_name
             self.log("Mapped 'ssid_name' to '{0}'.".format(ssid_name), "DEBUG")
 
         # Map the user-provided SSID type to the expected API parameter
@@ -8017,7 +8018,7 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the update operation.
         """
-        self.log("Initiating updation of interface with parameters: {0}".format(update_interface_params), "INFO")
+        self.log("Initiating update of interface with parameters: {0}".format(update_interface_params), "INFO")
 
         # Execute the API call to update the interface and return the task ID
         return self.get_taskid_post_api_call("wireless", "update_interface", update_interface_params)
@@ -9322,11 +9323,13 @@ class WirelessDesign(DnacBase):
             self.log("Comparing lists. Requested: {0}, Existing: {1}".format(requested_value, existing_value), "DEBUG")
             # Check if one list is empty while the other is not
             if not requested_value and existing_value:
-                self.log("Requested value is an empty list, but existing value is not: {0}".format(existing_value), "DEBUG")
+                self.log("Mismatch: Requested value is an empty list, but existing value contains: {0}".format(existing_value), "DEBUG")
                 return False
+
             if requested_value and not existing_value:
-                self.log("Existing value is an empty list, but requested value is not: {0}".format(requested_value), "DEBUG")
+                self.log("Mismatch: Existing value is an empty list, but requested value contains: {0}".format(requested_value), "DEBUG")
                 return False
+
             # Compare lists element by element
             requested_sorted = sorted(requested_value, key=str)
             existing_sorted = sorted(existing_value, key=str)
@@ -9334,6 +9337,7 @@ class WirelessDesign(DnacBase):
                 if not self.compare_values(r, e):
                     self.log("Mismatch found in list comparison. Requested element: {0}, Existing element: {1}".format(r, e), "DEBUG")
                     return False
+
             self.log("Lists match after comparison.", "DEBUG")
             return True
 
@@ -9366,10 +9370,10 @@ class WirelessDesign(DnacBase):
                 self.log(f"Recursively updating dictionary for key: {key}", "DEBUG")
                 self.recursive_update(existing[key], value)
             elif isinstance(value, list) and key in existing and isinstance(existing[key], list):
-                self.log(f"Handling list for key: {key}", "DEBUG")
+                self.log("Handling list for key: '{0}'".format(key), "DEBUG")
                 # If the requested list is empty, replace the existing list
                 if not value:
-                    self.log(f"Requested list for key '{key}' is empty. Replacing existing list.", "DEBUG")
+                    self.log("Requested list for key '{0}' is empty. Replacing existing list.".format(key), "DEBUG")
                     existing[key] = value
                 else:
                     # Handle list of dictionaries
@@ -9378,10 +9382,11 @@ class WirelessDesign(DnacBase):
                             matched = False
                             for existing_dict in existing[key]:
                                 if all(existing_dict.get(id_key) == update_dict.get(id_key) for id_key in update_dict.keys() if id_key in existing_dict):
-                                    self.log(f"Match found for update in list for key '{key}'. Recursively updating.", "DEBUG")
+                                    self.log("Match found for update in list for key '{0}'. Recursively updating.".format(key), "DEBUG")
                                     self.recursive_update(existing_dict, update_dict)
                                     matched = True
                                     break
+
                             if not matched:
                                 self.log(f"No match found. Appending new dictionary to list for key '{key}'.", "DEBUG")
                                 existing[key].append(update_dict)
@@ -9451,8 +9456,8 @@ class WirelessDesign(DnacBase):
                                 requested_profile["timeZoneOffsetHour"] = 0
                                 requested_profile["timeZoneOffsetMinutes"] = 0
                                 self.log(
-                                    "Setting 'timeZoneOffsetHour' and 'timeZoneOffsetMinutes' to 0 for profile '{0}' "
-                                    "as 'timeZone' is set to 'NOT CONFIGURED'.".format(profile_name),
+                                    "For profile '{0}', 'timeZone' is set to '{1}'. Setting 'timeZoneOffsetHour' and 'timeZoneOffsetMinutes' to 0.".format(
+                                        profile_name, requested_value),
                                     "DEBUG"
                                 )
 
@@ -9477,13 +9482,15 @@ class WirelessDesign(DnacBase):
                                     elif scheduler_type == "WEEKLY":
                                         calendar_profile["duration"]["schedulerDate"] = None
                                         self.log(
-                                            "Set 'schedulerDate' to '' for schedulerType 'WEEKLY' in profile '{0}'.".format(profile_name),
+                                            "Set 'schedulerDate' to None for schedulerType 'WEEKLY' in profile '{0}'.".format(profile_name),
                                             "DEBUG"
                                         )
                                     elif scheduler_type == "MONTHLY":
                                         calendar_profile["duration"]["schedulerDay"] = None
                                         self.log(
-                                            "Set 'schedulerDay' to [] for schedulerType 'MONTHLY' in profile '{0}'.".format(profile_name),
+                                            "Unknown schedulerType '{0}' in calendarPowerProfiles for profile '{1}'.".format(
+                                                scheduler_type, profile_name
+                                            ),
                                             "DEBUG"
                                         )
                             break
@@ -10333,8 +10340,8 @@ class WirelessDesign(DnacBase):
                 mapped_profile["radioTypeAProperties"] = map_band_settings(profile.get("radio_bands_5ghz_settings"))
 
                 # Check and map flexible radio assignment settings for 5GHz band
-                if "flexible_radio_assigment" in profile.get("radio_bands_5ghz_settings", {}):
-                    fraA = profile["radio_bands_5ghz_settings"]["flexible_radio_assigment"]
+                if "flexible_radio_assignment" in profile.get("radio_bands_5ghz_settings", {}):
+                    fraA = profile["radio_bands_5ghz_settings"]["flexible_radio_assignment"]
                     mapped_profile["radioTypeAProperties"]["fraPropertiesA"] = {}
                     map_fra_settings(fraA, "radioTypeAProperties", "fraPropertiesA", fra_mapping_5ghz)
 
@@ -10347,8 +10354,8 @@ class WirelessDesign(DnacBase):
                 mapped_profile["radioType6GHzProperties"] = map_band_settings(profile.get("radio_bands_6ghz_settings"))
 
                 # Check and map flexible radio assignment settings for 6GHz band
-                if "flexible_radio_assigment" in profile.get("radio_bands_6ghz_settings", {}):
-                    fraC = profile["radio_bands_6ghz_settings"]["flexible_radio_assigment"]
+                if "flexible_radio_assignment" in profile.get("radio_bands_6ghz_settings", {}):
+                    fraC = profile["radio_bands_6ghz_settings"]["flexible_radio_assignment"]
                     mapped_profile["radioType6GHzProperties"]["fraPropertiesC"] = {}
                     map_fra_settings(fraC, "radioType6GHzProperties", "fraPropertiesC", fra_mapping_6ghz)
 
