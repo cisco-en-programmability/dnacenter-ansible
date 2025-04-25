@@ -1705,7 +1705,7 @@ class Template(DnacBase):
         Check using check_return_status()
 
         Parameters:
-            containing_templates (dict) - Containing templates details
+            containing_templates (dict) - Containing templates details.
             containing Template information.
 
         Returns:
