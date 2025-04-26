@@ -1,0 +1,1234 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.network_profile_switching_workflow_manager module -- Resource module for managing switch profiles in Cisco Catalyst Center
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.network_profile_switching_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.31.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- This module allows the creation and deletion of network switch profiles in Cisco Catalyst Center. - Supports creating and deleting switch profiles. - Allows assignment of profiles to sites, onboarding templates, and Day-N templates.
+
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.8.6
+- python \>= 3.9
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list containing the details for network switch profile creation.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/day_n_templates"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-config/day_n_templates:
+
+      .. rst-class:: ansible-option-title
+
+      **day_n_templates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/day_n_templates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of Day-N template names assigned to the profile.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/onboarding_templates"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-config/onboarding_templates:
+
+      .. rst-class:: ansible-option-title
+
+      **onboarding_templates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/onboarding_templates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of onboarding template names assigned to the profile. Note: Onboarding templates are currently unavailable due to SDK/API constraints.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/profile_name"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-config/profile_name:
+
+      .. rst-class:: ansible-option-title
+
+      **profile_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/profile_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the switch profile to be created.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/site_names"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-config/site_names:
+
+      .. rst-class:: ansible-option-title
+
+      **site_names**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/site_names" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Site names must be specified in the full site hierarchy format for example 'Global/Country/City/Building'.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to \`True\` to enable configuration verification on Cisco Catalyst Center after applying the playbook configuration. This ensures that the system validates the configuration state after the change is applied.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the desired state for the configuration. If \`merged\`, the module will create or update the configuration, adding new settings or modifying existing ones. If \`deleted\`, it will remove the specified settings.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - This module uses the following SDK methods site\_design.retrieves\_the\_list\_of\_sites\_that\_the\_given\_network\_profile\_for\_sites\_is\_assigned\_to\_v1 site\_design.assign\_sites site\_design.retrieves\_the\_list\_of\_network\_profiles\_for\_sites\_v1 site\_design.assign\_a\_network\_profile\_for\_sites\_to\_the\_given\_site\_v1 site\_design.unassigns\_a\_network\_profile\_for\_sites\_from\_multiple\_sites\_v1 site\_design.deletes\_a\_network\_profile\_for\_sites\_v1 configuration\_templates.gets\_the\_templates\_available\_v1 network\_settings.retrieve\_cli\_templates\_attached\_to\_a\_network\_profile\_v1
+   - Paths used are GET /dna/intent/api/v1/networkProfilesForSites GET /dna/intent/api/v1/template-programmer/template GET /dna/intent/api/v1/networkProfilesForSites/{profileId}/templates POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk POST /api/v1/siteprofile
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Create network profile for switch
+          cisco.dnac.network_profile_switching_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - profile_name: "Campus_Switching_Profile"
+                onboarding_templates:
+                  - "Campus_Access_Switch_Onboarding"
+                day_n_templates:
+                  - "Campus_Switch_Config_Update"
+                site_names:
+                  - "Global/Chennai"
+                  - "Global/Abc"
+
+        - name: Update network profile for switch
+          cisco.dnac.network_profile_switching_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - profile_name: "Enterprise_Switching_Profile"
+                onboarding_templates:
+                  - "Access_Switch_Onboarding"
+                  - "Enterprise_Security_Template"
+                day_n_templates:
+                  - "Periodic_Config_Audit"
+                site_names:
+                  - "Global/India/Chennai/Main_Office"
+                  - "Global/India/Madurai/Branch_Office"
+                  - "Global/USA/San Francisco/Regional_HQ"
+
+        - name: Delete switching profile for devices from specified sites
+          cisco.dnac.network_profile_switching_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - profile_name: "Enterprise_Switching_Profile"
+                site_names:
+                  - "Global/India/Chennai/Main_Office"
+                  - "Global/India/Madurai/Branch_Office"
+                  - "Global/USA/San Francisco/Regional_HQ"
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_create"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__return-response_create:
+
+      .. rst-class:: ansible-option-title
+
+      **response_create**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_create" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Profile created/updated are verified successfully for '['Enterprise\_Access\_Switch']'.", "response": [{"profile\_name": "Enterprise\_Access\_Switch", "status": "Network Profile [487bf1e8-b014-4cc7-9e33-1ea7c2805b4c] Successfully Created"}], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_delete"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__return-response_delete:
+
+      .. rst-class:: ansible-option-title
+
+      **response_delete**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_delete" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Switch Profile deleted successfully for '[{'profile\_name': 'Branch\_Site\_Switching',", "response": [{"profile\_name": "Branch\_Site\_Switching", "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted"}], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_update"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module__return-response_update:
+
+      .. rst-class:: ansible-option-title
+
+      **response_update**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_update" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Profile created/updated are verified successfully for '['Campus\_Core\_Switch\_Profile']'.", "response": [{"profile\_name": "Campus\_Core\_Switch\_Profile", "status": "Network profile 'Campus\_Core\_Switch\_Profile' updated successfully"}], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- A Mohamed Rafeek (@mabdulk2)
+- Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.31.3
+Collection version 6.32.0
 
 .. contents::
    :local:
@@ -106,6 +106,8 @@ Modules
 * :ref:`application_policy_application_set_info module <ansible_collections.cisco.dnac.application_policy_application_set_info_module>` -- Information module for Application Policy Application Set Info
 * :ref:`application_policy_application_set_v2 module <ansible_collections.cisco.dnac.application_policy_application_set_v2_module>` -- Resource module for Application Policy Application Set V2
 * :ref:`application_policy_application_set_v2_info module <ansible_collections.cisco.dnac.application_policy_application_set_v2_info_module>` -- Information module for Application Policy Application Set V2
+* :ref:`application_policy_workflow_manager module <ansible_collections.cisco.dnac.application_policy_workflow_manager_module>` -- Resource module for managing queuing profiles, applications, application sets and application policies for wired and wireless in Cisco Catalyst Center.
+
 * :ref:`application_sets module <ansible_collections.cisco.dnac.application_sets_module>` -- Resource module for Application Sets
 * :ref:`application_sets_count_info module <ansible_collections.cisco.dnac.application_sets_count_info_module>` -- Information module for Application Sets Count Info
 * :ref:`application_sets_count_v1_info module <ansible_collections.cisco.dnac.application_sets_count_v1_info_module>` -- Information module for Application Sets Count V1
@@ -145,6 +147,7 @@ Modules
 * :ref:`assign_to_site_apply_v1 module <ansible_collections.cisco.dnac.assign_to_site_apply_v1_module>` -- Resource module for Assign To Site Apply V1
 * :ref:`associate_site_to_network_profile module <ansible_collections.cisco.dnac.associate_site_to_network_profile_module>` -- Resource module for Associate Site To Network Profile
 * :ref:`associate_site_to_network_profile_v1 module <ansible_collections.cisco.dnac.associate_site_to_network_profile_v1_module>` -- Resource module for Associate Site To Network Profile V1
+* :ref:`assurance_device_health_score_settings_workflow_manager module <ansible_collections.cisco.dnac.assurance_device_health_score_settings_workflow_manager_module>` -- Resource module for managing assurance Health score settings in Cisco Catalyst Center.
 * :ref:`assurance_events_child_events_info module <ansible_collections.cisco.dnac.assurance_events_child_events_info_module>` -- Information module for Assurance Events Child Events Info
 * :ref:`assurance_events_child_events_v1_info module <ansible_collections.cisco.dnac.assurance_events_child_events_v1_info_module>` -- Information module for Assurance Events Child Events V1
 * :ref:`assurance_events_count_info module <ansible_collections.cisco.dnac.assurance_events_count_info_module>` -- Information module for Assurance Events Count Info
@@ -157,6 +160,8 @@ Modules
 * :ref:`assurance_events_v1_info module <ansible_collections.cisco.dnac.assurance_events_v1_info_module>` -- Information module for Assurance Events V1
 * :ref:`assurance_get_sensor_test_results_info module <ansible_collections.cisco.dnac.assurance_get_sensor_test_results_info_module>` -- Information module for Assurance Get Sensor Test Results Info
 * :ref:`assurance_get_sensor_test_results_v1_info module <ansible_collections.cisco.dnac.assurance_get_sensor_test_results_v1_info_module>` -- Information module for Assurance Get Sensor Test Results V1
+* :ref:`assurance_icap_settings_workflow_manager module <ansible_collections.cisco.dnac.assurance_icap_settings_workflow_manager_module>` -- Configure and manage ICAP (Intelligent Capture) settings in Cisco Catalyst Center for network assurance.
+* :ref:`assurance_issue_workflow_manager module <ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module>` -- Resource module for managing assurance global profile settings and issue resolution in Cisco Catalyst Center
 * :ref:`assurance_issues_count_info module <ansible_collections.cisco.dnac.assurance_issues_count_info_module>` -- Information module for Assurance Issues Count Info
 * :ref:`assurance_issues_count_v1_info module <ansible_collections.cisco.dnac.assurance_issues_count_v1_info_module>` -- Information module for Assurance Issues Count V1
 * :ref:`assurance_issues_ignore module <ansible_collections.cisco.dnac.assurance_issues_ignore_module>` -- Resource module for Assurance Issues Ignore
@@ -1083,6 +1088,8 @@ Modules
 * :ref:`network_devices_unassign_from_site_apply_v1 module <ansible_collections.cisco.dnac.network_devices_unassign_from_site_apply_v1_module>` -- Resource module for Network Devices Unassign From Site Apply V1
 * :ref:`network_devices_v1_info module <ansible_collections.cisco.dnac.network_devices_v1_info_module>` -- Information module for Network Devices V1
 * :ref:`network_info module <ansible_collections.cisco.dnac.network_info_module>` -- Information module for Network Info
+* :ref:`network_profile_switching_workflow_manager module <ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module>` -- Resource module for managing switch profiles in Cisco Catalyst Center
+* :ref:`network_profile_wireless_workflow_manager module <ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module>` -- Resource module for managing network wireless profile in Cisco Catalyst Center
 * :ref:`network_profiles_for_sites_profile_id_templates_count_info module <ansible_collections.cisco.dnac.network_profiles_for_sites_profile_id_templates_count_info_module>` -- Information module for Network Profiles For Sites Profile Id Templates Count Info
 * :ref:`network_profiles_for_sites_profile_id_templates_count_v1_info module <ansible_collections.cisco.dnac.network_profiles_for_sites_profile_id_templates_count_v1_info_module>` -- Information module for Network Profiles For Sites Profile Id Templates Count V1
 * :ref:`network_profiles_for_sites_profile_id_templates_info module <ansible_collections.cisco.dnac.network_profiles_for_sites_profile_id_templates_info_module>` -- Information module for Network Profiles For Sites Profile Id Templates Info
@@ -1108,6 +1115,7 @@ Modules
 * :ref:`path_trace_info module <ansible_collections.cisco.dnac.path_trace_info_module>` -- Information module for Path Trace Info
 * :ref:`path_trace_v1 module <ansible_collections.cisco.dnac.path_trace_v1_module>` -- Resource module for Path Trace V1
 * :ref:`path_trace_v1_info module <ansible_collections.cisco.dnac.path_trace_v1_info_module>` -- Information module for Path Trace V1
+* :ref:`path_trace_workflow_manager module <ansible_collections.cisco.dnac.path_trace_workflow_manager_module>` -- Resource module for managing PathTrace settings in Cisco Catalyst Center
 * :ref:`planned_access_points module <ansible_collections.cisco.dnac.planned_access_points_module>` -- Resource module for Planned Access Points
 * :ref:`planned_access_points_info module <ansible_collections.cisco.dnac.planned_access_points_info_module>` -- Information module for Planned Access Points Info
 * :ref:`planned_access_points_v1 module <ansible_collections.cisco.dnac.planned_access_points_v1_module>` -- Resource module for Planned Access Points V1
@@ -1669,6 +1677,7 @@ Modules
 * :ref:`tags_network_devices_members_associations_query module <ansible_collections.cisco.dnac.tags_network_devices_members_associations_query_module>` -- Resource module for Tags Network Devices Members Associations Query
 * :ref:`tags_network_devices_members_associations_query_v1 module <ansible_collections.cisco.dnac.tags_network_devices_members_associations_query_v1_module>` -- Resource module for Tags Network Devices Members Associations Query V1
 * :ref:`tags_network_devices_members_associations_v1_info module <ansible_collections.cisco.dnac.tags_network_devices_members_associations_v1_info_module>` -- Information module for Tags Network Devices Members Associations V1
+* :ref:`tags_workflow_manager module <ansible_collections.cisco.dnac.tags_workflow_manager_module>` -- Create/ Update/ Delete Tag(s) and Tag Memberships in Cisco Catalyst Center.
 * :ref:`task_count_info module <ansible_collections.cisco.dnac.task_count_info_module>` -- Information module for Task Count Info
 * :ref:`task_count_v1_info module <ansible_collections.cisco.dnac.task_count_v1_info_module>` -- Information module for Task Count V1
 * :ref:`task_info module <ansible_collections.cisco.dnac.task_info_module>` -- Information module for Task Info
@@ -1808,6 +1817,7 @@ Modules
 * :ref:`wireless_controllers_wireless_mobility_groups_mobility_reset module <ansible_collections.cisco.dnac.wireless_controllers_wireless_mobility_groups_mobility_reset_module>` -- Resource module for Wireless Controllers Wireless Mobility Groups Mobility Reset
 * :ref:`wireless_controllers_wireless_mobility_groups_mobility_reset_v1 module <ansible_collections.cisco.dnac.wireless_controllers_wireless_mobility_groups_mobility_reset_v1_module>` -- Resource module for Wireless Controllers Wireless Mobility Groups Mobility Reset V1
 * :ref:`wireless_controllers_wireless_mobility_groups_v1_info module <ansible_collections.cisco.dnac.wireless_controllers_wireless_mobility_groups_v1_info_module>` -- Information module for Wireless Controllers Wireless Mobility Groups V1
+* :ref:`wireless_design_workflow_manager module <ansible_collections.cisco.dnac.wireless_design_workflow_manager_module>` -- 
 * :ref:`wireless_dynamic_interface module <ansible_collections.cisco.dnac.wireless_dynamic_interface_module>` -- Resource module for Wireless Dynamic Interface
 * :ref:`wireless_dynamic_interface_info module <ansible_collections.cisco.dnac.wireless_dynamic_interface_info_module>` -- Information module for Wireless Dynamic Interface Info
 * :ref:`wireless_dynamic_interface_v1 module <ansible_collections.cisco.dnac.wireless_dynamic_interface_v1_module>` -- Resource module for Wireless Dynamic Interface V1
@@ -1968,6 +1978,7 @@ Modules
     application_policy_application_set_info_module
     application_policy_application_set_v2_module
     application_policy_application_set_v2_info_module
+    application_policy_workflow_manager_module
     application_sets_module
     application_sets_count_info_module
     application_sets_count_v1_info_module
@@ -2007,6 +2018,7 @@ Modules
     assign_to_site_apply_v1_module
     associate_site_to_network_profile_module
     associate_site_to_network_profile_v1_module
+    assurance_device_health_score_settings_workflow_manager_module
     assurance_events_child_events_info_module
     assurance_events_child_events_v1_info_module
     assurance_events_count_info_module
@@ -2019,6 +2031,8 @@ Modules
     assurance_events_v1_info_module
     assurance_get_sensor_test_results_info_module
     assurance_get_sensor_test_results_v1_info_module
+    assurance_icap_settings_workflow_manager_module
+    assurance_issue_workflow_manager_module
     assurance_issues_count_info_module
     assurance_issues_count_v1_info_module
     assurance_issues_ignore_module
@@ -2945,6 +2959,8 @@ Modules
     network_devices_unassign_from_site_apply_v1_module
     network_devices_v1_info_module
     network_info_module
+    network_profile_switching_workflow_manager_module
+    network_profile_wireless_workflow_manager_module
     network_profiles_for_sites_profile_id_templates_count_info_module
     network_profiles_for_sites_profile_id_templates_count_v1_info_module
     network_profiles_for_sites_profile_id_templates_info_module
@@ -2970,6 +2986,7 @@ Modules
     path_trace_info_module
     path_trace_v1_module
     path_trace_v1_info_module
+    path_trace_workflow_manager_module
     planned_access_points_module
     planned_access_points_info_module
     planned_access_points_v1_module
@@ -3531,6 +3548,7 @@ Modules
     tags_network_devices_members_associations_query_module
     tags_network_devices_members_associations_query_v1_module
     tags_network_devices_members_associations_v1_info_module
+    tags_workflow_manager_module
     task_count_info_module
     task_count_v1_info_module
     task_info_module
@@ -3670,6 +3688,7 @@ Modules
     wireless_controllers_wireless_mobility_groups_mobility_reset_module
     wireless_controllers_wireless_mobility_groups_mobility_reset_v1_module
     wireless_controllers_wireless_mobility_groups_v1_info_module
+    wireless_design_workflow_manager_module
     wireless_dynamic_interface_module
     wireless_dynamic_interface_info_module
     wireless_dynamic_interface_v1_module
