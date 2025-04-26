@@ -44,6 +44,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
     playbook_config_wlc_error = test_data.get("playbook_config_wlc_error")
     playbook_config_pnp = test_data.get("playbook_config_pnp")
     playbook_config_switch_site_issue = test_data.get("playbook_config_switch_site_issue")
+    playbook_config_reset_device = test_data.get("playbook_config_reset_device")
 
     def setUp(self):
         super(TestDnacPnpWorkflow, self).setUp()
@@ -76,13 +77,13 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 self.test_data.get("get_device_by_id"),
                 self.test_data.get("get_site_detail"),
                 self.test_data.get("get_site_detail"),
+                self.test_data.get("get_device_detail"),
+                self.test_data.get("get_device_by_id"),
                 self.test_data.get("get_device_by_id"),
                 self.test_data.get("get_site_detail"),
                 self.test_data.get("add_devices"),
                 self.test_data.get("get_device_by_id"),
-                self.test_data.get("get_device_by_id"),
-                self.test_data.get("device_claimed"),
-                self.test_data.get("get_device_by_id")
+                self.test_data.get("device_claimed")
             ]
         elif "claim_ap_claimed_old" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -90,23 +91,28 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 self.test_data.get("get_software_image_detail"),
                 self.test_data.get("get_template_configuration"),
                 self.test_data.get("get_device_by_id"),
+                self.test_data.get("get_site_detail"),
                 self.test_data.get("get_site_detail_old"),
-                self.test_data.get("get_site_detail_old"),
+                self.test_data.get("get_device_detail"),
+                self.test_data.get("get_device_by_id"),
+                self.test_data.get("get_device_by_id"),
                 self.test_data.get("get_site_detail_old"),
                 self.test_data.get("add_devices"),
                 self.test_data.get("get_device_by_id"),
-                self.test_data.get("get_device_by_id"),
-                self.test_data.get("device_claimed"),
-                self.test_data.get("device_claimed"),
-                self.test_data.get("get_device_by_id")
+                self.test_data.get("device_claimed")
             ]
         elif "claim_switch" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_detail_sw"),
                 self.test_data.get("get_software_image_detail_sw"),
                 self.test_data.get("get_template_configuration_sw"),
                 self.test_data.get("get_device_by_id_sw"),
-                self.test_data.get("add_devices_sw"),
-                self.test_data.get("add_devices_sw"),
+                self.test_data.get("get_site_detail_sw"),
+                self.test_data.get("get_device_detail_sw"),
+                self.test_data.get("get_device_detail_sw"),
+                self.test_data.get("get_device_by_id_sw"),
+                self.test_data.get("get_device_by_id_sw"),
+                self.test_data.get("get_device_by_id_sw"),
                 self.test_data.get("device_claimed")
             ]
         elif "device_delete" in self._testMethodName:
@@ -116,16 +122,27 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 self.test_data.get("get_device_detail_delete"),
                 self.test_data.get("get_device_detail_delete"),
             ]
+        elif "claim_wlc_switch_vlan" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_detail_wlc"),
+                self.test_data.get("get_software_image_detail_sw"),
+                self.test_data.get("get_template_configuration_sw"),
+                self.test_data.get("get_device_by_id_wlc"),
+                self.test_data.get("get_site_detail_sw"),
+                self.test_data.get("get_device_detail_wlc"),
+                self.test_data.get("get_device_detail_wlc"),
+                self.test_data.get("get_device_by_id_wlc"),
+                self.test_data.get("get_device_by_id_wlc"),
+                self.test_data.get("get_device_by_id_wlc"),
+                self.test_data.get("get_reset_response")
+            ]
         elif "wlc_error" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_detail_sw"),
                 self.test_data.get("get_software_image_detail"),
                 self.test_data.get("get_template_configuration_sw"),
                 self.test_data.get("get_device_by_id_wlc"),
-                self.test_data.get("get_site_detail_sw"),
-                self.test_data.get("get_device_by_id_wlc"),
-                self.test_data.get("get_device_by_id_wlc"),
-                self.test_data.get("get_device_by_id_wlc"),
+                self.test_data.get("get_site_detail_sw")
             ]
         elif "sw_err" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -137,19 +154,22 @@ class TestDnacPnpWorkflow(TestDnacModule):
             ]
         elif "import_devices_in_bulk_new" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_pnp_site"),
                 self.test_data.get("get_device_detail_sw"),
                 self.test_data.get("get_device_detail_sw"),
-                self.test_data.get("get_device_detail_sw"),
+                self.test_data.get("get_import_devices_in_bulk"),
                 self.test_data.get("get_import_devices_in_bulk")
             ]
         elif "devices_idempotent" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_detail_exist1"),
+                self.test_data.get("get_device_detail_exist2"),
+                self.test_data.get("get_device_detail_exist1"),
                 self.test_data.get("get_device_detail_exist2")
             ]
         elif "device_claim_idempotent" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_detail_exist3"),
+                self.test_data.get("get_device_detail_exist4"),
                 self.test_data.get("get_device_detail_exist3"),
                 self.test_data.get("get_device_detail_exist4")
             ]
@@ -163,7 +183,6 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 self.test_data.get("get_site_detail_building"),
                 self.test_data.get("get_site_detail_building")
             ]
-
         elif "image_error" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_detail_sw_error"),
@@ -173,7 +192,6 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 self.test_data.get("get_site_detail_floor"),
                 self.test_data.get("get_site_detail_floor")
             ]
-
         elif "temp_error" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_detail_sw_error"),
@@ -182,6 +200,28 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 self.test_data.get("get_device_by_id_sw"),
                 self.test_data.get("get_site_detail_floor"),
                 self.test_data.get("get_site_detail_floor")
+            ]
+        elif "device_reset" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_state_error"),
+                self.test_data.get("get_software_image_detail_sw"),
+                self.test_data.get("get_template_configuration_sw_error"),
+                self.test_data.get("get_device_by_id_sw"),
+                self.test_data.get("get_site_detail_floor"),
+                self.test_data.get("get_device_state_error"),
+                self.test_data.get("get_reset_response"),
+                self.test_data.get("get_reset_response")
+            ]
+        elif "device_error_reset" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_state_error"),
+                self.test_data.get("get_software_image_detail_sw"),
+                self.test_data.get("get_template_configuration_sw_error"),
+                self.test_data.get("get_device_by_id_sw"),
+                self.test_data.get("get_site_detail_floor"),
+                self.test_data.get("get_device_state_error"),
+                self.test_data.get("get_reset_response"),
+                self.test_data.get("get_reset_error_response")
             ]
 
     def test_pnp_workflow_manager_claim_ap_claimed_new(self):
@@ -226,7 +266,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Only Device Claimed Successfully"
+            "Device is already claimed"
         )
 
     def test_pnp_workflow_manager_claim_switch(self):
@@ -246,9 +286,10 @@ class TestDnacPnpWorkflow(TestDnacModule):
             )
         )
         result = self.execute_module(changed=False, failed=True)
+        self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "Device Claim Failed"
+            "Successfully collected all project and template                     parameters from Cisco Catalyst Center for comparison"
         )
 
     def test_pnp_workflow_manager_device_delete(self):
@@ -273,7 +314,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
             result.get('msg'), "Device(s) Not Found"
         )
 
-    def test_pnp_workflow_manager_claim_switch_wlc_vlan(self):
+    def test_pnp_workflow_manager_claim_wlc_switch_vlan(self):
         """
         Test case for PNP workflow manager when add and claim switch device.
         """
@@ -358,6 +399,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
+        self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
             "2 device(s) imported successfully"
@@ -382,7 +424,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "All specified devices already exist and cannot be imported again: ['FJC24501BK2', 'FJC24441MSV']"
+            "All specified devices already exist and cannot be imported again: ['FJC24501BK2', 'FJC24441MSV']."
         )
 
     def test_pnp_workflow_manager_device_claim_idempotent(self):
@@ -404,7 +446,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "All specified devices already exist and cannot be imported again: ['FJC24501BK2', 'FJC24441MSV']"
+            "All specified devices already exist and cannot be imported again: ['FJC24501BK2', 'FJC24441MSV']."
         )
 
     def test_pnp_workflow_manager_version_check(self):
@@ -517,4 +559,51 @@ class TestDnacPnpWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Either project not found or it is Empty."
+        )
+
+    def test_pnp_workflow_manager_device_reset(self):
+        """
+        Test case for PNP workflow manager when site name is not provided device.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.6",
+                dnac_log=True,
+                config_verify=True,
+                state="merged",
+                config=self.playbook_config_reset_device
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.maxDiff = None
+        self.assertEqual(
+            result.get('msg'),
+            "All specified devices already exist and cannot be imported again: ['FJC24501BK2']. " +
+            "Devices reset done (['FJC24501BK2'])"
+        )
+
+    def test_pnp_workflow_manager_device_error_reset(self):
+        """
+        Test case for PNP workflow manager when site name is not provided device.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.6",
+                dnac_log=True,
+                config_verify=True,
+                state="merged",
+                config=self.playbook_config_reset_device
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.maxDiff = None
+        self.assertEqual(
+            result.get('response'),
+            "Failed to execute 'reset_device' for device ID '671b1d88c301a454b89d2c84': "
         )
