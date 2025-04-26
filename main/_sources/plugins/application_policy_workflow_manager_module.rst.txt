@@ -1,0 +1,5044 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.application_policy_workflow_manager module -- Resource module for managing queuing profiles, applications, application sets and application policies for wired and wireless in Cisco Catalyst Center.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.application_policy_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.application_policy_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.31.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Provides functionality to create, update, and delete applications in Cisco Catalyst Center.
+- Provides functionality to create, update, and delete application policies in Cisco Catalyst Center.
+- Provides functionality to create, update, and delete application queuing profiles in Cisco Catalyst Center.
+- Supports managing queuing profiles and application policies for traffic classification and prioritization.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.9.3
+- python \>= 3.9.19
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list of dictionaries containing application queuing profile details.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application:
+
+      .. rst-class:: ansible-option-title
+
+      **application**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines individual applications within an application set that share a common purpose or function.
+
+      Grouping similar applications into sets allows administrators to apply uniform policies efficiently.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/app_protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/app_protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **app_protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/app_protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Required if \`type\` is \`url\` or \`server\_ip\`; specifies the protocol used by the application.
+          - If \`type\` is \`url\`, \`app\_protocol\` must be \`TCP\`.
+          - Permissible values:
+            - 'TCP': Transmission Control Protocol (reliable, connection-oriented).
+            - 'UDP': User Datagram Protocol (fast, connectionless, no guaranteed delivery).
+            - 'TCP\_UDP': Supports both TCP and UDP communication.
+            - 'IP': Internet Protocol for network addressing and routing.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/application_set_name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/application_set_name:
+
+      .. rst-class:: ansible-option-title
+
+      **application_set_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/application_set_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the application set under which this application is created.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/description"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief description of the application.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/dscp"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/dscp:
+
+      .. rst-class:: ansible-option-title
+
+      **dscp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/dscp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Required if \`type\` is \`server\_ip\`; specifies DSCP value or \`network\_identity\` details for the application.
+
+      DSCP value must be in the range 0 - 63.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/engine_id"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/engine_id:
+
+      .. rst-class:: ansible-option-title
+
+      **engine_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/engine_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Identifier for the engine managing the application.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/help_string"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/help_string:
+
+      .. rst-class:: ansible-option-title
+
+      **help_string**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/help_string" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides the purpose or intended use of the application.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/ignore_conflict"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/ignore_conflict:
+
+      .. rst-class:: ansible-option-title
+
+      **ignore_conflict**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/ignore_conflict" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to indicate whether to ignore conflicts during configuration.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the name of the application.
+
+      Required for create, update, and delete operations.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/network_identity"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/network_identity:
+
+      .. rst-class:: ansible-option-title
+
+      **network_identity**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/network_identity" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Required if \`type\` is \`server\_ip\`; defines network-related parameters for application identification.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/network_identity/ip_subnet"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/network_identity/ip_subnet:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_subnet**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/network_identity/ip_subnet" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of IP addresses or subnets associated with the application.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/network_identity/lower_port"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/network_identity/lower_port:
+
+      .. rst-class:: ansible-option-title
+
+      **lower_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/network_identity/lower_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the lower range of ports for network communication.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/network_identity/port"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/network_identity/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/network_identity/port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the communication port number for the application.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/network_identity/protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/network_identity/protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/network_identity/protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the network protocol used by the application.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/network_identity/upper_port"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/network_identity/upper_port:
+
+      .. rst-class:: ansible-option-title
+
+      **upper_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/network_identity/upper_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the upper range of ports for network communication.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/rank"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/rank:
+
+      .. rst-class:: ansible-option-title
+
+      **rank**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/rank" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the priority ranking of the application.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/server_name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/server_name:
+
+      .. rst-class:: ansible-option-title
+
+      **server_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/server_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Required if \`type\` is \`server\_name\`; specifies the server name for application identification.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/traffic_class"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/traffic_class:
+
+      .. rst-class:: ansible-option-title
+
+      **traffic_class**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/traffic_class" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Defines traffic prioritization based on network policies, ensuring critical applications receive the required bandwidth.
+          - Permissible values:
+              - "BROADCAST\_VIDEO": Video traffic broadcasted to multiple recipients.
+              - "BULK\_DATA": Large data transfers like file uploads or backups.
+              - "MULTIMEDIA\_CONFERENCING": Audio and video traffic for conferencing.
+              - "MULTIMEDIA\_STREAMING": Streaming video or audio content.
+              - "NETWORK\_CONTROL": Traffic for managing and controlling network infrastructure.
+              - "OPS\_ADMIN\_MGMT": Traffic for network operational and administrative tasks.
+              - "REAL\_TIME\_INTERACTIVE": Low-latency traffic for real-time interactive applications.
+              - "SIGNALING": Control traffic for setting up and managing sessions (e.g., VoIP).
+              - "TRANSACTIONAL\_DATA": Data related to transactions, like financial or retail operations.
+              - "VOIP\_TELEPHONY": Voice traffic over IP networks.
+              - "BEST\_EFFORT": Non-critical traffic delivered on a best-effort basis.
+              - "SCAVENGER": Low-priority traffic, often background tasks.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/type"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Specifies how the application is identified within the network.
+          - Permissible values:
+            - server\_name: Custom application identified by server name.
+            - url: Custom application identified by URL.
+            - server\_ip: Custom application identified by server IP address.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application/url"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application/url:
+
+      .. rst-class:: ansible-option-title
+
+      **url**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application/url" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Required if \`type\` is \`url\`; specifies the URL for application identification.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy:
+
+      .. rst-class:: ansible-option-title
+
+      **application_policy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines how an application's traffic is managed and prioritized within a network.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/application_queuing_profile_name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/application_queuing_profile_name:
+
+      .. rst-class:: ansible-option-title
+
+      **application_queuing_profile_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/application_queuing_profile_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines rules for traffic management by prioritizing network traffic within the application policy.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/application_set_name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/application_set_name:
+
+      .. rst-class:: ansible-option-title
+
+      **application_set_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/application_set_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The application sets to be removed from the application policy.
+
+      Only the specified sets will be removed.
+
+      Applicable only when the policy is in the deleted state.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/clause:
+
+      .. rst-class:: ansible-option-title
+
+      **clause**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines specific rules or conditions under which an application set is added to the application policy.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/clause_type"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/clause/clause_type:
+
+      .. rst-class:: ansible-option-title
+
+      **clause_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/clause_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Specifies the type of clause for the application policy.
+          - Permissible values:
+            - "BUSINESS\_RELEVANCE": Defines the importance of the application to business operations, affecting its priority and
+            handling in the network policy.
+            - "APPLICATION\_POLICY\_KNOBS": Configurable settings that manage the application's network behavior,
+            such as traffic prioritization and resource allocation.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/relevance_details"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/clause/relevance_details:
+
+      .. rst-class:: ansible-option-title
+
+      **relevance_details**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/relevance_details" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Details about how relevant the application is to business operations.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/relevance_details/application_set_name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/clause/relevance_details/application_set_name:
+
+      .. rst-class:: ansible-option-title
+
+      **application_set_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/relevance_details/application_set_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Include all the application sets for which the application policy has to be created
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/relevance_details/relevance"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/clause/relevance_details/relevance:
+
+      .. rst-class:: ansible-option-title
+
+      **relevance**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/relevance_details/relevance" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Specifies whether the application set is relevant to the application policy.
+          - Permissible values:
+            - "BUSINESS\_RELEVANT": The application is critical for business functions.
+            - "BUSINESS\_IRRELEVANT": The application is not essential for business operations.
+            - "DEFAULT": A default setting when no specific relevance is assigned.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/device_type"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/device_type:
+
+      .. rst-class:: ansible-option-title
+
+      **device_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/device_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether the device is wired or wireless.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the application policy
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/policy_status"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/policy_status:
+
+      .. rst-class:: ansible-option-title
+
+      **policy_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/policy_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Represents the current status of the application policy.
+          - Helps track whether the policy is active, deleted, or restored.
+          - Permissible values:
+              - "NONE": The policy is active and in its original, operational state.
+              - "DELETED": The policy has been removed and is no longer active.
+              - "RESTORED": The policy has been reactivated after being deleted.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/site_names"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/site_names:
+
+      .. rst-class:: ansible-option-title
+
+      **site_names**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/site_names" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The site or area within the network where the policy should be enforced.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_policy/ssid_name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_policy/ssid_name:
+
+      .. rst-class:: ansible-option-title
+
+      **ssid_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_policy/ssid_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the SSID name for wireless devices. Required if device\_type is set to 'wireless'.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_sets"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_sets:
+
+      .. rst-class:: ansible-option-title
+
+      **application_sets**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_sets" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines a logical grouping of network applications that share common policies and configuration settings.
+
+      Application sets enable network administrators to manage and apply policies to multiple applications simultaneously, streamlining policy enforcement, monitoring, and optimization.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_sets/name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/application_sets/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_sets/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the name of the application set.
+
+      Required for deleting an application set.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile:
+
+      .. rst-class:: ansible-option-title
+
+      **queuing_profile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines queuing profile settings for applications.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **bandwidth_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies bandwidth allocation details.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **interface_speed_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines bandwidth allocation for different types of network traffic based on interface speed.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages:
+
+      .. rst-class:: ansible-option-title
+
+      **bandwidth_percentages**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Defines the percentage of bandwidth assigned to various traffic categories.
+          - The sum of all category allocations must not exceed 100%.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/best_effort"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/best_effort:
+
+      .. rst-class:: ansible-option-title
+
+      **best_effort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/best_effort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for non-priority, general-purpose traffic.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/broadcast_video"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/broadcast_video:
+
+      .. rst-class:: ansible-option-title
+
+      **broadcast_video**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/broadcast_video" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for one-to-many video distribution.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/bulk_data"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/bulk_data:
+
+      .. rst-class:: ansible-option-title
+
+      **bulk_data**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/bulk_data" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for large-volume, non-time-sensitive data transfers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/multimedia_conferencing"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/multimedia_conferencing:
+
+      .. rst-class:: ansible-option-title
+
+      **multimedia_conferencing**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/multimedia_conferencing" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for combined audio-video conferencing traffic.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/multimedia_streaming"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/multimedia_streaming:
+
+      .. rst-class:: ansible-option-title
+
+      **multimedia_streaming**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/multimedia_streaming" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for real-time audio and video streaming.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/network_control"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/network_control:
+
+      .. rst-class:: ansible-option-title
+
+      **network_control**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/network_control" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for traffic related to network management and operation.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/ops_admin_mgmt"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/ops_admin_mgmt:
+
+      .. rst-class:: ansible-option-title
+
+      **ops_admin_mgmt**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/ops_admin_mgmt" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for operations and administration management traffic.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/real_time_interactive"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/real_time_interactive:
+
+      .. rst-class:: ansible-option-title
+
+      **real_time_interactive**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/real_time_interactive" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for low-latency applications requiring immediate response.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/scavenger"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/scavenger:
+
+      .. rst-class:: ansible-option-title
+
+      **scavenger**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/scavenger" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for low-priority traffic that can be delayed or dropped.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/signaling"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/signaling:
+
+      .. rst-class:: ansible-option-title
+
+      **signaling**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/signaling" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for network control messages managing communication sessions.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/transactional_data"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/transactional_data:
+
+      .. rst-class:: ansible-option-title
+
+      **transactional_data**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/transactional_data" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth allocated to transactional data traffic.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/voip_telephony"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/voip_telephony:
+
+      .. rst-class:: ansible-option-title
+
+      **voip_telephony**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/voip_telephony" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bandwidth for voice and video calls over IP.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/interface_speed"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/interface_speed:
+
+      .. rst-class:: ansible-option-title
+
+      **interface_speed**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/interface_speed" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Specifies the data transfer rate of a network interface.
+          - Permissible values:
+            - "ALL": Applies to all interface speeds.
+            - "HUNDRED\_GBPS": 100 Gbps.
+            - "TEN\_GBPS": 10 Gbps.
+            - "ONE\_GBPS": 1 Gbps.
+            - "HUNDRED\_MBPS": 100 Mbps.
+            - "TEN\_MBPS": 10 Mbps.
+            - "ONE\_MBPS": 1 Mbps.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/is_common_between_all_interface_speeds"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/bandwidth_settings/is_common_between_all_interface_speeds:
+
+      .. rst-class:: ansible-option-title
+
+      **is_common_between_all_interface_speeds**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/is_common_between_all_interface_speeds" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether bandwidth settings apply uniformly across all interface speeds.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **dscp_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Defines the DSCP (Differentiated Services Code Point) values assigned to different traffic categories.
+          - Each DSCP value must be in the range of 0 to 63.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/best_effort"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/best_effort:
+
+      .. rst-class:: ansible-option-title
+
+      **best_effort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/best_effort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for best-effort traffic, which does not require specific quality or priority guarantees.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/broadcast_video"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/broadcast_video:
+
+      .. rst-class:: ansible-option-title
+
+      **broadcast_video**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/broadcast_video" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for broadcast video traffic, typically distributed in a one-to-many model.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/bulk_data"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/bulk_data:
+
+      .. rst-class:: ansible-option-title
+
+      **bulk_data**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/bulk_data" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for large-volume data transfers that can tolerate delays or interruptions.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/multimedia_conferencing"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/multimedia_conferencing:
+
+      .. rst-class:: ansible-option-title
+
+      **multimedia_conferencing**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/multimedia_conferencing" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for multimedia conferencing traffic, including both audio and video communication.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/multimedia_streaming"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/multimedia_streaming:
+
+      .. rst-class:: ansible-option-title
+
+      **multimedia_streaming**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/multimedia_streaming" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for real-time audio and video streaming traffic.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/network_control"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/network_control:
+
+      .. rst-class:: ansible-option-title
+
+      **network_control**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/network_control" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for network control traffic related to management and operation.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/ops_admin_mgmt"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/ops_admin_mgmt:
+
+      .. rst-class:: ansible-option-title
+
+      **ops_admin_mgmt**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/ops_admin_mgmt" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for operations, administration, and management traffic.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/real_time_interactive"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/real_time_interactive:
+
+      .. rst-class:: ansible-option-title
+
+      **real_time_interactive**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/real_time_interactive" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for interactive applications requiring low latency and immediate responsiveness.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/scavenger"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/scavenger:
+
+      .. rst-class:: ansible-option-title
+
+      **scavenger**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/scavenger" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for low-priority traffic that can be delayed or dropped in case of congestion.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/signaling"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/signaling:
+
+      .. rst-class:: ansible-option-title
+
+      **signaling**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/signaling" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for signaling traffic used to establish, manage, and terminate communication sessions.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/transactional_data"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/transactional_data:
+
+      .. rst-class:: ansible-option-title
+
+      **transactional_data**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/transactional_data" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for transactional data traffic, involving data exchanges between systems.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/voip_telephony"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/dscp_settings/voip_telephony:
+
+      .. rst-class:: ansible-option-title
+
+      **voip_telephony**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/voip_telephony" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DSCP value for voice and video calls transmitted over IP networks.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/new_profile_description"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/new_profile_description:
+
+      .. rst-class:: ansible-option-title
+
+      **new_profile_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/new_profile_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      New description of the queuing profile.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/new_profile_name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/new_profile_name:
+
+      .. rst-class:: ansible-option-title
+
+      **new_profile_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/new_profile_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      New name for the queuing profile (used for updates).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/profile_description"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/profile_description:
+
+      .. rst-class:: ansible-option-title
+
+      **profile_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/profile_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of the queuing profile.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/profile_name"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config/queuing_profile/profile_name:
+
+      .. rst-class:: ansible-option-title
+
+      **profile_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/profile_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the queuing profile.
+
+      Required for create, update, and delete operations.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The desired state of the configuration after module execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Methods used are - application\_policy.ApplicationPolicy.get\_application\_policy - application\_policy.ApplicationPolicy.application\_policy\_intent - application\_policy.ApplicationPolicy.get\_application\_policy\_queuing\_profile - application\_policy.ApplicationPolicy.update\_application\_policy\_queuing\_profile - application\_policy.ApplicationPolicy.create\_application\_policy\_queuing\_profile - application\_policy.ApplicationPolicy.delete\_application\_policy\_queuing\_profile - application\_policy.ApplicationPolicy.get\_application\_sets - application\_policy.ApplicationPolicy.create\_application\_set - application\_policy.ApplicationPolicy.delete\_application\_set - application\_policy.ApplicationPolicy.get\_applications - application\_policy.ApplicationPolicy.create\_application - application\_policy.ApplicationPolicy.update\_application - application\_policy.ApplicationPolicy.delete\_application
+   - Paths used are - GET/dna/intent/api/v1/app-policy - POST/dna/intent/api/v1/app-policy-intent - GET/dna/intent/api/v1/app-policy-queuing-profile - POST/dna/intent/api/v1/app-policy-queuing-profile - PUT/dna/intent/api/v1/app-policy-queuing-profile - DELETE/dna/intent/api/v1/app-policy-queuing-profile/{id} - GET/dna/intent/api/v1/application-policy-application-set - POST//dna/intent/api/v1/application-policy-application-set - DELETE/dna/intent/api/v2/application-policy-application-set/{id} - GET/dna/intent/api/v2/applications - POST/dna/intent/api/v2/applications - PUT/dna/intent/api/v1/applications - DELETE/dna/intent/api/v2/applications/{id}
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    # Playbook - application queuing profile - type both ("bandwidth", "dscp")
+
+    - name: Create Enterprise QoS Profile for Optimized Network Performance
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Create Enterprise QoS Profile for Optimized Network Performance
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - queuing_profile:
+                  - profile_name: "Enterprise-QoS-Profile"
+                    profile_description: "QoS profile optimized for business-critical applications"
+                    bandwidth_settings:
+                      is_common_between_all_interface_speeds: true
+                      interface_speed: "ALL"
+                      bandwidth_percentages:
+                        transactional_data: "5"
+                        best_effort: "10"
+                        voip_telephony: "15"
+                        multimedia_streaming: "10"
+                        real_time_interactive: "20"
+                        multimedia_conferencing: "10"
+                        signaling: "10"
+                        scavenger: "5"
+                        ops_admin_mgmt: "5"
+                        broadcast_video: "2"
+                        network_control: "3"
+                        bulk_data: "5"
+                    dscp_settings:
+                      multimedia_conferencing: "20"
+                      ops_admin_mgmt: "23"
+                      transactional_data: "28"
+                      voip_telephony: "45"
+                      multimedia_streaming: "27"
+                      broadcast_video: "46"
+                      network_control: "48"
+                      best_effort: "0"
+                      signaling: "4"
+                      bulk_data: "10"
+                      scavenger: "2"
+                      real_time_interactive: "34"
+
+    # Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)
+
+    - name: Deploy Enterprise QoS Profile in Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Configure Enterprise QoS Profile for Consistent Traffic Prioritization
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - queuing_profile:
+                  - profile_name: "Enterprise-QoS-All-Speeds"
+                    profile_description: "Optimized QoS profile for consistent traffic prioritization across all interface speeds"
+                    bandwidth_settings:
+                      is_common_between_all_interface_speeds: true
+                      interface_speed: "ALL"
+                      bandwidth_percentages:
+                        transactional_data: "5"
+                        best_effort: "10"
+                        voip_telephony: "15"
+                        multimedia_streaming: "10"
+                        real_time_interactive: "20"
+                        multimedia_conferencing: "10"
+                        signaling: "10"
+                        scavenger: "5"
+                        ops_admin_mgmt: "5"
+                        broadcast_video: "2"
+                        network_control: "3"
+                        bulk_data: "5"
+
+    # Playbook - QoS Profile Based on Interface Speeds
+
+    - name: Deploy Interface-Specific QoS Profile in Cisco Catalyst Center
+      hosts: localhost
+      vars_files:
+        - "credentials.yml"
+      connection: local
+      gather_facts: false
+      tasks:
+        - name: Configure QoS Profile for Different Interface Speeds
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{dnac_host}}"
+            dnac_username: "{{dnac_username}}"
+            dnac_password: "{{dnac_password}}"
+            dnac_verify: "{{dnac_verify}}"
+            dnac_port: "{{dnac_port}}"
+            dnac_version: "{{dnac_version}}"
+            dnac_debug: "{{dnac_debug}}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - queuing_profile:
+                  - profile_name: "Enterprise-Speed-Based-QoS"
+                    profile_description: "Optimized traffic prioritization based on interface speed"
+                    bandwidth_settings:
+                      is_common_between_all_interface_speeds: false
+                      interface_speed_settings:
+                        - interface_speed: "HUNDRED_GBPS"
+                          bandwidth_percentages:
+                            transactional_data: "5"
+                            best_effort: "10"
+                            voip_telephony: "20"
+                            multimedia_streaming: "5"
+                            real_time_interactive: "20"
+                            multimedia_conferencing: "10"
+                            signaling: "10"
+                            scavenger: "5"
+                            ops_admin_mgmt: "5"
+                            broadcast_video: "2"
+                            network_control: "3"
+                            bulk_data: "5"
+                        - interface_speed: "TEN_GBPS"
+                          bandwidth_percentages:
+                            transactional_data: "5"
+                            best_effort: "5"
+                            voip_telephony: "25"
+                            multimedia_streaming: "5"
+                            real_time_interactive: "20"
+                            multimedia_conferencing: "5"
+                            signaling: "4"
+                            scavenger: "6"
+                            ops_admin_mgmt: "5"
+                            broadcast_video: "2"
+                            network_control: "3"
+                            bulk_data: "15"
+                        - interface_speed: "ONE_GBPS"
+                          bandwidth_percentages:
+                            transactional_data: "5"
+                            best_effort: "10"
+                            voip_telephony: "15"
+                            multimedia_streaming: "10"
+                            real_time_interactive: "20"
+                            multimedia_conferencing: "10"
+                            signaling: "10"
+                            scavenger: "5"
+                            ops_admin_mgmt: "5"
+                            broadcast_video: "2"
+                            network_control: "3"
+                            bulk_data: "5"
+                        - interface_speed: "HUNDRED_MBPS"
+                          bandwidth_percentages:
+                            transactional_data: "5"
+                            best_effort: "10"
+                            voip_telephony: "5"
+                            multimedia_streaming: "15"
+                            real_time_interactive: "25"
+                            multimedia_conferencing: "10"
+                            signaling: "10"
+                            scavenger: "5"
+                            ops_admin_mgmt: "5"
+                            broadcast_video: "2"
+                            network_control: "3"
+                            bulk_data: "5"
+                        - interface_speed: "TEN_MBPS"
+                          bandwidth_percentages:
+                            transactional_data: "5"
+                            best_effort: "10"
+                            voip_telephony: "15"
+                            multimedia_streaming: "10"
+                            real_time_interactive: "20"
+                            multimedia_conferencing: "10"
+                            signaling: "10"
+                            scavenger: "5"
+                            ops_admin_mgmt: "5"
+                            broadcast_video: "2"
+                            network_control: "3"
+                            bulk_data: "5"
+                        - interface_speed: "ONE_MBPS"
+                          bandwidth_percentages:
+                            transactional_data: "5"
+                            best_effort: "5"
+                            voip_telephony: "25"
+                            multimedia_streaming: "10"
+                            real_time_interactive: "20"
+                            multimedia_conferencing: "5"
+                            signaling: "10"
+                            scavenger: "5"
+                            ops_admin_mgmt: "5"
+                            broadcast_video: "2"
+                            network_control: "3"
+                            bulk_data: "5"
+
+    # Playbook - for some interface speeds having common bandwidth percentage
+
+    - name: Configure an Application Queueing Profile for Traffic Prioritization
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Create an Application Queueing Profile for Traffic Prioritization
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - queuing_profile:
+                  - profile_name: "Enterprise_Traffic_Policy"
+                    profile_description: "Queueing profile for optimizing enterprise application traffic."
+                    bandwidth_settings:
+                      is_common_between_all_interface_speeds: false
+                      interface_speed_settings:
+                        - interface_speed: "HUNDRED_GBPS"
+                          bandwidth_percentages:
+                            transactional_data: "5"
+                            best_effort: "10"
+                            voip_telephony: "20"
+                            multimedia_streaming: "5"
+                            real_time_interactive: "20"
+                            multimedia_conferencing: "10"
+                            signaling: "10"
+                            scavenger: "5"
+                            ops_admin_mgmt: "5"
+                            broadcast_video: "2"
+                            network_control: "3"
+                            bulk_data: "5"
+                        - interface_speed: "TEN_GBPS"
+                          bandwidth_percentages:
+                            transactional_data: "5"
+                            best_effort: "5"
+                            voip_telephony: "25"
+                            multimedia_streaming: "5"
+                            real_time_interactive: "20"
+                            multimedia_conferencing: "5"
+                            signaling: "6"
+                            scavenger: "5"
+                            ops_admin_mgmt: "4"
+                            broadcast_video: "2"
+                            network_control: "3"
+                            bulk_data: "15"
+                        - interface_speed: "HUNDRED_MBPS"
+                          bandwidth_percentages:
+                            transactional_data: "5"
+                            best_effort: "10"
+                            voip_telephony: "5"
+                            multimedia_streaming: "15"
+                            real_time_interactive: "25"
+                            multimedia_conferencing: "10"
+                            signaling: "10"
+                            scavenger: "5"
+                            ops_admin_mgmt: "5"
+                            broadcast_video: "2"
+                            network_control: "3"
+                            bulk_data: "5"
+                        - interface_speed: TEN_MBPS,ONE_MBPS,ONE_GBPS
+                          bandwidth_percentages:
+                            transactional_data: "5"
+                            best_effort: "10"
+                            voip_telephony: "15"
+                            multimedia_streaming: "10"
+                            real_time_interactive: "20"
+                            multimedia_conferencing: "10"
+                            signaling: "10"
+                            scavenger: "5"
+                            ops_admin_mgmt: "5"
+                            broadcast_video: "2"
+                            network_control: "3"
+                            bulk_data: "5"
+
+    # Playbook - application queuing profile - type dscp
+
+    - name: Configure Application Queuing Profile (DSCP) in Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Create an Application Queuing Profile with DSCP Settings
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - queuing_profile:
+                  - profile_name: "Enterprise_DSCP_Profile"
+                    profile_description: "DSCP-based queuing profile for traffic prioritization."
+                    dscp_settings:
+                      multimedia_conferencing: "20"
+                      ops_admin_mgmt: "23"
+                      transactional_data: "28"
+                      voip_telephony: "45"
+                      multimedia_streaming: "27"
+                      broadcast_video: "46"
+                      network_control: "48"
+                      best_effort: "0"
+                      signaling: "4"
+                      bulk_data: "10"
+                      scavenger: "2"
+                      real_time_interactive: "34"
+
+    # Playbook - update application queuing profile
+
+    - name: Application Queuing Profile update in Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Update Application Queuing Profile in Cisco Catalyst Center
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - queuing_profile:
+                  - profile_name: "Enterprise_Traffic_Profile"  # Existing profile to be updated
+                    new_profile_name: "Enterprise_Traffic_Profile_v2"  # New profile name after update
+                    profile_description: "Traffic queuing profile for enterprise applications."
+                    new_profile_description: "Updated queuing profile for optimized traffic management."
+                    bandwidth_settings:
+                      is_common_between_all_interface_speeds: true
+                      interface_speed: "ALL"
+                      bandwidth_percentages:
+                        transactional_data: "5"
+                        best_effort: "10"
+                        voip_telephony: "15"
+                        multimedia_streaming: "10"
+                        real_time_interactive: "20"
+                        multimedia_conferencing: "10"
+                        signaling: "10"
+                        scavenger: "5"
+                        ops_admin_mgmt: "5"
+                        broadcast_video: "2"
+                        network_control: "3"
+                        bulk_data: "5"
+                    dscp_settings:
+                      multimedia_conferencing: "20"
+                      ops_admin_mgmt: "23"
+                      transactional_data: "28"
+                      voip_telephony: "45"
+                      multimedia_streaming: "27"
+                      broadcast_video: "46"
+                      network_control: "48"
+                      best_effort: "0"
+                      signaling: "4"
+                      bulk_data: "10"
+                      scavenger: "2"
+                      real_time_interactive: "34"
+
+    # Playbook - delete application queuing profile
+
+    - name: Delete application queuing profile from Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Delete application queuing profile from Cisco Catalyst Center
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - queuing_profile:
+                  - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
+
+    # Playbook - create application - type server_name
+
+    - name: Create application on Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Create Application with Server Name on Cisco Catalyst Center
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - application:
+                  - name: "Security_Gateway_App"
+                    help_string: "Application for network security and access control"
+                    description: "Security Gateway Application"
+                    type: "server_name"
+                    server_name: "www.securitygateway.com"
+                    traffic_class: "BROADCAST_VIDEO"
+                    ignore_conflict: "true"
+                    rank: 23
+                    engineId: 4
+                    application_set_name: "local-services"
+
+    # Playbook - create application - type server_ip
+
+    - name: Create application on Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Create application with Server IP on Cisco Catalyst Center
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - application:
+                  - name: "Security_Gateway_IP_App"
+                    help_string: "Security Gateway Application based on IP"
+                    description: "Defines security gateway policies using server IPs"
+                    type: "server_ip"
+                    network_identity_setting:
+                      protocol: "UDP"
+                      port: "2000"
+                      ip_subnet: ["1.1.1.1", "2.2.2.2", "3.3.3.3"]
+                      lower_port: 10
+                      upper_port: 100
+                    dscp: 2
+                    traffic_class: "BROADCAST_VIDEO"
+                    ignore_conflict: "true"
+                    rank: "23"
+                    engine_id: "4"
+                    application_set_name: "local-services"
+
+    # Playbook - create application - type url
+
+    - name: Define and Register Application in Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Create Application with URL Type in Cisco Catalyst Center
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - application:
+                  - name: "video_streaming_app"
+                    help_string: "Manages video streaming application traffic"
+                    description: "Defines security gateway policies using server urls"
+                    type: "url"
+                    app_protocol: "TCP"
+                    url: "www.videostreaming.com"
+                    traffic_class: "BROADCAST_VIDEO"
+                    ignore_conflict: true
+                    rank: "23"
+                    engine_id: "4"
+                    application_set_name: "local-services"
+
+    # Playbook - delete application
+
+    - name: Delete application from Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Delete Video Streaming Application from Cisco Catalyst Center
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - application:
+                  - name: "video_streaming_app"
+
+    # Playbook - create application policy – wired
+
+    - name: Create Wired Application Policy in Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Define and Deploy Wired Application Policy
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - application_policy:
+                  - name: "wired_traffic_policy"
+                    policy_status: "deployed"
+                    site_names: ["Global/INDIA"]
+                    device_type: "wired"
+                    application_queuing_profile_name: "WiredStreamingQueuingProfile"
+                    clause:
+                      - clause_type: "BUSINESS_RELEVANCE"
+                        relevance_details:
+                          - relevance: "BUSINESS_RELEVANT"
+                            application_set_name: ["collaboration-apps"]
+                          - relevance: "BUSINESS_IRRELEVANT"
+                            application_set_name: ["email", "tunneling"]
+                          - relevance: "DEFAULT"
+                            application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
+
+    # Playbook - create application policy – wireless
+
+    - name: Create Wireless Application Policy in Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Define and Deploy Wireless Application Policy
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - application_policy:
+                  - name: "wireless_traffic_policy"
+                    policy_status: "deployed"
+                    site_names: ["global/Chennai/FLOOR1"]
+                    device_type: "wireless"
+                    ssid_name: "ent-ssid-2-wpa2"
+                    application_queuing_profile_name: "wireless_streaming_profile"
+                    clause:
+                      - clause_type: "BUSINESS_RELEVANCE"
+                        relevance_details:
+                          - relevance: "BUSINESS_RELEVANT"
+                            application_set_name: ["file-sharing"]
+                          - relevance: "BUSINESS_IRRELEVANT"
+                            application_set_name: ["email", "backup-and-storage"]
+                          - relevance: "DEFAULT"
+                            application_set_name: ["collaboration-apps", "tunneling", "general-media"]
+
+    # Playbook - delete application policy
+
+    - name: Delete Application Policy from Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Delete application policy from Cisco Catalyst Center
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - application_policy:
+                  - name: "ObsoleteTrafficPolicy"
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-application_not_found_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-application_not_found_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **application_not_found_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-application_not_found_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application 'Security\_Gateway\_IP\_App' does not present in the cisco catalyst center or it's been already deleted", "response": {"taskId": "str", "url": "str"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-application_policy_not_found_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-application_policy_not_found_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **application_policy_not_found_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-application_policy_not_found_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application policy 'WirelessTrafficOptimizationPolicy' does not present in the cisco catalyst center or its been already deleted", "response": {"taskId": "str", "url": "str"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-application_queuing_profile_not_found_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-application_queuing_profile_not_found_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **application_queuing_profile_not_found_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-application_queuing_profile_not_found_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application queuing profile 'Enterprise-QoS-All-Speeds' does not present in the Cisco Catalyst Center or it has already been deleted.", "response": {"taskId": "str", "url": "str"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-creation%20_of_application_queuing_profile_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-creation _of_application_queuing_profile_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **creation _of_application_queuing_profile_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-creation%20_of_application_queuing_profile_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with details for successful task execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application queuing profile 'Enterprise-QoS-Profile' created successfully.", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-deletion_of_application_queuing_profile_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-deletion_of_application_queuing_profile_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **deletion_of_application_queuing_profile_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-deletion_of_application_queuing_profile_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for successful task execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application policy queuing profile 'Enterprise-QoS-Profile' deleted successfully.", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-deletion_of_application_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-deletion_of_application_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **deletion_of_application_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-deletion_of_application_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for successful task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application 'video\_streaming\_app' deleted successfully.", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-error_during_application_create_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-error_during_application_create_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **error_during_application_create_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-error_during_application_create_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Creation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.", "response": {"taskId": "str", "url": "str"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-error_during_application_policy_create_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-error_during_application_policy_create_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **error_during_application_policy_create_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-error_during_application_policy_create_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "( \\"Creation of the application policy failed due to - \\" \\"NCAS10157 The same site cannot be used in two different wired policies. \\" \\"Current policy 'WiredTrafficOptimizationPolicy' and policy 'ObsoleteTrafficPolicy' are both using \\" \\"the following site/s 'Chennai/LTTS/FLOOR1'\\" )", "response": {"taskId": "str", "url": "str"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-error_during_application_policy_update_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-error_during_application_policy_update_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **error_during_application_policy_update_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-error_during_application_policy_update_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"...'\\" )": null, "msg": "( \\"Update of the application policy failed due to - \\" \\"NCAS10157 The same site cannot be used in two different wired policies. \\" \\"Current policy 'ObsoleteTrafficPolicy' and policy 'WiredTrafficOptimizationPolicy' \\" \\"are both using the following site/s 'mysore/Mod-x/Mezzanine", "mysore/Mod-x": null, "response": {"taskId": "str", "url": "str"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-error_during_application_queuing_profile_create_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-error_during_application_queuing_profile_create_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **error_during_application_queuing_profile_create_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-error_during_application_queuing_profile_create_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Failed to create application queuing profile reason - NCAS10031: The DSCP value of 'best-effort' traffic class should be '0'", "response": {"taskId": "str", "url": "str"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-error_during_application_queuing_profile_delete_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-error_during_application_queuing_profile_delete_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **error_during_application_queuing_profile_delete_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-error_during_application_queuing_profile_delete_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "( \\"Deletion of the application policy queuing profile failed due to - \\" \\"NCAS10011 Queuing profile 'Enterprise-QoS-All-Speeds' cannot be deleted \\" \\"as it is used by the policy\\" )", "response": {"taskId": "str", "url": "str"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-error_during_application_queuing_profile_update_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-error_during_application_queuing_profile_update_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **error_during_application_queuing_profile_update_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-error_during_application_queuing_profile_update_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "( \\"Update of the application policy queuing profile failed due to \\" \\"NCAS10025 The sum of bandwidth percentages of all traffic classes \\" \\"should be '100'. The current sum is '101'.\\" )", "response": {"taskId": "str", "url": "str"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-error_during_application_update_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-error_during_application_update_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **error_during_application_update_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-error_during_application_update_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "update of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.", "response": {"taskId": "str", "url": "str"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-successful_creation_of_application_policy_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-successful_creation_of_application_policy_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **successful_creation_of_application_policy_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-successful_creation_of_application_policy_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for successful task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application policy 'ObsoleteTrafficPolicy' created successfully.", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-successful_creation_of_application_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-successful_creation_of_application_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **successful_creation_of_application_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-successful_creation_of_application_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for successful task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application 'video\_streaming\_app' created successfully.", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-successful_deletion_of_application_policy_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-successful_deletion_of_application_policy_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **successful_deletion_of_application_policy_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-successful_deletion_of_application_policy_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for successful task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application policy 'ObsoleteTrafficPolicy' deleted successfully.", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-successful_update_of_application_policy_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-successful_update_of_application_policy_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **successful_update_of_application_policy_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-successful_update_of_application_policy_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for successful task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application policy 'ObsoleteTrafficPolicy' updated successfully.", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-successful_update_of_application_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-successful_update_of_application_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **successful_update_of_application_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-successful_update_of_application_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for successful task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application 'video\_streaming\_app' updated successfully.", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-update_not_required_%20for_application_policy_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-update_not_required_ for_application_policy_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **update_not_required_ for_application_policy_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-update_not_required_%20for_application_policy_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for successful task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application policy 'ObsoleteTrafficPolicy' does not need any update. ", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-update_not_required_for_application_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-update_not_required_for_application_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **update_not_required_for_application_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-update_not_required_for_application_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for task execution
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application 'video\_streaming\_app' does not need any update. ", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-update_not_required_for_queuing_profile_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-update_not_required_for_queuing_profile_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **update_not_required_for_queuing_profile_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-update_not_required_for_queuing_profile_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for successful task execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application queuing profile 'Enterprise-QoS-Profile' does not need any update", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-update_of_application_queuing_profile_response_task_execution"></div>
+
+      .. _ansible_collections.cisco.dnac.application_policy_workflow_manager_module__return-update_of_application_queuing_profile_response_task_execution:
+
+      .. rst-class:: ansible-option-title
+
+      **update_of_application_queuing_profile_response_task_execution**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-update_of_application_queuing_profile_response_task_execution" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      With task id get details for successful task execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Application policy queuing profile 'Enterprise-QoS-Profile' updated successfully.", "response": {"taskId": "str", "url": "str"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Syed Khadeer Ahmed (@syed-khadeerahmed)
+- Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

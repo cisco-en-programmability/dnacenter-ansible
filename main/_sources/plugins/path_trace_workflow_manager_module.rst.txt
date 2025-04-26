@@ -1,0 +1,1734 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.path_trace_workflow_manager module -- Resource module for managing PathTrace settings in Cisco Catalyst Center
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.path_trace_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.path_trace_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.31.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- This module allows the management of PathTrace settings in Cisco Catalyst Center.
+  - It supports creating and deleting PathTrace configurations.
+  - This module configures PathTrace settings in Cisco Catalyst Center, including
+    source/destination IPs, ports, and protocols.
+
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.8.6
+- python \>= 3.9
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list containing the details for Path Trace configuration.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/control_path"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/control_path:
+
+      .. rst-class:: ansible-option-title
+
+      **control_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/control_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Boolean value to specify whether the path trace should include
+          the control path (optional).
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/delete_on_completion"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/delete_on_completion:
+
+      .. rst-class:: ansible-option-title
+
+      **delete_on_completion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/delete_on_completion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Boolean value indicating whether to delete the path trace after generation.
+          This applies only when periodic\_refresh is set to false..
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/dest_ip"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/dest_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **dest_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/dest_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The destination IP address for the path trace. Either flow\_analysis\_id or
+          both source\_ip and dest\_ip are required.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/dest_port"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/dest_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dest_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/dest_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The destination port for the path trace (optional).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/flow_analysis_id"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/flow_analysis_id:
+
+      .. rst-class:: ansible-option-title
+
+      **flow_analysis_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/flow_analysis_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The Flow Analysis ID for the path trace, used to delete an existing path trace
+          when in the 'deleted' state. If not provided, the module will search and delete
+          based on the following search parameters.
+          When create a path trace, it returns a flow\_analysis\_id (the "id" from the "request"
+          section), which should be shown in a register
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/get_last_pathtrace_result"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/get_last_pathtrace_result:
+
+      .. rst-class:: ansible-option-title
+
+      **get_last_pathtrace_result**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/get_last_pathtrace_result" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Boolean value to display the last result again for the path trace.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/include_stats"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/include_stats:
+
+      .. rst-class:: ansible-option-title
+
+      **include_stats**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/include_stats" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of optional statistics (multiple choice) to include in the path trace,
+          such as QOS statistics or additional details. Examples: "DEVICE\_STATS",
+          "INTERFACE\_STATS", "QOS\_STATS", "PERFORMANCE\_STATS", "ACL\_TRACE".
+          - DEVICE\_STATS - Collects hardware-related statistics of network devices
+            along the path, including CPU usage, memory, uptime, and interface status.
+          - INTERFACE\_STATS - Gathers details about interfaces used in the path,
+            such as interface type, bandwidth usage, errors, and drops.
+          - QOS\_STATS - Displays Quality of Service (QoS) settings on interfaces,
+            including traffic classification, priority settings, and congestion management.
+          - PERFORMANCE\_STATS: Provides network performance metrics like latency,
+            jitter, and packet loss.
+          - ACL\_TRACE: Analyzes Access Control List (ACL) rules applied along
+            the path to identify blocked traffic or policy mismatches.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/periodic_refresh"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/periodic_refresh:
+
+      .. rst-class:: ansible-option-title
+
+      **periodic_refresh**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/periodic_refresh" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Boolean value to enable periodic refresh for the path trace.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The protocol to use for the path trace, e.g., TCP, UDP (optional).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"TCP"`
+      - :ansible-option-choices-entry:`"UDP"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/source_ip"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/source_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **source_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/source_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The source IP address for the path trace. Either flow\_analysis\_id or
+          both source\_ip and dest\_ip are required.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/source_port"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/source_port:
+
+      .. rst-class:: ansible-option-title
+
+      **source_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/source_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The source port for the path trace (optional).
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to \`true\` to enable configuration verification on Cisco DNA Center after applying
+          the playbook configuration. This ensures that the system validates the configuration
+          state after the change is applied.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the desired state for the configuration. If \`merged\`, the module will create
+          or update the configuration, adding new settings or modifying existing ones. If \`deleted\`,
+          it will remove the specified settings.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are path\_trace.PathTraceWorkflow.retrieves\_all\_previous\_pathtraces\_summary, path\_trace.PathTraceWorkflow.retrieves\_previous\_pathtraces\_summary, path\_trace.PathTraceWorkflow.initiate\_a\_new\_pathtrace, path\_trace.PathTraceWorkflow.delete\_pathtrace\_by\_id,
+   - API paths used are GET/dna/intent/api/v1/flow-analysis POST/dna/intent/api/v1/flow-analysis GET/dna/intent/api/v1/flow-analysis/{flowAnalysisId} DELETE/dna/intent/api/v1/flow-analysis/{flowAnalysisId}
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Create and auto-delete path trace on Cisco Catalyst Center
+          cisco.dnac.path_trace_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: true
+            state: merged
+            config_verify: true
+            config:
+              - source_ip: "204.1.2.3"  # required field
+                dest_ip: "204.1.2.4"  # required field
+                source_port: 4020  # optional field
+                dest_port: 4021  # optional field
+                protocol: "TCP"  # optional field
+                include_stats:  # optional field
+                  - DEVICE_STATS
+                  - INTERFACE_STATS
+                  - QOS_STATS
+                  - PERFORMANCE_STATS
+                  - ACL_TRACE
+                periodic_refresh: false  # optional field
+                control_path: false  # optional field
+                delete_on_completion: true  # optional field
+
+        - name: Delete path trace based on source and destination IP
+          cisco.dnac.path_trace_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log_level: DEBUG
+            dnac_log: true
+            state: deleted
+            config_verify: true
+            config:
+              - source_ip: "204.1.2.3"  # required field
+                dest_ip: "204.1.2.4"  # required field
+
+        - name: Retrieve last path trace
+          cisco.dnac.path_trace_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log_level: DEBUG
+            dnac_log: true
+            state: merged
+            config_verify: true
+            config:
+              - source_ip: "204.1.2.3"  # required field
+                dest_ip: "204.1.2.4"  # required field
+                get_last_pathtrace_result: true
+
+        - name: Retrieve path trace based on the flow analysis id
+          cisco.dnac.path_trace_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log_level: DEBUG
+            dnac_log: true
+            state: merged
+            config_verify: true
+            config:
+              # When create a path trace, it returns a flow_analysis_id
+              # (the "id" from the "request" section), which should be
+              # shown in a register.
+              - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
+                delete_on_completion: false  # optional field
+          register: output_list
+
+        - name: Retrieve and Delete path trace based on the required field
+          cisco.dnac.path_trace_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log_level: DEBUG
+            dnac_log: true
+            state: merged
+            config_verify: true
+            config:
+              - source_ip: "204.1.2.3"  # required field
+                dest_ip: "204.1.2.4"  # required field
+          register: output_list
+        - name: Delete path trace based on registered flow analysis id
+          cisco.dnac.path_trace_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log_level: DEBUG
+            dnac_log: true
+            state: deleted
+            config_verify: true
+            config:
+              - flow_analysis_id: output_list.request.id
+
+        - name: delete path trace based on the flow analysis id
+          cisco.dnac.path_trace_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log_level: DEBUG
+            dnac_log: true
+            state: deleted
+            config_verify: true
+            config:
+              # When create a path trace, it returns a flow_analysis_id
+              # (the "id" from the "request" section), which should be
+              # shown in a register.
+              - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
+
+        - name: Create/Retrieve Path trace for the config list.
+          cisco.dnac.path_trace_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log_level: DEBUG
+            dnac_log: true
+            state: merged
+            config_verify: true
+            config:
+              - source_ip: "204.1.2.3"  # required field
+                dest_ip: "204.1.2.4"  # required field
+                source_port: 4020  # optional field
+                dest_port: 4021  # optional field
+                protocol: "TCP"  # optional field
+                include_stats:  # optional field
+                  - DEVICE_STATS
+                  - INTERFACE_STATS
+                  - QOS_STATS
+                  - PERFORMANCE_STATS
+                  - ACL_TRACE
+                periodic_refresh: false  # optional field
+                control_path: false  # optional field
+                delete_on_completion: true  # optional field
+
+              - source_ip: "204.1.1.2"  # required field
+                dest_ip: "204.1.2.4"  # required field
+                control_path: false  # optional field
+                get_last_pathtrace_result: true  # optional field
+                delete_on_completion: true  # optional field
+
+              - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_1"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__return-response_1:
+
+      .. rst-class:: ansible-option-title
+
+      **response_1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_1" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace created and verified successfully for '[{'source\_ip': '204.1.2.3',\\n        'dest\_ip': '204.1.2.4', 'source\_port': 4020, 'dest\_port': 4021, 'protocol': 'TCP',\\n        'periodic\_refresh': False, 'control\_path': False, 'include\_stats': ['DEVICE-STATS',\\n        'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE'],\\n        'flow\_analysis\_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\\",\\n    \\"response\\": [\\n        {\\n            \\"lastUpdate\\": \\"Fri Feb 21 19:16:46 GMT 2025\\",\\n            \\"networkElementsInfo\\": [\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"b65f159e-b67d-49d4-92d0-801a0eda6426\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"e62e6405-13e4-4f1b-ae1c-580a28a96a88\\",\\n                    \\"ip\\": \\"204.1.2.3\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"SJ-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"2897a064-9079-4c9c-adf2-3e0b5cf22724\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"820bd13a-f565-4778-a320-9ec9f23b4725\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"c98d09f3-b57e-468f-a9a1-65e75249e94f\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.1.22\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"DC-T-9300\\",\\n                    \\"role\\": \\"ACCESS\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"id\\": \\"0be10e21-34c7-4c76-b217-56327ed1f418\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"f24b433c-8388-453e-a034-fcaf516bc749\\",\\n                            \\"name\\": \\"TenGigabitEthernet2/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.2.4\\",\\n                    \\"name\\": \\"NY-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                }\\n            ],\\n            \\"request\\": {\\n                \\"controlPath\\": false,\\n                \\"createTime\\": 1740165404872,\\n                \\"destIP\\": \\"204.1.2.4\\",\\n                \\"destPort\\": \\"4021\\",\\n                \\"id\\": \\"81d8b994-fb62-48dc-aa45-cb3a62d4e4b4\\",\\n                \\"lastUpdateTime\\": 1740165406115,\\n                \\"periodicRefresh\\": false,\\n                \\"protocol\\": \\"TCP\\",\\n                \\"sourceIP\\": \\"204.1.2.3\\",\\n                \\"sourcePort\\": \\"4020\\",\\n                \\"status\\": \\"COMPLETED\\"\\n            }\\n        }\\n    ],\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_2"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__return-response_2:
+
+      .. rst-class:: ansible-option-title
+
+      **response_2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_2" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace created and verified successfully for '[{'flow\_analysis\_id':\\n        '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.\\",\\n    \\"response\\": [\\n        {\\n            \\"lastUpdate\\": \\"Fri Feb 21 19:21:16 GMT 2025\\",\\n            \\"networkElementsInfo\\": [\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"b65f159e-b67d-49d4-92d0-801a0eda6426\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"e62e6405-13e4-4f1b-ae1c-580a28a96a88\\",\\n                    \\"ip\\": \\"204.1.2.3\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"SJ-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"2897a064-9079-4c9c-adf2-3e0b5cf22724\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"820bd13a-f565-4778-a320-9ec9f23b4725\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"c98d09f3-b57e-468f-a9a1-65e75249e94f\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.1.22\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"DC-T-9300\\",\\n                    \\"role\\": \\"ACCESS\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"id\\": \\"0be10e21-34c7-4c76-b217-56327ed1f418\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"f24b433c-8388-453e-a034-fcaf516bc749\\",\\n                            \\"name\\": \\"TenGigabitEthernet2/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.2.4\\",\\n                    \\"name\\": \\"NY-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                }\\n            ],\\n            \\"request\\": {\\n                \\"controlPath\\": false,\\n                \\"createTime\\": 1740156374801,\\n                \\"destIP\\": \\"204.1.2.4\\",\\n                \\"destPort\\": \\"80\\",\\n                \\"id\\": \\"99e067de-8776-40d2-9f6a-1e6ab2ef083c\\",\\n                \\"lastUpdateTime\\": 1740156376055,\\n                \\"periodicRefresh\\": false,\\n                \\"protocol\\": \\"TCP\\",\\n                \\"sourceIP\\": \\"204.1.2.3\\",\\n                \\"sourcePort\\": \\"80\\",\\n                \\"status\\": \\"COMPLETED\\"\\n            }\\n        }\\n    ],\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_3"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__return-response_3:
+
+      .. rst-class:: ansible-option-title
+
+      **response_3**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_3" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace created and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'control\_path': False, 'get\_last\_pathtrace\_result': True,\\n        'flow\_analysis\_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\\",\\n    \\"response\\": [\\n        {\\n            \\"lastUpdate\\": \\"Fri Feb 21 19:25:52 GMT 2025\\",\\n            \\"networkElementsInfo\\": [\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"44aafd2d-5822-4ce5-95c5-11909e9425f6\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/1\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"99b62ead-51d6-4bfc-9b0c-dab087f184e9\\",\\n                    \\"ip\\": \\"204.1.1.2\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"SJ-EN-9300\\",\\n                    \\"role\\": \\"ACCESS\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"b65f159e-b67d-49d4-92d0-801a0eda6426\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"e62e6405-13e4-4f1b-ae1c-580a28a96a88\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"0610f80e-09fc-4083-8aaa-7cf318b211de\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/2\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.2.3\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"SJ-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"2897a064-9079-4c9c-adf2-3e0b5cf22724\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"820bd13a-f565-4778-a320-9ec9f23b4725\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"c98d09f3-b57e-468f-a9a1-65e75249e94f\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.1.22\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"DC-T-9300\\",\\n                    \\"role\\": \\"ACCESS\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"id\\": \\"0be10e21-34c7-4c76-b217-56327ed1f418\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"f24b433c-8388-453e-a034-fcaf516bc749\\",\\n                            \\"name\\": \\"TenGigabitEthernet2/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.2.4\\",\\n                    \\"name\\": \\"NY-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                }\\n            ],\\n            \\"request\\": {\\n                \\"controlPath\\": false,\\n                \\"createTime\\": 1740162201882,\\n                \\"destIP\\": \\"204.1.2.4\\",\\n                \\"id\\": \\"3cb51b94-2a50-4a92-b204-13ffdde22ef9\\",\\n                \\"lastUpdateTime\\": 1740162203167,\\n                \\"periodicRefresh\\": false,\\n                \\"sourceIP\\": \\"204.1.1.2\\",\\n                \\"status\\": \\"COMPLETED\\"\\n            }\\n        }\\n    ],\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_4"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__return-response_4:
+
+      .. rst-class:: ansible-option-title
+
+      **response_4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_4" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace deleted and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'control\_path': False, 'get\_last\_pathtrace\_result': True}]'.\\",\\n    \\"response\\":\\"Path trace deleted and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'control\_path': False, 'get\_last\_pathtrace\_result': True}]'.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_5"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__return-response_5:
+
+      .. rst-class:: ansible-option-title
+
+      **response_5**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_5" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace deleted and verified successfully for '[{'flow\_analysis\_id':\\n        '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.\\",\\n    \\"response\\": \\"Path trace deleted and verified successfully for '[{'flow\_analysis\_id':\\n        '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- A Mohamed Rafeek (@mabdulk2)
+- Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

@@ -1,0 +1,2727 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.assurance_issue_workflow_manager module -- Resource module for managing assurance global profile settings and issue resolution in Cisco Catalyst Center
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.assurance_issue_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.31.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- This module allows the management of assurance global profile settings and issues in Cisco Catalyst Center.
+- It supports creating, updating, and deleting configurations for issue settings and issue resolution functionalities.
+- This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs, and more for issue settings and issue resolution.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.8.6
+- python \>= 3.9
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list of settings and parameters to be applied. It consists of different sub-configurations for managing assurance settings such as issue settings, health score, ICAP settings, issue resolution, and command execution.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue:
+
+      .. rst-class:: ansible-option-title
+
+      **assurance_issue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Allow to resolve, ignore, or execute commands based on the issue settings assurance in Cisco Catalyst Center.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/device_name"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/device_name:
+
+      .. rst-class:: ansible-option-title
+
+      **device_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/device_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A filter to select issues based on the device name that is associated with the issue (e.g., \`NY-EN-9300.cisco.local\`).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/end_datetime"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/end_datetime:
+
+      .. rst-class:: ansible-option-title
+
+      **end_datetime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/end_datetime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A filter to select issues that ended at or before this date and time. The format is "YYYY-MM-DD HH:MM:SS".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/issue_name"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/issue_name:
+
+      .. rst-class:: ansible-option-title
+
+      **issue_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/issue_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the issue to be processed (either resolved, ignored, or command executed). This field is required when creating or updating an issue.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/issue_process_type"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/issue_process_type:
+
+      .. rst-class:: ansible-option-title
+
+      **issue_process_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/issue_process_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the action to be taken on the issue. Possible values:
+            resolution: Resolves the issue.
+            ignore: Ignores the issue.
+            command\_execution: Executes commands to address the issue.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/issue_status"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/issue_status:
+
+      .. rst-class:: ansible-option-title
+
+      **issue_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/issue_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A filter to select issues based on their status. Acceptable values are:
+            ACTIVE: The issue is currently open.
+            RESOLVED: The issue has been resolved.
+            IGNORED: The issue has been ignored.
+          type: str required: false
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/mac_address"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/mac_address:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/mac_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A filter to select issues based on the MAC address of the device associated with the issue.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/network_device_ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/network_device_ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **network_device_ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/network_device_ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A filter to select issues based on the network device's IP address associated with the issue.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/priority"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/priority:
+
+      .. rst-class:: ansible-option-title
+
+      **priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/priority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A filter to select issues based on their priority. Acceptable values are:
+            - P1 (Highest Priority)
+            - P2
+            - P3
+            - P4 (Lowest Priority)
+          type: str required: false
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/site_hierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/site_hierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **site_hierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/site_hierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A filter to select issues based on the site location hierarchy. The format is "Global/Region/Location/Building", where each level is separated by a slash.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/start_datetime"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/start_datetime:
+
+      .. rst-class:: ansible-option-title
+
+      **start_datetime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/start_datetime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A filter to select issues that started at or after this date and time. The format is "YYYY-MM-DD HH:MM:SS".
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_system_issue_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **assurance_system_issue_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Manages system issue settings for assurance in Cisco Catalyst Center.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/description"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_system_issue_settings/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a detailed explanation of the system issue setting, including the specific threshold fields that require updates for the defined issue names. This field is essential for understanding which parameters need adjustment to align with the current system configurations and alerting criteria.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/issue_enabled"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_system_issue_settings/issue_enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **issue_enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/issue_enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A boolean value that determines whether the issue is enabled or disabled. Accepts "true" or "false".
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/name"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_system_issue_settings/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the system issue setting, used to identify the configuration in the system. Required when creating or updating an issue setting.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/priority"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_system_issue_settings/priority:
+
+      .. rst-class:: ansible-option-title
+
+      **priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/priority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the priority level of the issue.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"P1"`
+      - :ansible-option-choices-entry:`"P2"`
+      - :ansible-option-choices-entry:`"P3"`
+      - :ansible-option-choices-entry:`"P4"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/synchronize_to_health_threshold"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_system_issue_settings/synchronize_to_health_threshold:
+
+      .. rst-class:: ansible-option-title
+
+      **synchronize_to_health_threshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/synchronize_to_health_threshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A boolean value indicating whether the system issue should be synchronized to the health threshold. Accepts "true" or "false".
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/threshold_value"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_system_issue_settings/threshold_value:
+
+      .. rst-class:: ansible-option-title
+
+      **threshold_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/threshold_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The threshold value that triggers the issue. This is usually specified as a percentage or a numerical value depending on the nature of the issue. For example, for the issue "Wireless client exhibiting sticky behavior," the threshold could be a maximum RSSI value (e.g., -70 dBm). Similarly, for a "WLC Memory High Utilization", a threshold like 90% can be used. - \*\*Percentage-based thresholds\*\*: Must not exceed 100%. - \*\*dBm (decibel-milliwatts) thresholds\*\*: Must not exceed 0 dBm, meaning it should be a negative value.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **assurance_user_defined_issue_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configures user-defined issue settings for assurance in Cisco Catalyst Center. Allows defining issue names, descriptions, severity, priority, and rules governing network issues.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/description"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief explanation of the issue for clarity in reports and dashboards.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/is_enabled"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/is_enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **is_enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/is_enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enables or disables the issue setting.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/is_notification_enabled"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/is_notification_enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **is_notification_enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/is_notification_enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Boolean value to specify if notifications for this issue setting should be enabled.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/name"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the issue setting, used for identification in the system. Required when creating a new setting or updating an existing one.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/prev_name"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/prev_name:
+
+      .. rst-class:: ansible-option-title
+
+      **prev_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/prev_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The previous name of the issue setting (used when updating an existing issue setting).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/priority"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/priority:
+
+      .. rst-class:: ansible-option-title
+
+      **priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/priority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the priority of the issue.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"P1"`
+      - :ansible-option-choices-entry:`"P2"`
+      - :ansible-option-choices-entry:`"P3"`
+      - :ansible-option-choices-entry:`"P4"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/rules:
+
+      .. rst-class:: ansible-option-title
+
+      **rules**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A set of rules that define the parameters for triggering the issue. Includes severity, facility, mnemonic, pattern, occurrences, and duration.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/duration_in_minutes"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/rules/duration_in_minutes:
+
+      .. rst-class:: ansible-option-title
+
+      **duration_in_minutes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/duration_in_minutes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The duration, in minutes, for which the issue pattern must persist to be considered valid.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/facility"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/rules/facility:
+
+      .. rst-class:: ansible-option-title
+
+      **facility**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/facility" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The facility type that the rule applies to.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"CI"`
+      - :ansible-option-choices-entry:`"PLATFORM\_ENV"`
+      - :ansible-option-choices-entry:`"PLATFORM\_THERMAL"`
+      - :ansible-option-choices-entry:`"PLATFORM\_FEP"`
+      - :ansible-option-choices-entry:`"ENVMON"`
+      - :ansible-option-choices-entry:`"HARDWARE"`
+      - :ansible-option-choices-entry:`"SYS"`
+      - :ansible-option-choices-entry:`"ENVM"`
+      - :ansible-option-choices-entry:`"PLATFORM"`
+      - :ansible-option-choices-entry:`"CTS"`
+      - :ansible-option-choices-entry:`"THERMAL"`
+      - :ansible-option-choices-entry:`"SPA"`
+      - :ansible-option-choices-entry:`"IOSXE\_RP\_ALARM"`
+      - :ansible-option-choices-entry:`"ENVIRONMENT"`
+      - :ansible-option-choices-entry:`"SPANTREE"`
+      - :ansible-option-choices-entry:`"CMRP\_ENVMON"`
+      - :ansible-option-choices-entry:`"LISP"`
+      - :ansible-option-choices-entry:`"PM"`
+      - :ansible-option-choices-entry:`"UDLD"`
+      - :ansible-option-choices-entry:`"IP"`
+      - :ansible-option-choices-entry:`"SW\_MATM"`
+      - :ansible-option-choices-entry:`"CMRP\_PFU"`
+      - :ansible-option-choices-entry:`"C4K\_IOSMODPORTMAN"`
+      - :ansible-option-choices-entry:`"C6KENV"`
+      - :ansible-option-choices-entry:`"MAC\_MOVE"`
+      - :ansible-option-choices-entry:`"OSP"`
+      - :ansible-option-choices-entry:`"SFF8472"`
+      - :ansible-option-choices-entry:`"DUAL"`
+      - :ansible-option-choices-entry:`"DMI"`
+      - :ansible-option-choices-entry:`"BGP"`
+      - :ansible-option-choices-entry:`"REDUNDANCY"`
+      - :ansible-option-choices-entry:`"IFDAMP"`
+      - :ansible-option-choices-entry:`"CAPWAPAC\_SMGR\_TRACE\_MESSAGE"`
+      - :ansible-option-choices-entry:`"OSPF"`
+      - :ansible-option-choices-entry:`"DOT1X"`
+      - :ansible-option-choices-entry:`"ILPOWER"`
+      - :ansible-option-choices-entry:`"IOSXE\_OIR"`
+      - :ansible-option-choices-entry:`"TRANSCEIVER"`
+      - :ansible-option-choices-entry:`"SMART\_LIC"`
+      - :ansible-option-choices-entry:`"STANDBY"`
+      - :ansible-option-choices-entry:`"IOSXE\_PEM"`
+      - :ansible-option-choices-entry:`"PLATFORM\_STACKPOWER"`
+      - :ansible-option-choices-entry:`"ENV\_MON"`
+      - :ansible-option-choices-entry:`"IOSXE\_INFRA"`
+      - :ansible-option-choices-entry:`"STACKMGR"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/mnemonic"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/rules/mnemonic:
+
+      .. rst-class:: ansible-option-title
+
+      **mnemonic**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/mnemonic" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A system-generated identifier or label representing the issue.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"SHUT\_LC\_FANGONE"`
+      - :ansible-option-choices-entry:`"SHUTFANGONE"`
+      - :ansible-option-choices-entry:`"SHUTFANFAIL"`
+      - :ansible-option-choices-entry:`"SHUT\_LC\_FANFAIL"`
+      - :ansible-option-choices-entry:`"FRU\_PS\_FAN\_FAILED"`
+      - :ansible-option-choices-entry:`"RPS\_FAN\_FAILED"`
+      - :ansible-option-choices-entry:`"FRU\_PS\_FAN\_OK"`
+      - :ansible-option-choices-entry:`"FAN"`
+      - :ansible-option-choices-entry:`"FAN\_NOT\_PRESENT"`
+      - :ansible-option-choices-entry:`"FRU\_FAN\_OK"`
+      - :ansible-option-choices-entry:`"PLATFORM\_FAN\_CRITICAL"`
+      - :ansible-option-choices-entry:`"RPS\_PS\_FAN\_FAILED"`
+      - :ansible-option-choices-entry:`"FRU\_FAN\_FAILURE"`
+      - :ansible-option-choices-entry:`"FRU\_FAN\_RECOVERY"`
+      - :ansible-option-choices-entry:`"FAN\_CRITICAL"`
+      - :ansible-option-choices-entry:`"FRU\_FAN\_NOT\_PRESENT"`
+      - :ansible-option-choices-entry:`"FRU\_FAN\_DISABLED"`
+      - :ansible-option-choices-entry:`"FRU\_FAN\_INSUFFICIENTFANTRAYSDETECTEDPOWERDOWN"`
+      - :ansible-option-choices-entry:`"FRU\_PS\_SIGNAL\_FAULTY"`
+      - :ansible-option-choices-entry:`"FAN\_FAILURE\_LC\_SHUT"`
+      - :ansible-option-choices-entry:`"FAN\_MISSING"`
+      - :ansible-option-choices-entry:`"TOTALFANFAIL"`
+      - :ansible-option-choices-entry:`"NOFAN"`
+      - :ansible-option-choices-entry:`"THERMAL\_CRITICAL"`
+      - :ansible-option-choices-entry:`"OVERTEMP"`
+      - :ansible-option-choices-entry:`"OVERTEMP\_ALERT"`
+      - :ansible-option-choices-entry:`"PFM\_ALERT"`
+      - :ansible-option-choices-entry:`"PFU\_FAN\_FAILED"`
+      - :ansible-option-choices-entry:`"MODULECRITICALTEMP"`
+      - :ansible-option-choices-entry:`"CRITICALTEMP"`
+      - :ansible-option-choices-entry:`"AUTHZ\_POLICY\_SGACL\_ACE\_FAILED"`
+      - :ansible-option-choices-entry:`"THERMAL\_YELLOW\_THRESHOLD"`
+      - :ansible-option-choices-entry:`"THERMAL\_RED\_THRESHOLD"`
+      - :ansible-option-choices-entry:`"TEMP\_CRITICAL"`
+      - :ansible-option-choices-entry:`"PEM"`
+      - :ansible-option-choices-entry:`"FANOK"`
+      - :ansible-option-choices-entry:`"FAN\_FAULT"`
+      - :ansible-option-choices-entry:`"PS\_RED\_MODE\_CHG"`
+      - :ansible-option-choices-entry:`"PS\_FAIL"`
+      - :ansible-option-choices-entry:`"PS\_DETECT"`
+      - :ansible-option-choices-entry:`"PS\_ABSENT"`
+      - :ansible-option-choices-entry:`"BLOCK\_BPDUGUARD"`
+      - :ansible-option-choices-entry:`"MAJORTEMPALARM"`
+      - :ansible-option-choices-entry:`"PEER\_MONITOR"`
+      - :ansible-option-choices-entry:`"SWITCHOVER"`
+      - :ansible-option-choices-entry:`"STANDBY\_LOST"`
+      - :ansible-option-choices-entry:`"PARTIAL\_FAN\_FAIL"`
+      - :ansible-option-choices-entry:`"PARTFANFAIL"`
+      - :ansible-option-choices-entry:`"PSFANFAIL"`
+      - :ansible-option-choices-entry:`"DUPADDR"`
+      - :ansible-option-choices-entry:`"PEMCHASFSERR"`
+      - :ansible-option-choices-entry:`"PEMFAIL"`
+      - :ansible-option-choices-entry:`"FAN\_FAIL\_SHUTDOWN"`
+      - :ansible-option-choices-entry:`"FANFAIL"`
+      - :ansible-option-choices-entry:`"TEMP\_SYS\_SHUTDOWN\_PENDING"`
+      - :ansible-option-choices-entry:`"TEMP\_WARN\_CRITICAL"`
+      - :ansible-option-choices-entry:`"TEMP\_FRU\_SHUTDOWN\_PENDING"`
+      - :ansible-option-choices-entry:`"MAP\_CACHE\_WARNING\_THRESHOLD\_REACHED"`
+      - :ansible-option-choices-entry:`"LOCAL\_EID\_NO\_ROUTE"`
+      - :ansible-option-choices-entry:`"LOCAL\_EID\_MAP\_REGISTER\_FAILURE"`
+      - :ansible-option-choices-entry:`"CEF\_DISABLED"`
+      - :ansible-option-choices-entry:`"ERR\_DISABLE"`
+      - :ansible-option-choices-entry:`"UNDER\_BUDGET"`
+      - :ansible-option-choices-entry:`"VERSION\_MISMATCH"`
+      - :ansible-option-choices-entry:`"TOO\_MANY\_ERRORS"`
+      - :ansible-option-choices-entry:`"INSUFFICIENT\_PWR"`
+      - :ansible-option-choices-entry:`"REDUNDANCY\_LOSS"`
+      - :ansible-option-choices-entry:`"UDLD\_PORT\_DISABLED"`
+      - :ansible-option-choices-entry:`"DUPADDR"`
+      - :ansible-option-choices-entry:`"MACFLAP\_NOTIF"`
+      - :ansible-option-choices-entry:`"PFU\_FAN\_WARN"`
+      - :ansible-option-choices-entry:`"MODULETEMPHIGH"`
+      - :ansible-option-choices-entry:`"POWERSUPPLYBAD"`
+      - :ansible-option-choices-entry:`"CRITICALTEMP"`
+      - :ansible-option-choices-entry:`"MODULECRITICALTEMP"`
+      - :ansible-option-choices-entry:`"TEMPHIGH"`
+      - :ansible-option-choices-entry:`"FANTRAYREMOVED"`
+      - :ansible-option-choices-entry:`"TERMINATOR\_PS\_TEMP\_MAJORALARM"`
+      - :ansible-option-choices-entry:`"NOTIF"`
+      - :ansible-option-choices-entry:`"THRESHOLD\_VIOLATION"`
+      - :ansible-option-choices-entry:`"NBRCHANGE"`
+      - :ansible-option-choices-entry:`"SUCCESS"`
+      - :ansible-option-choices-entry:`"FAIL"`
+      - :ansible-option-choices-entry:`"SYNC\_NEEDED"`
+      - :ansible-option-choices-entry:`"SYNC\_START"`
+      - :ansible-option-choices-entry:`"ADJCHANGE"`
+      - :ansible-option-choices-entry:`"PEER\_MONITOR\_EVENT"`
+      - :ansible-option-choices-entry:`"UPDOWN"`
+      - :ansible-option-choices-entry:`"AP\_JOIN\_DISJOIN"`
+      - :ansible-option-choices-entry:`"ADJCHG"`
+      - :ansible-option-choices-entry:`"ILPOWER\_POWER\_DENY"`
+      - :ansible-option-choices-entry:`"REMSPA"`
+      - :ansible-option-choices-entry:`"INSSPA"`
+      - :ansible-option-choices-entry:`"OFFLINECARD"`
+      - :ansible-option-choices-entry:`"REMOVED"`
+      - :ansible-option-choices-entry:`"INSERTED"`
+      - :ansible-option-choices-entry:`"AGENT\_READY"`
+      - :ansible-option-choices-entry:`"HA\_ROLE\_CHANGED"`
+      - :ansible-option-choices-entry:`"AGENT\_ENABLED"`
+      - :ansible-option-choices-entry:`"STATECHANGE"`
+      - :ansible-option-choices-entry:`"REMPEM\_FM"`
+      - :ansible-option-choices-entry:`"PEMOK"`
+      - :ansible-option-choices-entry:`"CABLE\_EVENT"`
+      - :ansible-option-choices-entry:`"LINK\_EVENT"`
+      - :ansible-option-choices-entry:`"REMPEM"`
+      - :ansible-option-choices-entry:`"HASTATUS\_DETAIL"`
+      - :ansible-option-choices-entry:`"HASTATUS"`
+      - :ansible-option-choices-entry:`"PROCPATH\_CLIENT\_HOG"`
+      - :ansible-option-choices-entry:`"STACK\_LINK\_CHANGE"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/occurrences"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/rules/occurrences:
+
+      .. rst-class:: ansible-option-title
+
+      **occurrences**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/occurrences" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The number of times the issue pattern must occur before triggering the issue.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/pattern"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/rules/pattern:
+
+      .. rst-class:: ansible-option-title
+
+      **pattern**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/pattern" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A pattern or regular expression defining the issue detection criteria.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/severity"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_user_defined_issue_settings/rules/severity:
+
+      .. rst-class:: ansible-option-title
+
+      **severity**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/severity" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the severity level of the issue. The severity value can be an integer (0 to 6) or its corresponding string representation.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"0"`
+      - :ansible-option-choices-entry:`"1"`
+      - :ansible-option-choices-entry:`"2"`
+      - :ansible-option-choices-entry:`"3"`
+      - :ansible-option-choices-entry:`"4"`
+      - :ansible-option-choices-entry:`"5"`
+      - :ansible-option-choices-entry:`"6"`
+      - :ansible-option-choices-entry:`"Emergency"`
+      - :ansible-option-choices-entry:`"Alert"`
+      - :ansible-option-choices-entry:`"Critical"`
+      - :ansible-option-choices-entry:`"Error"`
+      - :ansible-option-choices-entry:`"Warning"`
+      - :ansible-option-choices-entry:`"Notice"`
+      - :ansible-option-choices-entry:`"Info"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to \`true\` to enable configuration verification on Cisco Catalyst Center after applying the playbook config. This will ensure that the system validates the configuration state after the change is applied.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the desired state for the configuration. If \`merged\`, the module will create or update the configuration, adding new settings or modifying existing ones. If \`deleted\`, it will remove the specified settings.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Methods used are issues.AssuranceSettings.get\_all\_the\_custom\_issue\_definitions\_based\_on\_the\_given\_filters issues.AssuranceSettings.creates\_a\_new\_user\_defined\_issue\_definitions issues.AssuranceSettings.deletes\_an\_existing\_custom\_issue\_definition issues.AssuranceSettings.resolve\_the\_given\_lists\_of\_issues issues.AssuranceSettings.ignore\_the\_given\_list\_of\_issues issues.AssuranceSettings.execute\_suggested\_action\_commands
+   - Paths used are POST /dna/intent/api/api/v1/customIssueDefinitions POST /dna/intent/api/v1/assuranceIssues/resolve POST /dna/intent/api/v1/execute-suggested-actions-commands POST /dna/intent/api/v1/assuranceIssues/ignore POST /dna/intent/api/v1/flow-analysis/${flowAnalysisId} POST /dna/intent/api/v1/flow-analysis PUT /dna/intent/api/v1/systemIssueDefinitions/${id} DELETE /dna/intent/api/v1/flow-analysis/{flowAnalysisId} DELETE /dna/intent/api/v1/customIssueDefinitions/{id}
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Create issue settings
+          cisco.dnac.assurance_issue_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: true
+            state: merged
+            config_verify: true
+            config:
+              - assurance_user_defined_issue_settings:
+                  - name: High CPU Usage Alert
+                    description: Triggers an alert when CPU usage exceeds threshold
+                    rules:
+                      - severity: Warning
+                        facility: redundancy
+                        mnemonic: peer monitor event
+                        pattern: issue test
+                        occurrences: 1
+                        duration_in_minutes: 2
+                    is_enabled: false
+                    priority: P1
+                    is_notification_enabled: false
+
+        - name: update issue settings
+          cisco.dnac.assurance_issue_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: true
+            state: merged
+            config_verify: true
+            config:
+              - assurance_user_defined_issue_settings:
+                  - prev_name: High CPU Usage Alert
+                    name: Excessive CPU Utilization Alert
+                    description: testing
+                    rules:
+                      - severity: "2"
+                        facility: redundancy
+                        mnemonic: peer monitor event
+                        pattern: issue test
+                        occurrences: 1
+                        duration_in_minutes: 2
+                    is_enabled: false
+                    priority: P1
+                    is_notification_enabled: false
+
+        - name: Delete issue settings
+          cisco.dnac.assurance_issue_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log_level: DEBUG
+            dnac_log: true
+            state: deleted
+            config_verify: true
+            config:
+              - assurance_user_defined_issue_settings:
+                  - name: High CPU Usage Alert
+
+    - hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Update System issue
+          cisco.dnac.assurance_issue_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: debug
+            dnac_log_append: true
+            state: merged
+            config_verify: true
+            config:
+              - assurance_system_issue_settings:
+                  - name: "Assurance telemetry status is poor"
+                    description: RF Noise (5GHz)
+                    device_type: WIRED_CLIENT
+                    synchronize_to_health_threshold: true
+                    priority: P1
+                    issue_enabled: false
+                    threshold_value: -10
+
+    - hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Resolving Issues
+          cisco.dnac.assurance_issue_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: debug
+            dnac_log_append: true
+            state: merged
+            config_verify: true
+            config:
+              - assurance_issue:
+                  - issue_name: Fabric BGP session status is down with Peer Device  # required field
+                    issue_process_type: resolution  # required field
+                    start_datetime: "2024-12-11 16:00:00"  # optional field
+                    end_datetime: "2024-12-11 18:30:00"  # optional field
+                    site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
+                    device_name: NY-EN-9300.cisco.local  # optional field
+                    priority: P4  # optional field
+                    issue_status: ACTIVE  # optional field
+                    mac_address: e4:38:7e:42:bc:40  # optional field
+                    network_device_ip_address: 204.1.2.4  # optional field
+
+        - name: Ignoring issues
+          cisco.dnac.assurance_issue_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: debug
+            dnac_log_append: true
+            state: merged
+            config_verify: true
+            config:
+              - assurance_issue:
+                  - issue_name: Fabric BGP session status is down with Peer Device  # required field
+                    issue_process_type: ignore  # required field
+                    start_datetime: "2024-12-11 16:00:00"  # optional field
+                    end_datetime: "2024-12-11 18:30:00"  # optional field
+                    site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
+                    device_name: NY-EN-9300.cisco.local  # optional field
+                    priority: P4  # optional field
+                    issue_status: ACTIVE  # optional field
+                    mac_address: e4:38:7e:42:bc:40  # optional field
+                    network_device_ip_address: 204.1.2.4  # optional field
+
+        - name: Execute suggested commands
+          cisco.dnac.assurance_issue_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: debug
+            dnac_log_append: true
+            state: merged
+            config_verify: true
+            config:
+              - assurance_issue:
+                  - issue_name: Fabric BGP session status is down with Peer Device  # required field
+                    issue_process_type: command_execution  # required field
+                    start_datetime: "2024-12-11 16:00:00"  # optional field
+                    end_datetime: "2024-12-11 18:30:00"  # optional field
+                    site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
+                    device_name: NY-EN-9300.cisco.local  # optional field
+                    priority: P4  # optional field
+                    issue_status: ACTIVE  # optional field
+                    mac_address: e4:38:7e:42:bc:40  # optional field
+                    network_device_ip_address: 204.1.2.4  # optional field
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-Response"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__return-response:
+
+      .. rst-class:: ansible-option-title
+
+      **Response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-Response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The response object containing execution details of suggested action commands.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`[{"executionId": "dbde5a27-c2aa-4045-ac5d-b0c216da7513", "executionStatusUrl": "/dna/intent/api/v1/dnacaap/management/execution-status/dbde5a27-c2aa-4045-ac5d-b0c216da7513", "message": "The request has been accepted for execution"}]`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_create"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__return-response_create:
+
+      .. rst-class:: ansible-option-title
+
+      **response_create**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_create" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Details of the response returned by the assurance settings create API.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"createdTime": 1672531200, "description": "string", "id": "string", "isDeletable": true, "isEnabled": true, "isNotificationEnabled": true, "lastUpdatedTime": 1672617600, "name": "string", "priority": "P1", "profileId": "string", "rules": [{"durationInMinutes": 15, "facility": "string", "mnemonic": "string", "occurrences": 3, "pattern": "string", "severity": 1, "type": "string"}], "triggerId": "string"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-Response_ignore"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__return-response_ignore:
+
+      .. rst-class:: ansible-option-title
+
+      **Response_ignore**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-Response_ignore" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The response after ignoring issues in Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"failureIssueIds": ["string"], "successfulIssueIds": ["string"]}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_resolved"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__return-response_resolved:
+
+      .. rst-class:: ansible-option-title
+
+      **response_resolved**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_resolved" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The response after resolving issues in Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"failureIssueIds": ["string"], "successfulIssueIds": ["string"]}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_update"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__return-response_update:
+
+      .. rst-class:: ansible-option-title
+
+      **response_update**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_update" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Details of the response returned by the assurance settings update API.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"createdTime": 1672531200, "description": "string", "id": "string", "isDeletable": true, "isEnabled": true, "isNotificationEnabled": true, "lastUpdatedTime": 1672617600, "name": "string", "priority": "P1", "profileId": "string", "rules": [{"durationInMinutes": 10, "facility": "string", "mnemonic": "string", "occurrences": 5, "pattern": "string", "severity": 1, "type": "string"}], "triggerId": "string"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_update_system_issue"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__return-response_update_system_issue:
+
+      .. rst-class:: ansible-option-title
+
+      **response_update_system_issue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_update_system_issue" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The response object containing detailed information about the issue or configuration.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"categoryName": "string", "defaultPriority": "string", "definitionStatus": "string", "description": "string", "deviceType": "string", "displayName": "string", "id": "string", "issueEnabled": "boolean", "lastModified": "string", "name": "string", "priority": "string", "profileId": "string", "synchronizeToHealthThreshold": "boolean", "thresholdValue": "number"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- A Mohamed Rafeek (@mabdulk2)
+- Megha Kandari (@mekandar)
+- Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
