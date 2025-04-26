@@ -1383,12 +1383,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     if dot11be_id != have_data.get(self.keymap[ssid_key]):
                         un_match_data[ssid_key] = input_data[ssid_key]
                 elif ssid_key in ["wlan_profile_name", "interface_name", "enable_fabric",
-                                "anchor_group_name", "policy_profile_name"]:
+                                  "anchor_group_name", "policy_profile_name"]:
                     if input_data[ssid_key] != have_data.get(self.keymap[ssid_key]):
                         un_match_data[ssid_key] = input_data[ssid_key]
                 elif ssid_key == "local_to_vlan":
                     if int(input_data[ssid_key]) != int(have_data.get(
-                    "flexConnect", {}).get(self.keymap[ssid_key])):
+                        "flexConnect", {}).get(self.keymap[ssid_key])):
                         un_match_data[ssid_key] = input_data[ssid_key]
         else:
             for zone_key, zone_value in input_data.items():
