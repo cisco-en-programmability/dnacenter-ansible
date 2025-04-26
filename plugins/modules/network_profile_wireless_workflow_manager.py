@@ -1387,8 +1387,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     if input_data[ssid_key] != have_data.get(self.keymap[ssid_key]):
                         un_match_data[ssid_key] = input_data[ssid_key]
                 elif ssid_key == "local_to_vlan":
-                    if int(input_data[ssid_key]) != int(have_data.get(
-                        "flexConnect", {}).get(self.keymap[ssid_key])):
+                    if int(input_data[ssid_key]) != int(have_data.get("flexConnect", {}).get(self.keymap[ssid_key])):
                         un_match_data[ssid_key] = input_data[ssid_key]
         else:
             for zone_key, zone_value in input_data.items():
