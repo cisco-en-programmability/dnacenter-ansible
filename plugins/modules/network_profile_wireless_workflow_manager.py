@@ -1256,9 +1256,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                                                             localToVlan=ssid_value)
 
                                         if ssid_key == "dot11be_profile_name" and ssid_value:
-                                            dot11e_id = self.get_dot11e_profile(ssid_value)
-                                            if dot11e_id:
-                                                ssid_data["dot11beProfileId"] = dot11e_id
+                                            dot11be_id = self.get_dot11be_profile(ssid_value)
+                                            if dot11be_id:
+                                                ssid_data["dot11beProfileId"] = dot11be_id
 
                                 if ssid_data.get("enableFabric"):
                                     remove_keys = ["flexConnect", "localToVlan",
@@ -1379,7 +1379,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         self.log("Found Un matched SSID {0}".format(
                             self.pprint(un_match_data[ssid_key])), "DEBUG")
                 elif ssid_key == "dot11be_profile_name" and input_data.get(ssid_key):
-                    dot11be_id = self.get_dot11e_profile(input_data.get(ssid_key))
+                    dot11be_id = self.get_dot11be_profile(input_data.get(ssid_key))
                     if dot11be_id != have_data.get(self.keymap[ssid_key]):
                         un_match_data[ssid_key] = input_data[ssid_key]
                 elif ssid_key in ["wlan_profile_name", "interface_name", "enable_fabric",
@@ -1406,27 +1406,27 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             un_match_data)), "INFO")
         return False, un_match_data
 
-    def get_dot11e_profile(self, dot11e_profile):
+    def get_dot11be_profile(self, dot11be_profile):
         """
-        Retrieve the dot11e profile details based on the profile name from Cisco Catalyst Center.
+        Retrieve the dot11be profile details based on the profile name from Cisco Catalyst Center.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            dot11e_profile (str): A string containing dot11e profile name.
+            dot11be_profile (str): A string containing dot11be profile name.
 
         Returns:
             list: A list contains templates assigned to the profile status.
         """
-        self.log("Retrieve dot11e profile details for profile: {0}".format(dot11e_profile), "DEBUG")
+        self.log("Retrieve dot11be profile details for profile: {0}".format(dot11be_profile), "DEBUG")
 
         param = {
-            "profile_name": dot11e_profile
+            "profile_name": dot11be_profile
         }
         func_name = "get80211be_profiles"
 
         try:
             response = self.execute_get_request("wireless", func_name, param)
-            self.log("Response from get dot11e profile API: {0}".
+            self.log("Response from get dot11be profile API: {0}".
                      format(self.pprint(response)), "DEBUG")
 
             if not response:
@@ -1434,12 +1434,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                          format(type(response).__name__), "ERROR")
                 return None
 
-            dot11e_id = response.get("response")[0].get("id")
-            self.log("Retrieved dot11e profile id: {0}".format(self.pprint(dot11e_id)), "DEBUG")
-            return dot11e_id
+            dot11be_id = response.get("response")[0].get("id")
+            self.log("Retrieved dot11be profile id: {0}".format(self.pprint(dot11be_id)), "DEBUG")
+            return dot11be_id
 
         except Exception as e:
-            msg = "Error retrieving get dot11e profile '{0}'".format(dot11e_profile)
+            msg = "Error retrieving get dot11be profile '{0}'".format(dot11be_profile)
             self.log(msg + str(e), "ERROR")
             self.set_operation_result("failed", False, msg, "INFO")
             return None
