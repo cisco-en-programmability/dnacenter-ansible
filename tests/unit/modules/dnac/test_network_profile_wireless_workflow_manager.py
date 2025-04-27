@@ -56,10 +56,37 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("wireless_profile_list"),
                 self.test_data.get("available_templates"),
-                self.test_data.get("available_templates"),
-                self.test_data.get("get_site_details_chn"),
+                self.test_data.get("get_site_details_mdu"),
+                self.test_data.get("get_site_details_mdu_child"),
                 self.test_data.get("get_site_details_global"),
-                self.test_data.get("get_site_details_global")
+                self.test_data.get("get_ssids_for_global"),
+                self.test_data.get("get_additional_interface1"),
+                self.test_data.get("get_dot11be_profile"),
+                self.test_data.get("response_for_profile_creation"),
+                self.test_data.get("get_task_details_response"),
+                self.test_data.get("get_task_progress"),
+                self.test_data.get("assign_site1_response"),
+                self.test_data.get("get_site1_task_details"),
+                self.test_data.get("get_site1_task_progress"),
+                self.test_data.get("assign_site1_response"),
+                self.test_data.get("get_site1_task_details"),
+                self.test_data.get("get_site1_task_progress"),
+                self.test_data.get("assign_site1_response"),
+                self.test_data.get("get_site1_task_details"),
+                self.test_data.get("get_site1_task_progress"),
+                self.test_data.get("assign_template1_response"),
+                self.test_data.get("get_template1_task_details"),
+                self.test_data.get("verify_wireless_profile_list"),
+                self.test_data.get("get_wireless_profile_details"),
+                self.test_data.get("available_templates"),
+                self.test_data.get("get_site_details_mdu"),
+                self.test_data.get("get_site_details_mdu_child"),
+                self.test_data.get("get_site_details_global"),
+                self.test_data.get("get_ssids_for_global"),
+                self.test_data.get("get_additional_interface1"),
+                self.test_data.get("get_cli_template_for_profile"),
+                self.test_data.get("get_site_list_for_profile"),
+                self.test_data.get("get_dot11be_profile")
             ]
 
     def test_network_profile_workflow_manager_profile_creation_fail(self):
@@ -86,6 +113,5 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "An exception occurred while retrieving Site details for Site 'global' " +
-            "does not exist in the Cisco Catalyst Center. Error: 'list' object has no attribute 'get'"
+            "Successfully retrieved the details from the system"
         )
