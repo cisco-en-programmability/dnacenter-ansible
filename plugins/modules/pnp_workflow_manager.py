@@ -417,6 +417,27 @@ class PnP(DnacBase):
             self.config, pnp_spec
         )
 
+        if valid_pnp and isinstance(valid_pnp, list):
+            self.log("Valid PnP configurations received: {0}".format(len(valid_pnp)), "DEBUG")
+
+            for index, each_config in enumerate(valid_pnp, 1):
+                self.log("Processing PnP config #{0}: {1}".format(index, each_config), "DEBUG")
+                device_info = each_config.get("device_info")
+                if device_info and isinstance(device_info, list):
+                    for device in device_info:
+
+                        serial_number = device.get("serial_number")
+                        if not serial_number:
+                            msg = "Serial Number missing in the Playbook config: {0}.".format(str(device))
+                            self.log(msg, "ERROR")
+                            invalid_params.append(msg)
+
+                        product_id = device.get("pid")
+                        if not product_id and self.payload.get("state") != "deleted":
+                            msg = "Product ID missing in the Playbook config: {0}.".format(str(device))
+                            self.log(msg, "ERROR")
+                            invalid_params.append(msg)
+
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
             self.log(str(self.msg), "ERROR")
@@ -694,8 +715,207 @@ class PnP(DnacBase):
             ]
         }
 
-        self.log("Paramters used for resetting from errored state:{0}".format(str(reset_params)), "INFO")
+        self.log("Paramters used for resetting from errored state:{0}".format(
+            self.pprint(reset_params)), "INFO")
         return reset_params
+
+    def bulk_devices_import(self, add_devices):
+        """
+        Add Multiple devices to the Cisco Catalyst Center.
+
+        Parameters:
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
+            add_devices (list): List contains new devices with serial number.
+
+        Returns:
+            self: The method returns an instance of the class with updated attributes:
+        """
+        self.log("Starting bulk import of {0} device(s).".format(len(add_devices)), "INFO")
+
+        for index, device in enumerate(add_devices, 1):
+            device_info = device.get("deviceInfo", {})
+
+            if not device_info:
+                self.msg = "device_info: missing in the Playbook config: {0}.".format(
+                    self.pprint(add_devices))
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            serial_number = device_info.get("serialNumber")
+            if not serial_number:
+                self.msg = "Serial Number missing in Playbook config at index {0}: {1}".format(
+                    index, str(device))
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            product_id = device_info.get("pid")
+            if not product_id:
+                self.msg = "Product ID missing in Playbook config at index {0}: {1}".format(
+                    index, str(device))
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            self.log("Validated device #{0}: Serial - {1}, PID - {2}".format(
+                index, serial_number, product_id), "DEBUG")
+
+        self.log("Payload devices data to process bulk import: {0}.".format(
+            self.pprint(add_devices)), "DEBUG")
+
+        try:
+            bulk_params = self.dnac_apply['exec'](
+                family="device_onboarding_pnp",
+                function="import_devices_in_bulk",
+                params={"payload": add_devices},
+                op_modifies=True,
+            )
+            self.log("Response from API 'import_devices_in_bulk' for imported devices: {0}".
+                     format(bulk_params), "DEBUG")
+
+            if bulk_params.get("failureList"):
+                self.msg = "Unable to import below {0} device(s). ".format(
+                    len(bulk_params.get("failureList")))
+                self.set_operation_result("failed", False, self.msg, "ERROR",
+                                          bulk_params).check_return_status()
+
+            self.result['msg'] = "{0} device(s) imported successfully".format(
+                len(bulk_params.get("successList")))
+            self.log(self.result['msg'], "INFO")
+            self.result['response'] = bulk_params
+            self.result['diff'] = self.validated_config
+            self.result['changed'] = True
+            return self
+
+        except Exception as e:
+            msg = "Unable execute the function 'import_devices_in_bulk' for the payload: '{0}'. ".format(
+                self.pprint(add_devices))
+            self.log(msg + str(e), "ERROR")
+            self.fail_and_exit(msg)
+
+        self.msg = "Bulk import failed"
+        self.log(self.msg, "CRITICAL")
+        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        return self
+
+    def compare_config_with_device_info(self, input_config, device_info):
+        """
+        Compare the input config with the device info.
+
+        Parameters:
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
+            input_config (dict): Dictionary containing each config element from the playbook.
+            device_info (dict): Dictionary containing PnP device details to compare.
+
+        Returns:
+            tuple:
+                bool: True if all input config values match the device info, False otherwise.
+                int: The number of keys with mismatched values.
+        """
+        unmatch_count = 0
+        for key, value in input_config.items():
+            device_value = device_info.get(key)
+            if value != device_value:
+                self.log("Mismatch found for key '{0}': expected '{1}', got '{2}'".format(
+                    key, value, device_value), "DEBUG")
+                unmatch_count += 1
+
+        if unmatch_count > 0:
+            self.log("{0} mismatched key(s) found between input config and device info.".
+                     format(unmatch_count), "INFO")
+            return False, unmatch_count
+
+        self.log("Input config matches device info.", "DEBUG")
+        return True, 0
+
+    def update_device_info(self, input_config, device_info, device_id):
+        """
+        Update the input configuration with device information and stack status,
+        then push to Cisco Catalyst Center.
+
+        Parameters:
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
+            input_config (dict): Dictionary containing each configuration element from the playbook.
+            device_info (dict): Dictionary containing PnP device details used to verify stack information.
+            device_id (str): ID of the device to be updated in Cisco Catalyst Center.
+
+        Returns:
+            dict: Response from the 'update_device' API after attempting to update the device.
+            If update fails, it logs the error and exits the execution.
+        """
+        update_payload = {}
+        if not input_config:
+            self.msg = "No input_config provided for update."
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        is_stack = device_info.get("deviceInfo", {}).get("stack", False)
+        update_payload = {
+            "deviceInfo": input_config.copy()
+        }
+        update_payload["deviceInfo"]["stack"] = is_stack
+
+        self.log("The request sent for 'update_device' API for device ID {0}: {1}".format(
+            device_id, self.pprint(update_payload)), "DEBUG")
+
+        try:
+            update_response = self.dnac_apply['exec'](
+                family="device_onboarding_pnp",
+                function="update_device",
+                params={"id": device_id,
+                        "payload": update_payload},
+                op_modifies=True
+            )
+            self.log("Response from 'update_device' API for device's config update: {0}".
+                     format(self.pprint(update_response)), "DEBUG")
+
+            if update_response and isinstance(update_response, dict):
+                return update_response
+
+            self.log("Received unexpected response from 'update_device' API for device ID {0}".
+                     format(device_id), "ERROR")
+
+        except Exception as e:
+            self.msg = "Unable execute the function 'update_device' for the payload: '{0}'. ".format(
+                self.pprint(update_payload))
+            self.log(self.msg + str(e), "ERROR")
+            self.fail_and_exit(self.msg)
+
+    def reset_error_device(self, device_id):
+        """
+        Reset the error-state device configuration to resynchronize with Cisco Catalyst Center.
+
+        Parameters:
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
+            device_id (str): The unique identifier of the device to be reset.
+
+        Returns:
+            dict: The response returned after attempting to reset the device.
+        """
+        try:
+            reset_parameters = self.get_reset_params()
+            if device_id:
+                reset_parameters["deviceResetList"][0]["deviceId"] = device_id
+            self.log("Starting to reset the error device: {0}".format(
+                self.pprint(reset_parameters)), "INFO")
+            reset_response = self.dnac_apply['exec'](
+                family="device_onboarding_pnp",
+                function="reset_device",
+                params={"payload": reset_parameters},
+                op_modifies=True,
+            )
+            self.log("Response from 'update_device' API for errored state resolution: {0}".
+                     format(str(reset_response)), "DEBUG")
+            if reset_response and isinstance(reset_response, dict):
+                self.log("Device '{0}' reset completed successfully.".format(device_id), "INFO")
+                return reset_response
+            else:
+                msg = "Failed to reset device with ID: {0}".format(device_id)
+                self.log(msg, "INFO")
+                self.fail_and_exit(msg)
+
+        except Exception as e:
+            self.msg = "Failed to execute 'reset_device' for device ID '{0}': ".format(device_id)
+            self.log(self.msg + str(e), "ERROR")
+            self.fail_and_exit(self.msg)
 
     def get_have(self):
         """
@@ -832,6 +1052,7 @@ class PnP(DnacBase):
         self.log(self.msg, "INFO")
         self.status = "success"
         self.have = have
+        self.log("Current State (have): {0}".format(self.pprint(self.have)), "DEBUG")
         return self
 
     def get_want(self, config):
@@ -884,6 +1105,7 @@ class PnP(DnacBase):
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
         self.log(self.msg, "INFO")
+        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "DEBUG")
         self.status = "success"
 
         return self
@@ -910,77 +1132,84 @@ class PnP(DnacBase):
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        # Check the device already added and claimed for idempotent
+        # Check the device already added and claimed for idempotent or import devices
         if self.want.get('pnp_params'):
-            claimed_devices, unclaimed_devices = [], []
+            devices_exists, devices_not_exist, reset_devices = [], [], []
+            site = self.want.get('site_name')
+            template_name = self.want.get('template_name')
+            image_name = self.want.get('image_params', {}).get("image_name")
+            self.log("Provisioning context - Site: '{0}', Template: '{1}', Image: '{2}'".format(
+                site, template_name, image_name), "DEBUG")
 
-            for each_device in self.want.get('pnp_params'):
+            pnp_devices = self.want.get('pnp_params')
+            self.log("Total devices to process: {0}".format(len(pnp_devices)), "DEBUG")
+
+            for each_device in pnp_devices:
                 serial_number = each_device.get("deviceInfo", {}).get("serialNumber")
-                if serial_number:
-                    device_response = self.get_device_list_pnp(serial_number)
-                    self.log("Response of PNP Device info of: '{0}': {1}".format(
-                        serial_number, self.pprint(device_response)), "DEBUG")
-                    if device_response and isinstance(device_response, dict):
-                        claim_stat = device_response.get("deviceInfo", {}).get("state")
-                        if claim_stat == "Unclaimed":
-                            unclaimed_devices.append(serial_number)
+                if not serial_number:
+                    self.log("Skipping device entry due to missing serial number: {0}".format(
+                        self.pprint(each_device.get("deviceInfo"))), "WARNING")
+                    continue
+
+                device_response = self.get_device_list_pnp(serial_number)
+                self.log("Response of PNP Device info of: '{0}': {1}".format(
+                    serial_number, self.pprint(device_response)), "DEBUG")
+
+                if device_response and isinstance(device_response, dict):
+                    device_info = device_response.get("deviceInfo", {})
+                    existing_device_info = each_device.get("deviceInfo")
+                    match_stat, un_match = self.compare_config_with_device_info(device_info, existing_device_info)
+                    claim_stat = device_info.get("state")
+
+                    self.log("Device '{0}': Claim Status = '{1}', Config Match = '{2}'".format(
+                        serial_number, claim_stat, match_stat), "DEBUG")
+
+                    if not (claim_stat == "Provision" and match_stat):
+                        self.log("Updating device info for serial: '{0}' as it's not provisioned or config doesn't match.".format(
+                            serial_number), "DEBUG")
+                        self.update_device_info(existing_device_info, device_info, device_response.get("id"))
+                    else:
+                        self.log("Device '{0}' already provisioned with matching config. No update needed.".format(
+                            serial_number), "DEBUG")
+
+                    if claim_stat == "Error" and not site:
+                        self.log("Device '{0}' is in 'Error' state and has no site. Attempting reset.".format(
+                            serial_number), "DEBUG")
+                        reset_response = self.reset_error_device(device_response.get("id"))
+                        if reset_response:
+                            self.log("Device '{0}' reset successful.".format(serial_number), "DEBUG")
+                            reset_devices.append(serial_number)
                         else:
-                            claimed_devices.append(serial_number)
+                            self.log("Device '{0}' reset failed or skipped.".format(serial_number), "DEBUG")
 
-            self.log("Device Status - Claimed: '{0}', Unclaimed: '{1}'".format(
-                len(claimed_devices), len(unclaimed_devices)), "DEBUG")
+                    if (claim_stat in ("Provision", "Claimed", "Planned")
+                        or (claim_stat in ("Unclaimed", "Error")
+                            and not site)):
+                        self.log("Device '{0}' considered as existing based on claim status '{1}'.".format(
+                            serial_number, claim_stat), "DEBUG")
+                        devices_exists.append(serial_number)
+                else:
+                    self.log("No valid device info returned for serial: '{0}'. Marking as not existing.".format(
+                        serial_number), "DEBUG")
+                    devices_not_exist.append(each_device)
 
-            if not unclaimed_devices and claimed_devices:
-                self.msg = "Unable to import the following {0} device(s): already added and claimed.".format(
-                    claimed_devices)
-                self.set_operation_result("success", False, self.msg, "ERROR", claimed_devices).check_return_status()
+            self.log("Device check summary - Exists: {0}, Not Exists: {1}".format(
+                len(devices_exists), len(devices_not_exist)), "DEBUG")
+
+            if devices_exists and len(devices_exists) == len(self.want.get('pnp_params')):
+                self.msg = "All specified devices already exist and cannot be imported again: {0}.".format(
+                    devices_exists)
+                changed = False
+                if reset_devices:
+                    self.msg = self.msg + " Devices reset done ({0})".format(str(reset_devices))
+                    changed = True
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", changed, self.msg, "INFO", devices_exists).check_return_status()
                 return self
 
-        if len(self.want.get("pnp_params")) > 1:
-            devices_added = []
-            for device in self.want.get("pnp_params"):
-                multi_device_response = self.get_device_list_pnp(device["deviceInfo"]["serialNumber"])
-                self.log("Device details for serial number {0} \
-                        obtained from the API 'get_device_list': {1}".format(device["deviceInfo"]["serialNumber"],
-                                                                             str(multi_device_response)), "DEBUG")
-                if (multi_device_response and (len(multi_device_response) == 1)):
-                    devices_added.append(device)
-                    self.log("Details of the added device:{0}".format(str(device)), "INFO")
-            if len(self.want.get("pnp_params")) == len(devices_added):
-                self.result['response'] = []
-                self.result['msg'] = "Devices are already added"
-                self.log(self.result['msg'], "WARNING")
-                return self
-
-            bulk_list = [
-                device
-                for device in self.want.get("pnp_params")
-                if device not in devices_added
-            ]
-            bulk_params = self.dnac_apply['exec'](
-                family="device_onboarding_pnp",
-                function="import_devices_in_bulk",
-                params={"payload": bulk_list},
-                op_modifies=True,
-            )
-            self.log("Response from API 'import_devices_in_bulk' for imported devices: {0}".format(bulk_params), "DEBUG")
-            if len(bulk_params.get("successList")) > 0:
-                self.result['msg'] = "{0} device(s) imported successfully".format(
-                    len(bulk_params.get("successList")))
-                self.log(self.result['msg'], "INFO")
-                self.result['response'] = bulk_params
-                self.result['diff'] = self.validated_config
-                self.result['changed'] = True
-                return self
-            elif bulk_params.get("failureList"):
-                self.msg = "Unable to import below {0} device(s). ".format(
-                    len(bulk_params.get("failureList")))
-                self.set_operation_result("failed", False, self.msg, "ERROR",
-                                          bulk_params).check_return_status()
-
-            self.msg = "Bulk import failed"
-            self.log(self.msg, "CRITICAL")
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            if devices_not_exist and not site:
+                self.log("Initiating bulk import for devices not found in PnP list.", "DEBUG")
+                return self.bulk_devices_import(devices_not_exist)
 
         provisioned_count_params = {
             "serial_number": self.want.get("serial_number"),
@@ -1052,9 +1281,6 @@ class PnP(DnacBase):
         dev_details_response = self.get_device_by_id_pnp(self.have["device_id"])
         self.log("Response from 'get_device_by_id' API for device details: {0}".format(str(dev_details_response)), "DEBUG")
 
-        is_stack = False
-        if dev_details_response.get("deviceInfo").get("stack"):
-            is_stack = dev_details_response.get("deviceInfo").get("stack")
         pnp_state = dev_details_response.get("deviceInfo").get("state")
         self.log("PnP state of the device: {0}".format(pnp_state), "INFO")
 
@@ -1064,35 +1290,19 @@ class PnP(DnacBase):
             self.log(self.result['msg'], "WARNING")
             return self
 
-        update_payload = {"deviceInfo": self.want.get('pnp_params')[0].get("deviceInfo")}
-        update_payload["deviceInfo"]["stack"] = is_stack
-
-        self.log("The request sent for 'update_device' API for device's config update: {0}".format(update_payload), "DEBUG")
-        update_response = self.dnac_apply['exec'](
-            family="device_onboarding_pnp",
-            function="update_device",
-            params={"id": self.have["device_id"],
-                    "payload": update_payload},
-            op_modifies=True,
-        )
-        self.log("Response from 'update_device' API for device's config update: {0}".format(str(update_response)), "DEBUG")
+        update_response = self.update_device_info(
+            self.want.get('pnp_params')[0].get("deviceInfo"),
+            dev_details_response, self.have["device_id"])
 
         if pnp_state == "Error":
-            reset_paramters = self.get_reset_params()
-            reset_response = self.dnac_apply['exec'](
-                family="device_onboarding_pnp",
-                function="reset_device",
-                params={"payload": reset_paramters},
-                op_modifies=True,
-            )
-            self.log("Response from 'update_device' API for errored state resolution: {0}".format(str(reset_response)), "DEBUG")
-            self.result['msg'] = "Device reset done Successfully"
-            self.log(self.result['msg'], "INFO")
-            self.result['response'] = reset_response
-            self.result['diff'] = self.validated_config
-            self.result['changed'] = True
-
-            return self
+            reset_response = self.reset_error_device(self.have["device_id"])
+            if reset_response:
+                self.msg = "Device reset done Successfully"
+                self.log(self.msg, "INFO")
+                self.result['diff'] = self.validated_config
+                self.set_operation_result("success", True, self.msg, "INFO",
+                                          reset_response).check_return_status()
+                return self
 
         if not (
             prov_dev_response.get("response") == 0 and
