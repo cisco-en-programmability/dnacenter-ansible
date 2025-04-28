@@ -1243,8 +1243,8 @@ EXAMPLES = r"""
     config:
       - devices_maintenance_schedule:
           - device_ips:
-            - "204.1.2.2"
-            - "204.1.2.3"
+              - "204.1.2.2"
+              - "204.1.2.3"
 """
 RETURN = r"""
 dnac_response:
