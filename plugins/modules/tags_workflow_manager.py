@@ -16,7 +16,7 @@ short_description: Create/ Update/ Delete Tag(s) and Tag Memberships in Cisco Ca
 description:
   - This module helps users create, update, and delete tags, as well as manage tag memberships in Cisco Catalyst Center.
   - It provides the ability to define dynamic rules for tagging devices and ports, ensuring that devices and ports are
-    automatically tagged based various matching criterias.
+    automatically tagged based various matching criteria.
   - Users can assign, update, or delete tags on devices and ports based on attributes such as IP Address, MAC Address,
     hostnames, serial numbers, or port names.
   - The module also facilitates assigning, updating, or deleting tags for devices and ports within specific sites,
@@ -44,7 +44,7 @@ options:
   config:
     description: >
       A list of dictionaries defining attributes and parameters required for managing tags and tag memberships.
-      It is used to configure REST endpoints that receive audit logs and events from Cisco Catalyst Center.
+      It is used to configure tag and tag membership operations in Cisco Catalyst Center.
     type: list
     elements: dict
     required: true
@@ -333,7 +333,7 @@ notes:
   - If `force_delete` is set to `true` in deleted state, the tag will be forcibly removed from all associated devices and ports, and the tag will be deleted.
   - In device_rules and port_rules, rules with the same rule_name are ORed together, while rules with different rule_name values are ANDed together.
   - Each device or interface can have a maximum of 500 tags assigned.
-  - SDK Method used are
+  - SDK Methods used are
     tags.Tag.add_members_to_the_tag
     tags.Tag.create_tag
     tags.Tag.delete_tag
@@ -1192,7 +1192,7 @@ class Tags(DnacBase):
         rule_name = rule_name.lower()
         if rule_name not in rule_name_choices:
             errors.append(
-                "Rule Name provided: {0} is Invalid. Rulename should be one of {1}"
+                "Rule Name provided: {0} is Invalid. Rule name should be one of {1}"
             ).format(rule_name, rule_name_choices)
 
         return self
@@ -1324,7 +1324,7 @@ class Tags(DnacBase):
         device_rules = tag.get("device_rules")
 
         if not device_rules:
-            self.log("No Device Rule is provided", "INFO")
+            self.log("No Device Rule are provided", "INFO")
             return None
 
         rule_descriptions = device_rules.get("rule_descriptions")
@@ -1414,7 +1414,7 @@ class Tags(DnacBase):
         )
 
         if not scope_description:
-            self.log("Port Rules do not contain scope descrption.", "INFO")
+            self.log("Port Rules do not contain scope description.", "INFO")
             return {}
 
         errors = []
@@ -1539,13 +1539,13 @@ class Tags(DnacBase):
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
 
-            valudated_port_rule = {
+            validated_port_rule = {
                 "rule_name": rule_name,
                 "search_pattern": search_pattern,
                 "value": value,
                 "operation": operation,
             }
-            validated_rule_descriptions.append(valudated_port_rule)
+            validated_rule_descriptions.append(validated_port_rule)
 
         self.log(
             "Port Rule Description validation completed. Validated Port rule descriptions: {0}".format(
@@ -1589,7 +1589,7 @@ class Tags(DnacBase):
         if not rule_descriptions and not scope_description:
             self.msg = (
                 "Port Rules does not contain the rule descriptions and the scope description."
-                "Both are required for creation of dynamic rules and atleast one is required for updation or deletion."
+                "Both are required for creation of dynamic rules and atleast one is required for update or delete."
             )
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
@@ -2289,7 +2289,7 @@ class Tags(DnacBase):
 
         formatted_rule_descriptions = []
 
-        # Checking if rule_desctiptions exist because in case of updation, only one of scope/rules can be given.
+        # Checking if rule_desctiptions exist because in case of update, only one of scope/rules can be given.
         if rule_descriptions:
             for port_rule in rule_descriptions:
                 formatted_rule_description = self.format_rule_representation(port_rule)
@@ -3052,7 +3052,7 @@ class Tags(DnacBase):
             )
             # Check if the response is empty
             self.log(
-                "Received API response from 'get_device_list' for the Device with Id: {0}, {1}".format(
+                "Received API response from 'get_device_list' for the Device with ID: {0}, {1}".format(
                     device_id, str(response)
                 ),
                 "DEBUG",
@@ -3060,7 +3060,7 @@ class Tags(DnacBase):
             response = response.get("response")
 
             if not response:
-                self.msg = "No Device details retrieved for Device with Id: {0}, Response empty.".format(
+                self.msg = "No Device details retrieved for Device with ID: {0}, Response empty.".format(
                     device_id
                 )
                 self.log(self.msg, "DEBUG")
@@ -3076,7 +3076,7 @@ class Tags(DnacBase):
             return device_name
 
         except Exception as e:
-            self.msg = """Error while getting the details of Device with Id: {0} present in
+            self.msg = """Error while getting the details of Device with ID: {0} present in
             Cisco Catalyst Center: {1}""".format(
                 device_id, str(e)
             )
@@ -4857,7 +4857,7 @@ class Tags(DnacBase):
 
         tag_name = tag.get("name")
         self.log(
-            "Starting Tag Creation/Updation for the Tag: {0}".format(tag_name), "DEBUG"
+            "Starting Tag Create/Update Operation for the Tag: {0}".format(tag_name), "DEBUG"
         )
         self.initialize_batch_size_values(tag)
 
@@ -4911,7 +4911,7 @@ class Tags(DnacBase):
             updates the tag memberships for devices and interfaces as needed.
         """
 
-        self.log("Starting Tag Membership Creation/Updation", "DEBUG")
+        self.log("Starting Tag Membership Create/Update Operation", "DEBUG")
         self.initialize_batch_size_values(tag_memberships)
 
         tag_names = tag_memberships.get("tags")
@@ -5116,7 +5116,7 @@ class Tags(DnacBase):
             - Calls `updating_tag_memberships` to handle the membership modification.
         """
 
-        self.log("Starting Tag Membership Creation/Updation", "DEBUG")
+        self.log("Starting Tag Membership Create/Update Operation", "DEBUG")
         self.initialize_batch_size_values(tag_memberships)
 
         tag_names = tag_memberships.get("tags")
@@ -5497,7 +5497,7 @@ class Tags(DnacBase):
         port_rules = tag.get("port_rules")
 
         if description or device_rules or port_rules:
-            #  Updation Case
+            #  Update Case
             if not tag_in_ccc:
                 verify_diff = False
                 self.log(
