@@ -810,7 +810,7 @@ class VirtualNetwork(DnacBase):
                 op_modifies=False,
                 params={"site_id": site_id},
             )
-            self.log("Received API response from 'get_fabric_zones' for the site '{0}': {1}".format(site_name, str(response)), "CRITICAL")
+            self.log("Received API response from 'get_fabric_zones' for the site '{0}': {1}".format(site_name, str(response)), "DEBUG")
             if not response:
                 self.log("Given site '{0}' is not a fabric zone in Cisco Catalyst Center.".format(site_name), "INFO")
                 return fabric_zone_id
@@ -3371,7 +3371,7 @@ class VirtualNetwork(DnacBase):
                     if fabric_ids[0] == anchor_site and len(fabric_ids) == 1:
                         if len(vn_in_ccc.get("fabricIds")) > 1:
                             self.msg = (
-                                "Given Anchored VN '{0}' contains the subscriber sites so in order to delete the main site  "
+                                "Given Anchored VN '{0}' contains the subscriber sites, so in order to delete the main site, "
                                 "please remove the subscriber sites."
                             ).format(vn_name)
                             self.fail_and_exit(self.msg)
