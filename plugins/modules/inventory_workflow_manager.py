@@ -1118,12 +1118,12 @@ EXAMPLES = r"""
     config:
       - devices_maintenance_schedule:
           - device_ips:
-            - "204.1.2.2"
-            - "204.1.2.3"
-          description: "Schedule maintenance for 2 devices"
-          start_time: "2025-04-05 10:30:00"
-          end_time: "2025-04-05 11:30:00"
-          time_zone: "Asia/Kolkata"
+              - "204.1.2.2"
+              - "204.1.2.3"
+            description: "Schedule maintenance for 2 devices"
+            start_time: "2025-04-05 10:30:00"
+            end_time: "2025-04-05 11:30:00"
+            time_zone: "Asia/Kolkata"
 
 - name: Schedule the maintenance for the devices with recurrence interval and recurrence end time.
   cisco.dnac.inventory_workflow_manager:
@@ -1140,14 +1140,14 @@ EXAMPLES = r"""
     config:
       - devices_maintenance_schedule:
           - device_ips:
-            - "204.1.2.2"
-            - "204.1.2.3"
-          description: "Schedule maintenance for 2 devices"
-          start_time: "2025-04-05 10:30:00"
-          end_time: "2025-04-05 11:30:00"
-          time_zone: "Asia/Kolkata"
-          recurrence_end_time: "2025-04-10 11:40:00"
-          recurrence_interval: 2
+              - "204.1.2.2"
+              - "204.1.2.3"
+            description: "Schedule maintenance for 2 devices"
+            start_time: "2025-04-05 10:30:00"
+            end_time: "2025-04-05 11:30:00"
+            ime_zone: "Asia/Kolkata"
+            recurrence_end_time: "2025-04-10 11:40:00"
+            recurrence_interval: 2
 
 - name: Update the maintenance schedule for the devices.
   cisco.dnac.inventory_workflow_manager:
@@ -1164,14 +1164,14 @@ EXAMPLES = r"""
     config:
       - devices_maintenance_schedule:
           - device_ips:
-            - "204.1.2.2"
-            - "204.1.2.3"
-          description: "Updated description for maintenance of 2 devices"
-          start_time: "2025-04-05 10:30:00"
-          end_time: "2025-04-05 11:30:00"
-          time_zone: "Asia/Kolkata"
-          recurrence_end_time: "2025-04-10 11:40:00"
-          recurrence_interval: 1
+              - "204.1.2.2"
+              - "204.1.2.3"
+            description: "Updated description for maintenance of 2 devices"
+            start_time: "2025-04-05 10:30:00"
+            end_time: "2025-04-05 11:30:00"
+            time_zone: "Asia/Kolkata"
+            recurrence_end_time: "2025-04-10 11:40:00"
+            recurrence_interval: 1
 
 - name: Delete Provision/Unprovision Devices by IP Address
   cisco.dnac.inventory_workflow_manager:
@@ -1223,10 +1223,10 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address_list:
-        - "204.1.2.2"
-        - "204.1.2.3"
-      add_user_defined_field:
-        - name: "Test123"
+          - "204.1.2.2"
+          - "204.1.2.3"
+        add_user_defined_field:
+          - name: "Test123"
 
 - name: Delete the maintenance schedule for the devices.
   cisco.dnac.inventory_workflow_manager:
@@ -1245,7 +1245,6 @@ EXAMPLES = r"""
           - device_ips:
             - "204.1.2.2"
             - "204.1.2.3"
-
 """
 RETURN = r"""
 dnac_response:
