@@ -1,16 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: swim_image_details_v1_info
 short_description: Information module for Swim Image Details V1
 description:
-- Get all Swim Image Details V1.
-- Returns software image list based on a filter criteria. For example "filterbyName = cat3k%".
+  - Get all Swim Image Details V1.
+  - Returns software image list based on a filter criteria. For example "filterbyName
+    = cat3k%".
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,92 +20,89 @@ options:
     type: dict
   imageUuid:
     description:
-    - ImageUuid query parameter.
+      - ImageUuid query parameter.
     type: str
   name:
     description:
-    - Name query parameter.
+      - Name query parameter.
     type: str
   family:
     description:
-    - Family query parameter.
+      - Family query parameter.
     type: str
   applicationType:
     description:
-    - ApplicationType query parameter.
+      - ApplicationType query parameter.
     type: str
   imageIntegrityStatus:
     description:
-    - ImageIntegrityStatus query parameter. ImageIntegrityStatus - FAILURE, UNKNOWN, VERIFIED.
+      - ImageIntegrityStatus query parameter. ImageIntegrityStatus - FAILURE, UNKNOWN,
+        VERIFIED.
     type: str
   version:
     description:
-    - Version query parameter. Software Image Version.
+      - Version query parameter. Software Image Version.
     type: str
   imageSeries:
     description:
-    - ImageSeries query parameter. Image Series.
+      - ImageSeries query parameter. Image Series.
     type: str
   imageName:
     description:
-    - ImageName query parameter. Image Name.
+      - ImageName query parameter. Image Name.
     type: str
   isTaggedGolden:
     description:
-    - IsTaggedGolden query parameter. Is Tagged Golden.
+      - IsTaggedGolden query parameter. Is Tagged Golden.
     type: bool
   isCCORecommended:
     description:
-    - IsCCORecommended query parameter. Is recommended from cisco.com.
+      - IsCCORecommended query parameter. Is recommended from cisco.com.
     type: bool
   isCCOLatest:
     description:
-    - IsCCOLatest query parameter. Is latest from cisco.com.
+      - IsCCOLatest query parameter. Is latest from cisco.com.
     type: bool
   createdTime:
     description:
-    - CreatedTime query parameter. Time in milliseconds (epoch format).
+      - CreatedTime query parameter. Time in milliseconds (epoch format).
     type: int
   imageSizeGreaterThan:
     description:
-    - ImageSizeGreaterThan query parameter. Size in bytes.
+      - ImageSizeGreaterThan query parameter. Size in bytes.
     type: int
   imageSizeLesserThan:
     description:
-    - ImageSizeLesserThan query parameter. Size in bytes.
+      - ImageSizeLesserThan query parameter. Size in bytes.
     type: int
   sortBy:
     description:
-    - SortBy query parameter. Sort results by this field.
+      - SortBy query parameter. Sort results by this field.
     type: str
   sortOrder:
     description:
-    - SortOrder query parameter. Sort order - 'asc' or 'des'. Default is asc.
+      - SortOrder query parameter. Sort order - 'asc' or 'des'. Default is asc.
     type: str
   limit:
     description:
-    - Limit query parameter.
+      - Limit query parameter.
     type: int
   offset:
     description:
-    - Offset query parameter.
+      - Offset query parameter.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) GetSoftwareImageDetailsV1
-  description: Complete reference of the GetSoftwareImageDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-software-image-details
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetSoftwareImageDetailsV1
+    description: Complete reference of the GetSoftwareImageDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-software-image-details
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/image/importation,
-
+  - Paths used are get /dna/intent/api/v1/image/importation,
 """
-
 EXAMPLES = r"""
 - name: Get all Swim Image Details V1
   cisco.dnac.swim_image_details_v1_info:
@@ -126,9 +122,9 @@ EXAMPLES = r"""
     version: string
     imageSeries: string
     imageName: string
-    isTaggedGolden: True
-    isCCORecommended: True
-    isCCOLatest: True
+    isTaggedGolden: true
+    isCCORecommended: true
+    isCCOLatest: true
     createdTime: 0
     imageSizeGreaterThan: 0
     imageSizeLesserThan: 0
@@ -137,7 +133,6 @@ EXAMPLES = r"""
     limit: 0
     offset: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

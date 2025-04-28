@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: dns_services_info
 short_description: Information module for Dns Services Info
 description:
-- This module represents an alias of the module dns_services_v1_info
+  - This module represents an alias of the module dns_services_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,92 +18,106 @@ options:
     type: dict
   startTime:
     description:
-    - >
-      StartTime query parameter. Start time from which API queries the data set related to the resource. It must
-      be specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        StartTime query parameter. Start time from which API queries the data set
+        related to the resource. It must
+        be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
-    - >
-      EndTime query parameter. End time to which API queries the data set related to the resource. It must be
-      specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        EndTime query parameter. End time to which API queries the data set related
+        to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   limit:
     description:
-    - Limit query parameter. Maximum number of records to return.
+      - Limit query parameter. Maximum number of records to return.
     type: float
   offset:
     description:
-    - >
-      Offset query parameter. Specifies the starting point within all records returned by the API. It's one based
-      offset. The starting value is 1.
+      - >
+        Offset query parameter. Specifies the starting point within all records returned
+        by the API. It's one based
+        offset. The starting value is 1.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. Field name on which sorting needs to be done.
+      - SortBy query parameter. Field name on which sorting needs to be done.
     type: str
   order:
     description:
-    - Order query parameter. The sort order of the field ascending or descending.
+      - Order query parameter. The sort order of the field ascending or descending.
     type: str
   serverIp:
     description:
-    - >
-      ServerIp query parameter. IP Address of the DNS Server. This parameter supports wildcard (`*`) character
-      -based search. Example `10.76.81.*` or `*56.78*` or `*50.28` Examples serverIp=10.42.3.31 (single IP Address
-      is requested) serverIp=10.42.3.31&serverIp=name2&fabricVnName=name3 (multiple IP Addresses are requested).
+      - >
+        ServerIp query parameter. IP Address of the DNS Server. This parameter supports
+        wildcard (`*`) character
+        -based search. Example `10.76.81.*` or `*56.78*` or `*50.28` Examples serverIp=10.42.3.31
+        (single IP Address
+        is requested) serverIp=10.42.3.31&serverIp=name2&fabricVnName=name3 (multiple
+        IP Addresses are requested).
     type: str
   deviceId:
     description:
-    - >
-      DeviceId query parameter. The device UUID. Examples `deviceId=6bef213c-19ca-4170-8375-b694e251101c` (single
-      deviceId is requested)
-      `deviceId=6bef213c-19ca-4170-8375-b694e251101c&deviceId=32219612-819e-4b5e-a96b-cf22aca13dd9 (multiple
-      networkDeviceIds with & separator).
+      - >
+        DeviceId query parameter. The device UUID. Examples `deviceId=6bef213c-19ca-4170-8375-b694e251101c`
+        (single
+        deviceId is requested)
+        `deviceId=6bef213c-19ca-4170-8375-b694e251101c&deviceId=32219612-819e-4b5e-a96b-cf22aca13dd9
+        (multiple
+        networkDeviceIds with & separator).
     type: str
   deviceSiteHierarchyId:
     description:
-    - >
-      DeviceSiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting
-      from Global site UUID and ending with the specific site UUID. (Ex.
-      `globalUuid/areaUuid/buildingUuid/floorUuid`) This field supports wildcard asterisk (`*`) character search
-      support. E.g. `*uuid*, *uuid, uuid*` Examples
-      `?deviceSiteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid `(single siteHierarchyId requested) `?dev
-      iceSiteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid&deviceSiteHierarchyId=globalUuid/areaUuid2/bui
-      ldingUuid2/floorUuid2` (multiple siteHierarchyIds requested).
+      - >
+        DeviceSiteHierarchyId query parameter. The full hierarchy breakdown of the
+        site tree in id form starting
+        from Global site UUID and ending with the specific site UUID. (Ex.
+        `globalUuid/areaUuid/buildingUuid/floorUuid`) This field supports wildcard
+        asterisk (`*`) character search
+        support. E.g. `*uuid*, *uuid, uuid*` Examples
+        `?deviceSiteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid `(single
+        siteHierarchyId requested) `?dev
+        iceSiteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid&deviceSiteHierarchyId=globalUuid/areaUuid2/bui
+        ldingUuid2/floorUuid2` (multiple siteHierarchyIds requested).
     type: str
   deviceSiteId:
     description:
-    - >
-      DeviceSiteId query parameter. The UUID of the site. (Ex. `flooruuid`) Examples `?deviceSiteIds=id1` (single
-      id requested) `?deviceSiteIds=id1&deviceSiteIds=id2&siteId=id3` (multiple ids requested).
+      - >
+        DeviceSiteId query parameter. The UUID of the site. (Ex. `flooruuid`) Examples
+        `?deviceSiteIds=id1` (single
+        id requested) `?deviceSiteIds=id1&deviceSiteIds=id2&siteId=id3` (multiple
+        ids requested).
     type: str
   ssid:
     description:
-    - >
-      Ssid query parameter. SSID is the name of wireless network to which client connects to. It is also referred
-      to as WLAN ID - Wireless Local Area Network Identifier. This field supports wildcard (`*`) character-based
-      search. If the field contains the (`*`) character, please use the /query API for search. Ex `*Alpha*` or
-      `Alpha*` or `*Alpha` Examples `ssid=Alpha` (single ssid requested) `ssid=Alpha&ssid=Guest` (multiple ssid
-      requested).
+      - >
+        Ssid query parameter. SSID is the name of wireless network to which client
+        connects to. It is also referred
+        to as WLAN ID - Wireless Local Area Network Identifier. This field supports
+        wildcard (`*`) character-based
+        search. If the field contains the (`*`) character, please use the /query API
+        for search. Ex `*Alpha*` or
+        `Alpha*` or `*Alpha` Examples `ssid=Alpha` (single ssid requested) `ssid=Alpha&ssid=Guest`
+        (multiple ssid
+        requested).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices RetrievesTheListOfDNSServicesForGivenParametersV1
-  description: Complete reference of the RetrievesTheListOfDNSServicesForGivenParametersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-dns-services-for-given-parameters
+  - name: Cisco DNA Center documentation for Devices RetrievesTheListOfDNSServicesForGivenParametersV1
+    description: Complete reference of the RetrievesTheListOfDNSServicesForGivenParametersV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-dns-services-for-given-parameters
 notes:
-  - SDK Method used are
-    devices.Devices.retrieves_the_list_of_d_n_s_services_for_given_parameters_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/dnsServices,
+  - SDK Method used are devices.Devices.retrieves_the_list_of_d_n_s_services_for_given_parameters_v1,
+  - Paths used are get /dna/data/api/v1/dnsServices,
   - It should be noted that this module is an alias of dns_services_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Dns Services Info
   cisco.dnac.dns_services_info:
@@ -130,7 +141,6 @@ EXAMPLES = r"""
     deviceSiteId: string
     ssid: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

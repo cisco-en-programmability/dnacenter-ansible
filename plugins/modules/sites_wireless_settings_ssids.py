@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: sites_wireless_settings_ssids
 short_description: Resource module for Sites Wireless Settings Ssids
 description:
-- This module represents an alias of the module sites_wireless_settings_ssids_v1
+  - This module represents an alias of the module sites_wireless_settings_ssids_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -36,8 +33,8 @@ options:
     type: list
   authType:
     description: L2 Authentication Type (If authType is not open , then atleast one
-      RSN Cipher Suite and corresponding valid AKM must be enabled). Default is L2 Authentication
-      Type if exists else None.
+      RSN Cipher Suite and corresponding valid AKM must be enabled). Default is L2
+      Authentication Type if exists else None.
     type: str
   basicServiceSetClientIdleTimeout:
     description: This refers to the duration of inactivity, measured in seconds, before
@@ -61,8 +58,8 @@ options:
     type: int
   clientRateLimit:
     description: This pertains to the maximum data transfer rate, specified in bits
-      per second, that a client is permitted to achieve. It should be in mutliples of
-      500. Default is Client Rate Limit if exists else 0.
+      per second, that a client is permitted to achieve. It should be in mutliples
+      of 500. Default is Client Rate Limit if exists else 0.
     type: int
   coverageHoleDetectionEnable:
     description: Activate Coverage Hole Detection feature when set to true.
@@ -98,8 +95,8 @@ options:
     description: Ingress QOS.
     type: str
   isApBeaconProtectionEnabled:
-    description: When set to true, the Access Point (AP) Beacon Protection feature is
-      activated, enhancing the security of the network.
+    description: When set to true, the Access Point (AP) Beacon Protection feature
+      is activated, enhancing the security of the network.
     type: bool
   isAuthKey8021x:
     description: When set to true, the 802.1X authentication key is in use.
@@ -108,8 +105,8 @@ options:
     description: When set to true, the 802.1X-Plus-FT authentication key is in use.
     type: bool
   isAuthKey8021x_SHA256:
-    description: When set to true, the feature that enables 802.1X authentication using
-      the SHA256 algorithm is turned on.
+    description: When set to true, the feature that enables 802.1X authentication
+      using the SHA256 algorithm is turned on.
     type: bool
   isAuthKeyEasyPSK:
     description: When set to true, the feature that enables the use of Easy Pre-shared
@@ -120,8 +117,8 @@ options:
       key feature is turned on.
     type: bool
   isAuthKeyPSK:
-    description: When set to true, the Pre-shared Key (PSK) authentication feature is
-      enabled.
+    description: When set to true, the Pre-shared Key (PSK) authentication feature
+      is enabled.
     type: bool
   isAuthKeyPSKPlusFT:
     description: When set to true, the feature that enables the combination of Pre-shared
@@ -136,12 +133,12 @@ options:
       of Equals (SAE) authentication key is activated.
     type: bool
   isAuthKeySaeExt:
-    description: When set to true, the Simultaneous Authentication of Equals (SAE) Extended
-      Authentication key feature is turned on.
+    description: When set to true, the Simultaneous Authentication of Equals (SAE)
+      Extended Authentication key feature is turned on.
     type: bool
   isAuthKeySaeExtPlusFT:
-    description: When set to true, the Simultaneous Authentication of Equals (SAE) combined
-      with Fast Transition (FT) Authentication Key feature is enabled.
+    description: When set to true, the Simultaneous Authentication of Equals (SAE)
+      combined with Fast Transition (FT) Authentication Key feature is enabled.
     type: bool
   isAuthKeySaePlusFT:
     description: Activating this setting by switching it to true turns on the authentication
@@ -149,15 +146,17 @@ options:
       Fast Transition (FT).
     type: bool
   isAuthKeySuiteB1921x:
-    description: When set to true, the SuiteB192-1x authentication key feature is enabled.
+    description: When set to true, the SuiteB192-1x authentication key feature is
+      enabled.
     type: bool
   isAuthKeySuiteB1x:
     description: When activated by setting it to true, the SuiteB-1x authentication
       key feature is engaged.
     type: bool
   isBroadcastSSID:
-    description: When activated by setting it to true, the Broadcast SSID feature will
-      make the SSID publicly visible to wireless devices searching for available networks.
+    description: When activated by setting it to true, the Broadcast SSID feature
+      will make the SSID publicly visible to wireless devices searching for available
+      networks.
     type: bool
   isCckmEnabled:
     description: True if CCKM is enabled, else False.
@@ -176,8 +175,9 @@ options:
       over network access based on the MAC address of the device.
     type: bool
   isPosturingEnabled:
-    description: Applicable only for Enterprise SSIDs. When set to True, Posturing will
-      enabled. Required to be set to True if ACL needs to be mapped for Enterprise SSID.
+    description: Applicable only for Enterprise SSIDs. When set to True, Posturing
+      will enabled. Required to be set to True if ACL needs to be mapped for Enterprise
+      SSID.
     type: bool
   isRandomMacFilterEnabled:
     description: Deny clients using randomized MAC addresses when set to true.
@@ -193,8 +193,8 @@ options:
     elements: dict
     suboptions:
       passphrase:
-        description: Passphrase needs to be between 8 and 63 characters for ASCII type.
-          HEX passphrase needs to be 64 characters.
+        description: Passphrase needs to be between 8 and 63 characters for ASCII
+          type. HEX passphrase needs to be 64 characters.
         type: str
       passphraseType:
         description: Passphrase Type(default ASCII).
@@ -222,8 +222,8 @@ options:
       needs to be 64 characters.
     type: str
   profileName:
-    description: WLAN Profile Name, if not passed autogenerated profile name will be
-      assigned. The same wlanProfileName will also be used for policyProfileName.
+    description: WLAN Profile Name, if not passed autogenerated profile name will
+      be assigned. The same wlanProfileName will also be used for policyProfileName.
     type: str
   protectedManagementFrame:
     description: (REQUIRED is applicable for authType WPA3_PERSONAL, WPA3_ENTERPRISE,
@@ -235,24 +235,24 @@ options:
       Refer Feature tab for details.
     type: bool
   rsnCipherSuiteCcmp128:
-    description: When set to true, the Robust Security Network (RSN) Cipher Suite CCMP128
-      encryption protocol is activated.
+    description: When set to true, the Robust Security Network (RSN) Cipher Suite
+      CCMP128 encryption protocol is activated.
     type: bool
   rsnCipherSuiteCcmp256:
-    description: When set to true, the Robust Security Network (RSN) Cipher Suite CCMP256
-      encryption protocol is activated.
+    description: When set to true, the Robust Security Network (RSN) Cipher Suite
+      CCMP256 encryption protocol is activated.
     type: bool
   rsnCipherSuiteGcmp128:
-    description: When set to true, the Robust Security Network (RSN) Cipher Suite GCMP128
-      encryption protocol is activated.
+    description: When set to true, the Robust Security Network (RSN) Cipher Suite
+      GCMP128 encryption protocol is activated.
     type: bool
   rsnCipherSuiteGcmp256:
-    description: When set to true, the Robust Security Network (RSN) Cipher Suite GCMP256
-      encryption protocol is activated.
+    description: When set to true, the Robust Security Network (RSN) Cipher Suite
+      GCMP256 encryption protocol is activated.
     type: bool
   sessionTimeOut:
-    description: This denotes the allotted time span, expressed in seconds, before a
-      session is automatically terminated due to inactivity. Default sessionTimeOut
+    description: This denotes the allotted time span, expressed in seconds, before
+      a session is automatically terminated due to inactivity. Default sessionTimeOut
       is 1800.
     type: int
   sessionTimeOutEnable:
@@ -266,15 +266,16 @@ options:
       to clients in sleep mode.
     type: bool
   sleepingClientTimeout:
-    description: This refers to the amount of time, measured in minutes, before a sleeping
-      (inactive) client is timed out of the network. Default is Sleeping Client Timeout
-      if exists else 720.
+    description: This refers to the amount of time, measured in minutes, before a
+      sleeping (inactive) client is timed out of the network. Default is Sleeping
+      Client Timeout if exists else 720.
     type: int
   ssid:
     description: Name of the SSID.
     type: str
   ssidRadioType:
-    description: Radio Policy Enum (default Triple band operation(2.4GHz, 5GHz and 6GHz)).
+    description: Radio Policy Enum (default Triple band operation(2.4GHz, 5GHz and
+      6GHz)).
     type: str
   webPassthrough:
     description: When set to true, the Web-Passthrough feature will be activated for
@@ -288,32 +289,25 @@ options:
     description: Wlan Type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateSSIDV1
-  description: Complete reference of the CreateSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-ssid
-- name: Cisco DNA Center documentation for Wireless DeleteSSIDV1
-  description: Complete reference of the DeleteSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-ssid
-- name: Cisco DNA Center documentation for Wireless UpdateSSIDV1
-  description: Complete reference of the UpdateSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-ssid
+  - name: Cisco DNA Center documentation for Wireless CreateSSIDV1
+    description: Complete reference of the CreateSSIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-ssid
+  - name: Cisco DNA Center documentation for Wireless DeleteSSIDV1
+    description: Complete reference of the DeleteSSIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-ssid
+  - name: Cisco DNA Center documentation for Wireless UpdateSSIDV1
+    description: Complete reference of the UpdateSSIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-ssid
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_ssid_v1,
-    wireless.Wireless.delete_ssid_v1,
+  - SDK Method used are wireless.Wireless.create_ssid_v1, wireless.Wireless.delete_ssid_v1,
     wireless.Wireless.update_ssid_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids,
-    delete /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids/{id},
-    put /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids/{id},
+  - Paths used are post /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids,
+    delete /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids/{id}, put /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids/{id},
   - It should be noted that this module is an alias of sites_wireless_settings_ssids_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.sites_wireless_settings_ssids:
@@ -327,11 +321,11 @@ EXAMPLES = r"""
     state: present
     aaaOverride: true
     acctServers:
-    - string
+      - string
     aclName: string
     authServer: string
     authServers:
-    - string
+      - string
     authType: string
     basicServiceSetClientIdleTimeout: 0
     basicServiceSetMaxIdleEnable: true
@@ -374,11 +368,11 @@ EXAMPLES = r"""
     l3AuthType: string
     managementFrameProtectionClientprotection: string
     multiPSKSettings:
-    - passphrase: string
-      passphraseType: string
-      priority: 0
+      - passphrase: string
+        passphraseType: string
+        priority: 0
     nasOptions:
-    - string
+      - string
     neighborListEnable: true
     openSsid: string
     passphrase: string
@@ -398,7 +392,6 @@ EXAMPLES = r"""
     webPassthrough: true
     wlanBandSelectEnable: true
     wlanType: string
-
 - name: Update by id
   cisco.dnac.sites_wireless_settings_ssids:
     dnac_host: "{{dnac_host}}"
@@ -411,11 +404,11 @@ EXAMPLES = r"""
     state: present
     aaaOverride: true
     acctServers:
-    - string
+      - string
     aclName: string
     authServer: string
     authServers:
-    - string
+      - string
     authType: string
     basicServiceSetClientIdleTimeout: 0
     basicServiceSetMaxIdleEnable: true
@@ -459,11 +452,11 @@ EXAMPLES = r"""
     l3AuthType: string
     managementFrameProtectionClientprotection: string
     multiPSKSettings:
-    - passphrase: string
-      passphraseType: string
-      priority: 0
+      - passphrase: string
+        passphraseType: string
+        priority: 0
     nasOptions:
-    - string
+      - string
     neighborListEnable: true
     openSsid: string
     passphrase: string
@@ -483,7 +476,6 @@ EXAMPLES = r"""
     webPassthrough: true
     wlanBandSelectEnable: true
     wlanType: string
-
 - name: Delete by id
   cisco.dnac.sites_wireless_settings_ssids:
     dnac_host: "{{dnac_host}}"
@@ -497,7 +489,6 @@ EXAMPLES = r"""
     id: string
     removeOverrideInHierarchy: true
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:
