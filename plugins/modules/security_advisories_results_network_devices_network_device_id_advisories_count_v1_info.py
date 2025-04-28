@@ -1,16 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
-module: security_advisories_results_network_devices_network_device_id_advisories_count_v1_info
-short_description: Information module for Security Advisories Results Network Devices Network Device Id Advisories Count V1
+module:
+  security_advisories_results_network_devices_network_device_id_advisories_count_v1_info
+short_description: Information module for Security Advisories Results Network Devices
+  Network Device Id Advisories Count V1
 description:
-- Get all Security Advisories Results Network Devices Network Device Id Advisories Count V1.
-- Get count of security advisories affecting the network device.
+  - Get all Security Advisories Results Network Devices Network Device Id Advisories
+    Count V1.
+  - Get count of security advisories affecting the network device.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,40 +22,42 @@ options:
     type: dict
   networkDeviceId:
     description:
-    - NetworkDeviceId path parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   id:
     description:
-    - Id query parameter. Id of the security advisory.
+      - Id query parameter. Id of the security advisory.
     type: str
   cvssBaseScore:
     description:
-    - CvssBaseScore query parameter. Return advisories with cvssBaseScore greater than this cvssBaseScore. E.g. 8.5.
+      - CvssBaseScore query parameter. Return advisories with cvssBaseScore greater
+        than this cvssBaseScore. E.g. 8.5.
     type: str
   securityImpactRating:
     description:
-    - >
-      SecurityImpactRating query parameter. Return advisories with this securityImpactRating. Available values
-      CRITICAL, HIGH.
+      - >
+        SecurityImpactRating query parameter. Return advisories with this securityImpactRating.
+        Available values
+        CRITICAL, HIGH.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetCountOfSecurityAdvisoriesAffectingTheNetworkDeviceV1
-  description: Complete reference of the GetCountOfSecurityAdvisoriesAffectingTheNetworkDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-count-of-security-advisories-affecting-the-network-device
+  - name: Cisco DNA Center documentation for Compliance GetCountOfSecurityAdvisoriesAffectingTheNetworkDeviceV1
+    description: Complete reference of the GetCountOfSecurityAdvisoriesAffectingTheNetworkDeviceV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-count-of-security-advisories-affecting-the-network-device
 notes:
   - SDK Method used are
     compliance.Compliance.get_count_of_security_advisories_affecting_the_network_device_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/securityAdvisories/results/networkDevices/{networkDeviceId}/advisories/count,
-
+  - Paths used are get
+    /dna/intent/api/v1/securityAdvisories/results/networkDevices/{networkDeviceId}/advisories/count,
 """
-
 EXAMPLES = r"""
-- name: Get all Security Advisories Results Network Devices Network Device Id Advisories Count V1
+- name: Get all Security Advisories Results Network Devices Network Device Id Advisories
+    Count V1
   cisco.dnac.security_advisories_results_network_devices_network_device_id_advisories_count_v1_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -69,7 +72,6 @@ EXAMPLES = r"""
     securityImpactRating: string
     networkDeviceId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

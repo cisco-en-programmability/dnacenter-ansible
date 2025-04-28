@@ -1,20 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Abinash Mishra, Madhan Sankaranarayanan, Rishita Chowdhary, A Mohamed Rafeek")
-
 DOCUMENTATION = r"""
 ---
 module: pnp_workflow_manager
 short_description: Resource module for Site and PnP related functions
 description:
-  - Manage operations add device, claim device and unclaim device of Onboarding
-    Configuration(PnP) resource
+  - Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP)
+    resource
   - API to add device to pnp inventory and claim it to a site.
   - API to delete device from the pnp inventory.
   - API to reset the device from errored state.
@@ -26,7 +23,6 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
   - Rishita Chowdhary (@rishitachowdhary)
   - A Mohamed Rafeek (@mabdulk2)
-
 options:
   config_verify:
     description: |
@@ -62,10 +58,10 @@ options:
         suboptions:
           hostname:
             description:
-              - Defines the desired hostname for the PnP device after it has
-                been claimed.
-              - The hostname can only be assigned or changed during the claim
-                process, not during bulk or single device additions.
+              - Defines the desired hostname for the PnP device after it has been
+                claimed.
+              - The hostname can only be assigned or changed during the claim process,
+                not during bulk or single device additions.
             type: str
             required: false
           state:
@@ -98,16 +94,17 @@ options:
       template_name:
         description:
           - Name of the template to be configured on the device.
-          - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
+          - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x
+            onwards.
         type: str
         required: false
       template_params:
         description:
           - Parameter values for the parameterised templates.
-          - Each varibale has a value that needs to be passed as key-value pair
-            in the dictionary. We can pass values as variable_name:variable_value.
-          - Supported for EWLC from Cisco Catalyst Center release version
-            2.3.7.x onwards.
+          - Each varibale has a value that needs to be passed as key-value pair in
+            the dictionary. We can pass values as variable_name:variable_value.
+          - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x
+            onwards.
         type: dict
         required: false
       image_name:
@@ -115,7 +112,8 @@ options:
         type: str
         required: false
       golden_image:
-        description: Specifies whether the configured image is tagged as a golden image.
+        description: Specifies whether the configured image is tagged as a golden
+          image.
         type: bool
         required: false
       pnp_type:
@@ -153,54 +151,46 @@ options:
         required: false
       ip_interface_name:
         description:
-          - Specifies the interface name utilized for Plug and Play (PnP) by the Wireless Controller.
-          - Ensure this interface is pre-configured on the controller before device claiming.
+          - Specifies the interface name utilized for Plug and Play (PnP) by the Wireless
+            Controller.
+          - Ensure this interface is pre-configured on the controller before device
+            claiming.
         type: str
         required: false
       rf_profile:
         description:
           - Radio Frequecy (RF) profile of the AP being claimed.
-          - RF Profiles allow you to tune groups of APs that share a common
-            coverage zone together.
-          - They selectively change how Radio Resource Management will operate
-            the APs within that coverage zone.
-          - HIGH RF profile allows you to use more power and allows to join AP
-            with the client in an easier fashion.
-          - TYPICAL RF profile is a blend of moderate power and moderate
-            visibility to the client.
-          - LOW RF profile allows you to consume lesser power and has least
-            visibility to the client.
+          - RF Profiles allow you to tune groups of APs that share a common coverage
+            zone together.
+          - They selectively change how Radio Resource Management will operate the
+            APs within that coverage zone.
+          - HIGH RF profile allows you to use more power and allows to join AP with
+            the client in an easier fashion.
+          - TYPICAL RF profile is a blend of moderate power and moderate visibility
+            to the client.
+          - LOW RF profile allows you to consume lesser power and has least visibility
+            to the client.
         type: str
         choices:
           - HIGH
           - LOW
           - TYPICAL
         required: false
-
 requirements:
   - dnacentersdk == 2.6.10
   - python >= 3.9
 notes:
-  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_device,
-    device_onboarding_pnp.DeviceOnboardingPnp.get_device_list,
-    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site,
-    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
-    device_onboarding_pnp.DeviceOnboardingPnp.get_device_count,
-    device_onboarding_pnp.DeviceOnboardingPnp.get_device_by_id,
-    device_onboarding_pnp.DeviceOnboardingPnp.update_device,
-    sites.Sites.get_site,
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_device, device_onboarding_pnp.DeviceOnboardingPnp.get_device_list,
+    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site, device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
+    device_onboarding_pnp.DeviceOnboardingPnp.get_device_count, device_onboarding_pnp.DeviceOnboardingPnp.get_device_by_id,
+    device_onboarding_pnp.DeviceOnboardingPnp.update_device, sites.Sites.get_site,
     software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details,
     configuration_templates.ConfigurationTemplates.gets_the_templates_available
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device post
-    /dna/intent/api/v1/onboarding/pnp-device/site-claim post
-    /dna/intent/api/v1/onboarding/pnp-device/{id} get
-    /dna/intent/api/v1/onboarding/pnp-device/count get
-    /dna/intent/api/v1/onboarding/pnp-device put /onboarding/pnp-device/${id}
-    get /dna/intent/api/v1/site get /dna/intent/api/v1/image/importation get
-    /dna/intent/api/v1/template-programmer/template
-
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device post /dna/intent/api/v1/onboarding/pnp-device/site-claim
+    post /dna/intent/api/v1/onboarding/pnp-device/{id} get /dna/intent/api/v1/onboarding/pnp-device/count
+    get /dna/intent/api/v1/onboarding/pnp-device put /onboarding/pnp-device/${id}
+    get /dna/intent/api/v1/site get /dna/intent/api/v1/image/importation get /dna/intent/api/v1/template-programmer/template
 """
-
 EXAMPLES = r"""
 - name: Import multiple switches in bulk only
   cisco.dnac.pnp_workflow_manager:
@@ -212,23 +202,22 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-        - device_info:
-            - serial_number: QD2425L8M7
-              state: Unclaimed
-              pid: c9300-24P
-              is_sudi_required: False
-            - serial_number: QTC2320E0H9
-              state: Unclaimed
-              pid: c9300-24P
-              hostname: Test-123
-            - serial_number: ETC2320E0HB
-              state: Unclaimed
-              pid: c9300-24P
-
+      - device_info:
+          - serial_number: QD2425L8M7
+            state: Unclaimed
+            pid: c9300-24P
+            is_sudi_required: false
+          - serial_number: QTC2320E0H9
+            state: Unclaimed
+            pid: c9300-24P
+            hostname: Test-123
+          - serial_number: ETC2320E0HB
+            state: Unclaimed
+            pid: c9300-24P
 - name: Add a new EWLC and claim it
   cisco.dnac.pnp_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -239,30 +228,30 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-        - device_info:
-            - serial_number: FOX2639PAY7
-              hostname: New_WLC
-              state: Unclaimed
-              pid: C9800-CL-K9
-          site_name: Global/USA/San Francisco/BGL_18
-          template_name: Ansible_PNP_WLC
-          template_params:
-            hostname: IAC-EWLC-Claimed
-          project_name: Onboarding Configuration
-          image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
-          golden_image: true
-          pnp_type: CatalystWLC
-          static_ip: 204.192.101.10
-          subnet_mask: 255.255.255.0
-          gateway: 204.192.101.1
-          vlan_id: 1101
-          ip_interface_name: TenGigabitEthernet0/0/0
-
-- name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
+      - device_info:
+          - serial_number: FOX2639PAY7
+            hostname: New_WLC
+            state: Unclaimed
+            pid: C9800-CL-K9
+        site_name: Global/USA/San Francisco/BGL_18
+        template_name: Ansible_PNP_WLC
+        template_params:
+          hostname: IAC-EWLC-Claimed
+        project_name: Onboarding Configuration
+        image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
+        golden_image: true
+        pnp_type: CatalystWLC
+        static_ip: 204.192.101.10
+        subnet_mask: 255.255.255.0
+        gateway: 204.192.101.1
+        vlan_id: 1101
+        ip_interface_name: TenGigabitEthernet0/0/0
+- name: Claim a pre-added switch, apply a template, and perform an image upgrade
+    for a specific site
   cisco.dnac.pnp_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -272,24 +261,24 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-        - device_info:
-            - serial_number: FJC271924EQ
-              hostname: Switch
-              state: Unclaimed
-              pid: C9300-48UXM
-          site_name: Global/USA/San Francisco/BGL_18
-          template_name: "Ansible_PNP_Switch"
-          image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
-          project_name: Onboarding Configuration
-          template_params:
-            hostname: SJC-Switch-1
-            interface: TwoGigabitEthernet1/0/2
-
-- name: Remove multiple devices from the PnP dashboard safely (ignores non-existent devices)
+      - device_info:
+          - serial_number: FJC271924EQ
+            hostname: Switch
+            state: Unclaimed
+            pid: C9300-48UXM
+        site_name: Global/USA/San Francisco/BGL_18
+        template_name: "Ansible_PNP_Switch"
+        image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
+        project_name: Onboarding Configuration
+        template_params:
+          hostname: SJC-Switch-1
+          interface: TwoGigabitEthernet1/0/2
+- name: Remove multiple devices from the PnP dashboard safely (ignores non-existent
+    devices)
   cisco.dnac.pnp_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -299,16 +288,15 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     state: deleted
-    config_verify: True
+    config_verify: true
     config:
-        - device_info:
-            - serial_number: QD2425L8M7
-            - serial_number: FTC2320E0HA
-            - serial_number: FKC2310E0HB
+      - device_info:
+          - serial_number: QD2425L8M7
+          - serial_number: FTC2320E0HA
+          - serial_number: FKC2310E0HB
 """
-
 RETURN = r"""
 #Case_1: When the device is claimed successfully.
 response_1:
@@ -324,7 +312,6 @@ response_1:
         },
       "msg": String
     }
-
 #Case_2: Given site/image/template/project not found or Device is not found for deletion
 response_2:
   description: A list with the response returned by the Cisco Catalyst Center Python SDK
@@ -335,7 +322,6 @@ response_2:
       "response": [],
       "msg": String
     }
-
 #Case_3: Error while deleting/claiming a device
 response_3:
   description: A string with the response returned by the Cisco Catalyst Center Python SDK

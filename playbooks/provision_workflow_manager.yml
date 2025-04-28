@@ -2,7 +2,7 @@
 - name: Configure device credentials on Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "credentials.yml"
   tasks:

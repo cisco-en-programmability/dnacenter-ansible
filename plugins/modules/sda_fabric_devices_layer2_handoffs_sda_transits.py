@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices_layer2_handoffs_sda_transits
 short_description: Resource module for Sda Fabric Devices Layer2 Handoffs Sda Transits
 description:
-- This module represents an alias of the module sda_fabric_devices_layer2_handoffs_sda_transits_v1
+  - This module represents an alias of the module sda_fabric_devices_layer2_handoffs_sda_transits_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,7 +17,8 @@ options:
     description: FabricId query parameter. ID of the fabric this device belongs to.
     type: str
   networkDeviceId:
-    description: NetworkDeviceId query parameter. Network device ID of the fabric device.
+    description: NetworkDeviceId query parameter. Network device ID of the fabric
+      device.
     type: str
   payload:
     description: Sda Fabric Devices Layer2 Handoffs Sda Transits's payload.
@@ -28,14 +26,14 @@ options:
     suboptions:
       affinityIdDecider:
         description: Affinity id decider value of the border node. When the affinity
-          id prime value is the same on multiple devices, the affinity id decider value
-          is used as a tiebreaker. Allowed range is 0-2147483647. The lower the relative
-          value of affinity id decider, the higher the preference for a destination
-          border node.
+          id prime value is the same on multiple devices, the affinity id decider
+          value is used as a tiebreaker. Allowed range is 0-2147483647. The lower
+          the relative value of affinity id decider, the higher the preference for
+          a destination border node.
         type: int
       affinityIdPrime:
-        description: Affinity id prime value of the border node. It supersedes the border
-          priority to determine border node preference. Allowed range is 0-2147483647.
+        description: Affinity id prime value of the border node. It supersedes the
+          border priority to determine border node preference. Allowed range is 0-2147483647.
           The lower the relative value of affinity id prime, the higher the preference
           for a destination border node.
         type: int
@@ -52,41 +50,40 @@ options:
           that are connected to an sd-access transit.
         type: bool
       networkDeviceId:
-        description: Network device ID of the fabric device. (updating this field is
-          not allowed).
+        description: Network device ID of the fabric device. (updating this field
+          is not allowed).
         type: str
       transitNetworkId:
-        description: ID of the transit network of the layer 3 handoff sda transit. (updating
-          this field is not allowed).
+        description: ID of the transit network of the layer 3 handoff sda transit.
+          (updating this field is not allowed).
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithSdaTransitV1
-  description: Complete reference of the AddFabricDevicesLayer3HandoffsWithSdaTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-sda-transit
-- name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithSdaTransitV1
-  description: Complete reference of the DeleteFabricDeviceLayer3HandoffsWithSdaTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-sda-transit
-- name: Cisco DNA Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithSdaTransitV1
-  description: Complete reference of the UpdateFabricDevicesLayer3HandoffsWithSdaTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-sda-transit
+  - name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithSdaTransitV1
+    description: Complete reference of the AddFabricDevicesLayer3HandoffsWithSdaTransitV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-sda-transit
+  - name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithSdaTransitV1
+    description: Complete reference of the DeleteFabricDeviceLayer3HandoffsWithSdaTransitV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-sda-transit
+  - name: Cisco DNA Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithSdaTransitV1
+    description: Complete reference of the UpdateFabricDevicesLayer3HandoffsWithSdaTransitV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-sda-transit
 notes:
-  - SDK Method used are
-    sda.Sda.add_fabric_devices_layer3_handoffs_with_sda_transit_v1,
-    sda.Sda.delete_fabric_device_layer3_handoffs_with_sda_transit_v1,
-    sda.Sda.update_fabric_devices_layer3_handoffs_with_sda_transit_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits,
-    delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits,
-    put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits,
+  - SDK Method used are sda.Sda.add_fabric_devices_layer3_handoffs_with_sda_transit_v1,
+    sda.Sda.delete_fabric_device_layer3_handoffs_with_sda_transit_v1, sda.Sda.update_fabric_devices_layer3_handoffs_with_sda_transit_v1,
+  - Paths used are post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits,
+    delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits, put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits,
   - It should be noted that this module is an alias of sda_fabric_devices_layer2_handoffs_sda_transits_v1
-
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits:
@@ -99,14 +96,13 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - affinityIdDecider: 0
-      affinityIdPrime: 0
-      connectedToInternet: true
-      fabricId: string
-      isMulticastOverTransitEnabled: true
-      networkDeviceId: string
-      transitNetworkId: string
-
+      - affinityIdDecider: 0
+        affinityIdPrime: 0
+        connectedToInternet: true
+        fabricId: string
+        isMulticastOverTransitEnabled: true
+        networkDeviceId: string
+        transitNetworkId: string
 - name: Delete all
   cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits:
     dnac_host: "{{dnac_host}}"
@@ -119,7 +115,6 @@ EXAMPLES = r"""
     state: absent
     fabricId: string
     networkDeviceId: string
-
 - name: Create
   cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits:
     dnac_host: "{{dnac_host}}"
@@ -131,14 +126,13 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - affinityIdDecider: 0
-      affinityIdPrime: 0
-      connectedToInternet: true
-      fabricId: string
-      isMulticastOverTransitEnabled: true
-      networkDeviceId: string
-      transitNetworkId: string
-
+      - affinityIdDecider: 0
+        affinityIdPrime: 0
+        connectedToInternet: true
+        fabricId: string
+        isMulticastOverTransitEnabled: true
+        networkDeviceId: string
+        transitNetworkId: string
 """
 RETURN = r"""
 dnac_response:

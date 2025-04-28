@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: interface_info
 short_description: Information module for Interface Info
 description:
-- This module represents an alias of the module interface_v1_info
+  - This module represents an alias of the module interface_v1_info
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,25 +18,20 @@ options:
     type: dict
   interfaceUuid:
     description:
-    - InterfaceUuid path parameter. Interface ID.
+      - InterfaceUuid path parameter. Interface ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices LegitOperationsForInterfaceV1
-  description: Complete reference of the LegitOperationsForInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!legit-operations-for-interface
+  - name: Cisco DNA Center documentation for Devices LegitOperationsForInterfaceV1
+    description: Complete reference of the LegitOperationsForInterfaceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!legit-operations-for-interface
 notes:
-  - SDK Method used are
-    devices.Devices.legit_operations_for_interface_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/interface/{interfaceUuid}/legit-operation,
+  - SDK Method used are devices.Devices.legit_operations_for_interface_v1,
+  - Paths used are get /dna/intent/api/v1/interface/{interfaceUuid}/legit-operation,
   - It should be noted that this module is an alias of interface_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Interface Info
   cisco.dnac.interface_info:
@@ -53,7 +45,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     interfaceUuid: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:
