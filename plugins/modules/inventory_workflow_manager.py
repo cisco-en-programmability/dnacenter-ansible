@@ -336,25 +336,31 @@ options:
         elements: dict
         suboptions:
           device_ips:
-            description: List of network device ips. This field is applicable only during creation/deletion of schedules, for updates,
-                it is read-only i.e we cannot add/remove devices from the maintenance schedule.
+            description: >
+                A list of network device IPs.
+                This field is applicable only during the creation or deletion of schedules.
+                For updates, this field is read-only, and devices cannot be added or removed.
             type: str
           description:
             description: A brief description of the maintenance schedule, specifying its purpose or any relevant details.
             type: str
           start_time:
-            description: The scheduled start_time indicates the beginning of the maintenance window. And it must be greater than the
-                current time in case of one time scheduling.
-                Format should be in a recognizable timestamp format (e.g., "YYYY-MM-DD HH:MM:SS" like "2025-04-05 10:30:00").
+            description: >
+                The scheduled start time of the maintenance window.
+                For one-time schedules, this must be later than the current time.
+                The expected format is "YYYY-MM-DD HH:MM:SS" (for example, "2025-04-05 10:00:00").
             type: str
           end_time:
-            description: The scheduled end_time indicates the ending of the maintenance window. And it must be greater than the
-                current time in case of one time scheduling.
-                Format should be in a recognizable timestamp format (e.g., "YYYY-MM-DD HH:MM:SS" like "2025-04-05 10:30:00").
+            description: >
+                The scheduled end time of the maintenance window.
+                For one-time schedules, this must be later than the current time.
+                The expected format is "YYYY-MM-DD HH:MM:SS" (for example, "2025-04-05 10:30:00").
             type: str
           time_zone:
-            description: The time zone in which the maintenance schedule is defined (for eg "UTC", "IST" etc.).
-                Possible time zones for the device maintenance schedule are -
+            description: >
+                Time zone in which the maintenance schedule is defined (for example, "Africa/Nairobi", "America/New_York",
+                "Asia/Kolkata", "Europe/London", "Australia/Sydney", etc.).
+                Supported time zones for the device maintenance schedule include:
                 Africa/Abidjan
                 Africa/Accra
                 Africa/Addis_Ababa
@@ -674,13 +680,15 @@ options:
                 Pacific/Wallis
             type: str
           recurrence_end_time:
-            description: The timestamp indicating when the recurring maintenance schedule should end. And it should be greater
-                than maintenance end date/time and current time.
-                Format should be in a recognizable timestamp format (e.g., "YYYY-MM-DD HH:MM:SS" like "2025-04-05 10:30:00").
+            description: >
+                The timestamp indicating when the recurring maintenance schedule should end.
+                It must be greater than both the maintenance end date/time and the current time.
+                The format should be a recognizable timestamp (For example, "YYYY-MM-DD HH:MM:SS" like "2025-04-05 10:30:00").
             type: str
           recurrence_interval:
-            description: Interval for recurrence in days. The interval must be longer than the duration of the schedules.
-                The maximum allowed interval is 365 days and the value of recurrence_interval must be in range(0, 366).
+            description: >
+                Interval for recurrence in days.
+                The interval must be longer than the duration of the maintenance schedules and must be within the range 1 to 365 (inclusive).
             type: int
 
 
@@ -716,30 +724,33 @@ notes:
   - Added the parameter 'admin_status' options in v6.13.1.
   - Removed 'device_updated' options in v6.13.1.
   - The maintenance scheduling feature for network devices was introduced in version 2.3.7.9.
-    To take advantage of this functionality, ensure your system is upgraded to at least version 2.3.7.9.
+    To use this functionality, ensure the Catalyst Center is upgraded to at least version 2.3.7.9.
   - It is recommended to specify the complete time zone when scheduling maintenance for network devices.
     For a list of supported time zones, please refer to the relevant documentation detailing all available options.
   - By default, when deleting network devices, the 'clean_config' flag is set to False, which retains the device
-    configuration. To delete a device along with its configuration, you must explicitly set the 'clean_config'
-    flag to True.
+    configuration. To delete a device along with its configuration, the 'clean_config' flag must be explicitly
+    set to True.
 
 """
 
 EXAMPLES = r"""
 - name: Add new device in Inventory with full credentials
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - cli_transport: ssh
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
+        cli_transport: ssh
         compute_device: False
         password: Test@123
         enable_password: Test@1234
@@ -748,7 +759,6 @@ EXAMPLES = r"""
         http_password: "test"
         http_port: "443"
         http_secure: False
-        ip_address_list: ["1.1.1.1", "2.2.2.2"]
         netconf_port: 830
         snmp_auth_passphrase: "Lablab@12"
         snmp_auth_protocol: SHA
@@ -764,18 +774,20 @@ EXAMPLES = r"""
 
 - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         http_username: "testuser"
         http_password: "test"
         http_port: "443"
@@ -793,14 +805,14 @@ EXAMPLES = r"""
 
 - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
@@ -809,18 +821,20 @@ EXAMPLES = r"""
 
 - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         http_username: "testuser"
         http_password: "test"
         http_port: "443"
@@ -828,18 +842,20 @@ EXAMPLES = r"""
 
 - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         snmp_auth_passphrase: "Lablab@12"
         snmp_auth_protocol: SHA
         snmp_mode: AUTHPRIV
@@ -852,39 +868,43 @@ EXAMPLES = r"""
 
 - name: Update device details or credentails in Inventory
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - cli_transport: telnet
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
+        cli_transport: telnet
         compute_device: False
         password: newtest123
         enable_password: newtest1233
-        ip_address_list: ["1.1.1.1", "2.2.2.2"]
         type: NETWORK_DEVICE
         credential_update: True
 
 - name: Update new management IP address of device in inventory
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         credential_update: True
         update_mgmt_ipaddresslist:
         - exist_mgmt_ipaddress: "1.1.1.1"
@@ -892,14 +912,14 @@ EXAMPLES = r"""
 
 - name: Associate Wired Devices to site and Provisioned it in Inventory
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
@@ -915,34 +935,38 @@ EXAMPLES = r"""
 
 - name: Update Device Role with IP Address
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         role: ACCESS
 
 - name: Update Interface details with IP Address
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         update_interface_details:
           description: "Testing for updating interface details"
           admin_status: "UP"
@@ -954,18 +978,20 @@ EXAMPLES = r"""
 
 - name: Export Device Details in a CSV file Interface details with IP Address
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         export_device_list:
           password: "File_password"
           operation_enum: "0"
@@ -973,18 +999,20 @@ EXAMPLES = r"""
 
 - name: Create Global User Defined with IP Address
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         add_user_defined_field:
         - name: Test123
           description: "Added first udf for testing"
@@ -995,165 +1023,183 @@ EXAMPLES = r"""
 
 - name: Resync Device with IP Addresses
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         device_resync: True
         force_sync: False
 
 - name: Reboot AP Devices with IP Addresses
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         reboot_device: True
 
 - name: Schedule the maintenance for the devices for one time.
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
       - devices_maintenance_schedule:
-        - device_ips: ["204.1.2.2", "204.1.2.3"]
+        - device_ips:
+          - "204.1.2.2"
+          - "204.1.2.3"
           description: "Schedule maintenance for 2 devices"
           start_time: "2025-04-05 10:30:00"
           end_time: "2025-04-05 11:30:00"
-          time_zone: IST
+          time_zone: "Asia/Kolkata"
 
-- name: Schedule the maintenance for the devices for with recurrence interval and recurrence end time.
+- name: Schedule the maintenance for the devices with recurrence interval and recurrence end time.
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
       - devices_maintenance_schedule:
-        - device_ips: ["204.1.2.2", "204.1.2.3"]
+        - device_ips:
+          - "204.1.2.2"
+          - "204.1.2.3"
           description: "Schedule maintenance for 2 devices"
           start_time: "2025-04-05 10:30:00"
           end_time: "2025-04-05 11:30:00"
-          time_zone: IST
+          time_zone: "Asia/Kolkata"
           recurrence_end_time: "2025-04-10 11:40:00"
           recurrence_interval: 2
 
 - name: Update the maintenance schedule for the devices.
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
       - devices_maintenance_schedule:
-        - device_ips: ["204.1.2.2", "204.1.2.3"]
+        - device_ips:
+          - "204.1.2.2"
+          - "204.1.2.3"
           description: "Updated description for maintenance of 2 devices"
           start_time: "2025-04-05 10:30:00"
           end_time: "2025-04-05 11:30:00"
-          time_zone: IST
+          time_zone: "Asia/Kolkata"
           recurrence_end_time: "2025-04-10 11:40:00"
           recurrence_interval: 1
 
 - name: Delete Provision/Unprovision Devices by IP Address
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: False
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         clean_config: False
 
 - name: Delete Provision/Unprovision network devices along with configuration
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
     dnac_log: False
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
     config:
-      - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+      - ip_address_list:
+        - "204.1.2.2"
+        - "204.1.2.3"
         clean_config: True
 
 - name: Delete Global User Defined Field with name
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: deleted
     config:
-    - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+    - ip_address_list:
+      - "204.1.2.2"
+      - "204.1.2.3"
       add_user_defined_field:
         - name: "Test123"
 
 - name: Delete the maintenance schedule for the devices.
   cisco.dnac.inventory_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: False
     state: merged
     config:
       - devices_maintenance_schedule:
-        - device_ips: ["204.1.2.2", "204.1.2.3"]
+        - device_ips:
+          - "204.1.2.2"
+          - "204.1.2.3"
 
 """
 
@@ -1410,6 +1456,10 @@ class Inventory(DnacBase):
                     )
                 offset = offset + 1
                 self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
+                if not response:
+                    self.log("There are no device details received from 'get_device_list' API.", "INFO")
+                    break
+
                 response = response.get("response")
                 if not response:
                     self.log("There are no device details received from 'get_device_list' API.", "INFO")
@@ -3655,7 +3705,7 @@ class Inventory(DnacBase):
 
         return device_exist
 
-    def get_schedule_and_not_schedule_device(self, network_device_ids, device_ip_id_map):
+    def get_schedule_and_unscheduled_device_ids(self, network_device_ids, device_ip_id_map):
         """
         Categorize network devices based on their maintenance schedule in Cisco Catalyst Center.
 
@@ -3667,18 +3717,18 @@ class Inventory(DnacBase):
         Returns:
             tuple: A tuple containing:
                 - schedule_device_ids (list): List of device IDs that have a scheduled maintenance window.
-                - non_schedule_device_ids (list): List of device IDs that do not have a scheduled maintenance window.
+                - unscheduled_device_ids (list): List of device IDs that do not have a scheduled maintenance window.
 
         Description:
             This function checks whether the given network devices have scheduled maintenance in Cisco Catalyst Center.
             It iterates through 'network_device_ids', retrieves the maintenance schedule using the
             'retrieve_scheduled_maintenance_windows_for_network_devices' API call, and logs the response.
             Devices with scheduled maintenance are added to 'schedule_device_ids', while those without are added
-            to 'non_schedule_device_ids'. If an error occurs during the API call, an error message is logged
+            to 'unscheduled_device_ids'. If an error occurs during the API call, an error message is logged
             and the operation result is set to 'failed'.
         """
 
-        schedule_device_ids, non_schedule_device_ids = [], []
+        schedule_device_ids, unscheduled_device_ids = [], []
         self.log("Start checking and collecting the device ids for which maintenance is schedule or not..", "DEBUG")
         for device_id in network_device_ids:
             try:
@@ -3689,15 +3739,15 @@ class Inventory(DnacBase):
                     op_modifies=True,
                     params={"network_device_ids": device_id},
                 )
-                response = response.get("response")
                 self.log(
                     "Received API response from 'retrieve_scheduled_maintenance_windows_for_network_devices' for the "
                     "device '{0}': {1}".format(device_ip, str(response)), "DEBUG"
                 )
+                response = response.get("response")
 
                 if not response:
-                    self.log("Device maintenance is not schedule for the network device '{0}'.".format(device_ip), "INFO")
-                    non_schedule_device_ids.append(device_id)
+                    self.log("No maintenance scheduled for device '{0}'.".format(device_ip), "INFO")
+                    unscheduled_device_ids.append(device_id)
                     continue
 
                 schedule_device_ids.append(device_id)
@@ -3707,7 +3757,7 @@ class Inventory(DnacBase):
                         Cisco Catalyst Center: {1}""".format(device_ip, str(e))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
 
-        return schedule_device_ids, non_schedule_device_ids
+        return schedule_device_ids, unscheduled_device_ids
 
     def get_device_maintenance_details(self, device_id, device_ip):
         """
@@ -3736,20 +3786,20 @@ class Inventory(DnacBase):
                 op_modifies=True,
                 params={"network_device_ids": device_id},
             )
-            response = response.get("response")
             self.log(
                 "Received API response from 'retrieve_scheduled_maintenance_windows_for_network_devices' for the "
                 "device '{0}': {1}".format(device_ip, str(response)), "DEBUG"
             )
+            response = response.get("response")
 
             if not response:
-                self.msg = "Device maintenance details not retrived for network device '{0}'.".format(device_ip)
+                self.msg = "No maintenance details retrieved for network device '{0}'.".format(device_ip)
                 return None
 
         except Exception as e:
             self.msg = """Error while fetching the maintenance schedule for the device '{0}' present in
                     Cisco Catalyst Center: {1}""".format(device_ip, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return response[0]
 
@@ -3902,14 +3952,18 @@ class Inventory(DnacBase):
                     self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
-                if interval not in range(0, 365):
-                    self.msg = "Given recurrence_interval: '{0}' should be in the range of (0,365) in days.".format(interval)
+                if interval <= 0 or interval > 365:
+                    self.msg = "Invalid 'recurrence_interval': {0}. It must be between 1 and 365 days.".format(interval)
                     self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
-                schedule_window = (epoch_end_time - epoch_start_time) / (24 * 3600 * 1000)
-                if interval < schedule_window:
-                    self.msg = "The interval must be longer than the duration of the schedules."
+                schedule_duration_days = (epoch_end_time - epoch_start_time) / (24 * 3600 * 1000)
+                if interval < schedule_duration_days:
+                    self.msg = (
+                        "Recurrence interval ({0} days) must be longer than the maintenance duration ({1} days).".format(
+                            interval, schedule_duration_days
+                        )
+                    )
                     self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
@@ -3942,18 +3996,18 @@ class Inventory(DnacBase):
                     self.fail_and_exit(self.msg)
 
         except Exception as e:
-            self.msg = "An exception occured while validating the device maintanace params: {0}".format(str(e))
+            self.msg = "An exception occured while validating the device maintenance params: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
-    def create_schedule_maintenance_payload(self, devices_maintenance, non_schedule_device_ids, device_ips):
+    def create_schedule_maintenance_payload(self, devices_maintenance, unscheduled_device_ids, device_ips):
         """
         Creates a payload for scheduling device maintenance in the Cisco Catalyst Center.
 
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             devices_maintenance (dict): Dictionary containing maintenance schedule details
-            non_schedule_device_ids (list): List of device IDs that are not currently scheduled for maintenance.
+            unscheduled_device_ids (list): List of device IDs that are not currently scheduled for maintenance.
             device_ips (list): List of IP addresses of the devices being scheduled.
 
         Returns:
@@ -3976,7 +4030,7 @@ class Inventory(DnacBase):
                 "startTime": epoch_start_time,
                 "endTime": epoch_end_time
             },
-            "networkDeviceIds": non_schedule_device_ids
+            "networkDeviceIds": unscheduled_device_ids
         }
 
         recurrence_end_time = devices_maintenance.get("recurrence_end_time")
@@ -3987,7 +4041,10 @@ class Inventory(DnacBase):
                 "interval": devices_maintenance.get("recurrence_interval")
             }
 
-        self.log("Payload for scheduling the maintenance for the device(s) {0}: {1}".format(device_ips, payload), "INFO")
+        self.log(
+            "Constructed maintenance schedule payload for device(s) {0}: {1}".format(device_ips, payload),
+            "INFO"
+        )
 
         return payload
 
@@ -4088,23 +4145,14 @@ class Inventory(DnacBase):
                     )
                     return True
 
-            description = devices_maintenance.get("description")
-            description_in_ccc = schedule_details.get("description")
-            if description and description != description_in_ccc:
-                self.log(
-                    "Mismatch in the parameter 'description' so maintenance schedule for the device {0} "
-                    "needs update".format(device_ip), "INFO"
-                )
-                return True
-
             recurrence_end_time = devices_maintenance.get("recurrence_end_time")
             if recurrence_end_time:
                 maintenance_recurrence = schedule_details.get("maintenanceSchedule").get("recurrence")
                 if not maintenance_recurrence:
                     self.log(
-                        "Parameter 'recurrence_end_time' is given in the playbook but in the system device {0} is "
-                        "schedule for maintenance for one time only and we can not the change the maintenance type "
-                        "from once to recurring.".format(device_ip), "WARNING"
+                        "Parameter 'recurrence_end_time' is given in the playbook but the device {0} is currently "
+                        "scheduled for one-time maintenance. Cannot change the maintenance type from once to "
+                        "recurring.".format(device_ip), "WARNING"
                     )
                     return True
 
@@ -4145,6 +4193,7 @@ class Inventory(DnacBase):
         Args:
             self (object): An instance of a class used for device maintenance scheduling.
             devices_maintenance (dict): A dictionary containing maintenance scheduling parameters
+            schedule_details (dict): Dictionary containing current schedule details.
 
         Returns:
             bool: True if the maintenance type has changed from one-time to recurring, False otherwise.
@@ -4163,9 +4212,8 @@ class Inventory(DnacBase):
         recurrence_type_in_ccc = schedule_details.get("maintenanceSchedule").get("recurrence")
         if recurrence_end_time and recurrence_type_in_ccc is None:
             self.log(
-                "Parameter 'recurrence_end_time' is given in the playbook but in the system device is "
-                "schedule for maintenance for one time only and we can not the change the maintenance "
-                "type from once to recurring.", "WARNING"
+                "Parameter 'recurrence_end_time' is provided but the system schedule is set for one-time only. "
+                "Changing maintenance type from one-time to recurring is not allowed.", "WARNING"
             )
             return True
 
@@ -4195,27 +4243,43 @@ class Inventory(DnacBase):
         start_time = devices_maintenance.get("start_time")
         end_time = devices_maintenance.get("end_time")
         time_zone = devices_maintenance.get("time_zone")
+        maintenance_schedule = schedule_details.get("maintenanceSchedule") or {}
         schedule_payload = {
             "id": schedule_details.get("id"),
             "description": schedule_details.get("description"),
             "maintenanceSchedule": {
-                "startTime": schedule_details.get("maintenanceSchedule").get("startTime"),
-                "endTime": schedule_details.get("maintenanceSchedule").get("endTime"),
+                "startTime": maintenance_schedule.get("startTime"),
+                "endTime": maintenance_schedule.get("endTime"),
             },
             "networkDeviceIds": schedule_details.get("networkDeviceIds")
         }
         if start_time and time_zone:
             epoch_start_time = self.to_epoch_timezone(start_time, time_zone)
             schedule_payload["maintenanceSchedule"]["startTime"] = epoch_start_time
+            self.log(
+                "Converted start_time '{0}' to epoch '{1}' using timezone '{2}'.".format(
+                    start_time, epoch_start_time, time_zone
+                ), "DEBUG"
+            )
 
         if end_time and time_zone:
             epoch_end_time = self.to_epoch_timezone(end_time, time_zone)
             schedule_payload["maintenanceSchedule"]["endTime"] = epoch_end_time
+            self.log(
+                "Converted end_time '{0}' to epoch '{1}' using timezone '{2}'.".format(
+                    end_time, epoch_end_time, time_zone
+                ), "DEBUG"
+            )
 
         recurrence_end_time = devices_maintenance.get("recurrence_end_time")
         if recurrence_end_time:
             ep_end_time = schedule_payload["maintenanceSchedule"]["endTime"]
             epoch_current_time = self.get_current_time_in_timezone(time_zone)
+            self.log(
+                "Validating end_time '{0}' against current time '{1}'.".format(
+                    ep_end_time, epoch_current_time
+                ), "DEBUG"
+            )
             if ep_end_time < epoch_current_time:
                 self.msg = (
                     "Given 'end_time' {0} is less than the current date/time {1}. It should be"
@@ -4225,6 +4289,11 @@ class Inventory(DnacBase):
                 self.fail_and_exit(self.msg)
 
             recurr_epoch_end_time = self.to_epoch_timezone(recurrence_end_time, time_zone)
+            self.log(
+                "Validating recurrence_end_time '{0}' against end_time '{1}'.".format(
+                    recurr_epoch_end_time, ep_end_time
+                ), "DEBUG"
+            )
             if recurr_epoch_end_time < ep_end_time:
                 self.msg = (
                     "Given 'recurrence_end_time' {0} is less than device maintenance end date/time {1}. "
@@ -4236,12 +4305,22 @@ class Inventory(DnacBase):
             interval = devices_maintenance.get("recurrence_interval")
             schedule_payload["maintenanceSchedule"]["recurrence"] = {
                 "recurrenceEndTime": recurr_epoch_end_time,
-                "interval": interval or schedule_details.get("maintenanceSchedule").get("recurrence").get("interval")
+                "interval": interval or maintenance_schedule.get("recurrence").get("interval")
             }
+            self.log(
+                "Added recurrence to payload: {0}".format(
+                    schedule_payload["maintenanceSchedule"]["recurrence"]
+                ), "DEBUG"
+            )
             ep_start_time = schedule_payload["maintenanceSchedule"]["startTime"]
             recur_interval = schedule_payload["maintenanceSchedule"]["recurrence"]["interval"]
-            schedule_window = (ep_end_time - ep_start_time) / (24 * 3600 * 1000)
-            if recur_interval < schedule_window:
+            schedule_duration_days = (ep_end_time - ep_start_time) / (24 * 3600 * 1000)
+            self.log(
+                "Validating recurrence interval '{0}' against schedule window '{1}' days.".format(
+                    recur_interval, schedule_duration_days
+                ), "DEBUG"
+            )
+            if recur_interval < schedule_duration_days:
                 self.msg = "The interval must be longer than the duration of the schedules."
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
@@ -4250,7 +4329,11 @@ class Inventory(DnacBase):
             not schedule_payload.get("maintenanceSchedule").get("recurrence") and
             schedule_details.get("maintenanceSchedule").get("recurrence")
         ):
-            schedule_payload["maintenanceSchedule"]["recurrence"] = schedule_details.get("maintenanceSchedule").get("recurrence")
+            schedule_payload["maintenanceSchedule"]["recurrence"] = maintenance_schedule.get("recurrence")
+            self.log(
+                "No recurrence provided in devices_maintenance. Using existing recurrence from schedule details.",
+                "DEBUG"
+            )
 
         self.log("Payload for updating the scheduled maintenance of device {0}: {1}".format(device_ip, schedule_payload), "INFO")
 
@@ -4287,7 +4370,7 @@ class Inventory(DnacBase):
             }
             self.log("Constructed payload for updating the maintenance schedule: {0}".format(update_payload), "DEBUG")
             task_name = "updates_the_maintenance_schedule_information"
-            self.log("Triggering '{0}' API call with payload.".format(task_name), "DEBUG")
+            self.log("Triggering '{0}' API call to update the maintenance window.".format(task_name), "DEBUG")
             task_id = self.get_taskid_post_api_call("devices", task_name, update_payload)
 
             if not task_id:
@@ -4296,13 +4379,12 @@ class Inventory(DnacBase):
                 return self
 
             self.log("Received task ID: {0}. Monitoring task status.".format(task_id), "DEBUG")
-            success_msg = "Exit the maintenance schedule window successfully..."
+            success_msg = "Exited the maintenance schedule window successfully."
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         except Exception as e:
             self.msg = (
-                "An exception occured while exiting the maintenance schedule window in the Cisco Catalyst "
-                "Center: {0}"
+                "An exception occurred while trying to exit the maintenance schedule window: {0}"
             ).format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
@@ -4328,15 +4410,20 @@ class Inventory(DnacBase):
         """
 
         try:
-            self.log("Proceeding with updating the maintenance schedule for the device {0}.".format(device_ip), "INFO")
-            payload = {"payload": update_schedule_payload}
+            self.log("Starting maintenance schedule update for device '{0}'.".format(device_ip), "INFO")
+            schedule_id = update_schedule_payload.get("id")
+            update_schedule_payload.pop("id")
+            payload = {"payload": update_schedule_payload, "id": schedule_id}
             self.log("Constructed payload for updating the maintenance schedule: {0}".format(payload), "DEBUG")
             task_name = "updates_the_maintenance_schedule_information"
-            self.log("Triggering '{0}' API call with payload.".format(task_name), "DEBUG")
+            self.log("Triggering '{0}' API call to update maintenance schedule.".format(task_name), "DEBUG")
             task_id = self.get_taskid_post_api_call("devices", task_name, payload)
 
             if not task_id:
-                self.msg = "Failed to retrieve task ID for '{0}'. Device maintenance scheduling updation aborted.".format(task_name)
+                self.msg = (
+                    "Failed to retrieve task ID after '{0}' API call. "
+                    "Maintenance schedule update for device '{1}' aborted.".format(task_name, device_ip)
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -4373,13 +4460,17 @@ class Inventory(DnacBase):
         """
 
         try:
+            self.log("Starting maintenance schedule deletion for schedule ID '{0}'.".format(schedule_id), "INFO")
             payload = {"id": schedule_id}
             self.log("Constructed payload for deleting the maintenance schedule: {0}".format(payload), "DEBUG")
             task_name = "delete_maintenance_schedule"
             task_id = self.get_taskid_post_api_call("devices", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = (
+                    "Unable to retrieve the task ID after '{0}' API call. "
+                    "Maintenance schedule deletion aborted.".format(task_name)
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -4389,7 +4480,10 @@ class Inventory(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         except Exception as e:
-            self.msg = "Exception occurred while deleting Maintenance schedule due to: {0}".format(str(e))
+            self.msg = (
+                "An exception occurred while deleting the maintenance schedule with ID '{0}': {1}"
+                .format(schedule_id, str(e))
+            )
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
@@ -5004,130 +5098,133 @@ class Inventory(DnacBase):
             self.export_device_details().check_return_status()
 
         devices_maintenance = self.config[0].get('devices_maintenance_schedule')
-        if devices_maintenance and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
-            self.log("Proceeding with the device maintenance scheduling process...", "DEBUG")
-            updated_network_ids = []
-            for maintenance_config in devices_maintenance:
-                network_device_ips = maintenance_config.get("device_ips")
-                if not network_device_ips:
-                    self.msg = (
-                        "Required parameter 'device_ips' must be provided in the playbook in order to create/update schedule "
-                        "maintenance for network devices."
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
+        if not devices_maintenance:
+            self.log("No device maintenance schedule provided in the playbook.", "INFO")
+            return self
 
-                if not maintenance_config.get("time_zone"):
-                    self.msg = (
-                        "Required parameter 'time_zone' must be provided in the playbook in order to create/update schedule "
-                        "maintenance for network devices."
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
-
-                network_device_ids = self.get_device_ids(network_device_ips)
-                device_ip_id_map = self.get_device_ips_from_device_ids(network_device_ids)
-                # Find out the devices for which maintenance already schedule and not schedule yet
-                schedule_device_ids, non_schedule_device_ids = self.get_schedule_and_not_schedule_device(network_device_ids, device_ip_id_map)
-
-                if non_schedule_device_ids:
-                    device_ips = []
-                    for device_id in non_schedule_device_ids:
-                        ip = device_ip_id_map[device_id]
-                        device_ips.append(ip)
-
-                    self.log("Start scheduling the maintenance schedule for the device(s): {0}".format(device_ips), "INFO")
-                    self.validate_device_maintenance_params(maintenance_config)
-                    maintenance_payload = self.create_schedule_maintenance_payload(maintenance_config, non_schedule_device_ids, device_ips)
-                    self.schedule_maintenance_for_devices(maintenance_payload, device_ips).check_return_status()
-                    self.log("Maintenance schedule successfully for the device(s): {0}.".format(device_ips), "INFO")
-                    self.maintenance_scheduled.extend(device_ips)
-
-                if schedule_device_ids:
-                    for device_id in schedule_device_ids:
-                        device_ip = device_ip_id_map[device_id]
-                        schedule_details = self.get_device_maintenance_details(device_id, device_ip)
-                        if not schedule_details:
-                            self.log("No schedule maintenance details found for the device {0}".format(device_ip), "WARNING")
-                            continue
-
-                        status = schedule_details.get("maintenanceSchedule").get("status")
-                        if status not in ["UPCOMING", "IN_PROGRESS"]:
-                            self.msg = (
-                                "Device maintenance schedule status is not neither 'UPCOMING' nor 'IN_PROGRESS' "
-                                "so unable to update the maintenance schedule for the given device: {0}".format(device_ip)
-                            )
-                            self.log(self.msg, "ERROR")
-                            self.fail_and_exit(self.msg)
-
-                        self.log("Check whether device maintenance needs update or not for the device: {0}".format(device_ip), "DEBUG")
-                        is_need_update = self.device_maintenance_needs_update(maintenance_config, schedule_details, device_ip)
-                        if is_need_update:
-                            status = schedule_details.get("maintenanceSchedule").get("status")
-                            if status == "IN_PROGRESS":
-                                self.log(
-                                    "Since the schedule maintenance for the device {0} was going on so user need to exit the"
-                                    " maintenance window by setting the `endTime` to -1.".format(device_ip), "INFO"
-                                )
-                                self.exit_maintenance_window(schedule_details).check_return_status()
-                                self.log("Exit the maintenance schedule window successfully...", "INFO")
-
-                            self.log(
-                                "Checking for the change in the maintenance schedule from recurring to once or vice versa.."
-                                , "DEBUG"
-                            )
-                            is_schedule_type_change = self.is_recurrence_type_changed(maintenance_config, schedule_details)
-                            if is_schedule_type_change:
-                                self.log(
-                                    "Maintenance schedule type has been changed so need to delete the current schedule "
-                                    "and create the new device maintenance schedule.", "INFO"
-                                )
-                                device_ids = schedule_details.get("networkDeviceIds")
-                                ips_list = []
-                                for device_id in device_ids:
-                                    ip = device_ip_id_map[device_id]
-                                    ips_list.append(ip)
-
-                                schedule_id = schedule_details.get("id")
-                                self.delete_maintenance_schedule(schedule_id).check_return_status()
-                                self.log("Maintenance schedule deleted successfully and now we have to create the new one...", "INFO")
-
-                                create_schedule_payload = self.get_update_payload_for_maintenance(maintenance_config, schedule_details, device_ip)
-                                self.schedule_maintenance_for_devices(create_schedule_payload, ips_list).check_return_status()
-                                self.log("Maintenance scheduled successfully for the device(s): {0}.".format(ips_list), "INFO")
-
-                                self.maintenance_scheduled.extend(ips_list)
-                                self.maintenance_scheduled = list(set(self.maintenance_scheduled))
-                            else:
-                                update_schedule_payload = self.get_update_payload_for_maintenance(maintenance_config, schedule_details, device_ip)
-                                self.update_schedule_maintenance(update_schedule_payload, device_ip).check_return_status()
-                                self.log("Maintenance schedule updated successfully for the device: {0}.".format(device_ip), "INFO")
-                                updated_network_ids.extend(schedule_details.get("networkDeviceIds"))
-                        else:
-                            self.log("There is no update required for the given schedule maintenance of device {0}.".format(device_ip), "INFO")
-                            self.no_update_in_maintenance.append(device_ip)
-
-                    if updated_network_ids:
-                        for device_id in updated_network_ids:
-                            device_ip = device_ip_id_map.get("device_id")
-                            self.log("Maintenance schedule updated successfully for the device: {0}.".format(device_ip), "INFO")
-                            self.maintenance_updated(device_ip)
-                            if device_ip in self.no_update_in_maintenance:
-                                self.log("Remove the device ip {0} from no schedule maintenance updates list".format(device_ip), "INFO")
-                                self.no_update_in_maintenance.remove(device_ip)
-
-                if self.maintenance_scheduled and self.no_update_in_maintenance:
-                    for device_ip in self.no_update_in_maintenance:
-                        if device_ip in self.no_update_in_maintenance:
-                            self.log("Remove the device ip {0} from no schedule maintenance creation list".format(device_ip), "INFO")
-                            self.no_update_in_maintenance.remove(device_ip)
-
-        elif devices_maintenance and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
             self.log(
                 "Creating/Updating the device maintenance schedule starts from '2.3.7.9' onwards. Please upgrade "
-                "the Cisco Catalyst Center to '2.3.7.9' in order to leverage the device maintenance schedule feature."
-                , "WARNING"
+                "the Cisco Catalyst Center to '2.3.7.9' in order to leverage the device maintenance schedule feature.",
+                "WARNING"
             )
+            return self
+
+        self.log("Proceeding with the device maintenance scheduling process...", "DEBUG")
+        updated_network_ids = []
+        for maintenance_config in devices_maintenance:
+            network_device_ips = maintenance_config.get("device_ips")
+            if not network_device_ips:
+                self.msg = (
+                    "Required parameter 'device_ips' must be provided in the playbook in order to create/update schedule "
+                    "maintenance for network devices."
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            if not maintenance_config.get("time_zone"):
+                self.msg = (
+                    "Required parameter 'time_zone' must be provided in the playbook in order to create/update schedule "
+                    "maintenance for network devices."
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            network_device_ids = self.get_device_ids(network_device_ips)
+            device_ip_id_map = self.get_device_ips_from_device_ids(network_device_ids)
+            # Find out the devices for which maintenance already schedule and not schedule yet
+            schedule_device_ids, unscheduled_device_ids = self.get_schedule_and_unscheduled_device_ids(network_device_ids, device_ip_id_map)
+
+            if unscheduled_device_ids:
+                device_ips = []
+                for device_id in unscheduled_device_ids:
+                    ip = device_ip_id_map[device_id]
+                    device_ips.append(ip)
+
+                self.log("Start scheduling the maintenance schedule for the device(s): {0}".format(device_ips), "INFO")
+                self.validate_device_maintenance_params(maintenance_config)
+                maintenance_payload = self.create_schedule_maintenance_payload(maintenance_config, unscheduled_device_ids, device_ips)
+                self.schedule_maintenance_for_devices(maintenance_payload, device_ips).check_return_status()
+                self.log("Maintenance schedule successfully for the device(s): {0}.".format(device_ips), "INFO")
+                self.maintenance_scheduled.extend(device_ips)
+
+            if schedule_device_ids:
+                for device_id in schedule_device_ids:
+                    device_ip = device_ip_id_map[device_id]
+                    schedule_details = self.get_device_maintenance_details(device_id, device_ip)
+                    if not schedule_details:
+                        self.log("No schedule maintenance details found for the device {0}".format(device_ip), "WARNING")
+                        continue
+
+                    status = schedule_details.get("maintenanceSchedule").get("status")
+                    if status not in ["UPCOMING", "IN_PROGRESS"]:
+                        self.msg = (
+                            "Device maintenance schedule status is neither 'UPCOMING' nor 'IN_PROGRESS' "
+                            "so unable to update the maintenance schedule for the given device: {0}".format(device_ip)
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.fail_and_exit(self.msg)
+
+                    self.log("Check whether device maintenance needs update or not for the device: {0}".format(device_ip), "DEBUG")
+                    is_need_update = self.device_maintenance_needs_update(maintenance_config, schedule_details, device_ip)
+                    if is_need_update:
+                        status = schedule_details.get("maintenanceSchedule").get("status")
+                        if status == "IN_PROGRESS":
+                            self.log(
+                                "Since the schedule maintenance for the device {0} was going on, the user needs to exit the "
+                                "maintenance window by setting the `endTime` to -1.".format(device_ip), "INFO"
+                            )
+                            self.exit_maintenance_window(schedule_details).check_return_status()
+                            self.log("Exit the maintenance schedule window successfully...", "INFO")
+
+                        self.log(
+                            "Checking for the change in the maintenance schedule from recurring to once or vice versa.."
+                            , "DEBUG"
+                        )
+                        is_schedule_type_change = self.is_recurrence_type_changed(maintenance_config, schedule_details)
+                        if is_schedule_type_change:
+                            self.log(
+                                "Maintenance schedule type has been changed so need to delete the current schedule "
+                                "and create the new device maintenance schedule.", "INFO"
+                            )
+                            device_ids = schedule_details.get("networkDeviceIds")
+                            ips_list = []
+                            for device_id in device_ids:
+                                ip = device_ip_id_map[device_id]
+                                ips_list.append(ip)
+
+                            schedule_id = schedule_details.get("id")
+                            self.delete_maintenance_schedule(schedule_id).check_return_status()
+                            self.log("Maintenance schedule deleted successfully and now we have to create the new one...", "INFO")
+
+                            create_schedule_payload = self.get_update_payload_for_maintenance(maintenance_config, schedule_details, device_ip)
+                            self.schedule_maintenance_for_devices(create_schedule_payload, ips_list).check_return_status()
+                            self.log("Maintenance scheduled successfully for the device(s): {0}.".format(ips_list), "INFO")
+
+                            self.maintenance_scheduled.extend(ips_list)
+                            self.maintenance_scheduled = list(set(self.maintenance_scheduled))
+                        else:
+                            update_schedule_payload = self.get_update_payload_for_maintenance(maintenance_config, schedule_details, device_ip)
+                            self.update_schedule_maintenance(update_schedule_payload, device_ip).check_return_status()
+                            self.log("Maintenance schedule updated successfully for the device: {0}.".format(device_ip), "INFO")
+                            updated_network_ids.extend(schedule_details.get("networkDeviceIds"))
+                    else:
+                        self.log("There is no update required for the given schedule maintenance of device {0}.".format(device_ip), "INFO")
+                        self.no_update_in_maintenance.append(device_ip)
+
+                if updated_network_ids:
+                    for device_id in updated_network_ids:
+                        device_ip = device_ip_id_map.get(device_id)
+                        self.log("Maintenance schedule updated successfully for the device: {0}.".format(device_ip), "INFO")
+                        self.maintenance_updated.append(device_ip)
+                        if device_ip in self.no_update_in_maintenance:
+                            self.log("Remove the device ip {0} from no schedule maintenance updates list".format(device_ip), "INFO")
+                            self.no_update_in_maintenance.remove(device_ip)
+
+            if self.maintenance_scheduled and self.no_update_in_maintenance:
+                for device_ip in self.no_update_in_maintenance:
+                    self.log("Remove the device ip {0} from no schedule maintenance creation list".format(device_ip), "INFO")
+                    self.no_update_in_maintenance.remove(device_ip)
 
         return self
 
@@ -5777,6 +5874,10 @@ class Inventory(DnacBase):
         if self.maintenance_scheduled:
             scheduled_msg = "Device maintenance scheduled successfully for the devices {0} in Cisco Catalyst Center.".format(self.maintenance_scheduled)
             result_msg_list_changed.append(scheduled_msg)
+
+        if self.maintenance_updated:
+            schedule_update_msg = "Device maintenance scheduled updated successfully for the devices: {0}.".format(self.maintenance_updated)
+            result_msg_list_changed.append(schedule_update_msg)
 
         if self.no_update_in_maintenance:
             no_update_msg = "Maintenance schedule not required any update for the devices {0} in Cisco Catalyst Center.".format(self.no_update_in_maintenance)
