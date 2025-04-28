@@ -691,12 +691,33 @@
     "telemetry_get":
       {
         "response": {
-          "applicationVisibility": null,
-          "wiredDataCollection": null,
-          "wirelessTelemetry": null,
-          "snmpTraps": null,
-          "syslogs": null
-        },
+          "applicationVisibility": {
+              "collector": {
+                  "collectorType": "TelemetryBrokerOrUDPDirector",
+                  "address": "10.0.0.4",
+                  "port": "443"
+              },
+              "enableOnWiredAccessDevices": false
+          },
+          "wiredDataCollection": {
+              "inheritedSiteId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+              "inheritedSiteName": "Global",
+              "enableWiredDataCollection": false
+          },
+          "wirelessTelemetry": {
+              "inheritedSiteId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+              "inheritedSiteName": "Global",
+              "enableWirelessTelemetry": false
+          },
+          "snmpTraps": {
+              "useBuiltinTrapServer": false,
+              "externalTrapServers": ["10.0.0.8"]
+          },
+          "syslogs": {
+              "useBuiltinSyslogServer": false,
+              "externalSyslogServers": ["10.0.0.7"]
+          }
+      },
         "version": "1.0"
       },
 
@@ -707,7 +728,7 @@
         },
         "version": "1.0"
       },
-    
+
     "timeZone_get":
     {
         "response": {
@@ -715,7 +736,7 @@
         },
         "version": "1.0"
       },
-      
+
     "banner_get":
     {
         "response": {
@@ -723,7 +744,7 @@
         },
         "version": "1.0"
       },
-       
+
      "AAA_get":
      {
         "response": {
@@ -752,7 +773,8 @@
           "serviceType": "Common Settings Service",
           "isError": false,
           "instanceTenantId": "6663114d388b29001399e46a",
-          "id": "01923303-af6c-7c7d-9726-96b51d45bd1a"
+          "id": "01923303-af6c-7c7d-9726-96b51d45bd1a",
+          "status": "SUCCESS"
         },
         "version": "1.0"
       },
@@ -788,7 +810,9 @@
         "response": {
           "applicationVisibility": {
             "collector": {
-              "collectorType": "Builtin"
+              "collectorType": "TelemetryBrokerOrUDPDirector",
+              "address": "10.0.0.4",
+              "port": "443"
             },
             "enableOnWiredAccessDevices": false
           },
@@ -800,11 +824,11 @@
     },
           "snmpTraps": {
             "useBuiltinTrapServer": false,
-            "externalTrapServers": ["10.0.0.6"]
+            "externalTrapServers": ["10.0.0.8"]
           },
           "syslogs": {
             "useBuiltinSyslogServer": false,
-            "externalSyslogServers": ["10.0.0.8"]
+            "externalSyslogServers": ["10.0.0.7"]
           }
         },
         "version": "1.0"
@@ -834,8 +858,7 @@
       {
         "response": {
           "banner": {
-            "type": "Custom",
-            "message": "hey"
+            "type": "Builtin"
           }
         },
         "version": "1.0"
@@ -2342,24 +2365,5 @@
         "response": [],
         "message": "There is no global ip pools present in the system for the given input."
       }
-      
-
-      
-      
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-       
-      
-        
-
-  }
   
+}

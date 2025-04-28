@@ -220,7 +220,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user
@@ -244,7 +244,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user
@@ -268,7 +268,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user
@@ -292,7 +292,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_delete_existing_user
@@ -316,7 +316,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_user
@@ -340,7 +340,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_mandatory_field_not_present
@@ -364,7 +364,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_username_email_not_present
@@ -389,23 +389,23 @@ key is invalid for role creation, updation, or deletion' or 'The 'role_details' 
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_username_not_correct_formate
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get("msg"))
         self.assertEqual(
             result.get("msg"),
-            "Invalid parameters in playbook config: first_name: First name 'ajith ' can have alphanumeric characters \
-only and must be 2 to 50 characters long., last_name: Last name 'andrew ' can have alphanumeric characters only and must \
-be 2 to 50 characters long., The password must be 9 to 20 characters long and include at least three of the following character \
-types: lowercase letters, uppercase letters, digits, and special characters. Additionally, the password must not contain \
-repetitive or sequential characters., The password must be 9 to 20 characters long and include at least three of the following character \
-types: lowercase letters, uppercase letters, digits, and special characters. Additionally, the password must not contain repetitive or sequential \
-characters., username: 'ajithandrewj ' The username must not contain any special characters and must be 3 to 50 characters long."
+            "Invalid parameters in playbook config: first_name: First name 'ajith ' can have alphanumeric "
+            "characters only and must be 2 to 50 characters long., "
+            "last_name: Last name 'andrew ' can have alphanumeric characters only and must be 2 to 50 characters long., "
+            "The password must be 9 to 20 characters long and include at least three of the following character types: "
+            "lowercase letters, uppercase letters, digits, and special characters. "
+            "Additionally, the password must not contain repetitive or sequential characters., "
+            "username: 'ajithandrewj ' The username must not contain any special characters and must be 3 to 50 characters long."
         )
 
     def test_user_role_workflow_manager_user_invalid_param_not_type_list(self):
@@ -419,7 +419,7 @@ characters., username: 'ajithandrewj ' The username must not contain any special
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_user_rolelist_not_type_list
@@ -443,7 +443,7 @@ characters., username: 'ajithandrewj ' The username must not contain any special
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user_invalid_param_rolelist_not_found
@@ -467,7 +467,7 @@ characters., username: 'ajithandrewj ' The username must not contain any special
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user_invalid_param_rolelist_not_found
@@ -491,7 +491,7 @@ characters., username: 'ajithandrewj ' The username must not contain any special
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_role
@@ -515,7 +515,7 @@ characters., username: 'ajithandrewj ' The username must not contain any special
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_1_role
@@ -539,7 +539,7 @@ characters., username: 'ajithandrewj ' The username must not contain any special
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_role
@@ -563,7 +563,7 @@ characters., username: 'ajithandrewj ' The username must not contain any special
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_role
@@ -587,7 +587,7 @@ characters., username: 'ajithandrewj ' The username must not contain any special
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_role
@@ -611,7 +611,7 @@ characters., username: 'ajithandrewj ' The username must not contain any special
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_role
@@ -635,7 +635,7 @@ characters., username: 'ajithandrewj ' The username must not contain any special
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_rolename_not_present
@@ -660,7 +660,7 @@ key is invalid for role creation, updation, or deletion' or 'The 'role_details' 
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_not_type_list
@@ -684,7 +684,7 @@ key is invalid for role creation, updation, or deletion' or 'The 'role_details' 
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_with_all_permision_deny
@@ -708,7 +708,7 @@ key is invalid for role creation, updation, or deletion' or 'The 'role_details' 
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_rolename_not_correct_formate
@@ -733,7 +733,7 @@ numbers, periods, underscores, and hyphens."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_type_list_missing
@@ -757,7 +757,7 @@ numbers, periods, underscores, and hyphens."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_invalid_permission
@@ -781,7 +781,7 @@ numbers, periods, underscores, and hyphens."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_invalid_permission
@@ -805,7 +805,7 @@ numbers, periods, underscores, and hyphens."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_for_creating_default_role
@@ -829,7 +829,7 @@ numbers, periods, underscores, and hyphens."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="mergeddd",
                 config=self.playbook_config_invalid_invalid_param_state

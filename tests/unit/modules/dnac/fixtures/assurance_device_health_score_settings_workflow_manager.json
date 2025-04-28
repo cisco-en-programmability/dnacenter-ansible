@@ -1,0 +1,202 @@
+{
+    
+  "playbook_config_updation": [
+      {
+          "device_health_score": [
+            {
+              "kpi_name": "Link Discard",
+              "device_family": "ROUTER",
+              "include_for_overall_health": true,
+              "threshold_value": 70,
+              "synchronize_to_issue_threshold": false
+            }
+          ]
+        }    
+  ],
+
+  "get_kpi_details":{
+      "response": [
+      {
+          "id": "6619190f-2a3d-4551-b0de-0193a0ac053a",
+          "name": "linkErrorThreshold",
+          "displayName": "ct_hs_linkError",
+          "deviceFamily": "ROUTER",
+          "description": "ct_hs_linkError",
+          "includeForOverallHealth": true,
+          "definitionStatus": "CUSTOM",
+          "thresholdValue": 20.0,
+          "synchronizeToIssueThreshold": false,
+          "lastModified": "1734931889765"
+      },
+
+  {
+      "id": "f06e58e0-4c87-429d-92bc-4bf33ad2688a",
+      "name": "linkDiscardThreshold",
+      "displayName": "ct_hs_linkDiscard",
+      "deviceFamily": "ROUTER",
+      "description": "ct_hs_linkDiscard",
+      "includeForOverallHealth": true,
+      "definitionStatus": "CUSTOM",
+      "thresholdValue": 70,
+      "synchronizeToIssueThreshold": false,
+      "lastModified": "1734942971969"
+  }
+  ]
+},
+  
+  "device_health_score_settings_updation":
+  {
+      "response": {
+      "id": "f06e58e0-4c87-429d-92bc-4bf33ad2688a",
+      "name": "linkDiscardThreshold",
+      "displayName": "ct_hs_linkDiscard",
+      "deviceFamily": "ROUTER",
+      "description": "ct_hs_linkDiscard",
+      "includeForOverallHealth": true,
+      "definitionStatus": "CUSTOM",
+      "thresholdValue": 70.0,
+      "synchronizeToIssueThreshold": false,
+      "lastModified": "1734942971969"
+      },
+      "version": "1.0"
+  },
+
+  "kpi_detail":
+  {
+      "response": [
+        {
+          "id": "6619190f-2a3d-4551-b0de-0193a0ac053a",
+          "name": "linkErrorThreshold",
+          "displayName": "ct_hs_linkError",
+          "deviceFamily": "ROUTER",
+          "description": "ct_hs_linkError",
+          "includeForOverallHealth": true,
+          "definitionStatus": "CUSTOM",
+          "thresholdValue": 40.0,
+          "synchronizeToIssueThreshold": false,
+          "lastModified": "1735115772997"
+        },
+        {
+          "id": "f06e58e0-4c87-429d-92bc-4bf33ad2688a",
+          "name": "linkDiscardThreshold",
+          "displayName": "ct_hs_linkDiscard",
+          "deviceFamily": "ROUTER",
+          "description": "ct_hs_linkDiscard",
+          "includeForOverallHealth": true,
+          "definitionStatus": "CUSTOM",
+          "thresholdValue": 70.0,
+          "synchronizeToIssueThreshold": false,
+          "lastModified": "1734943004635"
+        }
+      ]
+    },
+
+  "require_update_kpi_detail_1":
+  {
+      "response": [
+        {
+          "id": "f06e58e0-4c87-429d-92bc-4bf33ad2688a",
+          "name": "linkDiscardThreshold",
+          "displayName": "ct_hs_linkDiscard",
+          "deviceFamily": "ROUTER",
+          "description": "ct_hs_linkDiscard",
+          "includeForOverallHealth": true,
+          "definitionStatus": "CUSTOM",
+          "thresholdValue": 60.0,
+          "synchronizeToIssueThreshold": false,
+          "lastModified": "1734943004635"
+        }
+      ]
+    },
+
+    "require_update_kpi_detail_2":
+  {
+      "response": [
+        {
+          "id": "f06e58e0-4c87-429d-92bc-4bf33ad2688a",
+          "name": "linkDiscardThreshold",
+          "displayName": "ct_hs_linkDiscard",
+          "deviceFamily": "ROUTER",
+          "description": "ct_hs_linkDiscard",
+          "includeForOverallHealth": true,
+          "definitionStatus": "CUSTOM",
+          "thresholdValue": 60.0,
+          "synchronizeToIssueThreshold": false,
+          "lastModified": "1734943004635"
+        }
+      ]
+    },
+
+  "updated_kpi_detail":
+  {
+      "response": [
+        {
+          "id": "f06e58e0-4c87-429d-92bc-4bf33ad2688a",
+          "name": "linkDiscardThreshold",
+          "displayName": "ct_hs_linkDiscard",
+          "deviceFamily": "ROUTER",
+          "description": "ct_hs_linkDiscard",
+          "includeForOverallHealth": true,
+          "definitionStatus": "CUSTOM",
+          "thresholdValue": 70.0,
+          "synchronizeToIssueThreshold": false,
+          "lastModified": "1734943004635"
+        }
+      ]
+    },
+
+    "after_update_kpi_detail_1":
+  {
+      "response": [
+        {
+          "id": "f06e58e0-4c87-429d-92bc-4bf33ad2688a",
+          "name": "linkDiscardThreshold",
+          "displayName": "ct_hs_linkDiscard",
+          "deviceFamily": "ROUTER",
+          "description": "ct_hs_linkDiscard",
+          "includeForOverallHealth": true,
+          "definitionStatus": "CUSTOM",
+          "thresholdValue": 60.0,
+          "synchronizeToIssueThreshold": false,
+          "lastModified": "1734943004635"
+        }
+      ]
+    },
+
+    "after_update_kpi_detail_2":
+  {
+      "response": [
+        {
+          "id": "f06e58e0-4c87-429d-92bc-4bf33ad2688a",
+          "name": "linkDiscardThreshold",
+          "displayName": "ct_hs_linkDiscard",
+          "deviceFamily": "ROUTER",
+          "description": "ct_hs_linkDiscard",
+          "includeForOverallHealth": true,
+          "definitionStatus": "CUSTOM",
+          "thresholdValue": 70,
+          "synchronizeToIssueThreshold": false,
+          "lastModified": "1734943004635"
+        }
+      ]
+    },
+
+  "updated_kpi_detail_verify":
+  {
+      "response": [
+        {
+          "id": "f06e58e0-4c87-429d-92bc-4bf33ad2688a",
+          "name": "linkDiscardThreshold",
+          "displayName": "ct_hs_linkDiscard",
+          "deviceFamily": "ROUTER",
+          "description": "ct_hs_linkDiscard",
+          "includeForOverallHealth": true,
+          "definitionStatus": "CUSTOM",
+          "thresholdValue": 90.0,
+          "synchronizeToIssueThreshold": false,
+          "lastModified": "1734943004635"
+        }
+      ]
+    }
+
+  }

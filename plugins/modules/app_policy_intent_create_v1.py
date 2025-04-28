@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: app_policy_intent_create_v1
 short_description: Resource module for App Policy Intent Create V1
 description:
-- Manage operation create of the resource App Policy Intent Create V1.
-- Create/Update/Delete application policy.
+  - Manage operation create of the resource App Policy Intent Create V1.
+  - Create/Update/Delete application policy.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,8 +26,8 @@ options:
             elements: dict
             suboptions:
               groupId:
-                description: The site(s) ID where the Application QoS Policy will be
-                  deployed.
+                description: The site(s) ID where the Application QoS Policy will
+                  be deployed.
                 elements: str
                 type: list
               ssid:
@@ -125,8 +123,8 @@ options:
             elements: dict
             suboptions:
               groupId:
-                description: The site(s) ID where the Application QoS Policy will be
-                  deployed.
+                description: The site(s) ID where the Application QoS Policy will
+                  be deployed.
                 elements: str
                 type: list
               id:
@@ -184,7 +182,8 @@ options:
                 description: Host tracking enabled.
                 type: bool
               id:
-                description: Id of Business relevance or Application policy knobs clause.
+                description: Id of Business relevance or Application policy knobs
+                  clause.
                 type: str
               relevanceLevel:
                 description: Relevance level.
@@ -228,21 +227,16 @@ options:
         type: dict
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy ApplicationPolicyIntentV1
-  description: Complete reference of the ApplicationPolicyIntentV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!application-policy-intent
+  - name: Cisco DNA Center documentation for Application Policy ApplicationPolicyIntentV1
+    description: Complete reference of the ApplicationPolicyIntentV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!application-policy-intent
 notes:
-  - SDK Method used are
-    application_policy.ApplicationPolicy.application_policy_intent_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/app-policy-intent,
-
+  - SDK Method used are application_policy.ApplicationPolicy.application_policy_intent_v1,
+  - Paths used are post /dna/intent/api/v1/app-policy-intent,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.app_policy_intent_create_v1:
@@ -254,67 +248,66 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     createList:
-    - advancedPolicyScope:
-        advancedPolicyScopeElement:
-        - groupId:
-          - string
-          ssid:
-          - string
+      - advancedPolicyScope:
+          advancedPolicyScopeElement:
+            - groupId:
+                - string
+              ssid:
+                - string
+          name: string
+        consumer:
+          scalableGroup:
+            - idRef: string
+        contract:
+          idRef: string
+        deletePolicyStatus: string
+        exclusiveContract:
+          clause:
+            - deviceRemovalBehavior: string
+              hostTrackingEnabled: true
+              relevanceLevel: string
+              type: string
         name: string
-      consumer:
-        scalableGroup:
-        - idRef: string
-      contract:
-        idRef: string
-      deletePolicyStatus: string
-      exclusiveContract:
-        clause:
-        - deviceRemovalBehavior: string
-          hostTrackingEnabled: true
-          relevanceLevel: string
-          type: string
-      name: string
-      policyScope: string
-      priority: string
-      producer:
-        scalableGroup:
-        - idRef: string
+        policyScope: string
+        priority: string
+        producer:
+          scalableGroup:
+            - idRef: string
     deleteList:
-    - string
+      - string
     updateList:
-    - advancedPolicyScope:
-        advancedPolicyScopeElement:
-        - groupId:
-          - string
+      - advancedPolicyScope:
+          advancedPolicyScopeElement:
+            - groupId:
+                - string
+              id: string
+              ssid:
+                - string
           id: string
-          ssid:
-          - string
+          name: string
+        consumer:
+          id: string
+          scalableGroup:
+            - idRef: string
+        contract:
+          idRef: string
+        deletePolicyStatus: string
+        exclusiveContract:
+          clause:
+            - deviceRemovalBehavior: string
+              hostTrackingEnabled: true
+              id: string
+              relevanceLevel: string
+              type: string
+          id: string
         id: string
         name: string
-      consumer:
-        id: string
-        scalableGroup:
-        - idRef: string
-      contract:
-        idRef: string
-      deletePolicyStatus: string
-      exclusiveContract:
-        clause:
-        - deviceRemovalBehavior: string
-          hostTrackingEnabled: true
+        policyScope: string
+        priority: string
+        producer:
           id: string
-          relevanceLevel: string
-          type: string
-        id: string
-      id: string
-      name: string
-      policyScope: string
-      priority: string
-      producer:
-        id: string
-        scalableGroup:
-        - idRef: string
-
+          scalableGroup:
+            - idRef: string
 """
 RETURN = r"""
 dnac_response:
