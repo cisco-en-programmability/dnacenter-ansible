@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: security_advisories_trials_info
 short_description: Information module for Security Advisories Trials Info
 description:
-- This module represents an alias of the module security_advisories_trials_v1_info
+  - This module represents an alias of the module security_advisories_trials_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,22 +17,20 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevicesV1
-  description: Complete reference of the GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-security-advisories-detection-on-network-devices
+  - name: Cisco DNA Center documentation for Compliance GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevicesV1
+    description: Complete reference of the GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevicesV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-security-advisories-detection-on-network-devices
 notes:
   - SDK Method used are
     compliance.Compliance.get_trial_details_for_security_advisories_detection_on_network_devices_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/securityAdvisories/trials,
+  - Paths used are get /dna/intent/api/v1/securityAdvisories/trials,
   - It should be noted that this module is an alias of security_advisories_trials_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Security Advisories Trials Info
   cisco.dnac.security_advisories_trials_info:
@@ -48,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

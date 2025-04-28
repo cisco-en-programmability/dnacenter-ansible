@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: qos_device_interface_v1_info
 short_description: Information module for Qos Device Interface V1
 description:
-- Get all Qos Device Interface V1.
-- Get all or by network device id, existing qos device interface infos.
+  - Get all Qos Device Interface V1.
+  - Get all or by network device id, existing qos device interface infos.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,24 +19,19 @@ options:
     type: dict
   networkDeviceId:
     description:
-    - NetworkDeviceId query parameter. Network device id.
+      - NetworkDeviceId query parameter. Network device id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetQosDeviceInterfaceInfoV1
-  description: Complete reference of the GetQosDeviceInterfaceInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info
+  - name: Cisco DNA Center documentation for Application Policy GetQosDeviceInterfaceInfoV1
+    description: Complete reference of the GetQosDeviceInterfaceInfoV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info
 notes:
-  - SDK Method used are
-    application_policy.ApplicationPolicy.get_qos_device_interface_info_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/qos-device-interface-info,
-
+  - SDK Method used are application_policy.ApplicationPolicy.get_qos_device_interface_info_v1,
+  - Paths used are get /dna/intent/api/v1/qos-device-interface-info,
 """
-
 EXAMPLES = r"""
 - name: Get all Qos Device Interface V1
   cisco.dnac.qos_device_interface_v1_info:
@@ -52,7 +45,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     networkDeviceId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

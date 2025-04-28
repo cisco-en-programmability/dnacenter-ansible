@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_info
-short_description: Information module for Floors Floor Id Planned Access Point Positions Info
+short_description: Information module for Floors Floor Id Planned Access Point Positions
+  Info
 description:
-- This module represents an alias of the module floors_floor_id_planned_access_point_positions_v2_info
+  - This module represents an alias of the module floors_floor_id_planned_access_point_positions_v2_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,45 +19,43 @@ options:
     type: dict
   floorId:
     description:
-    - FloorId path parameter. Floor Id.
+      - FloorId path parameter. Floor Id.
     type: str
   name:
     description:
-    - Name query parameter. Planned Access Point name.
+      - Name query parameter. Planned Access Point name.
     type: str
   macAddress:
     description:
-    - MacAddress query parameter. Planned Access Point mac address.
+      - MacAddress query parameter. Planned Access Point mac address.
     type: str
   type:
     description:
-    - Type query parameter. Planned Access Point type.
+      - Type query parameter. Planned Access Point type.
     type: str
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1. Minimum 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1. Minimum 1.
     type: float
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page;The minimum
+        is 1, and the maximum is 500.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design GetPlannedAccessPointsPositionsV2
-  description: Complete reference of the GetPlannedAccessPointsPositionsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions
+  - name: Cisco DNA Center documentation for Site Design GetPlannedAccessPointsPositionsV2
+    description: Complete reference of the GetPlannedAccessPointsPositionsV2 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.get_planned_access_points_positions_v2,
-
-  - Paths used are
-    get /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions,
+  - SDK Method used are site_design.SiteDesign.get_planned_access_points_positions_v2,
+  - Paths used are get /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions,
   - It should be noted that this module is an alias of floors_floor_id_planned_access_point_positions_v2_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Floors Floor Id Planned Access Point Positions Info
   cisco.dnac.floors_floor_id_planned_access_point_positions_info:
@@ -78,7 +74,6 @@ EXAMPLES = r"""
     limit: 0
     floorId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

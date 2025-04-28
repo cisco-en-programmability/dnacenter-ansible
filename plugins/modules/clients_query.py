@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: clients_query
 short_description: Resource module for Clients Query
 description:
-- This module represents an alias of the module clients_query_v1
+  - This module represents an alias of the module clients_query_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -80,22 +77,22 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Clients RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributesV1
-  description: Complete reference of the RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-by-applying-complex-filters-while-also-supporting-aggregate-attributes
+  - name: Cisco DNA Center documentation for Clients
+      RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributesV1
+    description: Complete reference of the
+      RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributesV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-by-applying-complex-filters-while-also-supporting-aggregate-attributes
 notes:
   - SDK Method used are
     clients.Clients.retrieves_the_list_of_clients_by_applying_complex_filters_while_also_supporting_aggregate_attributes_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/clients/query,
+  - Paths used are post /dna/data/api/v1/clients/query,
   - It should be noted that this module is an alias of clients_query_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.clients_query:
@@ -107,26 +104,25 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: 0
+      - key: string
+        operator: string
+        value: 0
     headers: '{{my_headers | from_json}}'
     page:
       limit: 0
       offset: 0
       sortBy:
-      - name: string
-        order: string
+        - name: string
+          order: string
     startTime: 0
     views:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:
