@@ -935,7 +935,7 @@ EXAMPLES = r"""
           - "204.1.2.2"
           - "204.1.2.3"
         cli_transport: telnet
-        compute_device: False
+        compute_device: false
         password: newtest123
         enable_password: newtest1233
         type: NETWORK_DEVICE
@@ -956,7 +956,7 @@ EXAMPLES = r"""
       - ip_address_list:
           - "204.1.2.2"
           - "204.1.2.3"
-        credential_update: True
+        credential_update: true
         update_mgmt_ipaddresslist:
           - exist_mgmt_ipaddress: "1.1.1.1"
             new_mgmt_ipaddress: "12.12.12.12"
@@ -1117,7 +1117,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - devices_maintenance_schedule:
-        - device_ips:
+          - device_ips:
             - "204.1.2.2"
             - "204.1.2.3"
           description: "Schedule maintenance for 2 devices"
@@ -1139,7 +1139,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - devices_maintenance_schedule:
-        - device_ips:
+          - device_ips:
             - "204.1.2.2"
             - "204.1.2.3"
           description: "Schedule maintenance for 2 devices"
@@ -1163,7 +1163,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - devices_maintenance_schedule:
-        - device_ips:
+          - device_ips:
             - "204.1.2.2"
             - "204.1.2.3"
           description: "Updated description for maintenance of 2 devices"
@@ -1222,7 +1222,7 @@ EXAMPLES = r"""
     dnac_log: false
     state: deleted
     config:
-    - ip_address_list:
+      - ip_address_list:
         - "204.1.2.2"
         - "204.1.2.3"
       add_user_defined_field:
@@ -1242,9 +1242,9 @@ EXAMPLES = r"""
     state: merged
     config:
       - devices_maintenance_schedule:
-        - device_ips:
-          - "204.1.2.2"
-          - "204.1.2.3"
+          - device_ips:
+            - "204.1.2.2"
+            - "204.1.2.3"
 
 """
 RETURN = r"""
