@@ -2,129 +2,122 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 """Ansible module to perform Network Compliance Operations on devices in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan, Sonali Deepthi Kesali")
-
 DOCUMENTATION = r"""
 ---
 module: network_compliance_workflow_manager
-short_description: Network Compliance module for managing network compliance tasks on reachable device(s) in Cisco Catalyst Center.
+short_description: Network Compliance module for managing network compliance tasks
+  on reachable device(s) in Cisco Catalyst Center.
 description:
-- Perform compliance checks or sync configurations on reachable devices using IP Address(s) or Site.
-- API to perform full compliance checks or specific category checks on reachable device(s).
-- API to sync device configuration on device(s).
+  - Perform compliance checks or sync configurations on reachable devices using IP
+    Address(s) or Site.
+  - API to perform full compliance checks or specific category checks on reachable
+    device(s).
+  - API to sync device configuration on device(s).
 version_added: "6.14.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Rugvedi Kapse (@rukapse)
-        Madhan Sankaranarayanan (@madhansansel)
-        Sonali Deepthi (@skesali)
+author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan (@madhansansel) Sonali Deepthi
+  (@skesali)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: State of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged ]
+    choices: [merged]
     default: merged
   config:
-    description: List of device details for running a compliance check or synchronizing device configuration.
+    description: List of device details for running a compliance check or synchronizing
+      device configuration.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       ip_address_list:
-        description: List of IP addresses of devices to run a compliance check on or synchronize device configurations.
-                     Either "ip_address_list" or "site_name" is required for module to execute.
-                     If both "site_name" and "ip_address_list" are provided, operations are performed on devices that are present in both the
-                     "ip_address_list" and the specified site.
-                     (e.g. ["204.1.2.2", "204.1.2.5", "204.1.2.4"])
+        description: List of IP addresses of devices to run a compliance check on
+          or synchronize device configurations. Either "ip_address_list" or "site_name"
+          is required for module to execute. If both "site_name" and "ip_address_list"
+          are provided, operations are performed on devices that are present in both
+          the "ip_address_list" and the specified site. (e.g. ["204.1.2.2", "204.1.2.5",
+          "204.1.2.4"])
         type: list
         elements: str
       site_name:
-        description: When "site_name" is specified, the module executes the operation on all the devices located within the specified site.
-                     This is a string value that should represent the complete hierarchical path of the site.
-                     Either "site_name" or "ip_address_list" is required for module to execute.
-                     If both "site_name" and "ip_address_list" are provided, operations are performed on devices that are present in both the
-                     "ip_address_list" and the specified site.
-                     (e.g. "Global/USA/San Francisco/Building_2/floor_1")
+        description: When "site_name" is specified, the module executes the operation
+          on all the devices located within the specified site. This is a string value
+          that should represent the complete hierarchical path of the site. Either
+          "site_name" or "ip_address_list" is required for module to execute. If both
+          "site_name" and "ip_address_list" are provided, operations are performed
+          on devices that are present in both the "ip_address_list" and the specified
+          site. (e.g. "Global/USA/San Francisco/Building_2/floor_1")
         type: str
       run_compliance:
-        description: Determines if a full compliance check should be triggered on the devices specified in the "ip_address_list" and/or "site_name".
-                     if it is True then compliance will be triggered for all categories.
-                     If it is False then compliance will be not be triggered even if run_compliance categories are provided.
-                     Note - This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.
+        description: Determines if a full compliance check should be triggered on
+          the devices specified in the "ip_address_list" and/or "site_name". if it
+          is True then compliance will be triggered for all categories. If it is False
+          then compliance will be not be triggered even if run_compliance categories
+          are provided. Note - This operation cannot be performed on Access Points
+          (APs) and if APs are provided, they will be skipped.
         type: bool
-        default: True
+        default: true
       run_compliance_batch_size:
-        description: Specifies the number of devices to be included in a single batch for compliance operations.
-                     This parameter is crucial for optimizing performance during large-scale compliance checks.
-                     By processing devices in manageable batches, the system can enhance the speed and efficiency of the operation,
-                     reducing the overall time required and minimizing the risk of overloading system resources.
-                     Adjusting this parameter allows for a balance between throughput and resource utilization, ensuring smooth and
-                     effective compliance management.
-                     Note - Having a higher value for run_compliance_batch_size may cause errors due to the increased load on the system.
+        description: Specifies the number of devices to be included in a single batch
+          for compliance operations. This parameter is crucial for optimizing performance
+          during large-scale compliance checks. By processing devices in manageable
+          batches, the system can enhance the speed and efficiency of the operation,
+          reducing the overall time required and minimizing the risk of overloading
+          system resources. Adjusting this parameter allows for a balance between
+          throughput and resource utilization, ensuring smooth and effective compliance
+          management. Note - Having a higher value for run_compliance_batch_size may
+          cause errors due to the increased load on the system.
         type: int
         default: 100
       run_compliance_categories:
-        description: Specifying compliance categories allows you to trigger compliance checks only for the mentioned categories.
-                     Category can have one or more values from among the options "INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS".
-                     Category "INTENT" is mapped to compliance types "NETWORK_SETTINGS", "NETWORK_PROFILE", "WORKFLOW", "FABRIC", "APPLICATION_VISIBILITY".
-                     If "run_compliance" is False then compliance will be not be triggered even if "run_compliance_categories" are provided.
-                     (e.g. ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS"])
+        description: Specifying compliance categories allows you to trigger compliance
+          checks only for the mentioned categories. Category can have one or more
+          values from among the options "INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT",
+          "EOX", "NETWORK_SETTINGS". Category "INTENT" is mapped to compliance types
+          "NETWORK_SETTINGS", "NETWORK_PROFILE", "WORKFLOW", "FABRIC", "APPLICATION_VISIBILITY".
+          If "run_compliance" is False then compliance will be not be triggered even
+          if "run_compliance_categories" are provided. (e.g. ["INTENT", "RUNNING_CONFIG",
+          "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS"])
         type: list
         elements: str
       sync_device_config:
-        description: Determines whether to synchronize the device configuration on the devices specified in the "ip_address_list" and/or "site_name".
-                     Sync device configuration, primarily addresses the status of the `RUNNING_CONFIG`.
-                     If set to True, and if `RUNNING_CONFIG` status is non-compliant this operation would commit device running configuration
-                     to startup by issuing "write memory" to device.
-                     Note - This operation cannot be performed on Access Points (APs) and if APs are provided, they will be skipped.
+        description: Determines whether to synchronize the device configuration on
+          the devices specified in the "ip_address_list" and/or "site_name". Sync
+          device configuration, primarily addresses the status of the `RUNNING_CONFIG`.
+          If set to True, and if `RUNNING_CONFIG` status is non-compliant this operation
+          would commit device running configuration to startup by issuing "write memory"
+          to device. Note - This operation cannot be performed on Access Points (APs)
+          and if APs are provided, they will be skipped.
         type: bool
-        default: False
-
+        default: false
 requirements:
-- dnacentersdk == 2.7.0
-- python >= 3.9
+  - dnacentersdk == 2.7.0
+  - python >= 3.9
 notes:
-  - SDK Methods used are
-    compliance.Compliance.run_compliance
-    compliance.Compliance.commit_device_configuration
-    task.Task.get_task_by_id
-    task.Task.get_task_details_by_id
-    task.Task.get_tasks
-    compliance.Compliance.compliance_details_of_device
-    devices.Devices.get_device_list
-    devices.Devices.get_device_by_id
-    site.Site.get_site
-    site.Site.get_membership
-    site_design.Site_design.get_sites
+  - SDK Methods used are compliance.Compliance.run_compliance compliance.Compliance.commit_device_configuration
+    task.Task.get_task_by_id task.Task.get_task_details_by_id task.Task.get_tasks
+    compliance.Compliance.compliance_details_of_device devices.Devices.get_device_list
+    devices.Devices.get_device_by_id site.Site.get_site site.Site.get_membership site_design.Site_design.get_sites
     site_design.Site_design.get_site_assigned_network_devices
-
-  - Paths used are
-    post /dna/intent/api/v1/compliance/
-    post /dna/intent/api/v1/network-device-config/write-memory
-    get /dna/intent/api/v1/task/{taskId}
-    get /dna/intent/api/v1/compliance/${deviceUuid}/detail
-    get /dna/intent/api/v1/membership/${siteId}
-    get /dna/intent/api/v1/site
-    get /dna/intent/api/v1/networkDevices/assignedToSite
-    get /dna/intent/api/v1/sites
-    get /dna/intent/api/v1/tasks/${id}/detail
-    get /dna/intent/api/v1/tasks
-    get /dna/intent/api/v1/network-device/${id}
-    get /dna/intent/api/v1/network-device
-
+  - Paths used are post /dna/intent/api/v1/compliance/ post /dna/intent/api/v1/network-device-config/write-memory
+    get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/compliance/${deviceUuid}/detail
+    get /dna/intent/api/v1/membership/${siteId} get /dna/intent/api/v1/site get /dna/intent/api/v1/networkDevices/assignedToSite
+    get /dna/intent/api/v1/sites get /dna/intent/api/v1/tasks/${id}/detail get /dna/intent/api/v1/tasks
+    get /dna/intent/api/v1/network-device/${id} get /dna/intent/api/v1/network-device
 """
-
 EXAMPLES = r"""
-- name: Run Compliance check on device(s) using IP address list (run_compliance by default is True)
+- name: Run Compliance check on device(s) using IP address list (run_compliance
+    by default is True)
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -137,7 +130,6 @@ EXAMPLES = r"""
     dnac_log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
-
 - name: Run Compliance check on device(s) using IP address list
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -152,7 +144,6 @@ EXAMPLES = r"""
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         run_compliance: true
-
 - name: Run Compliance check on device(s) using Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -167,7 +158,6 @@ EXAMPLES = r"""
     config:
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
-
 - name: Run Compliance check on device(s) using both IP address list and Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -183,8 +173,8 @@ EXAMPLES = r"""
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
-
-- name: Run Compliance check with specific categories on device(s) using IP address list
+- name: Run Compliance check with specific categories on device(s) using IP address
+    list
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -199,7 +189,6 @@ EXAMPLES = r"""
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         run_compliance: true
         run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
-
 - name: Run Compliance check with specific categories on device(s) using Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -215,8 +204,8 @@ EXAMPLES = r"""
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
         run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
-
-- name: Run Compliance check with specific categories on device(s) using both IP address list and Site
+- name: Run Compliance check with specific categories on device(s) using both IP
+    address list and Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -232,7 +221,6 @@ EXAMPLES = r"""
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
         run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
-
 - name: Sync Device Configuration on device(s) using IP address list
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -247,8 +235,7 @@ EXAMPLES = r"""
     config:
       - site_name: "Global"
         sync_device_config: true
-        run_compliance: False
-
+        run_compliance: false
 - name: Sync Device Configuration on device(s) using Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -264,7 +251,6 @@ EXAMPLES = r"""
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         sync_device_config: true
         run_compliance: false
-
 - name: Sync Device Configuration on device(s) using both IP address list and Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -281,8 +267,8 @@ EXAMPLES = r"""
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
         sync_device_config: true
         run_compliance: false
-
-- name: Run Compliance and Sync Device Configuration using both IP address list and Site
+- name: Run Compliance and Sync Device Configuration using both IP address list
+    and Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -300,7 +286,6 @@ EXAMPLES = r"""
         run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
         sync_device_config: true
 """
-
 RETURN = r"""
 #Case_1: Response when Run Compliance operation is performed successfully on device/s.
 sample_response_1:
@@ -319,7 +304,6 @@ sample_response_1:
       "data": dict,
       "version": "string"
     }
-
 #Case_2: Response when Sync Device Configuration operation is performed successfully on device/s.
 sample_response_2:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
@@ -336,7 +320,6 @@ sample_response_2:
       },
       "version": "string"
     }
-
 #Case_3: Response when Error Occurs in performing Run Compliance or Sync Device Configuration operation on device/s.
 sample_response_3:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
@@ -368,6 +351,7 @@ class NetworkCompliance(DnacBase):
           The method does not return a value.
         """
         super().__init__(module)
+        self.supported_states = ["merged"]
         self.skipped_run_compliance_devices_list = []
         self.skipped_sync_device_configs_list = []
 
@@ -724,8 +708,9 @@ class NetworkCompliance(DnacBase):
                     self.log("Exiting the loop because no devices were returned after increasing the offset. Current offset: {0}".format(offset))
                     break  # Exit loop if no devices are returned
 
+                response = response.get("response")
                 # Iterate over the devices in the response
-                for device_info in response.get("response", []):
+                for device_info in response:
                     processed_device_count += 1
                     device_ip = device_info.get("managementIpAddress", "Unknown IP")
                     reachability_status = device_info.get("reachabilityStatus")
@@ -743,7 +728,7 @@ class NetworkCompliance(DnacBase):
                         "DEBUG"
                     )
                     # Check if the device is reachable and managed
-                    if reachability_status == "Reachable" and collection_status == "Managed":
+                    if reachability_status == "Reachable" and collection_status in ["In Progress", "Managed"]:
                         # Skip Unified AP devices
                         if device_family != "Unified AP" :
                             mgmt_ip_to_instance_id_map[device_ip] = device_id
@@ -769,6 +754,11 @@ class NetworkCompliance(DnacBase):
                         )
                         self.log(msg, "INFO")
 
+                # Check if the response size is less than the limit
+                if len(response) < limit:
+                    self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
+                    break
+
                 # Increment offset for next batch
                 offset += limit
 
@@ -785,7 +775,8 @@ class NetworkCompliance(DnacBase):
 
         except Exception as e:
             # Log an error message if any exception occurs during the process
-            self.log("Error fetching device IDs from Cisco Catalyst Center. Error details: {0}".format(str(e)), "ERROR")
+            self.msg = "Error fetching device IDs from Cisco Catalyst Center. Error details: {0}".format(str(e))
+            self.fail_and_exit(self.msg)
 
         # Log an error if no reachable devices are found
         if not mgmt_ip_to_instance_id_map:
@@ -813,10 +804,36 @@ class NetworkCompliance(DnacBase):
         mgmt_ip_to_instance_id_map = {}
 
         if ip_address_list:
-            self.log("Retrieving device IDs for IP addresses: {0}".format(", ".join(ip_address_list)), "DEBUG")
-            get_device_list_params = self.get_device_list_params(ip_address_list)
-            iplist_mgmt_ip_to_instance_id_map = self.get_device_ids_from_ip(get_device_list_params)
-            mgmt_ip_to_instance_id_map.update(iplist_mgmt_ip_to_instance_id_map)
+            self.log("Starting retrieval of device IDs for IP addresses: {0}".format(", ".join(ip_address_list)), "DEBUG")
+            self.log("Initial size of IP address list: {0}".format(len(ip_address_list)), "DEBUG")
+
+            # Split the IP address list into batches of 200
+            batch_size = 200
+
+            # Calculate total number of batches
+            total_batches = (len(ip_address_list) + batch_size - 1) // batch_size
+            self.log(
+                "Calculating total number of batches. "
+                "IP address list length: {0}, Batch size: {1}. "
+                "Computed total batches: {2}".format(len(ip_address_list), batch_size, total_batches),
+                "INFO"
+            )
+            for batch_number, i in enumerate(range(0, len(ip_address_list), batch_size), start=1):
+                ip_batch = ip_address_list[i:i + batch_size]
+                self.log("Processing batch {0} of {1}: IP addresses: {2}".format(batch_number, total_batches, ", ".join(ip_batch)), "DEBUG")
+
+                # Get device list parameters for the current batch
+                get_device_list_params = self.get_device_list_params(ip_batch)
+                self.log("Device list parameters for batch {0}: {1}".format(batch_number, get_device_list_params), "DEBUG")
+
+                # Retrieve device IDs for the current batch
+                iplist_mgmt_ip_to_instance_id_map = self.get_device_ids_from_ip(get_device_list_params)
+                self.log("Retrieved device IDs for batch {0}: {1}".format(batch_number, iplist_mgmt_ip_to_instance_id_map), "DEBUG")
+
+                # Update the main map with the results from the current batch
+                mgmt_ip_to_instance_id_map.update(iplist_mgmt_ip_to_instance_id_map)
+
+            self.log("Completed retrieval of device IDs.", "DEBUG")
 
         # Check if both site name and IP address list are provided
         if site_name:
@@ -1649,6 +1666,15 @@ def main():
 
     # Initialize the NetworkCompliance object with the module
     ccc_network_compliance = NetworkCompliance(module)
+
+    if ccc_network_compliance.compare_dnac_versions(ccc_network_compliance.get_ccc_version(), "2.3.7.6") < 0:
+        ccc_network_compliance.msg = (
+            "The specified version '{0}' does not support the  'Network Compliance' Operations. Supported versions start "
+            "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for running Compliance checks on devices and"
+            " Syncing device configurations."
+            .format(ccc_network_compliance.get_ccc_version())
+        )
+        ccc_network_compliance.set_operation_result("failed", False, ccc_network_compliance.msg, "ERROR").check_return_status()
 
     # Get the state parameter from the provided parameters
     state = ccc_network_compliance.params.get("state")

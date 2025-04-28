@@ -1,18 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Abhishek Maheshwari, Madhan Sankaranarayanan")
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_sites_zones_workflow_manager
-short_description: Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
+short_description: Manage fabric site(s)/zone(s) and update the authentication profile
+  template in Cisco Catalyst Center.
 description:
   - Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
   - Updating fabric site(s) for the SDA operation in Cisco Catalyst Center.
@@ -20,15 +17,16 @@ description:
   - Updating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
   - Deletes fabric site(s) from Cisco Catalyst Center.
   - Deletes fabric zone(s) from Cisco Catalyst Center.
-  - Configure the authentication profile template for fabric site/zone in Cisco Catalyst Center.
+  - Configure the authentication profile template for fabric site/zone in Cisco Catalyst
+    Center.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abhishek Maheshwari (@abmahesh)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center configuration after applying the playbook configuration.
+    description: Set to True to verify the Cisco Catalyst Center configuration after
+      applying the playbook configuration.
     type: bool
     default: false
   state:
@@ -37,153 +35,178 @@ options:
     choices: [merged, deleted]
     default: merged
   config:
-    description: A list containing detailed configurations for creating, updating, or deleting fabric sites or zones
-        in a Software-Defined Access (SDA) environment. It also includes specifications for updating the authentication
-        profile template for these sites. Each element in the list represents a specific operation to be performed on
-        the SDA infrastructure, such as the addition, modification, or removal of fabric sites/zones, and modifications
-        to authentication profiles.
+    description: A list containing detailed configurations for creating, updating,
+      or deleting fabric sites or zones in a Software-Defined Access (SDA) environment.
+      It also includes specifications for updating the authentication profile template
+      for these sites. Each element in the list represents a specific operation to
+      be performed on the SDA infrastructure, such as the addition, modification,
+      or removal of fabric sites/zones, and modifications to authentication profiles.
     type: list
     elements: dict
     required: true
     suboptions:
       fabric_sites:
-        description: A dictionary containing detailed configurations for managing REST Endpoints that will receive Audit log
-            and Events from the Cisco Catalyst Center Platform. This dictionary is essential for specifying attributes and
-            parameters required for the lifecycle management of fabric sites, zones, and associated authentication profiles.
+        description: A dictionary containing detailed configurations for managing
+          REST Endpoints that will receive Audit log and Events from the Cisco Catalyst
+          Center Platform. This dictionary is essential for specifying attributes
+          and parameters required for the lifecycle management of fabric sites, zones,
+          and associated authentication profiles.
         type: dict
         suboptions:
           site_name_hierarchy:
-            description: This name uniquely identifies the site for operations such as creating, updating, or deleting fabric
-                sites or zones, as well as for updating the authentication profile template. This parameter is mandatory for
-                any fabric site/zone management operation.
+            description: This name uniquely identifies the site for operations such
+              as creating, updating, or deleting fabric sites or zones, as well as
+              for updating the authentication profile template. This parameter is
+              mandatory for any fabric site/zone management operation.
             type: str
             required: true
           fabric_type:
-            description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
-                and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
-                'fabric_zone' typically refers to a more specific segment within the site.
+            description: Specifies the type of site to be managed within the SDA environment.
+              The acceptable values are 'fabric_site' and 'fabric_zone'. The default
+              value is 'fabric_site', indicating the configuration of a broader network
+              area, whereas 'fabric_zone' typically refers to a more specific segment
+              within the site.
             type: str
             required: true
           authentication_profile:
-            description: The authentication profile applied to the specified fabric. This profile determines the security posture and
-                controls for network access within the site. Possible values include 'Closed Authentication', 'Low Impact',
-                'No Authentication', and 'Open Authentication'. This setting is critical when creating or updating a fabric site or
-                updating the authentication profile template.
+            description: The authentication profile applied to the specified fabric.
+              This profile determines the security posture and controls for network
+              access within the site. Possible values include 'Closed Authentication',
+              'Low Impact', 'No Authentication', and 'Open Authentication'. This setting
+              is critical when creating or updating a fabric site or updating the
+              authentication profile template.
             type: str
           is_pub_sub_enabled:
-            description: A boolean flag that indicates whether the pub/sub mechanism is enabled for control nodes in the fabric site.
-                This feature is relevant only when creating or updating fabric sites, not fabric zones. When set to True,
-                pub/sub facilitates more efficient communication and control within the site. The default is True for fabric sites,
-                and this setting is not applicable for fabric zones.
+            description: A boolean flag that indicates whether the pub/sub mechanism
+              is enabled for control nodes in the fabric site. This feature is relevant
+              only when creating or updating fabric sites, not fabric zones. When
+              set to True, pub/sub facilitates more efficient communication and control
+              within the site. The default is True for fabric sites, and this setting
+              is not applicable for fabric zones.
             type: bool
           apply_pending_events:
-            description: Modifying an IP address pool used in a fabric causes the fabric to become outdated. An update is required to
-                apply the IP address pool changes to the devices in the fabric site. The reconfiguration time depends on the number
-                of devices. During an upgrade, any pending fabric updates are captured as pending fabric events and applied to the
-                respective site.  By default, this is set to False.
+            description: Modifying an IP address pool used in a fabric causes the
+              fabric to become outdated. An update is required to apply the IP address
+              pool changes to the devices in the fabric site. The reconfiguration
+              time depends on the number of devices. During an upgrade, any pending
+              fabric updates are captured as pending fabric events and applied to
+              the respective site.  By default, this is set to False.
             type: bool
           update_authentication_profile:
-            description: A dictionary containing the specific details required to update the authentication profile template associated
-                with the fabric site. This includes advanced settings that fine-tune the authentication process and security controls
-                within the site.
+            description: A dictionary containing the specific details required to
+              update the authentication profile template associated with the fabric
+              site. This includes advanced settings that fine-tune the authentication
+              process and security controls within the site.
             type: dict
             suboptions:
               authentication_order:
-                description: Specifies the primary method of authentication for the site. The available methods are 'dot1x' (IEEE 802.1X)
-                    and 'mac' (MAC-based authentication). This setting determines the order in which authentication mechanisms are attempted.
+                description: Specifies the primary method of authentication for the
+                  site. The available methods are 'dot1x' (IEEE 802.1X) and 'mac'
+                  (MAC-based authentication). This setting determines the order in
+                  which authentication mechanisms are attempted.
                 type: str
               dot1x_fallback_timeout:
-                description: The timeout duration, in seconds, for falling back from 802.1X authentication. This value must be within the
-                    range of 3 to 120 seconds. It defines the period a device waits before attempting an alternative authentication method
-                    if 802.1X fails.
+                description: The timeout duration, in seconds, for falling back from
+                  802.1X authentication. This value must be within the range of 3
+                  to 120 seconds. It defines the period a device waits before attempting
+                  an alternative authentication method if 802.1X fails.
                 type: int
               wake_on_lan:
-                description: A boolean value indicating whether the Wake-on-LAN feature is enabled. Wake-on-LAN allows the network to
-                    remotely wake up devices that are in a low-power state.
+                description: A boolean value indicating whether the Wake-on-LAN feature
+                  is enabled. Wake-on-LAN allows the network to remotely wake up devices
+                  that are in a low-power state.
                 type: bool
               number_of_hosts:
-                description: Specifies the number of hosts allowed per port. The available options are 'Single' for one device per port or
-                    'Unlimited' for multiple devices. This setting helps in controlling the network access and maintaining security.
+                description: Specifies the number of hosts allowed per port. The available
+                  options are 'Single' for one device per port or 'Unlimited' for
+                  multiple devices. This setting helps in controlling the network
+                  access and maintaining security.
                 type: str
               enable_bpu_guard:
-                description: A boolean setting that enables or disables BPDU Guard. BPDU Guard provides a security mechanism by disabling
-                    a port when a BPDU (Bridge Protocol Data Unit) is received, protecting against potential network loops. This setting
-                    defaults to true and is applicable only when the authentication profile is set to "Closed Authentication".
+                description: A boolean setting that enables or disables BPDU Guard.
+                  BPDU Guard provides a security mechanism by disabling a port when
+                  a BPDU (Bridge Protocol Data Unit) is received, protecting against
+                  potential network loops. This setting defaults to true and is applicable
+                  only when the authentication profile is set to "Closed Authentication".
                 type: bool
               pre_auth_acl:
-                description: Defines the Pre-Authentication Access Control List (ACL), which is applicable only when the 'authentication_profile'
-                    is set to "Low Impact." This profile allows limited network access before authentication, and the ACL controls which
-                    traffic is allowed or blocked during this phase. It is not used with other profiles, as they typically block all traffic
-                    until authentication is complete.
+                description: Defines the Pre-Authentication Access Control List (ACL),
+                  which is applicable only when the 'authentication_profile' is set
+                  to "Low Impact." This profile allows limited network access before
+                  authentication, and the ACL controls which traffic is allowed or
+                  blocked during this phase. It is not used with other profiles, as
+                  they typically block all traffic until authentication is complete.
                 type: dict
                 suboptions:
                   enabled:
-                    description: A boolean value indicating whether the Pre-Authentication ACL is enabled. When set to
-                        'true', the ACL rules are enforced to control traffic before authentication.
+                    description: A boolean value indicating whether the Pre-Authentication
+                      ACL is enabled. When set to 'true', the ACL rules are enforced
+                      to control traffic before authentication.
                     type: bool
                   implicit_action:
-                    description: Specifies the default action for traffic that does not match any explicit ACL rules.
-                        Common actions include 'PERMIT' to allow unmatched traffic or 'DENY' to block it.  Implicit behaviour unless overridden
-                        (defaults to "DENY").
+                    description: Specifies the default action for traffic that does
+                      not match any explicit ACL rules. Common actions include 'PERMIT'
+                      to allow unmatched traffic or 'DENY' to block it.  Implicit
+                      behaviour unless overridden (defaults to "DENY").
                     type: str
                     default: "DENY"
                   description:
-                    description: A brief text description of the Pre-Authentication ACL, outlining its purpose or providing relevant notes
-                        for administrators.
+                    description: A brief text description of the Pre-Authentication
+                      ACL, outlining its purpose or providing relevant notes for administrators.
                     type: str
                   access_contracts:
-                    description: A list of rules that specify how traffic is handled based on defined conditions. Each rule determines whether
-                        traffic is permitted or denied based on the contract parameters. If the 'access_contracts' is not provided or is set
-                        to null, the system will fall back on its default traffic handling settings. Additionally, up to 3 access control rules
-                        can be defined at a time.
+                    description: A list of rules that specify how traffic is handled
+                      based on defined conditions. Each rule determines whether traffic
+                      is permitted or denied based on the contract parameters. If
+                      the 'access_contracts' is not provided or is set to null, the
+                      system will fall back on its default traffic handling settings.
+                      Additionally, up to 3 access control rules can be defined at
+                      a time.
                     type: list
                     elements: dict
                     suboptions:
                       action:
-                        description: The action to apply when traffic matches the rule. The allowed actions are 'PERMIT' (allow the traffic)
-                            and 'DENY' (block the traffic).
+                        description: The action to apply when traffic matches the
+                          rule. The allowed actions are 'PERMIT' (allow the traffic)
+                          and 'DENY' (block the traffic).
                         type: str
                       protocol:
-                        description: The protocol that defines the type of traffic to be filtered by the access contract rule. The allowed
-                            protocols are 'UDP', 'TCP', and 'TCP_UDP'. However, 'TCP' and 'TCP_UDP' are only allowed when the contract port
-                            is set to 'domain'.
+                        description: The protocol that defines the type of traffic
+                          to be filtered by the access contract rule. The allowed
+                          protocols are 'UDP', 'TCP', and 'TCP_UDP'. However, 'TCP'
+                          and 'TCP_UDP' are only allowed when the contract port is
+                          set to 'domain'.
                         type: str
                       port:
-                        description: Specifies the symbolic port name to which the ACL rule applies. The allowed values are 'domain' (DNS),
-                            'bootpc' (Bootstrap Protocol Client), and 'bootps' (Bootstrap Protocol Server). Each port name can only be used
-                            once in the Access Contract list.
+                        description: Specifies the symbolic port name to which the
+                          ACL rule applies. The allowed values are 'domain' (DNS),
+                          'bootpc' (Bootstrap Protocol Client), and 'bootps' (Bootstrap
+                          Protocol Server). Each port name can only be used once in
+                          the Access Contract list.
                         type: str
-
-
 requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
-
 notes:
-  - To ensure the module operates correctly for scaled sets, which involve creating or updating fabric sites/zones and handling
-    the updation of authentication profile template, please provide valid input in the playbook. If any failure is encountered,
+  - To ensure the module operates correctly for scaled sets, which involve creating
+    or updating fabric sites/zones and handling the updation of authentication profile
+    template, please provide valid input in the playbook. If any failure is encountered,
     the module will and halt execution without proceeding to further operations.
-  - When deleting fabric sites, make sure to provide the input to remove the fabric zones associated with them in the
-    playbook. Fabric sites cannot be deleted until all underlying fabric zones have been removed and it can be any order as per
-    the module design fabric zones will be deleted first followed by fabric sites.
-  - Reconfiguration of fabric pending events is supported starting from version 2.3.7.9 onwards. Additionally, the authentication
-    profile for the 'Low Impact' profile now allows more customization of its parameters
+  - When deleting fabric sites, make sure to provide the input to remove the fabric
+    zones associated with them in the playbook. Fabric sites cannot be deleted until
+    all underlying fabric zones have been removed and it can be any order as per the
+    module design fabric zones will be deleted first followed by fabric sites.
+  - Reconfiguration of fabric pending events is supported starting from version 2.3.7.9
+    onwards. Additionally, the authentication profile for the 'Low Impact' profile
+    now allows more customization of its parameters
   - Parameter 'site_name' is updated to 'site_name_hierarchy'.
-  - SDK Method used are
-    ccc_fabric_sites.FabricSitesZones.get_site
-    ccc_fabric_sites.FabricSitesZones.get_fabric_sites
-    ccc_fabric_sites.FabricSitesZones.get_fabric_zones
-    ccc_fabric_sites.FabricSitesZones.add_fabric_site
-    ccc_fabric_sites.FabricSitesZones.update_fabric_site
-    ccc_fabric_sites.FabricSitesZones.add_fabric_zone
-    ccc_fabric_sites.FabricSitesZones.update_fabric_zone
-    ccc_fabric_sites.FabricSitesZones.get_authentication_profiles
-    ccc_fabric_sites.FabricSitesZones.update_authentication_profile
-    ccc_fabric_sites.FabricSitesZones.delete_fabric_site_by_id
+  - SDK Method used are ccc_fabric_sites.FabricSitesZones.get_site ccc_fabric_sites.FabricSitesZones.get_fabric_sites
+    ccc_fabric_sites.FabricSitesZones.get_fabric_zones ccc_fabric_sites.FabricSitesZones.add_fabric_site
+    ccc_fabric_sites.FabricSitesZones.update_fabric_site ccc_fabric_sites.FabricSitesZones.add_fabric_zone
+    ccc_fabric_sites.FabricSitesZones.update_fabric_zone ccc_fabric_sites.FabricSitesZones.get_authentication_profiles
+    ccc_fabric_sites.FabricSitesZones.update_authentication_profile ccc_fabric_sites.FabricSitesZones.delete_fabric_site_by_id
     ccc_fabric_sites.FabricSitesZones.delete_fabric_zone_by_id
-
 """
-
 EXAMPLES = r"""
 - name: Create a fabric site for SDA with the specified name.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
@@ -195,14 +218,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1"
-          authentication_profile: "Closed Authentication"
-          is_pub_sub_enabled: False
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
+            authentication_profile: "Closed Authentication"
+            is_pub_sub_enabled: false
 - name: Update a fabric site for SDA with the specified name.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -213,13 +235,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1"
-          authentication_profile: "Open Authentication"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
+            authentication_profile: "Open Authentication"
 - name: Update a fabric zone for SDA with the specified name.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -230,14 +251,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
-          fabric_type: "fabric_zone"
-          authentication_profile: "Closed Authentication"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+            fabric_type: "fabric_zone"
+            authentication_profile: "Closed Authentication"
 - name: Update fabric zone for sda with given name.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -248,14 +268,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
-          fabric_type: "fabric_zone"
-          authentication_profile: "Open Authentication"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+            fabric_type: "fabric_zone"
+            authentication_profile: "Open Authentication"
 - name: Apply all the pending sda fabric events to the given site.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -266,14 +285,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1"
-          authentication_profile: "Open Authentication"
-          apply_pending_events: True
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
+            authentication_profile: "Open Authentication"
+            apply_pending_events: true
 - name: Set up Pre-Authentication ACL for Low Impact Profile
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -284,34 +302,33 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1"
-          fabric_type: "fabric_zone"
-          authentication_profile: "Low Impact"
-          is_pub_sub_enabled: False
-          update_authentication_profile:
-            authentication_order: "dot1x"
-            dot1x_fallback_timeout: 28
-            wake_on_lan: False
-            number_of_hosts: "Single"
-            pre_auth_acl:
-              enabled: true
-              implicit_action: "PERMIT"
-              description: "low auth profile description"
-              access_contracts:
-              - action: "PERMIT"
-                protocol: "UDP"
-                port: "bootps"
-              - action: "PERMIT"
-                protocol: "UDP"
-                port: "bootpc"
-              - action: "PERMIT"
-                protocol: "UDP"
-                port: "domain"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
+            fabric_type: "fabric_zone"
+            authentication_profile: "Low Impact"
+            is_pub_sub_enabled: false
+            update_authentication_profile:
+              authentication_order: "dot1x"
+              dot1x_fallback_timeout: 28
+              wake_on_lan: false
+              number_of_hosts: "Single"
+              pre_auth_acl:
+                enabled: true
+                implicit_action: "PERMIT"
+                description: "low auth profile description"
+                access_contracts:
+                  - action: "PERMIT"
+                    protocol: "UDP"
+                    port: "bootps"
+                  - action: "PERMIT"
+                    protocol: "UDP"
+                    port: "bootpc"
+                  - action: "PERMIT"
+                    protocol: "UDP"
+                    port: "domain"
 - name: Update/customise authentication profile template for fabric site/zone.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -322,20 +339,19 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1"
-          fabric_type: "fabric_zone"
-          authentication_profile: "Open Authentication"
-          is_pub_sub_enabled: False
-          update_authentication_profile:
-            authentication_order: "dot1x"
-            dot1x_fallback_timeout: 28
-            wake_on_lan: False
-            number_of_hosts: "Single"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
+            fabric_type: "fabric_zone"
+            authentication_profile: "Open Authentication"
+            is_pub_sub_enabled: false
+            update_authentication_profile:
+              authentication_order: "dot1x"
+              dot1x_fallback_timeout: 28
+              wake_on_lan: false
+              number_of_hosts: "Single"
 - name: Deleting/removing fabric site from sda from Cisco Catalyst Center
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -346,12 +362,11 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: deleted
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
 - name: Deleting/removing fabric zone from sda from Cisco Catalyst Center
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -362,17 +377,14 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: deleted
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
-          fabric_type: "fabric_zone"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+            fabric_type: "fabric_zone"
 """
-
 RETURN = r"""
-
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always

@@ -1,17 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_rf_profile_v1
 short_description: Resource module for Wireless Rf Profile V1
 description:
-- Manage operations create and delete of the resource Wireless Rf Profile V1.
-- Create or Update RF profile.
-- Delete RF profile.
+  - Manage operations create and delete of the resource Wireless Rf Profile V1.
+  - Create or Update RF profile.
+  - Delete RF profile.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -130,26 +128,19 @@ options:
       *non-custom RF profile cannot be deleted.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfileV1
-  description: Complete reference of the CreateOrUpdateRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile
-- name: Cisco DNA Center documentation for Wireless DeleteRFProfilesV1
-  description: Complete reference of the DeleteRFProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles
+  - name: Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfileV1
+    description: Complete reference of the CreateOrUpdateRFProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile
+  - name: Cisco DNA Center documentation for Wireless DeleteRFProfilesV1
+    description: Complete reference of the DeleteRFProfilesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_or_update_rf_profile_v1,
-    wireless.Wireless.delete_rf_profiles_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wireless/rf-profile,
-    delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName},
-
+  - SDK Method used are wireless.Wireless.create_or_update_rf_profile_v1, wireless.Wireless.delete_rf_profiles_v1,
+  - Paths used are post /dna/intent/api/v1/wireless/rf-profile, delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName},
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.wireless_rf_profile_v1:
@@ -196,7 +187,6 @@ EXAMPLES = r"""
       powerThresholdV1: 0
       radioChannels: string
       rxSopThreshold: string
-
 - name: Delete by name
   cisco.dnac.wireless_rf_profile_v1:
     dnac_host: "{{dnac_host}}"
@@ -208,7 +198,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     rfProfileName: string
-
 """
 RETURN = r"""
 dnac_response:
