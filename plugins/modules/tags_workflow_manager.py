@@ -1415,7 +1415,7 @@ class Tags(DnacBase):
 
         if not scope_description:
             self.log("Port Rules do not contain scope description.", "INFO")
-            return {}
+            return None
 
         errors = []
         scope_category = scope_description.get("scope_category")
@@ -1506,7 +1506,7 @@ class Tags(DnacBase):
 
         if not rule_descriptions:
             self.log("Port Rules Rules do not contain rule descriptions.", "INFO")
-            return {}
+            return None
 
         validated_rule_descriptions = []
         rule_name_choices = [
