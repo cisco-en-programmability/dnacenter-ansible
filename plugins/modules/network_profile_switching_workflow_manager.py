@@ -571,7 +571,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             "Accept": "application/json",
             "X-Auth-Token": str(token_str)
         }
-        target_url = f"{dnac_url}/api/v1/siteprofile"
+        target_url = str(dnac_url) + "/api/v1/siteprofile"
         response = None
 
         for existing_profile in self.have.get("switch_profile", []):
