@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: discovery_device_range_info
 short_description: Information module for Discovery Device Range Info
 description:
-- This module represents an alias of the module discovery_device_range_v1_info
+  - This module represents an alias of the module discovery_device_range_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,37 +18,33 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Discovery ID.
+      - Id path parameter. Discovery ID.
     type: str
   startIndex:
     description:
-    - StartIndex path parameter. Starting index for the records.
+      - StartIndex path parameter. Starting index for the records.
     type: int
   recordsToReturn:
     description:
-    - RecordsToReturn path parameter. Number of records to fetch from the start index.
+      - RecordsToReturn path parameter. Number of records to fetch from the start
+        index.
     type: int
   taskId:
     description:
-    - TaskId query parameter.
+      - TaskId query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetDiscoveredDevicesByRangeV1
-  description: Complete reference of the GetDiscoveredDevicesByRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discovered-devices-by-range
+  - name: Cisco DNA Center documentation for Discovery GetDiscoveredDevicesByRangeV1
+    description: Complete reference of the GetDiscoveredDevicesByRangeV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-discovered-devices-by-range
 notes:
-  - SDK Method used are
-    discovery.Discovery.get_discovered_devices_by_range_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn},
+  - SDK Method used are discovery.Discovery.get_discovered_devices_by_range_v1,
+  - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn},
   - It should be noted that this module is an alias of discovery_device_range_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Discovery Device Range Info
   cisco.dnac.discovery_device_range_info:
@@ -68,7 +61,6 @@ EXAMPLES = r"""
     startIndex: 0
     recordsToReturn: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -1,21 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: network_v2
 short_description: Resource module for Network V2
 description:
-- Manage operations create and update of the resource Network V2.
-- >
-   API to create network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS
-   center server settings.
-- >
-   API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS
-   center server settings.
+  - Manage operations create and update of the resource Network V2.
+  - >
+    API to create network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client
+    and Endpoint AAA, and/or DNS
+    center server settings.
+  - >
+    API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client
+    and Endpoint AAA, and/or DNS
+    center server settings.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -130,30 +130,23 @@ options:
         type: str
     type: dict
   siteId:
-    description: SiteId path parameter. Site Id to which site details to associate with
-      the network settings.
+    description: SiteId path parameter. Site Id to which site details to associate
+      with the network settings.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings CreateNetworkV2
-  description: Complete reference of the CreateNetworkV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-network
-- name: Cisco DNA Center documentation for Network Settings UpdateNetworkV2
-  description: Complete reference of the UpdateNetworkV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-network
+  - name: Cisco DNA Center documentation for Network Settings CreateNetworkV2
+    description: Complete reference of the CreateNetworkV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-network
+  - name: Cisco DNA Center documentation for Network Settings UpdateNetworkV2
+    description: Complete reference of the UpdateNetworkV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-network
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.create_network_v2,
-    network_settings.NetworkSettings.update_network_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/network/{siteId},
-    put /dna/intent/api/v2/network/{siteId},
-
+  - SDK Method used are network_settings.NetworkSettings.create_network_v2, network_settings.NetworkSettings.update_network_v2,
+  - Paths used are post /dna/intent/api/v2/network/{siteId}, put /dna/intent/api/v2/network/{siteId},
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.network_v2:
@@ -173,7 +166,7 @@ EXAMPLES = r"""
         servers: string
         sharedSecret: string
       dhcpServer:
-      - string
+        - string
       dnsServer:
         domainName: string
         primaryIpAddress: string
@@ -191,18 +184,17 @@ EXAMPLES = r"""
         servers: string
         sharedSecret: string
       ntpServer:
-      - string
+        - string
       snmpServer:
         configureDnacIP: true
         ipAddresses:
-        - string
+          - string
       syslogServer:
         configureDnacIP: true
         ipAddresses:
-        - string
+          - string
       timezone: string
     siteId: string
-
 - name: Update by id
   cisco.dnac.network_v2:
     dnac_host: "{{dnac_host}}"
@@ -221,7 +213,7 @@ EXAMPLES = r"""
         servers: string
         sharedSecret: string
       dhcpServer:
-      - string
+        - string
       dnsServer:
         domainName: string
         primaryIpAddress: string
@@ -239,18 +231,17 @@ EXAMPLES = r"""
         servers: string
         sharedSecret: string
       ntpServer:
-      - string
+        - string
       snmpServer:
         configureDnacIP: true
         ipAddresses:
-        - string
+          - string
       syslogServer:
         configureDnacIP: true
         ipAddresses:
-        - string
+          - string
       timezone: string
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:

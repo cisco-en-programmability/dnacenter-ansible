@@ -1,31 +1,29 @@
 {
-    "playbook_config_accesspoint":[
-        {
-            "template_name": null,
-            "template_params": null,
-            "project_name": "Onboarding Configuration",
-            "site_name": "Global/USA/SAN JOSE/SJ_BLD20/FLOOR1",
-            "image_name": null,
-            "golden_image": null,
-            "device_info": [
-                {
-                    "serial_number": "KWC24160JLL",
-                    "hostname": "Test-AP",
-                    "state": "Unclaimed",
-                    "pid": "C9130AXI-I",
-                    "is_sudi_required": true
-                }
-            ],
-            "pnp_type": "AccessPoint",
-            "rf_profile": "HIGH",
-            "static_ip": null,
-            "subnet_mask": null,
-            "gateway": null,
-            "vlan_id": null,
-            "ip_interface_name": null,
-            "sensorProfile": null
-        }
-    ],
+    "playbook_config_accesspoint": [{
+        "template_name": null,
+        "template_params": null,
+        "project_name": "Onboarding Configuration",
+        "site_name": "Global/USA/SAN JOSE/SJ_BLD20/FLOOR1",
+        "image_name": null,
+        "golden_image": null,
+        "device_info": [
+            {
+                "serial_number": "KWC24160JLL",
+                "hostname": "Test-AP",
+                "state": "Unclaimed",
+                "pid": "C9130AXI-I",
+                "is_sudi_required": true
+            }
+        ],
+        "pnp_type": "AccessPoint",
+        "rf_profile": "HIGH",
+        "static_ip": null,
+        "subnet_mask": null,
+        "gateway": null,
+        "vlan_id": null,
+        "ip_interface_name": null,
+        "sensorProfile": null
+    }],
 
     "get_device_detail": [{
         "version": 0,
@@ -7619,7 +7617,6 @@
         "version": "1.0"
     },
 
-
     "playbook_config_switch": [
         {
           "template_name": "PnP-Devices-SW",
@@ -8417,7 +8414,6 @@
         "id": "671b1d88c301a454b89d2c84"
     },
 
-
     "playbook_config_delete": [
         {
             "template_name": null,
@@ -8628,10 +8624,6 @@
         "active_validation": false
     },
 
-    "device_claim_site": {
-        "response": "Device Claimed"
-    },
-
     "playbook_config_wlc_vlan": [
         {
             "template_name": "PnP_Upstream_SJ_EWLC_No-Vars",
@@ -8675,7 +8667,7 @@
             "lastContact": 0,
             "lastContactDuration": 0,
             "provisionedOn": 0,
-            "state": "Planned",
+            "state": "Unclaimed",
             "onbState": "Not Contacted",
             "cmState": "Not Contacted",
             "projectId": "672db4f9f8a6d518470ac2fe",
@@ -8895,67 +8887,468 @@
         "id": "671b1d88c301a454b89d2c84"
     },
 
-
-    "get_membership":{
-        "site": {
-        "response": [],
-        "version": "1.0",
-        "message": "Site does not have childrens."
-        },
-        "device": [
+    "playbook_config_pnp": [
         {
-            "response": [
+        "device_info": [
             {
-                "instanceUuid": "34f5a410-413d-4a6c-b195-8267fd599491",
-                "instanceTenantId": "6486ce96ff1f0d0c8be622f4",
-                "deployPending": "NONE",
-                "instanceVersion": 0,
-                "apEthernetMacAddress": "34:b8:83:15:7c:6c",
-                "apManagerInterfaceIp": "204.192.6.200",
-                "associatedWlcIp": "204.192.6.200",
-                "collectionInterval": "NA",
-                "collectionStatus": "Managed",
-                "deviceSupportLevel": "Supported",
-                "dnsResolvedManagementAddress": "",
-                "errorCode": "null",
-                "family": "Unified AP",
-                "hostname": "LTTS-Test2",
-                "interfaceCount": "0",
-                "inventoryStatusDetail": "NA",
-                "lastDeviceResyncStartTime": "",
-                "lastUpdateTime": 1719810005060,
-                "lastUpdated": "2024-07-01 05:00:05",
-                "lineCardCount": "0",
-                "lineCardId": "",
-                "macAddress": "34:5d:a8:3b:d8:e0",
-                "managedAtleastOnce": false,
-                "managementIpAddress": "204.1.216.3",
-                "managementState": "Managed",
-                "memorySize": "NA",
-                "paddedMgmtIpAddress": "204.  1.216.  3",
-                "pendingSyncRequestsCount": "0",
-                "platformId": "C9124AXI-B",
-                "reachabilityFailureReason": "NA",
-                "reachabilityStatus": "Reachable",
-                "reasonsForDeviceResync": "",
-                "reasonsForPendingSyncRequests": "",
-                "role": "ACCESS",
-                "roleSource": "AUTO",
-                "serialNumber": "FJC27101PRX",
-                "series": "Cisco Catalyst 9124AXI Series Unified Access Points",
-                "snmpContact": "",
-                "snmpLocation": "LTTS-Cisco",
-                "softwareVersion": "17.14.0.79",
-                "tagCount": "0",
-                "type": "Cisco Catalyst 9124AXI Unified Access Point",
-                "upTime": "33 days, 05:00:40.430",
-                "uptimeSeconds": 2874442,
-                "vendor": "NA"
+                "serial_number": "FJC24501BK2",
+                "state": "Unclaimed",
+                "pid": "C9300-48UN",
+                "is_sudi_required": false
+            },
+            {
+                "serial_number": "FJC24441MSV",
+                "state": "Unclaimed",
+                "pid": "C9300-48S",
+                "hostname": "NY-EN-1-9300"
+            }
+        ]
+        }
+    ],
+
+    "playbook_config_pnp_site": [{
+            "device_info": [
+            {
+                "serial_number": "FJC24501BK",
+                "hostname": "Switch",
+                "state": "Unclaimed",
+                "pid": "C9300-48UN"
             }
             ],
-            "version": "1.0",
-            "siteId": "17301034-7715-4363-952f-3d290ea6ca59"
+            "site_name": "Global/USA/SAN JOSE/SJ_BLD21",
+            "template_name": "Ansible_PNP_Switch",
+            "template_params": {
+            "hostname": "SJC-Switch-1",
+            "interface": "TwoGigabitEthernet1/0/2"
+            },
+            "project_name": "Onboarding Configuration",
+            "image_name": "cat9k_iosxe.17.12.01.SPA.bin"
         }
+    ],
+
+    "get_import_devices_in_bulk": {
+        "successList": [
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FJC24501BK",
+            "name": "FJC24501BK2",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UN",
+            "lastSyncTime": 0,
+            "addedOn": 1743765173038,
+            "lastUpdateOn": 1743765173038,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "NONE",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_NONE",
+            "stack": false,
+            "sudiRequired": false,
+            "hseclicense": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": null,
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {},
+            "dayNCmdQueue": [],
+            "runSummaryList": [
+            {
+                "timestamp": 1743765173040,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "66ebcb2fca61781dfda55490",
+            "id": "67efbeb52ee66c0553d18f21"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FJC24441MSV",
+            "name": "FJC24441MSV",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48S",
+            "lastSyncTime": 0,
+            "addedOn": 1743765173042,
+            "lastUpdateOn": 1743765173042,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "NY-EN-1-9300",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "NONE",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_NONE",
+            "stack": false,
+            "sudiRequired": false,
+            "hseclicense": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": null,
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {},
+            "dayNCmdQueue": [],
+            "runSummaryList": [
+            {
+                "timestamp": 1743765173042,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "66ebcb2fca61781dfda55490",
+            "id": "67efbeb52ee66c0553d18f22"
+        }
+        ],
+        "failureList": []
+    },
+
+    "get_device_detail_exist1": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24501BK2",
+            "name": "FJC24501BK2",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UN",
+            "state": "Unclaimed"
+        },
+        "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+        },
+        "workflowParameters": {},
+        "dayNCmdQueue": [],
+        "runSummaryList": [
+            {
+                "timestamp": 1729830280826,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+        ],
+        "tenantId": "66ea0af5c60db15238522111",
+        "id": "671b1d88c301a454b89d2c84"
+    }],
+
+    "get_device_detail_exist2": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24441MSV",
+            "name": "FJC24441MSV",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48S",
+            "state": "Unclaimed"
+        },
+        "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+        },
+        "workflowParameters": {},
+        "dayNCmdQueue": [],
+        "runSummaryList": [
+            {
+                "timestamp": 1729830280826,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+        ],
+        "tenantId": "66ea0af5c60db15238522111",
+        "id": "671b1d88c301a454b89d2c84"
+    }],
+
+    "get_device_detail_exist3": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24501BK2",
+            "name": "FJC24501BK2",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UN",
+            "state": "Claimed"
+        }
+    }],
+
+    "get_device_detail_exist4": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24441MSV",
+            "name": "FJC24441MSV",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48S",
+            "state": "Claimed"
+        }
+    }],
+
+    "playbook_config_switch_site_issue": [{
+          "template_name": "PnP-Devices-SW",
+          "template_params": {
+            "hostname": "SJ-EN-10-9300",
+            "interface": "TwoGigabitEthernet1/0/2"
+            },
+          "project_name": "Onboarding Configuration",
+          "site_name": "Global/USA/SAN JOSE/SJ_BLD20/FLOOR1",
+          "image_name": "cat9k_iosxe.17.15.01.SPA.bin",
+          "golden_image": true,
+          "device_info": [
+            {
+              "serial_number": "FOC2439LA89",
+              "hostname": "SJ-EN-10-9300",
+              "state": "Unclaimed",
+              "pid": "C9300-24UXB",
+              "is_sudi_required": true
+            }
+          ],
+          "pnp_type": "AccessPoint",
+          "rf_profile": "HIGH",
+          "static_ip": null,
+          "subnet_mask": null,
+          "gateway": null,
+          "vlan_id": null,
+          "ip_interface_name": null,
+          "sensorProfile": null
+    }],
+
+    "get_software_image_detail_sw_error": {
+        "response": [
+        ],
+        "version": "1.0"
+    },
+
+    "get_template_configuration_sw_error": [
+    ],
+
+    "get_site_detail_building": {
+        "response": [
+            {
+                "id": "867314b2-b7e3-4c1b-98a9-0dff412c7cbf",
+                "parentId": "f7c87d85-c66c-4550-9b0b-b55c6bc3ca09",
+                "name": "FLOOR1",
+                "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD20/FLOOR1",
+                "type": "building",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_device_detail_sw_error": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FOC2439LA89",
+            "name": "FOC2439LA89",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-24UXB",
+            "lastSyncTime": 0,
+            "addedOn": 1729830280825,
+            "lastUpdateOn": 1729830280825,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "SJ-EN-10-9300",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "NONE",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_NONE",
+            "hseclicense": false,
+            "sudiRequired": false,
+            "stack": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+        },
+        "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+        },
+        "workflowParameters": {},
+        "dayNCmdQueue": [],
+        "runSummaryList": [
+            {
+                "timestamp": 1729830280826,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+        ],
+        "tenantId": "66ea0af5c60db15238522111",
+        "id": "671b1d88c301a454b89d2c84"
+    }],
+
+    "get_site_detail_floor": {
+        "response": [
+            {
+                "id": "867314b2-b7e3-4c1b-98a9-0dff412c7cbf",
+                "parentId": "f7c87d85-c66c-4550-9b0b-b55c6bc3ca09",
+                "name": "FLOOR1",
+                "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD20/FLOOR1",
+                "type": "floor",
+                "floorNumber": 1,
+                "rfModel": "Cubes And Walled Offices",
+                "width": 100.0,
+                "length": 100.0,
+                "height": 10.0,
+                "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "playbook_config_reset_device": [
+        {
+        "device_info": [
+            {
+                "serial_number": "FJC24501BK2",
+                "state": "Error",
+                "pid": "C9300-48UN",
+                "is_sudi_required": false
+            }
         ]
-    }
+        }
+    ],
+
+    "get_device_state_error": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24501BK2",
+            "name": "FJC24501BK2",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UN",
+            "state": "Error",
+            "mode": "INSTALL"
+        },
+        "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+        },
+        "workflowParameters": {},
+        "dayNCmdQueue": [],
+        "runSummaryList": [
+            {
+                "timestamp": 1729830280826,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+        ],
+        "tenantId": "66ea0af5c60db15238522111",
+        "id": "671b1d88c301a454b89d2c84"
+    }],
+
+    "get_reset_response":{
+        "response":{
+            "status": "Device reset done Successfully"
+        }
+    },
+
+    "get_reset_error_response":[{
+        "response":{
+            "status": "Device reset done Successfully"
+        }
+    }]
 }

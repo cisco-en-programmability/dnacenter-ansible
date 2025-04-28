@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_zones
 short_description: Resource module for Sda Fabric Zones
 description:
-- This module represents an alias of the module sda_fabric_zones_v1
+  - This module represents an alias of the module sda_fabric_zones_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -34,32 +31,25 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddFabricZoneV1
-  description: Complete reference of the AddFabricZoneV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-zone
-- name: Cisco DNA Center documentation for SDA DeleteFabricZoneByIdV1
-  description: Complete reference of the DeleteFabricZoneByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-zone-by-id
-- name: Cisco DNA Center documentation for SDA UpdateFabricZoneV1
-  description: Complete reference of the UpdateFabricZoneV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-zone
+  - name: Cisco DNA Center documentation for SDA AddFabricZoneV1
+    description: Complete reference of the AddFabricZoneV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-fabric-zone
+  - name: Cisco DNA Center documentation for SDA DeleteFabricZoneByIdV1
+    description: Complete reference of the DeleteFabricZoneByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-zone-by-id
+  - name: Cisco DNA Center documentation for SDA UpdateFabricZoneV1
+    description: Complete reference of the UpdateFabricZoneV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-fabric-zone
 notes:
-  - SDK Method used are
-    sda.Sda.add_fabric_zone_v1,
-    sda.Sda.delete_fabric_zone_by_id_v1,
+  - SDK Method used are sda.Sda.add_fabric_zone_v1, sda.Sda.delete_fabric_zone_by_id_v1,
     sda.Sda.update_fabric_zone_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sda/fabricZones,
-    delete /dna/intent/api/v1/sda/fabricZones/{id},
+  - Paths used are post /dna/intent/api/v1/sda/fabricZones, delete /dna/intent/api/v1/sda/fabricZones/{id},
     put /dna/intent/api/v1/sda/fabricZones,
   - It should be noted that this module is an alias of sda_fabric_zones_v1
-
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.dnac.sda_fabric_zones:
@@ -72,10 +62,9 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - authenticationProfileName: string
-      id: string
-      siteId: string
-
+      - authenticationProfileName: string
+        id: string
+        siteId: string
 - name: Create
   cisco.dnac.sda_fabric_zones:
     dnac_host: "{{dnac_host}}"
@@ -87,9 +76,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - authenticationProfileName: string
-      siteId: string
-
+      - authenticationProfileName: string
+        siteId: string
 - name: Delete by id
   cisco.dnac.sda_fabric_zones:
     dnac_host: "{{dnac_host}}"
@@ -101,7 +89,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

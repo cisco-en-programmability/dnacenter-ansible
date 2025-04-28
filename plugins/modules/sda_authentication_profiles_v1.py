@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: sda_authentication_profiles_v1
 short_description: Resource module for Sda Authentication Profiles V1
 description:
-- Manage operation update of the resource Sda Authentication Profiles V1.
-- Updates an authentication profile based on user input.
+  - Manage operation update of the resource Sda Authentication Profiles V1.
+  - Updates an authentication profile based on user input.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,8 +22,8 @@ options:
         description: First authentication method.
         type: str
       authenticationProfileName:
-        description: The default host authentication template (updating this field is
-          not allowed).
+        description: The default host authentication template (updating this field
+          is not allowed).
         type: str
       dot1xToMabFallbackTimeout:
         description: 802.1x Timeout.
@@ -36,7 +34,8 @@ options:
           remove this property or set its value to null.
         type: str
       id:
-        description: ID of the authentication profile (updating this field is not allowed).
+        description: ID of the authentication profile (updating this field is not
+          allowed).
         type: str
       isBpduGuardEnabled:
         description: Enable/disable BPDU Guard. Only applicable when authenticationProfileName
@@ -60,8 +59,8 @@ options:
                   once in the Access Contract list.
                 type: str
               protocol:
-                description: Protocol for the access contract. "TCP" and "TCP_UDP" are
-                  only allowed when the contract port is "domain".
+                description: Protocol for the access contract. "TCP" and "TCP_UDP"
+                  are only allowed when the contract port is "domain".
                 type: str
             type: list
           description:
@@ -79,21 +78,16 @@ options:
         type: bool
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA UpdateAuthenticationProfileV1
-  description: Complete reference of the UpdateAuthenticationProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-authentication-profile
+  - name: Cisco DNA Center documentation for SDA UpdateAuthenticationProfileV1
+    description: Complete reference of the UpdateAuthenticationProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-authentication-profile
 notes:
-  - SDK Method used are
-    sda.Sda.update_authentication_profile_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/sda/authenticationProfiles,
-
+  - SDK Method used are sda.Sda.update_authentication_profile_v1,
+  - Paths used are put /dna/intent/api/v1/sda/authenticationProfiles,
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.dnac.sda_authentication_profiles_v1:
@@ -106,23 +100,22 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - authenticationOrder: string
-      authenticationProfileName: string
-      dot1xToMabFallbackTimeout: 0
-      fabricId: string
-      id: string
-      isBpduGuardEnabled: true
-      numberOfHosts: string
-      preAuthAcl:
-        accessContracts:
-        - action: string
-          port: string
-          protocol: string
-        description: string
-        enabled: true
-        implicitAction: string
-      wakeOnLan: true
-
+      - authenticationOrder: string
+        authenticationProfileName: string
+        dot1xToMabFallbackTimeout: 0
+        fabricId: string
+        id: string
+        isBpduGuardEnabled: true
+        numberOfHosts: string
+        preAuthAcl:
+          accessContracts:
+            - action: string
+              port: string
+              protocol: string
+          description: string
+          enabled: true
+          implicitAction: string
+        wakeOnLan: true
 """
 RETURN = r"""
 dnac_response:

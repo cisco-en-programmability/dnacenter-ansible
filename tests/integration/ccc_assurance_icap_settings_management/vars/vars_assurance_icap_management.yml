@@ -1,0 +1,8 @@
+---
+icap_config:
+  - assurance_icap_settings:
+      - capture_type: ONBOARDING
+        preview_description: "ICAP capture for client onboarding analysis"
+        duration_in_mins: 30
+        client_mac: 50:91:E3:47:AC:9E
+        wlc_name: NY-IAC-EWLC.cisco.local

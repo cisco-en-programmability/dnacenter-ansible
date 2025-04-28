@@ -1,29 +1,25 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 from __future__ import (absolute_import, division, print_function)
-
 __metaclass__ = type
 __author__ = ("Luna Aliaj, Madhan Sankaranarayanan")
-
 DOCUMENTATION = r"""
 ---
 module: lan_automation_workflow_manager
 short_description: Automate network discovery, deployment, and device configuration
-                   with LAN Automation in Cisco Catalyst Center.
+  with LAN Automation in Cisco Catalyst Center.
 description:
-  - Configuring LAN Automation sessions in Cisco Catalyst Center for automated
-    discovery of devices and their integration into the network.
-  - Updating LAN Automation device configurations, including loopback addresses,
-    hostnames, and link configurations.
-  - Automatically stopping an ongoing LAN Automation session based on conditions
-    like timeout or discovery device list completion, without explicitly calling
-    the stop API.
-  - Additionally, it provides functionalities to stop ongoing LAN Automation sessions and
-    to handle PnP device authorization.
+  - Configuring LAN Automation sessions in Cisco Catalyst Center for automated discovery
+    of devices and their integration into the network.
+  - Updating LAN Automation device configurations, including loopback addresses, hostnames,
+    and link configurations.
+  - Automatically stopping an ongoing LAN Automation session based on conditions like
+    timeout or discovery device list completion, without explicitly calling the stop
+    API.
+  - Additionally, it provides functionalities to stop ongoing LAN Automation sessions
+    and to handle PnP device authorization.
 version_added: '6.20.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -32,7 +28,8 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
 options:
   dnac_api_task_timeout:
-    description: The maximum time to wait for a task to complete on Cisco DNA Center for LAN Automation.
+    description: The maximum time to wait for a task to complete on Cisco DNA Center
+      for LAN Automation.
     type: int
     default: 604800
   dnac_task_poll_interval:
@@ -40,8 +37,8 @@ options:
     type: int
     default: 30
   config_verify:
-    description: Set to true to verify the LAN Automation config after applying
-                 the playbook config.
+    description: Set to true to verify the LAN Automation config after applying the
+      playbook config.
     type: bool
     default: false
   state:
@@ -51,10 +48,9 @@ options:
     default: merged
   config:
     description: A list containing detailed configurations for creating and stopping
-                 a LAN Automation session, and also for updating loopback addresses,
-                 hostnames, and link configurations for LAN automated devices.
-                 Each element in the list represents a specific operation to be
-                 performed on the LAN automation infrastructure.
+      a LAN Automation session, and also for updating loopback addresses, hostnames,
+      and link configurations for LAN automated devices. Each element in the list
+      represents a specific operation to be performed on the LAN automation infrastructure.
     type: list
     elements: dict
     required: true
@@ -69,17 +65,17 @@ options:
             required: true
           primary_device_management_ip_address:
             description: Management IP address of the primary or seed device in the
-                         LAN Automation session.
+              LAN Automation session.
             type: str
             required: true
           peer_device_management_ip_address:
-            description: Management IP address of the peer device in the LAN
-                         Automation session.
+            description: Management IP address of the peer device in the LAN Automation
+              session.
             type: str
             required: false
           primary_device_interface_names:
             description: A list of interface names on the primary device to be used
-                         for LAN automation.
+              for LAN automation.
             type: list
             elements: str
             required: true
@@ -95,7 +91,7 @@ options:
                 required: true
               ip_pool_role:
                 description: Role of the IP pool in the automation session, either
-                             MAIN_POOL or PHYSICAL_LINK_POOL.
+                  MAIN_POOL or PHYSICAL_LINK_POOL.
                 type: str
                 required: true
                 choices: [MAIN_POOL, PHYSICAL_LINK_POOL]
@@ -105,7 +101,7 @@ options:
             default: false
           host_name_prefix:
             description: Prefix used for auto-generating hostnames during the LAN
-                         Automation session.
+              Automation session.
             type: str
             required: false
           redistribute_isis_to_bgp:
@@ -118,30 +114,28 @@ options:
             required: false
           discovery_level:
             description: Depth of the discovery during LAN automation (e.g., Level
-                         1-5 below the primary seed device).
+              1-5 below the primary seed device).
             type: int
             default: 2
           discovery_timeout:
             description: Timeout for device discovery during LAN Automation, in minutes.
-                         Until this time, stop processing will not be triggered.
-                         Any device contacting after the provided discovery timeout
-                         will not be processed, and a device reset and reload will be
-                         attempted to bring it back to the PnP agent state before
-                         process completion. The supported timeout range is in minutes
-                         [20-10080]. If both 'discovery_timeout' and 'discovery_devices' are provided,
-                         processing will stop based on whichever occurs earlier. Users can always use
-                         the LAN Automation deleted state to force stop processing.
+              Until this time, stop processing will not be triggered. Any device contacting
+              after the provided discovery timeout will not be processed, and a device
+              reset and reload will be attempted to bring it back to the PnP agent
+              state before process completion. The supported timeout range is in minutes
+              [20-10080]. If both 'discovery_timeout' and 'discovery_devices' are
+              provided, processing will stop based on whichever occurs earlier. Users
+              can always use the LAN Automation deleted state to force stop processing.
             type: int
             required: false
           discovery_devices:
             description: A list of devices to be discovered during the LAN Automation
-                         session. If only a device list is provided without a timeout,
-                         stop processing will occur once all devices from the list are
-                         discovered. The maximum number of devices that can be provided
-                         for a session is 50. If both the discovery devices list and
-                         timeout are provided, the stop processing will be attempted
-                         whichever happens earlier. Users may choose to use the LAN Automation
-                         'deleted' state to stop processing at any time.
+              session. If only a device list is provided without a timeout, stop processing
+              will occur once all devices from the list are discovered. The maximum
+              number of devices that can be provided for a session is 50. If both
+              the discovery devices list and timeout are provided, the stop processing
+              will be attempted whichever happens earlier. Users may choose to use
+              the LAN Automation 'deleted' state to stop processing at any time.
             type: list
             elements: dict
             required: false
@@ -156,7 +150,7 @@ options:
                 required: false
               device_site_name_hierarchy:
                 description: Site hierarchy where the device will be placed after
-                             discovery.
+                  discovery.
                 type: str
                 required: false
               device_management_ip_address:
@@ -164,24 +158,25 @@ options:
                 type: str
                 required: false
           launch_and_wait:
-            description: Flag indicating whether the task should pause until the LAN Automation session completes
-                         before continuing to subsequent tasks. If set to false, the process will move to the next
-                         task immediately.
+            description: Flag indicating whether the task should pause until the LAN
+              Automation session completes before continuing to subsequent tasks.
+              If set to false, the process will move to the next task immediately.
             type: bool
             default: false
           pnp_authorization:
-            description: Flag to enable Plug and Play (PnP) authorization for devices discovered during the session.
+            description: Flag to enable Plug and Play (PnP) authorization for devices
+              discovered during the session.
             type: bool
             default: false
           device_serial_number_authorization:
             description: A list of serial numbers of devices to be authorized during
-                         the session.
+              the session.
             type: list
             elements: str
             required: false
       lan_automated_device_update:
         description: Configuration for updating device settings discovered through
-                     LAN Automation.
+          LAN Automation.
         type: dict
         suboptions:
           loopback_update_device_list:
@@ -194,8 +189,8 @@ options:
                 type: str
                 required: true
               new_loopback0_ip_address:
-                description: New Loopback0 IP Address for the device, sourced from the LAN pool associated
-                             with the device discovery site.
+                description: New Loopback0 IP Address for the device, sourced from
+                  the LAN pool associated with the device discovery site.
                 type: str
                 required: true
           hostname_update_devices:
@@ -232,8 +227,8 @@ options:
                 type: str
                 required: true
               ip_pool_name:
-                description: Name of the IP pool configured within LAN Automation, from which IP addresses will be
-                             allocated for the new link.
+                description: Name of the IP pool configured within LAN Automation,
+                  from which IP addresses will be allocated for the new link.
                 type: str
                 required: true
           link_delete:
@@ -256,40 +251,29 @@ options:
                 description: Interface name on the destination device.
                 type: str
                 required: true
-
 requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
-
 notes:
-  - When waiting for the LAN automation session to complete, the timeout and the
-    list of devices to be discovered will initially be considered. If neither a
-    timeout nor a device list is provided, LAN automation will continue running
-    until stopped.
+  - When waiting for the LAN automation session to complete, the timeout and the list
+    of devices to be discovered will initially be considered. If neither a timeout
+    nor a device list is provided, LAN automation will continue running until stopped.
   - To stop a LAN automation session, execute the same details in the 'deleted' state.
     Only the seed device IP is required to terminate the session.
   - PnP authorization will be performed if device authorization has been selected
-    in Catalyst Center. LAN automation will continue running until the provided
-    serial numbers are authorized, continuously checking the status of the devices.
-    If PnP authorization is enabled without a list of devices for either authorization
-    or discovery, the module will not wait for the LAN automation task to complete.
-    However, if a device is in an Error state or authorization is not checked on
-    Catalyst Center, the playbook will keep running until the state of the device
-    is active or reached the timeout value.
-
-  - SDK Method used are
-    ccc_lan_automation.lanautomation.lan_automation_start_v2
-    ccc_lan_automation.lanautomation.lan_automation_stop
-    ccc_lan_automation.lanautomation.lan_automation_device_update
-    ccc_lan_automation.lanautomation.lan_automation_active_sessions
-    ccc_lan_automation.lanautomation.lan_automation_status
-    ccc_lan_automation.lanautomation.lan_automation_log
-    ccc_lan_automation.devices.get_device_list
-    ccc_lan_automation.devices.get_interface_details
-    ccc_lan_automation.deviceonboardingpnp.authorize_device
-    ccc_lan_automation.deviceonboardingpnp.get_device_list
+    in Catalyst Center. LAN automation will continue running until the provided serial
+    numbers are authorized, continuously checking the status of the devices. If PnP
+    authorization is enabled without a list of devices for either authorization or
+    discovery, the module will not wait for the LAN automation task to complete. However,
+    if a device is in an Error state or authorization is not checked on Catalyst Center,
+    the playbook will keep running until the state of the device is active or reached
+    the timeout value.
+  - SDK Method used are ccc_lan_automation.lanautomation.lan_automation_start_v2 ccc_lan_automation.lanautomation.lan_automation_stop
+    ccc_lan_automation.lanautomation.lan_automation_device_update ccc_lan_automation.lanautomation.lan_automation_active_sessions
+    ccc_lan_automation.lanautomation.lan_automation_status ccc_lan_automation.lanautomation.lan_automation_log
+    ccc_lan_automation.devices.get_device_list ccc_lan_automation.devices.get_interface_details
+    ccc_lan_automation.deviceonboardingpnp.authorize_device ccc_lan_automation.deviceonboardingpnp.get_device_list
 """
-
 EXAMPLES = r"""
 - name: Start a LAN Automation session without waiting for it to finish
   cisco.dnac.lan_automation_workflow_manager:
@@ -333,8 +317,8 @@ EXAMPLES = r"""
               device_management_ip_address: "204.1.1.11"
           launch_and_wait: false
           pnp_authorization: false
-
-- name: Start a LAN Automation session with device authorization and waiting for the task to complete
+- name: Start a LAN Automation session with device authorization and waiting for
+    the task to complete
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -379,7 +363,6 @@ EXAMPLES = r"""
           device_serial_number_authorization:
             - "FJC27172JDW"
             - "FJC2721261A"
-
 - name: Stop a LAN Automation session
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -396,7 +379,6 @@ EXAMPLES = r"""
       - lan_automation:
           discovered_device_site_name_hierarchy: "Global/USA/SAN JOSE"
           primary_device_management_ip_address: "204.1.1.1"
-
 - name: Update loopback for LAN Automated devices
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -416,7 +398,6 @@ EXAMPLES = r"""
               new_loopback0_ip_address: "91.1.2.6"
             - device_management_ip_address: "204.1.2.163"
               new_loopback0_ip_address: "91.1.2.5"
-
 - name: Update hostname for LAN Automated devices
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -436,7 +417,6 @@ EXAMPLES = r"""
               new_host_name: "SR-LAN-9300-im1"
             - device_management_ip_address: "91.1.1.6"
               new_host_name: "Test"
-
 - name: Add link for LAN Automated devices
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -457,7 +437,6 @@ EXAMPLES = r"""
             destination_device_management_ip_address: "204.1.1.4"
             destination_device_interface_name: "HundredGigE1/0/5"
             ip_pool_name: "underlay_sj"
-
 - name: Delete link between LAN Automated devices
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -477,7 +456,6 @@ EXAMPLES = r"""
             source_device_interface_name: "HundredGigE1/0/2"
             destination_device_management_ip_address: "204.1.1.4"
             destination_device_interface_name: "HundredGigE1/0/5"
-
 - name: Apply loopback and hostname updates for LAN Automated devices
   cisco.dnac.lan_automation_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -500,9 +478,7 @@ EXAMPLES = r"""
               new_host_name: "SR-LAN-9300-SJ"
             - device_management_ip_address: "204.1.1.5"
               new_host_name: "SR-LAN-9500-SJ"
-
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -537,6 +513,7 @@ class LanAutomation(DnacBase):
         self.updated_hostname, self.no_hostname_updated = [], []
         self.added_link, self.no_link_added = [], []
         self.deleted_link, self.no_link_deleted = [], []
+        self.supported_states = ["merged", "deleted"]
 
     def validate_input(self):
         """
