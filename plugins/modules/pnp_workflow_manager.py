@@ -966,9 +966,11 @@ class PnP(DnacBase):
                          .format(self.pprint(dev_details_response)), "DEBUG")
 
                 install_mode = dev_details_response.get("deviceInfo").get("mode")
-                onb_state = dev_details_response.get("deviceInfo").get("onbState")
                 self.log("Installation mode of the device with the serial no. '{0}':{1}"
                          .format(self.want.get("serial_number"), install_mode), "INFO")
+                onb_state = dev_details_response.get("deviceInfo").get("onbState")
+                self.log("Onboarding status of the device with the serial no. '{0}':{1}"
+                         .format(self.want.get("serial_number"), onb_state), "INFO")
 
                 # check if given site exits, if exists store current site info
                 site_exists = False
