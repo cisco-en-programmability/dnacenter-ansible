@@ -968,10 +968,9 @@ class PnP(DnacBase):
                 install_mode = dev_details_response.get("deviceInfo").get("mode")
                 self.log("Installation mode of the device with the serial no. '{0}':{1}"
                          .format(self.want.get("serial_number"), install_mode), "INFO")
-
-                if not install_mode:
-                    self.log("Installation mode was None hence assigning to install mode.", "INFO")
-                    install_mode = dev_details_response["mode"] = "INSTALL"
+                onb_state = dev_details_response.get("deviceInfo").get("onbState")
+                self.log("Onboarding status of the device with the serial no. '{0}':{1}"
+                         .format(self.want.get("serial_number"), onb_state), "INFO")
 
                 # check if given site exits, if exists store current site info
                 site_exists = False
@@ -1003,7 +1002,7 @@ class PnP(DnacBase):
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     if len(image_list) == 1:
-                        if install_mode != "INSTALL":
+                        if install_mode != "INSTALL" and onb_state != "Not Contacted":
                             self.msg = "The system must be in INSTALL mode to upgrade the image. The current mode is '{0}'."\
                                 " Please switch to INSTALL mode to proceed.".format(install_mode)
                             self.log(str(self.msg), "CRITICAL")
@@ -1150,7 +1149,7 @@ class PnP(DnacBase):
                     self.log("Device '{0}': Claim Status = '{1}', Config Match = '{2}'".format(
                         serial_number, claim_stat, match_stat), "DEBUG")
 
-                    if not (claim_stat == "Provision" and match_stat):
+                    if claim_stat != "Provisioned" and not match_stat:
                         self.log("Updating device info for serial: '{0}' as it's not provisioned or config doesn't match.".format(
                             serial_number), "DEBUG")
                         self.update_device_info(existing_device_info, device_info, device_response.get("id"))
@@ -1168,7 +1167,7 @@ class PnP(DnacBase):
                         else:
                             self.log("Device '{0}' reset failed or skipped.".format(serial_number), "DEBUG")
 
-                    if (claim_stat in ("Provision", "Claimed", "Planned")
+                    if (claim_stat in ("Provisioned", "Claimed", "Planned")
                         or (claim_stat in ("Unclaimed", "Error")
                             and not site)):
                         self.log("Device '{0}' considered as existing based on claim status '{1}'.".format(
