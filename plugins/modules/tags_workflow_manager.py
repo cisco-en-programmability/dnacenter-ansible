@@ -1193,7 +1193,7 @@ class Tags(DnacBase):
         if rule_name not in rule_name_choices:
             errors.append(
                 "Invalid rule name: '{0}'. Valid options are: {1}".format(
-                rule_name, ", ".join(rule_name_choices)
+                    rule_name, ", ".join(rule_name_choices)
                 )
             )
 
