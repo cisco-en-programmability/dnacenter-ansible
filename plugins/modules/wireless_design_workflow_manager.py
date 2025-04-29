@@ -4684,7 +4684,7 @@ class WirelessDesign(DnacBase):
                 self.fail_and_exit(self.msg)
 
         # Validate authentication key management settings
-        if "auth_key_management" in required_l2_auth_params and auth_key_management:
+        if "auth_key_management" in required_l2_auth_params and auth_key_management and wpa_encryption:
             for akm in auth_key_management:
                 akm = akm.upper()
                 is_valid_akm = any(
@@ -6321,7 +6321,8 @@ class WirelessDesign(DnacBase):
             for sub_param, sub_rule in rule.items():
                 if sub_param in value:
                     sub_value = value[sub_param]
-                    self.validate_range(sub_value, *sub_rule, sub_param, profile_name)
+                    min_val, max_val = sub_rule
+                    self.validate_range(sub_value, min_val, max_val, sub_param, profile_name)
 
     def validate_anchor_groups_params(self, anchor_groups, state):
         """
@@ -6634,24 +6635,27 @@ class WirelessDesign(DnacBase):
             # Start the loop for paginated API calls
             while True:
                 try:
-                    # Update offset and limit in the parameters for the API call
-
-                    # Fix for issue in API for get_ap_profiles (it needs the offset and limit to be of type string)
+                    # Handle get_ap_profiles specifically
                     if api_function == "get_ap_profiles":
+                        # First attempt with string type
                         params.update({
                             "offset": str(offset),
                             "limit": str(limit)
                         })
+                        self.log(
+                            "Attempting API call with string offset and limit for family '{0}', function '{1}': {2}".format(api_family, api_function, params),
+                            "INFO"
+                        )
                     else:
+                        # For all other API calls, use integers
                         params.update({
                             "offset": offset,
                             "limit": limit
                         })
-
-                    self.log(
-                        "Updated parameters with offset and limit for family '{0}', function '{1}': {2}".format(api_family, api_function, params),
-                        "INFO"
-                    )
+                        self.log(
+                            "Attempting API call with integer offset and limit for family '{0}', function '{1}': {2}".format(api_family, api_function, params),
+                            "INFO"
+                        )
 
                     # Execute the API call
                     response = self.dnac._exec(
@@ -6661,38 +6665,57 @@ class WirelessDesign(DnacBase):
                         params=params,
                     )
 
-                    self.log(
-                        "Response received from API call for family '{0}', function '{1}': {2}".format(api_family, api_function, response),
-                        "INFO"
-                    )
-
-                    # Process the response if available
-                    response = response.get("response")
-                    if not response:
+                except Exception as e:
+                    # Retry with integer type for get_ap_profiles if the first attempt fails
+                    if api_function == "get_ap_profiles":
                         self.log(
-                            "Exiting the loop because no data was returned after increasing the offset. "
-                            "Current offset: {0}".format(offset),
+                            "API call failed with string offset and limit. Retrying with integer values. Error: {0}".format(str(e)),
+                            "WARNING"
+                        )
+                        params.update({
+                            "offset": offset,
+                            "limit": limit
+                        })
+                        self.log(
+                            "Retrying API call with integer offset and limit for family '{0}', function '{1}': {2}".format(api_family, api_function, params),
                             "INFO"
                         )
-                        break
+                        # Execute the API call again
+                        response = self.dnac._exec(
+                            family=api_family,
+                            function=api_function,
+                            op_modifies=False,
+                            params=params,
+                        )
+                    else:
+                        # Raise the exception for all other API calls
+                        raise
 
-                    # Extend the results list with the response data
-                    results.extend(response)
+                self.log(
+                    "Response received from API call for family '{0}', function '{1}': {2}".format(api_family, api_function, response),
+                    "INFO"
+                )
 
-                    # Check if the response size is less than the limit
-                    if len(response) < limit:
-                        self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
-                        break
-
-                    # Increment the offset for the next iteration
-                    offset += limit
-
-                except Exception as e:
-                    self.msg = (
-                        "An error occurred during iteration while retrieving data using family '{0}', function '{1}'. "
-                        "Details: '{2}' using API call: {3}".format(api_family, api_function, params, str(e))
+                # Process the response if available
+                response = response.get("response")
+                if not response:
+                    self.log(
+                        "Exiting the loop because no data was returned after increasing the offset. "
+                        "Current offset: {0}".format(offset),
+                        "INFO"
                     )
-                    self.fail_and_exit(self.msg)
+                    break
+
+                # Extend the results list with the response data
+                results.extend(response)
+
+                # Check if the response size is less than the limit
+                if len(response) < limit:
+                    self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
+                    break
+
+                # Increment the offset for the next iteration
+                offset += limit
 
             if results:
                 self.log("Data retrieved for family '{0}', function '{1}': {2}".format(api_family, api_function, results), "DEBUG")
@@ -6733,7 +6756,7 @@ class WirelessDesign(DnacBase):
         # Map the user-provided SSID name to the expected API parameter
         if ssid_name:
             get_ssids_params["ssid"] = ssid_name
-            self.log("Mapped 'ssid_name' to '{0}'.".format(ssid_name), "DEBUG")
+            self.log("Mapped 'ssid' to '{0}'.".format(ssid_name), "DEBUG")
 
         # Map the user-provided SSID type to the expected API parameter
         if ssid_type:
