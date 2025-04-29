@@ -835,9 +835,12 @@ class VirtualNetwork(DnacBase):
                 op_modifies=False,
                 params={"site_id": site_id},
             )
-            response = response.get("response")
             self.log("Received API response from 'get_fabric_zones' for the site '{0}': {1}".format(site_name, str(response)), "DEBUG")
+            if not response:
+                self.log("Given site '{0}' is not a fabric zone in Cisco Catalyst Center.".format(site_name), "INFO")
+                return fabric_zone_id
 
+            response = response.get("response")
             if not response:
                 self.log("Given site '{0}' is not a fabric zone in Cisco Catalyst Center.".format(site_name), "INFO")
                 return fabric_zone_id
@@ -3391,18 +3394,34 @@ class VirtualNetwork(DnacBase):
                 if anchor_site:
                     # We cannot remove the anchored site id if subscriber sites are there
                     if fabric_ids[0] == anchor_site and len(fabric_ids) == 1:
+                        if len(vn_in_ccc.get("fabricIds")) > 1:
+                            self.msg = (
+                                "Given Anchored VN '{0}' contains the subscriber sites, so in order to delete the main site, "
+                                "please remove the subscriber sites."
+                            ).format(vn_name)
+                            self.fail_and_exit(self.msg)
+
                         removed_vn_site_list.append(fabric_ids[0])
                         self.log("Only anchored site associated with the virtual network {0} so removing it as well.".format(vn_name), "INFO")
                         vn_in_ccc["anchoredSiteId"] = ""
                         vn_in_ccc["fabricIds"] = [anchor_site]
-                    else:
-                        for fabric_id in fabric_ids:
-                            if fabric_id != anchor_site and fabric_id in fabric_ids_in_ccc:
-                                self.log("Removing fabric id '{0}' from the virtual network {1} update payload".format(fabric_id, vn_name), "DEBUG")
-                                fabric_ids_in_ccc.remove(fabric_id)
-                                removed_vn_site_list.append(fabric_id)
+                        self.update_virtual_networks([vn_in_ccc]).check_return_status()
+                        self.delete_layer3_virtual_network(vn_name, vn_in_ccc.get("id"))
+                        if self.status == "failed" and "task tree" in self.msg:
+                            task_id = self.msg.split(":")[1].split(".")[0].lstrip()
+                            failure_reason = self.get_task_tree_failure_reasons(task_id)
+                            self.msg = "Unable to delele the virtual network {0} because of: {1}".format(vn_name, failure_reason)
+                            self.log(self.msg, "WARNING")
+                            self.fail_and_exit(self.msg)
+                        continue
 
-                        vn_in_ccc["fabricIds"] = fabric_ids_in_ccc
+                    for fabric_id in fabric_ids:
+                        if fabric_id != anchor_site and fabric_id in fabric_ids_in_ccc:
+                            self.log("Removing fabric id '{0}' from the virtual network {1} update payload".format(fabric_id, vn_name), "DEBUG")
+                            fabric_ids_in_ccc.remove(fabric_id)
+                            removed_vn_site_list.append(fabric_id)
+
+                    vn_in_ccc["fabricIds"] = fabric_ids_in_ccc
 
                     self.update_virtual_networks([vn_in_ccc]).check_return_status()
                     self.log("Given fabric site(s) '{0}' removed successfully from the virtual network {1}".format(fabric_locations, vn_name), "INFO")
@@ -3455,9 +3474,8 @@ class VirtualNetwork(DnacBase):
                     failure_reason = self.get_task_tree_failure_reasons(task_id)
                     self.msg = "Unable to delele the virtual network {0} because of: {1}".format(vn_name, failure_reason)
                     self.log(self.msg, "WARNING")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
 
-                self.check_return_status()
                 self.log("Successfully deleted virtual network '{0}' from Cisco Catalyst Center.".format(vn_name), "INFO")
 
         if self.deleted_virtual_networks:
