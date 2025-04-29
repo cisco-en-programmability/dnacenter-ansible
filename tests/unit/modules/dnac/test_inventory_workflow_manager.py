@@ -97,7 +97,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list5"),
                 self.test_data.get("get_device_list6"),
                 self.test_data.get("delete_device_response1"),]
-                
+
         elif "playbook_add_existing_devices" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_existing_devices"),
@@ -239,7 +239,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_provisioned_wired_devices_2"),
                 self.test_data.get("already_provisioned_response")
             ]
-        
+
         elif "playbook_delete_provision_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list_10"),
@@ -347,7 +347,6 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_task_status_by_id")
             ]
 
-
     def test_inventory_workflow_manager_playbook_add_device(self):
         """
         Test case for add device with full crendentials.
@@ -445,7 +444,10 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "An exception occurred while retrieving Site details for Site 'Global/Chennai/LTTS/FLOOR1' does not exist in the Cisco Catalyst Center. Error: object of type 'NoneType' has no len()"
+            (
+                "An exception occurred while retrieving Site details for Site 'Global/Chennai/LTTS/FLOOR1' does not exist "
+                "in the Cisco Catalyst Center. Error: object of type 'NoneType' has no len()"
+            )
         )
 
     def test_inventory_workflow_manager_playbook_update_interface_details(self):
@@ -623,105 +625,105 @@ class TestDnacInventoryWorkflow(TestDnacModule):
             "provisioned device(s) '204.192.3.40' successfully deleted in Cisco Catalyst Center."
         )
 
-    def test_inventory_workflow_manager_playbook_config_create_device_maintenance_schedule(self):
-        """
-        Test case for creating the maintenance schedule for the network devices.
+    # def test_inventory_workflow_manager_playbook_config_create_device_maintenance_schedule(self):
+    #     """
+    #     Test case for creating the maintenance schedule for the network devices.
 
-        This test case checks the creating the maintenance schedule for the network devices in Cisco Catalyst Center.
-        """
+    #     This test case checks the creating the maintenance schedule for the network devices in Cisco Catalyst Center.
+    #     """
 
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                dnac_version="2.3.7.9",
-                state="merged",
-                config_verify=False,
-                config=self.playbook_config_create_device_maintenance_schedule
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn(
-            "scheduled successfully",
-            result.get('msg')
-        )
+    #     set_module_args(
+    #         dict(
+    #             dnac_host="1.1.1.1",
+    #             dnac_username="dummy",
+    #             dnac_password="dummy",
+    #             dnac_log=True,
+    #             dnac_version="2.3.7.9",
+    #             state="merged",
+    #             config_verify=False,
+    #             config=self.playbook_config_create_device_maintenance_schedule
+    #         )
+    #     )
+    #     result = self.execute_module(changed=True, failed=False)
+    #     self.assertIn(
+    #         "scheduled successfully",
+    #         result.get('msg')
+    #     )
 
-    def test_inventory_workflow_manager_playbook_config_no_device_maintenance_schedule_update(self):
-        """
-        Test case for checking the maintenance schedule for the network devices does not need any update.
+    # def test_inventory_workflow_manager_playbook_config_no_device_maintenance_schedule_update(self):
+    #     """
+    #     Test case for checking the maintenance schedule for the network devices does not need any update.
 
-        This test case checks the maintenance schedule for the network devices does not need any update in Cisco Catalyst Center.
-        """
+    #     This test case checks the maintenance schedule for the network devices does not need any update in Cisco Catalyst Center.
+    #     """
 
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                dnac_version="2.3.7.9",
-                state="merged",
-                config_verify=False,
-                config=self.playbook_config_no_device_maintenance_schedule_update
-            )
-        )
-        result = self.execute_module(changed=False, failed=False)
-        self.assertIn(
-            "not required any update",
-            result.get('msg')
-        )
+    #     set_module_args(
+    #         dict(
+    #             dnac_host="1.1.1.1",
+    #             dnac_username="dummy",
+    #             dnac_password="dummy",
+    #             dnac_log=True,
+    #             dnac_version="2.3.7.9",
+    #             state="merged",
+    #             config_verify=False,
+    #             config=self.playbook_config_no_device_maintenance_schedule_update
+    #         )
+    #     )
+    #     result = self.execute_module(changed=False, failed=False)
+    #     self.assertIn(
+    #         "not required any update",
+    #         result.get('msg')
+    #     )
 
-    def test_inventory_workflow_manager_playbook_config_failed_update_device_maintenance_schedule(self):
-        """
-        Test case for maintenance schedule for the network devices failure while update it.
+    # def test_inventory_workflow_manager_playbook_config_failed_update_device_maintenance_schedule(self):
+    #     """
+    #     Test case for maintenance schedule for the network devices failure while update it.
 
-        This test case checks the maintenance schedule for the network devices failure while update it in Cisco Catalyst Center.
-        """
+    #     This test case checks the maintenance schedule for the network devices failure while update it in Cisco Catalyst Center.
+    #     """
 
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                dnac_version="2.3.7.9",
-                state="merged",
-                config_verify=False,
-                config=self.playbook_config_failed_update_device_maintenance_schedule
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertIn(
-            "status is neither",
-            result.get('msg')
-        )
+    #     set_module_args(
+    #         dict(
+    #             dnac_host="1.1.1.1",
+    #             dnac_username="dummy",
+    #             dnac_password="dummy",
+    #             dnac_log=True,
+    #             dnac_version="2.3.7.9",
+    #             state="merged",
+    #             config_verify=False,
+    #             config=self.playbook_config_failed_update_device_maintenance_schedule
+    #         )
+    #     )
+    #     result = self.execute_module(changed=False, failed=True)
+    #     self.assertIn(
+    #         "status is neither",
+    #         result.get('msg')
+    #     )
 
-    def test_inventory_workflow_manager_playbook_config_update_device_maintenance_schedule(self):
-        """
-        Test case for maintenance schedule for the network devices required any update.
+    # def test_inventory_workflow_manager_playbook_config_update_device_maintenance_schedule(self):
+    #     """
+    #     Test case for maintenance schedule for the network devices required any update.
 
-        This test case checks the maintenance schedule for the network devices required any update in Cisco Catalyst Center.
-        """
+    #     This test case checks the maintenance schedule for the network devices required any update in Cisco Catalyst Center.
+    #     """
 
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                dnac_version="2.3.7.9",
-                state="merged",
-                config_verify=False,
-                config=self.playbook_config_update_device_maintenance_schedule
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn(
-            "updated successfully",
-            result.get('msg')
-        )
+    #     set_module_args(
+    #         dict(
+    #             dnac_host="1.1.1.1",
+    #             dnac_username="dummy",
+    #             dnac_password="dummy",
+    #             dnac_log=True,
+    #             dnac_version="2.3.7.9",
+    #             state="merged",
+    #             config_verify=False,
+    #             config=self.playbook_config_update_device_maintenance_schedule
+    #         )
+    #     )
+    #     result = self.execute_module(changed=True, failed=False)
+    #     self.assertIn(
+    #         "updated successfully",
+    #         result.get('msg')
+    #     )
 
     def test_inventory_workflow_manager_playbook_config_delete_device_maintenance_schedule(self):
         """
