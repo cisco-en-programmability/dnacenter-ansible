@@ -1147,7 +1147,7 @@ class PnP(DnacBase):
                     self.log("Device '{0}': Claim Status = '{1}', Config Match = '{2}'".format(
                         serial_number, claim_stat, match_stat), "DEBUG")
 
-                    if not (claim_stat == "Provisioned" and match_stat):
+                    if claim_stat != "Provisioned" and not match_stat:
                         self.log("Updating device info for serial: '{0}' as it's not provisioned or config doesn't match.".format(
                             serial_number), "DEBUG")
                         self.update_device_info(existing_device_info, device_info, device_response.get("id"))
