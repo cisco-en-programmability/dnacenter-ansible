@@ -50,7 +50,7 @@ options:
     required: true
     suboptions:
       profile_name:
-        description: Name the wireless profile needs to be created.
+        description: Specify the name of the wireless profile that needs to be created.
         type: str
         required: true
       site_names:
@@ -61,7 +61,7 @@ options:
         required: false
       ssid_details:
         description: |
-            Contains ssid details to update for the wireless network profile.
+          Contains the SSID details required to update or configure the wireless network profile.
         type: list
         elements: dict
         required: false
@@ -251,7 +251,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 
-# Case 1: Successful creation/updatation of wireless profile
+# Case 1: Successful creation/update of wireless profile
 response_create:
   description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
     This response indicates that the wireless profile was either created or updated successfully.
@@ -1376,7 +1376,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 if ssid_key == "ssid_name":
                     if input_data[ssid_key] != have_data.get("ssidName"):
                         un_match_data[ssid_key] = input_data[ssid_key]
-                        self.log("Found Un matched SSID {0}".format(
+                        self.log("Found unmatched SSID for {0}".format(
                             self.pprint(un_match_data[ssid_key])), "DEBUG")
                 elif ssid_key == "dot11be_profile_name" and input_data.get(ssid_key):
                     dot11be_id = self.get_dot11be_profile(input_data.get(ssid_key))
@@ -1684,7 +1684,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         each_have = self.have.get("wireless_profile")
         have_profile_name = each_have.get("profile_info")
         if not have_profile_name:
-            self.msg = "No changes required, profile(s) not exist or already deleted"
+            self.msg = "No changes were made. The specified profile(s) either do not exist or have already been deleted."
             self.log(self.msg, "INFO")
             self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
         else:
