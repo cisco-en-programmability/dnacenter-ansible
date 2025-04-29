@@ -1192,8 +1192,10 @@ class Tags(DnacBase):
         rule_name = rule_name.lower()
         if rule_name not in rule_name_choices:
             errors.append(
-                "Rule Name provided: {0} is Invalid. Rule name should be one of {1}"
-            ).format(rule_name, rule_name_choices)
+                "Rule Name provided: {0} is Invalid. Rule name should be one of {1}".format(
+                    rule_name, rule_name_choices
+                )
+            )
 
         return self
 
@@ -1324,7 +1326,7 @@ class Tags(DnacBase):
         device_rules = tag.get("device_rules")
 
         if not device_rules:
-            self.log("No Device Rule are provided", "INFO")
+            self.log("Device Rules are not provided", "INFO")
             return None
 
         rule_descriptions = device_rules.get("rule_descriptions")
@@ -1505,7 +1507,7 @@ class Tags(DnacBase):
         )
 
         if not rule_descriptions:
-            self.log("Port Rules Rules do not contain rule descriptions.", "INFO")
+            self.log("Port Rules do not contain rule descriptions.", "INFO")
             return None
 
         validated_rule_descriptions = []
@@ -1588,8 +1590,9 @@ class Tags(DnacBase):
 
         if not rule_descriptions and not scope_description:
             self.msg = (
-                "Port Rules does not contain the rule descriptions and the scope description."
-                "Both are required for creation of dynamic rules and atleast one is required for update or delete."
+                "Port Rules do not contain the rule descriptions and the scope description. "
+                "Both are required for creation of dynamic rules, and at least one is required "
+                "for update or delete."
             )
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
@@ -2477,7 +2480,7 @@ class Tags(DnacBase):
             response = response.get("response")
 
             if not response:
-                self.msg = "No tag details retrieved for tag name: {0}, Response empty.".format(
+                self.msg = "No tag details retrieved for tag name: {0}, Response is empty.".format(
                     tag_name
                 )
                 self.log(self.msg, "DEBUG")
@@ -2598,7 +2601,7 @@ class Tags(DnacBase):
 
             response_data = response.get("response")
             if not response_data:
-                self.msg = "No interface details for interface name: '{0}' of device with {1}: '{2}', Response empty.".format(
+                self.msg = "No interface details for interface name: '{0}' of device with {1}: '{2}', Response is empty.".format(
                     port_name, device_identifier, device_identifier_value
                 )
                 self.log(self.msg, "DEBUG")
@@ -2875,7 +2878,7 @@ class Tags(DnacBase):
                 response = response.get("response")
 
                 if not response:
-                    self.msg = "No devices found under the site name: {0} for batch :{1}, Response empty.".format(
+                    self.msg = "No devices found under the site name: {0} for batch :{1}, Response is empty.".format(
                         site_name, batch
                     )
                     self.log(self.msg, "DEBUG")
@@ -3052,7 +3055,7 @@ class Tags(DnacBase):
             )
             # Check if the response is empty
             self.log(
-                "Received API response from 'get_device_list' for the Device with ID: {0}, {1}".format(
+                "Received API response from 'get_device_list' for the Device with ID: '{0}': {1}".format(
                     device_id, str(response)
                 ),
                 "DEBUG",
@@ -3060,7 +3063,7 @@ class Tags(DnacBase):
             response = response.get("response")
 
             if not response:
-                self.msg = "No Device details retrieved for Device with ID: {0}, Response empty.".format(
+                self.msg = "No Device details retrieved for Device with ID: {0}, Response is empty.".format(
                     device_id
                 )
                 self.log(self.msg, "DEBUG")
@@ -3230,7 +3233,7 @@ class Tags(DnacBase):
 
                 if not response:
                     self.log(
-                        "No tags details retrieved for batch: {0}, Payload: {1}, Response empty.".format(
+                        "No tags details retrieved for batch: {0}, Payload: {1}, Response is empty.".format(
                             batch_index, payload
                         ),
                         "DEBUG",
@@ -3331,7 +3334,7 @@ class Tags(DnacBase):
                 response = response.get("response")
                 if not response:
                     self.log(
-                        "No tags details retrieved for batch: {0}, Payload: {1}, Response empty.".format(
+                        "No tags details retrieved for batch: {0}, Payload: {1}, Response is empty.".format(
                             batch_index, payload
                         ),
                         "DEBUG",
