@@ -308,8 +308,14 @@ options:
             required: true
           device_type:
             description: >
-                Specifies the type of device the issue configuration applies to.
-                For example, "Router", "SWITCH_AND_HUB", "UNIFIED_AP", etc.
+                Specifies the type of device to which the issue configuration applies.
+                For example,
+                choices:
+                - Router
+                - SWITCH_AND_HUB
+                - UNIFIED_AP
+                - FIREWALL
+                - CONTROLLER
             type: str
             required: true
           synchronize_to_health_threshold:
