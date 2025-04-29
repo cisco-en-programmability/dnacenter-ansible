@@ -1192,8 +1192,8 @@ class Tags(DnacBase):
         rule_name = rule_name.lower()
         if rule_name not in rule_name_choices:
             errors.append(
-                "Rule Name provided: {0} is Invalid. Rule name should be one of {1}".format(
-                    rule_name, rule_name_choices
+                "Invalid rule name: '{0}'. Valid options are: {1}".format(
+                rule_name, ", ".join(rule_name_choices)
                 )
             )
 
