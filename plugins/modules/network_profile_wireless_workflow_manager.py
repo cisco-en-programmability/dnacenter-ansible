@@ -301,7 +301,6 @@ EXAMPLES = r"""
         state: deleted
         config:
           - profile_name: "Corporate_Wireless_Profile"
-
 """
 
 RETURN = r"""
