@@ -247,6 +247,61 @@ EXAMPLES = r"""
               - "Corporate_Onboarding_Template"
             day_n_templates:
               - "Wireless_Controller_Config"
+
+    - name: Update wireless network profile
+      cisco.dnac.network_profile_wireless_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - profile_name: "Corporate_Wireless_Profile"
+            site_names:
+              - "Global/FrontOffice"
+            ssid_details:
+              - ssid_name: "Guest_WiFi"
+                enable_fabric: false
+                dot11be_profile_name: "Corporate_VLAN"
+                interface_name: "guest_network"
+                local_to_vlan: 3002
+            ap_zones:
+              - ap_zone_name: "Branch_AP_Zone"
+                rf_profile_name: "TYPICAL"
+                ssids:
+                  - "Guest_WiFi"
+            additional_interfaces:
+              - interface_name: "Guest_Interface_4"
+                vlan_id: 2002
+            day_n_templates:
+              - "Wireless_Controller_Config"
+
+    - name: Delete wireless profile from Cisco Catalyst Center.
+      cisco.dnac.network_profile_wireless_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: deleted
+        config:
+          - profile_name: "Corporate_Wireless_Profile"
+
 """
 
 RETURN = r"""
