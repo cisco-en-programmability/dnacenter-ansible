@@ -735,6 +735,12 @@ options:
                 parameters need adjustment to align with the current system configurations and alerting criteria.
             type: str
             required: true
+          device_type:
+            description: >
+                Specifies the type of device the issue configuration applies to.
+                For example, "Router", "SWITCH_AND_HUB", "UNIFIED_AP", etc.
+            type: str
+            required: true
           synchronize_to_health_threshold:
             description: >
               A boolean value indicating whether the system issue should be synchronized to the health threshold.
@@ -1371,6 +1377,7 @@ class AssuranceSettings(DnacBase):
                 'name': {'type': 'str', 'required': True},
                 'description': {'type': 'str'},
                 'issue_enabled': {'type': 'bool'},
+                'device_type': {'type': 'str', 'required': True},
                 'priority': {'type': 'str', 'choices': ['P1', 'P2', 'P3', 'P4']},
                 'synchronize_to_health_threshold': {'type': 'bool'},
                 'threshold_value': {'type': int}
@@ -2106,12 +2113,19 @@ class AssuranceSettings(DnacBase):
             rules = issue_detail.get("rules", [])
             for rule in rules:
                 rule["duration_in_minutes"] = rule.pop("durationInMinutes", None)
-                rule.pop("type")
+                rule.pop("type", None)  # Safer to avoid KeyError
+
+            # Create a copy to avoid modifying the original
+            other_fields = issue_detail.copy()
+            other_fields.pop("isEnabled", None)
+            other_fields.pop("isNotificationEnabled", None)
+            other_fields.pop("rules", None)
+
             transformed_detail = {
-                "is_enabled": issue_detail.pop("isEnabled", None),
-                "is_notification_enabled": issue_detail.pop("isNotificationEnabled", None),
+                "is_enabled": issue_detail.get("isEnabled"),
+                "is_notification_enabled": issue_detail.get("isNotificationEnabled"),
                 "rules": rules,
-                **issue_detail
+                **other_fields
             }
             all_assurance_issue_details.append(transformed_detail)
 
@@ -2389,7 +2403,7 @@ class AssuranceSettings(DnacBase):
             dict or None: A dictionary with execution details if successful, otherwise None.
 
         Description:
-            This function used to execute the comamnd and show the processed
+            This function used to execute the command and show the processed
             status of the issue id.
         """
         self.log("Executing suggested actions for issue ID: {0}".format(issue_id), "INFO")
@@ -2661,7 +2675,7 @@ class AssuranceSettings(DnacBase):
                 result_assurance_issue.get("response").update(
                     {"created user-defined issue": issue})
                 result_assurance_issue.get("msg").update(
-                    {response_data.get("name"): "User Defined Issue Created Successfully"})
+                    {response_data.get("name"): "user-defined issue created successfully"})
                 self.result['changed'] = True
 
         if update_assurance_issue:
@@ -2794,7 +2808,7 @@ class AssuranceSettings(DnacBase):
                         if response_data:
                             if "name" in response_data:
                                 self.log(
-                                    "Successfully Updated defined issue with these details: {0}"
+                                    "Successfully updated defined issue with these details: {0}"
                                     .format(response_data),
                                     "INFO"
                                 )
@@ -2838,7 +2852,7 @@ class AssuranceSettings(DnacBase):
                 assurance_issue_index += 1
 
                 if not assurance_issue_exists:
-                    result_assurance_issue.get("msg").update({name: "Assurance Issue not found"})
+                    result_assurance_issue.get("msg").update({name: "Assurance issue not found"})
                     self.log("Assurance Issue '{0}' not found".format(name), "INFO")
                     continue
 
@@ -2863,7 +2877,7 @@ class AssuranceSettings(DnacBase):
                         if msg in str(e):
                             self.log("Exception while deleting Assurance Issue '{0}': {1}".format(name, str(e)), "WARNING")
                         result_assurance_issue = self.result.get("response")[0].get("assurance_user_defined_issue_settings")
-                        result_assurance_issue.get("msg").update({name: "Assurance user issue deleted successfully"})
+                        result_assurance_issue.get("msg").update({name: "Assurance user-defined issue deleted successfully"})
                         self.result['changed'] = True
                         self.msg = "Assurance Issue '{0}' deleted successfully".format(name)
 
