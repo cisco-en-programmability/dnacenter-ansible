@@ -4684,7 +4684,7 @@ class WirelessDesign(DnacBase):
                 self.fail_and_exit(self.msg)
 
         # Validate authentication key management settings
-        if "auth_key_management" in required_l2_auth_params and auth_key_management:
+        if "auth_key_management" in required_l2_auth_params and auth_key_management and wpa_encryption:
             for akm in auth_key_management:
                 akm = akm.upper()
                 is_valid_akm = any(
