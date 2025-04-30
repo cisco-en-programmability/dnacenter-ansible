@@ -594,7 +594,7 @@ class FabricMulticast(DnacBase):
             ]
         else:
             raise ValueError("Received an unexpected value for 'get_object': {object_name}"
-                                .format(object_name=get_object))
+                             .format(object_name=get_object))
 
         return obj_params
 
