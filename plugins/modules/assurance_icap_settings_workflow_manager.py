@@ -305,8 +305,8 @@ class Icap(DnacBase):
                 'ap_name': {'type': 'str', 'required': False},
                 'slot': {'type': list, 'required': False},
                 'ota_band': {'type': 'str', 'required': False, 'choices': ["2.4GHz", "5GHz", "6GHz"]},
-                'ota_channel': {'type': int, 'required': True},
-                'ota_channel_width': {'type': int, 'required': True},
+                'ota_channel': {'type': int, 'required': False},
+                'ota_channel_width': {'type': int, 'required': False},
 
             },
             'assurance_icap_download': {
@@ -396,7 +396,7 @@ class Icap(DnacBase):
                     self.log("Retrieved WLC ID: {0} for WLC Name: {1}".format(wlc_id, wlc_name), "INFO")
                     assurance_icap_settings["wlc_id"] = wlc_id
                 else:
-                    error_msg = "WLC ID retrieval failed for '{0}'".format(wlc_name)
+                    error_msg = "WLC device {0} is not found in catalyst Center or id could not be retrieved.".format(wlc_name)
                     self.log(error_msg, "ERROR")
                     errors.append(error_msg)
 
