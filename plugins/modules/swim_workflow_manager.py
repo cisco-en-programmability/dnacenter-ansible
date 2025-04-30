@@ -995,16 +995,26 @@ class Swim(DnacBase):
                     for item_dict in item['response']:
                         site_response_list.append(item_dict)
         else:
-            site_names = site_name + ".*"
+            site_type = self.get_sites_type(site_name)
+            site_info = {}
+            self.log(site_type)
+            if site_type == "building":
+                get_site_names = self.get_site(site_name)
+                for item in get_site_names['response']:
+                    if 'nameHierarchy' in item and 'id' in item:
+                        site_info[item['nameHierarchy']] = item['id']
+                site_names = site_name + "/.*"
+
+            if site_type == "area":
+                site_names = site_name + "/.*"
             get_site_names = self.get_site(site_names)
             self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
-
-            site_info = {}
 
             for item in get_site_names['response']:
                 if 'nameHierarchy' in item and 'id' in item:
                     site_info[item['nameHierarchy']] = item['id']
 
+            self.log(site_info)
             for site_name, site_id in site_info.items():
                 offset = 1
                 limit = self.get_device_details_limit()
@@ -1452,14 +1462,34 @@ class Swim(DnacBase):
                 else:
                     images_to_import.append(image_name)
             else:
+                seen = set()
+                unique_image_names = []
+                duplicate_image_names = set()
+
                 for image_name in image_names:
+                    if image_name not in seen:
+                        seen.add(image_name)
+                        unique_image_names.append(image_name)
+                    else:
+                        duplicate_image_names.add(image_name)
+                        self.log("Duplicate image '{0}' detected in the input list, skipping repeated check.".format(image_name), "WARNING")
+
+                for image_name in unique_image_names:
                     name = image_name.split('/')[-1]
                     if self.is_image_exist(name):
                         existing_images.append(name)
                         self.existing_images.append(name)
                         self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
                     else:
+                        self.log("Image '{0}' is ready to be imported into Cisco Catalyst Center.".format(name), "INFO")
                         images_to_import.append(name)
+
+            self.log("Image import summary:", "INFO")
+            self.log("- Total input images         : {}".format(len(image_names)), "INFO")
+            self.log("- Unique images              : {}".format(len(unique_image_names)), "INFO")
+            self.log("- Duplicate images skipped   : {}".format(len(duplicate_image_names)), "INFO")
+            self.log("- Images already existing    : {}".format(len(existing_images)), "INFO")
+            self.log("- Images ready to import     : {}".format(len(images_to_import)), "INFO")
 
             if existing_images:
                 self.log("Skipping import for existing images: {0}".format(", ".join(existing_images)), "INFO")
@@ -2071,7 +2101,7 @@ class Swim(DnacBase):
 
                 response = self.dnac._exec(
                     family="software_image_management_swim",
-                    function="trigger_software_image_distribution",
+                    # function="trigger_software_image_distribution",
                     op_modifies=True,
                     params=distribution_params,
                 )
@@ -2169,7 +2199,7 @@ class Swim(DnacBase):
 
                 response = self.dnac._exec(
                     family="software_image_management_swim",
-                    function='trigger_software_image_distribution',
+                    # function='trigger_software_image_distribution',
                     op_modifies=True,
                     params=distribution_params,
                 )
