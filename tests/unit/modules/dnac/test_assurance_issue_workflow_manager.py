@@ -212,7 +212,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
         print(result['response'][0]['assurance_user_defined_issue_settings']['msg'])
         self.assertEqual(
             result['response'][0]['assurance_user_defined_issue_settings']['msg'],
-            {'ippo': 'Assurance user issue deleted successfully'}
+            {'ippo': 'Assurance user-defined issue deleted successfully'}
         )
 
     def test_assurance_issue_workflow_manager_update_system_issue(self):

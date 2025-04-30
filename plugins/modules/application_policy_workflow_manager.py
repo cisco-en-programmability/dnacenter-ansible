@@ -3304,7 +3304,9 @@ class ApplicationPolicy(DnacBase):
                 "traffic_class": "trafficClass",
                 "server_name": "serverName",
                 "url": "url",
-                "dscp": "dscp"
+                "dscp": "dscp",
+                "rank": "rank",
+                "engine_id": "engineId"
             }
 
             update_required_keys = []
@@ -3313,7 +3315,7 @@ class ApplicationPolicy(DnacBase):
                 required_value = required_application_details.get(required_key)
                 current_value = current_application_details.get("networkApplications")[0].get(current_key)
 
-                if required_key == "dscp":
+                if required_key == "dscp" or required_key == "engine_id":
                     if required_value is not None:
                         required_value = int(required_value)
                     if current_value is not None:
@@ -3377,6 +3379,11 @@ class ApplicationPolicy(DnacBase):
                     required_application_details.get("rank")
                     if "rank" in update_required_keys
                     else current_application_details.get("networkApplications")[0].get("rank")
+                ),
+                "engineId": (
+                    required_application_details.get("engine_id")
+                    if "engine_id" in update_required_keys
+                    else current_application_details.get("networkApplications")[0].get("engineId")
                 ),
                 "selectorId": current_application_details.get("networkApplications")[0].get("selectorId"),
                 "trafficClass": (
@@ -3445,15 +3452,15 @@ class ApplicationPolicy(DnacBase):
                     "parentScalableGroup": {
                         "idRef": application_set_id
                     },
-                    **(
-                        {"networkIdentity": [network_identity_setting]}
-                        if "network_identity_setting" in required_application_details
-                        else {}
-                    ),
                     "qualifier": current_application_details.get("qualifier"),
                     "scalableGroupExternalHandle": current_application_details.get("scalableGroupExternalHandle"),
                     "scalableGroupType": current_application_details.get("scalableGroupType"),
                     "type": current_application_details.get("type"),
+                    **(
+                        {"networkIdentity": [network_identity_setting]}
+                        if "network_identity_setting" in required_application_details
+                        else {}
+                    )
                 }
             ]
 

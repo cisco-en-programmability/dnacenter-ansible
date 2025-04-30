@@ -2,7 +2,6 @@
     "playbook_config_creation": [
         {
           "profile_name": "sd_sw_1",
-          "onboarding_templates": ["Ansible_PNP_Switch"],
           "day_n_templates": ["Template Provisioning To Device"],
           "site_names": [
             "Global/Chennai/LTTS/FLOOR11",
