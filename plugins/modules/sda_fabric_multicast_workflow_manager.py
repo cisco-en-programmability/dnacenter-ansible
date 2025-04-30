@@ -152,14 +152,14 @@ options:
                 - A flag that indicates whether the IPv4 RP is the default RP for the multicast domain.
                 - If set to 'true', this RP is used for all multicast groups that do not have a specific RP assigned.
                 - Either 'is_default_v4_rp' or 'ipv4_asm_ranges' must be provided when 'ex_rp_ipv4_address' is used.
-                - 'ipv4_asm_ranges' will take priority over 'is_default_v4_rp' if both are specified.
+                - The 'ipv4_asm_ranges' will take priority over 'is_default_v4_rp' if both are specified.
                 type: bool
               ipv4_asm_ranges:
                 description:
                 - A range used exclusively for Any-Source Multicast (ASM), where receivers specify both
                   the source (S) and the group (G) for receiving multicast traffic.
                 - Either 'is_default_v4_rp' or 'ipv4_asm_ranges' must be provided when 'ex_rp_ipv4_address' is used.
-                - 'ipv4_asm_ranges' takes priority over 'is_default_v4_rp' if both are provided.
+                - The 'ipv4_asm_ranges' takes priority over 'is_default_v4_rp' if both are provided.
                 - The ranges provided for 'ipv4_asm_ranges' should not overlap with the ranges provided for
                   'ipv4_ssm_ranges' or any other external IP ranges.
                 type: list
@@ -177,14 +177,14 @@ options:
                 - A flag that indicates whether the IPv6 RP is the default RP for the multicast domain.
                 - If set to 'true', this RP is used for all multicast groups that do not have a specific RP assigned.
                 - Either 'is_default_v6_rp' or 'ipv6_asm_ranges' must be provided when 'ex_rp_ipv6_address' is used.
-                - 'ipv6_asm_ranges' will take priority over 'is_default_v6_rp' if both are specified.
+                - The 'ipv6_asm_ranges' will take priority over 'is_default_v6_rp' if both are specified.
                 type: bool
               ipv6_asm_ranges:
                 description:
                 - A range used exclusively for Any-Source Multicast (ASM), where receivers specify both the
                   source (S) and the group (G) for receiving multicast traffic.
                 - Either 'is_default_v6_rp' or 'ipv6_asm_ranges' must be provided when 'ex_rp_ipv6_address' is used.
-                - 'ipv6_asm_ranges' takes priority over 'is_default_v6_rp' if both are provided.
+                - The 'ipv6_asm_ranges' takes priority over 'is_default_v6_rp' if both are provided.
                 type: list
                 elements: str
 
@@ -252,7 +252,7 @@ EXAMPLES = r"""
             ssm:
               ipv4_ssm_ranges:
                 - "225.0.0.0/8"
-                  "226.0.0.0/8"
+                - "226.0.0.0/8"
             asm:
               - rp_device_location: "FABRIC"
                 network_device_ips:
