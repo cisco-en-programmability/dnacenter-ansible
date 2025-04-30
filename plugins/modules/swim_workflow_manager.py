@@ -997,7 +997,7 @@ class Swim(DnacBase):
         else:
             site_type = self.get_sites_type(site_name)
             site_info = {}
-            self.log(site_type)
+
             if site_type == "building":
                 get_site_names = self.get_site(site_name)
                 for item in get_site_names['response']:
@@ -1007,6 +1007,10 @@ class Swim(DnacBase):
 
             if site_type == "area":
                 site_names = site_name + "/.*"
+
+            if site_type == "floor":
+                site_names = site_name
+
             get_site_names = self.get_site(site_names)
             self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
 
@@ -1014,7 +1018,6 @@ class Swim(DnacBase):
                 if 'nameHierarchy' in item and 'id' in item:
                     site_info[item['nameHierarchy']] = item['id']
 
-            self.log(site_info)
             for site_name, site_id in site_info.items():
                 offset = 1
                 limit = self.get_device_details_limit()

@@ -158,6 +158,7 @@ class TestswimWorkflowManager(TestDnacModule):
         elif "playbook_image_activation" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_software_image_details_65"),
+                self.test_data.get("get_site_type"),
                 self.test_data.get("get_sites_65"),
                 self.test_data.get("get_sites_66"),
                 self.test_data.get("get_sites_67"),
@@ -184,6 +185,7 @@ class TestswimWorkflowManager(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_10"),
                 self.test_data.get("get_software_image_details_10"),
+                self.test_data.get("get_site_type"),
                 self.test_data.get("get_sites_11"),
                 self.test_data.get("get_sites_12"),
                 self.test_data.get("get_site_assigned_network_devices_1"),
