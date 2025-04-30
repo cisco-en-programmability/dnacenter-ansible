@@ -73,13 +73,13 @@ options:
             type: str
             required: true
           replication_mode:
-            description:
-              - Specifies how multicast traffic is replicated within the fabric site.
-              - Two replication modes are supported: Native Multicast and Headend Replication.
-              - Native Multicast forwards multicast traffic using traditional multicast routing protocols such as PIM,
+            description: >
+              Specifies how multicast traffic is replicated within the fabric site.
+              Two replication modes are supported: Native Multicast and Headend Replication.
+              Native Multicast forwards multicast traffic using traditional multicast routing protocols such as PIM,
                 building distribution trees to efficiently deliver traffic to multiple receivers.
-              - Headend Replication replicates multicast packets at the source node without using multicast routing protocols.
-              - Mandatory parameter while adding the multicast configuration to the fabric site.
+              Headend Replication replicates multicast packets at the source node without using multicast routing protocols.
+              Mandatory parameter while adding the multicast configuration to the fabric site.
             type: str
             choices: [NATIVE_MULTICAST, HEADEND_REPLICATION]
           ip_pool_name:
@@ -302,20 +302,20 @@ EXAMPLES = r"""
                 ex_rp_ipv4_address: "10.0.0.1"
                 ipv4_asm_ranges:
                   - "232.0.0.0/8"
-                    "233.0.0.0/8"
+                  - "233.0.0.0/8"
                 ex_rp_ipv6_address: "2001::1"
                 ipv6_asm_ranges:
                   - "FF01::/64"
-                    "FF02::/64"
+                  - "FF02::/64"
               - rp_device_location: "EXTERNAL"
                 ex_rp_ipv4_address: "10.0.0.2"
                 ipv4_asm_ranges:
                   - "234.0.0.0/8"
-                    "235.0.0.0/8"
+                  - "235.0.0.0/8"
                 ex_rp_ipv6_address: "2001::2"
                 ipv6_asm_ranges:
                   - "FF02::/64"
-                    "FF04::/64"
+                  - "FF04::/64"
 
 - name: Update the replication mode of the SDA multicast configurations under a fabric site
   cisco.dnac.sda_fabric_multicast_workflow_manager:
