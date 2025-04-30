@@ -2182,7 +2182,7 @@ class FabricMulticast(DnacBase):
         except Exception as e:
             self.msg = (
                 "Exception occurred while updating the replication "
-                "mode with the payload '{payload}': {msg}"
+                "mode with the payload '{payload}': {error_msg}"
                 .format(payload=update_replication_mode, error_msg=e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -2236,7 +2236,7 @@ class FabricMulticast(DnacBase):
         except Exception as e:
             self.msg = (
                 "Exception occurred while updating the multicast "
-                "configurations with the payload '{payload}': {msg}"
+                "configurations with the payload '{payload}': {error_msg}"
                 .format(payload=update_multicast_config, error_msg=e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
