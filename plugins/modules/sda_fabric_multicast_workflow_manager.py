@@ -252,8 +252,8 @@ EXAMPLES = r"""
                 ipv4_ssm_ranges: ["225.0.0.0/8", "226.0.0.0/8"]
             asm:
                 - rp_device_location: FABRIC
-                network_device_ips: ["204.1.2.3"]
-                is_default_v4_rp: true
+                  network_device_ips: ["204.1.2.3"]
+                  is_default_v4_rp: true
 
 - name: Update the ssm configuration on a L3 virtual network under a fabric site
   cisco.dnac.sda_fabric_multicast_workflow_manager:
@@ -294,15 +294,15 @@ EXAMPLES = r"""
             layer3_virtual_network: L3_VN_MUL_1
             asm:
                 - rp_device_location: EXTERNAL
-                ex_rp_ipv4_address: 10.0.0.1
-                ipv4_asm_ranges: ["232.0.0.0/8", "233.0.0.0/8"]
-                ex_rp_ipv6_address: 2001::1
-                ipv6_asm_ranges: ["FF01::/64", "FF02::/64"]
+                  ex_rp_ipv4_address: 10.0.0.1
+                  ipv4_asm_ranges: ["232.0.0.0/8", "233.0.0.0/8"]
+                  ex_rp_ipv6_address: 2001::1
+                  ipv6_asm_ranges: ["FF01::/64", "FF02::/64"]
                 - rp_device_location: EXTERNAL
-                ex_rp_ipv4_address: 10.0.0.2
-                ipv4_asm_ranges: ["234.0.0.0/8", "235.0.0.0/8"]
-                ex_rp_ipv6_address: 2001::2
-                ipv6_asm_ranges: ["FF02::/64", "FF04::/64"]
+                  ex_rp_ipv4_address: 10.0.0.2
+                  ipv4_asm_ranges: ["234.0.0.0/8", "235.0.0.0/8"]
+                  ex_rp_ipv6_address: 2001::2
+                  ipv6_asm_ranges: ["FF02::/64", "FF04::/64"]
 
 - name: Update the replication mode of the SDA multicast configurations under a fabric site
   cisco.dnac.sda_fabric_multicast_workflow_manager:
@@ -341,7 +341,7 @@ EXAMPLES = r"""
           - fabric_name: Global/USA/SAN JOSE
             layer3_virtual_network: L3_VN_MUL_1
             ssm:
-                ipv4_ssm_ranges: ["226.0.0.0/8"]
+              ipv4_ssm_ranges: ["226.0.0.0/8"]
 
 - name: Delete the RP '10.0.0.1' from the asm multicast configuration
   cisco.dnac.sda_fabric_multicast_workflow_manager:
@@ -361,7 +361,7 @@ EXAMPLES = r"""
           - fabric_name: Global/USA/SAN JOSE
             layer3_virtual_network: L3_VN_MUL_1
             asm:
-                - rp_device_location: EXTERNAL
+              - rp_device_location: EXTERNAL
                 ex_rp_ipv4_address: 10.0.0.1
 
 - name: Delete the SDA multicast configurations of the L3 virtual network from the fabric site.
