@@ -540,6 +540,8 @@ class NetworkProfileFunctions(DnacBase):
                     self.log("Site IDs are matched: {0}.".format(
                         self.pprint(matched_site_ids)), "DEBUG")
                     return True, None
+                else:
+                    return True, None
 
             except Exception as e:
                 msg = "Error on site name comparison: Unable to compare config {0} with existing {1}".format(
