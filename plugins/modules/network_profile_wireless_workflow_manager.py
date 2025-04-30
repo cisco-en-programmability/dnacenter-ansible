@@ -922,6 +922,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
         self.msg = "Successfully retrieved the details from the system"
+        self.status = "success"
         return self
 
     def get_ap_zone_info(self, ap_zones, ssid_for_apzone, profile_info):
