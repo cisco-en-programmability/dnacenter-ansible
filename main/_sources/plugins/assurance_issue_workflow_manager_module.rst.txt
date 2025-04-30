@@ -42,7 +42,7 @@ cisco.dnac.assurance_issue_workflow_manager module -- Resource module for managi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -603,6 +603,41 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Provides a detailed explanation of the system issue setting, including the specific threshold fields that require updates for the defined issue names. This field is essential for understanding which parameters need adjustment to align with the current system configurations and alerting criteria.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/device_type"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_system_issue_settings/device_type:
+
+      .. rst-class:: ansible-option-title
+
+      **device_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/device_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the type of device to which the issue configuration applies. For example, choices: - Router - SWITCH\_AND\_HUB - UNIFIED\_AP - FIREWALL - CONTROLLER
           
 
 

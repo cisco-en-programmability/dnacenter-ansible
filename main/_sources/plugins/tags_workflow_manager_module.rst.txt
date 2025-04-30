@@ -42,7 +42,7 @@ cisco.dnac.tags_workflow_manager module -- Create/ Update/ Delete Tag(s) and Tag
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - This module helps users create, update, and delete tags, as well as manage tag memberships in Cisco Catalyst Center.
-- It provides the ability to define dynamic rules for tagging devices and ports, ensuring that devices and ports are automatically tagged based various matching criterias.
+- It provides the ability to define dynamic rules for tagging devices and ports, ensuring that devices and ports are automatically tagged based various matching criteria.
 - Users can assign, update, or delete tags on devices and ports based on attributes such as IP Address, MAC Address, hostnames, serial numbers, or port names.
 - The module also facilitates assigning, updating, or deleting tags for devices and ports within specific sites, simplifying the management of tags across multiple devices and ports under sites.
 
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      A list of dictionaries defining attributes and parameters required for managing tags and tag memberships. It is used to configure REST endpoints that receive audit logs and events from Cisco Catalyst Center.
+      A list of dictionaries defining attributes and parameters required for managing tags and tag memberships. It is used to configure tag and tag membership operations in Cisco Catalyst Center.
           
 
 
@@ -2293,7 +2293,7 @@ Notes
    - If \`force\_delete\` is set to \`true\` in deleted state, the tag will be forcibly removed from all associated devices and ports, and the tag will be deleted.
    - In device\_rules and port\_rules, rules with the same rule\_name are ORed together, while rules with different rule\_name values are ANDed together.
    - Each device or interface can have a maximum of 500 tags assigned.
-   - SDK Method used are tags.Tag.add\_members\_to\_the\_tag tags.Tag.create\_tag tags.Tag.delete\_tag devices.Devices.get\_device\_list devices.Devices.get\_interface\_details site\_design.SiteDesign.get\_sites site\_design.SiteDesign.get\_site\_assigned\_network\_devices tags.Tag.get\_tag tags.Tag.get\_tag\_members\_by\_id tags.Tag.query\_the\_tags\_associated\_with\_network\_devices tags.Tag.query\_the\_tags\_associated\_with\_interfaces tags.Tag.update\_tag tags.Tag.update\_tags\_associated\_with\_the\_interfaces tags.Tag.update\_tags\_associated\_with\_the\_network\_devices
+   - SDK Methods used are tags.Tag.add\_members\_to\_the\_tag tags.Tag.create\_tag tags.Tag.delete\_tag devices.Devices.get\_device\_list devices.Devices.get\_interface\_details site\_design.SiteDesign.get\_sites site\_design.SiteDesign.get\_site\_assigned\_network\_devices tags.Tag.get\_tag tags.Tag.get\_tag\_members\_by\_id tags.Tag.query\_the\_tags\_associated\_with\_network\_devices tags.Tag.query\_the\_tags\_associated\_with\_interfaces tags.Tag.update\_tag tags.Tag.update\_tags\_associated\_with\_the\_interfaces tags.Tag.update\_tags\_associated\_with\_the\_network\_devices
      - SDK Paths used are /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tag /dna/intent/api/v1/tag/${id} /dna/intent/api/v1/network-device /dna/intent/api/v1/interface/network-device/${deviceId}/interface-name /dna/intent/api/v1/sites /dna/intent/api/v1/networkDevices/assignedToSite /dna/intent/api/v1/tag /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tags/networkDevices/membersAssociations/query /dna/intent/api/v1/tags/interfaces/membersAssociations/query /dna/intent/api/v1/tag /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk /dna/intent/api/v1/tags/interfaces/membersAssociations/bulk
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK

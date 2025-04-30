@@ -1957,7 +1957,7 @@
 <h1>cisco.dnac.tags_workflow_manager module -- Create/ Update/ Delete Tag(s) and Tag Memberships in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-tags-workflow-manager-module-create-update-delete-tag-s-and-tag-memberships-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.32.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.33.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1978,7 +1978,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 <h2><a class="toc-backref" href="#id119" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>This module helps users create, update, and delete tags, as well as manage tag memberships in Cisco Catalyst Center.</p></li>
-<li><p>It provides the ability to define dynamic rules for tagging devices and ports, ensuring that devices and ports are automatically tagged based various matching criterias.</p></li>
+<li><p>It provides the ability to define dynamic rules for tagging devices and ports, ensuring that devices and ports are automatically tagged based various matching criteria.</p></li>
 <li><p>Users can assign, update, or delete tags on devices and ports based on attributes such as IP Address, MAC Address, hostnames, serial numbers, or port names.</p></li>
 <li><p>The module also facilitates assigning, updating, or deleting tags for devices and ports within specific sites, simplifying the management of tags across multiple devices and ports under sites.</p></li>
 </ul>
@@ -2004,7 +2004,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 <div class="ansibleOptionAnchor" id="parameter-config"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config"><strong>config</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A list of dictionaries defining attributes and parameters required for managing tags and tag memberships. It is used to configure REST endpoints that receive audit logs and events from Cisco Catalyst Center.</p>
+<td><div class="ansible-option-cell"><p>A list of dictionaries defining attributes and parameters required for managing tags and tag memberships. It is used to configure tag and tag membership operations in Cisco Catalyst Center.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2524,7 +2524,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 <li><p>If `force_delete` is set to `true` in deleted state, the tag will be forcibly removed from all associated devices and ports, and the tag will be deleted.</p></li>
 <li><p>In device_rules and port_rules, rules with the same rule_name are ORed together, while rules with different rule_name values are ANDed together.</p></li>
 <li><p>Each device or interface can have a maximum of 500 tags assigned.</p></li>
-<li><p>SDK Method used are tags.Tag.add_members_to_the_tag tags.Tag.create_tag tags.Tag.delete_tag devices.Devices.get_device_list devices.Devices.get_interface_details site_design.SiteDesign.get_sites site_design.SiteDesign.get_site_assigned_network_devices tags.Tag.get_tag tags.Tag.get_tag_members_by_id tags.Tag.query_the_tags_associated_with_network_devices tags.Tag.query_the_tags_associated_with_interfaces tags.Tag.update_tag tags.Tag.update_tags_associated_with_the_interfaces tags.Tag.update_tags_associated_with_the_network_devices
+<li><p>SDK Methods used are tags.Tag.add_members_to_the_tag tags.Tag.create_tag tags.Tag.delete_tag devices.Devices.get_device_list devices.Devices.get_interface_details site_design.SiteDesign.get_sites site_design.SiteDesign.get_site_assigned_network_devices tags.Tag.get_tag tags.Tag.get_tag_members_by_id tags.Tag.query_the_tags_associated_with_network_devices tags.Tag.query_the_tags_associated_with_interfaces tags.Tag.update_tag tags.Tag.update_tags_associated_with_the_interfaces tags.Tag.update_tags_associated_with_the_network_devices
 - SDK Paths used are /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tag /dna/intent/api/v1/tag/${id} /dna/intent/api/v1/network-device /dna/intent/api/v1/interface/network-device/${deviceId}/interface-name /dna/intent/api/v1/sites /dna/intent/api/v1/networkDevices/assignedToSite /dna/intent/api/v1/tag /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tags/networkDevices/membersAssociations/query /dna/intent/api/v1/tags/interfaces/membersAssociations/query /dna/intent/api/v1/tag /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk /dna/intent/api/v1/tags/interfaces/membersAssociations/bulk</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>

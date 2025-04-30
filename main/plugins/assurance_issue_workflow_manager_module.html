@@ -1957,7 +1957,7 @@
 <h1>cisco.dnac.assurance_issue_workflow_manager module -- Resource module for managing assurance global profile settings and issue resolution in Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-assurance-issue-workflow-manager-module-resource-module-for-managing-assurance-global-profile-settings-and-issue-resolution-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.32.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.33.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2122,6 +2122,13 @@ IGNORED: The issue has been ignored.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/device_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-device-type"><strong>device_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/device_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the type of device to which the issue configuration applies. For example, choices: - Router - SWITCH_AND_HUB - UNIFIED_AP - FIREWALL - CONTROLLER</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/issue_enabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-issue-enabled"><strong>issue_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/issue_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -2133,14 +2140,14 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the system issue setting, used to identify the configuration in the system. Required when creating or updating an issue setting.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/priority"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-priority"><strong>priority</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/priority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -2154,7 +2161,7 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/synchronize_to_health_threshold"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-synchronize-to-health-threshold"><strong>synchronize_to_health_threshold</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/synchronize_to_health_threshold" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -2166,28 +2173,28 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/threshold_value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-threshold-value"><strong>threshold_value</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/threshold_value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The threshold value that triggers the issue. This is usually specified as a percentage or a numerical value depending on the nature of the issue. For example, for the issue &quot;Wireless client exhibiting sticky behavior,&quot; the threshold could be a maximum RSSI value (e.g., -70 dBm). Similarly, for a &quot;WLC Memory High Utilization&quot;, a threshold like 90% can be used. - **Percentage-based thresholds**: Must not exceed 100%. - **dBm (decibel-milliwatts) thresholds**: Must not exceed 0 dBm, meaning it should be a negative value.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings"><strong>assurance_user_defined_issue_settings</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configures user-defined issue settings for assurance in Cisco Catalyst Center. Allows defining issue names, descriptions, severity, priority, and rules governing network issues.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-description"><strong>description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A brief explanation of the issue for clarity in reports and dashboards.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/is_enabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-is-enabled"><strong>is_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/is_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2199,7 +2206,7 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/is_notification_enabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-is-notification-enabled"><strong>is_notification_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/is_notification_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2211,21 +2218,21 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the issue setting, used for identification in the system. Required when creating a new setting or updating an existing one.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/prev_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-prev-name"><strong>prev_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/prev_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The previous name of the issue setting (used when updating an existing issue setting).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/priority"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-priority"><strong>priority</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/priority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2239,21 +2246,21 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules"><strong>rules</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A set of rules that define the parameters for triggering the issue. Includes severity, facility, mnemonic, pattern, occurrences, and duration.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/duration_in_minutes"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-duration-in-minutes"><strong>duration_in_minutes</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/duration_in_minutes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The duration, in minutes, for which the issue pattern must persist to be considered valid.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/facility"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-facility"><strong>facility</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/facility" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2308,7 +2315,7 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/mnemonic"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-mnemonic"><strong>mnemonic</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/mnemonic" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2427,21 +2434,21 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/occurrences"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-occurrences"><strong>occurrences</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/occurrences" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The number of times the issue pattern must occur before triggering the issue.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/pattern"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-pattern"><strong>pattern</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/pattern" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A pattern or regular expression defining the issue detection criteria.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/severity"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-severity"><strong>severity</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/severity" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2465,7 +2472,7 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2477,7 +2484,7 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -2485,7 +2492,7 @@ IGNORED: The issue has been ignored.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id373"><span class="problematic" id="id374">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2497,14 +2504,14 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2521,7 +2528,7 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2533,7 +2540,7 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2543,7 +2550,7 @@ IGNORED: The issue has been ignored.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id387"><span class="problematic" id="id388">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2556,14 +2563,14 @@ IGNORED: The issue has been ignored.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id389"><span class="problematic" id="id390">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2571,7 +2578,7 @@ IGNORED: The issue has been ignored.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id391"><span class="problematic" id="id392">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -2579,7 +2586,7 @@ IGNORED: The issue has been ignored.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id393"><span class="problematic" id="id394">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
 <div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
@@ -2589,7 +2596,7 @@ IGNORED: The issue has been ignored.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id395"><span class="problematic" id="id396">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2601,7 +2608,7 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2609,7 +2616,7 @@ IGNORED: The issue has been ignored.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id401"><span class="problematic" id="id402">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2621,7 +2628,7 @@ IGNORED: The issue has been ignored.</p>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
