@@ -42,7 +42,7 @@ cisco.dnac.assurance_icap_settings_workflow_manager module -- Configure and mana
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1490,7 +1490,7 @@ Examples
       gather_facts: false
       connection: local
       tasks:
-        - name: Configure icap on Cisco Catalyst Center
+        - name: Configure ICAP on Cisco Catalyst Center
           cisco.dnac.assurance_icap_settings_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -1523,7 +1523,7 @@ Examples
       gather_facts: false
       connection: local
       tasks:
-        - name: Download icap on Cisco Catalyst Center
+        - name: Download ICAP on Cisco Catalyst Center
           cisco.dnac.assurance_icap_settings_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"

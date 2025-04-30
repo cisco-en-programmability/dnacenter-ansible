@@ -42,7 +42,7 @@ cisco.dnac.network_profile_wireless_workflow_manager module -- Resource module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -431,41 +431,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/onboarding_templates"></div>
-
-      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__parameter-config/onboarding_templates:
-
-      .. rst-class:: ansible-option-title
-
-      **onboarding_templates**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/onboarding_templates" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of onboarding template names assigned to the profile.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/profile_name"></div>
 
       .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__parameter-config/profile_name:
@@ -490,7 +455,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name the wireless profile needs to be created.
+      Specify the name of the wireless profile that needs to be created.
 
 
       .. raw:: html
@@ -559,7 +524,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Contains ssid details to update for the wireless network profile.
+      Contains the SSID details required to update or configure the wireless network profile.
           
 
 
@@ -762,17 +727,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/ssid_details/ssid"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/ssid_details/ssid_name"></div>
 
-      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__parameter-config/ssid_details/ssid:
+      .. _ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module__parameter-config/ssid_details/ssid_name:
 
       .. rst-class:: ansible-option-title
 
-      **ssid**
+      **ssid_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/ssid_details/ssid" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/ssid_details/ssid_name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1574,10 +1539,62 @@ Examples
                     vlan_id: 100
                   - interface_name: "Guest_Interface_1"
                     vlan_id: 3002
-                onboarding_templates:
-                  - "Corporate_Onboarding_Template"
                 day_n_templates:
                   - "Wireless_Controller_Config"
+
+        - name: Update wireless network profile
+          cisco.dnac.network_profile_wireless_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - profile_name: "Corporate_Wireless_Profile"
+                site_names:
+                  - "Global/FrontOffice"
+                ssid_details:
+                  - ssid_name: "Guest_WiFi"
+                    enable_fabric: false
+                    dot11be_profile_name: "Corporate_VLAN"
+                    interface_name: "guest_network"
+                    local_to_vlan: 3002
+                ap_zones:
+                  - ap_zone_name: "Branch_AP_Zone"
+                    rf_profile_name: "TYPICAL"
+                    ssids:
+                      - "Guest_WiFi"
+                additional_interfaces:
+                  - interface_name: "Guest_Interface_4"
+                    vlan_id: 2002
+                day_n_templates:
+                  - "Wireless_Controller_Config"
+
+        - name: Delete wireless profile from Cisco Catalyst Center.
+          cisco.dnac.network_profile_wireless_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - profile_name: "Corporate_Wireless_Profile"
 
 
 
