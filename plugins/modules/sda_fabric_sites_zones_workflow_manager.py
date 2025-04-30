@@ -443,7 +443,7 @@ class FabricSitesZones(DnacBase):
                 'site_name_hierarchy': {'type': 'str'},
                 'fabric_type': {'type': 'str', 'default': 'fabric_site'},
                 'authentication_profile': {'type': 'str'},
-                'is_pub_sub_enabled': {'type': 'bool', 'default': False},
+                'is_pub_sub_enabled': {'type': 'bool', 'default': True},
                 'apply_pending_events': {'type': 'bool', 'default': False},
                 'update_authentication_profile': {
                     'type': 'dict',
@@ -962,7 +962,7 @@ class FabricSitesZones(DnacBase):
         if auth_order and auth_order not in ["dot1x", "mac"]:
             invalid_auth_profile_list.append("authentication_order")
             msg = (
-                "Invalid authentication_order '{0}'given in the playbook for the updation of authentication profile template. "
+                "Invalid authentication_order '{0}'given in the playbook for the update of authentication profile template. "
                 "Please provide one of the following authentication_order ['dot1x', 'mac'] in the playbook."
             ).format(auth_order)
             self.log(msg, "ERROR")
@@ -990,7 +990,7 @@ class FabricSitesZones(DnacBase):
         if number_of_hosts and number_of_hosts.title() not in ["Single", "Unlimited"]:
             invalid_auth_profile_list.append("number_of_hosts")
             msg = (
-                "Invalid number_of_hosts '{0}'given in the playbook for the updation of authentication profile template. "
+                "Invalid number_of_hosts '{0}'given in the playbook for the update of authentication profile template. "
                 "Please provide one of the following: ['Single', 'Unlimited']."
             ).format(auth_order)
             self.log(msg, "ERROR")
@@ -1034,7 +1034,7 @@ class FabricSitesZones(DnacBase):
                         if action and action.upper() not in ["PERMIT", "DENY"]:
                             invalid_auth_profile_list.append("action")
                             msg = (
-                                "Invalid action '{0}' given in the playbook for the updation of authentication profile template. "
+                                "Invalid action '{0}' given in the playbook for updating the authentication profile template. "
                                 "Please provide one of the following action ['PERMIT', 'DENY'] in the playbook."
                             ).format(action)
                             self.log(msg, "ERROR")
@@ -1042,7 +1042,7 @@ class FabricSitesZones(DnacBase):
                         if port and port not in ["domain", "bootpc", "bootps"]:
                             invalid_auth_profile_list.append("port")
                             msg = (
-                                "Invalid port '{0}' given in the playbook for the updation of authentication profile template. "
+                                "Invalid port '{0}' given in the playbook for updating the authentication profile template. "
                                 "Please provide one of the following port ['domain', 'bootpc', 'bootps'] in the playbook."
                             ).format(port)
                             self.log(msg, "ERROR")
@@ -1050,7 +1050,7 @@ class FabricSitesZones(DnacBase):
                         if protocol and protocol.upper() not in ["UDP", "TCP", "TCP_UDP"]:
                             invalid_auth_profile_list.append("protocol")
                             msg = (
-                                "Invalid protocol '{0}' given in the playbook for the updation of authentication profile template. "
+                                "Invalid protocol '{0}' given in the playbook for updating the authentication profile template. "
                                 "Please provide one of the following protocol ['UDP', 'TCP', 'TCP_UDP'] in the playbook."
                             ).format(protocol)
                             self.log(msg, "ERROR")
@@ -1058,7 +1058,7 @@ class FabricSitesZones(DnacBase):
                         if port and port == "domain" and protocol and protocol.upper() == "UDP":
                             invalid_auth_profile_list.append("protocol")
                             msg = (
-                                "Invalid protocol 'UDP' given in the playbook for the updation of authentication profile template. "
+                                "Invalid protocol 'UDP' given in the playbook for updating the authentication profile template. "
                                 "'TCP' and 'TCP_UDP' are only allowed when the contract port is 'domain'."
                             )
                             self.log(msg, "ERROR")
@@ -1105,7 +1105,7 @@ class FabricSitesZones(DnacBase):
             self.log("Received API response from 'get_authentication_profiles' for the site '{0}': {1}".format(site_name, str(response)), "DEBUG")
 
             if not response:
-                self.log("No Authentication profile asssociated to this site '{0}' in Cisco Catalyst Center.".format(site_name), "INFO")
+                self.log("No Authentication profile associated to this site '{0}' in Cisco Catalyst Center.".format(site_name), "INFO")
                 return profile_details
 
             profile_details = response[0]
@@ -1229,9 +1229,9 @@ class FabricSitesZones(DnacBase):
 
         if profile_name == "Closed Authentication":
             if auth_profile_dict.get("enable_bpu_guard") is None:
-                auth_profile_dict["isBpduGuardEnabled"] = auth_profile_in_ccc.get("isBpduGuardEnabled", True)
+                authentications_params_dict["isBpduGuardEnabled"] = auth_profile_in_ccc.get("isBpduGuardEnabled", True)
             else:
-                auth_profile_dict["isBpduGuardEnabled"] = auth_profile_dict.get("enable_bpu_guard")
+                authentications_params_dict["isBpduGuardEnabled"] = auth_profile_dict.get("enable_bpu_guard")
 
         if profile_name == "Low Impact" and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
             pre_auth_acl = auth_profile_dict.get("pre_auth_acl")
@@ -1401,8 +1401,10 @@ class FabricSitesZones(DnacBase):
             result_msg_list.append(pending_event_msg)
 
         if self.update_auth_profile:
-            update_auth_msg = """Authentication profile template for site(s) '{0}' updated successfully in Cisco Catalyst
-                        Center.""".format(self.update_auth_profile)
+            update_auth_msg = (
+                "Authentication profile template for site(s) '{0}' updated successfully in Cisco Catalyst "
+                "Center.".format(self.update_auth_profile)
+            )
             result_msg_list.append(update_auth_msg)
 
         if self.no_update_profile:
@@ -1514,7 +1516,7 @@ class FabricSitesZones(DnacBase):
             )
             telemetry_details = telemetry_response.get("response", {})
             if not telemetry_details:
-                self.mg = "No telemetry settings found for site '{0}' (ID: {1})".format(site_name, site_id)
+                self.msg = "No telemetry settings found for site '{0}' (ID: {1})".format(site_name, site_id)
                 self.set_operation_result("failed", False, self.msg, "CRITICAL").check_return_status()
 
             self.log("Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_details), "DEBUG")
@@ -1576,7 +1578,7 @@ class FabricSitesZones(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
         except Exception as e:
             self.msg = (
-                "An exception occured while eanbling the Wired Data Collection for the site '{0}' "
+                "An exception occured while enabling the Wired Data Collection for the site '{0}' "
                 "in Cisco Catalyst Center: {1}"
             ).format(site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1797,7 +1799,7 @@ class FabricSitesZones(DnacBase):
                         self.update_fabric_site(site, site_in_ccc).check_return_status()
                     else:
                         self.no_update_site.append(site_name)
-                        self.log("Fabric site '{0}' already present and doesnot need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
+                        self.log("Fabric site '{0}' already present and does not need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
             else:
                 self.log("Checking whether the given site {0} is already fabric zone or not.".format(site_name), "DEBUG")
 
@@ -1816,7 +1818,7 @@ class FabricSitesZones(DnacBase):
                         self.update_fabric_zone(site, zone_in_ccc).check_return_status()
                     else:
                         self.no_update_zone.append(site_name)
-                        self.log("Fabric zone '{0}' already present and doesnot need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
+                        self.log("Fabric zone '{0}' already present and does not need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
 
             # Check if there is any pending fabric event on this site and if it is then reconfigure the fabric sites
             pending_events = site.get("apply_pending_events")
@@ -1848,7 +1850,7 @@ class FabricSitesZones(DnacBase):
             if site.get("update_authentication_profile"):
                 if not auth_profile:
                     self.msg = (
-                        "Required parameter 'authentication_profile' is missing needed for updation of Authentication Profile template. "
+                        "Required parameter 'authentication_profile' is missing needed for updating the authentication profile template. "
                         "Please provide one of the following authentication_profile ['Closed Authentication', 'Low Impact'"
                         ", 'Open Authentication'] in the playbook."
                     )
@@ -1876,7 +1878,7 @@ class FabricSitesZones(DnacBase):
                 auth_profile_dict = site.get("update_authentication_profile")
                 self.validate_auth_profile_parameters(auth_profile_dict, auth_profile).check_return_status()
                 validate_msg = (
-                    "All the given parameter(s) '{0}' in the playbook for the updation of authentication "
+                    "All the given parameter(s) '{0}' in the playbook for updating the authentication"
                     " profile in SDA fabric site/zone are validated successfully."
                 ).format(auth_profile_dict)
                 self.log(validate_msg, "INFO")
@@ -1955,7 +1957,7 @@ class FabricSitesZones(DnacBase):
             fabric_type = site.get("fabric_type", "fabric_site")
 
             if not site_name:
-                self.msg = "Unable to delete fabric site/zone as required parameter 'site_name' is not given in the playbook."
+                self.msg = "Unable to delete fabric site/zone as required parameter 'site_name_hierarchy' is not given in the playbook."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -2056,12 +2058,12 @@ class FabricSitesZones(DnacBase):
             if not verify_site_list:
                 msg = (
                     "Requested fabric site(s)/zone(s) '{0}' have been successfully added/updated to the Cisco Catalyst Center "
-                    "and their addition/updation has been verified."
+                    "and their addition/update has been verified."
                 ).format(site_name_list)
             else:
                 msg = (
                     "Playbook's input does not match with Cisco Catalyst Center, indicating that the fabric site(s) '{0}' "
-                    " addition/updation task may not have executed successfully."
+                    " addition/update task may not have executed successfully."
                 ).format(verify_site_list)
 
             self.log(msg, "INFO")
@@ -2071,12 +2073,12 @@ class FabricSitesZones(DnacBase):
             if not verify_auth_list:
                 msg = (
                     "Authentication template profile for the site(s) '{0}' have been successfully updated to the Cisco Catalyst Center "
-                    "and their updation has been verified."
+                    "and their update has been verified."
                 ).format(auth_name_list)
             else:
                 msg = (
                     "Playbook's input does not match with Cisco Catalyst Center, indicating that the Authentication template "
-                    "profile for the site(s) '{0}' updation task may not have executed successfully."
+                    "profile for the site(s) '{0}' update task may not have executed successfully."
                 ).format(verify_auth_list)
 
             self.log(msg, "INFO")
@@ -2085,7 +2087,7 @@ class FabricSitesZones(DnacBase):
 
     def verify_diff_deleted(self, config):
         """
-        Verify the deletion status of fabric sites/zones fromt the Cisco Catalyst Center.
+        Verify the deletion status of fabric sites/zones from the Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): The configuration details to be verified.
@@ -2147,7 +2149,7 @@ def main():
                     'dnac_port': {'type': 'str', 'default': '443'},
                     'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
                     'dnac_password': {'type': 'str', 'no_log': True},
-                    'dnac_verify': {'type': 'bool', 'default': 'True'},
+                    'dnac_verify': {'type': 'bool', 'default': True},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
