@@ -34,7 +34,7 @@ options:
   config:
     description:
       - A list of SDA fabric multicast configurations associated with fabric sites.
-      - Each entry in the list represents the configurations for multicast config of a fabric site.
+      - Each entry in the list represents multicast settings for a specific fabric site.
     type: list
     elements: dict
     required: true
@@ -48,118 +48,120 @@ options:
             description:
               - Name of the SDA fabric site.
               - Mandatory parameter for all operations under fabric_multicast.
-              - The fabric site must already be created before configuring devices.
+              - The fabric site must already exist before configuring multicast settings.
               - A Fabric Site is composed of networking devices operating in SD-Access Fabric roles.
-              - A fabric site consists of networking devices in SD-Access Fabric roles, including Border Nodes,
-                Control Plane Nodes, and Edge Nodes.
+              - A fabric site consists of networking devices operating in SD-Access Fabric roles, including Border Nodes,
+                Control Plane Nodes, Edge Nodes, Fabric Wireless LAN Controllers, and Fabric Wireless Access Points.
               - A Fabric sites may also include Fabric Wireless LAN Controllers and Fabric Wireless Access Points.
               - Updating this field is not allowed.
               - To delete the entire multicast configuration, provide only the 'fabric_name' and 'layer3_virtual_network'.
-              - To delete only the ssm or asm configurations, provide the 'ssm' and 'asm'.
+              - To delete only SSM or ASM configurations, provide the corresponding 'ssm' and/or 'asm' fields.
             type: str
             required: true
           layer3_virtual_network:
             description:
-              - Layer 3 Virtual Network (L3VN) is a logically isolated network that enables IP routing.
-                between different subnets while maintaining separation from other virtual networks.
+              - Name of the Layer 3 Virtual Network (L3VN) associated with the multicast configuration.
+              - A L3VN is a logically isolated network that enables IP routing between different subnets
+                while maintaining separation from other virtual networks.
               - Mandatory parameter for all operations under fabric_multicast.
-              - The Layer 3 Virtual Network should be created before configuring the multicast.
+              - The Layer 3 Virtual Network must be created and associated with the fabric site and
+                its fabric zones before configuring multicast.
               - The created L3 Virtual Network should be associated with the fabric site and its fabric zones.
-              - Updating this field is not allowed.
+              - Updating this field is not allowed after creation.
               - To delete the entire multicast configuration, provide only the 'fabric_name' and 'layer3_virtual_network'.
-              - To delete only the ssm or asm configurations, provide the 'ssm' and 'asm'.
+              - To delete only the SSM or ASM configurations, provide the corresponding 'ssm' and/or 'asm' fields.
             type: str
             required: true
           replication_mode:
             description:
-              - Replication mode in multicast determines how multicast traffic is duplicated and forwarded.
-              - Two types of replication modes are Native Multicast, Headend Replication.
-              - Native Multicast forwards multicast traffic using traditional multicast routing protocols like PIM.
-              - It builds multicast distribution trees and delivery to multiple receivers without duplication at the source.
-              - Headend Replication is a multicast forwarding method where the source node replicates multicast packets.
+              - Specifies how multicast traffic is replicated within the fabric site.
+              - Two replication modes are supported: Native Multicast and Headend Replication.
+              - Native Multicast forwards multicast traffic using traditional multicast routing protocols such as PIM,
+                building distribution trees to efficiently deliver traffic to multiple receivers.
+              - Headend Replication replicates multicast packets at the source node without using multicast routing protocols.
               - Mandatory parameter while adding the multicast configuration to the fabric site.
             type: str
             choices: [NATIVE_MULTICAST, HEADEND_REPLICATION]
           ip_pool_name:
             description:
+            - Name of the IP address pool allocated for communication between the SDA fabric and external networks.
             - Denotes the IP address range allocated for communication between the SDA fabric and external networks.
             - Mandatory parameter while adding the multicast configuration to the fabric site.
-            - When multicast is enabled in the Fabric Site, every device operating with the Border Node or Edge Node
-              functionality is provisioned with an IP address per Virtual Network that is used for multicast signaling.
-            - The IP pool must be reserved in the fabric site.
+            - When multicast is enabled in the fabric site, each device operating as a Border Node or Edge Node is
+              provisioned with an IP address per Virtual Network, used for multicast signaling.
+            - The IP pool must be reserved in the fabric site before multicast configuration.
             - Updating this field is not allowed.
             type: str
           ssm:
             description:
-            - PIM Source-Specific Multicast (PIM-SSM), the root of the multicast tree is the source itself.
-            - Either ssm or asm is mandatory while adding the configs of multicast to the fabric site.
-            - When the state is 'deleted' and if the ssm is provided, only the ssm ranges will be removed.
-            - While removing the ssm ranges, the asm configurations should be present there.
+            - PIM Source-Specific Multicast (PIM-SSM) configures the multicast tree with the source as the root.
+            - Either SSM or ASM is mandatory when adding multicast configurations to the fabric site.
+            - When the state is set to 'deleted' and SSM is provided, only the SSM ranges will be removed.
+            - When removing SSM ranges, ASM configurations must be present.
             - To delete the entire multicast configuration, provide only the 'fabric_name' and 'layer3_virtual_network'.
-            - To delete only the ssm or asm configurations, provide the 'ssm' and 'asm'.
+            - To delete only the SSM or ASM configurations, provide the respective 'ssm' or 'asm' parameter.
             type: str
             suboptions:
               ipv4_ssm_ranges:
                 description:
-                - The range for SSM, where receivers specify both the multicast group (G) and the source (S)
-                  where they want to receive traffic from, improving security and efficiency.
+                - The IPv4 range for Source-Specific Multicast (SSM), where receivers specify both the multicast group (G)
+                  and the source (S) for receiving traffic, enhancing security and efficiency.
                 - Mandatory parameter when the ssm is provided.
                 type: str
                 required: true
           asm:
             description:
-            - PIM Any-Source Multicast (PIM-ASM), the root of the tree is the Rendezvous Point.
-            - Any-Source Multicast is a multicast model where receivers join a multicast group
-              without specifying a particular source.
-            - Either ssm or asm is mandatory while adding the configs of multicast to the fabric site.
+            - PIM Any-Source Multicast (PIM-ASM) allows receivers to join a multicast group without specifying a particular source.
+            - The root of the multicast tree is the Rendezvous Point (RP), which forwards multicast traffic to receivers.
+            - Either SSM or ASM must be provided when configuring multicast for the fabric site.
             - When the state is 'deleted' and if the asm is provided, only the asm ranges will be removed.
-            - While removing the asm ranges, the ssm configurations should be present there.
+            - If removing ASM ranges, ensure that SSM configurations are also present.
             - To delete the entire multicast configuration, provide only the 'fabric_name' and 'layer3_virtual_network'.
-            - To delete only the ssm or asm configurations, provide the 'ssm' and 'asm'.
+            - To delete only the SSM or ASM configurations, provide the respective 'ssm' or 'asm' parameter.
             type: str
             suboptions:
               rp_device_location:
                 description:
-                - RP Device Location refers to where the Rendezvous Point (RP) is placed in a multicast network.
-                - Mandatory parameter when the asm is provided.
-                - For FABRIC, the RP is located inside the SD-Access fabric, typically on a fabric
-                  Border node or Control Plane node or Edge node.
-                - For EXTERNAL, RP is outside the fabric, usually in the traditional IP multicast network,
-                  requiring multicast domain interconnectivity between the fabric and external network.
+                - Specifies the location of the Rendezvous Point (RP) in the multicast network.
+                - Mandatory parameter when configuring ASM.
+                - When the location is 'FABRIC', the RP is within the SD-Access fabric
+                  (typically on a Border, Control Plane, or Edge node).
+                - When the location is 'EXTERNAL', the RP is outside the SD-Access fabric,
+                  requiring interconnectivity between the fabric and external multicast networks.
                 type: str
                 choices: [EXTERNAL, FABRIC]
                 required: true
               network_device_ips:
                 description:
-                - Network Device IPs (Fabric Only) refer to the fabric devices within the SD-Access fabric.
+                - Specifies the IP addresses of devices within the SD-Access fabric to be used as the RP.
+                - A maximum of two device IPs can be provided.
                 - All the device IPs provided should be provisioned to the fabric site.
-                - Maximum of two devices IPs can be provided.
-                - Only one device should be passed while adding an Edge node as an rendezvous point.
-                - Only one device should be passed when we use a Single Stack as a reserved pool (ip_pool_name).
+                - For Edge node RPs, only one device should be provided.
+                - If using a Single Stack reserved pool, only one device should be provided.
                 type: list
                 elements: str
               ex_rp_ipv4_address:
                 description:
-                - This refers to the IPv4 address of the External RP when the RP Device Location is set to EXTERNAL.
-                - Either 'ex_rp_ipv4_address' or 'ex_rp_ipv6_address' is mandatory while adding the
-                  multicast configurations to the fabric site.
-                - If both the 'ex_rp_ipv4_address' and 'ex_rp_ipv6_address' is passed, 'ex_rp_ipv4_address' will
-                  given priority. Provide either one in an element and carry over the other to the next element of the list.
+                - The IPv4 address of the external RP when the RP device location is set to 'EXTERNAL'.
+                - Either 'ex_rp_ipv4_address' or 'ex_rp_ipv6_address' is required when adding the multicast configuration.
+                - If both 'ex_rp_ipv4_address' and 'ex_rp_ipv6_address' are provided, 'ex_rp_ipv4_address'
+                  takes priority. The second address can be provided as the next element in the list if needed.
                 type: str
               is_default_v4_rp:
                 description:
-                - Flag that indicates whether the IPv4 RP is the default RP for the multicast domain.
-                - If set to true, this RP is used for all multicast groups that do not have a specific RP assigned.
-                - The 'ipv4_asm_ranges' will be given higher priority than 'is_default_v4_rp'.
-                - Either 'is_default_v4_rp' or 'ipv4_asm_ranges' is mandatory for 'ex_rp_ipv4_address'.
+                - A flag that indicates whether the IPv4 RP is the default RP for the multicast domain.
+                - If set to 'true', this RP is used for all multicast groups that do not have a specific RP assigned.
+                - Either 'is_default_v4_rp' or 'ipv4_asm_ranges' must be provided when 'ex_rp_ipv4_address' is used.
+                - 'ipv4_asm_ranges' will take priority over 'is_default_v4_rp' if both are specified.
                 type: bool
               ipv4_asm_ranges:
                 description:
-                - This range is exclusively used for SSM, where receivers specify both the source (S) and the group (G)
-                  to receive multicast traffic, eliminating the need for a Rendezvous Point (RP).
-                - Either 'is_default_v4_rp' or 'ipv4_asm_ranges' is mandatory for 'ex_rp_ipv4_address'.
-                - The 'ipv4_asm_ranges' will be given higher priority than 'is_default_v4_rp'.
-                - The provided ranges should not overlap with the ranges provided for the other external IPs.
+                - A range used exclusively for Any-Source Multicast (ASM), where receivers specify both
+                  the source (S) and the group (G) for receiving multicast traffic.
+                - Either 'is_default_v4_rp' or 'ipv4_asm_ranges' must be provided when 'ex_rp_ipv4_address' is used.
+                - 'ipv4_asm_ranges' takes priority over 'is_default_v4_rp' if both are provided.
+                - The ranges provided for 'ipv4_asm_ranges' should not overlap with the ranges provided for
+                  'ipv4_ssm_ranges' or any other external IP ranges.
                 type: list
                 elements: str
               ex_rp_ipv6_address:
@@ -172,18 +174,17 @@ options:
                 type: str
               is_default_v6_rp:
                 description:
-                - Flag that indicates whether the IPv6 RP is the default RP for the multicast domain.
-                - If set to true, this RP is used for all multicast groups that do not have a specific RP assigned.
-                - Either 'is_default_v6_rp' or 'ipv6_asm_ranges' is mandatory for 'ex_rp_ipv6_address'.
-                - The 'ipv6_ssm_ranges' will be given higher priority than 'is_default_v6_rp'.
+                - A flag that indicates whether the IPv6 RP is the default RP for the multicast domain.
+                - If set to 'true', this RP is used for all multicast groups that do not have a specific RP assigned.
+                - Either 'is_default_v6_rp' or 'ipv6_asm_ranges' must be provided when 'ex_rp_ipv6_address' is used.
+                - 'ipv6_asm_ranges' will take priority over 'is_default_v6_rp' if both are specified.
                 type: bool
               ipv6_asm_ranges:
                 description:
-                - This range is exclusively used for SSM, where receivers specify both the source (S) and the group (G)
-                  to receive multicast traffic, eliminating the need for a Rendezvous Point (RP).
-                - Either 'is_default_v6_rp' or 'ipv6_asm_ranges' is mandatory for 'ex_rp_ipv6_address'.
-                - The 'ipv6_ssm_ranges' will be given higher priority than 'is_default_v6_rp'.
-                - The provided ranges should not overlap with the ranges provided for the other external IPs.
+                - A range used exclusively for Any-Source Multicast (ASM), where receivers specify both the
+                  source (S) and the group (G) for receiving multicast traffic.
+                - Either 'is_default_v6_rp' or 'ipv6_asm_ranges' must be provided when 'ex_rp_ipv6_address' is used.
+                - 'ipv6_asm_ranges' takes priority over 'is_default_v6_rp' if both are provided.
                 type: list
                 elements: str
 
@@ -244,15 +245,18 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - fabric_multicast:
-          - fabric_name: Global/USA/SAN JOSE
-            layer3_virtual_network: L3_VN_MUL_1
+          - fabric_name: "Global/USA/SAN JOSE"
+            layer3_virtual_network: "L3_VN_MUL_1"
             replication_mode: NATIVE_MULTICAST
             ip_pool_name: ip_pool_dual_mul
             ssm:
-              ipv4_ssm_ranges: ["225.0.0.0/8", "226.0.0.0/8"]
+              ipv4_ssm_ranges:
+                - "225.0.0.0/8"
+                  "226.0.0.0/8"
             asm:
-              - rp_device_location: FABRIC
-                network_device_ips: ["204.1.2.3"]
+              - rp_device_location: "FABRIC"
+                network_device_ips:
+                  - "204.1.2.3"
                 is_default_v4_rp: true
 
 - name: Update the ssm configuration on a L3 virtual network under a fabric site
@@ -270,10 +274,11 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - fabric_multicast:
-          - fabric_name: Global/USA/SAN JOSE
-            layer3_virtual_network: L3_VN_MUL_1
+          - fabric_name: "Global/USA/SAN JOSE"
+            layer3_virtual_network: "L3_VN_MUL_1"
             ssm:
-              ipv4_ssm_ranges: ["227.0.0.0/8"]
+              ipv4_ssm_ranges:
+                - "227.0.0.0/8"
 
 - name: Update the asm configuration on a L3 virtual network under a fabric site
   cisco.dnac.sda_fabric_multicast_workflow_manager:
@@ -290,19 +295,27 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - fabric_multicast:
-          - fabric_name: Global/USA/SAN JOSE
-            layer3_virtual_network: L3_VN_MUL_1
+          - fabric_name: "Global/USA/SAN JOSE"
+            layer3_virtual_network: "L3_VN_MUL_1"
             asm:
-              - rp_device_location: EXTERNAL
-                ex_rp_ipv4_address: 10.0.0.1
-                ipv4_asm_ranges: ["232.0.0.0/8", "233.0.0.0/8"]
-                ex_rp_ipv6_address: 2001::1
-                ipv6_asm_ranges: ["FF01::/64", "FF02::/64"]
-              - rp_device_location: EXTERNAL
-                ex_rp_ipv4_address: 10.0.0.2
-                ipv4_asm_ranges: ["234.0.0.0/8", "235.0.0.0/8"]
-                ex_rp_ipv6_address: 2001::2
-                ipv6_asm_ranges: ["FF02::/64", "FF04::/64"]
+              - rp_device_location: "EXTERNAL"
+                ex_rp_ipv4_address: "10.0.0.1"
+                ipv4_asm_ranges:
+                  - "232.0.0.0/8"
+                    "233.0.0.0/8"
+                ex_rp_ipv6_address: "2001::1"
+                ipv6_asm_ranges:
+                  - "FF01::/64"
+                    "FF02::/64"
+              - rp_device_location: "EXTERNAL"
+                ex_rp_ipv4_address: "10.0.0.2"
+                ipv4_asm_ranges:
+                  - "234.0.0.0/8"
+                    "235.0.0.0/8"
+                ex_rp_ipv6_address: "2001::2"
+                ipv6_asm_ranges:
+                  - "FF02::/64"
+                    "FF04::/64"
 
 - name: Update the replication mode of the SDA multicast configurations under a fabric site
   cisco.dnac.sda_fabric_multicast_workflow_manager:
@@ -319,9 +332,9 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - fabric_multicast:
-          - fabric_name: Global/USA/SAN JOSE
-            layer3_virtual_network: L3_VN_MUL_1
-            replication_mode: HEADEND_REPLICATION
+          - fabric_name: "Global/USA/SAN JOSE"
+            layer3_virtual_network: "L3_VN_MUL_1"
+            replication_mode: "HEADEND_REPLICATION"
 
 - name: Delete the source '226.0.0.0/8' from the ssm multicast configuration
   cisco.dnac.sda_fabric_multicast_workflow_manager:
@@ -338,10 +351,11 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - fabric_multicast:
-          - fabric_name: Global/USA/SAN JOSE
-            layer3_virtual_network: L3_VN_MUL_1
+          - fabric_name: "Global/USA/SAN JOSE"
+            layer3_virtual_network: "L3_VN_MUL_1"
             ssm:
-              ipv4_ssm_ranges: ["226.0.0.0/8"]
+              ipv4_ssm_ranges:
+                - "226.0.0.0/8"
 
 - name: Delete the RP '10.0.0.1' from the asm multicast configuration
   cisco.dnac.sda_fabric_multicast_workflow_manager:
@@ -358,11 +372,11 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - fabric_multicast:
-          - fabric_name: Global/USA/SAN JOSE
-            layer3_virtual_network: L3_VN_MUL_1
+          - fabric_name: "Global/USA/SAN JOSE"
+            layer3_virtual_network: "L3_VN_MUL_1"
             asm:
-              - rp_device_location: EXTERNAL
-                ex_rp_ipv4_address: 10.0.0.1
+              - rp_device_location: "EXTERNAL"
+                ex_rp_ipv4_address: "10.0.0.1"
 
 - name: Delete the SDA multicast configurations of the L3 virtual network from the fabric site.
   cisco.dnac.sda_fabric_multicast_workflow_manager:
@@ -379,13 +393,13 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - fabric_multicast:
-          - fabric_name: Global/USA/SAN JOSE
-            layer3_virtual_network: L3_VN_MUL_1
+          - fabric_name: "Global/USA/SAN JOSE"
+            layer3_virtual_network: "L3_VN_MUL_1"
 """
 
 RETURN = r"""
 
-# Case_1: Successful configuration of SDA fabric multicast on a L3 vn under a site
+# Case_1: Successful configuration of SDA fabric multicast on a L3 VN under a site
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -399,7 +413,7 @@ response_1:
       "version": "str"
     }
 
-# Case_2: Successful configuration of SDA fabric multicast on a L3 vn under a site
+# Case_2: Successful configuration update of SDA fabric multicast on a L3 VN under a site
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -427,7 +441,7 @@ response_3:
       "version": "str"
     }
 
-# Case_4: Successful deletion of SDA fabric multicast configuration on a L3 vn under a site
+# Case_4: Successful deletion of SDA fabric multicast configuration on a L3 VN under a site
 response_4:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -566,41 +580,36 @@ class FabricMulticast(DnacBase):
             The obj_params will have the pattern to be compared.
         """
 
-        try:
-            if get_object == "multicast_vn":
-                obj_params = [
-                    ("fabricId", "fabricId"),
-                    ("virtualNetworkName", "virtualNetworkName"),
-                    ("ipPoolName", "ipPoolName"),
-                    ("ipv4SsmRanges", "ipv4SsmRanges"),
-                    ("multicastRPs", "multicastRPs")
-                ]
-            elif get_object == "replication_mode":
-                obj_params = [
-                    ("replicationMode", "replicationMode")
-                ]
-            else:
-                raise ValueError("Received an unexpected value for 'get_object': {object_name}"
-                                 .format(object_name=get_object))
-        except Exception as msg:
-            self.log("Received exception: {msg}".format(msg=msg), "CRITICAL")
+        if get_object == "multicast_vn":
+            obj_params = [
+                ("fabricId", "fabricId"),
+                ("virtualNetworkName", "virtualNetworkName"),
+                ("ipPoolName", "ipPoolName"),
+                ("ipv4SsmRanges", "ipv4SsmRanges"),
+                ("multicastRPs", "multicastRPs")
+            ]
+        elif get_object == "replication_mode":
+            obj_params = [
+                ("replicationMode", "replicationMode")
+            ]
+        else:
+            raise ValueError("Received an unexpected value for 'get_object': {object_name}"
+                                .format(object_name=get_object))
 
         return obj_params
 
     def check_valid_virtual_network_name(self, virtual_network_name):
         """
-        Get the fabric ID from the given site hierarchy name.
+        Check if the given L3 virtual network name exists.
 
         Parameters:
             virtual_network_name (str): The name of the L3 virtual network.
         Returns:
             True or False (bool): True if the L3 virtual network exists. Else, return False.
         Description:
-            Call the API 'get_layer3_virtual_networks' by setting the 'virtual_network_name'
-            and 'offset' field.
-            Call the API till we reach empty response or we find the L3 virtual network with the
-            given name.
-            If the status is set to failed, return None. Else, return the fabric site ID.
+            Calls the 'get_layer3_virtual_networks' API with the given virtual network name.
+            If a matching virtual network is found, returns True.
+            If no matching network is found, or if there is an error, returns False.
         """
 
         self.log(
@@ -629,7 +638,7 @@ class FabricMulticast(DnacBase):
             virtual_network_details = virtual_network_details.get("response")
             if not virtual_network_details:
                 self.log(
-                    "There is no L3 virtual network with the name '{name}."
+                    "There is no L3 virtual network with the name '{name}'."
                     .format(name=virtual_network_name), "DEBUG"
                 )
                 return False
@@ -638,10 +647,10 @@ class FabricMulticast(DnacBase):
                 "L3 virtual network '{name}' exists.".format(name=virtual_network_name), "DEBUG"
             )
 
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
-                "Exception occurred while running the API 'get_layer3_virtual_networks': {msg}"
-                .format(msg=msg)
+                "Exception occurred while running the API 'get_layer3_virtual_networks': {error_msg}"
+                .format(error_msg=str(e))
             )
             self.log(self.msg, "CRITICAL")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -650,18 +659,17 @@ class FabricMulticast(DnacBase):
 
     def check_valid_reserved_pool(self, reserved_pool_name, fabric_name):
         """
-        Get the fabric ID from the given site hierarchy name.
+        Check if a reserved IP pool exists within a given fabric site.
 
         Parameters:
             reserved_pool_name (str): The name of the reserved pool.
-            fabric_name (str): The name of the fabric site to check for existence.
+            fabric_name (str): The name of the fabric site.
         Returns:
             True or False (bool): True if the reserved pool exists. Else, return False.
         Description:
             Call the API 'get_reserve_ip_subpool' by setting the 'site_id' and 'offset' field.
-            Call the API till we reach empty response or we find the reserved subpool with the
-            given subpool name.
-            If the status is set to failed, return None. Else, return the fabric site ID.
+            Iterates through paginated results to find a reserved pool with the given name.
+            If found, returns True. If not found or an error occurs, returns False.
         """
 
         self.log(
@@ -685,8 +693,8 @@ class FabricMulticast(DnacBase):
             start_time = time.time()
 
             self.log(
-                "Calling API 'get_reserve_ip_subpool' with site_id '{site_id}'."
-                .format(site_id=site_id), "DEBUG"
+                "Calling API 'get_reserve_ip_subpool' with site_id '{site_id}' and offset '{offset}'."
+                .format(site_id=site_id, offset=offset), "DEBUG"
             )
             while True:
                 all_reserved_pool_details = self.dnac._exec(
@@ -724,25 +732,26 @@ class FabricMulticast(DnacBase):
                     )
                     self.log(self.msg, "CRITICAL")
                     self.status = "failed"
-                    break
+                    return True
 
                 # Find the reserved pool with the given name in the list of reserved pools
                 reserved_pool_details = get_dict_result(all_reserved_pool_details, "groupName", reserved_pool_name)
                 if reserved_pool_details:
                     self.log(
-                        "The reserved pool found with the name '{reserved_pool}' in the site '{site_name}'."
+                        "The reserved pool '{reserved_pool}' found in the site '{site_name}'."
                         .format(reserved_pool=reserved_pool_name, site_name=fabric_name), "DEBUG"
                     )
                     return True
 
                 self.log(
-                    "No matching reserved pool found for '{pool}' in site '{site_name}'. Continuing to next offset."
-                    .format(pool=reserved_pool_name, site_name=fabric_name), "DEBUG"
+                    "No matching reserved pool found for '{pool}' in site '{site_name}' at offset '{offset}'."
+                    "Continuing to next offset."
+                    .format(pool=reserved_pool_name, site_name=fabric_name, offset=offset), "DEBUG"
                 )
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
-                "Exception occurred while running the API 'get_reserve_ip_subpool': {msg}"
-                .format(msg=msg)
+                "Exception occurred while running the API 'get_reserve_ip_subpool': {error_msg}"
+                .format(error_msg=e)
             )
             self.log(self.msg, "CRITICAL")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -757,11 +766,10 @@ class FabricMulticast(DnacBase):
             site_name (str): The name of the site.
             site_id (str): The ID of the site.
         Returns:
-            fabric_site_id (str): The ID of the fabric site.
+            fabric_site_id (str): The ID of the fabric site, or None if not found or invalid.
         Description:
-            Call the API 'get_fabric_sites' by setting the 'site_id' field with the
-            given site id.
-            If the status is set to failed, return None. Else, return the fabric site ID.
+            Calls the API 'get_fabric_sites' by setting the 'site_id' field.
+            If an error occurs or the site is not a fabric site, returns None.
         """
 
         self.log(
@@ -790,7 +798,7 @@ class FabricMulticast(DnacBase):
             fabric_site_exists = fabric_site_exists.get("response")
             if not fabric_site_exists:
                 self.log(
-                    "The site hierarchy 'fabric_site' {site_name} is not a valid one or it not a 'Fabric' site."
+                    "The site hierarchy 'fabric_site' {site_name} is not a valid one or it is not a 'Fabric' site."
                     .format(site_name=site_name), "ERROR"
                 )
                 return fabric_site_id
@@ -799,15 +807,20 @@ class FabricMulticast(DnacBase):
                 "The site hierarchy 'fabric_site' {fabric_name} is a valid fabric site."
                 .format(fabric_name=site_name), "DEBUG"
             )
+            if not isinstance(fabric_site_exists, list):
+                self.msg = "Error in getting fabric site details - Response is not a list."
+                self.log(self.msg, "CRITICAL")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             fabric_site_id = fabric_site_exists[0].get("id")
             self.log(
                 "Fabric site ID retrieved successfully: {fabric_site_id}"
                 .format(fabric_site_id=fabric_site_id), "DEBUG"
             )
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
-                "Exception occurred while running the API 'get_fabric_sites': {msg}"
-                .format(msg=msg)
+                "Exception occurred while running the API 'get_fabric_sites': {error_msg}"
+                .format(error_msg=e)
             )
             self.log(self.msg, "CRITICAL")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -822,11 +835,11 @@ class FabricMulticast(DnacBase):
             site_name (str): The name of the site.
             site_id (str): The ID of the zone.
         Returns:
-            fabric_zone_id (str): The ID of the fabric zone.
+            fabric_zone_id (str): The ID of the fabric zone, or None if not found.
         Description:
             Call the API 'get_fabric_zones' by setting the 'site_name_hierarchy' field with the
             given site name.
-            If the status is set to failed, return None. Else, return the fabric site ID.
+            If no valid fabric zone is found, returns None. Else, return the fabric site ID.
         """
 
         self.log(
@@ -855,24 +868,24 @@ class FabricMulticast(DnacBase):
             fabric_zone = fabric_zone.get("response")
             if not fabric_zone:
                 self.log(
-                    "The site hierarchy 'fabric_zone' {site_name} is not a valid one or it not a 'Fabric' zone."
+                    "No fabric zone found for site '{site_name}'."
                     .format(site_name=site_name), "ERROR"
                 )
                 return fabric_zone_id
 
             self.log(
-                "The site hierarchy 'fabric_site' {fabric_name} is a valid fabric site."
-                .format(fabric_name=site_name), "DEBUG"
+                "Fabric zone found for site '{site_name}'."
+                .format(site_name=site_name), "DEBUG"
             )
             fabric_zone_id = fabric_zone[0].get("id")
             self.log(
                 "Fabric zone ID retrieved successfully: {fabric_zone_id}"
                 .format(fabric_zone_id=fabric_zone_id), "DEBUG"
             )
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
-                "Exception occurred while running the API 'get_fabric_zones': {msg}"
-                .format(msg=msg)
+                "Exception occurred while running the API 'get_fabric_zones': {error_msg}"
+                .format(error_msg=e)
             )
             self.log(self.msg, "CRITICAL")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -925,10 +938,10 @@ class FabricMulticast(DnacBase):
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
-                "Exception occurred while running the API 'get_provisioned_devices': {msg}"
-                .format(msg=msg)
+                "Exception occurred while running the API 'get_provisioned_devices': {error_msg}"
+                .format(error_msg=e)
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -957,12 +970,13 @@ class FabricMulticast(DnacBase):
         """
 
         fabric_multicast_info = {}
+        multicast_data = fabric_multicast_details[0]
         fabric_multicast_info.update({
-            "fabricId": fabric_multicast_details[0].get("fabricId"),
-            "virtualNetworkName": fabric_multicast_details[0].get("virtualNetworkName"),
-            "ipPoolName": fabric_multicast_details[0].get("ipPoolName"),
-            "ipv4SsmRanges": fabric_multicast_details[0].get("ipv4SsmRanges"),
-            "multicastRPs": fabric_multicast_details[0].get("multicastRPs"),
+            "fabricId": multicast_data.get("fabricId"),
+            "virtualNetworkName": multicast_data.get("virtualNetworkName"),
+            "ipPoolName": multicast_data.get("ipPoolName"),
+            "ipv4SsmRanges": multicast_data.get("ipv4SsmRanges"),
+            "multicastRPs": multicast_data.get("multicastRPs"),
         })
 
         # Formatted payload for the SDK 'Add multicast virtual networks', 'Update multicast virtual networks'
@@ -987,9 +1001,10 @@ class FabricMulticast(DnacBase):
         """
 
         replication_mode_info = {}
+        replication_data = replication_mode_details[0]
         replication_mode_info.update({
-            "fabricId": replication_mode_details[0].get("fabricId"),
-            "replicationMode": replication_mode_details[0].get("replicationMode"),
+            "fabricId": replication_data.get("fabricId"),
+            "replicationMode": replication_data.get("replicationMode"),
         })
 
         # Formatted payload for the SDK 'Update multicast'
@@ -1034,10 +1049,10 @@ class FabricMulticast(DnacBase):
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
-                "Exception occurred while running the API 'get_multicast_virtual_networks_v1': {msg}"
-                .format(msg=msg)
+                "Exception occurred while running the API 'get_multicast_virtual_networks_v1': {error_msg}"
+                .format(error_msg=e)
             )
             self.log(self.msg, "CRITICAL")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -1080,10 +1095,10 @@ class FabricMulticast(DnacBase):
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
-                "Exception occurred while running the API 'get_multicast_v1': {msg}"
-                .format(msg=msg)
+                "Exception occurred while running the API 'get_multicast_v1': {error_msg}"
+                .format(error_msg=e)
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -1372,10 +1387,10 @@ class FabricMulticast(DnacBase):
                 )
                 return device_details
 
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
-                "Exception occurred while running the API 'get_device_list': {msg}"
-                .format(msg=msg)
+                "Exception occurred while running the API 'get_device_list': {error_msg}"
+                .format(error_msg=e)
             )
             self.log(self.msg, "CRITICAL")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -2110,11 +2125,11 @@ class FabricMulticast(DnacBase):
             self.log(self.msg, "INFO")
             self.status = "success"
 
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
                 "Exception occurred while configuring the multicast "
-                "configurations with the payload '{payload}': {msg}"
-                .format(payload=add_multicast_config, msg=msg)
+                "configurations with the payload '{payload}': {error_msg}"
+                .format(payload=add_multicast_config, error_msg=e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -2164,11 +2179,11 @@ class FabricMulticast(DnacBase):
             self.log(self.msg, "INFO")
             self.status = "success"
 
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
                 "Exception occurred while updating the replication "
                 "mode with the payload '{payload}': {msg}"
-                .format(payload=update_replication_mode, msg=msg)
+                .format(payload=update_replication_mode, error_msg=e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -2218,11 +2233,11 @@ class FabricMulticast(DnacBase):
             self.log(self.msg, "INFO")
             self.status = "success"
 
-        except Exception as msg:
+        except Exception as e:
             self.msg = (
                 "Exception occurred while updating the multicast "
                 "configurations with the payload '{payload}': {msg}"
-                .format(payload=update_multicast_config, msg=msg)
+                .format(payload=update_multicast_config, error_msg=e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -2441,8 +2456,8 @@ class FabricMulticast(DnacBase):
             try:
                 self.update_fabric_multicast(fabric_multicast).check_return_status()
                 self.log("Successfully updated fabric multicast configuration(s).", "INFO")
-            except Exception as msg:
-                self.log("Error while updating fabric multicast: {error}".format(error=str(msg)), "ERROR")
+            except Exception as e:
+                self.log("Error while updating fabric multicast: {error}".format(error=str(e)), "ERROR")
                 self.set_operation_result("failed", False, "Failed to update fabric multicast configuration(s).", "ERROR")
                 return self
         else:
@@ -2558,11 +2573,11 @@ class FabricMulticast(DnacBase):
                             "multicast_details": id
                         })
 
-                    except Exception as msg:
+                    except Exception as e:
                         self.msg = (
                             "Exception occurred while deleting the multicast configurations "
-                            "for the layer 3 virtual network '{l3_vn}' for the fabric site '{fabric_name}': {msg}"
-                            .format(l3_vn=layer3_virtual_network, fabric_name=fabric_name, msg=msg)
+                            "for the layer 3 virtual network '{l3_vn}' for the fabric site '{fabric_name}': {error_msg}"
+                            .format(l3_vn=layer3_virtual_network, fabric_name=fabric_name, error_msg=e)
                         )
                         self.log(self.msg, "ERROR")
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
