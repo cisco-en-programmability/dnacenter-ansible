@@ -1563,3 +1563,20 @@ releases:
         - Added 'path_trace_workflow_manager' for managing PathTrace settings
         - Added 'tags_workflow_manager' for create, update, delete Tags and Tag Memberships
         - Added 'wireless_design_workflow_manager' for managing wireless design elements
+  6.33.0:
+    release_date: "2025-04-30"
+    changes:
+      release_summary: Changes in workflow manager modules
+      minor_changes:
+        - Changes in 'application_policy_workflow_manager' module
+        - Changes in 'assurance_icap_settings_workflow_manager' module
+        - Changes in 'assurance_issue_workflow_manager' module
+        - Changes in 'network_profile_switching_workflow_manager' module
+        - Changes in 'network_profile_wireless_workflow_manager' module
+        - Changes in 'tags_workflow_manager' module
+        - Changes in 'wireless_design_workflow_manager' module
+        - Added attribute 'device_type' in 'assurance_issue_workflow_manager' module
+        - Added attribute 'ssid_name' in 'network_profile_wireless_workflow_manager' module
+        - Removed attributes 'ssid', 'onboarding_templates' in 'network_profile_wireless_workflow_manager' module
+        - Added attribute 'minimum_rssi' in 'wireless_design_workflow_manager' module
+        - Removed attribute 'minimum_rss' in 'wireless_design_workflow_manager' module

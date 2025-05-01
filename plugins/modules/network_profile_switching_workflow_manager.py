@@ -353,6 +353,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             onboarding_template_name = each_profile.get("onboarding_templates")
             day_n_template_name = each_profile.get("day_n_templates")
             if onboarding_template_name:
+                errormsg.append("onboarding_templates: Onboarding templates are currently unavailable "
+                                "due to SDK/API constraints. Please use the PNP onboarding template instead.")
                 for template in onboarding_template_name:
                     param_spec = dict(type="str", length_max=200)
                     validate_str(template, param_spec, "onboarding_templates", errormsg)
@@ -571,7 +573,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             "Accept": "application/json",
             "X-Auth-Token": str(token_str)
         }
-        target_url = f"{dnac_url}/api/v1/siteprofile"
+        target_url = str(dnac_url) + "/api/v1/siteprofile"
         response = None
 
         for existing_profile in self.have.get("switch_profile", []):
