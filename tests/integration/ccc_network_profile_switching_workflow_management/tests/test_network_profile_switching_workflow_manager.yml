@@ -1,0 +1,137 @@
+---
+- debug: msg="Starting network switching profile workflow manager test"
+- debug: msg="switching Path {{ role_path }}"
+
+- block:
+  - name: Network profile switching workflow manager
+    include_vars:
+      file: "{{ role_path }}/vars/vars_network_profile_switching_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  # - name: Delete profile
+  #   cisco.dnac.network_profile_switching_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_switch_profile }}"
+    # register: result_delete_switch_profile
+
+###########################################
+ #       CREATE SWITCH PROFILE           #
+###########################################
+
+  - name: Create network switch profile
+    cisco.dnac.network_profile_switching_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config: 
+        - "{{ item }}"
+    loop: "{{ vars_map.create_switch_profile }}"
+    register: result_create_switch_profile
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_switch_profile.results }}"
+  #   when: result_create_switch_profile is defined
+
+  - name: Assert network switch profile
+    assert:
+      that:
+        - item.changed == true
+        - "'Profile created/updated are verified successfully for '['test_sw_1']'.' in item.msg"
+    loop: "{{ result_create_switch_profile.results }}"
+    when: result_create_switch_profile is defined
+
+
+#############################################
+#            UPDATE SWITCH PROFILE      #
+#############################################
+
+  - name: Update network switch profile
+    cisco.dnac.network_profile_switching_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_switch_profile }}"
+    register: result_update_switch_profile
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_switch_profile.results }}"
+  #   when: result_update_switch_profile is defined
+
+  - name: Assert Update network switch profile
+    assert:
+      that:
+        - item.changed == true
+        - "'Profile created/updated are verified successfully for '['test_sw_1']'.' in item.msg"
+    loop: "{{ result_update_switch_profile.results }}"
+    when: result_update_switch_profile is defined
+
+  
+  #############################################
+#            DELETE SWITCH PROFILE      #
+#############################################
+
+  - name: Delete network switch profile
+    cisco.dnac.network_profile_switching_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_switch_profile }}"
+    register: result_delete_switch_profile
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_switch_profile.results }}"
+  #   when: result_delete_switch_profile is defined
+
+  - name: Assert delete network switch profile
+    assert:
+      that:
+        - item.changed == true
+        - "'Switch profile(s) deleted and verified successfully for '['test_sw_1']'.' in item.msg"
+    loop: "{{ result_delete_switch_profile.results }}"
+    when: result_delete_switch_profile is defined
+
+#############################################
+#               POST Clean Up               #
+#############################################
+
+  # - name: Delete wlc
+  #   cisco.dnac.network_profile_switching_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_switch_profile }}"
+  #   register: result_delete_switch_profile

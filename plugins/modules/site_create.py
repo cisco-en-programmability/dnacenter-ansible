@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: site_create
 short_description: Resource module for Site Create
 description:
-- This module represents an alias of the module site_create_v1
+  - This module represents an alias of the module site_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -84,22 +81,17 @@ options:
     description: Type of site to create (eg area, building, floor).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites CreateSiteV1
-  description: Complete reference of the CreateSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-site
+  - name: Cisco DNA Center documentation for Sites CreateSiteV1
+    description: Complete reference of the CreateSiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-site
 notes:
-  - SDK Method used are
-    sites.Sites.create_site_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/site,
+  - SDK Method used are sites.Sites.create_site_v1,
+  - Paths used are post /dna/intent/api/v1/site,
   - It should be noted that this module is an alias of site_create_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.site_create:
@@ -131,7 +123,6 @@ EXAMPLES = r"""
         rfModel: string
         width: 0
     type: string
-
 """
 RETURN = r"""
 dnac_response:

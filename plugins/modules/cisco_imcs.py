@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: cisco_imcs
 short_description: Resource module for Cisco Imcs
 description:
-- This module represents an alias of the module cisco_imcs_v1
+  - This module represents an alias of the module cisco_imcs_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,8 +17,8 @@ options:
     description: IP address of the Cisco IMC.
     type: str
   nodeId:
-    description: The UUID that represents the Catalyst Center node. Its value can be
-      obtained from the `id` attribute of the response of the `/dna/intent/api/v1/nodes-config`
+    description: The UUID that represents the Catalyst Center node. Its value can
+      be obtained from the `id` attribute of the response of the `/dna/intent/api/v1/nodes-config`
       API.
     type: str
   password:
@@ -31,22 +28,20 @@ options:
     description: Username of the Cisco IMC.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Cisco IMC AddsCiscoIMCConfigurationToACatalystCenterNodeV1
-  description: Complete reference of the AddsCiscoIMCConfigurationToACatalystCenterNodeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!adds-cisco-imc-configuration-to-a-catalyst-center-node
+  - name: Cisco DNA Center documentation for Cisco IMC AddsCiscoIMCConfigurationToACatalystCenterNodeV1
+    description: Complete reference of the AddsCiscoIMCConfigurationToACatalystCenterNodeV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!adds-cisco-imc-configuration-to-a-catalyst-center-node
 notes:
   - SDK Method used are
     cisco_i_m_c.CiscoIMC.adds_cisco_i_m_c_configuration_to_a_catalyst_center_node_v1,
-
-  - Paths used are
-    post /dna/system/api/v1/ciscoImcs,
+  - Paths used are post /dna/system/api/v1/ciscoImcs,
   - It should be noted that this module is an alias of cisco_imcs_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.cisco_imcs:
@@ -62,7 +57,6 @@ EXAMPLES = r"""
     nodeId: string
     password: string
     username: string
-
 """
 RETURN = r"""
 dnac_response:

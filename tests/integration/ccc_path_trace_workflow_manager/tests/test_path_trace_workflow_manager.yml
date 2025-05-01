@@ -1,0 +1,113 @@
+---
+- debug: msg="Starting path trace workflow manager test"
+- debug: msg="Path trace {{ role_path }}"
+
+- block:
+  - name:  path trace workflow manager
+    include_vars:
+      file: "{{ role_path }}/vars/vars_path_trace_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Delete delete_pathtrace_settings
+    cisco.dnac.path_trace_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_path_trace }}"
+    register: result_delete_path_trace
+
+###########################################
+ #       CREATE PATHTRACE SETTINGS        #
+###########################################
+
+  - name: create path trace
+    cisco.dnac.path_trace_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config: 
+        - "{{ item }}"
+    loop: "{{ vars_map.create_path_trace }}"
+    register: result_create_path_trace
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_path_trace.results }}"
+  #   when: result_create_path_trace is defined
+
+  - name: Create path trace
+    assert:
+      that:
+        - item.changed == false
+        - "\"Path trace created and verified successfully for '[{'source_ip': '204.1.2.3',
+            'dest_ip': '204.1.2.4', 'source_port': 80, 'dest_port': 80, 'protocol': 'TCP',
+            'periodic_refresh': False, 'control_path': False, 'include_stats': ['DEVICE-STATS',
+            'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE'],
+            'flow_analysis_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\" in item.msg"
+    loop: "{{ result_create_path_trace.results }}"
+    when: result_create_path_trace is defined
+
+
+#############################################
+#     DELETE PATH TRACE                     #
+#############################################
+
+  - name: Delete path trace
+    cisco.dnac.path_trace_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_path_trace }}"
+    register: result_delete_path_trace
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_path_trace.results }}"
+  #   when: result_delete_path_trace is defined
+
+  - name: Assert Delete path trace configuration
+    assert:
+      that:
+        - item.changed == true
+        - "\"Path trace deleted and verified successfully for '[{'source_ip': '204.1.2.3', 'dest_ip': '204.1.2.4'}]'.\" in item.msg"
+    loop: "{{ result_delete_path_trace.results }}"
+    when: result_delete_path_trace is defined
+
+#############################################
+#               POST Clean Up               #
+#############################################
+
+  # - name: Delete wlc
+  #   cisco.dnac.path_trace_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_wlc }}"
+  #   register: result_deleted_wlc
