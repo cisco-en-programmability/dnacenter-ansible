@@ -2713,9 +2713,9 @@ class FabricMulticast(DnacBase):
                 )
                 to_update = []
                 have_multicast_params = self.have.get("fabric_multicast")[fabric_multicast_index] \
-                                                      .get("multicast_details")
+                                                 .get("multicast_details")
                 want_multicast_params = self.want.get("fabric_multicast")[fabric_multicast_index] \
-                                                      .get("multicast_details")
+                                                 .get("multicast_details")
                 want_ssm = want_multicast_params.get("ipv4SsmRanges")
                 have_ssm = have_multicast_params.get("ipv4SsmRanges")
                 is_ssm_empty = False
@@ -2804,7 +2804,7 @@ class FabricMulticast(DnacBase):
                                         })
                                     else:
                                         multicast_rps = self.want.get("fabric_multicast")[fabric_multicast_index] \
-                                                                      .get("multicast_details").get("multicastRPs")
+                                                                 .get("multicast_details").get("multicastRPs")
                                         for value in multicast_rps:
                                             if value.get("rpDeviceLocation") == "FABRIC":
                                                 multicast_rps.remove(value)
@@ -2814,7 +2814,7 @@ class FabricMulticast(DnacBase):
                                 ex_rp_ipv4_address = item.get("ipv4Address")
                                 ex_rp_ipv6_address = item.get("ipv6Address")
                                 multicast_rps = self.want.get("fabric_multicast")[fabric_multicast_index] \
-                                                              .get("multicast_details").get("multicastRPs")
+                                                         .get("multicast_details").get("multicastRPs")
                                 if ex_rp_ipv4_address:
                                     ex_ipv4_details = get_dict_result(have_asm, "ipv4Address", ex_rp_ipv4_address)
                                     if ex_ipv4_details:
