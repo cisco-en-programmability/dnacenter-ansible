@@ -1,0 +1,137 @@
+---
+- debug: msg="Starting network profile wireless workflow manager test"
+- debug: msg="wireless Path {{ role_path }}"
+
+- block:
+  - name: Network profile wireless workflow manager
+    include_vars:
+      file: "{{ role_path }}/vars/vars_network_profile_wireless_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  # - name: Delete profile
+  #   cisco.dnac.network_profile_wireless_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_wireless_profile }}"
+    # register: result_delete_wireless_profile
+
+###########################################
+ #       CREATE SWITCH PROFILE           #
+###########################################
+
+  - name: Create network wireless profile
+    cisco.dnac.network_profile_wireless_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config: 
+        - "{{ item }}"
+    loop: "{{ vars_map.create_wireless_profile }}"
+    register: result_create_wireless_profile
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_wireless_profile.results }}"
+  #   when: result_create_wireless_profile is defined
+
+  - name: Assert network wireless profile
+    assert:
+      that:
+        - item.changed == true
+        - "'Profile created/updated are verified successfully for '['test_wireless_1']'.' in item.msg"
+    loop: "{{ result_create_wireless_profile.results }}"
+    when: result_create_wireless_profile is defined
+
+
+#############################################
+#            UPDATE SWITCH PROFILE      #
+#############################################
+
+  - name: Update network wireless profile
+    cisco.dnac.network_profile_wireless_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_wireless_profile }}"
+    register: result_update_wireless_profile
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_wireless_profile.results }}"
+  #   when: result_update_wireless_profile is defined
+
+  - name: Assert Update network wireless profile
+    assert:
+      that:
+        - item.changed == true
+        - "'Profile created/updated are verified successfully for '['test_wireless_1']'.' in item.msg"
+    loop: "{{ result_update_wireless_profile.results }}"
+    when: result_update_wireless_profile is defined
+
+  
+  #############################################
+#            DELETE SWITCH PROFILE      #
+#############################################
+
+  - name: Delete network wireless profile
+    cisco.dnac.network_profile_wireless_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_wireless_profile }}"
+    register: result_delete_wireless_profile
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_wireless_profile.results }}"
+  #   when: result_delete_wireless_profile is defined
+
+  - name: Assert delete network wireless profile
+    assert:
+      that:
+        - item.changed == true
+        - "'Wireless profile deleted and verified successfully' in item.msg"
+    loop: "{{ result_delete_wireless_profile.results }}"
+    when: result_delete_wireless_profile is defined
+
+#############################################
+#               POST Clean Up               #
+#############################################
+
+  # - name: Delete wlc
+  #   cisco.dnac.network_profile_wireless_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_wireless_profile }}"
+  #   register: result_delete_wireless_profile

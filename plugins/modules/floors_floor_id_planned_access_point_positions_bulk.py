@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_bulk
-short_description: Resource module for Floors Floor Id Planned Access Point Positions Bulk
+short_description: Resource module for Floors Floor Id Planned Access Point Positions
+  Bulk
 description:
-- This module represents an alias of the module floors_floor_id_planned_access_point_positions_bulk_v2
+  - This module represents an alias of the module floors_floor_id_planned_access_point_positions_bulk_v2
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -54,17 +52,18 @@ options:
                   clockwise. The azimuth range is from 0 through 360.
                 type: int
               elevation:
-                description: Elevation of the antenna. The elevation range is from -90
-                  through 90.
+                description: Elevation of the antenna. The elevation range is from
+                  -90 through 90.
                 type: int
               name:
                 description: Antenna type for this Planned Access Point. Use `/dna/intent/api/v1/maps/supported-acc...
-                  to find supported Antennas for a particualr Planned Access Point type.
+                  to find supported Antennas for a particualr Planned Access Point
+                  type.
                 type: str
             type: dict
           bands:
-            description: Radio frequencies in GHz. Radio frequencies are expected to
-              be 2.4, 5, and 6. MinItems 1; MaxItems 3.
+            description: Radio frequencies in GHz. Radio frequencies are expected
+              to be 2.4, 5, and 6. MinItems 1; MaxItems 3.
             elements: float
             type: list
           channel:
@@ -86,22 +85,18 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design AddPlannedAccessPointsPositionsV2
-  description: Complete reference of the AddPlannedAccessPointsPositionsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-planned-access-points-positions
+  - name: Cisco DNA Center documentation for Site Design AddPlannedAccessPointsPositionsV2
+    description: Complete reference of the AddPlannedAccessPointsPositionsV2 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!add-planned-access-points-positions
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.add_planned_access_points_positions_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/bulk,
+  - SDK Method used are site_design.SiteDesign.add_planned_access_points_positions_v2,
+  - Paths used are post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/bulk,
   - It should be noted that this module is an alias of floors_floor_id_planned_access_point_positions_bulk_v2
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.floors_floor_id_planned_access_point_positions_bulk:
@@ -114,23 +109,22 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     floorId: string
     payload:
-    - macAddress: string
-      name: string
-      position:
-        x: 0
-        y: 0
-        z: 0
-      radios:
-      - antenna:
-          azimuth: 0
-          elevation: 0
-          name: string
-        bands:
-        - 0
-        channel: 0
-        txPower: 0
-      type: string
-
+      - macAddress: string
+        name: string
+        position:
+          x: 0
+          y: 0
+          z: 0
+        radios:
+          - antenna:
+              azimuth: 0
+              elevation: 0
+              name: string
+            bands:
+              - 0
+            channel: 0
+            txPower: 0
+        type: string
 """
 RETURN = r"""
 dnac_response:
