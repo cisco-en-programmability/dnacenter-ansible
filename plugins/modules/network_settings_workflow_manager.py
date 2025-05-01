@@ -710,18 +710,18 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - network_management_details:
-        - site_name: string
-          settings:
-            network_aaa:
-              server_type: ISE
-              pan_address: string
-              primary_server_address: string
-              protocol: string
-            client_and_endpoint_aaa:
-              server_type: ISE
-              pan_address: string
-              primary_server_address: string
-              protocol: string
+          - site_name: string
+            settings:
+              network_aaa:
+                server_type: ISE
+                pan_address: string
+                primary_server_address: string
+                protocol: string
+              client_and_endpoint_aaa:
+                server_type: ISE
+                pan_address: string
+                primary_server_address: string
+                protocol: string
 
 - name: Adding device_controllability details
   cisco.dnac.network_settings_workflow_manager:
