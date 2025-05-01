@@ -709,19 +709,19 @@ EXAMPLES = r"""
     state: merged
     config_verify: true
     config:
-    - network_management_details:
-      - site_name: string
-        settings:
-          network_aaa:
-            server_type: ISE
-            pan_address: string
-            primary_server_address: string
-            protocol: string
-          client_and_endpoint_aaa:
-            server_type: ISE
-            pan_address: string
-            primary_server_address: string
-            protocol: string
+      - network_management_details:
+        - site_name: string
+          settings:
+            network_aaa:
+              server_type: ISE
+              pan_address: string
+              primary_server_address: string
+              protocol: string
+            client_and_endpoint_aaa:
+              server_type: ISE
+              pan_address: string
+              primary_server_address: string
+              protocol: string
 
 - name: Adding device_controllability details
   cisco.dnac.network_settings_workflow_manager:
@@ -737,9 +737,9 @@ EXAMPLES = r"""
     state: merged
     config_verify: true
     config:
-    - device_controllability_details:
-      - device_controllability: true
-        autocorrect_telemetry_config: true
+      - device_controllability_details:
+          device_controllability: true
+          autocorrect_telemetry_config: true
 """
 
 
@@ -4129,12 +4129,23 @@ class NetworkSettings(DnacBase):
             creation_list = pool_params.get("settings").get("ippool")
             for param in creation_list:
                 self.log("Global pool details to be created: {0}".format(self.pprint(param)), "INFO")
-                response = self.dnac._exec(
-                    family="network_settings",
-                    function="create_a_global_ip_address_pool",
-                    op_modifies=True,
-                    params=param,
-                )
+                try:
+                    response = self.dnac._exec(
+                        family="network_settings",
+                        function="create_a_global_ip_address_pool",
+                        op_modifies=True,
+                        params=param,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                except Exception as msg:
+                    self.msg = (
+                        "Exception occurred while creating the global pools: {msg}"
+                        .format(msg=msg)
+                    )
+                    self.log(str(msg), "ERROR")
+                    self.status = "failed"
+                    return self
+
                 self.check_tasks_response_status(response, "create_a_global_ip_address_pool").check_return_status()
                 self.log("Successfully created global pool successfully.", "INFO")
                 name = param.get("name")
@@ -4168,14 +4179,24 @@ class NetworkSettings(DnacBase):
                 self.log("Desired global pool details (want): {0}".format(self.pprint(updation_list)), "DEBUG")
                 for param in updation_list:
                     self.log("Global pool details to be updated: {0}".format(self.pprint(param)), "INFO")
-                    response = self.dnac._exec(
-                        family="network_settings",
-                        function="updates_a_global_ip_address_pool_v1",
-                        op_modifies=True,
-                        params=param,
-                    )
-                    self.check_tasks_response_status(response, "updates_a_global_ip_address_pool_v1").check_return_status()
-                    self.log("Successfully updated global pool successfully.", "INFO")
+                    try:
+                        response = self.dnac._exec(
+                            family="network_settings",
+                            function="updates_a_global_ip_address_pool_v1",
+                            op_modifies=True,
+                            params=param,
+                        )
+                        self.log("Received API response: {0}".format(response), "DEBUG")
+                        self.check_tasks_response_status(response, "updates_a_global_ip_address_pool_v1").check_return_status()
+                        self.log("Successfully updated global pool successfully.", "INFO")
+                    except Exception as msg:
+                        self.msg = (
+                            "Exception occurred while updating the global pools: {msg}"
+                            .format(msg=msg)
+                        )
+                        self.log(str(msg), "ERROR")
+                        self.status = "failed"
+                        return self
 
                 for item in updation_list:
                     name = item.get("name")
@@ -4928,29 +4949,21 @@ class NetworkSettings(DnacBase):
                 failed_msg = "Unable to release subpool reservation. "
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                 self.check_tasks_response_status(response, function_name).check_return_status
-                return {
-                    "name": name,
-                    "msg": success_msg,
-                    "status": "success"
-                }
             else:
                 self.check_execution_response_status(response, function_name)
             self.log("Response received from delete {0} pool API: {1}".
                      format(pool_type, self.pprint(response)), "DEBUG")
             execution_id = response.get("executionId")
-            success_msg, failed_msg = None, None
 
             if execution_id and self.status == "success":
                 return {
                     "name": name,
-                    "execution_id": execution_id,
                     "msg": success_msg,
                     "status": "success"
                 }
             self.log("No execution ID received for '{name}'".format(name=name), "ERROR")
             return {
                 "name": name,
-                "execution_id": execution_id,
                 "msg": failed_msg + self.msg,
                 "status": "failed"
             }
