@@ -2088,7 +2088,7 @@ class Template(DnacBase):
 
         config["templateId"] = template_details.get("id")
         have_template["id"] = template_details.get("id")
-        project_name= config.get("configuration_templates").get("project_name")
+        project_name = config.get("configuration_templates").get("project_name")
         # Get available templates which are committed under the project
         template_list = self.dnac_apply['exec'](
             family="configuration_templates",
