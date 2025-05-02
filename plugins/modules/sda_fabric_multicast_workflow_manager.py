@@ -1505,6 +1505,161 @@ class FabricMulticast(DnacBase):
         )
         return network_device_ids
 
+    def determine_rp_device_location(self, network_device_ips, ex_rp_ipv4_address, ex_rp_ipv6_address):
+        """
+        Determine the RP device location ('FABRIC' or 'EXTERNAL') based on input parameters.
+        Parameters:
+            network_device_ips (list): The list of network device ips.
+            ex_rp_ipv4_address (str): The IPv4 address of the RP location at the EXTERNAL location.
+            ex_rp_ipv6_address (str): The IPv6 address of the RP location at the EXTERNAL location.
+        """
+
+        if network_device_ips:
+            return "FABRIC"
+        
+        if ex_rp_ipv4_address or ex_rp_ipv6_address:
+            return "EXTERNAL"
+
+        return None
+
+    def validate_rp_device_location(self, rp_device_location, network_device_ips, ex_rp_ipv4_address, ex_rp_ipv6_address, fabric_name):
+        """
+        Validate the RP device location and its related parameters.
+
+        Parameters:
+            rp_device_location (str): The location of the RP.
+            network_device_ips (list): The list of network device ips.
+            ex_rp_ipv4_address (str): The IPv4 address of the RP location at the EXTERNAL location.
+            ex_rp_ipv6_address (str): The IPv6 address of the RP location at the EXTERNAL location.
+        Description:
+            Check if the location of the RP is valid or not.
+            If the RP location is "FABRIC" and if the network device IPs are not present, fail the module.
+            If the RP location is "EXTERNAL' and if either the 'ex_rp_ipv4_address' or 'ex_rp_ipv4_address'
+            is not present, fail the module.
+        """
+
+        valid_locations = ["FABRIC", "EXTERNAL"]
+        if rp_device_location not in valid_locations:
+            self.msg = (
+                "Invalid 'rp_device_location'. Must be one of: {valid_locations}."
+                .format(valid_locations=valid_locations)
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        if rp_device_location == "FABRIC" and not network_device_ips:
+            self.msg = (
+                "The parameter 'network_device_ips' is mandatory when 'rp_device_location' is 'FABRIC' "
+                "in fabric '{fabric_name}'.".format(fabric_name=fabric_name)
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        if rp_device_location == "EXTERNAL" and not (ex_rp_ipv4_address or ex_rp_ipv6_address):
+            self.msg = (
+                "The parameters 'ex_rp_ipv4_address' or 'ex_rp_ipv6_address' are mandatory when "
+                "'rp_device_location' is 'EXTERNAL' in fabric '{fabric_name}'.".format(fabric_name=fabric_name)
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+    def process_fabric_rp(self, item, fabric_name, layer3_virtual_network, network_device_ips):
+        """
+        Process FABRIC RP details.
+
+        Parameters:
+            item (dict): The details of the Any-source multicast.
+            fabric_name (str): The name of the fabric site.
+            layer3_virtual_network (str): The name of the Layer 3 virtual network.
+            network_device_ips (list of str): The IPs of the network devices.
+        Returns:
+            rendezvous_point (dict): The IDs of the RP network devices.
+        Description:
+            Check if there are more than two network device IDs. If so, fail the module.
+            Collect the network device IDs using the network device IPs.
+            Return the network device IDs.
+
+        """
+
+        self.log("Processing FABRIC RP details for fabric '{fabric_name}'.".format(fabric_name=fabric_name), "DEBUG")
+
+        # Validate network device IPs
+        if not isinstance(network_device_ips, list):
+            self.msg = (
+                "The parameter 'network_device_ips' must be a list for L3 VN '{l3_vn}' under fabric '{fabric_name}'."
+                .format(l3_vn=layer3_virtual_network, fabric_name=fabric_name)
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        if len(network_device_ips) > 2:
+            self.msg = (
+                "Maximum of two 'network_device_ips' are allowed for fabric '{fabric_name}'."
+                .format(fabric_name=fabric_name)
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        # Get device IDs
+        network_device_ids = self.get_the_device_ids(fabric_name, network_device_ips)
+
+        # Build RP details
+        rendezvous_point = {
+            "networkDeviceIds": network_device_ids,
+        }
+
+        # Process IPv4 and IPv6 ASM ranges
+        self.process_asm_ranges(item, rendezvous_point)
+
+        return rendezvous_point
+
+    def process_external_rp(self, item, fabric_name):
+        """
+        Process EXTERNAL RP details.
+        Parameters:
+            item (dict): The details of the Any-source multicast.
+            fabric_name (str): The name of the fabric site.
+        Returns:
+            rendezvous_point (dict): The EXTERNAL IPv4 or IPv6 address.
+        Description:
+            If 'ex_rp_ipv4_address' is provided, store the address in the 'ipv4Address'.
+            If 'ex_rp_ipv6_address' is provided, store the address in the 'ipv6Address'.
+        """
+
+        self.log("Processing EXTERNAL RP details for fabric '{fabric_name}'.".format(fabric_name=fabric_name), "DEBUG")
+
+        rendezvous_point = {}
+
+        # Add external IPv4 and IPv6 addresses
+        if item.get("ex_rp_ipv4_address"):
+            rendezvous_point["ipv4Address"] = item["ex_rp_ipv4_address"]
+        if item.get("ex_rp_ipv6_address"):
+            rendezvous_point["ipv6Address"] = item["ex_rp_ipv6_address"]
+
+        # Process IPv4 and IPv6 ASM ranges
+        self.process_asm_ranges(item, rendezvous_point)
+
+        return rendezvous_point
+
+    def process_asm_ranges(self, item, rendezvous_point):
+        """
+        Process IPv4 and IPv6 ASM ranges for a rendezvous point.
+
+        Parameters:
+            item (dict): The details of the Any-source multicast.
+            fabric_name (str): The name of the fabric site.
+        """
+
+        if item.get("ipv4_asm_ranges"):
+            rendezvous_point["ipv4AsmRanges"] = item["ipv4_asm_ranges"]
+        elif item.get("is_default_v4_rp"):
+            rendezvous_point["isDefaultV4RP"] = item["is_default_v4_rp"]
+
+        if item.get("ipv6_asm_ranges"):
+            rendezvous_point["ipv6AsmRanges"] = item["ipv6_asm_ranges"]
+        elif item.get("is_default_v6_rp"):
+            rendezvous_point["isDefaultV6RP"] = item["is_default_v6_rp"]
+
     def process_any_source_multicast_details(self, fabric_name, layer3_virtual_network,
                                              any_source_multicast, have_multicast_details):
         """
@@ -1544,173 +1699,28 @@ class FabricMulticast(DnacBase):
             network_device_ips = item.get("network_device_ips")
             ex_rp_ipv4_address = item.get("ex_rp_ipv4_address")
             ex_rp_ipv6_address = item.get("ex_rp_ipv6_address")
-            if network_device_ips:
-                self.log("The fabric site's network device ip is provided in the playbook...", "DEBUG")
-                if not isinstance(network_device_ips, list):
-                    self.msg = (
-                        "The parameter 'network_device_ips' should be a list for the layer 3 "
-                        "virtual network '{l3_vn}' under the fabric '{fabric_name}'."
-                        .format(l3_vn=layer3_virtual_network, fabric_name=fabric_name)
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                if len(network_device_ips) > 2:
-                    self.msg = (
-                        "Maximum of two 'network_device_ips' are allowed. If the 'ip_pool_name' is a dual stack only "
-                        "one device is allowed or if one of the device is an EDGE_NODE one device is allowed for the "
-                        "fabric_site '{fabric_name}'".format(fabric_name=fabric_name)
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            # Determine RP device location
+            rp_device_location = self.determine_rp_device_location(network_device_ips, ex_rp_ipv4_address, ex_rp_ipv6_address)
+            self.validate_rp_device_location(rp_device_location, network_device_ips, ex_rp_ipv4_address, ex_rp_ipv6_address, fabric_name)
 
-                network_device_ids = self.get_the_device_ids(fabric_name, network_device_ips)
-                rendezvous_point.update({
-                    "networkDeviceIds": network_device_ids
-                })
-                ipv4_asm_ranges = item.get("ipv4_asm_ranges")
-                is_default_v4_rp = item.get("is_default_v4_rp")
-                if ipv4_asm_ranges:
-                    self.log("Any-source multicast ipv4 ranges are provided in the playbook...", "DEBUG")
-                    rendezvous_point.update({
-                        "ipv4AsmRanges": ipv4_asm_ranges
-                    })
-                else:
-                    if not is_default_v4_rp:
-                        self.msg = (
-                            "The parameter 'ipv4_asm_ranges' or 'is_default_v4_rp' in '{fabric_name}' is mandatory when "
-                            "'rp_device_location' is 'FABRIC' and 'network_device_ips' is provided."
-                            .format(fabric_name=fabric_name)
-                        )
-                        self.set_operation_result("failed", False, self.msg, "ERROR") \
-                            .check_return_status()
-                    else:
-                        self.log("The default ipv4 rp is set to True...", "DEBUG")
-                        rendezvous_point.update({
-                            "isDefaultV4RP": is_default_v4_rp
-                        })
-
-                ipv6_asm_ranges = item.get("ipv6_asm_ranges")
-                is_default_v6_rp = item.get("is_default_v6_rp")
-                if ipv6_asm_ranges:
-                    self.log("Any-source multicast ipv6 ranges are provided in the playbook...", "DEBUG")
-                    rendezvous_point.update({
-                        "ipv6AsmRanges": ipv6_asm_ranges
-                    })
-                else:
-                    if not is_default_v6_rp:
-                        self.log("The ipv6_asm_ranges is set to []...", "DEBUG")
-                        rendezvous_point.update({
-                            "ipv6AsmRanges": []
-                        })
-                    else:
-                        self.log("The default ipv6 rp is set to True...", "DEBUG")
-                        rendezvous_point.update({
-                            "isDefaultV6RP": is_default_v6_rp
-                        })
-            else:
-                if not (ex_rp_ipv4_address or ex_rp_ipv6_address):
-                    self.msg = (
-                        "Either the 'network_device_ips' or the 'ex_rp_ipv4_address' and 'ex_rp_ipv6_address' "
-                        "should be passed under the fabric site '{fabric_name}'."
-                        .format(fabric_name=fabric_name)
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                else:
-                    self.log("The external network device ip is provided in the playbook...", "DEBUG")
-                    if ex_rp_ipv4_address:
-                        rendezvous_point.update({
-                            "ipv4Address": ex_rp_ipv4_address
-                        })
-                        ipv4_asm_ranges = item.get("ipv4_asm_ranges")
-                        is_default_v4_rp = item.get("is_default_v4_rp")
-                        if ipv4_asm_ranges:
-                            self.log("Any-source multicast ipv4 ranges are provided in the playbook...", "DEBUG")
-                            rendezvous_point.update({
-                                "ipv4AsmRanges": ipv4_asm_ranges
-                            })
-                        else:
-                            if not is_default_v4_rp:
-                                self.msg = (
-                                    "The parameter 'ipv4_asm_ranges' or 'is_default_v4_rp' in '{fabric_name}' is mandatory when "
-                                    "'rp_device_location' is 'EXTERNAL' and 'ex_rp_ipv4_address' is provided."
-                                    .format(fabric_name=fabric_name)
-                                )
-                                self.set_operation_result("failed", False, self.msg, "ERROR") \
-                                    .check_return_status()
-                            else:
-                                self.log("The default ipv4 rp is set to True...", "DEBUG")
-                                rendezvous_point.update({
-                                    "isDefaultV4RP": is_default_v4_rp
-                                })
-
-                    else:
-                        rendezvous_point.update({
-                            "ipv6Address": ex_rp_ipv6_address
-                        })
-                        ipv6_asm_ranges = item.get("ipv6_asm_ranges")
-                        is_default_v6_rp = item.get("is_default_v6_rp")
-                        if ipv6_asm_ranges:
-                            self.log("Any-source multicast ipv6 ranges are provided in the playbook...", "DEBUG")
-                            rendezvous_point.update({
-                                "ipv6AsmRanges": ipv6_asm_ranges
-                            })
-                        else:
-                            if not is_default_v6_rp:
-                                self.msg = (
-                                    "The parameter 'ipv6_asm_ranges' or 'is_default_v6_rp' in '{fabric_name}' is mandatory when "
-                                    "'rp_device_location' is 'EXTERNAL' and 'ex_rp_ipv6_address' is provided."
-                                    .format(fabric_name=fabric_name)
-                                )
-                                self.set_operation_result("failed", False, self.msg, "ERROR") \
-                                    .check_return_status()
-                            else:
-                                self.log("The default ipv6 rp is set to True...", "DEBUG")
-                                rendezvous_point.update({
-                                    "isDefaultV6RP": is_default_v6_rp
-                                })
-
-            rp_device_location = item.get("rp_device_location")
-            valid_rp_device_location = ["EXTERNAL", "FABRIC"]
-            if not rp_device_location:
-                if network_device_ips:
-                    rp_device_location = "FABRIC"
-                else:
-                    rp_device_location = "EXTERNAL"
-
-            if rp_device_location not in valid_rp_device_location:
-                self.msg = (
-                    "The parameter 'rp_device_location' value must be in the following list '{valid_list}'."
-                    .format(valid_list=valid_rp_device_location)
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-            self.log(
-                "The device RP location is '{rp_device_location}'"
-                .format(rp_device_location=rp_device_location), "DEBUG"
-            )
-            rendezvous_point.update({
-                "rpDeviceLocation": rp_device_location
-            })
-
+            # Process based on RP device location
             if rp_device_location == "FABRIC":
-                if not rendezvous_point.get("networkDeviceIds"):
-                    self.msg = (
-                        "The parameter 'network_device_ips' is mandatory when the 'rp_device_location' is 'FABRIC' "
-                        "in the fabric site '{fabric_name}'.".format(fabric_name=fabric_name)
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-            else:
-                if not (ex_rp_ipv4_address or ex_rp_ipv6_address):
-                    self.msg = (
-                        "The parameter 'ex_rp_ipv4_address' or 'ex_rp_ipv6_address' is mandatory when the 'rp_device_location' is "
-                        "'EXTERNAL'in the fabric site '{fabric_name}'.".format(fabric_name=fabric_name)
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                rendezvous_point = self.process_fabric_rp(item, fabric_name, layer3_virtual_network, network_device_ips)
+            elif rp_device_location == "EXTERNAL":
+                rendezvous_point = self.process_external_rp(item, fabric_name)
 
+            # Add RP device location
+            rendezvous_point["rpDeviceLocation"] = rp_device_location
+
+            # Append the processed RP to the list
             multicast_rps.append(rendezvous_point)
 
+        # Log the final RP details
         self.log(
-            "The rendezvous points details of the fabric '{fabric_name}': {multicast_rps}"
-            .format(fabric_name=fabric_name, multicast_rps=multicast_rps), "DEBUG"
+            "Processed rendezvous points for fabric '{fabric_name}': {multicast_rps}"
+            .format(fabric_name=fabric_name, multicast_rps=multicast_rps),
+            "DEBUG"
         )
 
         return multicast_rps
