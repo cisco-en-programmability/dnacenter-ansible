@@ -1516,7 +1516,7 @@ class FabricMulticast(DnacBase):
 
         if network_device_ips:
             return "FABRIC"
-        
+
         if ex_rp_ipv4_address or ex_rp_ipv6_address:
             return "EXTERNAL"
 
