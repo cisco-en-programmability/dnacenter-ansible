@@ -2088,15 +2088,16 @@ class Template(DnacBase):
 
         config["templateId"] = template_details.get("id")
         have_template["id"] = template_details.get("id")
+        project_name= config.get("configuration_templates").get("project_name")
         # Get available templates which are committed under the project
         template_list = self.dnac_apply['exec'](
             family="configuration_templates",
             function="gets_the_templates_available",
             op_modifies=True,
-            params={"projectNames": config.get("projectName")},
+            params={"projectNames": project_name},
         )
         self.log("Received response from 'gets_the_templates_available' for project_name: '{0}' is {1}".format(
-            config.get("projectName"), template_list), "DEBUG")
+            project_name, template_list), "DEBUG")
         have_template["isCommitPending"] = True
         # This check will fail if specified template is there not committed in Cisco Catalyst Center
         if template_list and isinstance(template_list, list):
