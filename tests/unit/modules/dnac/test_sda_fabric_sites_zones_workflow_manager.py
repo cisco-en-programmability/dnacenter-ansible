@@ -26,7 +26,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
     module = sda_fabric_sites_zones_workflow_manager
     test_data = loadPlaybookData("sda_fabric_sites_zones_workflow_manager")
     playbook_config_create_fabric_site_without_data_collection = test_data.get("playbook_config_create_fabric_site_without_data_collection")
-    playbook_config_create_fabric_site_with_data_collection_and_verify =test_data.get("playbook_config_create_fabric_site_with_data_collection_and_verify")
+    playbook_config_create_fabric_site_with_data_collection_and_verify = test_data.get("playbook_config_create_fabric_site_with_data_collection_and_verify")
     playbook_config_create_fabric_zone = test_data.get("playbook_config_create_fabric_zone")
     playbook_config_update_fabric_site_with_data_collection = test_data.get("playbook_config_update_fabric_site_with_data_collection")
     playbook_config_update_authentication_profile_for_fabric_site = test_data.get("playbook_config_update_authentication_profile_for_fabric_site")
