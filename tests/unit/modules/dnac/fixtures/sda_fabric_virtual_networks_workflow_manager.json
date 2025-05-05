@@ -1,0 +1,542 @@
+{
+  "playbook_config_create_fabric_vlan_with_verify": [
+    {
+      "fabric_vlan": [
+        {
+          "vlan_name": "vlan_test1",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/India/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ],
+          "vlan_id": 1933,
+          "traffic_type": "DATA",
+          "fabric_enabled_wireless": false
+        }
+      ]
+    } 
+  ],
+
+  "playbook_config_fabric_vlan_need_no_update": [
+    {
+      "fabric_vlan": [
+        {
+          "vlan_name": "vlan_test1",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/India/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ],
+          "vlan_id": 1933,
+          "traffic_type": "DATA",
+          "fabric_enabled_wireless": false
+        }
+      ]
+    }     
+  ],
+
+  "playbook_config_update_fabric_vlan": [
+    {
+      "fabric_vlan": [
+        {
+          "vlan_name": "vlan_test1",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/India/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ],
+          "vlan_id": 1933,
+          "traffic_type": "VOICE",
+          "fabric_enabled_wireless": false
+        }
+      ]
+    }     
+  ],
+
+  "playbook_config_delete_fabric_vlan_with_verify": [
+    {
+      "fabric_vlan": [
+        {
+          "vlan_name": "vlan_test1",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/India/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ],
+          "vlan_id": 1933
+        }
+      ]
+    }     
+  ],
+
+  "playbook_config_delete_absent_fabric_vlan": [
+    {
+      "fabric_vlan": [
+        {
+          "vlan_name": "vlan_test1",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/India/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ],
+          "vlan_id": 1933
+        }
+      ]
+    }     
+  ],
+
+  "playbook_config_create_virtual_network_with_verify": [
+    {
+      "virtual_networks": [
+        {
+          "vn_name": "regular_vn",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_create_anchored_virtual_network": [
+    {
+      "virtual_networks": [
+        {
+          "vn_name": "anchored_vn",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ],
+          "anchored_site_name": "Global/Fabric_Test"
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_failed_anchored_virtual_network_creation": [
+    {
+      "virtual_networks": [
+        {
+          "vn_name": "anchored_vn",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ],
+          "anchored_site_name": "Global/Fabric_Test"
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_virtual_network_needs_no_update": [
+    {
+      "virtual_networks": [
+        {
+          "vn_name": "regular_vn",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_update_virtual_network": [
+    {
+      "virtual_networks": [
+        {
+          "vn_name": "regular_vn",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/Fabric_Test",
+              "fabric_type": "fabric_site"
+            },
+            {
+              "site_name_hierarchy": "Global/Fabric_Test/Fabric_Test_Zone",
+              "fabric_type": "fabric_zone"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_delete_virtual_network_with_verify": [
+    {
+      "virtual_networks": [
+        {
+          "vn_name": "regular_vn"
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_delete_absent_virtual_network": [
+    {
+      "virtual_networks": [
+        {
+          "vn_name": "regular_vn"
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_create_anycast_gateway_with_verify": [
+    {
+      "anycast_gateways": [
+        {
+          "vn_name": "regular_vn",
+          "fabric_site_location": {
+            "site_name_hierarchy": "Global/Fabric_Test",
+            "fabric_type": "fabric_site"
+          },
+          "ip_pool_name": "Reserve_Ip_pool",
+          "tcp_mss_adjustment": 581,
+          "vlan_name": "Vlan_extra",
+          "vlan_id": 34,
+          "traffic_type": "VOICE",
+          "is_critical_pool": false,
+          "layer2_flooding_enabled": false,
+          "fabric_enabled_wireless": false,
+          "ip_directed_broadcast": false,
+          "intra_subnet_routing_enabled": true,
+          "multiple_ip_to_mac_addresses": false,
+          "auto_generate_vlan_name": false
+        }
+      ]
+    }    
+  ],
+
+  "playbook_config_anycast_gateway_no_update": [
+    {
+      "anycast_gateways": [
+        {
+          "vn_name": "regular_vn",
+          "fabric_site_location": {
+            "site_name_hierarchy": "Global/Fabric_Test",
+            "fabric_type": "fabric_site"
+          },
+          "ip_pool_name": "Reserve_Ip_pool",
+          "tcp_mss_adjustment": 581
+        }
+      ]
+    }    
+  ],
+
+  "playbook_config_update_anycast_gateway": [
+    {
+      "anycast_gateways": [
+        {
+          "vn_name": "regular_vn",
+          "fabric_site_location": {
+            "site_name_hierarchy": "Global/Fabric_Test",
+            "fabric_type": "fabric_site"
+          },
+          "ip_pool_name": "Reserve_Ip_pool",
+          "tcp_mss_adjustment": 592
+        }
+      ]
+    }    
+  ],
+
+  "playbook_config_delete_anycast_gateway": [
+    {
+      "anycast_gateways": [
+        {
+          "vn_name": "regular_vn",
+          "fabric_site_location": {
+            "site_name_hierarchy": "Global/Fabric_Test",
+            "fabric_type": "fabric_site"
+          },
+          "ip_pool_name": "Reserve_Ip_pool"
+        }
+      ]
+    }    
+  ],
+
+  "playbook_config_delete_absent_anycast_gateway": [
+    {
+      "anycast_gateways": [
+        {
+          "vn_name": "regular_vn",
+          "fabric_site_location": {
+            "site_name_hierarchy": "Global/Fabric_Test",
+            "fabric_type": "fabric_site"
+          },
+          "ip_pool_name": "Reserve_Ip_pool"
+        }
+      ]
+    }    
+  ],
+
+  "get_empty_fabric_vlan_response": {
+    "response": [],
+    "version": "1.0"
+  },
+
+  "get_empty_virtual_network_response": {
+    "response": [],
+    "version": "1.0"
+  },
+
+  "get_empty_anycast_gateway_response": {
+    "response": [],
+    "version": "1.0"
+  },
+
+  "get_site_details": {
+    "response": [
+      {
+        "id": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "name": "Fabric_Test",
+        "nameHierarchy": "Global/Fabric_Test",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_zone_site_details": {
+    "response": [
+      {
+        "id": "e62d0d19-06b3-428c-baf7-2ad83c7b7851",
+        "parentId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "name": "Fabric_Test_Zone",
+        "nameHierarchy": "Global/Fabric_Test/Fabric_Test_Zone",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_fabric_site_details": {
+    "response": [
+      {
+        "id": "879173be-e21f-472d-bc78-06407f9c5091",
+        "siteId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "authenticationProfileName": "No Authentication",
+        "isPubSubEnabled": false
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_fabric_zone_details": {
+    "response": [
+      {
+        "id": "890487f2-24d9-4923-b0f9-9149cc8d84f7",
+        "siteId": "e62d0d19-06b3-428c-baf7-2ad83c7b7851",
+        "authenticationProfileName": "No Authentication"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "response_get_task_id_success": {
+    "response": {
+      "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
+      "url": "/api/v1/task/0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "response_get_task_status_by_id_success": {
+    "response": {
+      "endTime": 1743681571226,
+      "status": "SUCCESS",
+      "startTime": 1743681570921,
+      "resultLocation": "/dna/intent/api/v1/tasks/0195fb85-4869-7f1d-8665-590d552534a5/detail",
+      "id": "0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "response_get_task_status_by_id_failed_anchored_vn": {
+    "response": {
+      "endTime": 1744200848242,
+      "lastUpdate": 1744200848221,
+      "status": "FAILURE",
+      "startTime": 1744200847419,
+      "resultLocation": "/dna/intent/api/v1/tasks/01961a78-d03b-7a3d-8d16-8d665ddefcef/detail",
+      "id": "01961a78-d03b-7a3d-8d16-8d665ddefcef"
+    },
+    "version": "1.0"
+  },  
+
+  "get_fabric_vlan_response": {
+    "response": [
+      {
+        "id": "dd629091-0592-440a-9dd8-e2274327b99c",
+        "fabricId": "879173be-e21f-472d-bc78-06407f9c5091",
+        "vlanName": "vlan_test1",
+        "vlanId": 1933,
+        "trafficType": "DATA",
+        "isFabricEnabledWireless": false
+      }
+    ],
+    "version": "1.0"
+  },
+  
+  "get_virtual_network_response": {
+    "response": [
+      {
+        "id": "93b7a0f0-119e-4115-ad3e-f7bcfdcddbb9",
+        "virtualNetworkName": "regular_vn",
+        "fabricIds": [
+          "879173be-e21f-472d-bc78-06407f9c5091"
+        ]
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_anchored_virtual_network_response": {
+    "response": [
+      {
+        "id": "93b7a0f0-119e-4115-ad3e-f7bcfdcddbb9",
+        "virtualNetworkName": "regular_vn",
+        "fabricIds": [
+          "879173be-e21f-472d-bc78-06407f9c5091"
+        ]
+      }
+    ],
+    "version": "1.0"
+  },
+  
+  "get_anycast_vn_response": {
+    "response": [
+      {
+        "id": "93b7a0f0-119e-4115-ad3e-f7bcfdcddbb9",
+        "virtualNetworkName": "regular_vn",
+        "fabricIds": [
+          "879173be-e21f-472d-bc78-06407f9c5091",
+          "890487f2-24d9-4923-b0f9-9149cc8d84f7"
+        ]
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_reserve_ip_pool_details": {
+    "response": [
+      {
+        "id": "817b55f8-c5e6-4d6d-962a-137cd935ccf1",
+        "groupName": "Reserve_Ip_pool",
+        "ipPools": [
+          {
+            "ipPoolName": "Reserve_Ip_pool",
+            "dhcpServerIps": [],
+            "gateways": ["204.1.208.129"],
+            "createTime": 1744195422930,
+            "lastUpdateTime": 1744195422940,
+            "totalIpAddressCount": 128,
+            "usedIpAddressCount": 0,
+            "parentUuid": "767f0f96-2279-4aab-8b05-94e855e62d28",
+            "owner": "DNAC",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "groupUuid": "817b55f8-c5e6-4d6d-962a-137cd935ccf1",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 125,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 3,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "reserved_by",
+                "contextValue": "DNAC"
+              },
+              {
+                "owner": "DNAC",
+                "contextKey": "siteId",
+                "contextValue": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b"
+              }
+            ],
+            "preciseUsedPercentage": "0",
+            "ipv6": false,
+            "id": "5b3a0af9-9ecf-4d94-a8ec-781609facfa5",
+            "ipPoolCidr": "204.1.208.128/25"
+          }
+        ],
+        "siteId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "siteHierarchy": "Global/Fabric_Test",
+        "type": "generic",
+        "groupOwner": "DNAC"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_anycast_gateway_details": {
+    "response": [
+      {
+        "id": "dbbb67b7-820b-40ce-8c51-2eb43b5f8d04",
+        "fabricId": "879173be-e21f-472d-bc78-06407f9c5091",
+        "virtualNetworkName": "regular_vn",
+        "ipPoolName": "Reserve_Ip_pool",
+        "tcpMssAdjustment": 581,
+        "vlanName": "Vlan_extra",
+        "vlanId": 34,
+        "trafficType": "VOICE",
+        "isCriticalPool": false,
+        "isLayer2FloodingEnabled": false,
+        "isWirelessPool": false,
+        "isIpDirectedBroadcast": false,
+        "isIntraSubnetRoutingEnabled": true,
+        "isMultipleIpToMacAddresses": false,
+        "isSupplicantBasedExtendedNodeOnboarding": false,
+        "isGroupBasedPolicyEnforcementEnabled": true
+      }
+    ],
+    "version": "1.0"
+  },
+  
+  "playbook_config_invalid_fabric_vlan_id": [
+    {
+      "fabric_vlan": [
+        {
+          "vlan_name": "vlan_test1",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/India/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ],
+          "vlan_id": 4096,
+          "traffic_type": "DATA",
+          "fabric_enabled_wireless": false
+        }
+      ]
+    } 
+  ],
+
+  "get_invalid_fabric_vlan_id":{
+    "message": "Invalid vlan_id '4096' given in the playbook. Allowed VLAN range is (2,4094) except for reserved VLANs 1002-1005, and 2046."
+  },
+
+  "get_invalid_testbed_release":{
+    "message": "The specified version '2.3.5.3' does not support the SDA fabric devices feature. Supported versions start from '2.3.7.6' onwards."
+  }
+
+}
