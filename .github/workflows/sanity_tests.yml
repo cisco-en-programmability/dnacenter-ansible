@@ -1,10 +1,12 @@
 name: CI
+
 on:
   push:
     branches: [main]
   pull_request:
   schedule:
     - cron: '0 6 * * *'
+
 env:
   NAMESPACE: cisco
   COLLECTION_NAME: dnac
@@ -19,23 +21,72 @@ jobs:
           - stable-2.18
           - devel
     runs-on: ubuntu-22.04
+
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
+      - name: 🔄 Check out code
+        uses: actions/checkout@v3
         with:
           path: cisco-en-programmability/dnacenter-ansible
 
-      - name: Create directory
-        run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
-      - name: Move repository
-        run: mv ./cisco-en-programmability/dnacenter-ansible ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      - name: 📁 Create collection directory
+        run: |
+          echo "== Creando estructura de directorios =="
+          mkdir -p ./ansible_collections/${{ env.NAMESPACE }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: 📦 Move repository into collection path
+        run: |
+          echo "== Moviendo el repositorio a la estructura de colección =="
+          mv ./cisco-en-programmability/dnacenter-ansible ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v3
         with:
           python-version: '3.11'
-      - name: Install ansible-base (${{ matrix.ansible }})
-        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
-      - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color --coverage
-        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: 📥 Install Ansible (${{ matrix.ansible }})
+        run: |
+          echo "== Instalando Ansible desde rama: ${{ matrix.ansible }} =="
+          pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+          echo "== Ansible instalado: $(ansible --version)"
+
+      - name: 📊 Check memory before sanity tests
+        run: |
+          echo "== 📊 Memoria libre antes de los tests =="
+          free -h
+          echo "== 🧠 Procesos con más uso de RAM =="
+          ps aux --sort=-%mem | head -n 10
+
+      - name: ✅ Run sanity test import (with limited concurrency)
+        run: |
+          echo "== 🚀 Ejecutando 'sanity test: import' con concurrencia limitada =="
+          export ANSIBLE_TEST_SANITY_IMPORT_PYTHON_CONCURRENCY=1
+          ansible-test sanity --test import -v --color --docker
+          # Si quieres probar sin Docker, comenta la línea anterior y descomenta esta:
+          # ansible-test sanity --test import -v --color
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: 📊 Check memory after import test
+        run: |
+          echo "== 📊 Memoria libre después del test de import =="
+          free -h
+          echo "== 🧠 Procesos con más uso de RAM =="
+          ps aux --sort=-%mem | head -n 10
+
+      - name: ✅ Run remaining sanity tests (excluding import)
+        run: |
+          echo "== 🚀 Ejecutando el resto de sanity tests (excluyendo import) =="
+          ansible-test sanity --exclude import -v --color --docker
+          # Si quieres probar sin Docker, comenta la línea anterior y descomenta esta:
+          # ansible-test sanity --exclude import -v --color
+        working-directory: ./ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
+
+      - name: 📊 Check memory after all tests
+        run: |
+          echo "== 📊 Memoria libre al final de todos los tests =="
+          free -h
+          echo "== 🧠 Procesos con más uso de RAM =="
+          ps aux --sort=-%mem | head -n 10
+
+      - name: 📝 Final summary
+        run: |
+          echo "== ✅ Pipeline finalizado correctamente para Ansible: ${{ matrix.ansible }} =="
