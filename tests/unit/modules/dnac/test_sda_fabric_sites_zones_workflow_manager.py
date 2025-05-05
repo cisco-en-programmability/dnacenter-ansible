@@ -137,7 +137,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("response_get_task_id_success_update_auth_profile"),
                 self.test_data.get("response_get_task_status_by_id_success_update_auth_profile")
             ]
-      
+
         elif "delete_fabric_zone" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_zone_site_details"),
@@ -160,7 +160,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_empty_fabric_site_details"),
                 self.test_data.get("get_site_details")
             ]
-        
+
         elif "invalid_authentication_profile" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_details"),
@@ -193,7 +193,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
             "created successfully",
             result.get('msg')
         )
- 
+
     def test_sda_fabric_sites_zones_workflow_manager_create_fabric_site_with_data_collection_and_verify(self):
         """
         Test case for sda fabric sites zones workflow manager when creating a fabric site when wired data collection is already enabled.
@@ -348,7 +348,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
             "deleted successfully",
             result.get('msg')
         )
-    
+
     def test_sda_fabric_sites_zones_workflow_manager_delete_fabric_site_with_verify(self):
         """
         Test case for sda fabric sites zones workflow manager when deleting a fabric site.
