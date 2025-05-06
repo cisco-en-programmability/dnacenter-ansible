@@ -48,15 +48,15 @@ jobs:
           sudo mkswap /swapfile
           sudo swapon /swapfile
 
-          - name: Run sanity tests
-          run: |
-            if [ "${{ matrix.ansible }}" = "devel" ]; then
-              echo "⚠ Running reduced tests for devel branch"
-              ansible-test sanity --docker -v --color --test pep8,validate-modules
-            else
-              ansible-test sanity --docker -v --color
-            fi
-          working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      - name: Run sanity tests
+        run: |
+          if [ "${{ matrix.ansible }}" = "devel" ]; then
+            echo "⚠ Running reduced tests for devel branch"
+            ansible-test sanity --docker -v --color --test pep8,validate-modules
+          else
+            ansible-test sanity --docker -v --color
+          fi
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
         
 
       - name: Dump docker logs (if any)
