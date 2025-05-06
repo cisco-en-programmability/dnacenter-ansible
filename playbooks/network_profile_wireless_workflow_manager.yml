@@ -45,8 +45,6 @@
                 vlan_id: 20
               - interface_name: GigabitEthernet0/3
                 vlan_id: 22
-            onboarding_templates:
-              - "Guest_WiFi_Onboarding"
             day_n_templates:
               - "WLC_Standard_Config"
 
@@ -75,8 +73,6 @@
                 vlan_id: 30
               - interface_name: GigabitEthernet0/6
                 vlan_id: 35
-            onboarding_templates:
-              - Enterprise_WiFi_Onboarding
             day_n_templates:
               - WLC_Advanced_Config
       register: output_list
