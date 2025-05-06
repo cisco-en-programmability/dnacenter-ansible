@@ -33,7 +33,7 @@
               - ssid_name: Corporate_Secure
                 dot11be_profile_name: Guest_WiFi_dot11be_profile
                 enable_fabric: false
-                interface_name: GigabitEthernet0/1
+                interface_name: "GigabitEthernet0/1"
                 local_to_vlan: 2001
             ap_zones:
               - ap_zone_name: AP_Zone_North
@@ -41,9 +41,9 @@
                 ssids:
                   - Guest_WiFi
             additional_interfaces:
-              - interface_name: GigabitEthernet0/2
+              - interface_name: "GigabitEthernet0/2"
                 vlan_id: 20
-              - interface_name: GigabitEthernet0/3
+              - interface_name: "GigabitEthernet0/3"
                 vlan_id: 22
             day_n_templates:
               - "WLC_Standard_Config"
@@ -69,9 +69,9 @@
                   - HQ_WiFi
                   - Branch_Secure
             additional_interfaces:
-              - interface_name: GigabitEthernet0/5
+              - interface_name: "GigabitEthernet0/5"
                 vlan_id: 30
-              - interface_name: GigabitEthernet0/6
+              - interface_name: "GigabitEthernet0/6"
                 vlan_id: 35
             day_n_templates:
               - WLC_Advanced_Config
