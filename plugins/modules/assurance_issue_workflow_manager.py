@@ -1571,6 +1571,11 @@ class AssuranceSettings(DnacBase):
                 for rule in issue_setting.get("rules", []):
                     if "occurrences" not in rule:
                         rule["occurrences"] = 1
+                    elif not isinstance(rule["occurrences"], int) or rule["occurrences"] < 0:
+                        self.msg="Invalid input: 'occurrences' must be a non-negative integer."
+                        self.log(self.msg, "ERROR")
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
 
                     severity = rule.get("severity")
                     if severity is None:
