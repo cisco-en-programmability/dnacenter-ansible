@@ -1572,10 +1572,9 @@ class AssuranceSettings(DnacBase):
                     if "occurrences" not in rule:
                         rule["occurrences"] = 1
                     elif not isinstance(rule["occurrences"], int) or rule["occurrences"] < 0:
-                        self.msg="Invalid input: 'occurrences' must be a non-negative integer."
+                        self.msg = "Invalid input: 'occurrences' must be a non-negative integer."
                         self.log(self.msg, "ERROR")
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
 
                     severity = rule.get("severity")
                     if severity is None:
@@ -2298,6 +2297,9 @@ class AssuranceSettings(DnacBase):
 
         create_assurance_issue = []
         update_assurance_issue = []
+        seen_names = set()
+        duplicate_names = set()
+        unique_create_assurance_issue = []
         assurance_index = 0
 
         result_response = self.result.get("response")
@@ -2318,14 +2320,27 @@ class AssuranceSettings(DnacBase):
         self.log("Comparing 'want' and 'have' assurance issues to determine actions.", "DEBUG")
 
         for item in self.have.get("assurance_user_defined_issue_settings"):
-            result_assurance_issue.get("msg").update(
-                {want_assurance_issue[assurance_index].get("name"): {}})
+            issue_name = want_assurance_issue[assurance_index].get("name")
+            result_assurance_issue.get("msg").update({issue_name: {}})
+
             if item.get("exists") is True:
                 update_assurance_issue.append(want_assurance_issue[assurance_index])
             else:
-                create_assurance_issue.append(want_assurance_issue[assurance_index])
+                if issue_name in seen_names:
+                    duplicate_names.add(issue_name)
+                else:
+                    seen_names.add(issue_name)
+                    unique_create_assurance_issue.append(want_assurance_issue[assurance_index])
 
             assurance_index += 1
+
+        # Move duplicates to update list
+        for issue in want_assurance_issue:
+            if issue.get("name") in duplicate_names:
+                update_assurance_issue.append(issue)
+
+        # Use the deduplicated list
+        create_assurance_issue = unique_create_assurance_issue
 
         for issue in create_assurance_issue:
             self.log("Assurance issue(s) details to be created: {0}".format(
