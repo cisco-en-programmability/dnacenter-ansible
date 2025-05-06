@@ -458,7 +458,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -483,7 +483,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
@@ -508,7 +508,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
@@ -533,7 +533,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
@@ -558,7 +558,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
@@ -583,7 +583,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
@@ -608,7 +608,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
@@ -633,7 +633,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_update_network
@@ -658,7 +658,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -683,7 +683,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -708,7 +708,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -733,7 +733,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -758,7 +758,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -783,7 +783,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -808,7 +808,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -833,7 +833,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -858,7 +858,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_network
@@ -883,7 +883,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.10",
                 state="merged",
                 config=self.playbook_config_update_not_req
             )
