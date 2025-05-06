@@ -52,7 +52,7 @@ jobs:
         run: |
           if [ "${{ matrix.ansible }}" = "devel" ]; then
             echo "⚠ Running reduced tests for devel branch"
-            ansible-test sanity --docker -v --color --test pep8,validate-modules
+            ansible-test sanity --docker -v --color --test pep8 --test validate-modules
           else
             ansible-test sanity --docker -v --color
           fi
