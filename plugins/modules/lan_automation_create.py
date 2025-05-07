@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: lan_automation_create
 short_description: Resource module for Lan Automation Create
 description:
-- This module represents an alias of the module lan_automation_create_v1
+  - This module represents an alias of the module lan_automation_create_v1
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,8 +21,8 @@ options:
         description: Discovered device site name.
         type: str
       hostNameFileId:
-        description: Use /dna/intent/api/v1/file/namespace/nw_orch api to get the file
-          id for the already uploaded file in nw_orch namespace.
+        description: Use /dna/intent/api/v1/file/namespace/nw_orch api to get the
+          file id for the already uploaded file in nw_orch namespace.
         type: str
       hostNamePrefix:
         description: Host name prefix which shall be assigned to the discovered device.
@@ -63,22 +60,17 @@ options:
         type: bool
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStartV1
-  description: Complete reference of the LANAutomationStartV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStartV1
+    description: Complete reference of the LANAutomationStartV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_start_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/lan-automation,
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_start_v1,
+  - Paths used are post /dna/intent/api/v1/lan-automation,
   - It should be noted that this module is an alias of lan_automation_create_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.lan_automation_create:
@@ -90,20 +82,19 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - discoveredDeviceSiteNameHierarchy: string
-      hostNameFileId: string
-      hostNamePrefix: string
-      ipPools:
-      - ipPoolName: string
-        ipPoolRole: string
-      isisDomainPwd: string
-      mulitcastEnabled: true
-      peerDeviceManagmentIPAddress: string
-      primaryDeviceInterfaceNames:
-      - string
-      primaryDeviceManagmentIPAddress: string
-      redistributeIsisToBgp: true
-
+      - discoveredDeviceSiteNameHierarchy: string
+        hostNameFileId: string
+        hostNamePrefix: string
+        ipPools:
+          - ipPoolName: string
+            ipPoolRole: string
+        isisDomainPwd: string
+        mulitcastEnabled: true
+        peerDeviceManagmentIPAddress: string
+        primaryDeviceInterfaceNames:
+          - string
+        primaryDeviceManagmentIPAddress: string
+        redistributeIsisToBgp: true
 """
 RETURN = r"""
 dnac_response:
