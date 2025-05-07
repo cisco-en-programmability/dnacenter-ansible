@@ -104,12 +104,11 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_site_details_2"),
                 self.test_data.get("get_wired_data_collection_details_enable"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("response_get_task_id_success_update_fabric_site"),
-                self.test_data.get("response_get_task_status_by_id_success_update_fabric_site"),
-                self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("response_get_pending_fabric_events"),
                 self.test_data.get("response_get_task_id_success_apply_pending_event"),
-                self.test_data.get("response_get_task_status_by_id_success_apply_pending_event")
+                self.test_data.get("response_get_task_status_by_id_success_apply_pending_event"),
+                self.test_data.get("response_get_task_id_success_update_fabric_site"),
+                self.test_data.get("response_get_task_status_by_id_success_update_fabric_site")
             ]
 
         elif "create_fabric_zone" in self._testMethodName:
