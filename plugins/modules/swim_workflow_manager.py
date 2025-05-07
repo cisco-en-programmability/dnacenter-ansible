@@ -1009,7 +1009,7 @@ class Swim(DnacBase):
         device_uuid_list = []
         device_id_list, site_response_list = [], []
         if not site_name:
-            site_name = "Global"
+            site_names = "Global/.*"
             self.log("Site name not specified; defaulting to 'Global' to fetch all devices under this category", "INFO")
 
         (site_exists, site_id) = self.site_exists(site_name)
