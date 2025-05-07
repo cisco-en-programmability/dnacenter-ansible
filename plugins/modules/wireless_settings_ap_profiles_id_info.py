@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_ap_profiles_id_info
 short_description: Information module for Wireless Settings Ap Profiles Id Info
 description:
-- This module represents an alias of the module wireless_settings_ap_profiles_id_v1_info
+  - This module represents an alias of the module wireless_settings_ap_profiles_id_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,25 +18,20 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Ap Profile ID.
+      - Id path parameter. Ap Profile ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetAPProfileByIDV1
-  description: Complete reference of the GetAPProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ap-profile-by-id
+  - name: Cisco DNA Center documentation for Wireless GetAPProfileByIDV1
+    description: Complete reference of the GetAPProfileByIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-ap-profile-by-id
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_ap_profile_by_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessSettings/apProfiles/{id},
+  - SDK Method used are wireless.Wireless.get_ap_profile_by_id_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessSettings/apProfiles/{id},
   - It should be noted that this module is an alias of wireless_settings_ap_profiles_id_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get Wireless Settings Ap Profiles Id Info by id
   cisco.dnac.wireless_settings_ap_profiles_id_info:
@@ -53,7 +45,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

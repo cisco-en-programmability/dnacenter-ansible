@@ -2,7 +2,7 @@
 - name: Take running config backup of devices
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
 
   vars_files:
     - "{{ CLUSTERFILE }}"
@@ -22,9 +22,9 @@
     - name: Take backup of a wired 9500 switch
       cisco.dnac.device_configs_backup_workflow_manager:
         <<: *dnac_login
-        dnac_log: True
+        dnac_log: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           - hostname: NY-BN-9500.cisco.local
             file_path: /home/admin/madhan_ansible/collections/ansible_collections/cisco/dnac/playbooks/new_tmp
@@ -32,8 +32,8 @@
     - name: Take backup of all the switches
       cisco.dnac.device_configs_backup_workflow_manager:
         <<: *dnac_login
-        dnac_log: True
+        dnac_log: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           - family: Switches and Hubs

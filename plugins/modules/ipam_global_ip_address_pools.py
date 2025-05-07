@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: ipam_global_ip_address_pools
 short_description: Resource module for Ipam Global Ip Address Pools
 description:
-- This module represents an alias of the module ipam_global_ip_address_pools_v1
+  - This module represents an alias of the module ipam_global_ip_address_pools_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -48,22 +45,17 @@ options:
       network types.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings CreateAGlobalIPAddressPoolV1
-  description: Complete reference of the CreateAGlobalIPAddressPoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-a-global-ip-address-pool
+  - name: Cisco DNA Center documentation for Network Settings CreateAGlobalIPAddressPoolV1
+    description: Complete reference of the CreateAGlobalIPAddressPoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-a-global-ip-address-pool
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.create_a_global_ip_address_pool_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/ipam/globalIpAddressPools,
+  - SDK Method used are network_settings.NetworkSettings.create_a_global_ip_address_pool_v1,
+  - Paths used are post /dna/intent/api/v1/ipam/globalIpAddressPools,
   - It should be noted that this module is an alias of ipam_global_ip_address_pools_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.ipam_global_ip_address_pools:
@@ -77,15 +69,14 @@ EXAMPLES = r"""
     state: present
     addressSpace:
       dhcpServers:
-      - string
+        - string
       dnsServers:
-      - string
+        - string
       gatewayIpAddress: string
       prefixLength: 0
       subnet: string
     name: string
     poolType: string
-
 """
 RETURN = r"""
 dnac_response:

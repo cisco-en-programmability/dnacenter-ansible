@@ -113,7 +113,10 @@ class DnacBase():
             self.logger = logging.getLogger('empty_logger')
             self.logger.addHandler(logging.NullHandler())
 
-        self.log('Cisco Catalyst Center parameters: {0}'.format(dnac_params), "DEBUG")
+        masked_config = copy.deepcopy(dnac_params)
+        masked_config = self.get_safe_log_config(masked_config)
+
+        self.log('Cisco Catalyst Center parameters: {0}'.format(masked_config), "DEBUG")
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
@@ -144,6 +147,26 @@ class DnacBase():
 
         # Versions are equal
         return 0
+
+    def get_safe_log_config(self, config_dict):
+        """
+        Convert the password plain text field to masked field.
+
+        Parameters:
+            self (object): An instance of a class for interacting with Cisco Catalyst Center.
+            config_dict (dict): Dictionary containing the input playbook config.
+
+        Returns:
+            safe_config - Return dict with password masked config
+
+        """
+        safe_config = config_dict.copy()
+
+        for key in ["dnac_password", "enable_password", "secret_password"]:
+            if key in safe_config:
+                safe_config[key] = "****"
+
+        return safe_config
 
     def get_ccc_version(self):
         return self.payload.get("dnac_version")

@@ -1,101 +1,86 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Abinash Mishra")
-
 DOCUMENTATION = r"""
 ---
 module: provision_intent
 short_description: Resource module for provision functions
 description:
-- Manage operation related to wired and wireless provisioning
-- API to re-provision provisioned devices
-- API to un-provision provisioned devices
+  - Manage operation related to wired and wireless provisioning
+  - API to re-provision provisioned devices
+  - API to un-provision provisioned devices
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Abinash Mishra (@abimishr)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of DNAC after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - List of details of device being managed.
+      - List of details of device being managed.
     type: list
     elements: dict
     required: true
     suboptions:
-        management_ip_address:
-            description: Management Ip Address .
+      management_ip_address:
+        description: Management Ip Address .
+        type: str
+        required: true
+      site_name:
+        description: Name of site where the device needs to be added.
+        type: str
+      managed_ap_locations:
+        description: Location of the sites allocated for the APs
+        type: list
+        elements: str
+      dynamic_interfaces:
+        description: Interface details of the controller
+        type: list
+        elements: dict
+        suboptions:
+          interface_ip_address:
+            description: Ip Address allocated to the interface
             type: str
-            required: true
-        site_name:
-            description: Name of site where the device needs to be added.
+          interface_netmask_in_c_i_d_r:
+            description: Ip Address allocated to the interface
+            type: int
+          interface_gateway:
+            description: Ip Address allocated to the interface
             type: str
-        managed_ap_locations:
-            description: Location of the sites allocated for the APs
-            type: list
-            elements: str
-        dynamic_interfaces:
-            description: Interface details of the controller
-            type: list
-            elements: dict
-            suboptions:
-                interface_ip_address:
-                    description: Ip Address allocated to the interface
-                    type: str
-                interface_netmask_in_c_i_d_r:
-                    description: Ip Address allocated to the interface
-                    type: int
-                interface_gateway:
-                    description: Ip Address allocated to the interface
-                    type: str
-                lag_or_port_number:
-                    description: Ip Address allocated to the interface
-                    type: int
-                vlan_id:
-                    description: Ip Address allocated to the interface
-                    type: int
-                interface_name:
-                    description: Ip Address allocated to the interface
-                    type: str
-
+          lag_or_port_number:
+            description: Ip Address allocated to the interface
+            type: int
+          vlan_id:
+            description: Ip Address allocated to the interface
+            type: int
+          interface_name:
+            description: Ip Address allocated to the interface
+            type: str
 requirements:
-- dnacentersdk == 2.4.5
-- python >= 3.9
+  - dnacentersdk == 2.4.5
+  - python >= 3.9
 notes:
-  - SDK Methods used are
-    sites.Sites.get_site,
-    devices.Devices.get_network_device_by_ip,
-    task.Task.get_task_by_id,
-    sda.Sda.get_provisioned_wired_device,
-    sda.Sda.re_provision_wired_device,
-    sda.Sda.provision_wired_device,
-    wireless.Wireless.provision
-
-  - Paths used are
-    get /dna/intent/api/v1/site
-    get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
-    get /dna/intent/api/v1/task/{taskId}
-    get /dna/intent/api/v1/business/sda/provision-device
-    put /dna/intent/api/v1/business/sda/provision-device
-    post /dna/intent/api/v1/business/sda/provision-device
+  - SDK Methods used are sites.Sites.get_site, devices.Devices.get_network_device_by_ip,
+    task.Task.get_task_by_id, sda.Sda.get_provisioned_wired_device, sda.Sda.re_provision_wired_device,
+    sda.Sda.provision_wired_device, wireless.Wireless.provision
+  - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
+    get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/business/sda/provision-device
+    put /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/business/sda/provision-device
     post /dna/intent/api/v1/wireless/provision
-
 """
-
 EXAMPLES = r"""
 - name: Create/Modify a new provision
   cisco.dnac.provision_intent:
@@ -106,22 +91,20 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
     config:
-        - site_name: string
-          management_ip_address: string
-          managed_ap_locations: list
-          dynamic_interfaces:
-            - vlan_id: integer
-              interface_name: string
-              interface_ip_address: string
-              interface_gateway: string
-              interface_netmask_in_c_i_d_r: integer
-              lag_or_port_number: integer
-
+      - site_name: string
+        management_ip_address: string
+        managed_ap_locations: list
+        dynamic_interfaces:
+          - vlan_id: integer
+            interface_name: string
+            interface_ip_address: string
+            interface_gateway: string
+            interface_netmask_in_c_i_d_r: integer
+            lag_or_port_number: integer
 """
-
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of provision
 response_1:
@@ -137,7 +120,6 @@ response_1:
         },
       "msg": String
     }
-
 # Case_2: Error while creating a provision
 response_2:
   description: A list with the response returned by the Cisco DNAC Python SDK
@@ -148,7 +130,6 @@ response_2:
       "response": [],
       "msg": String
     }
-
 # Case_3: Already exists and requires no update
 response_3:
   description: A dictionary with the exisiting details as returned by the Cisco DNAC Python SDK

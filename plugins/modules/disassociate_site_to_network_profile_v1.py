@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: disassociate_site_to_network_profile_v1
 short_description: Resource module for Disassociate Site To Network Profile V1
 description:
-- Manage operation delete of the resource Disassociate Site To Network Profile V1.
-- Disassociate a Site from a Network Profile.
+  - Manage operation delete of the resource Disassociate Site To Network Profile V1.
+  - Disassociate a Site from a Network Profile.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,21 +21,16 @@ options:
     description: SiteId path parameter. Site Id to be associated.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design DisassociateV1
-  description: Complete reference of the DisassociateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!disassociate
+  - name: Cisco DNA Center documentation for Site Design DisassociateV1
+    description: Complete reference of the DisassociateV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!disassociate
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.disassociate_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId},
-
+  - SDK Method used are site_design.SiteDesign.disassociate_v1,
+  - Paths used are delete /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId},
 """
-
 EXAMPLES = r"""
 - name: Delete by id
   cisco.dnac.disassociate_site_to_network_profile_v1:
@@ -50,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     networkProfileId: string
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:

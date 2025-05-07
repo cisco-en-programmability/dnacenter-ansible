@@ -1,19 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: network_device_replacements_id_v1_info
 short_description: Information module for Network Device Replacements Id V1
 description:
-- Get Network Device Replacements Id V1 by id.
-- >
-   Fetches the status of the device replacement workflow for a given device replacement `id`. Invoke the API
-   `/dna/intent/api/v1/networkDeviceReplacements` to `GET` the list of all device replacements and use the `id` field
-   data as input to this API.
+  - Get Network Device Replacements Id V1 by id.
+  - >
+    Fetches the status of the device replacement workflow for a given device replacement
+    `id`. Invoke the API
+    `/dna/intent/api/v1/networkDeviceReplacements` to `GET` the list of all device
+    replacements and use the `id` field
+    data as input to this API.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,24 +24,24 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Instance UUID of the device replacement.
+      - Id path parameter. Instance UUID of the device replacement.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Replacement RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDeviceV1
-  description: Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-device
+  - name: Cisco DNA Center documentation for Device Replacement
+      RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDeviceV1
+    description: Complete reference of the
+      RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDeviceV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-device
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.retrieve_the_status_of_device_replacement_workflow_that_replaces_a_faulty_device_with_a_replacement_device_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/networkDeviceReplacements/{id},
-
+  - Paths used are get /dna/intent/api/v1/networkDeviceReplacements/{id},
 """
-
 EXAMPLES = r"""
 - name: Get Network Device Replacements Id V1 by id
   cisco.dnac.network_device_replacements_id_v1_info:
@@ -55,7 +55,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

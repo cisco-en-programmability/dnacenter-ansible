@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_power_profiles_count_v1_info
 short_description: Information module for Wireless Settings Power Profiles Count V1
 description:
-- Get all Wireless Settings Power Profiles Count V1.
-- This API returns the total number of Power Profiles available.
+  - Get all Wireless Settings Power Profiles Count V1.
+  - This API returns the total number of Power Profiles available.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,21 +18,16 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetPowerProfilesCountV1
-  description: Complete reference of the GetPowerProfilesCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-power-profiles-count
+  - name: Cisco DNA Center documentation for Wireless GetPowerProfilesCountV1
+    description: Complete reference of the GetPowerProfilesCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-power-profiles-count
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_power_profiles_count_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessSettings/powerProfiles/count,
-
+  - SDK Method used are wireless.Wireless.get_power_profiles_count_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessSettings/powerProfiles/count,
 """
-
 EXAMPLES = r"""
 - name: Get all Wireless Settings Power Profiles Count V1
   cisco.dnac.wireless_settings_power_profiles_count_v1_info:
@@ -47,7 +40,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

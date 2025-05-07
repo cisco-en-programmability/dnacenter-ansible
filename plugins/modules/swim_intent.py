@@ -1,97 +1,111 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
-
 DOCUMENTATION = r"""
 ---
 module: swim_intent
 short_description: Intent module for SWIM related functions
 description:
-- Manage operation related to image importation, distribution, activation and tagging image as golden
-- API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to Catalyst Center.
-  Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
-- API to fetch a software image from local file system and upload it to Catalyst Center
-  Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
-- API to tag/untag image as golen for a given family of devices
-- API to distribute a software image on a given device. Software image must be imported successfully into
-  Catalyst Center before it can be distributed.
-- API to activate a software image on a given device. Software image must be present in the device flash.
+  - Manage operation related to image importation, distribution, activation and tagging
+    image as golden
+  - API to fetch a software image from remote file system using URL for HTTP/FTP and
+    upload it to Catalyst Center. Supported image files extensions are bin, img, tar,
+    smu, pie, aes, iso, ova, tar_gz and qcow2.
+  - API to fetch a software image from local file system and upload it to Catalyst
+    Center Supported image files extensions are bin, img, tar, smu, pie, aes, iso,
+    ova, tar_gz and qcow2.
+  - API to tag/untag image as golen for a given family of devices
+  - API to distribute a software image on a given device. Software image must be imported
+    successfully into Catalyst Center before it can be distributed.
+  - API to activate a software image on a given device. Software image must be present
+    in the device flash.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Madhan Sankaranarayanan (@madhansansel)
-        Rishita Chowdhary (@rishitachowdhary)
-        Abhishek Maheshwari (@abmahesh)
+author: Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
+  Abhishek Maheshwari (@abmahesh)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Catalyst Center after module completion.
     type: str
-    choices: [ merged ]
+    choices: [merged]
     default: merged
   config:
     description: List of details of SWIM image being managed
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       import_image_details:
         description: Details of image being imported
         type: dict
         suboptions:
           type:
-            description: Specifies the import source, supporting local file import (local) or remote url import (remote).
+            description: Specifies the import source, supporting local file import
+              (local) or remote url import (remote).
             type: str
           local_image_details:
             description: Details of the local path of the image to be imported.
             type: dict
             suboptions:
               file_path:
-                description: Provide the absolute file path needed to import an image from your local system (Eg "/path/to/your/file").
-                    Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
+                description: Provide the absolute file path needed to import an image
+                  from your local system (Eg "/path/to/your/file"). Accepted files
+                  formats are -
+                  .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
                 type: str
               is_third_party:
-                description: Query parameter to determine if the image is from a third party (optional).
+                description: Query parameter to determine if the image is from a third
+                  party (optional).
                 type: bool
               third_party_application_type:
-                description: Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application. Allowed
-                    values include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY, etc.(optional).
-                  WLC (Wireless LAN Controller) - It's a network device that manages and controls multiple wireless access points (APs) in a
-                    centralized manner.
-                  LINUX - It's an open-source operating system that provides a complete set of software packages and utilities.
-                  FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on
-                    predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks
-                    (such as the internet), preventing unauthorized access.
-                  WINDOWS - It's an operating system known for its graphical user interface (GUI) support, extensive compatibility with hardware
-                    and software, and widespread use across various applications.
-                  LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers
-                    or resources.
-                  THIRDPARTY - It refers to third-party images or applications that are not part of the core system.
-                  NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and
-                    monitoring of network access policies, user authentication, and device compliance.
-                  WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes
-                    various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce
-                    latency, increase throughput, and improve user experience over WAN connections.
-                  Unknown - It refers to an unspecified or unrecognized application type.
-                  Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple
-                    networks together and directing traffic between them.
+                description: Specify the ThirdPartyApplicationType query parameter
+                  to indicate the type of third-party application. Allowed values
+                  include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY,
+                  etc.(optional). WLC (Wireless LAN Controller) - It's a network device
+                  that manages and controls multiple wireless access points (APs)
+                  in a centralized manner. LINUX - It's an open-source operating system
+                  that provides a complete set of software packages and utilities.
+                  FIREWALL - It's a network security device that monitors and controls
+                  incoming and outgoing network traffic based on predetermined security
+                  rules.It acts as a barrier between a trusted internal network and
+                  untrusted external networks (such as the internet), preventing unauthorized
+                  access. WINDOWS - It's an operating system known for its graphical
+                  user interface (GUI) support, extensive compatibility with hardware
+                  and software, and widespread use across various applications. LOADBALANCER
+                  - It's a network device or software application that distributes
+                  incoming network traffic across multiple servers or resources. THIRDPARTY
+                  - It refers to third-party images or applications that are not part
+                  of the core system. NAM (Network Access Manager) - It's a network
+                  management tool or software application that provides centralized
+                  control and monitoring of network access policies, user authentication,
+                  and device compliance. WAN Optimization - It refers to techniques
+                  and technologies used to improve the performance and efficiency
+                  of WANs. It includes various optimization techniques such as data
+                  compression, caching, protocol optimization, and traffic prioritization
+                  to reduce latency, increase throughput, and improve user experience
+                  over WAN connections. Unknown - It refers to an unspecified or unrecognized
+                  application type. Router - It's a network device that forwards data
+                  packets between computer networks. They are essential for connecting
+                  multiple networks together and directing traffic between them.
                 type: str
               third_party_image_family:
-                description: Provide the ThirdPartyImageFamily query parameter to identify the family of the third-party image. Image Family name
-                    like PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).
+                description: Provide the ThirdPartyImageFamily query parameter to
+                  identify the family of the third-party image. Image Family name
+                  like PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).
                 type: str
               third_party_vendor:
-                description: Include the ThirdPartyVendor query parameter to specify the vendor of the third party.
+                description: Include the ThirdPartyVendor query parameter to specify
+                  the vendor of the third party.
                 type: str
           url_details:
             description: URL details for SWIM import
@@ -103,52 +117,67 @@ options:
                 elements: dict
                 suboptions:
                   application_type:
-                    description: An optional parameter that specifies the type of application. Allowed values include WLC, LINUX, FIREWALL, WINDOWS,
-                        LOADBALANCER, THIRDPARTY, etc. This is only applicable for third-party image types(optional).
-                      WLC (Wireless LAN Controller) - It's network device that manages and controls multiple wireless access points (APs) in a
-                        centralized manner.
-                      LINUX - It's an open source which provide complete operating system with a wide range of software packages and utilities.
-                      FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on
-                        predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks
-                        (such as the internet), preventing unauthorized access.
-                      WINDOWS - It's an OS which provides GUI support for various applications, and extensive compatibility with hardware
-                        and software.
-                      LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers
-                        or resources.
-                      THIRDPARTY - It refers to third-party images or applications that are not part of the core system.
-                      NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and
-                        monitoring of network access policies, user authentication, and device compliance.
-                      WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes
-                        various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce
-                        latency, increase throughput, and improve user experience over WAN connections.
-                      Unknown - It refers to an unspecified or unrecognized application type.
-                      Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple
-                        networks together and directing traffic between them.
+                    description: An optional parameter that specifies the type of
+                      application. Allowed values include WLC, LINUX, FIREWALL, WINDOWS,
+                      LOADBALANCER, THIRDPARTY, etc. This is only applicable for third-party
+                      image types(optional). WLC (Wireless LAN Controller) - It's
+                      network device that manages and controls multiple wireless access
+                      points (APs) in a centralized manner. LINUX - It's an open source
+                      which provide complete operating system with a wide range of
+                      software packages and utilities. FIREWALL - It's a network security
+                      device that monitors and controls incoming and outgoing network
+                      traffic based on predetermined security rules.It acts as a barrier
+                      between a trusted internal network and untrusted external networks
+                      (such as the internet), preventing unauthorized access. WINDOWS
+                      - It's an OS which provides GUI support for various applications,
+                      and extensive compatibility with hardware and software. LOADBALANCER
+                      - It's a network device or software application that distributes
+                      incoming network traffic across multiple servers or resources.
+                      THIRDPARTY - It refers to third-party images or applications
+                      that are not part of the core system. NAM (Network Access Manager)
+                      - It's a network management tool or software application that
+                      provides centralized control and monitoring of network access
+                      policies, user authentication, and device compliance. WAN Optimization
+                      - It refers to techniques and technologies used to improve the
+                      performance and efficiency of WANs. It includes various optimization
+                      techniques such as data compression, caching, protocol optimization,
+                      and traffic prioritization to reduce latency, increase throughput,
+                      and improve user experience over WAN connections. Unknown -
+                      It refers to an unspecified or unrecognized application type.
+                      Router - It's a network device that forwards data packets between
+                      computer networks. They are essential for connecting multiple
+                      networks together and directing traffic between them.
                     type: str
                   image_family:
-                    description: Represents the name of the image family and is applicable only when uploading third-party images. Image Family name
-                        like PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).
+                    description: Represents the name of the image family and is applicable
+                      only when uploading third-party images. Image Family name like
+                      PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).
                     type: str
                   source_url:
-                    description: A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL
-                        to import an image.(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
-                        ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
+                    description: A mandatory parameter for importing a SWIM image
+                      via a remote URL. This parameter is required when using a URL
+                      to import an image.(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
+                      ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
                     type: str
                   is_third_party:
-                    description: Flag indicates whether the image is uploaded from a third party (optional).
+                    description: Flag indicates whether the image is uploaded from
+                      a third party (optional).
                     type: bool
                   vendor:
-                    description: The name of the vendor, that applies only to third-party image types when importing via URL (optional).
+                    description: The name of the vendor, that applies only to third-party
+                      image types when importing via URL (optional).
                     type: str
               schedule_at:
-                description: ScheduleAt query parameter. Epoch Time (The number of milli-seconds since
-                  January 1 1970 UTC) at which the distribution should be scheduled (optional).
+                description: ScheduleAt query parameter. Epoch Time (The number of
+                  milli-seconds since January 1 1970 UTC) at which the distribution
+                  should be scheduled (optional).
                 type: str
               schedule_desc:
                 description: ScheduleDesc query parameter. Custom Description (optional).
                 type: str
               schedule_origin:
-                description: ScheduleOrigin query parameter. Originator of this call (optional).
+                description: ScheduleOrigin query parameter. Originator of this call
+                  (optional).
                 type: str
       tagging_details:
         description: Details for tagging or untagging an image as golden
@@ -158,71 +187,88 @@ options:
             description: SWIM image name which will be tagged or untagged as golden.
             type: str
           device_role:
-            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION, and CORE.
-              ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
-              UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
-                This could happen if the platform is unable to determine the device's role based on available information.
-              ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
-                These devices are often located at the edge of the network and provide connectivity to end-user devices.
-              BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
-                gateways between different networks, such as connecting an enterprise network to the internet or connecting
-                multiple branch offices.
-              DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
-                from access switches and route it toward the core of the network or toward other distribution switches.
-              CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
-                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
-                providing interconnection between different network segments.
+            description: Defines the device role, with permissible values including
+              ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION, and CORE. ALL - This
+              role typically represents all devices within the network, regardless
+              of their specific roles or functions. UNKNOWN - This role is assigned
+              to devices whose roles or functions have not been identified or classified
+              within Cisco Catalsyt Center. This could happen if the platform is unable
+              to determine the device's role based on available information. ACCESS
+              - This role typically represents switches or access points that serve
+              as access points for end-user devices to connect to the network. These
+              devices are often located at the edge of the network and provide connectivity
+              to end-user devices. BORDER ROUTER - These are devices that connect
+              different network domains or segments together. They often serve as
+              gateways between different networks, such as connecting an enterprise
+              network to the internet or connecting multiple branch offices. DISTRIBUTION
+              - This role represents function as distribution switches or routers
+              in hierarchical network designs. They aggregate traffic from access
+              switches and route it toward the core of the network or toward other
+              distribution switches. CORE - This role typically represents high-capacity
+              switches or routers that form the backbone of the network. They handle
+              large volumes of traffic and provide connectivity between different
+              parts of network, such as connecting distribution switches or providing
+              interconnection between different network segments.
             type: str
           device_image_family_name:
             description: Device Image family name(Eg Cisco Catalyst 9300 Switch)
             type: str
           site_name:
-            description: Site name for which SWIM image will be tagged/untagged as golden.
-              If not provided, SWIM image will be mapped to global site.
+            description: Site name for which SWIM image will be tagged/untagged as
+              golden. If not provided, SWIM image will be mapped to global site.
             type: str
           device_series_name:
-            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
-                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
+            description: This parameter specifies the name of the device series. It
+              is used to identify a specific series of devices, such as Cisco Catalyst
+              9300 Series Switches, within the Cisco Catalyst Center.
             type: str
             version_added: 6.12.0
           tagging:
-            description: Booelan value to tag/untag SWIM image as golden
-              If True then the given image will be tagged as golden.
-              If False then the given image will be un-tagged as golden.
+            description: Booelan value to tag/untag SWIM image as golden If True then
+              the given image will be tagged as golden. If False then the given image
+              will be un-tagged as golden.
             type: bool
       image_distribution_details:
-        description: Details for SWIM image distribution. Device on which the image needs to distributed
-          can be speciifed using any of the following parameters - deviceSerialNumber,
-          deviceIPAddress, deviceHostname or deviceMacAddress.
+        description: Details for SWIM image distribution. Device on which the image
+          needs to distributed can be speciifed using any of the following parameters
+          - deviceSerialNumber, deviceIPAddress, deviceHostname or deviceMacAddress.
         type: dict
         suboptions:
           device_role:
-            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION, and CORE.
-              ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
-              UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
-                This could happen if the platform is unable to determine the device's role based on available information.
-              ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
-                These devices are often located at the edge of the network and provide connectivity to end-user devices.
-              BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
-                gateways between different networks, such as connecting an enterprise network to the internet or connecting
-                multiple branch offices.
-              DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
-                from access switches and route it toward the core of the network or toward other distribution switches.
-              CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
-                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
-                providing interconnection between different network segments.
+            description: Defines the device role, with permissible values including
+              ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION, and CORE. ALL - This
+              role typically represents all devices within the network, regardless
+              of their specific roles or functions. UNKNOWN - This role is assigned
+              to devices whose roles or functions have not been identified or classified
+              within Cisco Catalsyt Center. This could happen if the platform is unable
+              to determine the device's role based on available information. ACCESS
+              - This role typically represents switches or access points that serve
+              as access points for end-user devices to connect to the network. These
+              devices are often located at the edge of the network and provide connectivity
+              to end-user devices. BORDER ROUTER - These are devices that connect
+              different network domains or segments together. They often serve as
+              gateways between different networks, such as connecting an enterprise
+              network to the internet or connecting multiple branch offices. DISTRIBUTION
+              - This role represents function as distribution switches or routers
+              in hierarchical network designs. They aggregate traffic from access
+              switches and route it toward the core of the network or toward other
+              distribution switches. CORE - This role typically represents high-capacity
+              switches or routers that form the backbone of the network. They handle
+              large volumes of traffic and provide connectivity between different
+              parts of network, such as connecting distribution switches or providing
+              interconnection between different network segments.
             type: str
           device_family_name:
-            description: Specify the name of the device family such as Switches and Hubs, etc.
+            description: Specify the name of the device family such as Switches and
+              Hubs, etc.
             type: str
           site_name:
             description: Used to get device details associated to this site.
             type: str
           device_series_name:
-            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
-                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
+            description: This parameter specifies the name of the device series. It
+              is used to identify a specific series of devices, such as Cisco Catalyst
+              9300 Series Switches, within the Cisco Catalyst Center.
             type: str
             version_added: 6.12.0
           image_name:
@@ -241,30 +287,38 @@ options:
             description: Device MAC address where the image needs to be distributed
             type: str
       image_activation_details:
-        description: Details for SWIM image activation. Device on which the image needs to activated
-          can be speciifed using any of the following parameters - deviceSerialNumber,
-          deviceIPAddress, deviceHostname or deviceMacAddress.
+        description: Details for SWIM image activation. Device on which the image
+          needs to activated can be speciifed using any of the following parameters
+          - deviceSerialNumber, deviceIPAddress, deviceHostname or deviceMacAddress.
         type: dict
         suboptions:
           device_role:
-            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION, and CORE.
-              ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
-              UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
-                This could happen if the platform is unable to determine the device's role based on available information.
-              ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
-                These devices are often located at the edge of the network and provide connectivity to end-user devices.
-              BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
-                gateways between different networks, such as connecting an enterprise network to the internet or connecting
-                multiple branch offices.
-              DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
-                from access switches and route it toward the core of the network or toward other distribution switches.
-              CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
-                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
-                providing interconnection between different network segments.
+            description: Defines the device role, with permissible values including
+              ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION, and CORE. ALL - This
+              role typically represents all devices within the network, regardless
+              of their specific roles or functions. UNKNOWN - This role is assigned
+              to devices whose roles or functions have not been identified or classified
+              within Cisco Catalsyt Center. This could happen if the platform is unable
+              to determine the device's role based on available information. ACCESS
+              - This role typically represents switches or access points that serve
+              as access points for end-user devices to connect to the network. These
+              devices are often located at the edge of the network and provide connectivity
+              to end-user devices. BORDER ROUTER - These are devices that connect
+              different network domains or segments together. They often serve as
+              gateways between different networks, such as connecting an enterprise
+              network to the internet or connecting multiple branch offices. DISTRIBUTION
+              - This role represents function as distribution switches or routers
+              in hierarchical network designs. They aggregate traffic from access
+              switches and route it toward the core of the network or toward other
+              distribution switches. CORE - This role typically represents high-capacity
+              switches or routers that form the backbone of the network. They handle
+              large volumes of traffic and provide connectivity between different
+              parts of network, such as connecting distribution switches or providing
+              interconnection between different network segments.
             type: str
           device_family_name:
-            description: Specify the name of the device family such as Switches and Hubs, etc.
+            description: Specify the name of the device family such as Switches and
+              Hubs, etc.
             type: str
           site_name:
             description: Used to get device details associated to this site.
@@ -273,20 +327,29 @@ options:
             description: ActivateLowerImageVersion flag.
             type: bool
           device_upgrade_mode:
-            description: It specifies the mode of upgrade to be applied to the devices having the following values - 'install', 'bundle', and 'currentlyExists'.
-              install - This mode instructs Cisco Catalyst Center to perform a clean installation of the new image on the target devices.
-                When this mode is selected, the existing image on the device is completely replaced with the new image during the upgrade process.
-                This ensures that the device runs only the new image version after the upgrade is completed.
-              bundle - This mode instructs Cisco Catalyst Center bundles the new image with the existing image on the device before initiating
-                the upgrade process. This mode allows for a more efficient upgrade process by preserving the existing image on the device while
-                adding the new image as an additional bundle. After the upgrade, the device can run either the existing image or the new bundled
-                image, depending on the configuration.
-              currentlyExists - This mode instructs Cisco Catalyst Center to checks if the target devices already have the desired image version
-                installed. If image already present on devices, no action is taken and upgrade process is skipped for those devices. This mode
-                is useful for avoiding unnecessary upgrades on devices that already have the correct image version installed, thereby saving time.
+            description: It specifies the mode of upgrade to be applied to the devices
+              having the following values - 'install', 'bundle', and 'currentlyExists'.
+              install - This mode instructs Cisco Catalyst Center to perform a clean
+              installation of the new image on the target devices. When this mode
+              is selected, the existing image on the device is completely replaced
+              with the new image during the upgrade process. This ensures that the
+              device runs only the new image version after the upgrade is completed.
+              bundle - This mode instructs Cisco Catalyst Center bundles the new image
+              with the existing image on the device before initiating the upgrade
+              process. This mode allows for a more efficient upgrade process by preserving
+              the existing image on the device while adding the new image as an additional
+              bundle. After the upgrade, the device can run either the existing image
+              or the new bundled image, depending on the configuration. currentlyExists
+              - This mode instructs Cisco Catalyst Center to checks if the target
+              devices already have the desired image version installed. If image already
+              present on devices, no action is taken and upgrade process is skipped
+              for those devices. This mode is useful for avoiding unnecessary upgrades
+              on devices that already have the correct image version installed, thereby
+              saving time.
             type: str
           distribute_if_needed:
-            description: Enable the distribute_if_needed option when activating the SWIM image.
+            description: Enable the distribute_if_needed option when activating the
+              SWIM image.
             type: bool
           image_name:
             description: SWIM image's name
@@ -304,29 +367,23 @@ options:
             description: Device MAC address where the image needs to be activated
             type: str
           schedule_validate:
-            description: ScheduleValidate query parameter. ScheduleValidate, validates data
-              before schedule (optional).
+            description: ScheduleValidate query parameter. ScheduleValidate, validates
+              data before schedule (optional).
             type: bool
 requirements:
-- dnacentersdk == 2.4.5
-- python >= 3.9
+  - dnacentersdk == 2.4.5
+  - python >= 3.9
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,
-
-  - Paths used are
-    post /dna/intent/api/v1/image/importation/source/url,
-    post /dna/intent/api/v1/image/importation/golden,
-    post /dna/intent/api/v1/image/distribution,
-    post /dna/intent/api/v1/image/activation/device,
-
-  - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
-
+  - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden,
+    post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device,
+  - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options
+    in v6.13.2.
 """
-
 EXAMPLES = r"""
 - name: Import an image from a URL, tag it as golden and load it on device
   cisco.dnac.swim_intent:
@@ -338,30 +395,29 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - import_image_details:
-        type: remote
-        url_details:
-          payload:
-          - source_url: "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
-            is_third_party: False
-      tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ACCESS
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        site_name: Global/USA/San Francisco/BGL_18
-        tagging: True
-      image_distribution_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_serial_number: FJC2327U0S2
-      image_activation_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        schedule_validate: False
-        activate_lower_image_version: False
-        distribute_if_needed: True
-        device_serial_number: FJC2327U0S2
-
+      - import_image_details:
+          type: remote
+          url_details:
+            payload:
+              - source_url: "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+                is_third_party: false
+        tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: ACCESS
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          site_name: Global/USA/San Francisco/BGL_18
+          tagging: true
+        image_distribution_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_serial_number: FJC2327U0S2
+        image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          schedule_validate: false
+          activate_lower_image_version: false
+          distribute_if_needed: true
+          device_serial_number: FJC2327U0S2
 - name: Import an image from local, tag it as golden.
   cisco.dnac.swim_intent:
     dnac_host: "{{dnac_host}}"
@@ -372,20 +428,19 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - import_image_details:
-        type: local
-        local_image_details:
+      - import_image_details:
+          type: local
+          local_image_details:
             file_path: /Users/Downloads/cat9k_iosxe.17.12.01.SPA.bin
-            is_third_party: False
-      tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ACCESS
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        site_name: Global/USA/San Francisco/BGL_18
-        tagging: True
-
+            is_third_party: false
+        tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: ACCESS
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          site_name: Global/USA/San Francisco/BGL_18
+          tagging: true
 - name: Tag the given image as golden and load it on device
   cisco.dnac.swim_intent:
     dnac_host: "{{dnac_host}}"
@@ -396,15 +451,14 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ACCESS
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        site_name: Global/USA/San Francisco/BGL_18
-        tagging: True
-
+      - tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: ACCESS
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          site_name: Global/USA/San Francisco/BGL_18
+          tagging: true
 - name: Un-tagged the given image as golden and load it on device
   cisco.dnac.swim_intent:
     dnac_host: "{{dnac_host}}"
@@ -415,16 +469,16 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ACCESS
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        site_name: Global/USA/San Francisco/BGL_18
-        tagging: False
-
-- name: Distribute the given image on devices associated to that site with specified role.
+      - tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: ACCESS
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          site_name: Global/USA/San Francisco/BGL_18
+          tagging: false
+- name: Distribute the given image on devices associated to that site with specified
+    role.
   cisco.dnac.swim_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -434,16 +488,16 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - image_distribution_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        site_name: Global/USA/San Francisco/BGL_18
-        device_role: ALL
-        device_family_name: Switches and Hubs
-        device_series_name: Cisco Catalyst 9300 Series Switches
-
-- name: Activate the given image on devices associated to that site with specified role.
+      - image_distribution_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/USA/San Francisco/BGL_18
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_series_name: Cisco Catalyst 9300 Series Switches
+- name: Activate the given image on devices associated to that site with specified
+    role.
   cisco.dnac.swim_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -453,20 +507,18 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - image_activation_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        site_name: Global/USA/San Francisco/BGL_18
-        device_role: ALL
-        device_family_name: Switches and Hubs
-        device_series_name: Cisco Catalyst 9300 Series Switches
-        scehdule_validate: False
-        activate_lower_image_version: True
-        distribute_if_needed: True
-
+      - image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/USA/San Francisco/BGL_18
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_series_name: Cisco Catalyst 9300 Series Switches
+          scehdule_validate: false
+          activate_lower_image_version: true
+          distribute_if_needed: true
 """
-
 RETURN = r"""
 #Case: SWIM image is successfully imported, tagged as golden, distributed and activated on a device
 response:
@@ -491,7 +543,6 @@ response:
                   },
       "msg": String
     }
-
 """
 
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (

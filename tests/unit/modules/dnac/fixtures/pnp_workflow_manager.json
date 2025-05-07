@@ -8667,7 +8667,7 @@
             "lastContact": 0,
             "lastContactDuration": 0,
             "provisionedOn": 0,
-            "state": "Planned",
+            "state": "Unclaimed",
             "onbState": "Not Contacted",
             "cmState": "Not Contacted",
             "projectId": "672db4f9f8a6d518470ac2fe",
@@ -9296,5 +9296,59 @@
             }
         ],
         "version": "1.0"
-    }
+    },
+
+    "playbook_config_reset_device": [
+        {
+        "device_info": [
+            {
+                "serial_number": "FJC24501BK2",
+                "state": "Error",
+                "pid": "C9300-48UN",
+                "is_sudi_required": false
+            }
+        ]
+        }
+    ],
+
+    "get_device_state_error": [{
+        "version": 0,
+        "deviceInfo": {
+            "serialNumber": "FJC24501BK2",
+            "name": "FJC24501BK2",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UN",
+            "state": "Error",
+            "mode": "INSTALL"
+        },
+        "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+        },
+        "workflowParameters": {},
+        "dayNCmdQueue": [],
+        "runSummaryList": [
+            {
+                "timestamp": 1729830280826,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+        ],
+        "tenantId": "66ea0af5c60db15238522111",
+        "id": "671b1d88c301a454b89d2c84"
+    }],
+
+    "get_reset_response":{
+        "response":{
+            "status": "Device reset done Successfully"
+        }
+    },
+
+    "get_reset_error_response":[{
+        "response":{
+            "status": "Device reset done Successfully"
+        }
+    }]
 }

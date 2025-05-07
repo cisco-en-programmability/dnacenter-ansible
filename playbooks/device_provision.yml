@@ -2,7 +2,7 @@
 - name: Provision and Re-provision wired and wireless devices
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
 
   vars_files:
     - "{{ CLUSTERFILE }}"
@@ -21,7 +21,7 @@
     - name: Provision a wired device to a site
       cisco.dnac.provision_intent:
         <<: *dnac_login
-        dnac_log: True
+        dnac_log: true
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
@@ -31,7 +31,7 @@
     - name: Unprovision a wired device to a site
       cisco.dnac.provision_intent:
         <<: *dnac_login
-        dnac_log: True
+        dnac_log: true
         state: deleted
         config:
           - management_ip_address: 204.1.2.2

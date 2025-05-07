@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_v1
 short_description: Resource module for Wireless Profiles V1
 description:
-- Manage operations create, update and delete of the resource Wireless Profiles V1.
-- This API allows the user to create a Wireless Network Profile.
-- This API allows the user to delete Wireless Network Profile by ID.
-- This API allows the user to update a Wireless Network Profile by ID.
+  - Manage operations create, update and delete of the resource Wireless Profiles
+    V1.
+  - This API allows the user to create a Wireless Network Profile.
+  - This API allows the user to delete Wireless Network Profile by ID.
+  - This API allows the user to update a Wireless Network Profile by ID.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -50,13 +49,13 @@ options:
         type: str
       dot11beProfileId:
         description: 802.11be Profile Id. Applicable to IOS controllers with version
-          17.15 and higher. 802.11be Profiles if passed, should be same across all SSIDs
-          in network profile being configured.
+          17.15 and higher. 802.11be Profiles if passed, should be same across all
+          SSIDs in network profile being configured.
         type: str
       enableFabric:
-        description: True if fabric is enabled, else False. Flex and fabric cannot be
-          enabled simultaneously and a profile can only contain either flex SSIDs or
-          fabric SSIDs and not both at the same time.
+        description: True if fabric is enabled, else False. Flex and fabric cannot
+          be enabled simultaneously and a profile can only contain either flex SSIDs
+          or fabric SSIDs and not both at the same time.
         type: bool
       flexConnect:
         description: Wireless Profiles's flexConnect.
@@ -87,31 +86,27 @@ options:
     description: Wireless Network Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateWirelessProfileConnectivityV1
-  description: Complete reference of the CreateWirelessProfileConnectivityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile-connectivity
-- name: Cisco DNA Center documentation for Wireless DeleteWirelessProfileConnectivityV1
-  description: Complete reference of the DeleteWirelessProfileConnectivityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile-connectivity
-- name: Cisco DNA Center documentation for Wireless UpdateWirelessProfileConnectivityV1
-  description: Complete reference of the UpdateWirelessProfileConnectivityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile-connectivity
+  - name: Cisco DNA Center documentation for Wireless CreateWirelessProfileConnectivityV1
+    description: Complete reference of the CreateWirelessProfileConnectivityV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!create-wireless-profile-connectivity
+  - name: Cisco DNA Center documentation for Wireless DeleteWirelessProfileConnectivityV1
+    description: Complete reference of the DeleteWirelessProfileConnectivityV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile-connectivity
+  - name: Cisco DNA Center documentation for Wireless UpdateWirelessProfileConnectivityV1
+    description: Complete reference of the UpdateWirelessProfileConnectivityV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!update-wireless-profile-connectivity
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_wireless_profile_connectivity_v1,
-    wireless.Wireless.delete_wireless_profile_connectivity_v1,
-    wireless.Wireless.update_wireless_profile_connectivity_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessProfiles,
-    delete /dna/intent/api/v1/wirelessProfiles/{id},
+  - SDK Method used are wireless.Wireless.create_wireless_profile_connectivity_v1,
+    wireless.Wireless.delete_wireless_profile_connectivity_v1, wireless.Wireless.update_wireless_profile_connectivity_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessProfiles, delete /dna/intent/api/v1/wirelessProfiles/{id},
     put /dna/intent/api/v1/wirelessProfiles/{id},
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.wireless_profiles_v1:
@@ -124,25 +119,24 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     additionalInterfaces:
-    - string
-    apZones:
-    - apZoneName: string
-      rfProfileName: string
-      ssids:
       - string
+    apZones:
+      - apZoneName: string
+        rfProfileName: string
+        ssids:
+          - string
     ssidDetails:
-    - anchorGroupName: string
-      dot11beProfileId: string
-      enableFabric: true
-      flexConnect:
-        enableFlexConnect: true
-        localToVlan: 0
-      interfaceName: string
-      ssidName: string
-      vlanGroupName: string
-      wlanProfileName: string
+      - anchorGroupName: string
+        dot11beProfileId: string
+        enableFabric: true
+        flexConnect:
+          enableFlexConnect: true
+          localToVlan: 0
+        interfaceName: string
+        ssidName: string
+        vlanGroupName: string
+        wlanProfileName: string
     wirelessProfileName: string
-
 - name: Update by id
   cisco.dnac.wireless_profiles_v1:
     dnac_host: "{{dnac_host}}"
@@ -154,26 +148,25 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     additionalInterfaces:
-    - string
-    apZones:
-    - apZoneName: string
-      rfProfileName: string
-      ssids:
       - string
+    apZones:
+      - apZoneName: string
+        rfProfileName: string
+        ssids:
+          - string
     id: string
     ssidDetails:
-    - anchorGroupName: string
-      dot11beProfileId: string
-      enableFabric: true
-      flexConnect:
-        enableFlexConnect: true
-        localToVlan: 0
-      interfaceName: string
-      ssidName: string
-      vlanGroupName: string
-      wlanProfileName: string
+      - anchorGroupName: string
+        dot11beProfileId: string
+        enableFabric: true
+        flexConnect:
+          enableFlexConnect: true
+          localToVlan: 0
+        interfaceName: string
+        ssidName: string
+        vlanGroupName: string
+        wlanProfileName: string
     wirelessProfileName: string
-
 - name: Delete by id
   cisco.dnac.wireless_profiles_v1:
     dnac_host: "{{dnac_host}}"
@@ -185,7 +178,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:
