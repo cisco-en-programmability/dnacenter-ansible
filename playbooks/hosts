@@ -1,3 +1,2 @@
----
-[dnac]
-dnac_server ansible_connection=local
+[dnac_servers]
+dnac_server
