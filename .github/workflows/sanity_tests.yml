@@ -1,3 +1,4 @@
+---
 name: CI
 on:
   push:
@@ -55,7 +56,6 @@ jobs:
             ansible-test sanity --docker -v --color
           fi
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-        
 
       - name: Dump docker logs (if any)
         if: failure()
