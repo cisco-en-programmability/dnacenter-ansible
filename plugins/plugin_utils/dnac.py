@@ -29,6 +29,7 @@ else:
     LOGGING_IN_STANDARD = True
 import os.path
 
+ANSIBLE_SUCCESS_STATUS = 200
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
@@ -229,6 +230,10 @@ class DNACSDK(object):
                     params["active_validation"] = False
 
                 response = func(**params)
+                
+                self.result.update({
+                    'status': ANSIBLE_SUCCESS_STATUS,
+                })
             else:
                 response = func()
         except exceptions.dnacentersdkException as e:
@@ -236,13 +241,20 @@ class DNACSDK(object):
                 msg=(
                     "An error occured when executing operation."
                     " The error was: {error}"
-                ).format(error=to_native(e))
+                ).format(error=to_native(e)),
+                status=e.status_code
             )
+            response=None
         return response
 
-    def fail_json(self, msg, **kwargs):
-        self.result.update(**kwargs)
-        raise AnsibleActionFail(msg, kwargs)
+    def fail_json(self, msg,**kwargs):
+        self.result.update({
+                'failed': True,
+                'changed': False,
+                'status': kwargs.get('status'),
+                'msg': msg,
+            })
+        return self.result
 
     def exit_json(self):
         return self.result
