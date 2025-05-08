@@ -1297,11 +1297,16 @@ class FabricSitesZones(DnacBase):
             success_msg = "Authentication profile for the site '{0}' updated successfully in the Cisco Catalyst Center".format(site_name)
             self.log(success_msg, "DEBUG")
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-            if profile_update_params[0].get("authenticationProfileName") == "Low Impact":
-                site_name += " having preAuthAcl configuration "
+            auth_profile_name = profile_update_params[0].get("authenticationProfileName")
+            if auth_profile_name == "Low Impact":
+                self.log(
+                    "Site '{0}' uses 'Low Impact' authentication profile (with with pre-authentication access control list configuration)."
+                    .format(site_name), "DEBUG"
+                )
+                site_name += " (with pre-authentication access control list configuration)"
 
             self.update_auth_profile.append(site_name)
-
+            self.log("Site '{0}' added to the list of updated authentication profiles.".format(site_name), "DEBUG")
         except Exception as e:
             self.msg = "An exception occured while updating the authentication profile for site '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1737,23 +1742,30 @@ class FabricSitesZones(DnacBase):
         """
 
         try:
-            if not self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            current_version = self.get_ccc_version()
+            if not self.compare_dnac_versions(current_version, "2.3.7.9") >= 0:
+                self.log(
+                    "Reconfiguring fabric pending events is supported only from Cisco Catalyst Center version 2.3.7.9 onwards."
+                    " Current version: {0}".format(current_version),
+                    "WARNING"
+                )
                 self.log("Reconfigure the fabric pending events start supporting from 2.3.7.9 onwards only.", "WARNING")
                 return self
 
-            self.log("Checking for pending fabric events on site '{0}' in Cisco Catalyst Center.".format(site_name), "DEBUG")
+            self.log("Checking for pending fabric events on site '{0}' with fabric ID '{1} in Catalyst Center.".format(site_name, fabric_id), "DEBUG")
             pending_events_map = self.get_all_pending_events_ids(site_name, fabric_id)
             if not pending_events_map:
-                self.log("There is no pending fabric event present for the site {0}".format(site_name), "INFO")
+                self.log("No pending fabric events found for site '{0}'.".format(site_name), "INFO")
+                return self
 
             for event_detail, event_id in pending_events_map.items():
-                self.log("Applying the pending fabric event {0} for the site {1}".format(event_detail, site_name), "DEBUG")
+                self.log("Applying pending fabric event '{0}' (event ID: {1}) for site '{2}'.".format(event_detail, event_id, site_name), "DEBUG")
                 self.apply_pending_fabric_events(event_detail, event_id, fabric_id, site_name).check_return_status()
                 self.pending_fabric_event.append(event_detail + " for site " + site_name)
-                self.log("Pending fabric events get applied successfully to the site {0}".format(site_name), "INFO")
+                self.log("Successfully applied fabric event '{0}' for site '{1}'.".format(event_detail, site_name), "INFO")
 
         except Exception as e:
-            self.msg = "An exception occured while applying the reconfiguring the fabric site {0}: {1}".format(site_name, str(e))
+            self.msg = "An exception occurred while applying the reconfiguring the fabric site {0}: {1}".format(site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
@@ -1832,14 +1844,16 @@ class FabricSitesZones(DnacBase):
                     self.log("Starting the process of making site {0} as fabric site...".format(site_name), "DEBUG")
                     self.create_fabric_site(site).check_return_status()
                 else:
-                    self.log("Checking whether the given fabric site {0} needs to be reconfigire or not.".format(site_name), "DEBUG")
+                    self.log("Checking whether the given fabric site '{0}' needs to be reconfigured.".format(site_name), "DEBUG")
                     pending_events = site.get("apply_pending_events")
                     site_in_ccc = self.get_fabric_site_detail(site_name, site_id)
                     if pending_events:
+                        self.log("Pending events detected for fabric site '{0}'".format(site_name), "DEBUG")
                         fabric_id = site_in_ccc.get("id")
+                        self.log("Reconfiguring fabric site '{0}' with fabric ID '{1}'.".format(site_name, fabric_id), "DEBUG")
                         self.reconfigure_the_fabric_site(site_name, fabric_id).check_return_status()
 
-                    self.log("Checking whether the given fabric site {0} needs update or not.".format(site_name), "DEBUG")
+                    self.log("Checking whether the given fabric site '{0}' needs to be updated.".format(site_name), "DEBUG")
                     require_update = self.fabric_site_needs_update(site, site_in_ccc)
                     if require_update:
                         self.update_fabric_site(site, site_in_ccc).check_return_status()
@@ -1853,14 +1867,16 @@ class FabricSitesZones(DnacBase):
                     self.log("Starting the process of making site {0} as fabric zone...".format(site_name), "DEBUG")
                     self.create_fabric_zone(site).check_return_status()
                 else:
-                    self.log("Checking whether the given fabric zone {0} needs to be reconfigire or not.".format(site_name), "DEBUG")
+                    self.log("Checking whether the given fabric zone {0} needs to be reconfigured or not.".format(site_name), "DEBUG")
                     pending_events = site.get("apply_pending_events")
                     zone_in_ccc = self.get_fabric_zone_detail(site_name, site_id)
                     if pending_events:
+                        self.log("Pending events detected for fabric zone '{0}'. Retrieving zone details.".format(site_name), "DEBUG")
                         fabric_id = zone_in_ccc.get("id")
+                        self.log("Reconfiguring fabric zone '{0}' with fabric ID '{1}'.".format(site_name, fabric_id), "DEBUG")
                         self.reconfigure_the_fabric_site(site_name, fabric_id).check_return_status()
 
-                    self.log("Checking whether the given fabric zone {0} needs update or not.".format(site_name), "DEBUG")
+                    self.log("Checking whether the given fabric zone '{0}' needs an update.".format(site_name), "DEBUG")
                     if auth_profile and auth_profile != zone_in_ccc.get("authenticationProfileName"):
                         self.log(
                             "Authentication profile '{0}' does not match the profile '{1}' in Cisco Catalyst Center "
