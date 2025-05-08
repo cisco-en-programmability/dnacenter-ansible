@@ -4858,8 +4858,7 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params=payload,
             )
-            self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
-
+            self.log("Received API response of 'update_device_controllability_settings_v1': {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "update_device_controllability_settings_v1").check_return_status()
 
             # Update the 'msg' field
@@ -4874,7 +4873,6 @@ class NetworkSettings(DnacBase):
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
-            return self.check_return_status()
 
         return self
 
