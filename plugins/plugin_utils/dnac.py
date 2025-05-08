@@ -31,6 +31,7 @@ import os.path
 
 ANSIBLE_SUCCESS_STATUS = 200
 
+
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
 
@@ -78,7 +79,8 @@ def dnac_compare_equality(current_value, requested_value):
     if current_value is None:
         return True
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
-        all_dict_params = list(current_value.keys()) + list(requested_value.keys())
+        all_dict_params = list(current_value.keys()) + \
+            list(requested_value.keys())
         return not any((not fn_comp_key(param, current_value, requested_value) for param in all_dict_params))
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
@@ -100,7 +102,8 @@ def dnac_compare_equality2(current_value, requested_value, is_query_param=False)
     if current_value is None:
         return False
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
-        all_dict_params = list(current_value.keys()) + list(requested_value.keys())
+        all_dict_params = list(current_value.keys()) + \
+            list(requested_value.keys())
         return not any((not fn_comp_key2(param, current_value, requested_value) for param in all_dict_params))
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
@@ -136,14 +139,22 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def dnac_argument_spec():
     argument_spec = dict(
-        dnac_host=dict(type="str", fallback=(env_fallback, ['DNAC_HOST']), required=True),
-        dnac_port=dict(type="int", fallback=(env_fallback, ['DNAC_PORT']), required=False, default=443),
-        dnac_username=dict(type="str", fallback=(env_fallback, ['DNAC_USERNAME']), default="admin", aliases=["user"]),
-        dnac_password=dict(type="str", fallback=(env_fallback, ['DNAC_PASSWORD']), no_log=True),
-        dnac_verify=dict(type="bool", fallback=(env_fallback, ['DNAC_VERIFY']), default=True),
-        dnac_version=dict(type="str", fallback=(env_fallback, ['DNAC_VERSION']), default="2.3.7.6"),
-        dnac_debug=dict(type="bool", fallback=(env_fallback, ['DNAC_DEBUG']), default=False),
-        validate_response_schema=dict(type="bool", fallback=(env_fallback, ['VALIDATE_RESPONSE_SCHEMA']), default=True),
+        dnac_host=dict(type="str", fallback=(
+            env_fallback, ['DNAC_HOST']), required=True),
+        dnac_port=dict(type="int", fallback=(
+            env_fallback, ['DNAC_PORT']), required=False, default=443),
+        dnac_username=dict(type="str", fallback=(
+            env_fallback, ['DNAC_USERNAME']), default="admin", aliases=["user"]),
+        dnac_password=dict(type="str", fallback=(
+            env_fallback, ['DNAC_PASSWORD']), no_log=True),
+        dnac_verify=dict(type="bool", fallback=(
+            env_fallback, ['DNAC_VERIFY']), default=True),
+        dnac_version=dict(type="str", fallback=(
+            env_fallback, ['DNAC_VERSION']), default="2.3.7.6"),
+        dnac_debug=dict(type="bool", fallback=(
+            env_fallback, ['DNAC_DEBUG']), default=False),
+        validate_response_schema=dict(type="bool", fallback=(
+            env_fallback, ['VALIDATE_RESPONSE_SCHEMA']), default=True),
     )
     return argument_spec
 
@@ -164,9 +175,11 @@ class DNACSDK(object):
                 debug=params.get("dnac_debug"),
             )
             if params.get("dnac_debug") and LOGGING_IN_STANDARD:
-                logging.getLogger('dnacentersdk').addHandler(logging.StreamHandler())
+                logging.getLogger('dnacentersdk').addHandler(
+                    logging.StreamHandler())
         else:
-            self.fail_json(msg="DNA Center Python SDK is not installed. Execute 'pip install dnacentersdk'")
+            self.fail_json(
+                msg="DNA Center Python SDK is not installed. Execute 'pip install dnacentersdk'")
 
     def changed(self):
         self.result["changed"] = True
@@ -221,7 +234,8 @@ class DNACSDK(object):
                         if isinstance(params.get(key), str) and self.is_file(params[key]):
                             file_name = self.extract_file_name(params[key])
                             file_path = params[key]
-                            multipart_fields[value] = (file_name, open(file_path, 'rb'))
+                            multipart_fields[value] = (
+                                file_name, open(file_path, 'rb'))
 
                     params.setdefault("multipart_fields", multipart_fields)
                     params.setdefault("multipart_monitor_callback", None)
@@ -230,7 +244,7 @@ class DNACSDK(object):
                     params["active_validation"] = False
 
                 response = func(**params)
-                
+
                 self.result.update({
                     'status': ANSIBLE_SUCCESS_STATUS,
                 })
@@ -244,16 +258,16 @@ class DNACSDK(object):
                 ).format(error=to_native(e)),
                 status=e.status_code
             )
-            response=None
+            response = None
         return response
 
-    def fail_json(self, msg,**kwargs):
+    def fail_json(self, msg, **kwargs):
         self.result.update({
-                'failed': True,
-                'changed': False,
-                'status': kwargs.get('status'),
-                'msg': msg,
-            })
+            'failed': True,
+            'changed': False,
+            'status': kwargs.get('status'),
+            'msg': msg,
+        })
         return self.result
 
     def exit_json(self):
