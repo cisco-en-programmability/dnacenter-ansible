@@ -34,6 +34,7 @@ class TestDnacNetworkSettings(TestDnacModule):
     playbook_config_reserve_pool = test_data.get("playbook_config_reserve_pool")
     playbook_config_reserve_pool_deletion = test_data.get("playbook_config_reserve_pool_deletion")
     playbook_config_global_pool_deletion = test_data.get("playbook_config_global_pool_deletion")
+    playbook_config_device_controlability = test_data.get("playbook_config_device_controlability")
 
     def setUp(self):
         super(TestDnacNetworkSettings, self).setUp()
@@ -419,6 +420,13 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("update_global_pool_task"),
                 self.test_data.get("Global_Pool_1"),
                 self.test_data.get("Global_Pool_2")
+            ]
+
+        if "device_controlability_updation" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_controlability"),
+                self.test_data.get("update_device_controlability"),
+                self.test_data.get("get_tasks_by_id_device_controlability"),
             ]
 
     def test_Network_settings_workflow_manager_network_network_not_need_update(self):
@@ -1021,4 +1029,29 @@ class TestDnacNetworkSettings(TestDnacModule):
         self.assertIn(
             "An exception occurred while retrieving Site details for Site 'Global/Abc2' does not exist in the Cisco Catalyst Center.",
             result["response"]
+        )
+
+    def test_Network_settings_workflow_manager_device_controlability_updation(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                # config_verify=True,
+                dnac_version="2.3.7.9",
+                config=self.playbook_config_device_controlability
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result["response"][3]["device_controllability"]['msg'])
+        self.assertEqual(
+            {"message": "Device controllability updated successfully"},
+            result["response"][3]["device_controllability"]["msg"]
         )
