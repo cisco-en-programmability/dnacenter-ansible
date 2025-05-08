@@ -1749,7 +1749,6 @@ class FabricSitesZones(DnacBase):
                     " Current version: {0}".format(current_version),
                     "WARNING"
                 )
-                self.log("Reconfigure the fabric pending events start supporting from 2.3.7.9 onwards only.", "WARNING")
                 return self
 
             self.log("Checking for pending fabric events on site '{0}' with fabric ID '{1} in Catalyst Center.".format(site_name, fabric_id), "DEBUG")
