@@ -2735,9 +2735,6 @@ class Template(DnacBase):
             current_response = copy.deepcopy(self.result['response'])
             task_id = self.get_taskid_post_api_call("configuration_templates", task_name, parameters)
             template_name = self.want.get("template_params").get("name")
-            success_msg = "Successfully updated configuration template for the template: {0} in the Cisco Catalyst Center".format(
-                template_name
-            )
             if not task_id:
                 self.msg = "Unable to retrieve the task_id for the task '{0}' for the template: '{1}'.".format(
                     task_name, template_name
@@ -2747,6 +2744,7 @@ class Template(DnacBase):
                 ).check_return_status()
                 return self
 
+            success_msg = "Successfully updated the configuration template '{0}' in Cisco Catalyst Center".format(template_name)
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
             self.result['response'] = copy.deepcopy(current_response)
 
@@ -2785,7 +2783,7 @@ class Template(DnacBase):
                 ).check_return_status()
                 return self
 
-            success_msg = "Versioned the template '{0}' successfully with comments '{1}'in the Cisco Catalyst Center".format(
+            success_msg = "Successfully versioned the template '{0}' with comments: '{1}' in Cisco Catalyst Center".format(
                 template_name, version_params.get("comments")
             )
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
@@ -3923,7 +3921,7 @@ def main():
     if ccc_template.compare_dnac_versions(ccc_version, "2.3.7.6") < 0:
         ccc_template.msg = (
             "Template module is not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
-            "from '2.3.7.6' onwards. Version '2.3.5.3' APIs and SDK will be depreciate soon. "
+            "from '2.3.7.6' onwards."
             .format(ccc_version)
         )
         ccc_template.set_operation_result(
