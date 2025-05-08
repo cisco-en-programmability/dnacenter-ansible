@@ -5,33 +5,6 @@
     - credentials.yml
   gather_facts: false
   tasks:
-    # - name: Create
-    #   cisco.dnac.application_sets:
-    #     dnac_host: "{{dnac_host}}"
-    #     dnac_username: "{{dnac_username}}"
-    #     dnac_password: "{{dnac_password}}"
-    #     dnac_verify: "{{dnac_verify}}"
-    #     dnac_port: "{{dnac_port}}"
-    #     dnac_version: "{{dnac_version}}"
-    #     dnac_debug: "{{dnac_debug}}"
-    #     state: present
-    #     payload:
-    #       - name: string
-    #   register: result
-    #   until: result
-    #   retries: 10
-    #   delay: 5
-    #   ignore_errors: true  # Optional: prevents the playbook from failing on 404s before success
-    # - name: Wait until the server responds with a 200
-    #   ansible.builtin.uri:
-    #     url: http://localhost:3001/dna/intent/api/v1/application-policy-application-set
-    #     method: GET
-    #     return_content: yes
-    #   register: result
-    #   until: result.status == 200
-    #   retries: 3
-    #   delay: 5
-    #   ignore_errors: true  # Optional: prevents the playbook from failing on 404s before success
     - name: Create
       cisco.dnac.application_sets_info:
         dnac_host: "{{dnac_host}}"
