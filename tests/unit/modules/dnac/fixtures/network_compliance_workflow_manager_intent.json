@@ -1,0 +1,2524 @@
+{
+    "playbook_config_run_compliance_iplist":[
+        {
+            "ip_address_list":[
+                "204.1.2.2"
+            ]
+        }
+    ],
+    "playbook_config_run_compliance_site":[
+        {
+            "site_name":"Global"
+        }
+    ],
+    "playbook_config_run_compliance_with_categories": [
+        {
+            "ip_address_list":[
+                "204.1.2.2",
+                "204.192.3.40",
+                "204.192.6.200",
+                "204.1.1.22",
+                "204.1.2.3",
+                "204.1.2.9",
+                "204.1.2.10"
+            ],
+            "run_compliance_categories":[
+                "INTENT",
+                "RUNNING_CONFIG",
+                "IMAGE",
+                "PSIRT"
+            ]
+        }
+    ],
+    "playbook_config_run_compliance_with_site_categories": [
+        {
+            "site_name":"Global",
+            "run_compliance_categories":[
+                "INTENT",
+                "RUNNING_CONFIG",
+                "IMAGE",
+                "PSIRT"
+            ]
+        }
+    ],
+    "playbook_config_sync_device_config": [
+        {
+            "ip_address_list":[
+                "204.1.2.3"
+            ],
+            "sync_device_config":true
+        }
+    ],
+    "response_get_device_list":{
+        "response":[
+            {
+                "roleSource":"AUTO",
+                "macAddress":"90:88:55:07:59:00",
+                "lastUpdateTime":1743715311048,
+                "softwareType":"IOS-XE",
+                "softwareVersion":"17.12.4",
+                "deviceSupportLevel":"Supported",
+                "serialNumber":"FJC271924K0, FJC271924EQ",
+                "syncRequestedByApp":"",
+                "collectionInterval":"Global Default",
+                "dnsResolvedManagementAddress":"204.1.2.2",
+                "lastManagedResyncReasons":"Periodic",
+                "managementState":"Managed",
+                "pendingSyncRequestsCount":"0",
+                "reasonsForDeviceResync":"Periodic",
+                "reasonsForPendingSyncRequests":"",
+                "inventoryStatusDetail":"<status><general code=\"SUCCESS\"/></status>",
+                "upTime":"16 days, 2:56:04.99",
+                "bootDateTime":"2025-03-18 18:25:51",
+                "interfaceCount":"0",
+                "lastUpdated":"2025-04-03 21:21:51",
+                "apManagerInterfaceIp":"",
+                "collectionStatus":"Managed",
+                "family":"Switches and Hubs",
+                "hostname":"NY-EN-9300",
+                "locationName":"None",
+                "managementIpAddress":"204.1.2.2",
+                "platformId":"C9300-48UXM, C9300-48UXM",
+                "reachabilityFailureReason":"",
+                "reachabilityStatus":"Reachable",
+                "series":"Cisco Catalyst 9300 Series Switches",
+                "snmpContact":"",
+                "snmpLocation":"",
+                "associatedWlcIp":"",
+                "apEthernetMacAddress":"None",
+                "errorCode":"None",
+                "errorDescription":"None",
+                "lastDeviceResyncStartTime":"2025-04-03 21:21:07",
+                "lineCardCount":"0",
+                "lineCardId":"",
+                "managedAtleastOnce":true,
+                "memorySize":"NA",
+                "tagCount":"0",
+                "tunnelUdpPort":"None",
+                "uptimeSeconds":1477896,
+                "vendor":"Cisco",
+                "waasDeviceMode":"None",
+                "description":"Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre",
+                "type":"Cisco Catalyst 9300 Switch",
+                "location":"None",
+                "role":"ACCESS",
+                "instanceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "instanceTenantId":"66e48af26fe687300375675e",
+                "id":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"
+            }
+        ],
+        "version":"1.0"
+    },
+    "response_compliance_details_of_device":{
+        "response":[
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"NETWORK_SETTINGS",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742355598836,
+                "lastUpdateTime":1743754009416,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"FABRIC",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742383512065,
+                "lastUpdateTime":1743754051281,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"RaGuardVlanSettings",
+                        "nameWithBusinessKey":"RaGuardVlanSettings-20",
+                        "sourceEnum":"CFS_USER_INTENT",
+                        "type":"FABRIC",
+                        "appName":"Segment",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"RaGuardVlanSettings",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271272_271272",
+                                "vlanId":"20"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"RA Guard VLAN Settings",
+                                    "appName":"Segment",
+                                    "description":"This is description of RaGuardVlanSettings",
+                                    "source":"CFS_USER_INTENT",
+                                    "type":"FABRIC"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"VLAN ID\":\"20\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"45557398[271272_271272,20]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"853b6c09-fe8d-4301-a1ca-aed30eb1b615",
+                                "diffModelName":"RA Guard VLAN Settings",
+                                "hierarchy":"[{ \"name\": \"RA Guard VLAN Settings\"  ,\"VLAN ID\":\"20\"   }]",
+                                "displayName":"819417775"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"DhcpGuardVlanSettings",
+                        "nameWithBusinessKey":"DhcpGuardVlanSettings-20",
+                        "sourceEnum":"CFS_USER_INTENT",
+                        "type":"FABRIC",
+                        "appName":"Segment",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"DhcpGuardVlanSettings",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271272_271272",
+                                "vlanId":"20"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"DHCP Guard VLAN Settings",
+                                    "appName":"Segment",
+                                    "description":"This is description of DhcpGuardVlanSettings",
+                                    "source":"CFS_USER_INTENT",
+                                    "type":"FABRIC"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"VLAN ID\":\"20\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"2c286d19[271272_271272,20]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"60e2e78f-7d65-4bc0-a7b7-5d177d9bc2ca",
+                                "diffModelName":"DHCP Guard VLAN Settings",
+                                "hierarchy":"[{ \"name\": \"DHCP Guard VLAN Settings\"  ,\"VLAN ID\":\"20\"   }]",
+                                "displayName":"819417776"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"IMAGE",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742981211181,
+                "lastUpdateTime":1743754009178,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    {
+                        "name":"SwimDeviceStatus",
+                        "sourceEnum":"IMAGE",
+                        "type":"IMAGE",
+                        "appName":"IMAGE",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"17.12.04.0.4826",
+                                "intendedValue":"17.12.02.0.2739",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"None",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"36bd151a-5f55-4ecc-9046-e0607ac0bfee",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417753"
+                            }
+                        ]
+                    }
+                ],
+                "additionalDataURL":"/api/v2/device-image/device?id=e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"PSIRT",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742332918728,
+                "lastUpdateTime":1743754009329,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742332921270,
+                "lastUpdateTime":1743754009153,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"EOX",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743334382732,
+                "lastUpdateTime":1743754009391,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "message":"EOX status not available.",
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"
+    },
+    "response_get_task_id_success":{
+        "response":{
+            "taskId":"01960298-24c6-7aa7-a880-127492fd8c66",
+            "url":"/api/v1/task/01960298-24c6-7aa7-a880-127492fd8c66"
+        },
+        "version":"1.0"
+    },
+    "response_get_task_status_by_id":{
+        "response":{
+            "endTime":1743800260142,
+            "status":"SUCCESS",
+            "startTime":1743800247494,
+            "resultLocation":"/dna/intent/api/v1/tasks/01960298-24c6-7aa7-a880-127492fd8c66/detail",
+            "id":"01960298-24c6-7aa7-a880-127492fd8c66"
+        },
+        "version":"1.0"
+    },
+    "response_get_compliance_details_of_device_2":{
+        "response":[
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"IMAGE",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742981211181,
+                "lastUpdateTime":1743800247665,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    {
+                        "name":"SwimDeviceStatus",
+                        "sourceEnum":"IMAGE",
+                        "type":"IMAGE",
+                        "appName":"IMAGE",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"17.12.04.0.4826",
+                                "intendedValue":"17.12.02.0.2739",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"None",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"d0f015f2-88c1-4eac-8333-b62d891ba7c5",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417781"
+                            }
+                        ]
+                    }
+                ],
+                "additionalDataURL":"/api/v2/device-image/device?id=e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"PSIRT",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742332918728,
+                "lastUpdateTime":1743800247786,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"EOX",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743334382732,
+                "lastUpdateTime":1743800247843,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "message":"EOX status not available.",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"NETWORK_SETTINGS",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742355598836,
+                "lastUpdateTime":1743800247864,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742332921270,
+                "lastUpdateTime":1743800247640,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"FABRIC",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742383512065,
+                "lastUpdateTime":1743800259973,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"RaGuardVlanSettings",
+                        "nameWithBusinessKey":"RaGuardVlanSettings-20",
+                        "sourceEnum":"CFS_USER_INTENT",
+                        "type":"FABRIC",
+                        "appName":"Segment",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"RaGuardVlanSettings",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271272_271272",
+                                "vlanId":"20"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"RA Guard VLAN Settings",
+                                    "appName":"Segment",
+                                    "description":"This is description of RaGuardVlanSettings",
+                                    "source":"CFS_USER_INTENT",
+                                    "type":"FABRIC"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"VLAN ID\":\"20\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"45557398[271272_271272,20]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"e36c5b51-3c6e-4112-b1e2-9fd152b91c49",
+                                "diffModelName":"RA Guard VLAN Settings",
+                                "hierarchy":"[{ \"name\": \"RA Guard VLAN Settings\"  ,\"VLAN ID\":\"20\"   }]",
+                                "displayName":"819417782"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"DhcpGuardVlanSettings",
+                        "nameWithBusinessKey":"DhcpGuardVlanSettings-20",
+                        "sourceEnum":"CFS_USER_INTENT",
+                        "type":"FABRIC",
+                        "appName":"Segment",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"DhcpGuardVlanSettings",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271272_271272",
+                                "vlanId":"20"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"DHCP Guard VLAN Settings",
+                                    "appName":"Segment",
+                                    "description":"This is description of DhcpGuardVlanSettings",
+                                    "source":"CFS_USER_INTENT",
+                                    "type":"FABRIC"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"VLAN ID\":\"20\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"2c286d19[271272_271272,20]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"b2b90828-86dd-427f-bbd0-2527ab8ac4cc",
+                                "diffModelName":"DHCP Guard VLAN Settings",
+                                "hierarchy":"[{ \"name\": \"DHCP Guard VLAN Settings\"  ,\"VLAN ID\":\"20\"   }]",
+                                "displayName":"819417783"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"
+    },
+    "reponse_get_sites":{
+        "response":[
+            {
+                "id":"50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "name":"Global",
+                "type":"global"
+            }
+        ],
+        "version":"1.0"
+    },
+    "response_get_assigned_network_devices":{
+        "response":[
+            {
+                "deviceId":"0be10e21-34c7-4c76-b217-56327ed1f418",
+                "siteId":"50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "siteNameHierarchy":"Global"
+            },
+            {
+                "deviceId":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "siteId":"50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+                "siteNameHierarchy":"Global"
+            }
+        ],
+        "version":"1.0"
+    },
+    "response_get_device_by_id":{
+        "response":{
+            "roleSource":"AUTO",
+            "macAddress":"0c:75:bd:41:14:00",
+            "lastUpdateTime":1743766608410,
+            "softwareType":"IOS-XE",
+            "softwareVersion":"17.12.4",
+            "deviceSupportLevel":"Supported",
+            "serialNumber":"FJB2334D06N, FJC2335S09D",
+            "syncRequestedByApp":"",
+            "collectionInterval":"Global Default",
+            "dnsResolvedManagementAddress":"204.1.2.4",
+            "lastManagedResyncReasons":"Config Change Event",
+            "managementState":"Managed",
+            "pendingSyncRequestsCount":"0",
+            "reasonsForDeviceResync":"Periodic",
+            "reasonsForPendingSyncRequests":"",
+            "inventoryStatusDetail":"<status><general code=\"SNMP_AUTH_ERROR\"/></status>",
+            "upTime":"11 days, 9:35:00.56",
+            "bootDateTime":"2025-03-24 02:01:48",
+            "interfaceCount":"0",
+            "lastUpdated":"2025-04-04 11:36:48",
+            "apManagerInterfaceIp":"",
+            "collectionStatus":"Partial Collection Failure",
+            "family":"Switches and Hubs",
+            "hostname":"NY-BN-9300",
+            "locationName":"None",
+            "managementIpAddress":"204.1.2.4",
+            "platformId":"C9300-48UXM, C9300-48UXM",
+            "reachabilityFailureReason":"SNMP User Authentication Failed",
+            "reachabilityStatus":"Ping Reachable",
+            "series":"Cisco Catalyst 9300 Series Switches",
+            "snmpContact":"",
+            "snmpLocation":"",
+            "associatedWlcIp":"",
+            "apEthernetMacAddress":"None",
+            "errorCode":"SNMP-AUTH-ERROR",
+            "errorDescription":"NCIM12006: Device could not be discovered using SNMP. Please ensure correct credentials are provided in global credentials or in discovery. You can update the device credentials using update credentials option.",
+            "lastDeviceResyncStartTime":"2025-04-04 11:36:46",
+            "lineCardCount":"0",
+            "lineCardId":"",
+            "managedAtleastOnce":true,
+            "memorySize":"NA",
+            "tagCount":"0",
+            "tunnelUdpPort":"None",
+            "uptimeSeconds":1025914,
+            "vendor":"Cisco",
+            "waasDeviceMode":"None",
+            "description":"Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre netconf enabled",
+            "type":"Cisco Catalyst 9300 Switch",
+            "location":"None",
+            "role":"DISTRIBUTION",
+            "instanceUuid":"0be10e21-34c7-4c76-b217-56327ed1f418",
+            "instanceTenantId":"66e48af26fe687300375675e",
+            "id":"0be10e21-34c7-4c76-b217-56327ed1f418"
+        },
+        "version":"1.0"
+    },
+    "response_get_device_by_id_2":{
+        "response":{
+            "roleSource":"AUTO",
+            "macAddress":"0c:75:bd:42:db:80",
+            "lastUpdateTime":1743765233401,
+            "softwareType":"IOS-XE",
+            "softwareVersion":"17.12.2",
+            "deviceSupportLevel":"Supported",
+            "serialNumber":"FJC2335S09F",
+            "syncRequestedByApp":"",
+            "collectionInterval":"Global Default",
+            "dnsResolvedManagementAddress":"204.1.2.3",
+            "lastManagedResyncReasons":"Periodic",
+            "managementState":"Managed",
+            "pendingSyncRequestsCount":"0",
+            "reasonsForDeviceResync":"Periodic",
+            "reasonsForPendingSyncRequests":"",
+            "inventoryStatusDetail":"<status><general code=\"SUCCESS\"/></status>",
+            "upTime":"17 days, 3:39:52.26",
+            "bootDateTime":"2025-03-18 07:34:53",
+            "interfaceCount":"0",
+            "lastUpdated":"2025-04-04 11:13:53",
+            "apManagerInterfaceIp":"",
+            "collectionStatus":"Managed",
+            "family":"Switches and Hubs",
+            "hostname":"SJ-BN-9301",
+            "locationName":"None",
+            "managementIpAddress":"204.1.2.3",
+            "platformId":"C9300-48UXM",
+            "reachabilityFailureReason":"",
+            "reachabilityStatus":"Reachable",
+            "series":"Cisco Catalyst 9300 Series Switches",
+            "snmpContact":"",
+            "snmpLocation":"",
+            "associatedWlcIp":"",
+            "apEthernetMacAddress":"None",
+            "errorCode":"None",
+            "errorDescription":"None",
+            "lastDeviceResyncStartTime":"2025-04-04 11:12:48",
+            "lineCardCount":"0",
+            "lineCardId":"",
+            "managedAtleastOnce":true,
+            "memorySize":"NA",
+            "tagCount":"0",
+            "tunnelUdpPort":"None",
+            "uptimeSeconds":1524330,
+            "vendor":"Cisco",
+            "waasDeviceMode":"None",
+            "description":"Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.2, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2023 by Cisco Systems, Inc. Compiled Tue 14-Nov-23 05:56 by mcpre netconf enabled",
+            "type":"Cisco Catalyst 9300 Switch",
+            "location":"None",
+            "role":"DISTRIBUTION",
+            "instanceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+            "instanceTenantId":"66e48af26fe687300375675e",
+            "id":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+        },
+        "version":"1.0"
+    },
+    "response_get_compliance_details_of_device_3":{
+        "response":[
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"PSIRT",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755802681,
+                "lastUpdateTime":1743774598746,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"EOX",
+                "status":"NOT_APPLICABLE",
+                "state":"FAILED",
+                "lastSyncTime":1743755802742,
+                "lastUpdateTime":1743774598818,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "message":"MLCN10301: EoX details for this device could not be found.",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"NETWORK_SETTINGS",
+                "status":"NOT_APPLICABLE",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755802518,
+                "lastUpdateTime":1743774598842,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"IMAGE",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804589,
+                "lastUpdateTime":1743774598637,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "additionalDataURL":"/api/v2/device-image/device?id=e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804411,
+                "lastUpdateTime":1743774598592,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"ConfigVesion",
+                        "sourceEnum":"RUNNING_CONFIG",
+                        "type":"RUNNING_CONFIG",
+                        "appName":"RUNNING_CONFIG",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"106133ec-77c7-4176-9dcb-cff15cea6800",
+                                "intendedValue":"7913f57d-ccf7-4ef4-ad99-4ca3668272b2",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"NA",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"0ee603a7-a662-47b9-ab82-70e8e37a8aef",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417779"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+    },
+    "response_get_compliance_details_of_device_4":{
+        "response":[
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"IMAGE",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804589,
+                "lastUpdateTime":1743807623575,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "additionalDataURL":"/api/v2/device-image/device?id=e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"PSIRT",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755802681,
+                "lastUpdateTime":1743807623680,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"NETWORK_SETTINGS",
+                "status":"NOT_APPLICABLE",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755802518,
+                "lastUpdateTime":1743807623742,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"EOX",
+                "status":"NOT_APPLICABLE",
+                "state":"FAILED",
+                "lastSyncTime":1743755802742,
+                "lastUpdateTime":1743807623723,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "message":"MLCN10301: EoX details for this device could not be found.",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804411,
+                "lastUpdateTime":1743807623548,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"ConfigVesion",
+                        "sourceEnum":"RUNNING_CONFIG",
+                        "type":"RUNNING_CONFIG",
+                        "appName":"RUNNING_CONFIG",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"106133ec-77c7-4176-9dcb-cff15cea6800",
+                                "intendedValue":"7913f57d-ccf7-4ef4-ad99-4ca3668272b2",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"NA",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"4e992120-64d9-428f-8ef2-8506fc444e09",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417796"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+    },
+    "response_get_device_list_2": {
+        "response":[
+            {
+                "roleSource":"AUTO",
+                "macAddress":"00:b6:70:32:b8:00",
+                "lastUpdateTime":1743764643523,
+                "softwareType":"IOS-XE",
+                "softwareVersion":"17.14.1",
+                "deviceSupportLevel":"Supported",
+                "serialNumber":"FCW2225C020",
+                "syncRequestedByApp":"",
+                "collectionInterval":"Global Default",
+                "dnsResolvedManagementAddress":"204.1.1.22",
+                "lastManagedResyncReasons":"Periodic",
+                "managementState":"Managed",
+                "pendingSyncRequestsCount":"0",
+                "reasonsForDeviceResync":"Periodic",
+                "reasonsForPendingSyncRequests":"",
+                "inventoryStatusDetail":"<status><general code=\"SUCCESS\"/></status>",
+                "upTime":"26 days, 10:03:38.06",
+                "bootDateTime":"2025-03-09 01:01:03",
+                "interfaceCount":"0",
+                "lastUpdated":"2025-04-04 11:04:03",
+                "apManagerInterfaceIp":"",
+                "collectionStatus":"Managed",
+                "family":"Switches and Hubs",
+                "hostname":"DC-T-9300",
+                "locationName":"None",
+                "managementIpAddress":"204.1.1.22",
+                "platformId":"C9300-24P",
+                "reachabilityFailureReason":"",
+                "reachabilityStatus":"Reachable",
+                "series":"Cisco Catalyst 9300 Series Switches",
+                "snmpContact":"",
+                "snmpLocation":"",
+                "associatedWlcIp":"",
+                "apEthernetMacAddress":"None",
+                "errorCode":"None",
+                "errorDescription":"None",
+                "lastDeviceResyncStartTime":"2025-04-04 11:03:30",
+                "lineCardCount":"0",
+                "lineCardId":"",
+                "managedAtleastOnce":true,
+                "memorySize":"NA",
+                "tagCount":"0",
+                "tunnelUdpPort":"None",
+                "uptimeSeconds":2326278,
+                "vendor":"Cisco",
+                "waasDeviceMode":"None",
+                "description":"Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.14.1, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 05-Apr-24 00:08 by mcpre",
+                "type":"Cisco Catalyst 9300 Switch",
+                "location":"None",
+                "role":"ACCESS",
+                "instanceUuid":"820bd13a-f565-4778-a320-9ec9f23b4725",
+                "instanceTenantId":"66e48af26fe687300375675e",
+                "id":"820bd13a-f565-4778-a320-9ec9f23b4725"
+            },
+            {
+                "roleSource":"AUTO",
+                "macAddress":"90:88:55:07:59:00",
+                "lastUpdateTime":1743801711015,
+                "softwareType":"IOS-XE",
+                "softwareVersion":"17.12.4",
+                "deviceSupportLevel":"Supported",
+                "serialNumber":"FJC271924K0, FJC271924EQ",
+                "syncRequestedByApp":"",
+                "collectionInterval":"Global Default",
+                "dnsResolvedManagementAddress":"204.1.2.2",
+                "lastManagedResyncReasons":"Periodic",
+                "managementState":"Managed",
+                "pendingSyncRequestsCount":"0",
+                "reasonsForDeviceResync":"Periodic",
+                "reasonsForPendingSyncRequests":"",
+                "inventoryStatusDetail":"<status><general code=\"SUCCESS\"/></status>",
+                "upTime":"17 days, 2:56:04.57",
+                "bootDateTime":"2025-03-18 18:25:51",
+                "interfaceCount":"0",
+                "lastUpdated":"2025-04-04 21:21:51",
+                "apManagerInterfaceIp":"",
+                "collectionStatus":"Managed",
+                "family":"Switches and Hubs",
+                "hostname":"NY-EN-9300",
+                "locationName":"None",
+                "managementIpAddress":"204.1.2.2",
+                "platformId":"C9300-48UXM, C9300-48UXM",
+                "reachabilityFailureReason":"",
+                "reachabilityStatus":"Reachable",
+                "series":"Cisco Catalyst 9300 Series Switches",
+                "snmpContact":"",
+                "snmpLocation":"",
+                "associatedWlcIp":"",
+                "apEthernetMacAddress":"None",
+                "errorCode":"None",
+                "errorDescription":"None",
+                "lastDeviceResyncStartTime":"2025-04-04 21:21:07",
+                "lineCardCount":"0",
+                "lineCardId":"",
+                "managedAtleastOnce":true,
+                "memorySize":"NA",
+                "tagCount":"0",
+                "tunnelUdpPort":"None",
+                "uptimeSeconds":1485991,
+                "vendor":"Cisco",
+                "waasDeviceMode":"None",
+                "description":"Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.4, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Tue 23-Jul-24 09:40 by mcpre",
+                "type":"Cisco Catalyst 9300 Switch",
+                "location":"None",
+                "role":"ACCESS",
+                "instanceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "instanceTenantId":"66e48af26fe687300375675e",
+                "id":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"
+            },
+            {
+                "roleSource":"AUTO",
+                "macAddress":"cc:b6:c8:e2:29:0b",
+                "lastUpdateTime":1743792741522,
+                "softwareType":"IOS-XE",
+                "softwareVersion":"17.15.1",
+                "deviceSupportLevel":"Supported",
+                "serialNumber":"FOX2639PAY7",
+                "syncRequestedByApp":"",
+                "collectionInterval":"Global Default",
+                "dnsResolvedManagementAddress":"204.192.6.200",
+                "lastManagedResyncReasons":"Config Change Event",
+                "managementState":"Managed",
+                "pendingSyncRequestsCount":"0",
+                "reasonsForDeviceResync":"Config Change Event",
+                "reasonsForPendingSyncRequests":"",
+                "inventoryStatusDetail":"<status><general code=\"SUCCESS\"/></status>",
+                "upTime":"26 days, 17:52:32.04",
+                "bootDateTime":"2025-03-09 01:00:21",
+                "interfaceCount":"0",
+                "lastUpdated":"2025-04-04 18:52:21",
+                "apManagerInterfaceIp":"",
+                "collectionStatus":"Managed",
+                "family":"Wireless Controller",
+                "hostname":"NY-IAC-EWLC.cisco.local",
+                "locationName":"None",
+                "managementIpAddress":"204.192.6.200",
+                "platformId":"C9800-40-K9",
+                "reachabilityFailureReason":"",
+                "reachabilityStatus":"Reachable",
+                "series":"Cisco Catalyst 9800 Series Wireless Controllers",
+                "snmpContact":"",
+                "snmpLocation":"",
+                "associatedWlcIp":"",
+                "apEthernetMacAddress":"None",
+                "errorCode":"None",
+                "errorDescription":"None",
+                "lastDeviceResyncStartTime":"2025-04-04 18:52:18",
+                "lineCardCount":"0",
+                "lineCardId":"",
+                "managedAtleastOnce":true,
+                "memorySize":"NA",
+                "tagCount":"0",
+                "tunnelUdpPort":"None",
+                "uptimeSeconds":2326320,
+                "vendor":"Cisco",
+                "waasDeviceMode":"None",
+                "description":"Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.1, RELEASE SOFTWARE (fc4) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Sun 11-Aug-24 22:22 by mcpre netconf enabled",
+                "type":"Cisco Catalyst 9800-40 Wireless Controller",
+                "location":"None",
+                "role":"ACCESS",
+                "instanceUuid":"71197925-1982-46d4-b569-e4cbbe8f06e7",
+                "instanceTenantId":"66e48af26fe687300375675e",
+                "id":"71197925-1982-46d4-b569-e4cbbe8f06e7"
+            },
+            {
+                "roleSource":"AUTO",
+                "macAddress":"0c:75:bd:42:db:80",
+                "lastUpdateTime":1743765233401,
+                "softwareType":"IOS-XE",
+                "softwareVersion":"17.12.2",
+                "deviceSupportLevel":"Supported",
+                "serialNumber":"FJC2335S09F",
+                "syncRequestedByApp":"",
+                "collectionInterval":"Global Default",
+                "dnsResolvedManagementAddress":"204.1.2.3",
+                "lastManagedResyncReasons":"Periodic",
+                "managementState":"Managed",
+                "pendingSyncRequestsCount":"0",
+                "reasonsForDeviceResync":"Periodic",
+                "reasonsForPendingSyncRequests":"",
+                "inventoryStatusDetail":"<status><general code=\"SUCCESS\"/></status>",
+                "upTime":"17 days, 3:39:52.26",
+                "bootDateTime":"2025-03-18 07:34:53",
+                "interfaceCount":"0",
+                "lastUpdated":"2025-04-04 11:13:53",
+                "apManagerInterfaceIp":"",
+                "collectionStatus":"Managed",
+                "family":"Switches and Hubs",
+                "hostname":"SJ-BN-9301",
+                "locationName":"None",
+                "managementIpAddress":"204.1.2.3",
+                "platformId":"C9300-48UXM",
+                "reachabilityFailureReason":"",
+                "reachabilityStatus":"Reachable",
+                "series":"Cisco Catalyst 9300 Series Switches",
+                "snmpContact":"",
+                "snmpLocation":"",
+                "associatedWlcIp":"",
+                "apEthernetMacAddress":"None",
+                "errorCode":"None",
+                "errorDescription":"None",
+                "lastDeviceResyncStartTime":"2025-04-04 11:12:48",
+                "lineCardCount":"0",
+                "lineCardId":"",
+                "managedAtleastOnce":true,
+                "memorySize":"NA",
+                "tagCount":"0",
+                "tunnelUdpPort":"None",
+                "uptimeSeconds":1525048,
+                "vendor":"Cisco",
+                "waasDeviceMode":"None",
+                "description":"Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.2, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2023 by Cisco Systems, Inc. Compiled Tue 14-Nov-23 05:56 by mcpre netconf enabled",
+                "type":"Cisco Catalyst 9300 Switch",
+                "location":"None",
+                "role":"DISTRIBUTION",
+                "instanceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "instanceTenantId":"66e48af26fe687300375675e",
+                "id":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+            }
+        ],
+        "version":"1.0"
+    },
+    "response_get_compliance_details_of_device_5": {
+        "response":[
+            
+        ],
+        "version":"1.0",
+        "deviceUuid":"None"
+    },
+    "response_get_compliance_details_of_device_6": {
+        "response":[
+            {
+                "deviceUuid":"820bd13a-f565-4778-a320-9ec9f23b4725",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1741086208871,
+                "lastUpdateTime":1743754009153,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"820bd13a-f565-4778-a320-9ec9f23b4725"
+    },
+    "response_get_compliance_details_of_device_7": {
+        "response":[
+            {
+                "deviceUuid":"820bd13a-f565-4778-a320-9ec9f23b4725",
+                "complianceType":"IMAGE",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742981210980,
+                "lastUpdateTime":1743754009181,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    {
+                        "name":"SwimDeviceStatus",
+                        "sourceEnum":"IMAGE",
+                        "type":"IMAGE",
+                        "appName":"IMAGE",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"17.14.01.0.1391",
+                                "intendedValue":"17.12.02.0.2739",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"None",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"f6869205-9d54-4a17-8178-3f5713083d36",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417754"
+                            }
+                        ]
+                    }
+                ],
+                "additionalDataURL":"/api/v2/device-image/device?id=820bd13a-f565-4778-a320-9ec9f23b4725",
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"820bd13a-f565-4778-a320-9ec9f23b4725"
+    },
+    "response_get_compliance_details_of_device_8": {
+        "response":[
+            {
+                "deviceUuid":"820bd13a-f565-4778-a320-9ec9f23b4725",
+                "complianceType":"PSIRT",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1741426386000,
+                "lastUpdateTime":1743754009328,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"820bd13a-f565-4778-a320-9ec9f23b4725"
+    },
+    "response_get_compliance_details_of_device_9": {
+        "response":[
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"FABRIC",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742383512065,
+                "lastUpdateTime":1743807416091,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"RaGuardVlanSettings",
+                        "nameWithBusinessKey":"RaGuardVlanSettings-20",
+                        "sourceEnum":"CFS_USER_INTENT",
+                        "type":"FABRIC",
+                        "appName":"Segment",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"RaGuardVlanSettings",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271272_271272",
+                                "vlanId":"20"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"RA Guard VLAN Settings",
+                                    "appName":"Segment",
+                                    "description":"This is description of RaGuardVlanSettings",
+                                    "source":"CFS_USER_INTENT",
+                                    "type":"FABRIC"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"VLAN ID\":\"20\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"45557398[271272_271272,20]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"d36b44d8-cc8b-4be6-a641-6b95dc1c724a",
+                                "diffModelName":"RA Guard VLAN Settings",
+                                "hierarchy":"[{ \"name\": \"RA Guard VLAN Settings\"  ,\"VLAN ID\":\"20\"   }]",
+                                "displayName":"819417794"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"DhcpGuardVlanSettings",
+                        "nameWithBusinessKey":"DhcpGuardVlanSettings-20",
+                        "sourceEnum":"CFS_USER_INTENT",
+                        "type":"FABRIC",
+                        "appName":"Segment",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"DhcpGuardVlanSettings",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271272_271272",
+                                "vlanId":"20"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"DHCP Guard VLAN Settings",
+                                    "appName":"Segment",
+                                    "description":"This is description of DhcpGuardVlanSettings",
+                                    "source":"CFS_USER_INTENT",
+                                    "type":"FABRIC"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"VLAN ID\":\"20\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"2c286d19[271272_271272,20]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"cc1b539e-c760-4e16-beaa-d451c31c93c2",
+                                "diffModelName":"DHCP Guard VLAN Settings",
+                                "hierarchy":"[{ \"name\": \"DHCP Guard VLAN Settings\"  ,\"VLAN ID\":\"20\"   }]",
+                                "displayName":"819417795"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"
+    },
+    "response_get_compliance_details_of_device_10": {
+        "response":[
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742332921270,
+                "lastUpdateTime":1743807404509,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"
+    },
+    "response_get_compliance_details_of_device_11": {
+        "response":[
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"IMAGE",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742981211181,
+                "lastUpdateTime":1743807404546,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    {
+                        "name":"SwimDeviceStatus",
+                        "sourceEnum":"IMAGE",
+                        "type":"IMAGE",
+                        "appName":"IMAGE",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"17.12.04.0.4826",
+                                "intendedValue":"17.12.02.0.2739",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"None",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"fcfb4d26-cb20-4adc-ada1-216363e59fc4",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417793"
+                            }
+                        ]
+                    }
+                ],
+                "additionalDataURL":"/api/v2/device-image/device?id=e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"
+    },
+    "response_get_compliance_details_of_device_12": {
+        "response":[
+            {
+                "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a",
+                "complianceType":"PSIRT",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742332918728,
+                "lastUpdateTime":1743807404649,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"
+    },
+    "response_get_compliance_details_of_device_13": {
+        "response":[
+            {
+                "deviceUuid":"71197925-1982-46d4-b569-e4cbbe8f06e7",
+                "complianceType":"FABRIC",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742355926441,
+                "lastUpdateTime":1743754036085,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"FabricVNID",
+                        "nameWithBusinessKey":"FabricVNID-204_1_209_0-NY_L3_VN2",
+                        "sourceEnum":"CFS_USER_INTENT",
+                        "type":"FABRIC",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"FabricVNID",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "vnidName":"204_1_209_0-NY_L3_VN2"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Fabric VNID",
+                                    "appName":"Wireless",
+                                    "description":"This is description of FabricVNID",
+                                    "source":"CFS_USER_INTENT",
+                                    "type":"FABRIC"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"Name\":\"default-control-plane\",\"L2 VNID\":\"8192\",\"L3 VNID\":\"0\",\"VNID Name\":\"204_1_209_0-NY_L3_VN2\",\"vnidNetworkIp\":\"null\",\"Subnet IP\":\"0.0.0.0\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"7f11e431[271274_271274,204_1_209_0-NY_L3_VN2]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"4d9a3df0-f356-4611-b2c8-25685ed6469d",
+                                "diffModelName":"Fabric VNID",
+                                "hierarchy":"[{ \"name\": \"Fabric VNID\"  ,\"L3 VNID\":\"0\",\"VNID Name\":\"204_1_209_0-NY_L3_VN2\",\"L2 VNID\":\"8192\",\"Name\":\"default-control-plane\",\"vnidNetworkIp\":\"null\",\"Subnet IP\":\"0.0.0.0\"   }]",
+                                "displayName":"819417759"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"FabricVNID",
+                        "nameWithBusinessKey":"FabricVNID-204_1_209_0-NY_L3_VN1",
+                        "sourceEnum":"CFS_USER_INTENT",
+                        "type":"FABRIC",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"FabricVNID",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "vnidName":"204_1_209_0-NY_L3_VN1"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Fabric VNID",
+                                    "appName":"Wireless",
+                                    "description":"This is description of FabricVNID",
+                                    "source":"CFS_USER_INTENT",
+                                    "type":"FABRIC"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"Name\":\"default-control-plane\",\"L2 VNID\":\"8191\",\"L3 VNID\":\"0\",\"VNID Name\":\"204_1_209_0-NY_L3_VN1\",\"vnidNetworkIp\":\"null\",\"Subnet IP\":\"0.0.0.0\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"7f11e431[271274_271274,204_1_209_0-NY_L3_VN1]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"e692943c-94dc-4add-a04a-024bc9b1f695",
+                                "diffModelName":"Fabric VNID",
+                                "hierarchy":"[{ \"name\": \"Fabric VNID\"  ,\"L3 VNID\":\"0\",\"VNID Name\":\"204_1_209_0-NY_L3_VN1\",\"L2 VNID\":\"8191\",\"Name\":\"default-control-plane\",\"vnidNetworkIp\":\"null\",\"Subnet IP\":\"0.0.0.0\"   }]",
+                                "displayName":"819417760"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"FabricVNID",
+                        "nameWithBusinessKey":"FabricVNID-NY_L2_VN1_DATA",
+                        "sourceEnum":"CFS_USER_INTENT",
+                        "type":"FABRIC",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"FabricVNID",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "vnidName":"NY_L2_VN1_DATA"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Fabric VNID",
+                                    "appName":"Wireless",
+                                    "description":"This is description of FabricVNID",
+                                    "source":"CFS_USER_INTENT",
+                                    "type":"FABRIC"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"Name\":\"default-control-plane\",\"L2 VNID\":\"8189\",\"L3 VNID\":\"0\",\"VNID Name\":\"NY_L2_VN1_DATA\",\"vnidNetworkIp\":\"null\",\"Subnet IP\":\"0.0.0.0\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"7f11e431[271274_271274,NY_L2_VN1_DATA]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"0084bc28-b63c-4559-87c7-a881fa16a266",
+                                "diffModelName":"Fabric VNID",
+                                "hierarchy":"[{ \"name\": \"Fabric VNID\"  ,\"L3 VNID\":\"0\",\"VNID Name\":\"NY_L2_VN1_DATA\",\"L2 VNID\":\"8189\",\"Name\":\"default-control-plane\",\"vnidNetworkIp\":\"null\",\"Subnet IP\":\"0.0.0.0\"   }]",
+                                "displayName":"819417761"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"71197925-1982-46d4-b569-e4cbbe8f06e7",
+                "complianceType":"NETWORK_PROFILE",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742355926441,
+                "lastUpdateTime":1743754036085,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"PolicyTag_WlanPolicy",
+                        "nameWithBusinessKey":"PolicyTag_WlanPolicy-PT_NewYo_NYBLD_FLOOR1_fa59b-guest_ssid_1_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"PolicyTag_WlanPolicy",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "policyTagName":"PT_NewYo_NYBLD_FLOOR1_fa59b",
+                                "wlanProfileName":"guest_ssid_1_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Policy Tag - Wlan Policy",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Policy Tag - Wlan Policy",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"Wlan Policy Profile Name\":\"guest_ssid_1_profile\",\"Policy Tag Name\":\"PT_NewYo_NYBLD_FLOOR1_fa59b\",\"Wlan Profile Name\":\"guest_ssid_1_profile\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"77185fd4[271274_271274,PT_NewYo_NYBLD_FLOOR1_fa59b,guest_ssid_1_profile]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"b31a1f63-70fd-43fe-9cfc-dbd37d251ce8",
+                                "diffModelName":"Policy Tag - Wlan Policy",
+                                "hierarchy":"[{ \"name\": \"Policy Tag - Wlan Policy\"  ,\"Policy Tag Name\":\"PT_NewYo_NYBLD_FLOOR1_fa59b\",\"Wlan Policy Profile Name\":\"guest_ssid_1_profile\",\"Wlan Profile Name\":\"guest_ssid_1_profile\"   }]",
+                                "displayName":"819417771"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"WlanConfig",
+                        "nameWithBusinessKey":"WlanConfig-guest_ssid_1_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"WlanConfig",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "profileName":"guest_ssid_1_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Wlan",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Wlan ",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"Enable",
+                                "intendedValue":"Disable",
+                                "moveFromPath":"None",
+                                "businessKey":"c4934299[271274_271274,guest_ssid_1_profile]",
+                                "path":"/adminStatus",
+                                "extendedAttributes":{
+                                    "path":"wlan",
+                                    "attributeDisplayName":"Admin Status",
+                                    "dataConverter":"com.cisco.dnac.compliance.intent.util.EnableAndDisableMode",
+                                    "type":"Intent"
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"c17444c2-2bcb-4748-a45b-34784252b149",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"Admin Status"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"WlanPolicyProfile",
+                        "nameWithBusinessKey":"WlanPolicyProfile-ent-ssid-2-wpa2_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"WlanPolicyProfile",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "wlanPolicyName":"ent-ssid-2-wpa2_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Policy Profile",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Wlan Policy Profile",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"Wireless AAA Policy Name\":\"default-aaa-policy\",\"Export Anchor\":\"Disable\",\"Radius Profiling\":\"Disable\",\"Unicast Filtering Enabled\":\"Disable\",\"UPN Enabled\":\"Disable\",\"VLAN Central Switching Enabled\":\"Disable\",\"Auto QoS Mode\":\"ENM_AUTOQOS_DISABLED\",\"Fabric Policy Name\":\"null\",\"Wireless AAA Override\":\"Enable\",\"Accounting List Name\":\"dnac-acct-ent-ssid-2-85088d19\",\"Client Exclusion Timeout\":\"180\",\"Client Exclusion\":null,\"Central Auth\":\"Enable\",\"Central Switching Mode\":\"Disable\",\"DHCP Device Profiling\":\"Enable\",\"DHCP Central\":\"Disable\",\"IPv4 ACL Name\":\"null\",\"Interface Name\":null,\"Post URL Filter Name\":\"null\",\"Session Timeout\":\"28800\",\"Split MAC ACL\":\"null\",\"Profile Status\":\"Disable\",\"URL Filter Name\":\"null\",\"User Idle Timeout\":\"300\",\"QoS Per Client Input\":\"\",\"QoS Per Client Output\":\"\",\"QoS Per SSID Input\":\"platinum-up\",\"QoS Per SSID Output\":\"platinum\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"81ee96de[271274_271274,ent-ssid-2-wpa2_profile]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"9eeba73d-d077-44a6-9dd5-dbe745336583",
+                                "diffModelName":"Policy Profile",
+                                "hierarchy":"[{ \"name\": \"Policy Profile\"  ,\"User Idle Timeout\":\"300\",\"Radius Profiling\":\"Disable\",\"Fabric Policy Name\":\"null\",\"DHCP Central\":\"Disable\",\"QoS Per Client Output\":\"\",\"Client Exclusion Timeout\":\"180\",\"Post URL Filter Name\":\"null\",\"Auto QoS Mode\":\"ENM_AUTOQOS_DISABLED\",\"Wireless AAA Override\":\"Enable\",\"Central Auth\":\"Enable\",\"Interface Name\":\"null\",\"QoS Per Client Input\":\"\",\"Export Anchor\":\"Disable\",\"DHCP Device Profiling\":\"Enable\",\"Wireless AAA Policy Name\":\"default-aaa-policy\",\"Accounting List Name\":\"dnac-acct-ent-ssid-2-85088d19\",\"Profile Status\":\"Disable\",\"Central Switching Mode\":\"Disable\",\"QoS Per SSID Input\":\"platinum-up\",\"QoS Per SSID Output\":\"platinum\",\"Unicast Filtering Enabled\":\"Disable\",\"VLAN Central Switching Enabled\":\"Disable\",\"Session Timeout\":\"28800\",\"Split MAC ACL\":\"null\",\"IPv4 ACL Name\":\"null\",\"URL Filter Name\":\"null\",\"Client Exclusion\":\"null\",\"UPN Enabled\":\"Disable\"   }]",
+                                "displayName":"819417773"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"WlanPolicyProfile",
+                        "nameWithBusinessKey":"WlanPolicyProfile-guest_ssid_1_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"WlanPolicyProfile",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "wlanPolicyName":"guest_ssid_1_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Policy Profile",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Wlan Policy Profile",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"Enable",
+                                "intendedValue":"Disable",
+                                "moveFromPath":"None",
+                                "businessKey":"81ee96de[271274_271274,guest_ssid_1_profile]",
+                                "path":"/wlanPolicyStatus",
+                                "extendedAttributes":{
+                                    "attributeDisplayName":"Profile Status",
+                                    "path":"",
+                                    "dataConverter":"com.cisco.dnac.compliance.intent.util.EnableAndDisableModeforBoolean",
+                                    "type":"Intent"
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"e95615df-544d-48a0-8679-f6deeee0a4d5",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"Profile Status"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"WlanPolicyProfile",
+                        "nameWithBusinessKey":"WlanPolicyProfile-NY_SSID_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"WlanPolicyProfile",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "wlanPolicyName":"NY_SSID_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Policy Profile",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Wlan Policy Profile",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"Enable",
+                                "intendedValue":"Disable",
+                                "moveFromPath":"None",
+                                "businessKey":"81ee96de[271274_271274,NY_SSID_profile]",
+                                "path":"/wlanPolicyStatus",
+                                "extendedAttributes":{
+                                    "attributeDisplayName":"Profile Status",
+                                    "path":"",
+                                    "dataConverter":"com.cisco.dnac.compliance.intent.util.EnableAndDisableModeforBoolean",
+                                    "type":"Intent"
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"402ea9c4-9810-4637-9fcb-4d44b75a7e3c",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"Profile Status"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"PolicyTag_WlanPolicy",
+                        "nameWithBusinessKey":"PolicyTag_WlanPolicy-PT_NewYo_NYBLD_FLOOR1_fa59b-ent_ssid_1_wpa3_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"PolicyTag_WlanPolicy",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "policyTagName":"PT_NewYo_NYBLD_FLOOR1_fa59b",
+                                "wlanProfileName":"ent_ssid_1_wpa3_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Policy Tag - Wlan Policy",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Policy Tag - Wlan Policy",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"Wlan Policy Profile Name\":\"ent_ssid_1_wpa3_profile\",\"Policy Tag Name\":\"PT_NewYo_NYBLD_FLOOR1_fa59b\",\"Wlan Profile Name\":\"ent_ssid_1_wpa3_profile\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"77185fd4[271274_271274,PT_NewYo_NYBLD_FLOOR1_fa59b,ent_ssid_1_wpa3_profile]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"de84ad45-f907-4aff-8b2d-28ccb3af10d4",
+                                "diffModelName":"Policy Tag - Wlan Policy",
+                                "hierarchy":"[{ \"name\": \"Policy Tag - Wlan Policy\"  ,\"Policy Tag Name\":\"PT_NewYo_NYBLD_FLOOR1_fa59b\",\"Wlan Policy Profile Name\":\"ent_ssid_1_wpa3_profile\",\"Wlan Profile Name\":\"ent_ssid_1_wpa3_profile\"   }]",
+                                "displayName":"819417763"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"PolicyTag_WlanPolicy",
+                        "nameWithBusinessKey":"PolicyTag_WlanPolicy-PT_NewYo_NYBLD_FLOOR1_fa59b-open1-iac_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"PolicyTag_WlanPolicy",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "policyTagName":"PT_NewYo_NYBLD_FLOOR1_fa59b",
+                                "wlanProfileName":"open1-iac_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Policy Tag - Wlan Policy",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Policy Tag - Wlan Policy",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"Wlan Policy Profile Name\":\"open1-iac_profile\",\"Policy Tag Name\":\"PT_NewYo_NYBLD_FLOOR1_fa59b\",\"Wlan Profile Name\":\"open1-iac_profile\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"77185fd4[271274_271274,PT_NewYo_NYBLD_FLOOR1_fa59b,open1-iac_profile]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"3442f50d-07bc-4781-8e8a-20d0add8c3b1",
+                                "diffModelName":"Policy Tag - Wlan Policy",
+                                "hierarchy":"[{ \"name\": \"Policy Tag - Wlan Policy\"  ,\"Policy Tag Name\":\"PT_NewYo_NYBLD_FLOOR1_fa59b\",\"Wlan Policy Profile Name\":\"open1-iac_profile\",\"Wlan Profile Name\":\"open1-iac_profile\"   }]",
+                                "displayName":"819417764"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"ReapAclConfig",
+                        "nameWithBusinessKey":"ReapAclConfig-DNAC_ACL_WEBAUTH_REDIRECT",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":2,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"ReapAclConfig",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "reapAclName":"DNAC_ACL_WEBAUTH_REDIRECT"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"ACL",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Acl",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"10.0.0.1",
+                                "intendedValue":"10.0.0.4",
+                                "moveFromPath":"None",
+                                "businessKey":"f9854692[271274_271274,DNAC_ACL_WEBAUTH_REDIRECT,1]",
+                                "path":"/reapAclRuleConfigs/0/sourceAddress/address",
+                                "extendedAttributes":{
+                                    "attributeDisplayName":"Source Address",
+                                    "path":"",
+                                    "type":"Intent"
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"53452685-dd5c-472e-9798-494e0e8cb8f2",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"Source Address"
+                            },
+                            {
+                                "op":"replace",
+                                "configuredValue":"10.0.0.1",
+                                "intendedValue":"10.0.0.4",
+                                "moveFromPath":"None",
+                                "businessKey":"f9854692[271274_271274,DNAC_ACL_WEBAUTH_REDIRECT,2]",
+                                "path":"/reapAclRuleConfigs/1/destinationAddress/address",
+                                "extendedAttributes":{
+                                    "attributeDisplayName":"Destination Address",
+                                    "path":"",
+                                    "type":"Intent"
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"2e1a9abc-3eac-4940-a904-839c9d7ecd15",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"Destination Address"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"WlanConfig",
+                        "nameWithBusinessKey":"WlanConfig-NY_SSID_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"WlanConfig",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "profileName":"NY_SSID_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Wlan",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Wlan ",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"Enable",
+                                "intendedValue":"Disable",
+                                "moveFromPath":"None",
+                                "businessKey":"c4934299[271274_271274,NY_SSID_profile]",
+                                "path":"/adminStatus",
+                                "extendedAttributes":{
+                                    "path":"wlan",
+                                    "attributeDisplayName":"Admin Status",
+                                    "dataConverter":"com.cisco.dnac.compliance.intent.util.EnableAndDisableMode",
+                                    "type":"Intent"
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"fbba5e28-52b6-447e-8da7-770a0a8f4029",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"Admin Status"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"WlanConfig",
+                        "nameWithBusinessKey":"WlanConfig-ent-ssid-2-wpa2_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"WlanConfig",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "profileName":"ent-ssid-2-wpa2_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Wlan",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Wlan ",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"Preauthentication ACL IPv4\":\"\",\"Admin Status\":\"Disable\",\"Client Exclusion\":\"60\",\"BlackList Enabled\":\"Disable\",\"Broadcast SSID\":\"Enable\",\"Coverage Hole Detection \":\"true\",\"Layer 2 Security Mode\":\"WPA2\",\"FT Adaptive\":\"Adaptive\",\"FT Over DS\":\"Disable\",\"Mac Filtering\":\"Disable\",\"MFP Client protection\":\"Optional\",\"Radio Policy\":\"Band_2dot4GHz_5GHz\",\"Flex\":\"Disable\",\"Session Timeout\":\"0\",\"SSID\":\"ent-ssid-2-wpa2\",\"Protected Management Frame\":\"Optional\",\"Web Passthrough\":\"Disable\",\"Web Security\":\"Disable\",\"Band Select\":\"Disable\",\"Wlan NAS Id\":\"none\",\"WPA1 WPA2 Support\":\"Enable\",\"802.1X Encryption\":\"WEP104\",\"Preauthentication ACL IPv6\":\"null\",\"CCKM Timestamp Tolerance\":\"1000\",\"Bg Policy\":\"dot11_bg_only\",\"Client Steering\":\"Disable\",\"Primary Accounting\":\"null\",\"Primary Authentication\":\"dnac-cts-ent-ssid-2-85088d19\",\"WPA2 Encryption CCMP128\":\"Enable\",\"WPA2 Encryption CCMP256\":\"Disable\",\"WPA2 Encryption GCMP128\":\"Disable\",\"WPA2 Encryption GCMP256\":\"Disable\",\"WebAuth ACL Name\":\"\",\"Webauth (URL/Param MAP)\":\"\",\"WPA Security\":\"Disable\",\"Transition Mode WLAN ID\":\"0\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"c4934299[271274_271274,ent-ssid-2-wpa2_profile]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"55431749-9f4d-4ab4-a7c9-1956ee9b1f32",
+                                "diffModelName":"Wlan",
+                                "hierarchy":"[{ \"name\": \"Wlan\"  ,\"Layer 2 Security Mode\":\"WPA2\",\"Transition Mode WLAN ID\":\"0\",\"WPA2 Encryption CCMP256\":\"Disable\",\"Protected Management Frame\":\"Optional\",\"WebAuth ACL Name\":\"\",\"WPA Security\":\"Disable\",\"MFP Client protection\":\"Optional\",\"Band Select\":\"Disable\",\"WPA1 WPA2 Support\":\"Enable\",\"WPA2 Encryption GCMP256\":\"Disable\",\"Mac Filtering\":\"Disable\",\"FT Adaptive\":\"Adaptive\",\"Primary Authentication\":\"dnac-cts-ent-ssid-2-85088d19\",\"SSID\":\"ent-ssid-2-wpa2\",\"Admin Status\":\"Disable\",\"CCKM Timestamp Tolerance\":\"1000\",\"Wlan NAS Id\":\"none\",\"BlackList Enabled\":\"Disable\",\"Primary Accounting\":\"null\",\"WPA2 Encryption GCMP128\":\"Disable\",\"Broadcast SSID\":\"Enable\",\"Web Passthrough\":\"Disable\",\"WPA2 Encryption CCMP128\":\"Enable\",\"Session Timeout\":\"0\",\"Coverage Hole Detection \":\"true\",\"FT Over DS\":\"Disable\",\"802.1X Encryption\":\"WEP104\",\"Flex\":\"Disable\",\"Client Steering\":\"Disable\",\"Bg Policy\":\"dot11_bg_only\",\"Webauth (URL/Param MAP)\":\"\",\"Radio Policy\":\"Band_2dot4GHz_5GHz\",\"Client Exclusion\":\"60\",\"Preauthentication ACL IPv6\":\"null\",\"Web Security\":\"Disable\",\"Preauthentication ACL IPv4\":\"\"   }]",
+                                "displayName":"819417768"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"PolicyTag_WlanPolicy",
+                        "nameWithBusinessKey":"PolicyTag_WlanPolicy-PT_NewYo_NYBLD_FLOOR1_fa59b-ent-ssid-2-wpa2_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"PolicyTag_WlanPolicy",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "policyTagName":"PT_NewYo_NYBLD_FLOOR1_fa59b",
+                                "wlanProfileName":"ent-ssid-2-wpa2_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Policy Tag - Wlan Policy",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Policy Tag - Wlan Policy",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"Wlan Policy Profile Name\":\"ent-ssid-2-wpa2_profile\",\"Policy Tag Name\":\"PT_NewYo_NYBLD_FLOOR1_fa59b\",\"Wlan Profile Name\":\"ent-ssid-2-wpa2_profile\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"77185fd4[271274_271274,PT_NewYo_NYBLD_FLOOR1_fa59b,ent-ssid-2-wpa2_profile]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"963ef243-98a9-4850-ae71-974d837820ab",
+                                "diffModelName":"Policy Tag - Wlan Policy",
+                                "hierarchy":"[{ \"name\": \"Policy Tag - Wlan Policy\"  ,\"Policy Tag Name\":\"PT_NewYo_NYBLD_FLOOR1_fa59b\",\"Wlan Policy Profile Name\":\"ent-ssid-2-wpa2_profile\",\"Wlan Profile Name\":\"ent-ssid-2-wpa2_profile\"   }]",
+                                "displayName":"819417769"
+                            }
+                        ]
+                    },
+                    {
+                        "name":"WlanConfigAdvanced",
+                        "nameWithBusinessKey":"WlanConfigAdvanced-ent-ssid-2-wpa2_profile",
+                        "sourceEnum":"NETWORK_PROFILE",
+                        "type":"wlan",
+                        "appName":"Wireless",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "businessKey":{
+                            "resourceName":"WlanConfigAdvanced",
+                            "businessKeyAttributes":{
+                                "owningEntityId":"271274_271274",
+                                "profileName":"ent-ssid-2-wpa2_profile"
+                            },
+                            "otherAttributes":{
+                                "name":"rfs",
+                                "cfsAttributes":{
+                                    "displayName":"Wlan Advanced",
+                                    "appName":"Wireless",
+                                    "description":"This is description of Wlan Advanced",
+                                    "source":"NETWORK_PROFILE",
+                                    "type":"wlan"
+                                }
+                            }
+                        },
+                        "diffList":[
+                            {
+                                "op":"remove",
+                                "configuredValue":"",
+                                "intendedValue":"{\"AP Beacon Protection\":\"Disable\",\"Mac Filtering List\":\"\",\"Neighbor List Status\":\"Enable\",\"BSS Max Idle Service\":\"Enable\",\"Directed Multicast Service\":\"Enable\"}",
+                                "moveFromPath":"None",
+                                "businessKey":"567ff7c5[271274_271274,ent-ssid-2-wpa2_profile]",
+                                "path":"/0",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"96479265-ba74-4a8f-9036-d876cd51e740",
+                                "diffModelName":"Wlan Advanced",
+                                "hierarchy":"[{ \"name\": \"Wlan Advanced\"  ,\"Mac Filtering List\":\"\",\"Neighbor List Status\":\"Enable\",\"AP Beacon Protection\":\"Disable\",\"Directed Multicast Service\":\"Enable\",\"BSS Max Idle Service\":\"Enable\"   }]",
+                                "displayName":"819417770"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"71197925-1982-46d4-b569-e4cbbe8f06e7"
+    },
+    "response_get_compliance_details_of_device_14": {
+        "response":[
+            {
+                "deviceUuid":"71197925-1982-46d4-b569-e4cbbe8f06e7",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1742150704618,
+                "lastUpdateTime":1743754009165,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"71197925-1982-46d4-b569-e4cbbe8f06e7"
+    },
+    "response_get_compliance_details_of_device_15": {
+        "response":[
+            {
+                "deviceUuid":"71197925-1982-46d4-b569-e4cbbe8f06e7",
+                "complianceType":"IMAGE",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1740789169548,
+                "lastUpdateTime":1743754009183,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    {
+                        "name":"SwimDeviceStatus",
+                        "sourceEnum":"IMAGE",
+                        "type":"IMAGE",
+                        "appName":"IMAGE",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"17.15.01.0.126",
+                                "intendedValue":"17.12.03.0.3740",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"None",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"c7c55290-e983-45f8-9957-d53e86c00855",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417752"
+                            }
+                        ]
+                    }
+                ],
+                "additionalDataURL":"/api/v2/device-image/device?id=71197925-1982-46d4-b569-e4cbbe8f06e7",
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"71197925-1982-46d4-b569-e4cbbe8f06e7"
+    },
+    "response_get_compliance_details_of_device_16": {
+        "response":[
+            {
+                "deviceUuid":"71197925-1982-46d4-b569-e4cbbe8f06e7",
+                "complianceType":"PSIRT",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1740789116865,
+                "lastUpdateTime":1743754009328,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"71197925-1982-46d4-b569-e4cbbe8f06e7"
+    },
+    "response_get_compliance_details_of_device_17": {
+        "response":[
+            
+        ],
+        "version":"1.0",
+        "deviceUuid":"None"
+    },
+    "response_get_compliance_details_of_device_18": {
+        "response":[
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804411,
+                "lastUpdateTime":1743807623548,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"ConfigVesion",
+                        "sourceEnum":"RUNNING_CONFIG",
+                        "type":"RUNNING_CONFIG",
+                        "appName":"RUNNING_CONFIG",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"106133ec-77c7-4176-9dcb-cff15cea6800",
+                                "intendedValue":"7913f57d-ccf7-4ef4-ad99-4ca3668272b2",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"NA",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"4e992120-64d9-428f-8ef2-8506fc444e09",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417796"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+    },
+    "response_get_compliance_details_of_device_19": {
+        "response":[
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"IMAGE",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804589,
+                "lastUpdateTime":1743807623575,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "additionalDataURL":"/api/v2/device-image/device?id=e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+    },
+    "response_get_compliance_details_of_device_20": {
+        "response":[
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"PSIRT",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755802681,
+                "lastUpdateTime":1743807623680,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+    },
+    "response_compliance_details_sync_device_config": {
+        "response":[
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"IMAGE",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804589,
+                "lastUpdateTime":1743813926643,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "additionalDataURL":"/api/v2/device-image/device?id=e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"NETWORK_SETTINGS",
+                "status":"NOT_APPLICABLE",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755802518,
+                "lastUpdateTime":1743813926800,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"PSIRT",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755802681,
+                "lastUpdateTime":1743813926732,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"EOX",
+                "status":"NOT_APPLICABLE",
+                "state":"FAILED",
+                "lastSyncTime":1743755802742,
+                "lastUpdateTime":1743813926777,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "message":"MLCN10301: EoX details for this device could not be found.",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804411,
+                "lastUpdateTime":1743813926617,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"ConfigVesion",
+                        "sourceEnum":"RUNNING_CONFIG",
+                        "type":"RUNNING_CONFIG",
+                        "appName":"RUNNING_CONFIG",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"106133ec-77c7-4176-9dcb-cff15cea6800",
+                                "intendedValue":"7913f57d-ccf7-4ef4-ad99-4ca3668272b2",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"NA",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"536bdaf7-a22c-4ae9-b62e-319670830d1a",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417845"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+    },
+    "response_get_compliance_details_sync_device_config_2": {
+        "response":[
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804411,
+                "lastUpdateTime":1743813926617,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"ConfigVesion",
+                        "sourceEnum":"RUNNING_CONFIG",
+                        "type":"RUNNING_CONFIG",
+                        "appName":"RUNNING_CONFIG",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"106133ec-77c7-4176-9dcb-cff15cea6800",
+                                "intendedValue":"7913f57d-ccf7-4ef4-ad99-4ca3668272b2",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"NA",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"536bdaf7-a22c-4ae9-b62e-319670830d1a",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417845"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+    },
+    "response_get_compliance_details_sync_device_config_3":  {
+        "response":[
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"IMAGE",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804589,
+                "lastUpdateTime":1743814087040,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "additionalDataURL":"/api/v2/device-image/device?id=e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"NETWORK_SETTINGS",
+                "status":"NOT_APPLICABLE",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755802518,
+                "lastUpdateTime":1743814087219,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"EOX",
+                "status":"NOT_APPLICABLE",
+                "state":"FAILED",
+                "lastSyncTime":1743755802742,
+                "lastUpdateTime":1743814087199,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "message":"MLCN10301: EoX details for this device could not be found.",
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"PSIRT",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755802681,
+                "lastUpdateTime":1743814087157,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            },
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"NON_COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743755804411,
+                "lastUpdateTime":1743814087014,
+                "remediationSupported":true,
+                "sourceInfoList":[
+                    {
+                        "name":"ConfigVesion",
+                        "sourceEnum":"RUNNING_CONFIG",
+                        "type":"RUNNING_CONFIG",
+                        "appName":"RUNNING_CONFIG",
+                        "count":1,
+                        "ackStatus":"UNACKNOWLEDGED",
+                        "diffList":[
+                            {
+                                "op":"replace",
+                                "configuredValue":"106133ec-77c7-4176-9dcb-cff15cea6800",
+                                "intendedValue":"7913f57d-ccf7-4ef4-ad99-4ca3668272b2",
+                                "moveFromPath":"None",
+                                "businessKey":"None",
+                                "path":"NA",
+                                "extendedAttributes":{
+                                    
+                                },
+                                "ackStatus":"UNACKNOWLEDGED",
+                                "instanceUUID":"b41c09cd-bfdb-464d-84ef-414889d52b5f",
+                                "diffModelName":"None",
+                                "hierarchy":"None",
+                                "displayName":"819417846"
+                            }
+                        ]
+                    }
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+    },
+    "response_get_compliance_details_sync_device_config_4": {
+        "response":[
+            {
+                "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+                "complianceType":"RUNNING_CONFIG",
+                "status":"COMPLIANT",
+                "state":"SUCCESS",
+                "lastSyncTime":1743814096044,
+                "lastUpdateTime":1743814096068,
+                "remediationSupported":false,
+                "sourceInfoList":[
+                    
+                ],
+                "ackStatus":"UNACKNOWLEDGED"
+            }
+        ],
+        "version":"1.0",
+        "deviceUuid":"e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+    }
+}

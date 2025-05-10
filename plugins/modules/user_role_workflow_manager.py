@@ -1096,15 +1096,6 @@ class UserandRole(DnacBase):
             re.compile(r'^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{9,20}$'),
             re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,20}$')
         ]
-        password_sequence_repetitive_regex = re.compile(
-            r'^(?!.*(.)\1{3})'
-            r'(?!.*(?:012|123|234|345|456|567|678|789|'
-            r'abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|'
-            r'opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz|'
-            r'ABC|BCD|CDE|DEF|EFG|FGH|GHI|HIJ|IJK|JKL|KLM|LMN|MNO|NOP|'
-            r'OPQ|PQR|QRS|RST|STU|TUV|UVW|VWX|WXY|XYZ)).*'
-            r'[a-zA-Z0-9!@#$%^&*()_+<>?]{9,20}$'
-        )
 
         self.log("Password meets character type and length requirements.", "INFO")
         for password_regex in password_regexs:
@@ -1114,13 +1105,6 @@ class UserandRole(DnacBase):
 
         if not meets_character_requirements:
             self.log("Password failed character type and length validation.", "ERROR")
-            error_messages.append(password_criteria_message)
-
-        self.log("Checking that the password does not contain repetitive or sequential characters.", "DEBUG")
-        if re.match(password_sequence_repetitive_regex, password):
-            self.log("Password passed repetitive and sequential character checks.", "INFO")
-        else:
-            self.log("Password failed repetitive or sequential character validation.", "ERROR")
             error_messages.append(password_criteria_message)
 
     def validate_role_parameters(self, role_key, params_list, role_config, role_param_map, error_messages):
@@ -1699,7 +1683,7 @@ class UserandRole(DnacBase):
                         self.payload.get("dnac_username"))
                 )
             else:
-                error_message = "Invalid email format for '{0}' associated with username '{1}'".format(user_params.get("email"), user_params.get("username"))
+                error_message = error_message = str(e).split('"')[9]
 
             return {"error_message": error_message}
 
@@ -2626,8 +2610,8 @@ class UserandRole(DnacBase):
             update_user_params["last_name"] = current_last_name
 
         # Compare and update username
-        desired_username = self.want.get("username")
-        current_username = current_user.get("username")
+        desired_username = self.want.get("username").lower()
+        current_username = current_user.get("username").lower()
         if desired_username is not None:
             if current_username != desired_username:
                 self.log("Username for an existing User cannot be updated from {0} to {1}.".format(current_username, desired_username), "DEBUG")

@@ -818,6 +818,7 @@ class DeviceCredential(DnacBase):
 
     def __init__(self, module):
         super().__init__(module)
+        self.supported_states = ["merged", "deleted"]
         self.result["response"] = [
             {
                 "global_credential": {},
@@ -3345,6 +3346,15 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_credential = DeviceCredential(module)
     state = ccc_credential.params.get("state")
+
+    if ccc_credential.compare_dnac_versions(ccc_credential.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_credential.msg = (
+            "The specified version '{0}' does not support the device_credential_workflow features. Supported versions start from '2.3.5.3' onwards. "
+            .format(ccc_credential.get_ccc_version())
+        )
+        ccc_credential.status = "failed"
+        ccc_credential.check_return_status()
+
     config_verify = ccc_credential.params.get("config_verify")
     if state not in ccc_credential.supported_states:
         ccc_credential.status = "invalid"

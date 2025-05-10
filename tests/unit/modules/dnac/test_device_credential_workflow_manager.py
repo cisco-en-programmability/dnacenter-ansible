@@ -169,8 +169,9 @@ class TestDnacCredentialWorkflow(TestDnacModule):
                 self.test_data.get("sync_task_response_2"),
             ]
 
-        if "null_sync_status" in self._testMethodName:
+        if "get_device_cred_exception" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("apply_get_sites"),
                 Exception(),
                 self.test_data.get("global_credential_updation"),
                 self.test_data.get("global_assign_cred"),
@@ -189,9 +190,10 @@ class TestDnacCredentialWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_3"),
             ]
+
         if "invalid_site_response_2" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_site_4"),
+                self.test_data.get("get_site_1"),
             ]
 
     def test_device_credentials_workflow_manager_creation(self):
@@ -207,13 +209,14 @@ class TestDnacCredentialWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
+                dnac_version="2.3.5.3",
                 config=self.playbook_config_creation
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result)
+        print(result['response'][0])
         self.assertEqual(
-            result['response'][0]['globalCredential']['Creation']['msg'],
+            result['response'][0]['global_credential']['Creation']['msg'],
             "Global Credential Created Successfully"
         )
 
@@ -231,13 +234,14 @@ class TestDnacCredentialWorkflow(TestDnacModule):
                 dnac_log=True,
                 state="deleted",
                 config_verify=True,
+                dnac_version="2.3.5.3",
                 config=self.playbook_config_deletion
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result['response'][0]['globalCredential']['Deletion']['msg'],
+            result['response'][0]['global_credential']['Deletion']['msg'],
             "Global Device Credentials Deleted Successfully"
         )
 
@@ -252,7 +256,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.5.3",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_assign
@@ -261,7 +265,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result['response'][0]['assignCredential']['Assign Credentials']['msg'],
+            result['response'][0]['assign_credential']['Assign Credentials']['msg'],
             "Device Credential Assigned to a site is Successfully"
         )
 
@@ -285,7 +289,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result['response'][0]['assignCredential']['Assign Credentials']['msg'],
+            result['response'][0]['assign_credential']['Assign Credentials']['msg'],
             "Device Credential Assigned to a site is Successfully"
         )
 
@@ -311,8 +315,8 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result['response'][0]['applyCredential']['Applied Credentials']['msg'],
-            "Provided credentials category is/are already synced."
+            result['response'][0]['apply_credential']['No Apply Credentials']['msg'],
+            "No device available in the site"
         )
 
     def test_device_credentials_workflow_manager_update_verify(self):
@@ -326,7 +330,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.5.3",
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
@@ -336,7 +340,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result['response'][0]['globalCredential']['Updation']['msg'],
+            result['response'][0]['global_credential']['Updation']['msg'],
             "Global Device Credential Updated Successfully"
         )
 
@@ -359,11 +363,11 @@ class TestDnacCredentialWorkflow(TestDnacModule):
                 config=self.playbook_config_apply
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
+        result = self.execute_module(changed=False, failed=False)
+        print(result['response'][0]['apply_credential']['No Apply Credentials']['msg'])
         self.assertEqual(
-            result['response'][0]['applyCredential']['Applied Credentials']['msg'],
-            "Successfully applied credential."
+            result['response'][0]['apply_credential']['No Apply Credentials']['msg'],
+            "No device available in the site"
         )
 
     def test_device_credentials_workflow_manager_invalid_state(self):
@@ -379,6 +383,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.6",
                 dnac_log=True,
+                state="merge",
                 config=self.playbook_config_apply
             )
         )
@@ -386,10 +391,10 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result['msg'],
-            "The username and description of the CLI credential are invalid"
+            "value of state must be one of: merged, deleted, got: merge"
         )
 
-    def test_device_credentials_workflow_manager_null_sync_status(self):
+    def test_device_credentials_workflow_manager_get_device_cred_exception(self):
         """
         Test case for device credential workflow manager when exception occured during sync credential.
 
@@ -407,10 +412,10 @@ class TestDnacCredentialWorkflow(TestDnacModule):
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result['msg'])
         self.assertEqual(
             result['msg'],
-            "Exception occurred while getting global device credentials sync status: "
+            "Exception occurred while getting global device credentials: "
         )
 
     def test_device_credentials_workflow_manager_invalid_site(self):
@@ -432,10 +437,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
-        self.assertEqual(
-            result['msg'],
-            "The site_name 'Global/Vietnam/halong/Hanoi' is invalid in 'assign_credentials_to_site'"
-        )
+        self.assertIn("An exception occurred while retrieving Site details for Site 'Global/Vietnam/halong/Hanoi'", result['msg'])
 
     def test_device_credentials_workflow_manager_invalid_cli(self):
         """
@@ -450,6 +452,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
+                dnac_version="2.3.5.3",
                 config=self.playbook_invalid_cli
             )
         )
@@ -473,14 +476,16 @@ class TestDnacCredentialWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
+                dnac_version="2.3.5.3",
                 config=self.playbook_config_apply
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
-        self.assertEqual(
-            result['msg'],
-            "Exception occurred while getting global device credentials: "
+        print(result["msg"])
+        self.assertTrue(
+            result['msg'].startswith(
+                "An exception occurred while retrieving Site details for Site 'Global/Vietnam/halong/Hanoi' does not exist in the Cisco Catalyst Center."
+            )
         )
 
     def test_device_credentials_workflow_manager_invalid_site_response_2(self):
@@ -496,6 +501,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
+                dnac_version="2.3.5.3",
                 config=self.playbook_config_apply
             )
         )

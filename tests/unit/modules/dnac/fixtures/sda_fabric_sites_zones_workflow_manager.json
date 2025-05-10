@@ -1,0 +1,433 @@
+{
+  "playbook_config_create_fabric_site_without_data_collection": [
+    {
+      "fabric_sites": [
+        {
+          "site_name_hierarchy": "Global/Fabric_Test",
+          "fabric_type": "fabric_site",
+          "authentication_profile": "No Authentication",
+          "is_pub_sub_enabled": false
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_create_fabric_site_with_data_collection_and_verify": [
+    {
+      "fabric_sites": [
+        {
+          "site_name_hierarchy": "Global/Fabric_Test",
+          "fabric_type": "fabric_site",
+          "authentication_profile": "No Authentication",
+          "is_pub_sub_enabled": false
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_update_fabric_site_with_data_collection": [
+    {
+      "fabric_sites": [
+        {
+          "site_name_hierarchy": "Global/Fabric_Test",
+          "fabric_type": "fabric_site",
+          "authentication_profile": "No Authentication",
+          "is_pub_sub_enabled": true,
+          "update_authentication_profile": {
+            "authentication_order": "dot1x",
+            "dot1x_fallback_timeout": 28,
+            "wake_on_lan": false,
+            "number_of_hosts": "Single"
+          }
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_apply_pending_fabric_events": [
+    {
+      "fabric_sites": [
+        {
+          "site_name_hierarchy": "Global/Fabric_Test",
+          "fabric_type": "fabric_site",
+          "authentication_profile": "No Authentication",
+          "is_pub_sub_enabled": true,
+          "apply_pending_events": true
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_update_authentication_profile_for_fabric_site": [
+    {
+      "fabric_sites": [
+        {
+          "site_name_hierarchy": "Global/Fabric_Test",
+          "fabric_type": "fabric_site",
+          "authentication_profile": "No Authentication",
+          "is_pub_sub_enabled": true
+        }
+      ]
+    }
+  ],
+  
+  "playbook_config_create_fabric_zone": [
+    {
+      "fabric_sites": [
+        {
+          "site_name_hierarchy": "Global/Fabric_Test_Zone",
+          "fabric_type": "fabric_zone",
+          "authentication_profile": "No Authentication"
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_delete_fabric_site_with_verify": [
+    {
+      "fabric_sites": [
+        {
+          "site_name_hierarchy": "Global/Fabric_Test",
+          "fabric_type": "fabric_site",
+          "authentication_profile": "No Authentication",
+          "is_pub_sub_enabled": true
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_delete_fabric_zone": [
+    {
+      "fabric_sites": [
+        {
+          "site_name_hierarchy": "Global/Fabric_Test/Fabric_Test_Zone",
+          "fabric_type": "fabric_zone",
+          "authentication_profile": "No Authentication"
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_delete_fabric_site_zones_data": [
+    {
+      "fabric_sites": [
+        {
+          "site_name_hierarchy": "Global/Fabric_Zone",
+          "fabric_type": "fabric_zone",
+          "authentication_profile": "No Authentication",
+          "is_pub_sub_enabled": false
+        },
+        {
+          "site_name_hierarchy": "Global/Fabric_Test",
+          "fabric_type": "fabric_site",
+          "authentication_profile": "No Authentication",
+          "is_pub_sub_enabled": false
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_invalid_authentication_profile": [
+    {
+      "fabric_sites": [
+        {
+          "site_name_hierarchy": "Global/Fabric_Test",
+          "fabric_type": "fabric_site",
+          "authentication_profile": "Invalid Authentication",
+          "is_pub_sub_enabled": false
+        }
+      ]
+    }
+  ],
+
+  "get_site_details": {
+    "response": [
+      {
+        "id": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "name": "Fabric_Test",
+        "nameHierarchy": "Global/Fabric_Test",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_empty_fabric_site_details": {
+    "response": [],
+    "version": "1.0"
+  },
+
+  "get_empty_fabric_zone_details": {
+    "response": [],
+    "version": "1.0"
+  },
+
+  "get_site_details_2": {
+    "response": [
+      {
+        "id": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "name": "Fabric_Test",
+        "nameHierarchy": "Global/Fabric_Test",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_wired_data_collection_details_disable": {
+    "response": {
+      "applicationVisibility": null,
+      "wiredDataCollection": null,
+      "wirelessTelemetry": null,
+      "snmpTraps": null,
+      "syslogs": null
+    },
+    "version": "1.0"
+  },
+
+  "get_wired_data_collection_details_enable": {
+    "response": {
+      "applicationVisibility": null,
+      "wiredDataCollection": {
+        "enableWiredDataCollection": true
+      },
+      "wirelessTelemetry": null,
+      "snmpTraps": null,
+      "syslogs": null
+    },
+    "version": "1.0"
+  },
+
+  "response_get_task_id_success": {
+    "response": {
+      "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
+      "url": "/api/v1/task/0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "response_get_task_status_by_id_success": {
+    "response": {
+      "endTime": 1743681571226,
+      "status": "SUCCESS",
+      "startTime": 1743681570921,
+      "resultLocation": "/dna/intent/api/v1/tasks/0195fb85-4869-7f1d-8665-590d552534a5/detail",
+      "id": "0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "get_site_details_3": {
+    "response": [
+      {
+        "id": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "name": "Fabric_Test",
+        "nameHierarchy": "Global/Fabric_Test",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_zone_site_details": {
+    "response": [
+      {
+        "id": "e62d0d19-06b3-428c-baf7-2ad83c7b7851",
+        "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "name": "Fabric_Test",
+        "nameHierarchy": "Global/Fabric_Test",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "response_get_task_id_success_add_fabric_site": {
+    "response": {
+      "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
+      "url": "/api/v1/task/0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "response_get_task_status_by_id_success_add_fabric_site": {
+    "response": {
+      "endTime": 1743681571226,
+      "status": "SUCCESS",
+      "startTime": 1743681570921,
+      "resultLocation": "/dna/intent/api/v1/tasks/0195fb85-4869-7f1d-8665-590d552534a5/detail",
+      "id": "0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+  
+  "get_fabric_site_details": {
+    "response": [
+      {
+        "id": "879173be-e21f-472d-bc78-06407f9c5091",
+        "siteId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "authenticationProfileName": "No Authentication",
+        "isPubSubEnabled": false
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "response_get_task_id_success_add_fabric_zone": {
+    "response": {
+      "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
+      "url": "/api/v1/task/0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "response_get_task_status_by_id_success_add_fabric_zone": {
+    "response": {
+      "endTime": 1743681571226,
+      "status": "SUCCESS",
+      "startTime": 1743681570921,
+      "resultLocation": "/dna/intent/api/v1/tasks/0195fb85-4869-7f1d-8665-590d552534a5/detail",
+      "id": "0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "response_get_task_id_success_update_fabric_site": {
+    "response": {
+      "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
+      "url": "/api/v1/task/0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "response_get_task_status_by_id_success_update_fabric_site": {
+    "response": {
+      "endTime": 1743681571226,
+      "status": "SUCCESS",
+      "startTime": 1743681570921,
+      "resultLocation": "/dna/intent/api/v1/tasks/0195fb85-4869-7f1d-8665-590d552534a5/detail",
+      "id": "0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "response_get_authentication_profile": {
+    "response": [
+        {
+          "id": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+          "fabricId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+          "authenticationProfileName": "Low Impact",
+          "authenticationOrder": "dot1x",
+          "dot1xToMabFallbackTimeout": 45,
+          "wakeOnLan": true,
+          "numberOfHosts": "Single",
+          "preAuthAcl": {
+              "enabled": false,
+              "implicitAction": "PERMIT",
+              "description": "Description for the updated authentication profile",
+              "accessContracts": [
+                  {
+                      "action": "PERMIT",
+                      "protocol": "UDP",
+                      "port": "bootps"
+                  },
+                  {
+                    "action": "PERMIT",
+                    "protocol": "UDP",
+                    "port": "bootpc"
+                  },
+                  {
+                    "action": "PERMIT",
+                    "protocol": "UDP",
+                    "port": "domain"
+                  }
+              ]
+          }
+        }
+    ],
+    "version": "1.0"
+},
+
+"response_get_task_id_success_update_auth_profile": {
+  "response": {
+    "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
+    "url": "/api/v1/task/0195fb85-4869-7f1d-8665-590d552534a5"
+  },
+  "version": "1.0"
+},
+
+"response_get_task_status_by_id_success_update_auth_profile": {
+  "response": {
+    "endTime": 1743681571226,
+    "status": "SUCCESS",
+    "startTime": 1743681570921,
+    "resultLocation": "/dna/intent/api/v1/tasks/0195fb85-4869-7f1d-8665-590d552534a5/detail",
+    "id": "0195fb85-4869-7f1d-8665-590d552534a5"
+  },
+  "version": "1.0"
+},
+
+"response_get_task_id_success_apply_pending_event": {
+  "response": {
+    "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
+    "url": "/api/v1/task/0195fb85-4869-7f1d-8665-590d552534a5"
+  },
+  "version": "1.0"
+},
+
+"response_get_task_status_by_id_success_apply_pending_event": {
+  "response": {
+    "endTime": 1743681571226,
+    "status": "SUCCESS",
+    "startTime": 1743681570921,
+    "resultLocation": "/dna/intent/api/v1/tasks/0195fb85-4869-7f1d-8665-590d552534a5/detail",
+    "id": "0195fb85-4869-7f1d-8665-590d552534a5"
+  },
+  "version": "1.0"
+},
+
+"response_get_pending_fabric_events": {
+  "response": [
+      {
+        "id": "0195fb85-4869-7f1d-8665-590d552534a5",
+        "fabricId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "detail": "pending fabric event details"
+      }
+  ],
+  "version": "1.0"
+},
+
+"get_fabric_zone_details": {
+  "response": [
+    {
+      "id": "2b979e09-8a87-472e-baa0-2322f019e69f",
+      "siteId": "e62d0d19-06b3-428c-baf7-2ad83c7b7851",
+      "authenticationProfileName": "No Authentication"
+    }
+  ],
+  "version": "1.0"
+},
+  
+"response_get_task_id_success_delete_fabric_zone": {
+  "response": {
+    "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
+    "url": "/api/v1/task/0195fb85-4869-7f1d-8665-590d552534a5"
+  },
+  "version": "1.0"
+},
+
+"response_get_task_status_by_id_success_delete_fabric_zone": {
+  "response": {
+    "endTime": 1743681571226,
+    "status": "SUCCESS",
+    "startTime": 1743681570921,
+    "resultLocation": "/dna/intent/api/v1/tasks/0195fb85-4869-7f1d-8665-590d552534a5/detail",
+    "id": "0195fb85-4869-7f1d-8665-590d552534a5"
+  },
+  "version": "1.0"
+}
+
+}

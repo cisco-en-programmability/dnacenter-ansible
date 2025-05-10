@@ -1576,3 +1576,35 @@ releases:
         - Added attribute 'minimum_rssi' in 'wireless_design_workflow_manager' module
         - Removed attribute 'minimum_rss' in 'wireless_design_workflow_manager' module
         - changing ansible.utils 6.x.y
+  6.33.0:
+    release_date: "2025-05-09"
+    changes:
+      release_summary: Changes in workflow manager modules
+      minor_changes:
+        - Changes in 'application_policy_workflow_manager' module
+        - Changes in 'assurance_issue_workflow_manager' module
+        - Changes in 'device_configs_backup_workflow_manager' module
+        - Changes in 'device_credential_backup_workflow_manager' module
+        - Changes in 'discovery_workflow_manager' module
+        - Changes in 'events_and_notifications_workflow_manager' module
+        - Changes in 'inventory_workflow_manager' module
+        - Changes in 'ise_radius_integration_workflow_manager' module
+        - Changes in 'lan_automation_workflow_manager' module
+        - Changes in 'network_compliance_workflow_manager' module
+        - Changes in 'network_settings_workflow_manager' module
+        - Changes in 'pnp_workflow_manager' module
+        - Changes in 'provision_workflow_manager' module
+        - Changes in 'sda_extranet_policies_workflow_manager' module
+        - Changes in 'sda_fabric_devices_workflow_manager' module
+        - Changes in 'sda_fabric_sites_zones_workflow_manager' module
+        - Changes in 'sda_fabric_transits_workflow_manager' module
+        - Changes in 'sda_fabric_virtual_networks_workflow_manager' module
+        - Changes in 'sda_host_onboarding_workflow_manager' module
+        - Changes in 'swim_workflow_manager' module
+        - Changes in 'template_workflow_manager' module
+        - Changes in 'user_and_roles_workflow_manager' module
+        - Removed attributes 'application_set_name' in 'application_policy_workflow_manager' module
+        - Added attribute 'devices_maintenance_schedule' in 'inventory_workflow_manager' module
+        - Added attributes 'ipv4_total_addresses', 'ipv4_unassignable_addresses', 'ipv4_assigned_addresses', 'ipv4_default_assigned_addresses', 'ipv6_total_addresses', 'ipv6_unassignable_addresses', 'ipv6_assigned_addresses', 'ipv6_default_assigned_addresses' in 'network_settings_workflow_manager' module
+        - Added attribute 'sda_fabric_gateway_limit' in 'sda_fabric_virtual_networks_workflow_manager' module
+        - Added attribute 'sub_package_images' in 'swim_workflow_manager' module

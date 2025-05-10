@@ -354,7 +354,8 @@ options:
         type: dict
         suboptions:
           name:
-            description: Name of the Webhook event subscription notification.
+            description: Name of the Webhook event subscription notification. It can contain only letters (A-Z, a-z) and numbers (0-9),
+                underscores (_), spaces, and hyphens (-).
             type: str
             required: true
           description:
@@ -418,7 +419,8 @@ options:
         type: dict
         suboptions:
           name:
-            description: Name of the Email event subscription notification.
+            description: Name of the Email event subscription notification. It can contain only letters (A-Z, a-z) and numbers (0-9),
+                underscores (_), spaces, and hyphens (-).
             type: str
             required: true
           description:
@@ -501,7 +503,8 @@ options:
         type: dict
         suboptions:
           name:
-            description: Name of the Syslog event subscription notification.
+            description: Name of the Syslog event subscription notification. It can contain only letters (A-Z, a-z) and numbers (0-9),
+                underscores (_), spaces, and hyphens (-).
             type: str
             required: true
           description:
@@ -1029,7 +1032,8 @@ class Events(DnacBase):
                 'method': {'type': 'str', 'default': 'POST'},
                 'trust_cert': {'type': 'bool', 'default': False},
                 'headers': {
-                    'type': 'dict',
+                    'type': 'list',
+                    'elements': 'dict',
                     'name': {'type': 'str'},
                     'value': {'type': 'str'},
                     'default_value': {'type': 'str'},
@@ -2004,10 +2008,8 @@ class Events(DnacBase):
             status = response.get('apiStatus')
 
             if status == 'SUCCESS':
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = "Webhook Destination with name '{0}' added successfully in Cisco Catalyst Center".format(webhook_params.get('name'))
-                self.log(self.msg, "INFO")
+                self.set_operation_result("success", True, self.msg, "INFO")
                 self.create_dest.append(webhook_params.get('name'))
                 return self
 
@@ -2140,10 +2142,8 @@ class Events(DnacBase):
             status = response.get('apiStatus')
 
             if status == 'SUCCESS':
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = "Rest Webhook Destination with name '{0}' updated successfully in Cisco Catalyst Center".format(name)
-                self.log(self.msg, "INFO")
+                self.set_operation_result("success", True, self.msg, "INFO")
                 self.update_dest.append(name)
                 return self
 
@@ -2999,6 +2999,36 @@ class Events(DnacBase):
             )
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
+
+        return self
+
+    def is_valid_subscription_name(self, event, name):
+        """
+        Validates the subscription name for an event notification.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            event (str): The type of event for which the subscription name is being validated.
+            name (str): The subscription name to validate.
+
+        Returns:
+            self: The current instance with an updated message if validation fails.
+
+        Description:
+            The subscription name can contain only alphanumeric characters, underscores (_), spaces, and hyphens (-).
+            If the name is invalid, an error message is set, and the operation result is marked as failed.
+            If the name is invalid, an error message is set, and the
+            operation result is marked as failed.
+        """
+
+        pattern = r'^[a-zA-Z0-9 _-]+$'
+        is_valid = re.match(pattern, name)
+        if not is_valid:
+            self.msg = (
+                "Invalid {0} Event Notification name '{1}' provided in the playbook. Name can contain only "
+                "letters (A-Z, a-z) and numbers (0-9), underscores (_), spaces and hyphens (-)".format(event, name)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -5100,6 +5130,8 @@ class Events(DnacBase):
                 self.result['response'] = self.msg
                 return self
 
+            self.is_valid_subscription_name("Webhook", notification_name).check_return_status()
+            self.log("Provided Webhook notification name {0} is valid.".format(notification_name), "INFO")
             webhook_notification_params = self.collect_webhook_notification_playbook_params(webhook_notification_details)
 
             if not self.have.get("webhook_subscription_notifications"):
@@ -5135,6 +5167,8 @@ class Events(DnacBase):
                 self.result['response'] = self.msg
                 return self
 
+            self.is_valid_subscription_name("Email", notification_name).check_return_status()
+            self.log("Provided Email notification name {0} is valid.".format(notification_name), "INFO")
             email_notification_params = self.collect_email_notification_playbook_params(email_notification_details)
 
             if not self.have.get("email_subscription_notifications"):
@@ -5171,6 +5205,8 @@ class Events(DnacBase):
                 self.result['response'] = self.msg
                 return self
 
+            self.is_valid_subscription_name("Syslog", notification_name).check_return_status()
+            self.log("Provided Syslog notification name {0} is valid.".format(notification_name), "INFO")
             syslog_notification_params = self.collect_syslog_notification_playbook_params(syslog_notification_details)
 
             if not self.have.get("syslog_subscription_notifications"):

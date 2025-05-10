@@ -513,6 +513,7 @@ class LanAutomation(DnacBase):
         self.updated_hostname, self.no_hostname_updated = [], []
         self.added_link, self.no_link_added = [], []
         self.deleted_link, self.no_link_deleted = [], []
+        self.supported_states = ["merged", "deleted"]
 
     def validate_input(self):
         """
@@ -639,7 +640,7 @@ class LanAutomation(DnacBase):
                         "default": False
                     },
                     "pnp_authorization": {
-                        "type": "str",
+                        "type": "bool",
                         "required": False,
                         "default": False
                     },
