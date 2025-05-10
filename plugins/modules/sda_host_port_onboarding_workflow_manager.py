@@ -692,6 +692,7 @@ class SDAHostPortOnboarding(DnacBase):
         Returns:
           The method does not return a value.
         """
+        self.supported_states = ["merged", "deleted"]
         super().__init__(module)
 
     def validate_input(self):
@@ -1764,6 +1765,12 @@ class SDAHostPortOnboarding(DnacBase):
                         op_modifies=False,
                         params=get_port_assignments_params,
                     )
+                    self.log(
+                        "Response received from GET API call to Function: '{0}' from Family: '{1}' is Response: {2}".format(
+                            "get_port_assignments", "sda", str(response)
+                        ),
+                        "INFO"
+                    )
 
                     # Process the response if available
                     response = response.get("response")
@@ -1776,6 +1783,12 @@ class SDAHostPortOnboarding(DnacBase):
                         break
 
                     port_assignments.extend(response)
+
+                    # Check if the response size is less than the limit
+                    if len(response) < limit:
+                        self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
+                        break
+
                     offset += limit
 
                 except Exception as e:
@@ -1975,6 +1988,13 @@ class SDAHostPortOnboarding(DnacBase):
                         params=get_port_channels_params,
                     )
 
+                    self.log(
+                        "Response received from GET API call to Function: '{0}' from Family: '{1}' is Response: {2}".format(
+                            "get_port_channels", "sda", str(response)
+                        ),
+                        "INFO"
+                    )
+
                     # Process the response if available
                     response = response.get("response")
                     if not response:
@@ -1986,6 +2006,12 @@ class SDAHostPortOnboarding(DnacBase):
                         break
 
                     port_channels.extend(response)
+
+                    # Check if the response size is less than the limit
+                    if len(response) < limit:
+                        self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
+                        break
+
                     offset += limit
 
                 except Exception as e:
@@ -2552,6 +2578,13 @@ class SDAHostPortOnboarding(DnacBase):
                         params=get_vlans_and_ssids_mapped_to_vlans_params,
                     )
 
+                    self.log(
+                        "Response received from GET API call to Function: '{0}' from Family: '{1}' is Response: {2}".format(
+                            api_family, api_function, str(response)
+                        ),
+                        "INFO"
+                    )
+
                     # Process the response if available
                     response = response.get("response")
                     if not response:
@@ -2563,6 +2596,12 @@ class SDAHostPortOnboarding(DnacBase):
                         break
 
                     vlans_and_ssids_mapped_to_vlans.extend(response)
+
+                    # Check if the response size is less than the limit
+                    if len(response) < limit:
+                        self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
+                        break
+
                     offset += limit
 
                 except Exception as e:
