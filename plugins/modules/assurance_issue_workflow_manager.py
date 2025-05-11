@@ -1517,6 +1517,29 @@ class AssuranceSettings(DnacBase):
         self.log("Successfully retrieved comparison parameters: {0}".format(obj_params), "DEBUG")
         return obj_params
 
+    def deduplicate_by_name(self, items):
+        """
+        Remove duplicate dictionaries from a list based on the 'name' key.
+
+        Args:
+            items (list): A list of dictionaries, each expected to contain a 'name' key.
+
+        Returns:
+            list: A list of dictionaries with unique 'name' values, preserving the original order.
+
+        Notes:
+            - If an item does not have a 'name' key or the value is None, it will be skipped.
+            - Order of first occurrences is maintained.
+        """
+        seen = set()
+        unique_items = []
+        for item in items or []:
+            name = item.get("name")
+            if name and name not in seen:
+                seen.add(name)
+                unique_items.append(item)
+        return unique_items
+
     def get_want(self, config):
         """
         Parse and store assurance-related settings from the playbook configuration.
@@ -1614,6 +1637,11 @@ class AssuranceSettings(DnacBase):
 
         # Input Validation to Ensure Correct Range for Each Input Field
         self.input_data_validation(config).check_return_status()
+
+        # Deduplicate AFTER validation
+        want["assurance_user_defined_issue_settings"] = self.deduplicate_by_name(
+            want.get("assurance_user_defined_issue_settings")
+    )
 
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
@@ -1865,6 +1893,9 @@ class AssuranceSettings(DnacBase):
             self - The current object with updated information.
         """
         self.log("Fetching current assurance user-defined issues from Cisco Catalyst Center.", "DEBUG")
+        # Remove duplicate entries by 'name'
+        assurance_user_defined_issue_settings = self.deduplicate_by_name(assurance_user_defined_issue_settings)
+
         assurance_issue = []
         assurance_issue_index = 0
         for issues_setting in assurance_user_defined_issue_settings:
