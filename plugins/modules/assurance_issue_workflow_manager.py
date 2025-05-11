@@ -1641,7 +1641,7 @@ class AssuranceSettings(DnacBase):
         # Deduplicate AFTER validation
         want["assurance_user_defined_issue_settings"] = self.deduplicate_by_name(
             want.get("assurance_user_defined_issue_settings")
-    )
+        )
 
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
