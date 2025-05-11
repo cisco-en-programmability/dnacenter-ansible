@@ -33,11 +33,15 @@ options:
     choices: [merged, deleted]
     default: merged
   sda_fabric_vlan_limit:
-    description: Set the limit for creating/updating fabric VLAN(s) via the SDA API,
-      consistent with the GUI constraints. By default it is set to 50 as in the GUI
-      we can only create 50 fabric VLAN(s) at a time.
+    description: Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API,
+        aligning with GUI constraints. The default is 50, as the GUI allows creating up to 50 fabric VLANs at a time.
     type: int
     default: 50
+  sda_fabric_gateway_limit:
+    description: Sets the maximum number of anycast gateways that can be created or updated at a time via the SDA API,
+        aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 anycast gateways at a time.
+    type: int
+    default: 20
   config:
     description: A list containing detailed configurations for creating, updating,
       or deleting fabric sites/zones in a Software-Defined Access (SDA) environment.
@@ -831,9 +835,12 @@ class VirtualNetwork(DnacBase):
                 op_modifies=False,
                 params={"site_id": site_id},
             )
-            response = response.get("response")
             self.log("Received API response from 'get_fabric_zones' for the site '{0}': {1}".format(site_name, str(response)), "DEBUG")
+            if not response:
+                self.log("Given site '{0}' is not a fabric zone in Cisco Catalyst Center.".format(site_name), "INFO")
+                return fabric_zone_id
 
+            response = response.get("response")
             if not response:
                 self.log("Given site '{0}' is not a fabric zone in Cisco Catalyst Center.".format(site_name), "INFO")
                 return fabric_zone_id
@@ -2385,29 +2392,39 @@ class VirtualNetwork(DnacBase):
         """
 
         self.log("Starting the process to add Anycast Gateways.", "INFO")
-        payload = {"payload": add_anycast_payloads}
-        task_name = "add_anycast_gateways"
-        self.log("Constructing API call payload for task '{0}': {1}".format(task_name, payload), "DEBUG")
+        req_limit = self.params.get('sda_fabric_gateway_limit', 20)
+        self.log(
+            "API request batch size set to '{0}' for anycast gateway(s) creation.".format(req_limit), "DEBUG"
+        )
+        for i in range(0, len(add_anycast_payloads), req_limit):
+            batch_number = (i // req_limit) + 1
+            gateway_payload = add_anycast_payloads[i: i + req_limit]
+            batch_gateways_added = self.created_anycast_gateways[i: i + req_limit]
+            payload = {"payload": gateway_payload}
+            task_name = "add_anycast_gateways"
+            self.log(
+                "Processing batch {0}: Constructing API payload for '{1}' task: "
+                "{2}".format(batch_number, task_name, payload), "INFO"
+            )
 
-        try:
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+            try:
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                if not task_id:
+                    self.msg = "Batch {0}: Failed to retrieve task ID for '{1}'.".format(batch_number, task_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = "Batch {0}: Successfully added Anycast Gateways '{1}' in Cisco Catalyst Center.".format(batch_number, batch_gateways_added)
+                self.log("Batch {0}: Received Task ID '{1}'. Checking task status.".format(batch_number, task_id), "INFO")
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+                self.log("Batch {0}: Completed Anycast Gateway addition.".format(batch_number), "INFO")
+
+            except Exception as e:
+                self.msg = (
+                    "Batch {0}: Exception occurred while adding Anycast Gateways '{1}': {2}"
+                ).format(batch_number, batch_gateways_added, str(e))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            success_msg = "Anycast Gateway(s) '{0}' added successfully in the Cisco Catalyst Center.".format(self.created_anycast_gateways)
-            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "INFO")
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-            self.log("Completed the process to add Anycast Gateways.", "INFO")
-
-        except Exception as e:
-            self.msg = (
-                "An exception occured while adding the Anycast Gateway(s) '{0}' in the Cisco Catalyst "
-                "Center: {1}"
-            ).format(self.created_anycast_gateways, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -2429,29 +2446,39 @@ class VirtualNetwork(DnacBase):
         """
 
         self.log("Starting the process to update Anycast Gateways.", "INFO")
-        payload = {"payload": update_anycast_payloads}
-        task_name = "update_anycast_gateways"
+        req_limit = self.params.get('sda_fabric_gateway_limit', 20)
+        self.log(
+            "API request batch size set to '{0}' for anycast gateway(s) creation.".format(req_limit), "DEBUG"
+        )
+        for i in range(0, len(update_anycast_payloads), req_limit):
+            batch_number = (i // req_limit) + 1
+            gateway_payload = update_anycast_payloads[i: i + req_limit]
+            batch_gateways_updated = self.updated_anycast_gateways[i: i + req_limit]
+            payload = {"payload": gateway_payload}
+            task_name = "update_anycast_gateways"
 
-        try:
-            self.log("Constructing API call payload for task '{0}': {1}".format(task_name, payload), "DEBUG")
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+            try:
+                self.log(
+                    "Processing batch {0}: Constructing API payload for '{1}' task: "
+                    "{2}".format(batch_number, task_name, payload), "DEBUG"
+                )
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                if not task_id:
+                    self.msg = "Batch {0}: Failed to retrieve task ID for '{1}'.".format(batch_number, task_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = "Batch {0}: Successfully updated Anycast Gateways '{1}' in Cisco Catalyst Center.".format(batch_number, batch_gateways_updated)
+                self.log("Batch {0}: Received Task ID '{1}'. Checking task status.".format(batch_number, task_id), "INFO")
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+                self.log("Batch {0}: Completed Anycast Gateway updation.".format(batch_number), "INFO")
+
+            except Exception as e:
+                self.msg = (
+                    "Batch {0}: Exception occurred while updating Anycast Gateways '{1}': {2}"
+                ).format(batch_number, batch_gateways_updated, str(e))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            success_msg = "Anycast Gateway(s) '{0}' updated successfully in the Cisco Catalyst Center.".format(self.updated_anycast_gateways)
-            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "INFO")
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-            self.log("Completed the process to update Anycast Gateways.", "INFO")
-
-        except Exception as e:
-            self.msg = (
-                "An exception occured while updating the Anycast Gateway(s) '{0}' in the Cisco Catalyst "
-                "Center: {1}"
-            ).format(self.updated_anycast_gateways, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -3367,18 +3394,34 @@ class VirtualNetwork(DnacBase):
                 if anchor_site:
                     # We cannot remove the anchored site id if subscriber sites are there
                     if fabric_ids[0] == anchor_site and len(fabric_ids) == 1:
+                        if len(vn_in_ccc.get("fabricIds")) > 1:
+                            self.msg = (
+                                "Given Anchored VN '{0}' contains the subscriber sites, so in order to delete the main site, "
+                                "please remove the subscriber sites."
+                            ).format(vn_name)
+                            self.fail_and_exit(self.msg)
+
                         removed_vn_site_list.append(fabric_ids[0])
                         self.log("Only anchored site associated with the virtual network {0} so removing it as well.".format(vn_name), "INFO")
                         vn_in_ccc["anchoredSiteId"] = ""
                         vn_in_ccc["fabricIds"] = [anchor_site]
-                    else:
-                        for fabric_id in fabric_ids:
-                            if fabric_id != anchor_site and fabric_id in fabric_ids_in_ccc:
-                                self.log("Removing fabric id '{0}' from the virtual network {1} update payload".format(fabric_id, vn_name), "DEBUG")
-                                fabric_ids_in_ccc.remove(fabric_id)
-                                removed_vn_site_list.append(fabric_id)
+                        self.update_virtual_networks([vn_in_ccc]).check_return_status()
+                        self.delete_layer3_virtual_network(vn_name, vn_in_ccc.get("id"))
+                        if self.status == "failed" and "task tree" in self.msg:
+                            task_id = self.msg.split(":")[1].split(".")[0].lstrip()
+                            failure_reason = self.get_task_tree_failure_reasons(task_id)
+                            self.msg = "Unable to delele the virtual network {0} because of: {1}".format(vn_name, failure_reason)
+                            self.log(self.msg, "WARNING")
+                            self.fail_and_exit(self.msg)
+                        continue
 
-                        vn_in_ccc["fabricIds"] = fabric_ids_in_ccc
+                    for fabric_id in fabric_ids:
+                        if fabric_id != anchor_site and fabric_id in fabric_ids_in_ccc:
+                            self.log("Removing fabric id '{0}' from the virtual network {1} update payload".format(fabric_id, vn_name), "DEBUG")
+                            fabric_ids_in_ccc.remove(fabric_id)
+                            removed_vn_site_list.append(fabric_id)
+
+                    vn_in_ccc["fabricIds"] = fabric_ids_in_ccc
 
                     self.update_virtual_networks([vn_in_ccc]).check_return_status()
                     self.log("Given fabric site(s) '{0}' removed successfully from the virtual network {1}".format(fabric_locations, vn_name), "INFO")
@@ -3431,9 +3474,8 @@ class VirtualNetwork(DnacBase):
                     failure_reason = self.get_task_tree_failure_reasons(task_id)
                     self.msg = "Unable to delele the virtual network {0} because of: {1}".format(vn_name, failure_reason)
                     self.log(self.msg, "WARNING")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
 
-                self.check_return_status()
                 self.log("Successfully deleted virtual network '{0}' from Cisco Catalyst Center.".format(vn_name), "INFO")
 
         if self.deleted_virtual_networks:
@@ -4031,6 +4073,7 @@ def main():
         'validate_response_schema': {'type': 'bool', 'default': True},
         'config_verify': {'type': 'bool', "default": False},
         'sda_fabric_vlan_limit': {'type': 'int', 'default': 50},
+        'sda_fabric_gateway_limit': {'type': 'int', 'default': 20},
         'dnac_api_task_timeout': {'type': 'int', "default": 1200},
         'dnac_task_poll_interval': {'type': 'int', "default": 2},
         'config': {'required': True, 'type': 'list', 'elements': 'dict'},

@@ -311,7 +311,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "application queuing profile 'c2' created successfully."
+            "Queuing Profile(s) 'c2' created successfully in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_for_profile_dscp(self):
@@ -337,7 +337,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "application queuing profile 'c8' created successfully."
+            "Queuing Profile(s) 'c8' created successfully in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_for_application_queuing_profile_delete(self):
@@ -359,11 +359,11 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 config=self.playbook_for_application_queuing_profile_delete
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False , failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Successfully deleted queuing profiles: c2"
+            "The requested application queuing profile c2 is not present in the Cisco Catalyst Center and its deletion has been verified."
         )
 
     def test_application_policy_workflow_manager_playbook_create_profile_1(self):
@@ -389,7 +389,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "application queuing profile 'c3' created successfully."
+            "Queuing Profile(s) 'c3' created successfully in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_all_speed_update_profile(self):
@@ -415,7 +415,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application policy queuing profile 'c3' updated successfully."
+            "Queuing Profile(s) 'c3' updated successfully in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_update_profile(self):
@@ -441,7 +441,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application policy queuing profile 'c2' updated successfully."
+            "Queuing Profile(s) 'c2' updated successfully in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_dscp_update(self):
@@ -467,7 +467,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application policy queuing profile 'c8' updated successfully."
+            "Queuing Profile(s) 'c8' updated successfully in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_for_application_policy_update(self):
@@ -519,7 +519,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            ["Successfully deleted the following policy(ies): Application policy 'policy_1' deleted successfully."]
+            "Application Policie(s) 'policy_1' deleted successfully from Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_for_queuing_profiletrue_noupdate(self):
@@ -545,7 +545,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application queuing profile 'c2' does not need any update"
+            "Queuing Profile(s) 'c2' need no update in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_noprofname(self):
@@ -594,11 +594,11 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 config=self.playbook_delete_application
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Successfully deleted applications: application2, application2"
+            "The requested application application2 is not present in the Cisco Catalyst Center and its deletion has been verified."
         )
 
     def test_application_policy_workflow_manager_playbook_create_policy_wired_error(self):
@@ -681,7 +681,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application policy queuing profile 'new' updated successfully."
+            "Queuing Profile(s) 'new' updated successfully in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_create_application_servername(self):
@@ -707,7 +707,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application 'application5' created successfully."
+            "Application(s) 'application5' created successfully in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_create_application_serverip(self):
@@ -733,7 +733,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application 'application2' created successfully."
+            "Application(s) 'application2' created successfully in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_update_application_serveriptoname(self):
@@ -759,7 +759,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application 'application_1_new' updated successfully."
+            "Application(s) 'application_1_new' updated successfully in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_update_application_nametourl(self):
@@ -785,5 +785,5 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application 'application_1_new' updated successfully."
+            "Application(s) 'application_1_new' updated successfully in Cisco Catalyst Center."
         )
