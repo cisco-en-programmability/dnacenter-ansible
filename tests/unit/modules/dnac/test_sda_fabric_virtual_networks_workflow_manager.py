@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Cisco and/or its affiliates.
+#  Copyright (c) 2025 Cisco and/or its affiliates.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Make coding more python3-ish
+# Authors:
+#   Abhishek Maheswari <abmahesh@cisco.com>
+#
+# Description:
+#   Unit tests for the Ansible module `sda_fabric_virtual_networks_workflow_manager`.
+#   These tests cover various SDA virtual network operations such as creation,
+#   update, deletion, and validation logic using mocked Catalyst Center responses.
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -562,10 +568,10 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
 
     def test_sda_fabric_virtual_networks_workflow_manager_update_anycast_gateway(self):
         """
-        Test case for sda fabric virtual networks workflow manager when creating a fabric site by enable the wired data collection.
+        Test case for sda fabric virtual networks workflow manager when an anycast gateway needs any update.
 
-        This test case checks the behavior of the sda fabric virtual networks workflow manager when creating a new fabric site by enabling
-        the wired data collection in the specified Catalyst Center.
+        This test case checks the behavior of the sda fabric virtual networks workflow manager when an anycast gateway does
+        needs any update in the specified Catalyst Center.
         """
 
         set_module_args(
@@ -588,10 +594,10 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
 
     def test_sda_fabric_virtual_networks_workflow_manager_delete_anycast_gateway(self):
         """
-        Test case for sda fabric virtual networks workflow manager when creating a fabric site by enable the wired data collection.
+        Test case for sda fabric virtual networks workflow manager to delete an anycast gateway.
 
-        This test case checks the behavior of the sda fabric virtual networks workflow manager when creating a new fabric site by enabling
-        the wired data collection in the specified Catalyst Center.
+        This test case checks the behavior of the sda fabric virtual networks workflow manager when an anycast gateway
+        needs to be deleted in the specified Catalyst Center.
         """
 
         set_module_args(
@@ -614,10 +620,10 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
 
     def test_sda_fabric_virtual_networks_workflow_manager_delete_absent_anycast_gateway(self):
         """
-        Test case for sda fabric virtual networks workflow manager when creating a fabric site by enable the wired data collection.
+        Test case for sda fabric virtual networks workflow manager to delete an absent anycast gateway.
 
-        This test case checks the behavior of the sda fabric virtual networks workflow manager when creating a new fabric site by enabling
-        the wired data collection in the specified Catalyst Center.
+        This test case checks the behavior of the sda fabric virtual networks workflow manager when an absent anycast gateway
+        needs to be deleted in the specified Catalyst Center.
         """
 
         set_module_args(
@@ -640,10 +646,10 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
 
     def test_sda_fabric_virtual_networks_workflow_manager_delete_absent_virtual_network(self):
         """
-        Test case for sda fabric virtual networks workflow manager when creating a fabric site by enable the wired data collection.
+        Test case for sda fabric virtual networks workflow manager to delete an absent virtual network.
 
-        This test case checks the behavior of the sda fabric virtual networks workflow manager when creating a new fabric site by enabling
-        the wired data collection in the specified Catalyst Center.
+        This test case checks the behavior of the sda fabric virtual networks workflow manager when an absent virtual
+        network needs to be deleted in the specified Catalyst Center.
         """
 
         set_module_args(
@@ -666,10 +672,10 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
 
     def test_sda_fabric_virtual_networks_workflow_manager_delete_fabric_vlan_with_verify(self):
         """
-        Test case for sda fabric virtual networks workflow manager when creating a fabric site by enable the wired data collection.
+        Test case for sda fabric virtual networks workflow manager to delete a layer2 fabric vlan.
 
-        This test case checks the behavior of the sda fabric virtual networks workflow manager when creating a new fabric site by enabling
-        the wired data collection in the specified Catalyst Center.
+        This test case checks the behavior of the sda fabric virtual networks workflow manager when a layer2 fabric vlan
+        needs to be deleted in the specified Catalyst Center.
         """
 
         set_module_args(
@@ -692,10 +698,10 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
 
     def test_sda_fabric_virtual_networks_workflow_manager_delete_absent_fabric_vlan(self):
         """
-        Test case for sda fabric virtual networks workflow manager when creating a fabric site by enable the wired data collection.
+        Test case for sda fabric virtual networks workflow manager to delete an absent layer2 fabric vlan.
 
-        This test case checks the behavior of the sda fabric virtual networks workflow manager when creating a new fabric site by enabling
-        the wired data collection in the specified Catalyst Center.
+        This test case checks the behavior of the sda fabric virtual networks workflow manager when an absent layer2
+        fabric vlan needs to be deleted in the specified Catalyst Center.
         """
 
         set_module_args(
@@ -718,10 +724,10 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
 
     def test_sda_fabric_virtual_networks_workflow_manager_invalid_fabric_vlan_id(self):
         """
-        Test case for sda fabric virtual networks workflow manager when creating a fabric site by enable the wired data collection.
+        Test case for sda fabric virtual networks workflow manager for an invalid layer2 fabric vlan id.
 
-        This test case checks the behavior of the sda fabric virtual networks workflow manager when creating a new fabric site by enabling
-        the wired data collection in the specified Catalyst Center.
+        This test case checks the behavior of the sda fabric virtual networks workflow manager invalid layer2 fabric
+        vlan id in the specified Catalyst Center.
         """
 
         set_module_args(
@@ -744,10 +750,10 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
 
     def test_sda_fabric_virtual_networks_workflow_manager_invalid_testbed_release(self):
         """
-        Test case for sda fabric virtual networks workflow manager when creating a fabric site by enable the wired data collection.
+        Test case for sda fabric virtual networks workflow manager for an invalid testbed release.
 
-        This test case checks the behavior of the sda fabric virtual networks workflow manager when creating a new fabric site by enabling
-        the wired data collection in the specified Catalyst Center.
+        This test case checks the behavior of the sda fabric virtual networks workflow manager invalid testbed release
+        in the specified Catalyst Center.
         """
 
         set_module_args(
