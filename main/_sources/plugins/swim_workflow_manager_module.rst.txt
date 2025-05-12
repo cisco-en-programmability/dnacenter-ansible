@@ -42,7 +42,7 @@ cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -573,7 +573,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SWIM image's name
+      Specifies the name of the SWIM image to be activated.
 
 
       .. raw:: html
@@ -650,6 +650,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Used to get device details associated to this site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/sub_package_images"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_activation_details/sub_package_images:
+
+      .. rst-class:: ansible-option-title
+
+      **sub_package_images**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/sub_package_images" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies a list of SWIM sub-package image names.
 
 
       .. raw:: html
@@ -968,7 +1002,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SWIM image's name
+      Specifies the name of the SWIM image to be distributed.
 
 
       .. raw:: html
@@ -1003,6 +1037,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Used to get device details associated to this site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/sub_package_images"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_workflow_manager_module__parameter-config/image_distribution_details/sub_package_images:
+
+      .. rst-class:: ansible-option-title
+
+      **sub_package_images**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/sub_package_images" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies a list of SWIM sub-package image names.
 
 
       .. raw:: html

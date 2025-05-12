@@ -42,7 +42,7 @@ cisco.dnac.inventory_workflow_manager module -- Resource module for Network Devi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -480,6 +480,285 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule:
+
+      .. rst-class:: ansible-option-title
+
+      **devices_maintenance_schedule**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the maintenance schedule for a list of devices, specifying the time frame and recurrence details for scheduled maintenance tasks or deleting them.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/description"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief description of the maintenance schedule, specifying its purpose or any relevant details.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/device_ips"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/device_ips:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ips**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/device_ips" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of network device IPs. This field is applicable only during the creation or deletion of schedules. For updates, this field is read-only, and devices cannot be added or removed.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/end_time"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/end_time:
+
+      .. rst-class:: ansible-option-title
+
+      **end_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/end_time" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The scheduled end time of the maintenance window. For one-time schedules, this must be later than the current time. The expected format is "YYYY-MM-DD HH:MM:SS" (for example, "2025-04-05 10:30:00").
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/recurrence_end_time"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/recurrence_end_time:
+
+      .. rst-class:: ansible-option-title
+
+      **recurrence_end_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/recurrence_end_time" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The timestamp indicating when the recurring maintenance schedule should end. It must be greater than both the maintenance end date/time and the current time. The format should be a recognizable timestamp (For example, "YYYY-MM-DD HH:MM:SS" like "2025-04-05 10:30:00").
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/recurrence_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/recurrence_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **recurrence_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/recurrence_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interval for recurrence in days. The interval must be longer than the duration of the maintenance schedules and must be within the range 1 to 365 (inclusive).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/start_time"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/start_time:
+
+      .. rst-class:: ansible-option-title
+
+      **start_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/start_time" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The scheduled start time of the maintenance window. For one-time schedules, this must be later than the current time. The expected format is "YYYY-MM-DD HH:MM:SS" (for example, "2025-04-05 10:00:00").
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/time_zone"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/time_zone:
+
+      .. rst-class:: ansible-option-title
+
+      **time_zone**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/time_zone" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Time zone in which the maintenance schedule is defined (for example, "Africa/Nairobi", "America/New\_York", "Asia/Kolkata", "Europe/London", "Australia/Sydney", etc.). Supported time zones for the device maintenance schedule include: Africa/Abidjan Africa/Accra Africa/Addis\_Ababa Africa/Algiers Africa/Asmara Africa/Bamako Africa/Bangui Africa/Banjul Africa/Bissau Africa/Blantyre Africa/Brazzaville Africa/Bujumbura Africa/Cairo Africa/Casablanca Africa/Conakry Africa/Dakar Africa/Dar\_es\_Salaam Africa/Djibouti Africa/Douala Africa/El\_Aaiun Africa/Freetown Africa/Gaborone Africa/Harare Africa/Johannesburg Africa/Juba Africa/Kampala Africa/Khartoum Africa/Kigali Africa/Kinshasa Africa/Lagos Africa/Libreville Africa/Lome Africa/Luanda Africa/Lubumbashi Africa/Lusaka Africa/Malabo Africa/Maputo Africa/Maseru Africa/Mbabane Africa/Mogadishu Africa/Monrovia Africa/Nairobi Africa/Ndjamena Africa/Niamey Africa/Nouakchott Africa/Ouagadougou Africa/Porto-Novo Africa/Sao\_Tome Africa/Tripoli Africa/Tunis Africa/Windhoek America/Adak America/Anchorage America/Anguilla America/Antigua America/Argentina/Buenos\_Aires America/Aruba America/Asuncion America/Atikokan America/Barbados America/Belize America/Blanc-Sablon America/Bogota America/Cancun America/Caracas America/Cayenne America/Cayman America/Chicago America/Costa\_Rica America/Curacao America/Danmarkshavn America/Denver America/Dominica America/Edmonton America/El\_Salvador America/Grand\_Turk America/Grenada America/Guadeloupe America/Guatemala America/Guayaquil America/Guyana America/Halifax America/Havana America/Hermosillo America/Jamaica America/Kralendijk America/La\_Paz America/Lima America/Los\_Angeles America/Lower\_Princes America/Managua America/Manaus America/Marigot America/Martinique America/Mexico\_City America/Miquelon America/Montevideo America/Montserrat America/Nassau America/New\_York America/Noronha America/Nuuk America/Ojinaga America/Panama America/Paramaribo America/Phoenix America/Port-au-Prince America/Port\_of\_Spain America/Puerto\_Rico America/Punta\_Arenas America/Regina America/Rio\_Branco America/Santiago America/Santo\_Domingo America/Sao\_Paulo America/Scoresbysund America/St\_Barthelemy America/St\_Johns America/St\_Kitts America/St\_Lucia America/St\_Thomas America/St\_Vincent America/Tegucigalpa America/Thule America/Tijuana America/Toronto America/Tortola America/Vancouver America/Whitehorse America/Winnipeg Antarctica/Casey Antarctica/Davis Antarctica/DumontDUrville Antarctica/Mawson Antarctica/McMurdo Antarctica/Palmer Antarctica/Syowa Antarctica/Troll Antarctica/Vostok Arctic/Longyearbyen Asia/Aden Asia/Almaty Asia/Amman Asia/Ashgabat Asia/Baghdad Asia/Bahrain Asia/Baku Asia/Bangkok Asia/Beirut Asia/Bishkek Asia/Brunei Asia/Calcutta Asia/Chita Asia/Colombo Asia/Damascus Asia/Dhaka Asia/Dili Asia/Dubai Asia/Dushanbe Asia/Hebron Asia/Ho\_Chi\_Minh Asia/Hong\_Kong Asia/Hovd Asia/Irkutsk Asia/Jakarta Asia/Jayapura Asia/Jerusalem Asia/Kabul Asia/Kamchatka Asia/Karachi Asia/Kathmandu Asia/Kuala\_Lumpur Asia/Kuwait Asia/Macau Asia/Makassar Asia/Manila Asia/Muscat Asia/Nicosia Asia/Novosibirsk Asia/Omsk Asia/Phnom\_Penh Asia/Pyongyang Asia/Qatar Asia/Qyzylorda Asia/Riyadh Asia/Sakhalin Asia/Seoul Asia/Shanghai Asia/Singapore Asia/Taipei Asia/Tashkent Asia/Tbilisi Asia/Tehran Asia/Thimphu Asia/Tokyo Asia/Ulaanbaatar Asia/Urumqi Asia/Vientiane Asia/Vladivostok Asia/Yangon Asia/Yekaterinburg Asia/Yerevan Atlantic/Azores Atlantic/Bermuda Atlantic/Canary Atlantic/Cape\_Verde Atlantic/Faroe Atlantic/Reykjavik Atlantic/South\_Georgia Atlantic/St\_Helena Atlantic/Stanley Australia/Adelaide Australia/Brisbane Australia/Darwin Australia/Eucla Australia/Lord\_Howe Australia/Perth Australia/Sydney Europe/Amsterdam Europe/Andorra Europe/Athens Europe/Belgrade Europe/Berlin Europe/Bratislava Europe/Brussels Europe/Bucharest Europe/Budapest Europe/Chisinau Europe/Copenhagen Europe/Dublin GMT Europe/Gibraltar Europe/Guernsey Europe/Helsinki Europe/Isle\_of\_Man Europe/Istanbul Europe/Jersey Europe/Kaliningrad Europe/Kyiv Europe/Lisbon Europe/Ljubljana Europe/London Europe/Luxembourg Europe/Madrid Europe/Malta Europe/Mariehamn Europe/Minsk Europe/Monaco Europe/Moscow Europe/Oslo Europe/Paris Europe/Podgorica Europe/Prague Europe/Riga Europe/Rome Europe/Samara Europe/San\_Marino Europe/Sarajevo Europe/Simferopol Europe/Skopje Europe/Sofia Europe/Stockholm Europe/Tallinn Europe/Tirane Europe/Vaduz Europe/Vatican Europe/Vienna Europe/Vilnius Europe/Warsaw Europe/Zagreb Europe/Zurich Indian/Antananarivo Indian/Chagos Indian/Christmas Indian/Cocos Indian/Comoro Indian/Kerguelen Indian/Mahe Indian/Maldives Indian/Mauritius Indian/Mayotte Indian/Reunion Pacific/Apia Pacific/Auckland Pacific/Bougainville Pacific/Chatham Pacific/Chuuk Pacific/Easter Pacific/Efate Pacific/Fakaofo Pacific/Fiji Pacific/Funafuti Pacific/Galapagos Pacific/Gambier Pacific/Guadalcanal Pacific/Guam Pacific/Honolulu Pacific/Kiritimati Pacific/Kosrae Pacific/Majuro Pacific/Marquesas Pacific/Midway Pacific/Nauru Pacific/Niue Pacific/Norfolk Pacific/Noumea Pacific/Pago\_Pago Pacific/Palau Pacific/Pitcairn Pacific/Port\_Moresby Pacific/Rarotonga Pacific/Saipan Pacific/Tahiti Pacific/Tarawa Pacific/Tongatapu Pacific/Wake Pacific/Wallis
+          
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -3012,6 +3291,9 @@ Notes
    - Removed 'provision\_wireless\_device', 'reprovision\_wired\_device' options in v6.13.1.
    - Added the parameter 'admin\_status' options in v6.13.1.
    - Removed 'device\_updated' options in v6.13.1.
+   - The maintenance scheduling feature for network devices was introduced in version 2.3.7.9. To use this functionality, ensure the Catalyst Center is upgraded to at least version 2.3.7.9.
+   - It is recommended to specify the complete time zone when scheduling maintenance for network devices. For a list of supported time zones, please refer to the relevant documentation detailing all available options.
+   - By default, when deleting network devices, the 'clean\_config' flag is set to False, which retains the device configuration. To delete a device along with its configuration, the 'clean\_config' flag must be explicitly set to True.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -3040,18 +3322,21 @@ Examples
     
     - name: Add new device in Inventory with full credentials
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - cli_transport: ssh
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            cli_transport: ssh
             compute_device: false
             password: Test@123
             enable_password: Test@1234
@@ -3060,7 +3345,6 @@ Examples
             http_password: "test"
             http_port: "443"
             http_secure: false
-            ip_address_list: ["1.1.1.1", "2.2.2.2"]
             netconf_port: 830
             snmp_auth_passphrase: "Lablab@12"
             snmp_auth_protocol: SHA
@@ -3076,18 +3360,20 @@ Examples
     - name: Add new Compute device in Inventory with full credentials.Inputs needed
         for Compute Device
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             http_username: "testuser"
             http_password: "test"
             http_port: "443"
@@ -3105,14 +3391,14 @@ Examples
     - name: Add new Meraki device in Inventory with full credentials.Inputs needed for
         Meraki Device.
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
@@ -3121,18 +3407,20 @@ Examples
     - name: Add new Firepower Management device in Inventory with full credentials.Input
         needed to add Device.
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             http_username: "testuser"
             http_password: "test"
             http_port: "443"
@@ -3140,18 +3428,20 @@ Examples
     - name: Add new Third Party device in Inventory with full credentials.Input needed
         to add Device.
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             snmp_auth_passphrase: "Lablab@12"
             snmp_auth_protocol: SHA
             snmp_mode: AUTHPRIV
@@ -3163,52 +3453,56 @@ Examples
             type: "THIRD_PARTY_DEVICE"
     - name: Update device details or credentails in Inventory
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - cli_transport: telnet
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            cli_transport: telnet
             compute_device: false
             password: newtest123
             enable_password: newtest1233
-            ip_address_list: ["1.1.1.1", "2.2.2.2"]
             type: NETWORK_DEVICE
             credential_update: true
     - name: Update new management IP address of device in inventory
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - ip_address_list: ["1.1.1.1"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             credential_update: true
             update_mgmt_ipaddresslist:
               - exist_mgmt_ipaddress: "1.1.1.1"
                 new_mgmt_ipaddress: "12.12.12.12"
     - name: Associate Wired Devices to site and Provisioned it in Inventory
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
@@ -3223,33 +3517,37 @@ Examples
                 resync_retry_interval: 2
     - name: Update Device Role with IP Address
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             role: ACCESS
     - name: Update Interface details with IP Address
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             update_interface_details:
               description: "Testing for updating interface details"
               admin_status: "UP"
@@ -3260,36 +3558,40 @@ Examples
               clear_mac_address_table: true
     - name: Export Device Details in a CSV file Interface details with IP Address
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             export_device_list:
               password: "File_password"
               operation_enum: "0"
               parameters: ["componentName", "SerialNumber", "Last Sync Status"]
     - name: Create Global User Defined with IP Address
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             add_user_defined_field:
               - name: Test123
                 description: "Added first udf for testing"
@@ -3299,66 +3601,183 @@ Examples
                 value: "value321"
     - name: Resync Device with IP Addresses
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             device_resync: true
             force_sync: false
+
     - name: Reboot AP Devices with IP Addresses
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: merged
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             reboot_device: true
+
+    - name: Schedule the maintenance for the devices for one time.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - devices_maintenance_schedule:
+              - device_ips:
+                  - "204.1.2.2"
+                  - "204.1.2.3"
+                description: "Schedule maintenance for 2 devices"
+                start_time: "2025-04-05 10:30:00"
+                end_time: "2025-04-05 11:30:00"
+                time_zone: "Asia/Kolkata"
+
+    - name: Schedule the maintenance for the devices with recurrence interval and recurrence end time.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - devices_maintenance_schedule:
+              - device_ips:
+                  - "204.1.2.2"
+                  - "204.1.2.3"
+                description: "Schedule maintenance for 2 devices"
+                start_time: "2025-04-05 10:30:00"
+                end_time: "2025-04-05 11:30:00"
+                ime_zone: "Asia/Kolkata"
+                recurrence_end_time: "2025-04-10 11:40:00"
+                recurrence_interval: 2
+
+    - name: Update the maintenance schedule for the devices.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - devices_maintenance_schedule:
+              - device_ips:
+                  - "204.1.2.2"
+                  - "204.1.2.3"
+                description: "Updated description for maintenance of 2 devices"
+                start_time: "2025-04-05 10:30:00"
+                end_time: "2025-04-05 11:30:00"
+                time_zone: "Asia/Kolkata"
+                recurrence_end_time: "2025-04-10 11:40:00"
+                recurrence_interval: 1
+
     - name: Delete Provision/Unprovision Devices by IP Address
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: false
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log_level: "{{ dnac_log_level }}"
         state: deleted
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             clean_config: false
+
+    - name: Delete Provision/Unprovision network devices along with configuration
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: false
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            clean_config: true
+
     - name: Delete Global User Defined Field with name
       cisco.dnac.inventory_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: false
         state: deleted
         config:
-          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
             add_user_defined_field:
               - name: "Test123"
+
+    - name: Delete the maintenance schedule for the devices.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - devices_maintenance_schedule:
+              - device_ips:
+                  - "204.1.2.2"
+                  - "204.1.2.3"
 
 
 
