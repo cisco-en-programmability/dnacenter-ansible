@@ -1957,7 +1957,7 @@
 <hr class="docutils" />
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.32.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.33.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-application-policy-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2059,7 +2059,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-applicat
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application/engine_id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-engine-id"><strong>engine_id</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/application/engine_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/application/engine_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Identifier for the engine managing the application.</p>
 </div></td>
@@ -2135,7 +2135,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-applicat
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application/rank"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-rank"><strong>rank</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/application/rank" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/application/rank" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the priority ranking of the application.</p>
 </div></td>
@@ -2219,22 +2219,13 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-applicat
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/application_policy/application_set_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-application-set-name"><strong>application_set_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/application_policy/application_set_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The application sets to be removed from the application policy.</p>
-<p>Only the specified sets will be removed.</p>
-<p>Applicable only when the policy is in the deleted state.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-clause"><strong>clause</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines specific rules or conditions under which an application set is added to the application policy.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/clause_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-clause-clause-type"><strong>clause_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/clause_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2253,21 +2244,21 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/relevance_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-clause-relevance-details"><strong>relevance_details</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/relevance_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details about how relevant the application is to business operations.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/relevance_details/application_set_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-clause-relevance-details-application-set-name"><strong>application_set_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/relevance_details/application_set_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Include all the application sets for which the application policy has to be created</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/relevance_details/relevance"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-clause-relevance-details-relevance"><strong>relevance</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/relevance_details/relevance" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2285,21 +2276,21 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/device_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-device-type"><strong>device_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/device_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Indicates whether the device is wired or wireless.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the application policy</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/policy_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-policy-status"><strong>policy_status</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/policy_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2323,21 +2314,21 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/site_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-site-names"><strong>site_names</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/site_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The site or area within the network where the policy should be enforced.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/ssid_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-ssid-name"><strong>ssid_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/ssid_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the SSID name for wireless devices. Required if device_type is set to 'wireless'.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_sets"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-sets"><strong>application_sets</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_sets" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
@@ -2345,7 +2336,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <p>Application sets enable network administrators to manage and apply policies to multiple applications simultaneously, streamlining policy enforcement, monitoring, and optimization.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_sets/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-sets-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_sets/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2353,28 +2344,28 @@ such as traffic prioritization and resource allocation.</p></li>
 <p>Required for deleting an application set.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile"><strong>queuing_profile</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines queuing profile settings for applications.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings"><strong>bandwidth_settings</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies bandwidth allocation details.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings"><strong>interface_speed_settings</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines bandwidth allocation for different types of network traffic based on interface speed.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages"><strong>bandwidth_percentages</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
@@ -2389,91 +2380,91 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/best_effort"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-best-effort"><strong>best_effort</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/best_effort" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for non-priority, general-purpose traffic.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/broadcast_video"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-broadcast-video"><strong>broadcast_video</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/broadcast_video" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for one-to-many video distribution.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/bulk_data"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-bulk-data"><strong>bulk_data</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/bulk_data" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for large-volume, non-time-sensitive data transfers.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/multimedia_conferencing"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-multimedia-conferencing"><strong>multimedia_conferencing</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/multimedia_conferencing" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for combined audio-video conferencing traffic.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/multimedia_streaming"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-multimedia-streaming"><strong>multimedia_streaming</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/multimedia_streaming" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for real-time audio and video streaming.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/network_control"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-network-control"><strong>network_control</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/network_control" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for traffic related to network management and operation.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/ops_admin_mgmt"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-ops-admin-mgmt"><strong>ops_admin_mgmt</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/ops_admin_mgmt" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for operations and administration management traffic.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/real_time_interactive"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-real-time-interactive"><strong>real_time_interactive</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/real_time_interactive" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for low-latency applications requiring immediate response.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/scavenger"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-scavenger"><strong>scavenger</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/scavenger" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for low-priority traffic that can be delayed or dropped.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/signaling"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-signaling"><strong>signaling</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/signaling" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for network control messages managing communication sessions.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/transactional_data"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-transactional-data"><strong>transactional_data</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/transactional_data" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth allocated to transactional data traffic.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/voip_telephony"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-bandwidth-percentages-voip-telephony"><strong>voip_telephony</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/bandwidth_percentages/voip_telephony" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bandwidth for voice and video calls over IP.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/interface_speed"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-interface-speed-settings-interface-speed"><strong>interface_speed</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/interface_speed_settings/interface_speed" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2495,7 +2486,7 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/bandwidth_settings/is_common_between_all_interface_speeds"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-bandwidth-settings-is-common-between-all-interface-speeds"><strong>is_common_between_all_interface_speeds</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/bandwidth_settings/is_common_between_all_interface_speeds" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2507,7 +2498,7 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings"><strong>dscp_settings</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
@@ -2522,112 +2513,112 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/best_effort"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-best-effort"><strong>best_effort</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/best_effort" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for best-effort traffic, which does not require specific quality or priority guarantees.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/broadcast_video"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-broadcast-video"><strong>broadcast_video</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/broadcast_video" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for broadcast video traffic, typically distributed in a one-to-many model.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/bulk_data"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-bulk-data"><strong>bulk_data</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/bulk_data" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for large-volume data transfers that can tolerate delays or interruptions.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/multimedia_conferencing"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-multimedia-conferencing"><strong>multimedia_conferencing</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/multimedia_conferencing" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for multimedia conferencing traffic, including both audio and video communication.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/multimedia_streaming"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-multimedia-streaming"><strong>multimedia_streaming</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/multimedia_streaming" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for real-time audio and video streaming traffic.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/network_control"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-network-control"><strong>network_control</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/network_control" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for network control traffic related to management and operation.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/ops_admin_mgmt"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-ops-admin-mgmt"><strong>ops_admin_mgmt</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/ops_admin_mgmt" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for operations, administration, and management traffic.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/real_time_interactive"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-real-time-interactive"><strong>real_time_interactive</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/real_time_interactive" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for interactive applications requiring low latency and immediate responsiveness.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/scavenger"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-scavenger"><strong>scavenger</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/scavenger" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for low-priority traffic that can be delayed or dropped in case of congestion.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/signaling"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-signaling"><strong>signaling</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/signaling" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for signaling traffic used to establish, manage, and terminate communication sessions.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/transactional_data"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-transactional-data"><strong>transactional_data</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/transactional_data" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for transactional data traffic, involving data exchanges between systems.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/dscp_settings/voip_telephony"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-dscp-settings-voip-telephony"><strong>voip_telephony</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/dscp_settings/voip_telephony" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DSCP value for voice and video calls transmitted over IP networks.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/new_profile_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-new-profile-description"><strong>new_profile_description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/new_profile_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>New description of the queuing profile.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/new_profile_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-new-profile-name"><strong>new_profile_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/new_profile_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>New name for the queuing profile (used for updates).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/profile_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-profile-description"><strong>profile_description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/profile_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Description of the queuing profile.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile/profile_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile-profile-name"><strong>profile_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile/profile_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2635,7 +2626,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <p>Required for create, update, and delete operations.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2647,7 +2638,7 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -2655,7 +2646,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id13"><span class="problematic" id="id14">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2667,14 +2658,14 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2691,7 +2682,7 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2703,7 +2694,7 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2713,7 +2704,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2726,14 +2717,14 @@ such as traffic prioritization and resource allocation.</p></li>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2741,7 +2732,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -2749,7 +2740,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id33"><span class="problematic" id="id34">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
 <div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
@@ -2759,7 +2750,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id35"><span class="problematic" id="id36">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -2771,7 +2762,7 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2779,7 +2770,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id41"><span class="problematic" id="id42">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -2791,7 +2782,7 @@ such as traffic prioritization and resource allocation.</p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>

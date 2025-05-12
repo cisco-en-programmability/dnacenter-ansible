@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2037,6 +2037,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sda_fabric_gateway_limit"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-sda_fabric_gateway_limit:
+
+      .. rst-class:: ansible-option-title
+
+      **sda_fabric_gateway_limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sda_fabric_gateway_limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the maximum number of anycast gateways that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 anycast gateways at a time.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`20`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sda_fabric_vlan_limit"></div>
 
       .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-sda_fabric_vlan_limit:
@@ -2061,7 +2099,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set the limit for creating/updating fabric VLAN(s) via the SDA API, consistent with the GUI constraints. By default it is set to 50 as in the GUI we can only create 50 fabric VLAN(s) at a time.
+      Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 50, as the GUI allows creating up to 50 fabric VLANs at a time.
 
 
       .. rst-class:: ansible-option-line

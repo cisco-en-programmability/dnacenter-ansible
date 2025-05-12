@@ -42,7 +42,7 @@ cisco.dnac.events_and_notifications_workflow_manager module -- Configure various
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.32.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1060,7 +1060,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the Email event subscription notification.
+      Name of the Email event subscription notification. It can contain only letters (A-Z, a-z) and numbers (0-9), underscores (\_), spaces, and hyphens (-).
 
 
       .. raw:: html
@@ -2493,7 +2493,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the Syslog event subscription notification.
+      Name of the Syslog event subscription notification. It can contain only letters (A-Z, a-z) and numbers (0-9), underscores (\_), spaces, and hyphens (-).
 
 
       .. raw:: html
@@ -3370,7 +3370,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the Webhook event subscription notification.
+      Name of the Webhook event subscription notification. It can contain only letters (A-Z, a-z) and numbers (0-9), underscores (\_), spaces, and hyphens (-).
 
 
       .. raw:: html
