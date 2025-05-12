@@ -147,7 +147,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("get_anchored_virtual_network_response"),
                 self.test_data.get("response_get_task_id_success"),
-                self.test_data.get("response_get_task_status_by_id_success")                
+                self.test_data.get("response_get_task_status_by_id_success")
             ]
 
         elif "failed_anchored_virtual_network_creation" in self._testMethodName:
@@ -161,7 +161,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("get_anchored_virtual_network_response"),
                 self.test_data.get("response_get_task_id_success"),
-                self.test_data.get("response_get_task_status_by_id_failed_anchored_vn")                
+                self.test_data.get("response_get_task_status_by_id_failed_anchored_vn")
             ]
 
         elif "virtual_network_needs_no_update" in self._testMethodName:
@@ -225,7 +225,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_anycast_gateway_details")
             ]
-        
+
         elif "anycast_gateway_no_update" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
@@ -238,7 +238,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_anycast_gateway_details")
             ]
-        
+
         elif "update_anycast_gateway" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
@@ -322,7 +322,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
             "created successfully",
             result.get('msg')
         )
- 
+
     def test_sda_fabric_virtual_networks_workflow_manager_fabric_vlan_need_no_update(self):
         """
         Test case for sda fabric virtual networks workflow manager when fabric vlan(layer 2 virtual network) does not need any update.
@@ -348,7 +348,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
             "does not need any update",
             result.get('msg')
         )
-   
+
     def test_sda_fabric_virtual_networks_workflow_manager_update_fabric_vlan(self):
         """
         Test case for sda fabric virtual networks workflow manager when updating a fabric vlan(layer 2 virtual network).
@@ -533,7 +533,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
             "added successfully",
             result.get('msg')
         )
-        
+
     def test_sda_fabric_virtual_networks_workflow_manager_anycast_gateway_no_update(self):
         """
         Test case for sda fabric virtual networks workflow manager when an anycast gateway does not needs any update.
@@ -611,7 +611,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
             "deleted successfully",
             result.get('msg')
         )
-    
+
     def test_sda_fabric_virtual_networks_workflow_manager_delete_absent_anycast_gateway(self):
         """
         Test case for sda fabric virtual networks workflow manager when creating a fabric site by enable the wired data collection.
@@ -716,7 +716,6 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
             result.get('msg')
         )
 
-    
     def test_sda_fabric_virtual_networks_workflow_manager_invalid_fabric_vlan_id(self):
         """
         Test case for sda fabric virtual networks workflow manager when creating a fabric site by enable the wired data collection.
