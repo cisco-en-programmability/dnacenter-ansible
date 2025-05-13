@@ -2732,8 +2732,8 @@ class VirtualNetwork(DnacBase):
                 anchored_fabric_id = vn_details_in_ccc.get("anchoredSiteId")
                 if not anchored_fabric_id:
                     self.msg = (
-                        "Given virtual network '{0}' is not anchored at any fabric site so cannot make "
-                        "any configuration change in the anycast gateway.".format(vn_name)
+                        "There is no reserve ip pool '{0}' present in the Cisco Catalyst Center system."
+                        .format(ip_pool_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
