@@ -5,7 +5,7 @@
     - credentials.yml
   gather_facts: false
   vars:
-    site: bb25cdaf-3f5a-45b9-bdd6-0f63fdf6c83e
+    site: 4b9ece30-ef82-4141-ab37-62b33286195b
 
   tasks:
     - name: Create reservation
@@ -18,19 +18,22 @@
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
         state: present
-        ipv4DhcpServers:
-          - 55.66.55.55
-        ipv4DnsServers:
-          - 33.33.33.3
-        ipv4GateWay: 10.0.10.1
-        ipv4GlobalPool: 10.0.0.0/8
+        ignoreInheritedGroups: true
+        name: SubPool-Sucursal-01
+        type: Generic
+        ipv6AddressSpace: false
+        ipv4GlobalPool: 10.10.0.0/16
         ipv4Prefix: true
-        ipv4PrefixLength: 24
-        ipv4Subnet: 10.0.10.0/24
-        name: IP Pool 1
+        ipv4PrefixLength: 28
+        ipv4Subnet: 10.10.1.0
+        ipv4GateWay: 10.10.1.1
+        ipv4DhcpServers:
+          - 10.10.1.2
+        ipv4DnsServers:
+          - 8.8.8.8
+          - 8.8.4.4
+        slaacSupport: false
         siteId: "{{ site }}"
-        slaacSupport: true
-        type: LAN
 
     - name: Get Reservations
       cisco.dnac.reserve_ip_subpool_info:
