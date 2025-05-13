@@ -2934,9 +2934,9 @@ class DeviceCredential(DnacBase):
                     response, "update_device_credential_settings_for_a_site").check_return_status()
         if final_response:
             self.log("Device credential assigned to site {0} is successfully."
-                    .format(site_ids), "INFO")
+                     .format(site_ids), "INFO")
             self.log("Desired State for assign credentials to a site: {0}"
-                    .format(final_response), "DEBUG")
+                     .format(final_response), "DEBUG")
             result_assign_credential.update({
                 "Assign Credentials": {
                     "response": final_response,
