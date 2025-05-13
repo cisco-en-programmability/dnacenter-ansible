@@ -4505,7 +4505,7 @@ class Tags(DnacBase):
                 )
                 self.fail_and_exit(self.msg)
         self.log(
-            f"Extracted network device details for the tag: '{0}' is :{1}".format(
+            "Extracted network device details for the tag: '{0}' is :{1}".format(
                 tag_name, network_devices
             ),
             "INFO",
