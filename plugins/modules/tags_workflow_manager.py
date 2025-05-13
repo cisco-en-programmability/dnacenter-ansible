@@ -25,7 +25,7 @@ description:
 version_added: '6.30.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Archit Soni (@arcsoni)
+author: Archit Soni (@koderchit)
         Madhan Sankaranarayanan (@madhansansel)
 options:
   dnac_version:
