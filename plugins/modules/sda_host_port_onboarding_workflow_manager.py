@@ -1460,8 +1460,8 @@ class SDAHostPortOnboarding(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
-        if ip_address or hostname:
-            self.log("Port assignment/Port Channel operation requested hence validating IP and Hostname.", "DEBUG")
+        if (port_assignment_details or port_channel_details) or (state == "deleted" and (ip_address or hostname)):
+            self.log("Port assignment/Port Channel operation requested or delete all operation detected, hence validating IP and Hostname.", "DEBUG")
             self.validate_ip_and_hostname(ip_address, hostname, skip_device_collection_status_check)
 
         if state == "merged":
