@@ -309,6 +309,14 @@ options:
                     to be assigned to the Wireless SSID.
                   - Example - Auditors, BYOD, Developers, Guests, etc.
                 type: str
+      skip_device_collection_status_check:
+        description:
+          - When set to true, the module will skip checking the device collection status for
+            states 'In Progress' or 'Managed'.
+          - The default value is false.
+        type: bool
+        default: false
+
 requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
@@ -765,6 +773,11 @@ class SDAHostPortOnboarding(DnacBase):
                         }
                     }
                 }
+            },
+            "skip_device_collection_status_check": {
+                "type": "bool",
+                "required": False,
+                "default": False
             }
         }
 
@@ -784,7 +797,7 @@ class SDAHostPortOnboarding(DnacBase):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def validate_device_exists_and_reachable(self, ip_address, hostname):
+    def validate_device_exists_and_reachable(self, ip_address, hostname, skip_device_collection_status_check):
         """
         Validates whether a device is present in the Catalyst Center and has an acceptable status.
         Args:
@@ -816,9 +829,27 @@ class SDAHostPortOnboarding(DnacBase):
         reachability_status = device_info.get("reachabilityStatus")
         collection_status = device_info.get("collectionStatus")
 
-        if reachability_status == "Reachable" and collection_status in ["In Progress", "Managed"]:
-            self.log("Device: {0} is reachable and has an acceptable collection status.".format(device_identifier), "INFO")
-            return True
+        if reachability_status == "Reachable":
+            self.log("Device: {0} is reachable.".format(device_identifier), "INFO")
+
+            # Check if collection status check should be performed
+            if not skip_device_collection_status_check:
+                if collection_status in ["In Progress", "Managed"]:
+                    self.log(
+                        "Device: {0} has an acceptable collection status: '{1}'.".format(device_identifier, collection_status),
+                        "INFO"
+                    )
+                    return True
+                else:
+                    self.msg = (
+                        "Device: {0} does not have an acceptable collection status. "
+                        "Current collection status: '{1}'.".format(device_identifier, collection_status)
+                    )
+                    self.log(self.msg, "ERROR")
+                    return False
+            else:
+                self.log("Skipping collection status check as 'skip_device_collection_status_check' is set to True.", "INFO")
+                return True
 
         self.msg = (
             "Cannot perform port onboarding operation on device {0}: "
@@ -828,7 +859,7 @@ class SDAHostPortOnboarding(DnacBase):
         )
         return False
 
-    def validate_ip_and_hostname(self, ip_address, hostname):
+    def validate_ip_and_hostname(self, ip_address, hostname, skip_device_collection_status_check):
         """
         Validates the provided IP address and hostname.
         Args:
@@ -857,7 +888,7 @@ class SDAHostPortOnboarding(DnacBase):
             self.fail_and_exit(self.msg)
 
         # Check if device exists and is reachable in Catalyst Center
-        if not self.validate_device_exists_and_reachable(ip_address, hostname):
+        if not self.validate_device_exists_and_reachable(ip_address, hostname, skip_device_collection_status_check):
             self.fail_and_exit(self.msg)
 
         self.log("Validation successful: Provided IP address or hostname are valid")
@@ -1420,6 +1451,7 @@ class SDAHostPortOnboarding(DnacBase):
         port_assignment_details = config.get("port_assignments")
         port_channel_details = config.get("port_channels")
         wireless_ssids_details = config.get("wireless_ssids")
+        skip_device_collection_status_check = config.get("skip_device_collection_status_check")
 
         if not fabric_site_name_hierarchy:
             self.msg = (
@@ -1428,12 +1460,11 @@ class SDAHostPortOnboarding(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
-        if port_assignment_details or port_channel_details:
+        if ip_address or hostname:
             self.log("Port assignment/Port Channel operation requested hence validating IP and Hostname.", "DEBUG")
-            self.validate_ip_and_hostname(ip_address, hostname)
+            self.validate_ip_and_hostname(ip_address, hostname, skip_device_collection_status_check)
 
         if state == "merged":
-
             # Validate parameters for add/update in port assignments
             if port_assignment_details:
                 for interface in port_assignment_details:
