@@ -2732,7 +2732,7 @@ class VirtualNetwork(DnacBase):
                 anchored_fabric_id = vn_details_in_ccc.get("anchoredSiteId")
                 if not anchored_fabric_id:
                     self.msg = (
-                        "There is no reserve ip pool '{0}' present in the Cisco Catalyst Center system."
+                        "There is no reserve ip pool '{0}' present in the Cisco Catalyst Center."
                         .format(ip_pool_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
