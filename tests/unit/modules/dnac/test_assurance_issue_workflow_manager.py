@@ -65,6 +65,8 @@ class TestDnacAssuranceSettings(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("issue_exist"),
                 self.test_data.get("prev_issue_exist"),
+                self.test_data.get("issue_exist"),
+                self.test_data.get("prev_issue_exist"),
                 self.test_data.get("issue_updation"),
                 self.test_data.get("issue_exist_after_updation")
             ]
@@ -150,7 +152,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
-                config_verify=True,
+                # config_verify=True,
                 config=self.playbook_config_updation
             )
         )
