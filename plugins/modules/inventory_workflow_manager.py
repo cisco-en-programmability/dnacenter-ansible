@@ -5285,7 +5285,6 @@ class Inventory(DnacBase):
         """
 
         device_to_delete = self.get_device_ips_from_config_priority()
-        self.result['msg'] = []
 
         # Handle Global User Defined Fields (UDF) Deletion
         if self.config[0].get('add_user_defined_field'):
@@ -5299,7 +5298,6 @@ class Inventory(DnacBase):
                 self.result['changed'] = False
                 self.msg = "Device '{0}' is not present in Cisco Catalyst Center so can't perform delete operation".format(device_ip)
                 self.no_device_to_delete.append(device_ip)
-                self.result['msg'].append(self.msg)
                 self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
                 continue

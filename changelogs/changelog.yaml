@@ -1608,3 +1608,10 @@ releases:
         - Added attributes 'ipv4_total_addresses', 'ipv4_unassignable_addresses', 'ipv4_assigned_addresses', 'ipv4_default_assigned_addresses', 'ipv6_total_addresses', 'ipv6_unassignable_addresses', 'ipv6_assigned_addresses', 'ipv6_default_assigned_addresses' in 'network_settings_workflow_manager' module
         - Added attribute 'sda_fabric_gateway_limit' in 'sda_fabric_virtual_networks_workflow_manager' module
         - Added attribute 'sub_package_images' in 'swim_workflow_manager' module
+
+  6.33.1:
+    release_date: "2025-05-12"
+    changes:
+      release_summary: Changes in reserve_ip_subpool modules
+      minor_changes:
+        - Correction of issue 266 in the reserve_ip_subpool modules
