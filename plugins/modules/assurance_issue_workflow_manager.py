@@ -2781,7 +2781,7 @@ class AssuranceSettings(DnacBase):
                 seen.add(name)
                 unique_items.append(item)
         return unique_items
-    
+
     def get_valid_assurance_issues(self, items):
         """
         Processes a list of assurance issues and returns:
@@ -2822,7 +2822,6 @@ class AssuranceSettings(DnacBase):
                     result.append(item)  # Keep unique first-time entries
 
         return result
-
 
     def verify_diff_merged(self, config):
         """
