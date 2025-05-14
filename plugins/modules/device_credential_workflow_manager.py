@@ -2869,26 +2869,28 @@ class DeviceCredential(DnacBase):
                  .format(credential_params_template), "DEBUG")
 
         site_ids = self.want.get("site_id")
-        site_exists, global_site_id = self.get_site_id("Global")
-        if global_site_id in site_ids:
-            assign_credentials_to_site = self.config[0]['assign_credentials_to_site'].copy()
-            if "site_name" in assign_credentials_to_site:
-                site_names = assign_credentials_to_site.pop("site_name")
-            self.log(assign_credentials_to_site)
-            # Skip if credential_params is empty
-            if not assign_credentials_to_site:
-                result_assign_credential.update({
-                    "No Assign Credentials": {
-                        "response": "No Response",
-                        "msg": "No Assignment is available for Global site"
-                    }
-                })
-                self.msg = "No Assignment is available for Global site"
-                self.status = "success"
-                return self
+        if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.6"):
+            self.log("starting for global")
+            site_exists, global_site_id = self.get_site_id("Global")
+            if global_site_id in site_ids:
+                assign_credentials_to_site = self.config[0]['assign_credentials_to_site'].copy()
+                if "site_name" in assign_credentials_to_site:
+                    site_names = assign_credentials_to_site.pop("site_name")
+                self.log(assign_credentials_to_site)
+                # Skip if credential_params is empty
+                if not assign_credentials_to_site:
+                    result_assign_credential.update({
+                        "No Assign Credentials": {
+                            "response": "No Response",
+                            "msg": "No Assignment is available for Global site"
+                        }
+                    })
+                    self.msg = "No Assignment is available for Global site"
+                    self.status = "success"
+                    return self
 
-            site_ids.remove(global_site_id)
-            self.assign_device_cred_to_global_site(global_site_id, credential_params_template, result_assign_credential)
+                site_ids.remove(global_site_id)
+                self.assign_device_cred_to_global_site(global_site_id, credential_params_template, result_assign_credential)
 
         # Skip if credential_params is empty
         if not credential_params_template:
@@ -2904,13 +2906,13 @@ class DeviceCredential(DnacBase):
 
         for site_id in site_ids:
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
-                credential_params.update({"site_id": site_id})
-                final_response.append(copy.deepcopy(credential_params))
+                credential_params_template.update({"site_id": site_id})
+                final_response.append(copy.deepcopy(credential_params_template))
                 response = self.dnac._exec(
                     family="network_settings",
                     function='assign_device_credential_to_site_v2',
                     op_modifies=True,
-                    params=credential_params,
+                    params=credential_params_template,
                 )
                 self.log("Received API response for 'assign_device_credential_to_site_v2': {0}"
                          .format(response), "DEBUG")
