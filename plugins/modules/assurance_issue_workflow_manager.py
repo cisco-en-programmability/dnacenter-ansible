@@ -2762,6 +2762,68 @@ class AssuranceSettings(DnacBase):
         self.delete_assurance_issue(assurance_user_defined_issue_details)
         return self
 
+    def deduplicate_by_name(self, items):
+        """
+        Remove duplicate dictionaries from a list based on the 'name' key.
+        Args:
+            items (list): A list of dictionaries, each expected to contain a 'name' key.
+        Returns:
+            list: A list of dictionaries with unique 'name' values, preserving the original order.
+        Notes:
+            - If an item does not have a 'name' key or the value is None, it will be skipped.
+            - Order of first occurrences is maintained.
+        """
+        seen = set()
+        unique_items = []
+        for item in items or []:
+            name = item.get("name")
+            if name and name not in seen:
+                seen.add(name)
+                unique_items.append(item)
+        return unique_items
+    
+    def get_valid_assurance_issues(self, items):
+        """
+        Processes a list of assurance issues and returns:
+        - All unique issues (based on 'name')
+        - In case of duplicates, only keeps the second and later occurrences
+
+        Args:
+            items (list): List of assurance issue dictionaries.
+
+        Returns:
+            list: Filtered list containing unique items and second/later duplicates.
+        """
+        name_counts = {}
+        final_items = []
+
+        for item in items or []:
+            name = item.get("name")
+            if not name:
+                continue
+            name_counts[name] = name_counts.get(name, 0) + 1
+            if name_counts[name] > 1:
+                # Second or later occurrence — keep it
+                final_items.append(item)
+            elif name_counts[name] == 1:
+                # First occurrence — keep it for now (we may remove it later)
+                final_items.append(item)
+
+        # Remove first occurrences that were later duplicated
+        seen = set()
+        result = []
+        for item in final_items:
+            name = item.get("name")
+            if name in seen:
+                result.append(item)  # Keep second or later
+            else:
+                seen.add(name)
+                if name_counts[name] == 1:
+                    result.append(item)  # Keep unique first-time entries
+
+        return result
+
+
     def verify_diff_merged(self, config):
         """
         Validate applied Assurance Issue configurations in Cisco Catalyst Center against the playbook details.
@@ -2782,26 +2844,20 @@ class AssuranceSettings(DnacBase):
         self.log("Validating Assurance Issue configurations against playbook details: {0}"
                  .format(self.pprint(config)), "DEBUG")
         self.all_assurance_issue_details = {}
+        # Deduplicate config before get_have
+        user_defined_issues = config.get("assurance_user_defined_issue_settings", [])
+        deduplicated_issues = self.deduplicate_by_name(user_defined_issues)
+        config["assurance_user_defined_issue_settings"] = deduplicated_issues
+
         self.get_have(config)
+        # Deduplicate AFTER validation
+        self.want["assurance_user_defined_issue_settings"] = self.get_valid_assurance_issues(
+            self.want.get("assurance_user_defined_issue_settings")
+        )
+
         self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
         self.log("Requested State (want): {0}".format(self.pprint(self.want)), "INFO")
         user_defined_issues = config.get("assurance_user_defined_issue_settings")
-
-        # Deduplicate based on name: keep first occurrence only
-        if user_defined_issues:
-            seen_names = set()
-            deduplicated_issues = []
-            for issue in user_defined_issues:
-                name = issue.get("name")
-                if name not in seen_names:
-                    seen_names.add(name)
-                    deduplicated_issues.append(issue)
-                else:
-                    self.log(f"Duplicate issue name '{name}' found, skipping repeated entry.", "WARNING")
-
-            # Update want and config with deduplicated list
-            self.want["assurance_user_defined_issue_settings"] = deduplicated_issues
-            config["assurance_user_defined_issue_settings"] = deduplicated_issues
 
         if user_defined_issues:
             self.log("Validating user-defined assurance issues.", "DEBUG")
@@ -2811,20 +2867,28 @@ class AssuranceSettings(DnacBase):
             self.log("Current State of assurance user issue (have): {0}"
                      .format(self.have.get("assurance_user_defined_issue_settings")), "DEBUG")
 
-            for item in self.want.get("assurance_user_defined_issue_settings"):
-                assurance_user_issue_details = self.have.get(
-                    "assurance_user_defined_issue_settings")[assurance_user_issue_index].get("assurance_issue_details")
-                self.log("User-defined issue details: {}".format(assurance_user_issue_details))
+            want_issues = self.want.get("assurance_user_defined_issue_settings", [])
+            have_issues = self.have.get("assurance_user_defined_issue_settings", [])
 
-                if not assurance_user_issue_details:
-                    self.msg = "User-defined assurance issue not found: {0}".format(item)
+            for want_item in want_issues:
+                want_name = want_item.get("name")
+                matched_have_item = None
+
+                for have_entry in have_issues:
+                    assurance_user_issue_details = have_entry.get("assurance_issue_details", {})
+                    if assurance_user_issue_details.get("name") == want_name:
+                        matched_have_item = assurance_user_issue_details
+                        break
+
+                self.log("User-defined issue details: {}".format(matched_have_item), "DEBUG")
+
+                if not matched_have_item:
+                    self.msg = "User-defined assurance issue not found in have: {}".format(want_name)
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                if self.requires_update(assurance_user_issue_details, item, self.user_defined_issue_obj_params):
-                    self.msg = "User-defined assurance issue config mismatch in Cisco Catalyst Center."
+                if self.requires_update(matched_have_item, want_item, self.user_defined_issue_obj_params):
+                    self.msg = "User-defined assurance issue config mismatch in Cisco Catalyst Center for: {}".format(want_name)
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-                assurance_user_issue_index += 1
 
             self.log("User-defined assurance issues validated successfully.", "INFO")
             self.result.get("response")[0].get(
