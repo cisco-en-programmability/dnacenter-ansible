@@ -1,0 +1,2011 @@
+{
+    "create_template_playbook_case_1": [
+        {
+            "configuration_templates": {
+                "project_name": "Onboarding Configuration",
+                "template_content": "hostname cat9k-1\n",
+                "language": "velocity",
+                "device_types": [
+                    {
+                        "product_family": "Switches and Hubs"
+                    }
+                ],
+                "software_type": "IOS-XE",
+                "variant": "XE",
+                "template_name": "test_template",
+                "version_description": "Test Template"
+            }
+        }
+    ],
+    "get_projects_response_case_1_call_1": {
+        "response": [
+            {
+                "name": "Onboarding Configuration",
+                "id": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                "templates": [
+                    {
+                        "name": "DMVPN Hub for Cloud Router- System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "cf40c030-69e7-4ce4-bb45-962e71fe4c3c",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167352643,
+                        "latestVersionTime": 1743167353020,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "IPsec 1 Branch for Cloud Router - System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "361e9592-3411-46e5-8dcd-a75a29908a5f",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167351332,
+                        "latestVersionTime": 1743167352219,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "IPsec 2 Branch for Cloud Router - System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "e2476b73-620b-419f-804f-6637c7d57107",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167353323,
+                        "latestVersionTime": 1743167353715,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "PnP-Upstream-AP",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "2a707899-33e8-409a-bdb7-7477e07d229e",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744116958547,
+                        "latestVersionTime": 1744116964033,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "PnP-Upstream-SW",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "33ca6a6f-0701-4588-a9cb-840b574cc3a1",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744173500625,
+                        "latestVersionTime": 1744173507853,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    }
+                ],
+                "isDeletable": false
+            }
+        ]
+    },
+    "get_task_id_case_1_call_1": {
+        "response": {
+            "taskId": "0196aa0d-d3c9-7a85-a919-19936b746ea4",
+            "url": "/api/v1/task/0196aa0d-d3c9-7a85-a919-19936b746ea4"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_1_call_1": {
+        "response": {
+            "startTime": 1746609755081,
+            "progress": "Going to create template with name test_template",
+            "version": 1746609755081,
+            "serviceType": "NCTP",
+            "isError": false,
+            "username": "admin",
+            "instanceTenantId": "67e6885ba7e51e7021a8a263",
+            "id": "0196aa0d-d3c9-7a85-a919-19936b746ea4"
+        }
+    },
+    "get_task_details_by_id_case_1_call_2": {
+        "response": {
+            "startTime": 1746609755081,
+            "progress": "Successfully created template with name test_template",
+            "data": "4023de96-169b-427c-a5eb-2daafc623d87",
+            "endTime": 1746609756087,
+            "version": 1746609756087,
+            "serviceType": "NCTP",
+            "isError": false,
+            "username": "admin",
+            "instanceTenantId": "67e6885ba7e51e7021a8a263",
+            "id": "0196aa0d-d3c9-7a85-a919-19936b746ea4"
+        }
+    },
+    "get_task_id_case_1_call_2": {
+        "response": {
+            "taskId": "0196aa0d-d7f6-75aa-be91-63d6676e7bc1",
+            "url": "/api/v1/task/0196aa0d-d7f6-75aa-be91-63d6676e7bc1"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_1_call_3": {
+        "response": {
+            "endTime": 1746609756382,
+            "status": "SUCCESS",
+            "startTime": 1746609756150,
+            "version": 1746609756382,
+            "resultLocation": "/dna/intent/api/v1/tasks/0196aa0d-d7f6-75aa-be91-63d6676e7bc1/detail",
+            "id": "0196aa0d-d7f6-75aa-be91-63d6676e7bc1"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_1_call_4": {
+        "response": {
+            "startTime": 1746609756150,
+            "progress": "Successfully committed template test_template to version 1",
+            "data": "1, 1746609756159",
+            "endTime": 1746609756382,
+            "version": 1746609756382,
+            "serviceType": "NCTP",
+            "isError": false,
+            "username": "admin",
+            "instanceTenantId": "67e6885ba7e51e7021a8a263",
+            "id": "0196aa0d-d7f6-75aa-be91-63d6676e7bc1"
+        },
+        "version": "1.0"
+    },
+    "get_projects_response_case_1_call_2": {
+        "response": [
+            {
+                "name": "Onboarding Configuration",
+                "id": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                "templates": [
+                    {
+                        "name": "DMVPN Hub for Cloud Router- System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "cf40c030-69e7-4ce4-bb45-962e71fe4c3c",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167352643,
+                        "latestVersionTime": 1743167353020,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "IPsec 1 Branch for Cloud Router - System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "361e9592-3411-46e5-8dcd-a75a29908a5f",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167351332,
+                        "latestVersionTime": 1743167352219,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "IPsec 2 Branch for Cloud Router - System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "e2476b73-620b-419f-804f-6637c7d57107",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167353323,
+                        "latestVersionTime": 1743167353715,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "PnP-Upstream-AP",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "2a707899-33e8-409a-bdb7-7477e07d229e",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744116958547,
+                        "latestVersionTime": 1744116964033,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "PnP-Upstream-SW",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "33ca6a6f-0701-4588-a9cb-840b574cc3a1",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744173500625,
+                        "latestVersionTime": 1744173507853,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "test_template",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "4023de96-169b-427c-a5eb-2daafc623d87",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1746609755090,
+                        "latestVersionTime": 1746609756159,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    }
+                ],
+                "isDeletable": false
+            }
+        ]
+    },
+    "gets_the_templates_available_case_1_call_1": [
+        {
+            "name": "DMVPN Hub for Cloud Router- System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "cf40c030-69e7-4ce4-bb45-962e71fe4c3c",
+            "versionsInfo": [
+                {
+                    "id": "725e57ed-e3e5-4c9a-adea-890ac3446fd0",
+                    "description": "Dynamic Multipoint VPN Hub for Cloud Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167353020
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "e49a36c5-40f3-4795-a144-942cc2b1b4f6",
+                    "name": "cloud-dmvpn-hub"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 1 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "361e9592-3411-46e5-8dcd-a75a29908a5f",
+            "versionsInfo": [
+                {
+                    "id": "94ec7c3d-ec1e-48e9-9b78-49635b9246a7",
+                    "description": "IPsec 1 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167352219
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a5dc4c2d-6005-4797-861e-f82f7e0967fa",
+                    "name": "cloud-ipsec-one-branch-router"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 2 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "e2476b73-620b-419f-804f-6637c7d57107",
+            "versionsInfo": [
+                {
+                    "id": "2a3aa483-48e4-41d1-a45a-d3160131546f",
+                    "description": "IPsec 2 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167353715
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a1de5f98-5853-4b5e-9235-8aeb4a9dbb99",
+                    "name": "cloud-ipsec-two-branch-routers"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-AP",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "2a707899-33e8-409a-bdb7-7477e07d229e",
+            "versionsInfo": [
+                {
+                    "id": "6242fe4d-fa64-48b4-a690-f4e6d2132c10",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744116964033
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9500 Series Switches"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-SW",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "33ca6a6f-0701-4588-a9cb-840b574cc3a1",
+            "versionsInfo": [
+                {
+                    "id": "dd788520-227f-442f-a954-e034d474d159",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744173507853
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9500 Series Switches"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "test_template",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+            "versionsInfo": [
+                {
+                    "id": "10da071d-5165-4b50-af2a-6f3bda40e742",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Test Template",
+                    "versionTime": 1746609756159
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        }
+    ],
+    "get_template_details_case_1_call_1": {
+        "name": "test_template",
+        "tags": [],
+        "author": "admin",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "softwareVariant": "XE",
+        "templateContent": "hostname cat9k-1\n",
+        "templateParams": [],
+        "rollbackTemplateParams": [],
+        "composite": false,
+        "containingTemplates": [],
+        "language": "VELOCITY",
+        "id": "4023de96-169b-427c-a5eb-2daafc623d87",
+        "customParamsOrder": false,
+        "createTime": 1746609755090,
+        "lastUpdateTime": 1746609755090,
+        "latestVersionTime": 1746609756159,
+        "projectName": "Onboarding Configuration",
+        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+        "parentTemplateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+        "validationErrors": {
+            "templateErrors": [],
+            "rollbackTemplateErrors": [],
+            "templateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+            "templateVersion": null
+        },
+        "noOfConflicts": 0,
+        "documentDatabase": false,
+        "projectAssociated": true
+    },
+    "update_template_playbook_case_2": [
+        {
+            "configuration_templates": {
+                "project_name": "Onboarding Configuration",
+                "template_content": "hostname cat3k-1\n",
+                "language": "velocity",
+                "device_types": [
+                    {
+                        "product_family": "Switches and Hubs"
+                    }
+                ],
+                "software_type": "IOS-XE",
+                "variant": "XE",
+                "template_name": "test_template",
+                "version_description": "Test Template"
+            }
+        }
+    ],
+    "get_projects_response_case_2_call_1": {
+        "response": [
+            {
+                "name": "Onboarding Configuration",
+                "id": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                "templates": [
+                    {
+                        "name": "DMVPN Hub for Cloud Router- System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "cf40c030-69e7-4ce4-bb45-962e71fe4c3c",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167352643,
+                        "latestVersionTime": 1743167353020,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "IPsec 1 Branch for Cloud Router - System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "361e9592-3411-46e5-8dcd-a75a29908a5f",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167351332,
+                        "latestVersionTime": 1743167352219,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "IPsec 2 Branch for Cloud Router - System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "e2476b73-620b-419f-804f-6637c7d57107",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167353323,
+                        "latestVersionTime": 1743167353715,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "PnP-Upstream-AP",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "2a707899-33e8-409a-bdb7-7477e07d229e",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744116958547,
+                        "latestVersionTime": 1744116964033,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "PnP-Upstream-SW",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "33ca6a6f-0701-4588-a9cb-840b574cc3a1",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744173500625,
+                        "latestVersionTime": 1744173507853,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "test_template",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "4023de96-169b-427c-a5eb-2daafc623d87",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1746610519404,
+                        "latestVersionTime": 1746610521461,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    }
+                ],
+                "isDeletable": false
+            }
+        ]
+    },
+    "gets_the_templates_available_case_2_call_1": [
+        {
+            "name": "DMVPN Hub for Cloud Router- System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "cf40c030-69e7-4ce4-bb45-962e71fe4c3c",
+            "versionsInfo": [
+                {
+                    "id": "725e57ed-e3e5-4c9a-adea-890ac3446fd0",
+                    "description": "Dynamic Multipoint VPN Hub for Cloud Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167353020
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "e49a36c5-40f3-4795-a144-942cc2b1b4f6",
+                    "name": "cloud-dmvpn-hub"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 1 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "361e9592-3411-46e5-8dcd-a75a29908a5f",
+            "versionsInfo": [
+                {
+                    "id": "94ec7c3d-ec1e-48e9-9b78-49635b9246a7",
+                    "description": "IPsec 1 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167352219
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a5dc4c2d-6005-4797-861e-f82f7e0967fa",
+                    "name": "cloud-ipsec-one-branch-router"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 2 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "e2476b73-620b-419f-804f-6637c7d57107",
+            "versionsInfo": [
+                {
+                    "id": "2a3aa483-48e4-41d1-a45a-d3160131546f",
+                    "description": "IPsec 2 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167353715
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a1de5f98-5853-4b5e-9235-8aeb4a9dbb99",
+                    "name": "cloud-ipsec-two-branch-routers"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-AP",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "2a707899-33e8-409a-bdb7-7477e07d229e",
+            "versionsInfo": [
+                {
+                    "id": "6242fe4d-fa64-48b4-a690-f4e6d2132c10",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744116964033
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9500 Series Switches"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-SW",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "33ca6a6f-0701-4588-a9cb-840b574cc3a1",
+            "versionsInfo": [
+                {
+                    "id": "dd788520-227f-442f-a954-e034d474d159",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744173507853
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9500 Series Switches"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "test_template",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+            "versionsInfo": [
+                {
+                    "id": "44f117d5-93de-4e1c-bfd2-d5a1b378b58f",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "Test Template",
+                    "versionTime": 1746610521461
+                },
+                {
+                    "id": "10da071d-5165-4b50-af2a-6f3bda40e742",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Test Template",
+                    "versionTime": 1746609756159
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        }
+    ],
+    "get_template_details_case_2_call_1": {
+        "name": "test_template",
+        "tags": [],
+        "author": "admin",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "softwareVariant": "XE",
+        "templateContent": "hostname cat9k",
+        "templateParams": [],
+        "rollbackTemplateParams": [],
+        "composite": false,
+        "containingTemplates": [],
+        "language": "VELOCITY",
+        "id": "4023de96-169b-427c-a5eb-2daafc623d87",
+        "customParamsOrder": false,
+        "createTime": 1746609755090,
+        "lastUpdateTime": 1746610519404,
+        "latestVersionTime": 1746610521461,
+        "projectName": "Onboarding Configuration",
+        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+        "parentTemplateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+        "validationErrors": {
+            "templateErrors": [],
+            "rollbackTemplateErrors": [],
+            "templateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+            "templateVersion": null
+        },
+        "noOfConflicts": 0,
+        "documentDatabase": false,
+        "projectAssociated": true
+    },
+    "get_task_id_case_2_call_1": {
+        "response": {
+            "taskId": "0196aa1a-0460-7143-8437-b85598b66e65",
+            "url": "/api/v1/task/0196aa1a-0460-7143-8437-b85598b66e65"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_2_call_1": {
+        "response": {
+            "endTime": 1746610554243,
+            "status": "SUCCESS",
+            "startTime": 1746610553952,
+            "version": 1746610554243,
+            "resultLocation": "/dna/intent/api/v1/tasks/0196aa1a-0460-7143-8437-b85598b66e65/detail",
+            "id": "0196aa1a-0460-7143-8437-b85598b66e65"
+        },
+        "version": "1.0"
+    },
+    "get_task_id_case_2_call_2": {
+        "response": {
+            "taskId": "0196aa1a-0d42-767a-a409-15149a020db1",
+            "url": "/api/v1/task/0196aa1a-0d42-767a-a409-15149a020db1"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_2_call_2": {
+        "response": {
+            "endTime": 1746610556417,
+            "status": "SUCCESS",
+            "startTime": 1746610556226,
+            "version": 1746610556417,
+            "resultLocation": "/dna/intent/api/v1/tasks/0196aa1a-0d42-767a-a409-15149a020db1/detail",
+            "id": "0196aa1a-0d42-767a-a409-15149a020db1"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_2_call_3": {
+        "response": {
+            "startTime": 1746610556226,
+            "progress": "Successfully committed template test_template to version 3",
+            "data": "3, 1746610556235",
+            "endTime": 1746610556417,
+            "version": 1746610556417,
+            "serviceType": "NCTP",
+            "isError": false,
+            "username": "admin",
+            "instanceTenantId": "67e6885ba7e51e7021a8a263",
+            "id": "0196aa1a-0d42-767a-a409-15149a020db1"
+        }
+    },
+    "get_projects_response_case_2_call_2": {
+        "response": [
+            {
+                "name": "Onboarding Configuration",
+                "id": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                "templates": [
+                    {
+                        "name": "DMVPN Hub for Cloud Router- System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "cf40c030-69e7-4ce4-bb45-962e71fe4c3c",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167352643,
+                        "latestVersionTime": 1743167353020,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "IPsec 1 Branch for Cloud Router - System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "361e9592-3411-46e5-8dcd-a75a29908a5f",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167351332,
+                        "latestVersionTime": 1743167352219,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "IPsec 2 Branch for Cloud Router - System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "e2476b73-620b-419f-804f-6637c7d57107",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1743167353323,
+                        "latestVersionTime": 1743167353715,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "PnP-Upstream-AP",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "2a707899-33e8-409a-bdb7-7477e07d229e",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744116958547,
+                        "latestVersionTime": 1744116964033,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "PnP-Upstream-SW",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "33ca6a6f-0701-4588-a9cb-840b574cc3a1",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744173500625,
+                        "latestVersionTime": 1744173507853,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "test_template",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "4023de96-169b-427c-a5eb-2daafc623d87",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1746610554047,
+                        "latestVersionTime": 1746610556235,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    }
+                ],
+                "isDeletable": false
+            }
+        ]
+    },
+    "gets_the_templates_available_case_2_call_2": [
+        {
+            "name": "DMVPN Hub for Cloud Router- System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "cf40c030-69e7-4ce4-bb45-962e71fe4c3c",
+            "versionsInfo": [
+                {
+                    "id": "725e57ed-e3e5-4c9a-adea-890ac3446fd0",
+                    "description": "Dynamic Multipoint VPN Hub for Cloud Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167353020
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "e49a36c5-40f3-4795-a144-942cc2b1b4f6",
+                    "name": "cloud-dmvpn-hub"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 1 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "361e9592-3411-46e5-8dcd-a75a29908a5f",
+            "versionsInfo": [
+                {
+                    "id": "94ec7c3d-ec1e-48e9-9b78-49635b9246a7",
+                    "description": "IPsec 1 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167352219
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a5dc4c2d-6005-4797-861e-f82f7e0967fa",
+                    "name": "cloud-ipsec-one-branch-router"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 2 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "e2476b73-620b-419f-804f-6637c7d57107",
+            "versionsInfo": [
+                {
+                    "id": "2a3aa483-48e4-41d1-a45a-d3160131546f",
+                    "description": "IPsec 2 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167353715
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a1de5f98-5853-4b5e-9235-8aeb4a9dbb99",
+                    "name": "cloud-ipsec-two-branch-routers"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-AP",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "2a707899-33e8-409a-bdb7-7477e07d229e",
+            "versionsInfo": [
+                {
+                    "id": "6242fe4d-fa64-48b4-a690-f4e6d2132c10",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744116964033
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9500 Series Switches"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-SW",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "33ca6a6f-0701-4588-a9cb-840b574cc3a1",
+            "versionsInfo": [
+                {
+                    "id": "dd788520-227f-442f-a954-e034d474d159",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744173507853
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9500 Series Switches"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "test_template",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+            "versionsInfo": [
+                {
+                    "id": "aa8459bd-8252-4332-8e7b-fa7dbaf52ff0",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "Test Template",
+                    "versionTime": 1746610556235
+                },
+                {
+                    "id": "44f117d5-93de-4e1c-bfd2-d5a1b378b58f",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "Test Template",
+                    "versionTime": 1746610521461
+                },
+                {
+                    "id": "10da071d-5165-4b50-af2a-6f3bda40e742",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Test Template",
+                    "versionTime": 1746609756159
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        }
+    ],
+    "get_template_details_case_2_call_2": {
+        "name": "test_template",
+        "tags": [],
+        "author": "admin",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "softwareVariant": "XE",
+        "templateContent": "hostname cat3k-1\n",
+        "templateParams": [],
+        "rollbackTemplateParams": [],
+        "composite": false,
+        "containingTemplates": [],
+        "language": "VELOCITY",
+        "id": "4023de96-169b-427c-a5eb-2daafc623d87",
+        "customParamsOrder": false,
+        "createTime": 1746609755090,
+        "lastUpdateTime": 1746610554047,
+        "latestVersionTime": 1746610556235,
+        "projectName": "Onboarding Configuration",
+        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+        "parentTemplateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+        "validationErrors": {
+            "templateErrors": [],
+            "rollbackTemplateErrors": [],
+            "templateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+            "templateVersion": null
+        },
+        "noOfConflicts": 0,
+        "documentDatabase": false,
+        "projectAssociated": true
+    },
+    "delete_template_playbook_case_3": [
+        {
+            "configuration_templates": {
+                "project_name": "Onboarding Configuration",
+                "template_content": "hostname cat3k-1\n",
+                "language": "velocity",
+                "device_types": [
+                    {
+                        "product_family": "Switches and Hubs"
+                    }
+                ],
+                "software_type": "IOS-XE",
+                "variant": "XE",
+                "template_name": "test_template",
+                "version_description": "Test Template"
+            }
+        }
+    ],
+    "get_projects_response_case_3_call_1": [
+        {
+            "name": "Onboarding Configuration",
+            "id": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templates": [
+                {
+                    "name": "DMVPN Hub for Cloud Router- System Default",
+                    "composite": false,
+                    "language": "VELOCITY",
+                    "id": "cf40c030-69e7-4ce4-bb45-962e71fe4c3c",
+                    "customParamsOrder": false,
+                    "lastUpdateTime": 1743167352643,
+                    "latestVersionTime": 1743167353020,
+                    "projectName": "Onboarding Configuration",
+                    "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                    "noOfConflicts": 0,
+                    "documentDatabase": false,
+                    "projectAssociated": true
+                },
+                {
+                    "name": "IPsec 1 Branch for Cloud Router - System Default",
+                    "composite": false,
+                    "language": "VELOCITY",
+                    "id": "361e9592-3411-46e5-8dcd-a75a29908a5f",
+                    "customParamsOrder": false,
+                    "lastUpdateTime": 1743167351332,
+                    "latestVersionTime": 1743167352219,
+                    "projectName": "Onboarding Configuration",
+                    "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                    "noOfConflicts": 0,
+                    "documentDatabase": false,
+                    "projectAssociated": true
+                },
+                {
+                    "name": "IPsec 2 Branch for Cloud Router - System Default",
+                    "composite": false,
+                    "language": "VELOCITY",
+                    "id": "e2476b73-620b-419f-804f-6637c7d57107",
+                    "customParamsOrder": false,
+                    "lastUpdateTime": 1743167353323,
+                    "latestVersionTime": 1743167353715,
+                    "projectName": "Onboarding Configuration",
+                    "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                    "noOfConflicts": 0,
+                    "documentDatabase": false,
+                    "projectAssociated": true
+                },
+                {
+                    "name": "PnP-Upstream-AP",
+                    "composite": false,
+                    "language": "JINJA",
+                    "id": "2a707899-33e8-409a-bdb7-7477e07d229e",
+                    "customParamsOrder": false,
+                    "lastUpdateTime": 1744116958547,
+                    "latestVersionTime": 1744116964033,
+                    "projectName": "Onboarding Configuration",
+                    "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                    "noOfConflicts": 0,
+                    "documentDatabase": false,
+                    "projectAssociated": true
+                },
+                {
+                    "name": "PnP-Upstream-SW",
+                    "composite": false,
+                    "language": "JINJA",
+                    "id": "33ca6a6f-0701-4588-a9cb-840b574cc3a1",
+                    "customParamsOrder": false,
+                    "lastUpdateTime": 1744173500625,
+                    "latestVersionTime": 1744173507853,
+                    "projectName": "Onboarding Configuration",
+                    "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                    "noOfConflicts": 0,
+                    "documentDatabase": false,
+                    "projectAssociated": true
+                },
+                {
+                    "name": "test_template",
+                    "composite": false,
+                    "language": "VELOCITY",
+                    "id": "4023de96-169b-427c-a5eb-2daafc623d87",
+                    "customParamsOrder": false,
+                    "lastUpdateTime": 1746610554047,
+                    "latestVersionTime": 1746610556235,
+                    "projectName": "Onboarding Configuration",
+                    "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+                    "noOfConflicts": 0,
+                    "documentDatabase": false,
+                    "projectAssociated": true
+                }
+            ],
+            "isDeletable": false
+        }
+    ],
+    "gets_the_templates_available_case_3_call_1": [
+        {
+            "name": "DMVPN Hub for Cloud Router- System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "cf40c030-69e7-4ce4-bb45-962e71fe4c3c",
+            "versionsInfo": [
+                {
+                    "id": "725e57ed-e3e5-4c9a-adea-890ac3446fd0",
+                    "description": "Dynamic Multipoint VPN Hub for Cloud Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167353020
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "e49a36c5-40f3-4795-a144-942cc2b1b4f6",
+                    "name": "cloud-dmvpn-hub"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 1 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "361e9592-3411-46e5-8dcd-a75a29908a5f",
+            "versionsInfo": [
+                {
+                    "id": "94ec7c3d-ec1e-48e9-9b78-49635b9246a7",
+                    "description": "IPsec 1 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167352219
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a5dc4c2d-6005-4797-861e-f82f7e0967fa",
+                    "name": "cloud-ipsec-one-branch-router"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 2 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "e2476b73-620b-419f-804f-6637c7d57107",
+            "versionsInfo": [
+                {
+                    "id": "2a3aa483-48e4-41d1-a45a-d3160131546f",
+                    "description": "IPsec 2 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167353715
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a1de5f98-5853-4b5e-9235-8aeb4a9dbb99",
+                    "name": "cloud-ipsec-two-branch-routers"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-AP",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "2a707899-33e8-409a-bdb7-7477e07d229e",
+            "versionsInfo": [
+                {
+                    "id": "6242fe4d-fa64-48b4-a690-f4e6d2132c10",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744116964033
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9500 Series Switches"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-SW",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "33ca6a6f-0701-4588-a9cb-840b574cc3a1",
+            "versionsInfo": [
+                {
+                    "id": "dd788520-227f-442f-a954-e034d474d159",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744173507853
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9500 Series Switches"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "test_template",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+            "versionsInfo": [
+                {
+                    "id": "aa8459bd-8252-4332-8e7b-fa7dbaf52ff0",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "Test Template",
+                    "versionTime": 1746610556235
+                },
+                {
+                    "id": "44f117d5-93de-4e1c-bfd2-d5a1b378b58f",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "Test Template",
+                    "versionTime": 1746610521461
+                },
+                {
+                    "id": "10da071d-5165-4b50-af2a-6f3bda40e742",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Test Template",
+                    "versionTime": 1746609756159
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        }
+    ],
+    "get_template_details_case_3_call_1": {
+        "name": "test_template",
+        "tags": [],
+        "author": "admin",
+        "deviceTypes": [
+            {
+                "productFamily": "Switches and Hubs"
+            }
+        ],
+        "softwareType": "IOS-XE",
+        "softwareVariant": "XE",
+        "templateContent": "hostname cat3k-1\n",
+        "templateParams": [],
+        "rollbackTemplateParams": [],
+        "composite": false,
+        "containingTemplates": [],
+        "language": "VELOCITY",
+        "id": "4023de96-169b-427c-a5eb-2daafc623d87",
+        "customParamsOrder": false,
+        "createTime": 1746609755090,
+        "lastUpdateTime": 1746610554047,
+        "latestVersionTime": 1746610556235,
+        "projectName": "Onboarding Configuration",
+        "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+        "parentTemplateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+        "validationErrors": {
+            "templateErrors": [],
+            "rollbackTemplateErrors": [],
+            "templateId": "4023de96-169b-427c-a5eb-2daafc623d87",
+            "templateVersion": null
+        },
+        "noOfConflicts": 0,
+        "documentDatabase": false,
+        "projectAssociated": true
+    },
+    "get_task_id_case_3_call_1": {
+        "response": {
+            "taskId": "0196aa2c-bcdb-72ef-bb1f-3edd07e32236",
+            "url": "/api/v1/task/0196aa2c-bcdb-72ef-bb1f-3edd07e32236"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_3_call_1": {
+        "response": {
+            "endTime": 1746611780884,
+            "status": "SUCCESS",
+            "startTime": 1746611780828,
+            "version": 1746611780884,
+            "resultLocation": "/dna/intent/api/v1/tasks/0196aa2c-bcdb-72ef-bb1f-3edd07e32236/detail",
+            "id": "0196aa2c-bcdb-72ef-bb1f-3edd07e32236"
+        },
+        "version": "1.0"
+    },
+    "gets_the_templates_available_case_3_call_2": [
+        {
+            "name": "DMVPN Hub for Cloud Router- System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "cf40c030-69e7-4ce4-bb45-962e71fe4c3c",
+            "versionsInfo": [
+                {
+                    "id": "725e57ed-e3e5-4c9a-adea-890ac3446fd0",
+                    "description": "Dynamic Multipoint VPN Hub for Cloud Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167353020
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "e49a36c5-40f3-4795-a144-942cc2b1b4f6",
+                    "name": "cloud-dmvpn-hub"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 1 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "361e9592-3411-46e5-8dcd-a75a29908a5f",
+            "versionsInfo": [
+                {
+                    "id": "94ec7c3d-ec1e-48e9-9b78-49635b9246a7",
+                    "description": "IPsec 1 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167352219
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a5dc4c2d-6005-4797-861e-f82f7e0967fa",
+                    "name": "cloud-ipsec-one-branch-router"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 2 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "e2476b73-620b-419f-804f-6637c7d57107",
+            "versionsInfo": [
+                {
+                    "id": "2a3aa483-48e4-41d1-a45a-d3160131546f",
+                    "description": "IPsec 2 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1743167353715
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a1de5f98-5853-4b5e-9235-8aeb4a9dbb99",
+                    "name": "cloud-ipsec-two-branch-routers"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-AP",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "2a707899-33e8-409a-bdb7-7477e07d229e",
+            "versionsInfo": [
+                {
+                    "id": "6242fe4d-fa64-48b4-a690-f4e6d2132c10",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744116964033
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9500 Series Switches"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "PnP-Upstream-SW",
+            "projectName": "Onboarding Configuration",
+            "projectId": "b0a88bcb-d23e-45f9-b33c-f524d0192e7e",
+            "templateId": "33ca6a6f-0701-4588-a9cb-840b574cc3a1",
+            "versionsInfo": [
+                {
+                    "id": "dd788520-227f-442f-a954-e034d474d159",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1744173507853
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9500 Series Switches"
+                },
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        }
+    ],
+    "export_project_playbook_case_4": [
+        {
+            "export": {
+                "project": [
+                    "sample_project"
+                ]
+            }
+        }
+    ],
+    "get_task_id_case_4_call_1": {
+        "response": {
+            "taskId": "01966b47-44eb-7455-acae-1dd9bd22a469",
+            "url": "/api/v1/task/01966b47-44eb-7455-acae-1dd9bd22a469"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_4_call_1": {
+        "response": {
+            "version": 1745556554994,
+            "endTime": 1745556554994,
+            "data": "[{\"name\":\"sample_project\",\"tags\":[],\"id\":\"ea8f12b6-067e-48f7-a552-61939f27bf3a\",\"templates\":[],\"isDeletable\":true}]",
+            "progress": "Successfully Exported Project(s)",
+            "startTime": 1745556554987,
+            "serviceType": "NCTP",
+            "username": "admin",
+            "isError": false,
+            "instanceTenantId": "6601271010e7a8644294ccad",
+            "id": "01966b47-44eb-7455-acae-1dd9bd22a469"
+        }
+    },
+    "export_template_playbook_case_5": [
+        {
+            "export": {
+                "template": [
+                    {
+                        "project_name": "Onboarding Configuration",
+                        "template_name": "AP_Onboarding"
+                    },
+                    {
+                        "project_name": "Test_Ansible",
+                        "template_name": "Test-ansible-composite"
+                    }
+                ]
+            }
+        }
+    ],
+    "get_export_template_values_case_5_call_1": {
+        "response": [
+            {
+                "name": "Onboarding Configuration",
+                "description": "Onboarding Configuration",
+                "id": "15922b60-be60-45e1-951a-4d9d7cb18a10",
+                "lastUpdateTime": 1711357003763,
+                "templates": [
+                    {
+                        "name": "AP_Onboarding",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "17bc2a4c-06e8-4e1a-9711-852cf56477a3",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744111435353,
+                        "latestVersionTime": 1744111435374,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "15922b60-be60-45e1-951a-4d9d7cb18a10",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "DMVPN Hub for Cloud Router- System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "001349a9-133f-40bb-893b-2c47196118c7",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1733338632668,
+                        "latestVersionTime": 1733338633061,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "15922b60-be60-45e1-951a-4d9d7cb18a10",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "IPsec 1 Branch for Cloud Router - System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "eada1447-3048-4603-a07d-7276cf289d78",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1733338630459,
+                        "latestVersionTime": 1733338632353,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "15922b60-be60-45e1-951a-4d9d7cb18a10",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "IPsec 2 Branch for Cloud Router - System Default",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "4af78518-bdb0-47fd-972e-c432ea0c82df",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1733338633368,
+                        "latestVersionTime": 1733338633803,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "15922b60-be60-45e1-951a-4d9d7cb18a10",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "PnP-Upstream-SW1",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "0d11603f-7a71-459b-96fd-637eedb5f6cb",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744109515372,
+                        "latestVersionTime": 1744109515765,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "15922b60-be60-45e1-951a-4d9d7cb18a10",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "temp_cat9k-1",
+                        "composite": false,
+                        "language": "VELOCITY",
+                        "id": "bbd5b27d-4504-4879-bfd1-a53e3125f63e",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744110014249,
+                        "latestVersionTime": 1744110014574,
+                        "projectName": "Onboarding Configuration",
+                        "projectId": "15922b60-be60-45e1-951a-4d9d7cb18a10",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    }
+                ],
+                "isDeletable": false
+            },
+            {
+                "name": "Test_Ansible",
+                "description": "",
+                "id": "240e5e18-c285-4554-b4bf-f392f48a510a",
+                "lastUpdateTime": 1744823803302,
+                "templates": [
+                    {
+                        "name": "Test-ansible-composite",
+                        "composite": true,
+                        "language": "JINJA",
+                        "id": "a5854e9f-0f54-4364-8489-2361467ef9b0",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744823895200,
+                        "latestVersionTime": 1744823896547,
+                        "projectName": "Test_Ansible",
+                        "projectId": "240e5e18-c285-4554-b4bf-f392f48a510a",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "Test-ansible-regular",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "c353a7cf-732f-4d38-809d-17259a1655c4",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744823835357,
+                        "latestVersionTime": 1744823841718,
+                        "projectName": "Test_Ansible",
+                        "projectId": "240e5e18-c285-4554-b4bf-f392f48a510a",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    }
+                ],
+                "isDeletable": true
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_task_id_case_5_call_1": {
+        "response": {
+            "taskId": "01966b5a-baa5-79c0-ae85-4bd7a70231f8",
+            "url": "/api/v1/task/01966b5a-baa5-79c0-ae85-4bd7a70231f8"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_5_call_1": {
+        "response": {
+            "version": 1745557830362,
+            "endTime": 1745557830362,
+            "data": "[{\"name\":\"AP_Onboarding\",\"description\":\"\",\"tags\":[],\"author\":\"admin\",\"deviceTypes\":[{\"productFamily\":\"Cisco Cloud Services Platform\",\"productSeries\":\"Cisco Cloud Services Platform 5000\"}],\"softwareType\":\"IOS\",\"softwareVariant\":\"\",\"templateContent\":\"\",\"templateParams\":[],\"rollbackTemplateParams\":[],\"composite\":false,\"containingTemplates\":[],\"language\":\"JINJA\",\"promotedTemplateContent\":\"\",\"promotedTemplateParams\":[],\"customParamsOrder\":false,\"createTime\":1744111435353,\"lastUpdateTime\":1744111435353,\"latestVersionTime\":1744111435374,\"projectName\":\"Onboarding Configuration\",\"projectId\":\"15922b60-be60-45e1-951a-4d9d7cb18a10\",\"parentTemplateId\":\"17bc2a4c-06e8-4e1a-9711-852cf56477a3\",\"validationErrors\":{\"templateErrors\":[],\"rollbackTemplateErrors\":[],\"templateId\":\"17bc2a4c-06e8-4e1a-9711-852cf56477a3\",\"templateVersion\":null},\"noOfConflicts\":0,\"documentDatabase\":false,\"projectAssociated\":true},{\"name\":\"Test-ansible-composite\",\"description\":\"\",\"tags\":[],\"author\":\"admin\",\"deviceTypes\":[{\"productFamily\":\"Switches and Hubs\",\"productSeries\":\"Cisco Catalyst 9500 Series Switches\"}],\"softwareType\":\"IOS\",\"softwareVariant\":\"\",\"templateParams\":[],\"rollbackTemplateParams\":[],\"composite\":true,\"containingTemplates\":[{\"name\":\"Test-ansible-regular\",\"composite\":false,\"language\":\"JINJA\",\"description\":\"\",\"templateParams\":[],\"projectName\":\"Test_Ansible\",\"deviceTypes\":[{\"productFamily\":\"Switches and Hubs\",\"productSeries\":\"Cisco Catalyst 9500 Series Switches\"}],\"promotedTemplateParams\":[],\"tags\":[],\"parentTemplateId\":\"c353a7cf-732f-4d38-809d-17259a1655c4\"}],\"language\":\"JINJA\",\"promotedTemplateContent\":\"[{\\\"name\\\":\\\"Test-ansible-regular\\\",\\\"id\\\":\\\"c353a7cf-732f-4d38-809d-17259a1655c4\\\",\\\"composite\\\":false,\\\"language\\\":\\\"JINJA\\\",\\\"description\\\":\\\"\\\"}]\",\"promotedTemplateParams\":[],\"customParamsOrder\":false,\"createTime\":1744823885075,\"lastUpdateTime\":1744823895200,\"latestVersionTime\":1744823896547,\"projectName\":\"Test_Ansible\",\"projectId\":\"240e5e18-c285-4554-b4bf-f392f48a510a\",\"parentTemplateId\":\"a5854e9f-0f54-4364-8489-2361467ef9b0\",\"validationErrors\":{\"templateErrors\":[],\"rollbackTemplateErrors\":[],\"templateId\":\"a5854e9f-0f54-4364-8489-2361467ef9b0\",\"templateVersion\":null},\"noOfConflicts\":0,\"documentDatabase\":false,\"projectAssociated\":true}]",
+            "progress": "Successfully Exported Template(s)",
+            "startTime": 1745557830309,
+            "serviceType": "NCTP",
+            "username": "admin",
+            "isError": false,
+            "instanceTenantId": "6601271010e7a8644294ccad",
+            "id": "01966b5a-baa5-79c0-ae85-4bd7a70231f8"
+        },
+        "version": "1.0"
+    },
+    "import_project_playbook_case_6": [
+        {
+            "import": {
+                "project": {
+                    "do_version": false,
+                    "payload": [
+                        {
+                            "name": "Onboarding Configuration2"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "get_projects_response_case_6_call_1": {
+        "response": [],
+        "version": "1.0"
+    },
+    "get_task_id_case_6_call_1": {
+        "response": {
+            "taskId": "01966b7c-b354-73ce-88a1-38961518dcdd",
+            "url": "/api/v1/task/01966b7c-b354-73ce-88a1-38961518dcdd"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_6_call_1": {
+        "response": {
+            "version": 1745560056675,
+            "endTime": 1745560056675,
+            "data": "[{\"name\":\"Onboarding Configuration2\",\"id\":\"b31eeba7-0879-46ee-a68c-6aca4384a8ed\",\"templates\":[],\"isDeletable\":true}]",
+            "progress": "Successfully imported Project(s)",
+            "startTime": 1745560056660,
+            "serviceType": "NCTP",
+            "username": "admin",
+            "isError": false,
+            "instanceTenantId": "6601271010e7a8644294ccad",
+            "id": "01966b7c-b354-73ce-88a1-38961518dcdd"
+        },
+        "version": "1.0"
+    },
+    "import_template_playbook_case_7": [
+        {
+            "import": {
+                "template": {
+                    "project_name": "Test_Ansible",
+                    "payload": [
+                        {
+                            "project_name": "Test_Ansible",
+                            "template_content": "hostname cat9k-1\n",
+                            "language": "velocity",
+                            "device_types": [
+                                {
+                                    "product_family": "Switches and Hubs"
+                                }
+                            ],
+                            "software_type": "IOS-XE",
+                            "variant": "XE",
+                            "template_name": "test_template",
+                            "version_description": "Test Template"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "get_projects_response_case_7_call_1": {
+        "response": [
+            {
+                "name": "Test_Ansible",
+                "description": "",
+                "id": "240e5e18-c285-4554-b4bf-f392f48a510a",
+                "lastUpdateTime": 1744823803302,
+                "templates": [
+                    {
+                        "name": "Test-ansible-composite",
+                        "composite": true,
+                        "language": "JINJA",
+                        "id": "a5854e9f-0f54-4364-8489-2361467ef9b0",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744823895200,
+                        "latestVersionTime": 1744823896547,
+                        "projectName": "Test_Ansible",
+                        "projectId": "240e5e18-c285-4554-b4bf-f392f48a510a",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    },
+                    {
+                        "name": "Test-ansible-regular",
+                        "composite": false,
+                        "language": "JINJA",
+                        "id": "c353a7cf-732f-4d38-809d-17259a1655c4",
+                        "customParamsOrder": false,
+                        "lastUpdateTime": 1744823835357,
+                        "latestVersionTime": 1744823841718,
+                        "projectName": "Test_Ansible",
+                        "projectId": "240e5e18-c285-4554-b4bf-f392f48a510a",
+                        "noOfConflicts": 0,
+                        "documentDatabase": false,
+                        "projectAssociated": true
+                    }
+                ],
+                "isDeletable": true
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_task_id_case_7_call_1": {
+        "response": {
+            "taskId": "01966b98-540f-723a-a09a-7833c8dc7110",
+            "url": "/api/v1/task/01966b98-540f-723a-a09a-7833c8dc7110"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_7_call_1": {
+        "response": {
+            "version": 1745561867279,
+            "progress": "Import Template(s)",
+            "startTime": 1745561867279,
+            "serviceType": "NCTP",
+            "username": "admin",
+            "isError": false,
+            "instanceTenantId": "6601271010e7a8644294ccad",
+            "id": "01966b98-540f-723a-a09a-7833c8dc7110"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_7_call_2": {
+        "response": {
+            "version": 1745561867614,
+            "endTime": 1745561867614,
+            "data": "[{\"name\":\"test_template\",\"deviceTypes\":[{\"productFamily\":\"Switches and Hubs\"}],\"softwareType\":\"IOS\",\"softwareVariant\":\"XE\",\"templateContent\":\"hostname cat9k-1\\n\",\"composite\":false,\"language\":\"VELOCITY\",\"id\":\"f8220f4b-e5a4-45f3-ad22-96762c75652c\",\"customParamsOrder\":false,\"latestVersionTime\":0,\"projectName\":\"Test_Ansible\",\"projectId\":\"240e5e18-c285-4554-b4bf-f392f48a510a\",\"validationErrors\":{\"templateErrors\":[],\"rollbackTemplateErrors\":[],\"templateId\":null,\"templateVersion\":null},\"noOfConflicts\":0,\"documentDatabase\":false,\"projectAssociated\":true}]",
+            "progress": "Successfully imported Template(s)",
+            "startTime": 1745561867279,
+            "serviceType": "NCTP",
+            "username": "admin",
+            "isError": false,
+            "instanceTenantId": "6601271010e7a8644294ccad",
+            "id": "01966b98-540f-723a-a09a-7833c8dc7110"
+        },
+        "version": "1.0"
+    }
+}
