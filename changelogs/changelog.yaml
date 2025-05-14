@@ -1615,3 +1615,10 @@ releases:
       release_summary: Changes in reserve_ip_subpool modules
       minor_changes:
         - Correction of issue 266 in the reserve_ip_subpool modules
+
+  6.33.2:
+    release_date: "2025-05-13"
+    changes:
+      release_summary: Changes in request modules
+      minor_changes:
+        - modify problems in requests to the API
