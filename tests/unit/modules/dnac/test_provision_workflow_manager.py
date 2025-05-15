@@ -204,9 +204,9 @@ class TestDnacProvisionWorkflow(TestDnacModule):
 
     def test_provision_workflow_manager_playbook_provision_device(self):
         """
-        Test provisioning of a new network device with full credentials.
+        Test provisioning of a network device with full credentials.
 
-        Validates that a new device can be successfully provisioned in Cisco Catalyst Center
+        Validates that a wired device can be successfully provisioned in Cisco Catalyst Center
         using the playbook workflow when complete credentials are provided.
         """
         set_module_args(
@@ -230,9 +230,9 @@ class TestDnacProvisionWorkflow(TestDnacModule):
 
     def test_provision_workflow_manager_playbook_provision_wireless_device(self):
         """
-        Test provisioning of a new network device with full credentials.
+        Test provisioning of a wireless device with full credentials.
 
-        Validates that a new device can be successfully provisioned in Cisco Catalyst Center
+        Validates that a wireless device can be successfully provisioned in Cisco Catalyst Center
         using the playbook workflow when complete credentials are provided.
         """
         set_module_args(
@@ -255,9 +255,10 @@ class TestDnacProvisionWorkflow(TestDnacModule):
 
     def test_provision_workflow_manager_playbook_application_telemetry_disable(self):
         """
-        Test case for add device with full crendentials.
+        Test disabling of application telemetry using the playbook workflow.
 
-        This test case checks the addition of new network device added with full credentials in Cisco Catalyst Center.
+        Validates that application telemetry can be successfully disabled for all devices
+        in Cisco Catalyst Center using the playbook workflow when full device credentials are provided.
         """
         set_module_args(
             dict(
@@ -279,9 +280,10 @@ class TestDnacProvisionWorkflow(TestDnacModule):
 
     def test_provision_workflow_manager_playbook_application_telemetry_enable(self):
         """
-        Test case for add device with full crendentials.
+        Test enabling of application telemetry using the playbook workflow.
 
-        This test case checks the addition of new network device added with full credentials in Cisco Catalyst Center.
+        Validates that application telemetry can be successfully enabled for all devices
+        in Cisco Catalyst Center using the playbook workflow when full device credentials are provided.
         """
         set_module_args(
             dict(
@@ -303,9 +305,10 @@ class TestDnacProvisionWorkflow(TestDnacModule):
 
     def test_provision_workflow_manager_playbook_delete_provision(self):
         """
-        Test case for add device with full crendentials.
+        Test deletion of a provisioned device using the playbook workflow.
 
-        This test case checks the addition of new network device added with full credentials in Cisco Catalyst Center.
+        Validates that a previously provisioned network device can be successfully deleted
+        from Cisco Catalyst Center using the playbook workflow with full device credentials.
         """
         set_module_args(
             dict(
