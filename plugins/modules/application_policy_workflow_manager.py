@@ -45,10 +45,10 @@ options:
     suboptions:
       queuing_profile:
         description:
-            - Defines queuing profile settings for applications.
-            - Updating a queuing profile to switch between common bandwidth percentage across different interface speeds
-              and using different bandwidth percentages for each interface speed (i.e., changing is_common_between_all_interface_speeds
-              from true to false or vice versa) is not supported. If such a change is required, a new queuing profile must be created.
+            - Defines queuing profile settings for application traffic shaping and bandwidth allocation.
+            - Each profile specifies whether bandwidth allocation is uniform across all interface speeds or customized per speed.
+            - Changing the value of 'is_common_between_all_interface_speeds' (from 'true' to 'false' or vice versa) is not supported during updates.
+            - To switch between common and per-speed bandwidth settings, create a new queuing profile instead of updating the existing one.
         type: list
         elements: dict
         suboptions:
