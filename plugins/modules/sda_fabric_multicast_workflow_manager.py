@@ -1783,11 +1783,13 @@ class FabricMulticast(DnacBase):
                 if have_fabric_multicast_exists:
                     replication_mode = have_multicast_details.get("replication_mode_details").get("replicationMode")
                 else:
+                    replication_mode = "HEADEND_REPLICATION"
                     self.msg = (
                         "The parameter 'replication_mode' is missing for the fabric with name '{fabric_name}'."
-                        .format(fabric_name=fabric_name)
+                        "Setting it to its default value of '{replication_mode}'"
+                        .format(fabric_name=fabric_name, replication_mode = replication_mode)
                     )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
 
             if replication_mode not in valid_replication_mode_list:
                 self.msg = (
