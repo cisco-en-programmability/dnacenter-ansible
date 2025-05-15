@@ -109,6 +109,7 @@ options:
                   and the source (S) for receiving traffic, enhancing security and efficiency.
                 - Mandatory parameter when the ssm is provided.
                 type: list
+                elements: str
                 required: true
           asm:
             description:
@@ -1787,9 +1788,8 @@ class FabricMulticast(DnacBase):
                     self.msg = (
                         "The parameter 'replication_mode' is missing for the fabric with name '{fabric_name}'."
                         "Setting it to its default value of '{replication_mode}'"
-                        .format(fabric_name=fabric_name, replication_mode = replication_mode)
+                        .format(fabric_name=fabric_name, replication_mode=replication_mode)
                     )
-
 
             if replication_mode not in valid_replication_mode_list:
                 self.msg = (
