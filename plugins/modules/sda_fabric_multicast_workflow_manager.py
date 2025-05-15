@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
+__author__ = ['Muthu Rakesh, Madhan Sankaranarayanan, Archit Soni']
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_multicast_workflow_manager
@@ -21,6 +21,7 @@ extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
+        Archit Soni (@koderchit)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
@@ -107,7 +108,7 @@ options:
                 - The IPv4 range for Source-Specific Multicast (SSM), where receivers specify both the multicast group (G)
                   and the source (S) for receiving traffic, enhancing security and efficiency.
                 - Mandatory parameter when the ssm is provided.
-                type: str
+                type: list
                 required: true
           asm:
             description:
@@ -634,7 +635,7 @@ class FabricMulticast(DnacBase):
                 self.log(self.msg, "CRITICAL")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            # if the SDK returns no response, then the virtual network doesnot exist
+            # if the SDK returns no response, then the virtual network does not exist
             virtual_network_details = virtual_network_details.get("response")
             if not virtual_network_details:
                 self.log(
@@ -794,7 +795,7 @@ class FabricMulticast(DnacBase):
                 self.log(self.msg, "CRITICAL")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            # if the SDK returns no response, then the virtual network doesnot exist
+            # if the SDK returns no response, then the virtual network does not exist
             fabric_site_exists = fabric_site_exists.get("response")
             if not fabric_site_exists:
                 self.log(
@@ -864,7 +865,7 @@ class FabricMulticast(DnacBase):
                 self.log(self.msg, "CRITICAL")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            # if the SDK returns no response, then the virtual network doesnot exist
+            # if the SDK returns no response, then the virtual network does not exist
             fabric_zone = fabric_zone.get("response")
             if not fabric_zone:
                 self.log(
@@ -1392,7 +1393,7 @@ class FabricMulticast(DnacBase):
                 .format(response=device_details), "DEBUG"
             )
 
-            # If the SDK returns no response, then the device doesnot exist
+            # If the SDK returns no response, then the device does not exist
             device_details = device_details.get("response")
             if not device_details:
                 self.log(
