@@ -2702,6 +2702,7 @@ class DeviceCredential(DnacBase):
         Returns:
             any: The resolved credential value to use (could be `input_value`, `global_value`, or `{}`).
         """
+
         # Explicitly return the empty dictionary if input_value is {}
         if input_value == {}:
             return {}
@@ -2727,6 +2728,7 @@ class DeviceCredential(DnacBase):
         Returns:
             self: Updated instance with assignment status and messages.
         """
+
         self.log(
             "Starting the process to assign device credentials to the global site. "
             "Global Site ID: {} | Initial Credential Parameters: {}".format(
@@ -2802,6 +2804,7 @@ class DeviceCredential(DnacBase):
             self
         """
 
+        current_version = self.get_ccc_version()
         result_assign_credential = self.result.get("response")[0].get("assign_credential")
         credential_params_template = copy.deepcopy(self.want.get("assign_credentials"))  # Store original template
         final_response = []
@@ -2811,7 +2814,7 @@ class DeviceCredential(DnacBase):
         )
 
         site_ids = self.want.get("site_id")
-        if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.6"):
+        if self.compare_dnac_versions(current_version, "2.3.7.6") >= 0:
             site_exists, global_site_id = self.get_site_id("Global")
             if global_site_id in site_ids:
                 self.log("Global site detected in site IDs. Processing global credential assignment.", "INFO")
@@ -2854,7 +2857,7 @@ class DeviceCredential(DnacBase):
 
         for site_id in site_ids:
             self.log("Processing credential assignment for site ID: {0}".format(site_id), "INFO")
-            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+            if self.compare_dnac_versions(current_version, "2.3.5.3") <= 0:
                 credential_params_template.update({"site_id": site_id})
                 final_response.append(copy.deepcopy(credential_params_template))
                 response = self.dnac._exec(
