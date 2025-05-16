@@ -2789,6 +2789,7 @@ class DeviceCredential(DnacBase):
         })
         self.msg = "Global Credential is assigned Successfully"
         self.status = "success"
+        self.log("Process to assign device credentials to the global site completed successfully.", "INFO")
         return self
 
     def assign_credentials_to_site(self):
@@ -2815,11 +2816,14 @@ class DeviceCredential(DnacBase):
 
         site_ids = self.want.get("site_id")
         if self.compare_dnac_versions(current_version, "2.3.7.6") >= 0:
+
             site_exists, global_site_id = self.get_site_id("Global")
             if global_site_id in site_ids:
+
                 self.log("Global site detected in site IDs. Processing global credential assignment.", "INFO")
                 assign_credentials_to_site = self.config[0]['assign_credentials_to_site'].copy()
                 if "site_name" in assign_credentials_to_site:
+
                     site_names = assign_credentials_to_site.pop("site_name")
                     self.log(
                         "Removed 'site_name' from credential assignment configuration: {0}".format(site_names),
