@@ -38,19 +38,32 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
     playbook_create_policy_wired_error = test_data.get("playbook_create_policy_wired_error")
     playbook_for_application_queuing_profile_delete = test_data.get("playbook_for_application_queuing_profile_delete")
     playbook_for_application_policy_update = test_data.get("playbook_for_application_policy_update")
-    playbook_for_application_policy_update_wireless = test_data.get("playbook_for_application_policy_update_wireless")
     playbook_delete_application = test_data.get("playbook_delete_application")
     playbook_for_queuing_profiletrue_noupdate = test_data.get("playbook_for_queuing_profiletrue_noupdate")
     playbook_for_profile_dscp = test_data.get("playbook_for_profile_dscp")
     playbook_dscp_update = test_data.get("playbook_dscp_update")
     playbook_noprofname = test_data.get("playbook_noprofname")
-    playbook_failure_application = test_data.get("playbook_failure_application")
     playbook_failure_profile = test_data.get("playbook_failure_profile")
     playbook_profile_namedesc_update = test_data.get("playbook_profile_namedesc_update")
     playbook_create_application_servername = test_data.get("playbook_create_application_servername")
     playbook_create_application_serverip = test_data.get("playbook_create_application_serverip")
     playbook_update_application_serveriptoname = test_data.get("playbook_update_application_serveriptoname")
     playbook_update_application_nametourl = test_data.get("playbook_update_application_nametourl")
+    playbook_multiple_profile_delete = test_data.get("playbook_multiple_profile_delete")
+    playbook_application_delete = test_data.get("playbook_application_delete")
+    playbook_error_1 = test_data.get("playbook_error_1")
+    playbook_error_2 = test_data.get("playbook_error_2")
+    playbook_error_3 = test_data.get("playbook_error_3")
+    playbook_application_noupdate = test_data.get("playbook_application_noupdate")
+    playbook_policy_noupdate = test_data.get("playbook_policy_noupdate")
+    playbook_policy_alreadydeleted = test_data.get("playbook_policy_alreadydeleted")
+    playbook_application_alreadydeleted = test_data.get("playbook_application_alreadydeleted")
+    playbook_profile_alreadydeleted = test_data.get("playbook_profile_alreadydeleted")
+    playbook_error_4 = test_data.get("playbook_error_4")
+    playbook_error_5 = test_data.get("playbook_error_5")
+    playbook_error_6 = test_data.get("playbook_error_6")
+    playbook_error_7 = test_data.get("playbook_error_7")
+    playbook_error_8 = test_data.get("playbook_error_8")
 
     def setUp(self):
         super(TestDnacApplicationPolicyWorkflowManager, self).setUp()
@@ -192,13 +205,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("delete_application_response")
             ]
 
-        elif "playbook_failure_application" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_applications_10"),
-                self.test_data.get("application_set"),
-                self.test_data.get("failure_application_response"),
-            ]
-
         elif "playbook_failure_profile" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_applications_profile"),
@@ -223,7 +229,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("get_application_policy_queuing_profile_82"),
                 self.test_data.get("get_application_policy_83"),
                 self.test_data.get("create_policy_wired_response"),
-
             ]
 
         elif "playbook_profile_namedesc_update" in self._testMethodName:
@@ -285,6 +290,125 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("get_applications_36"),
                 self.test_data.get("get_application_sets_36"),
                 self.test_data.get("update_application_nametourl"),
+            ]
+
+        elif "playbook_multiple_profile_delete" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_application_policy_queuing_profile_delete"),
+                self.test_data.get("get_application_policy_queuing_profile_delete2"),
+                self.test_data.get("delete_application_policy_queuing_profile_1"),
+                self.test_data.get("Task_Details_delete"),
+                self.test_data.get("Task_Details_delete1"),
+                self.test_data.get("get_application_policy_queuing_profile_delete4"),
+                self.test_data.get("delete_profile_response"),
+            ]
+
+        elif "playbook_application_delete" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_applications_v2_delete"),
+                self.test_data.get("get_applications_v2_delete1"),
+                self.test_data.get("delete_application_v2"),
+                self.test_data.get("TaskDetails"),
+                self.test_data.get("TaskDetails1"),
+                self.test_data.get("get_applications_v2_"),
+                self.test_data.get("response"),
+            ]
+
+        elif "playbook_error_1" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("response1"),
+            ]
+
+        elif "playbook_error_2" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("response1"),
+            ]
+
+        elif "playbook_error_3" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("response3"),
+            ]
+
+        elif "playbook_application_noupdate" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_applications_v2_noupdate"),
+                self.test_data.get("get_application_sets_noupdate"),
+                self.test_data.get("get_applications_v2_noupdate1"),
+                self.test_data.get("get_application_sets_noupdate1"),
+                self.test_data.get("response4"),
+            ]
+
+        elif "playbook_policy_noupdate" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_application_policy_queuing_profile_noupdate"),
+                self.test_data.get("get_application_policy_noupdate"),
+                self.test_data.get("site_design_noupdate"),
+                self.test_data.get("Global/USA/San Jose/BLDG23/FLOOR1_LEVEL1_noupdate"),
+                self.test_data.get("get_application_policy_queuing_profile_noupdate1"),
+                self.test_data.get("get_application_policy_noupdate1"),
+                self.test_data.get("response5"),
+            ]
+
+        elif "playbook_policy_alreadydeleted" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_application_policy_queuing_profile_alreadydeleted"),
+                self.test_data.get("get_application_policy_alreadydeleted"),
+                self.test_data.get("get_application_policy_alreadydeleted1"),
+                self.test_data.get("get_application_policy_queuing_profile_delete1"),
+                self.test_data.get("get_application_policy_alreadydeleted2"),
+                self.test_data.get("response7"),
+            ]
+
+        elif "playbook_application_alreadydeleted" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_application_policy_queuing_profile_alreadydeleted"),
+                self.test_data.get("get_applications_v2_alreadydeleted"),
+                self.test_data.get("response8"),
+            ]
+
+        elif "playbook_profile_alreadydeleted" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_application_policy_queuing_profile_alreadydeleted1"),
+                self.test_data.get("get_application_policy_queuing_profile_alreadydeleted2"),
+                self.test_data.get("response9"),
+            ]
+
+        elif "playbook_error_4" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_application_policy_queuing_profile_error"),
+                self.test_data.get("get_application_policy_error"),
+                self.test_data.get("response10"),
+            ]
+
+        elif "playbook_error_5" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_application_policy_error1"),
+                self.test_data.get("response11"),
+            ]
+
+        elif "playbook_error_6" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_application_policy_queuing_profile_error1"),
+                self.test_data.get("get_application_policy_error2"),
+                self.test_data.get("response12"),
+            ]
+
+        elif "playbook_error_7" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_application_policy_queuing_profile_error2"),
+                self.test_data.get("get_application_policy_error3"),
+                self.test_data.get("site_design_error"),
+                self.test_data.get("Global/Chennai/LTTS/FLOOR11"),
+                self.test_data.get("response13"),
+            ]
+
+        elif "playbook_error_8" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_application_policy_queuing_profile_error4"),
+                self.test_data.get("get_application_policy_error4"),
+                self.test_data.get("site_design_error1"),
+                self.test_data.get("Global/AB_Test/AB_Bgl3_error"),
+                self.test_data.get("response14"),
             ]
 
     def test_application_policy_workflow_manager_playbook_create_profile(self):
@@ -519,7 +643,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application Policie(s) 'policy_1' deleted successfully from Cisco Catalyst Center."
+            "Application Policy(ies) 'policy_1' deleted successfully from Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_for_queuing_profiletrue_noupdate(self):
@@ -786,4 +910,394 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             "Application(s) 'application_1_new' updated successfully in Cisco Catalyst Center."
+        )
+
+    def test_application_policy_workflow_manager_playbook_multiple_profile_delete(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_multiple_profile_delete
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Queuing Profile(s) 'b5' deleted successfully from Cisco Catalyst Center."
+        )
+
+    def test_application_policy_workflow_manager_playbook_application_delete(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_application_delete
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Application(s) 'application1' deleted successfully from Cisco Catalyst Center."
+        )
+
+    def test_application_policy_workflow_manager_playbook_error_1(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_error_1
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "'queuing_profile' should be a list, found: <class 'dict'>"
+        )
+
+    def test_application_policy_workflow_manager_playbook_error_2(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_error_2
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "At least one of the following parameters must be specified in the playbook: queuing_profile, application, application_policy."
+        )
+
+    def test_application_policy_workflow_manager_playbook_error_3(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_error_3
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "'application_policy' should be a list, found: <class 'dict'>"
+        )
+
+    def test_application_policy_workflow_manager_playbook_application_noupdate(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_application_noupdate
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Application(s) 'application1' need no update in Cisco Catalyst Center."
+        )
+
+    def test_application_policy_workflow_manager_playbook_policy_noupdate(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_policy_noupdate
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Application Policy(ies) 'policy_1' need no update in Cisco Catalyst Center."
+        )
+
+    def test_application_policy_workflow_manager_playbook_policy_alreadydeleted(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_policy_alreadydeleted
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Application Policy(ies) 'policy_1' do not exist or are already deleted in Cisco Catalyst Center."
+        )
+
+    def test_application_policy_workflow_manager_playbook_application_alreadydeleted(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_application_alreadydeleted
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Application(s) 'application1' do not exist or are already deleted in Cisco Catalyst Center."
+        )
+
+    def test_application_policy_workflow_manager_playbook_profile_alreadydeleted(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_profile_alreadydeleted
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Queuing Profile(s) 'c8' do not exist or are already deleted in Cisco Catalyst Center."
+        )
+
+    def test_application_policy_workflow_manager_playbook_error_4(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_error_4
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Invalid clause_type: BUSINESS_RELEVANCEE. Must be one of ['APPLICATION_POLICY_KNOBS', 'BUSINESS_RELEVANCE']."
+        )
+
+    def test_application_policy_workflow_manager_playbook_error_5(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_error_5
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Application policy operation failed. The following mandatory parameters are missing or empty: site_names, application_queuing_profile_name."
+        )
+
+    def test_application_policy_workflow_manager_playbook_error_6(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_error_6
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Invalid clause_type: None or empty. Must be one of ['APPLICATION_POLICY_KNOBS', 'BUSINESS_RELEVANCE']."
+        )
+
+    def test_application_policy_workflow_manager_playbook_error_7(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_error_7
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "no extra application sets can be added to the application policy"
+        )
+
+    def test_application_policy_workflow_manager_playbook_error_8(self):
+        """
+        Test the Application Policy Workflow Manager's update process from server name to URL.
+
+        This test verifies that the workflow correctly updates an application by replacing
+        the server name with a URL, ensuring proper validation and expected behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                dnac_version="2.3.7.6",
+                config=self.playbook_error_8
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "SSID is required for wireless devices"
         )
