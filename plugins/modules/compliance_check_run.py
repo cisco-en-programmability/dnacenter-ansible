@@ -16,7 +16,7 @@ options:
   categories:
     description: Category can have any value among 'INTENT'(mapped to compliance types
       NETWORK_SETTINGS,NETWORK_PROFILE,WORKFLOW,FABRIC,APPLICATION_VISIBILITY), 'RUNNING_CONFIG'
-      , 'IMAGE' , 'PSIRT' , 'EOX' , 'NETWORK_SETTINGS'.
+      , 'IMAGE' , 'PSIRT' , 'EOX'.
     elements: str
     type: list
   deviceUuids:

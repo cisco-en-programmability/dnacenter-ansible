@@ -45,7 +45,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Task RetrieveAListOfAssuranceTasksV1
     description: Complete reference of the RetrieveAListOfAssuranceTasksV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-list-of-assurance-tasks
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieve-a-list-of-assurance-tasks
 notes:
   - SDK Method used are task.Task.retrieve_a_list_of_assurance_tasks_v1,
   - Paths used are get /dna/data/api/v1/assuranceTasks,

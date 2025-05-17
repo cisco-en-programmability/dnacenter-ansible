@@ -23,7 +23,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for LAN Automation LANAutomationActiveSessionsV1
     description: Complete reference of the LANAutomationActiveSessionsV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-active-sessions
+    link:
+      https://developer.cisco.com/docs/dna-center/#!l-an-automation-active-sessions
 notes:
   - SDK Method used are lan_automation.LanAutomation.lan_automation_active_sessions_v1,
   - Paths used are get /dna/intent/api/v1/lan-automation/sessions,

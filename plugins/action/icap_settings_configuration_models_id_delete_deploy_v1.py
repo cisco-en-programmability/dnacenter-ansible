@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="sensors",
-            function='creates_a_i_cap_configuration_workflow_for_i_capintent_to_remove_the_i_cap_configuration_on_the_device_v1',
+            function='creates_ai_cap_configuration_workflow_for_i_capintent_to_remove_the_i_cap_configuration_on_the_device_v1',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

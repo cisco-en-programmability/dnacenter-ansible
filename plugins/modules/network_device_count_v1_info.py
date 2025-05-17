@@ -52,7 +52,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Devices GetDeviceCountKnowYourNetworkV1
     description: Complete reference of the GetDeviceCountKnowYourNetworkV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-count-know-your-network
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-device-count-know-your-network
   - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCountV1
     description: Complete reference of the GetDeviceInterfaceCountV1 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count

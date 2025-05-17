@@ -36,7 +36,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Sensors GetDeviceDeploymentStatusCountV1
     description: Complete reference of the GetDeviceDeploymentStatusCountV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-count
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-count
 notes:
   - SDK Method used are sensors.Sensors.get_device_deployment_status_count_v1,
   - Paths used are get /dna/intent/api/v1/icapSettings/deviceDeployments/count,

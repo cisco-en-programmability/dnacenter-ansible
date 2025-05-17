@@ -31,7 +31,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Wireless GetAPAuthorizationListByIDV1
     description: Complete reference of the GetAPAuthorizationListByIDV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-list-by-id
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-list-by-id
 notes:
   - SDK Method used are wireless.Wireless.get_ap_authorization_list_by_id_v1,
   - Paths used are get /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id},

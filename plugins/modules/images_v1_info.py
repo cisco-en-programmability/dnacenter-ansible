@@ -120,7 +120,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsListOfSoftwareImagesV1
     description: Complete reference of the ReturnsListOfSoftwareImagesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!returns-list-of-software-images
+    link:
+      https://developer.cisco.com/docs/dna-center/#!returns-list-of-software-images
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.returns_list_of_software_images_v1,

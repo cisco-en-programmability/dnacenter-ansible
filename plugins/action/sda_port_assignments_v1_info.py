@@ -75,6 +75,7 @@ class ActionModule(ActionBase):
             interface_name=params.get("interfaceName"),
             data_vlan_name=params.get("dataVlanName"),
             voice_vlan_name=params.get("voiceVlanName"),
+            native_vlan_id=params.get("nativeVlanId"),
             offset=params.get("offset"),
             limit=params.get("limit"),
             headers=params.get("headers"),

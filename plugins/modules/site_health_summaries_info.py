@@ -158,7 +158,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Sites ReadListOfSiteHealthSummariesV1
     description: Complete reference of the ReadListOfSiteHealthSummariesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!read-list-of-site-health-summaries
+    link:
+      https://developer.cisco.com/docs/dna-center/#!read-list-of-site-health-summaries
   - name: Cisco DNA Center documentation for Sites ReadSiteHealthSummaryDataBySiteIdV1
     description: Complete reference of the ReadSiteHealthSummaryDataBySiteIdV1 API.
     link:

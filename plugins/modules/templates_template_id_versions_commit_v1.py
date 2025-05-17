@@ -30,7 +30,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Configuration Templates CommitTemplateForANewVersionV1
     description: Complete reference of the CommitTemplateForANewVersionV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!commit-template-for-a-new-version
+    link:
+      https://developer.cisco.com/docs/dna-center/#!commit-template-for-a-new-version
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.commit_template_for_a_new_version_v1,

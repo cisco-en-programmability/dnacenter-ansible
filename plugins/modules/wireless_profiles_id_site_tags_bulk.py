@@ -61,11 +61,11 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     id: string
     items:
-      - apProfileName: string
-        flexProfileName: string
-        siteIds:
-          - string
-        siteTagName: string
+      -   - apProfileName: string
+            flexProfileName: string
+            siteIds:
+              - string
+            siteTagName: string
 """
 RETURN = r"""
 dnac_response:

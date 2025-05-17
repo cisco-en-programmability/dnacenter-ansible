@@ -70,7 +70,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Devices QueryNetworkDevicesWithFiltersV1
     description: Complete reference of the QueryNetworkDevicesWithFiltersV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!query-network-devices-with-filters
+    link:
+      https://developer.cisco.com/docs/dna-center/#!query-network-devices-with-filters
 notes:
   - SDK Method used are devices.Devices.query_network_devices_with_filters_v1,
   - Paths used are post /dna/intent/api/v1/networkDevices/query,

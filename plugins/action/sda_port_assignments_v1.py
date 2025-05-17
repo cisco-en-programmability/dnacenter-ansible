@@ -76,6 +76,8 @@ class SdaPortAssignmentsV1(object):
             self.new_object.get('data_vlan_name')
         new_object_params['voice_vlan_name'] = self.new_object.get('voiceVlanName') or \
             self.new_object.get('voice_vlan_name')
+        new_object_params['native_vlan_id'] = self.new_object.get('nativeVlanId') or \
+            self.new_object.get('native_vlan_id')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params
@@ -158,6 +160,8 @@ class SdaPortAssignmentsV1(object):
             ("authenticateTemplateName", "authenticateTemplateName"),
             ("scalableGroupName", "scalableGroupName"),
             ("interfaceDescription", "interfaceDescription"),
+            ("nativeVlanId", "nativeVlanId"),
+            ("allowedVlanRanges", "allowedVlanRanges"),
             ("fabricId", "fabric_id"),
             ("networkDeviceId", "network_device_id"),
             ("interfaceName", "interface_name"),

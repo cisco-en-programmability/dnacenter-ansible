@@ -9,7 +9,16 @@ short_description: Information module for Device Interface V1
 description:
   - Get all Device Interface V1.
   - Get Device Interface V1 by id.
-  - Returns all available interfaces. This endpoint can return a maximum of 500 interfaces.
+  - >
+    Returns all available interfaces. This endpoint can return a maximum of 500 interfaces.
+    The API returns a
+    paginated response based on 'limit' and 'offset' parameters, allowing up to 500
+    records per page. 'limit'
+    specifies the number of records, and 'offset' sets the starting point using 1-based
+    indexing. Use
+    '/dna/intent/api/v1/interface/count' to get the total record count. For data sets
+    over 500 records, make multiple
+    calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
   - Returns the interface for the given interface ID.
 version_added: '3.1.0'
 extends_documentation_fragment:

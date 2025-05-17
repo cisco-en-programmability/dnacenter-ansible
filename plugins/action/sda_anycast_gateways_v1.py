@@ -156,12 +156,17 @@ class SdaAnycastGatewaysV1(object):
             ("securityGroupName", "securityGroupName"),
             ("isCriticalPool", "isCriticalPool"),
             ("isLayer2FloodingEnabled", "isLayer2FloodingEnabled"),
+            ("layer2FloodingAddressAssignment", "layer2FloodingAddressAssignment"),
+            ("layer2FloodingAddress", "layer2FloodingAddress"),
             ("isWirelessPool", "isWirelessPool"),
+            ("isWirelessFloodingEnabled", "isWirelessFloodingEnabled"),
+            ("isResourceGuardEnabled", "isResourceGuardEnabled"),
             ("isIpDirectedBroadcast", "isIpDirectedBroadcast"),
             ("isIntraSubnetRoutingEnabled", "isIntraSubnetRoutingEnabled"),
             ("isMultipleIpToMacAddresses", "isMultipleIpToMacAddresses"),
             ("isSupplicantBasedExtendedNodeOnboarding", "isSupplicantBasedExtendedNodeOnboarding"),
             ("isGroupBasedPolicyEnforcementEnabled", "isGroupBasedPolicyEnforcementEnabled"),
+            ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update

@@ -124,7 +124,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
   - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceListSiteManagementV1
     description: Complete reference of the GetDeviceListSiteManagementV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-list-site-management
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-device-list-site-management
 notes:
   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.get_device_by_id_v1,
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_list,

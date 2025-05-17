@@ -61,7 +61,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Compliance GetFieldNoticeNetworkDevicesV1
     description: Complete reference of the GetFieldNoticeNetworkDevicesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-field-notice-network-devices
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-field-notice-network-devices
 notes:
   - SDK Method used are compliance.Compliance.get_field_notice_network_devices_v1,
   - Paths used are get /dna/intent/api/v1/fieldNotices/results/networkDevices,

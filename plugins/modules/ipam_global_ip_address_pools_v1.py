@@ -54,7 +54,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Network Settings CreateAGlobalIPAddressPoolV1
     description: Complete reference of the CreateAGlobalIPAddressPoolV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-a-global-ip-address-pool
+    link:
+      https://developer.cisco.com/docs/dna-center/#!create-a-global-ip-address-pool
 notes:
   - SDK Method used are network_settings.NetworkSettings.create_a_global_ip_address_pool_v1,
   - Paths used are post /dna/intent/api/v1/ipam/globalIpAddressPools,

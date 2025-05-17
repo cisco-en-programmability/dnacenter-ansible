@@ -53,6 +53,26 @@ options:
           with a layer 3 virtual network and cannot be used when not associated with
           a layer 3 virtual network.
         type: bool
+      isResourceGuardEnabled:
+        description: Set to true to enable Resource Guard.
+        type: bool
+      isWirelessFloodingEnabled:
+        description: Set to true to enable wireless flooding. If there is an associated
+          layer 3 virtual network, wireless flooding will default to false and can
+          only be true when fabric-enabled wireless is also true. If there is no associated
+          layer 3 virtual network, wireless flooding will match fabric-enabled wireless.
+        type: bool
+      layer2FloodingAddress:
+        description: The flooding address to use for layer 2 flooding. The IP address
+          must be in the 239.0.0.0/8 range. This property is applicable only when
+          the flooding address source is set to "CUSTOM".
+        type: str
+      layer2FloodingAddressAssignment:
+        description: The source of the flooding address for layer 2 flooding. "SHARED"
+          means that the layer 2 virtual network will inherit the flooding address
+          from the fabric. "CUSTOM" allows the layer 2 virtual network to use a different
+          flooding address (defaults to "SHARED").
+        type: str
       trafficType:
         description: The type of traffic that is served.
         type: str
@@ -90,10 +110,12 @@ seealso:
       https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-network-by-id
   - name: Cisco DNA Center documentation for SDA DeleteLayer2VirtualNetworksV1
     description: Complete reference of the DeleteLayer2VirtualNetworksV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-networks
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-networks
   - name: Cisco DNA Center documentation for SDA UpdateLayer2VirtualNetworksV1
     description: Complete reference of the UpdateLayer2VirtualNetworksV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-layer-2-virtual-networks
+    link:
+      https://developer.cisco.com/docs/dna-center/#!update-layer-2-virtual-networks
 notes:
   - SDK Method used are sda.Sda.add_layer2_virtual_networks_v1, sda.Sda.delete_layer2_virtual_network_by_id_v1,
     sda.Sda.update_layer2_virtual_networks_v1,
@@ -116,6 +138,10 @@ EXAMPLES = r"""
         fabricId: string
         isFabricEnabledWireless: true
         isMultipleIpToMacAddresses: true
+        isResourceGuardEnabled: true
+        isWirelessFloodingEnabled: true
+        layer2FloodingAddress: string
+        layer2FloodingAddressAssignment: string
         trafficType: string
         vlanId: 0
         vlanName: string
@@ -150,6 +176,10 @@ EXAMPLES = r"""
         id: string
         isFabricEnabledWireless: true
         isMultipleIpToMacAddresses: true
+        isResourceGuardEnabled: true
+        isWirelessFloodingEnabled: true
+        layer2FloodingAddress: string
+        layer2FloodingAddressAssignment: string
         trafficType: string
         vlanId: 0
         vlanName: string
