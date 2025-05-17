@@ -9,8 +9,12 @@ short_description: Information module for Wireless Accesspoint Configuration Sum
   V1
 description:
   - Get all Wireless Accesspoint Configuration Summary V1.
-  - Users can query the access point configuration information per device using the
-    ethernet MAC address.
+  - >
+    Users can query access point configuration information for a specific device by
+    using the Ethernet MAC address as
+    a 'key' filter. If no key is specified, all access point details will be retrieved
+    based on the combination of
+    filters provided.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -121,6 +125,28 @@ dnac_response:
       "wlcIpAddress": "string",
       "reachabilityStatus": "string",
       "managementIpAddress": "string",
-      "provisioned": "string"
+      "provisioningStatus": "string",
+      "radioDTOs": [
+        {
+          "ifType": 0,
+          "ifTypeValue": "string",
+          "slotId": 0,
+          "macAddress": "string",
+          "adminStatus": "string",
+          "powerAssignmentMode": "string",
+          "powerlevel": 0,
+          "channelAssignmentMode": "string",
+          "channelNumber": 0,
+          "channelWidth": "string",
+          "antennaPatternName": "string",
+          "antennaAngle": 0,
+          "antennaElevAngle": 0,
+          "antennaGain": 0,
+          "radioRoleAssignment": {},
+          "radioBand": {},
+          "cleanAirSI": "string",
+          "dualRadioMode": "string"
+        }
+      ]
     }
 """

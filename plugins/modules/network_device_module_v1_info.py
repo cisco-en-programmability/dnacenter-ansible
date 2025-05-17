@@ -10,7 +10,16 @@ description:
   - Get all Network Device Module V1.
   - Get Network Device Module V1 by id.
   - Returns Module info by 'module id'.
-  - Returns modules by specified device id.
+  - >
+    Returns modules by specified device id. The API returns a paginated response based
+    on 'limit' and 'offset'
+    parameters, allowing up to 500 records per page. 'limit' specifies the number
+    of records, and 'offset' sets the
+    starting point using 1-based indexing. Use /dna/intent/api/v1/network-device/module/count
+    API to get the total
+    record count. For data sets over 500 records, make multiple calls, adjusting 'limit'
+    and 'offset' to retrieve all
+    records incrementally.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

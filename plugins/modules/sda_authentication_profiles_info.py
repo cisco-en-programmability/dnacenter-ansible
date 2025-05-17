@@ -94,6 +94,7 @@ dnac_response:
           "wakeOnLan": true,
           "numberOfHosts": "string",
           "isBpduGuardEnabled": true,
+          "isVoiceVlanEnabled": true,
           "preAuthAcl": {
             "enabled": true,
             "implicitAction": "string",

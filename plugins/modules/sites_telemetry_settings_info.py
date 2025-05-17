@@ -66,7 +66,7 @@ dnac_response:
     {
       "response": {
         "wiredDataCollection": {
-          "enableWiredDataCollectio": true,
+          "enableWiredDataCollection": true,
           "inheritedSiteId": "string",
           "inheritedSiteName": "string"
         },

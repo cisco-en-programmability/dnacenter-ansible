@@ -19,13 +19,13 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records to show for this page. The default
-        is 500 if not specified. The
-        maximum allowed limit is 500.
+        Limit query parameter. The number of records to show for this page. Default
+        is 500 if not specified. Maximum
+        allowed limit is 500.
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first
+      - Offset query parameter. The first record to show for this page, the first
         record is numbered 1.
     type: str
   apProfileName:
@@ -112,8 +112,12 @@ dnac_response:
             "duration": {
               "schedulerStartTime": "string",
               "schedulerEndTime": "string",
-              "schedulerDay": "string",
-              "schedulerDate": "string"
+              "schedulerDay": [
+                "string"
+              ],
+              "schedulerDate": [
+                "string"
+              ]
             }
           },
           "countryCode": "string",

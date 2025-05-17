@@ -30,6 +30,7 @@ argument_spec.update(dict(
     rollingApUpgrade=dict(type="dict"),
     apAuthorizationListName=dict(type="str"),
     authorizeMeshAndNonMeshAccessPoints=dict(type="bool"),
+    featureTemplatesOverridenAttributes=dict(type="dict"),
     deviceId=dict(type="str"),
 ))
 
@@ -73,6 +74,7 @@ class ActionModule(ActionBase):
             rollingApUpgrade=params.get("rollingApUpgrade"),
             apAuthorizationListName=params.get("apAuthorizationListName"),
             authorizeMeshAndNonMeshAccessPoints=params.get("authorizeMeshAndNonMeshAccessPoints"),
+            featureTemplatesOverridenAttributes=params.get("featureTemplatesOverridenAttributes"),
             device_id=params.get("deviceId"),
         )
         return new_object

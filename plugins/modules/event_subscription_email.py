@@ -108,10 +108,12 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Event Management CreateEmailEventSubscriptionV1
     description: Complete reference of the CreateEmailEventSubscriptionV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-email-event-subscription
+    link:
+      https://developer.cisco.com/docs/dna-center/#!create-email-event-subscription
   - name: Cisco DNA Center documentation for Event Management UpdateEmailEventSubscriptionV1
     description: Complete reference of the UpdateEmailEventSubscriptionV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-email-event-subscription
+    link:
+      https://developer.cisco.com/docs/dna-center/#!update-email-event-subscription
 notes:
   - SDK Method used are event_management.EventManagement.create_email_event_subscription_v1,
     event_management.EventManagement.update_email_event_subscription_v1,
