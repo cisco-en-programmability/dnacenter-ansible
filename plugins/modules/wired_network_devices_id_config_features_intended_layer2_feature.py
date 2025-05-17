@@ -1441,188 +1441,188 @@ EXAMPLES = r"""
     state: present
     cdpGlobalConfig:
       items:
-        -   - configType: string
-              holdTime: 0
-              isAdvertiseV2Enabled: true
-              isCdpEnabled: true
-              isLogDuplexMismatchEnabled: true
-              timer: 0
+        - configType: string
+          holdTime: 0
+          isAdvertiseV2Enabled: true
+          isCdpEnabled: true
+          isLogDuplexMismatchEnabled: true
+          timer: 0
     cdpInterfaceConfig:
       items:
-        -   - configType: string
-              interfaceName: string
-              isCdpEnabled: true
-              isLogDuplexMismatchEnabled: true
+        - configType: string
+          interfaceName: string
+          isCdpEnabled: true
+          isLogDuplexMismatchEnabled: true
     dhcpSnoopingGlobalConfig:
       items:
-        -   - configType: string
-              databaseAgent:
-                agentUrl: string
-                configType: string
-                timeout: 0
-                writeDelay: 0
-              dhcpSnoopingVlans: string
-              isDhcpSnoopingEnabled: true
-              isGleaningEnabled: true
-              proxyBridgeVlans: string
+        - configType: string
+          databaseAgent:
+            agentUrl: string
+            configType: string
+            timeout: 0
+            writeDelay: 0
+          dhcpSnoopingVlans: string
+          isDhcpSnoopingEnabled: true
+          isGleaningEnabled: true
+          proxyBridgeVlans: string
     dhcpSnoopingInterfaceConfig:
       items:
-        -   - configType: string
-              interfaceName: string
-              isTrustedInterface: true
-              messageRateLimit: 0
+        - configType: string
+          interfaceName: string
+          isTrustedInterface: true
+          messageRateLimit: 0
     dot1xGlobalConfig:
       items:
-        -   - authenticationConfigMode: string
-              configType: string
-              isDot1xEnabled: true
+        - authenticationConfigMode: string
+          configType: string
+          isDot1xEnabled: true
     dot1xInterfaceConfig:
       items:
-        -   - authenticationOrder:
-                configType: string
-                items:
-                  - string
-              configType: string
-              interfaceName: string
+        - authenticationOrder:
+            configType: string
+            items:
+              - string
+          configType: string
+          interfaceName: string
     feature: string
     id: string
     igmpSnoopingGlobalConfig:
       items:
-        -   - configType: string
-              igmpSnoopingVlanSettings:
-                configType: string
-                items:
-                  - configType: string
-                    igmpSnoopingVlanMrouters:
-                      configType: string
-                      items:
-                        - configType: string
-                          interfaceName: string
-                    isIgmpSnoopingEnabled: true
-                    isImmediateLeaveEnabled: true
-                    isQuerierEnabled: true
-                    querierAddress: string
-                    querierQueryInterval: 0
-                    querierVersion: string
-                    vlanId: 0
-              isIgmpSnoopingEnabled: true
-              isQuerierEnabled: true
-              querierAddress: string
-              querierQueryInterval: 0
-              querierVersion: string
+        - configType: string
+          igmpSnoopingVlanSettings:
+            configType: string
+            items:
+              - configType: string
+                igmpSnoopingVlanMrouters:
+                  configType: string
+                  items:
+                    - configType: string
+                      interfaceName: string
+                isIgmpSnoopingEnabled: true
+                isImmediateLeaveEnabled: true
+                isQuerierEnabled: true
+                querierAddress: string
+                querierQueryInterval: 0
+                querierVersion: string
+                vlanId: 0
+          isIgmpSnoopingEnabled: true
+          isQuerierEnabled: true
+          querierAddress: string
+          querierQueryInterval: 0
+          querierVersion: string
     lldpGlobalConfig:
       items:
-        -   - configType: string
-              holdTime: 0
-              isLldpEnabled: true
-              reinitializationDelay: 0
-              timer: 0
+        - configType: string
+          holdTime: 0
+          isLldpEnabled: true
+          reinitializationDelay: 0
+          timer: 0
     lldpInterfaceConfig:
       items:
-        -   - adminStatus: string
-              configType: string
-              interfaceName: string
+        - adminStatus: string
+          configType: string
+          interfaceName: string
     mabInterfaceConfig:
       items:
-        -   - configType: string
-              interfaceName: string
-              isMabEnabled: true
+        - configType: string
+          interfaceName: string
+          isMabEnabled: true
     mldSnoopingGlobalConfig:
       items:
-        -   - configType: string
-              isMldSnoopingEnabled: true
-              isQuerierEnabled: true
-              isSuppressListenerMessagesEnabled: true
-              mldSnoopingVlanSettings:
-                configType: string
-                items:
-                  - configType: string
-                    isImmediateLeaveEnabled: true
-                    isMldSnoopingEnabled: true
-                    isQuerierEnabled: true
-                    mldSnoopingVlanMrouters:
+        - configType: string
+          isMldSnoopingEnabled: true
+          isQuerierEnabled: true
+          isSuppressListenerMessagesEnabled: true
+          mldSnoopingVlanSettings:
+            configType: string
+            items:
+              - configType: string
+                isImmediateLeaveEnabled: true
+                isMldSnoopingEnabled: true
+                isQuerierEnabled: true
+                mldSnoopingVlanMrouters:
+                  configType: string
+                  items:
+                    - configType: string
+                      interfaceName: string
+                querierAddress: string
+                querierQueryInterval: 0
+                querierVersion: string
+                vlanId: 0
+          querierAddress: string
+          querierQueryInterval: 0
+          querierVersion: string
+    portChannelConfig:
+      items:
+        - configType: string
+          isAutoEnabled: true
+          lacpSystemPriority: 0
+          loadBalancingMethod: string
+          portchannels:
+            configType: string
+            items:
+              - AnyOf:
+                  EtherchannelConfig:
+                    configType: string
+                    memberPorts:
                       configType: string
                       items:
                         - configType: string
                           interfaceName: string
-                    querierAddress: string
-                    querierQueryInterval: 0
-                    querierVersion: string
-                    vlanId: 0
-              querierAddress: string
-              querierQueryInterval: 0
-              querierVersion: string
-    portChannelConfig:
-      items:
-        -   - configType: string
-              isAutoEnabled: true
-              lacpSystemPriority: 0
-              loadBalancingMethod: string
-              portchannels:
-                configType: string
-                items:
-                  - AnyOf:
-                      EtherchannelConfig:
-                        configType: string
-                        memberPorts:
-                          configType: string
-                          items:
-                            - configType: string
-                              interfaceName: string
-                              mode: string
-                        minLinks: 0
-                        name: string
-                      LacpPortchannelConfig:
-                        configType: string
-                        memberPorts:
-                          configType: string
-                          items:
-                            - configType: string
-                              interfaceName: string
-                              mode: string
-                              portPriority: 0
-                              rate: 0
-                        minLinks: 0
-                        name: string
-                      PagpPortchannelConfig:
-                        configType: string
-                        memberPorts:
-                          configType: string
-                          items:
-                            - configType: string
-                              interfaceName: string
-                              learnMethod: string
-                              mode: string
-                              portPriority: 0
-                        minLinks: 0
-                        name: string
+                          mode: string
+                    minLinks: 0
+                    name: string
+                  LacpPortchannelConfig:
+                    configType: string
+                    memberPorts:
+                      configType: string
+                      items:
+                        - configType: string
+                          interfaceName: string
+                          mode: string
+                          portPriority: 0
+                          rate: 0
+                    minLinks: 0
+                    name: string
+                  PagpPortchannelConfig:
+                    configType: string
+                    memberPorts:
+                      configType: string
+                      items:
+                        - configType: string
+                          interfaceName: string
+                          learnMethod: string
+                          mode: string
+                          portPriority: 0
+                    minLinks: 0
+                    name: string
     stpGlobalConfig:
       items:
-        -   - configType: string
-              isBackboneFastEnabled: true
-              isBpduFilterEnabled: true
-              isBpduGuardEnabled: true
-              isEtherChannelGuardEnabled: true
-              isExtendedSystemIdEnabled: true
-              isLoggingEnabled: true
-              isLoopGuardEnabled: true
-              isUplinkFastEnabled: true
-              portFastMode: string
-              stpInstances:
-                configType: string
-                items:
-                  - configType: string
-                    priority: 0
-                    timers:
-                      configType: string
-                      forwardDelay: 0
-                      helloInterval: 0
-                      isStpEnabled: true
-                      maxAge: 0
-                    vlanId: 0
-              stpMode: string
-              transmitHoldCount: 0
-              uplinkFastMaxUpdateRate: 0
+        - configType: string
+          isBackboneFastEnabled: true
+          isBpduFilterEnabled: true
+          isBpduGuardEnabled: true
+          isEtherChannelGuardEnabled: true
+          isExtendedSystemIdEnabled: true
+          isLoggingEnabled: true
+          isLoopGuardEnabled: true
+          isUplinkFastEnabled: true
+          portFastMode: string
+          stpInstances:
+            configType: string
+            items:
+              - configType: string
+                priority: 0
+                timers:
+                  configType: string
+                  forwardDelay: 0
+                  helloInterval: 0
+                  isStpEnabled: true
+                  maxAge: 0
+                vlanId: 0
+          stpMode: string
+          transmitHoldCount: 0
+          uplinkFastMaxUpdateRate: 0
     stpInterfaceConfig:
       items:
         - bpduFilter: string
@@ -1647,42 +1647,42 @@ EXAMPLES = r"""
           priority: 0
     switchportInterfaceConfig:
       items:
-        -   - accessVlan: 0
-              adminStatus: string
-              configType: string
-              description: string
-              interfaceName: string
-              mode: string
-              nativeVlan: 0
-              trunkAllowedVlans: string
-              voiceVlan: 0
+        - accessVlan: 0
+          adminStatus: string
+          configType: string
+          description: string
+          interfaceName: string
+          mode: string
+          nativeVlan: 0
+          trunkAllowedVlans: string
+          voiceVlan: 0
     trunkInterfaceConfig:
       items:
-        -   - configType: string
-              interfaceName: string
-              isDtpNegotiationEnabled: true
-              isProtected: true
-              pruneEligibleVlans: string
+        - configType: string
+          interfaceName: string
+          isDtpNegotiationEnabled: true
+          isProtected: true
+          pruneEligibleVlans: string
     vlanConfig:
       items:
-        -   - configType: string
-              isVlanEnabled: true
-              name: string
-              vlanId: 0
+        - configType: string
+          isVlanEnabled: true
+          name: string
+          vlanId: 0
     vtpGlobalConfig:
       items:
-        -   - configType: string
-              configurationFileName: string
-              domainName: string
-              isPruningEnabled: true
-              mode: string
-              sourceInterface: string
-              version: string
+        - configType: string
+          configurationFileName: string
+          domainName: string
+          isPruningEnabled: true
+          mode: string
+          sourceInterface: string
+          version: string
     vtpInterfaceConfig:
       items:
-        -   - configType: string
-              interfaceName: string
-              isVtpEnabled: true
+        - configType: string
+          interfaceName: string
+          isVtpEnabled: true
 - name: Create
   cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature:
     dnac_host: "{{dnac_host}}"
@@ -1695,188 +1695,188 @@ EXAMPLES = r"""
     state: present
     cdpGlobalConfig:
       items:
-        -   - configType: string
-              holdTime: 0
-              isAdvertiseV2Enabled: true
-              isCdpEnabled: true
-              isLogDuplexMismatchEnabled: true
-              timer: 0
+        - configType: string
+          holdTime: 0
+          isAdvertiseV2Enabled: true
+          isCdpEnabled: true
+          isLogDuplexMismatchEnabled: true
+          timer: 0
     cdpInterfaceConfig:
       items:
-        -   - configType: string
-              interfaceName: string
-              isCdpEnabled: true
-              isLogDuplexMismatchEnabled: true
+        - configType: string
+          interfaceName: string
+          isCdpEnabled: true
+          isLogDuplexMismatchEnabled: true
     dhcpSnoopingGlobalConfig:
       items:
-        -   - configType: string
-              databaseAgent:
-                agentUrl: string
-                configType: string
-                timeout: 0
-                writeDelay: 0
-              dhcpSnoopingVlans: string
-              isDhcpSnoopingEnabled: true
-              isGleaningEnabled: true
-              proxyBridgeVlans: string
+        - configType: string
+          databaseAgent:
+            agentUrl: string
+            configType: string
+            timeout: 0
+            writeDelay: 0
+          dhcpSnoopingVlans: string
+          isDhcpSnoopingEnabled: true
+          isGleaningEnabled: true
+          proxyBridgeVlans: string
     dhcpSnoopingInterfaceConfig:
       items:
-        -   - configType: string
-              interfaceName: string
-              isTrustedInterface: true
-              messageRateLimit: 0
+        - configType: string
+          interfaceName: string
+          isTrustedInterface: true
+          messageRateLimit: 0
     dot1xGlobalConfig:
       items:
-        -   - authenticationConfigMode: string
-              configType: string
-              isDot1xEnabled: true
+        - authenticationConfigMode: string
+          configType: string
+          isDot1xEnabled: true
     dot1xInterfaceConfig:
       items:
-        -   - authenticationOrder:
-                configType: string
-                items:
-                  - string
-              configType: string
-              interfaceName: string
+        - authenticationOrder:
+            configType: string
+            items:
+              - string
+          configType: string
+          interfaceName: string
     feature: string
     id: string
     igmpSnoopingGlobalConfig:
       items:
-        -   - configType: string
-              igmpSnoopingVlanSettings:
-                configType: string
-                items:
-                  - configType: string
-                    igmpSnoopingVlanMrouters:
-                      configType: string
-                      items:
-                        - configType: string
-                          interfaceName: string
-                    isIgmpSnoopingEnabled: true
-                    isImmediateLeaveEnabled: true
-                    isQuerierEnabled: true
-                    querierAddress: string
-                    querierQueryInterval: 0
-                    querierVersion: string
-                    vlanId: 0
-              isIgmpSnoopingEnabled: true
-              isQuerierEnabled: true
-              querierAddress: string
-              querierQueryInterval: 0
-              querierVersion: string
+        - configType: string
+          igmpSnoopingVlanSettings:
+            configType: string
+            items:
+              - configType: string
+                igmpSnoopingVlanMrouters:
+                  configType: string
+                  items:
+                    - configType: string
+                      interfaceName: string
+                isIgmpSnoopingEnabled: true
+                isImmediateLeaveEnabled: true
+                isQuerierEnabled: true
+                querierAddress: string
+                querierQueryInterval: 0
+                querierVersion: string
+                vlanId: 0
+          isIgmpSnoopingEnabled: true
+          isQuerierEnabled: true
+          querierAddress: string
+          querierQueryInterval: 0
+          querierVersion: string
     lldpGlobalConfig:
       items:
-        -   - configType: string
-              holdTime: 0
-              isLldpEnabled: true
-              reinitializationDelay: 0
-              timer: 0
+        - configType: string
+          holdTime: 0
+          isLldpEnabled: true
+          reinitializationDelay: 0
+          timer: 0
     lldpInterfaceConfig:
       items:
-        -   - adminStatus: string
-              configType: string
-              interfaceName: string
+        - adminStatus: string
+          configType: string
+          interfaceName: string
     mabInterfaceConfig:
       items:
-        -   - configType: string
-              interfaceName: string
-              isMabEnabled: true
+        - configType: string
+          interfaceName: string
+          isMabEnabled: true
     mldSnoopingGlobalConfig:
       items:
-        -   - configType: string
-              isMldSnoopingEnabled: true
-              isQuerierEnabled: true
-              isSuppressListenerMessagesEnabled: true
-              mldSnoopingVlanSettings:
-                configType: string
-                items:
-                  - configType: string
-                    isImmediateLeaveEnabled: true
-                    isMldSnoopingEnabled: true
-                    isQuerierEnabled: true
-                    mldSnoopingVlanMrouters:
+        - configType: string
+          isMldSnoopingEnabled: true
+          isQuerierEnabled: true
+          isSuppressListenerMessagesEnabled: true
+          mldSnoopingVlanSettings:
+            configType: string
+            items:
+              - configType: string
+                isImmediateLeaveEnabled: true
+                isMldSnoopingEnabled: true
+                isQuerierEnabled: true
+                mldSnoopingVlanMrouters:
+                  configType: string
+                  items:
+                    - configType: string
+                      interfaceName: string
+                querierAddress: string
+                querierQueryInterval: 0
+                querierVersion: string
+                vlanId: 0
+          querierAddress: string
+          querierQueryInterval: 0
+          querierVersion: string
+    portChannelConfig:
+      items:
+        - configType: string
+          isAutoEnabled: true
+          lacpSystemPriority: 0
+          loadBalancingMethod: string
+          portchannels:
+            configType: string
+            items:
+              - AnyOf:
+                  EtherchannelConfig:
+                    configType: string
+                    memberPorts:
                       configType: string
                       items:
                         - configType: string
                           interfaceName: string
-                    querierAddress: string
-                    querierQueryInterval: 0
-                    querierVersion: string
-                    vlanId: 0
-              querierAddress: string
-              querierQueryInterval: 0
-              querierVersion: string
-    portChannelConfig:
-      items:
-        -   - configType: string
-              isAutoEnabled: true
-              lacpSystemPriority: 0
-              loadBalancingMethod: string
-              portchannels:
-                configType: string
-                items:
-                  - AnyOf:
-                      EtherchannelConfig:
-                        configType: string
-                        memberPorts:
-                          configType: string
-                          items:
-                            - configType: string
-                              interfaceName: string
-                              mode: string
-                        minLinks: 0
-                        name: string
-                      LacpPortchannelConfig:
-                        configType: string
-                        memberPorts:
-                          configType: string
-                          items:
-                            - configType: string
-                              interfaceName: string
-                              mode: string
-                              portPriority: 0
-                              rate: 0
-                        minLinks: 0
-                        name: string
-                      PagpPortchannelConfig:
-                        configType: string
-                        memberPorts:
-                          configType: string
-                          items:
-                            - configType: string
-                              interfaceName: string
-                              learnMethod: string
-                              mode: string
-                              portPriority: 0
-                        minLinks: 0
-                        name: string
+                          mode: string
+                    minLinks: 0
+                    name: string
+                  LacpPortchannelConfig:
+                    configType: string
+                    memberPorts:
+                      configType: string
+                      items:
+                        - configType: string
+                          interfaceName: string
+                          mode: string
+                          portPriority: 0
+                          rate: 0
+                    minLinks: 0
+                    name: string
+                  PagpPortchannelConfig:
+                    configType: string
+                    memberPorts:
+                      configType: string
+                      items:
+                        - configType: string
+                          interfaceName: string
+                          learnMethod: string
+                          mode: string
+                          portPriority: 0
+                    minLinks: 0
+                    name: string
     stpGlobalConfig:
       items:
-        -   - configType: string
-              isBackboneFastEnabled: true
-              isBpduFilterEnabled: true
-              isBpduGuardEnabled: true
-              isEtherChannelGuardEnabled: true
-              isExtendedSystemIdEnabled: true
-              isLoggingEnabled: true
-              isLoopGuardEnabled: true
-              isUplinkFastEnabled: true
-              portFastMode: string
-              stpInstances:
-                configType: string
-                items:
-                  - configType: string
-                    priority: 0
-                    timers:
-                      configType: string
-                      forwardDelay: 0
-                      helloInterval: 0
-                      isStpEnabled: true
-                      maxAge: 0
-                    vlanId: 0
-              stpMode: string
-              transmitHoldCount: 0
-              uplinkFastMaxUpdateRate: 0
+        - configType: string
+          isBackboneFastEnabled: true
+          isBpduFilterEnabled: true
+          isBpduGuardEnabled: true
+          isEtherChannelGuardEnabled: true
+          isExtendedSystemIdEnabled: true
+          isLoggingEnabled: true
+          isLoopGuardEnabled: true
+          isUplinkFastEnabled: true
+          portFastMode: string
+          stpInstances:
+            configType: string
+            items:
+              - configType: string
+                priority: 0
+                timers:
+                  configType: string
+                  forwardDelay: 0
+                  helloInterval: 0
+                  isStpEnabled: true
+                  maxAge: 0
+                vlanId: 0
+          stpMode: string
+          transmitHoldCount: 0
+          uplinkFastMaxUpdateRate: 0
     stpInterfaceConfig:
       items:
         - bpduFilter: string
@@ -1901,42 +1901,42 @@ EXAMPLES = r"""
           priority: 0
     switchportInterfaceConfig:
       items:
-        -   - accessVlan: 0
-              adminStatus: string
-              configType: string
-              description: string
-              interfaceName: string
-              mode: string
-              nativeVlan: 0
-              trunkAllowedVlans: string
-              voiceVlan: 0
+        - accessVlan: 0
+          adminStatus: string
+          configType: string
+          description: string
+          interfaceName: string
+          mode: string
+          nativeVlan: 0
+          trunkAllowedVlans: string
+          voiceVlan: 0
     trunkInterfaceConfig:
       items:
-        -   - configType: string
-              interfaceName: string
-              isDtpNegotiationEnabled: true
-              isProtected: true
-              pruneEligibleVlans: string
+        - configType: string
+          interfaceName: string
+          isDtpNegotiationEnabled: true
+          isProtected: true
+          pruneEligibleVlans: string
     vlanConfig:
       items:
-        -   - configType: string
-              isVlanEnabled: true
-              name: string
-              vlanId: 0
+        - configType: string
+          isVlanEnabled: true
+          name: string
+          vlanId: 0
     vtpGlobalConfig:
       items:
-        -   - configType: string
-              configurationFileName: string
-              domainName: string
-              isPruningEnabled: true
-              mode: string
-              sourceInterface: string
-              version: string
+        - configType: string
+          configurationFileName: string
+          domainName: string
+          isPruningEnabled: true
+          mode: string
+          sourceInterface: string
+          version: string
     vtpInterfaceConfig:
       items:
-        -   - configType: string
-              interfaceName: string
-              isVtpEnabled: true
+        - configType: string
+          interfaceName: string
+          isVtpEnabled: true
 """
 RETURN = r"""
 dnac_response:
