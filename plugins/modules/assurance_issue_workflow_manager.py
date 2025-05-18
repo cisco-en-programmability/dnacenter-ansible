@@ -2283,7 +2283,8 @@ class AssuranceSettings(DnacBase):
         Update/Create Assurance issue in Cisco Catalyst Center with fields provided in playbook
 
         Parameters:
-            assurance issue (list of dict) - Assurance Issue playbook details
+            assurance_details (list[dict]): A list of dictionaries containing assurance issue details.
+            config (dict): Configuration details for processing assurance issues.
 
         Returns:
             self - The current object with Assurance Issue information.
@@ -2319,23 +2320,43 @@ class AssuranceSettings(DnacBase):
 
         self.log("Comparing 'want' and 'have' assurance issues to determine actions.", "DEBUG")
 
-        for item in self.have.get("assurance_user_defined_issue_settings"):
-            issue_name = want_assurance_issue[assurance_index].get("name")
-            result_assurance_issue.get("msg").update({issue_name: {}})
-            if item.get("exists") is True:
-                update_assurance_issue.append(want_assurance_issue[assurance_index])
-            else:
-                if issue_name in seen_names:
-                    duplicate_names.add(issue_name)
-                else:
-                    seen_names.add(issue_name)
-                    unique_create_assurance_issue.append(want_assurance_issue[assurance_index])
+        # Initialize containers for categorizing issues
+        seen_names = set()
+        duplicate_names = set()
+        unique_create_assurance_issue = []
+        update_assurance_issue = []
 
-            assurance_index += 1
+        # Process assurance issues
+        for index, item in enumerate(have_assurance_issue):
+            issue_name = want_assurance_issue[index].get("name")
+            if not issue_name:
+                self.log("Skipping issue at index {0} due to missing 'name' key.".format(index), "WARNING")
+                continue
+
+            self.result["response"][0].setdefault("msg", {}).update({issue_name: {}})
+            self.log("Processing issue: {0}".format(issue_name), "DEBUG")
+
+            # If the issue exists, add it to the update list and skip further processing
+            if item.get("exists"):
+                self.log("Issue '{0}' exists. Adding to update list.".format(issue_name), "DEBUG")
+                update_assurance_issue.append(want_assurance_issue[index])
+                continue
+
+            # Check for duplicates
+            if issue_name in seen_names:
+                self.log("Duplicate issue name detected: '{0}'. Adding to duplicates.".format(issue_name), "DEBUG")
+                duplicate_names.add(issue_name)
+                continue
+
+            # If the issue is new, add it to the create list
+            self.log("New issue detected: '{0}'. Adding to create list.".format(issue_name), "DEBUG")
+            seen_names.add(issue_name)
+            unique_create_assurance_issue.append(want_assurance_issue[index])
 
         # Move duplicates to update list
         for issue in want_assurance_issue:
             if issue.get("name") in duplicate_names:
+                self.log("Duplicate issue '{0}' moved to update list.".format(issue.get("name")), "DEBUG")
                 update_assurance_issue.append(issue)
 
         # Use the deduplicated list
@@ -2773,13 +2794,41 @@ class AssuranceSettings(DnacBase):
             - If an item does not have a 'name' key or the value is None, it will be skipped.
             - Order of first occurrences is maintained.
         """
-        seen = set()
+
+        if not isinstance(items, list):
+            self.log("Invalid input: 'items' is not a list. Returning an empty list.", "ERROR")
+            return []
+
+        self.log("Starting deduplication process for a list of dictionaries.", "INFO")
+        seen_names = set()
         unique_items = []
-        for item in items or []:
+        for index, item in enumerate(items or []):
+            if not isinstance(item, dict):
+                self.log(
+                    "Skipping item at index {0}: Expected a dictionary, got {1}.".format(index, type(item).__name__),
+                    "WARNING"
+                )
+                continue
+
             name = item.get("name")
-            if name and name not in seen:
-                seen.add(name)
+            if name is None:
+                self.log(
+                    "Skipping item at index {0}: Missing 'name' key or 'name' is None.".format(index),
+                    "WARNING"
+                )
+                continue
+
+            if name not in seen_names:
+                self.log("Adding unique item with name: '{0}'.".format(name), "DEBUG")
+                seen_names.add(name)
                 unique_items.append(item)
+            else:
+                self.log("Duplicate item with name: '{0}' found. Skipping.".format(name), "DEBUG")
+
+        self.log(
+            "Deduplication complete. Original count: {0}, Unique count: {1}.".format(len(items or []), len(unique_items)),
+            "INFO"
+        )
         return unique_items
 
     def get_valid_assurance_issues(self, items):
@@ -2794,34 +2843,54 @@ class AssuranceSettings(DnacBase):
         Returns:
             list: Filtered list containing unique items and second/later duplicates.
         """
-        name_counts = {}
-        final_items = []
+        if not isinstance(items, list):
+            self.log("Invalid input: 'items' is not a list. Returning an empty list.", "ERROR")
+            return []
 
-        for item in items or []:
+        self.log("Starting processing of assurance issues.", "INFO")
+        name_counts = {}
+        filtered_items = []
+
+        for index, item in enumerate(items or []):
+            # Ensure item is a dictionary
+            if not isinstance(item, dict):
+                self.log(
+                    "Skipping item at index {0}: Expected a dictionary, got {1}.".format(index, type(item).__name__),
+                    "WARNING"
+                )
+                continue
+
+            # Extract the 'name' key
             name = item.get("name")
             if not name:
+                self.log("Skipping item at index {0}: Missing 'name' key or 'name' is None.".format(index), "WARNING")
                 continue
+
+            # Count occurrences and decide whether to keep the item
             name_counts[name] = name_counts.get(name, 0) + 1
             if name_counts[name] > 1:
-                # Second or later occurrence — keep it
-                final_items.append(item)
+                self.log("Duplicate detected for name '{0}' at index {1}. Keeping this occurrence.".format(name, index), "DEBUG")
+                filtered_items.append(item)
             elif name_counts[name] == 1:
-                # First occurrence — keep it for now (we may remove it later)
-                final_items.append(item)
+                self.log("First occurrence of name '{0}' at index {1}. Keeping it for now.".format(name, index), "DEBUG")
+                filtered_items.append(item)
 
-        # Remove first occurrences that were later duplicated
+        # Final filtering: Remove first occurrences of duplicates
+        unique_and_duplicates = []
         seen = set()
-        result = []
-        for item in final_items:
+
+        for item in filtered_items:
             name = item.get("name")
-            if name in seen:
-                result.append(item)  # Keep second or later
+            if name in seen or name_counts[name] == 1:
+                unique_and_duplicates.append(item)
             else:
                 seen.add(name)
-                if name_counts[name] == 1:
-                    result.append(item)  # Keep unique first-time entries
 
-        return result
+        self.log(
+            "Processing complete. Total items: {0}, Filtered items: {1}.".format(len(items or []), len(unique_and_duplicates)),
+            "INFO"
+        )
+        return unique_and_duplicates
 
     def verify_diff_merged(self, config):
         """
