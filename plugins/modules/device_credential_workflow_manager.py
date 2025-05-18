@@ -2683,6 +2683,115 @@ class DeviceCredential(DnacBase):
         self.status = "success"
         return self
 
+    def get_credential_value(self, input_value, global_value):
+        """
+        Determines the appropriate credential value to use for assignment.
+
+        This method is used to resolve a credential field by prioritizing the following:
+        - If the `input_value` is explicitly an empty dictionary `{}`, return `{}` as-is.
+        - If the `input_value` is `None`, return the `global_value` if it exists.
+        - Otherwise, return the `input_value`.
+
+        This is useful when assigning credentials with fallbacks from global defaults,
+        while still respecting explicit requests to nullify a field using `{}`.
+
+        Parameters:
+            input_value (any): The credential value provided in the input (can be a string, dict, or None).
+            global_value (any): The global/default credential value to fall back on if `input_value` is None.
+
+        Returns:
+            any: The resolved credential value to use (could be `input_value`, `global_value`, or `{}`).
+        """
+
+        # Explicitly return the empty dictionary if input_value is {}
+        if input_value == {}:
+            return {}
+
+        # If input_value is None, fall back to global_value (or return {} if global_value is None)
+        if input_value is None:
+            return global_value if global_value is not None else {}
+
+        # Otherwise, return the input_value as-is
+        return input_value
+
+    def assign_device_cred_to_global_site(self, global_site_id, credential_params_template, result_assign_credential):
+        """
+        Assigns device credentials to a given site. If the site is the global site, it fetches and assigns global credentials.
+        Otherwise, it assigns credentials specific to the site based on the provided template.
+
+        Parameters:
+            self: Instance of the class.
+            global_site_id (str): ID of the global site for reference.
+            credential_params_template (dict): Template containing credential parameters.
+            result_assign_credential (dict): Dictionary to store the result of the credential assignment.
+
+        Returns:
+            self: Updated instance with assignment status and messages.
+        """
+
+        self.log(
+            "Starting the process to assign device credentials to the global site. "
+            "Global Site ID: {} | Initial Credential Parameters: {}".format(
+                global_site_id, self.pprint(credential_params_template)
+            ),
+            "INFO"
+        )
+        final_response = []
+        self.log(self.pprint(credential_params_template))
+        self.log("Fetching assigned device credentials for the global site (ID: {}).".format(global_site_id), "INFO")
+        global_cred = copy.deepcopy(self.get_assigned_device_credential(global_site_id))
+        self.log("Global credentials retrieved: {}".format(self.pprint(global_cred)), "DEBUG")
+        credential_params = copy.deepcopy(credential_params_template)  # Reset for each iteration
+        self.log("Initialized credential parameters for processing: {}".format(self.pprint(credential_params)), "DEBUG")
+        # List of credential types to handle
+        credential_types = [
+            "cliCredentialsId",
+            "snmpv2cReadCredentialsId",
+            "snmpv2cWriteCredentialsId",
+            "httpReadCredentialsId",
+            "httpWriteCredentialsId",
+            "snmpv3CredentialsId"
+        ]
+
+        # Process each credential type
+        for cred_type in credential_types:
+            if credential_params.get(cred_type) is None:  # If not provided in the input
+                self.log("Credential '{}' is not provided in the input. Checking global credentials...".format(cred_type), "DEBUG")
+
+                global_value = global_cred.get(cred_type)  # Fetch from global credentials
+                if global_value:
+                    self.log("Found global value for '{}': {}".format(cred_type, global_value), "DEBUG")
+                    credential_params[cred_type] = global_value
+                else:
+                    self.log("No global value found for '{}'. Setting it to an empty dictionary.".format(cred_type), "DEBUG")
+                    credential_params[cred_type] = {}
+
+        # Add site ID to parameters
+        credential_params["id"] = global_site_id
+
+        # Append final response for logging
+        final_response.append(copy.deepcopy(credential_params))
+        self.log("Calling API to update device credentials for the global site (ID: {}).".format(global_site_id), "INFO")
+        response = self.dnac._exec(
+            family="network_settings",
+            function='update_device_credential_settings_for_a_site',
+            op_modifies=True,
+            params=credential_params
+        )
+        self.log("Received API response for 'update_device_credential_settings_for_a_site': {}".format(response), "DEBUG")
+        self.check_tasks_response_status(response, "update_device_credential_settings_for_a_site").check_return_status()
+        self.log("Desired State for assign credentials to a site: {}".format(self.pprint(final_response)), "DEBUG")
+        result_assign_credential.update({
+            "Assign Credentials": {
+                "response": final_response,
+                "msg": "Device Credential Assigned to global site is Successfully"
+            }
+        })
+        self.msg = "Global Credential is assigned Successfully"
+        self.status = "success"
+        self.log("Process to assign device credentials to the global site completed successfully.", "INFO")
+        return self
+
     def assign_credentials_to_site(self):
         """
         Assign Global Device Credential to the Cisco Catalyst
@@ -2696,13 +2805,50 @@ class DeviceCredential(DnacBase):
             self
         """
 
+        current_version = self.get_ccc_version()
         result_assign_credential = self.result.get("response")[0].get("assign_credential")
-        credential_params = self.want.get("assign_credentials")
+        credential_params_template = copy.deepcopy(self.want.get("assign_credentials"))  # Store original template
         final_response = []
-        self.log("Assigning device credential to site API input parameters: {0}"
-                 .format(credential_params), "DEBUG")
+        self.log(
+            "Starting device credential assignment process. Initial input parameters: {0}".format(credential_params_template),
+            "INFO"
+        )
 
-        if not credential_params:
+        site_ids = self.want.get("site_id")
+        if self.compare_dnac_versions(current_version, "2.3.7.6") >= 0:
+
+            site_exists, global_site_id = self.get_site_id("Global")
+            if global_site_id in site_ids:
+
+                self.log("Global site detected in site IDs. Processing global credential assignment.", "INFO")
+                assign_credentials_to_site = self.config[0]['assign_credentials_to_site'].copy()
+                if "site_name" in assign_credentials_to_site:
+
+                    site_names = assign_credentials_to_site.pop("site_name")
+                    self.log(
+                        "Removed 'site_name' from credential assignment configuration: {0}".format(site_names),
+                        "DEBUG"
+                    )
+                self.log("Global site credential parameters: {0}".format(assign_credentials_to_site), "DEBUG")
+                # Skip if credential_params is empty
+                if not assign_credentials_to_site:
+                    self.log("No credentials defined for global site. Skipping assignment.", "INFO")
+                    result_assign_credential.update({
+                        "No Assign Credentials": {
+                            "response": "No Response",
+                            "msg": "No Assignment is available for Global site"
+                        }
+                    })
+                    self.msg = "No Assignment is available for Global site"
+                    self.status = "success"
+                    return self
+
+                site_ids.remove(global_site_id)
+                self.assign_device_cred_to_global_site(global_site_id, credential_params_template, result_assign_credential)
+
+        # Skip if credential_params is empty
+        if not credential_params_template:
+            self.log("No credentials defined in the template. Exiting assignment process.", "WARNING")
             result_assign_credential.update({
                 "No Assign Credentials": {
                     "response": "No Response",
@@ -2713,17 +2859,16 @@ class DeviceCredential(DnacBase):
             self.status = "success"
             return self
 
-        site_ids = self.want.get("site_id")
-
         for site_id in site_ids:
-            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
-                credential_params.update({"site_id": site_id})
-                final_response.append(copy.deepcopy(credential_params))
+            self.log("Processing credential assignment for site ID: {0}".format(site_id), "INFO")
+            if self.compare_dnac_versions(current_version, "2.3.5.3") <= 0:
+                credential_params_template.update({"site_id": site_id})
+                final_response.append(copy.deepcopy(credential_params_template))
                 response = self.dnac._exec(
                     family="network_settings",
                     function='assign_device_credential_to_site_v2',
                     op_modifies=True,
-                    params=credential_params,
+                    params=credential_params_template,
                 )
                 self.log("Received API response for 'assign_device_credential_to_site_v2': {0}"
                          .format(response), "DEBUG")
@@ -2731,52 +2876,9 @@ class DeviceCredential(DnacBase):
                 self.check_task_response_status(
                     response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
             else:
-                assign_credentials = self.config[0].get("assign_credentials_to_site", {})
-                site_names = assign_credentials.get("site_name", [])
-                self.log("Site names retrieved from config: {}".format(site_names))
-
-                if "Global" in site_names:
-                    self.log("Assigning credentials to Global site.")
-                    site_exists, global_site_id = self.get_site_id("Global")
-                    self.log("Global site ID retrieved: {}, Site exists: {}".format(global_site_id, site_exists))
-                    credentials = {
-                        "cli_credential": "cliCredentialsId",
-                        "snmp_v2c_read": "snmpv2cReadCredentialsId",
-                        "snmp_v2c_write": "snmpv2cWriteCredentialsId",
-                        "https_read": "httpReadCredentialsId",
-                        "https_write": "httpWriteCredentialsId",
-                        "snmp_v3": "snmpv3CredentialsId"
-                    }
-
-                    # Check for missing credentials using a simple for loop
-                    missing_credentials = []
-                    for key in credentials:
-                        if assign_credentials.get(key) is None:
-                            missing_credentials.append(key)
-
-                    # If any credentials are missing or not empty, return failure
-                    if missing_credentials:
-                        self.msg = (
-                            "Failed to assign credentials to Global site. "
-                            "Missing or invalid parameters: " + ", ".join(missing_credentials)
-                        )
-                        self.status = "failed"
-                        self.log(self.msg, "DEBUG")
-                        return self
-
-                    # Assign `{}` only for empty credentials
-                    for key, param_id in credentials.items():
-                        if assign_credentials.get(key) == {}:
-                            credential_params[param_id] = {}
-                            self.log("Credential {} is empty, setting {} to {}".format(key, param_id, {}))
-
-                    credential_params["id"] = global_site_id
-                    self.log("Final credential parameters for Global site: {}".format(credential_params))
-                    credential_params.update({"id": global_site_id})
-                else:
-                    credential_params = self.want.get("assign_credentials")
-                    credential_params.update({"id": site_id})
-
+                credential_params = copy.deepcopy(credential_params_template)  # Reset for each iteration
+                self.log("Credentials for site {}: {}".format(site_id, credential_params))
+                credential_params.update({"id": site_id})
                 final_response.append(copy.deepcopy(credential_params))
                 response = self.dnac._exec(
                     family="network_settings",
@@ -2788,17 +2890,15 @@ class DeviceCredential(DnacBase):
                          .format(response), "DEBUG")
                 self.check_tasks_response_status(
                     response, "update_device_credential_settings_for_a_site").check_return_status()
-
-        self.log("Device credential assigned to site {0} is successfully."
-                 .format(site_ids), "INFO")
-        self.log("Desired State for assign credentials to a site: {0}"
-                 .format(final_response), "DEBUG")
-        result_assign_credential.update({
-            "Assign Credentials": {
-                "response": final_response,
-                "msg": "Device Credential Assigned to a site is Successfully"
-            }
-        })
+        if final_response:
+            self.log("Device credentials successfully assigned to sites: {0}".format(site_ids), "INFO")
+            self.log("Final desired state for credentials: {0}".format(final_response), "DEBUG")
+            result_assign_credential.update({
+                "Assign Credentials": {
+                    "response": final_response,
+                    "msg": "Device Credential Assigned to a site is Successfully"
+                }
+            })
         self.msg = "Global Credential is assigned Successfully"
         self.status = "success"
         return self
@@ -3346,8 +3446,10 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_credential = DeviceCredential(module)
     state = ccc_credential.params.get("state")
+    MIN_SUPPORTED_VERSION = "2.3.5.3"
+    current_version = ccc_credential.get_ccc_version()
 
-    if ccc_credential.compare_dnac_versions(ccc_credential.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_credential.compare_dnac_versions(current_version, MIN_SUPPORTED_VERSION) < 0:
         ccc_credential.msg = (
             "The specified version '{0}' does not support the device_credential_workflow features. Supported versions start from '2.3.5.3' onwards. "
             .format(ccc_credential.get_ccc_version())
