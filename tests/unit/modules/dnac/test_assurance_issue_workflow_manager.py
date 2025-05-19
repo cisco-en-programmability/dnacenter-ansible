@@ -39,7 +39,6 @@ class TestDnacAssuranceSettings(TestDnacModule):
     playbook_config_invalid_time_format = test_data.get("playbook_config_invalid_time_format")
     playbook_config_idempotency = test_data.get("playbook_config_idempotency")
 
-
     def setUp(self):
         super(TestDnacAssuranceSettings, self).setUp()
 
@@ -155,7 +154,6 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 self.test_data.get("idempotency_update"),
                 self.test_data.get("idempotency_update"),
             ]
-
 
     def test_assurance_issue_workflow_manager_updation(self):
         """
@@ -471,5 +469,40 @@ class TestDnacAssuranceSettings(TestDnacModule):
         print(result['response'][0]['assurance_user_defined_issue_settings']['response'])
         self.assertEqual(
             result['response'][0]['assurance_user_defined_issue_settings']['response'],
-            {'created user-defined issue': {'name': 'Warning - C6KENV', 'description': 'Triggers an Warning due to C6KENV', 'rules': [{'severity': '4', 'facility': 'C6KENV', 'mnemonic': 'TERMINATOR_PS_TEMP_MAJORALARM', 'pattern': 'issue test', 'occurrences': 1, 'duration_in_minutes': 2}], 'is_enabled': True, 'priority': 'P2', 'is_notification_enabled': True}, 'updated user defined issue Details': {'name': 'testing item_idempotency issue_1', 'description': 'testing ignore', 'rules': [{'severity': '5', 'facility': 'DOT1X', 'mnemonic': 'FAIL', 'pattern': 'issue test', 'occurrences': 1, 'duration_in_minutes': 3}], 'is_enabled': True, 'priority': 'P4', 'is_notification_enabled': False}}
+            {
+                'created user-defined issue': {
+                    'name': 'Warning - C6KENV',
+                    'description': 'Triggers an Warning due to C6KENV',
+                    'rules': [
+                        {
+                            'severity': '4',
+                            'facility': 'C6KENV',
+                            'mnemonic': 'TERMINATOR_PS_TEMP_MAJORALARM',
+                            'pattern': 'issue test',
+                            'occurrences': 1,
+                            'duration_in_minutes': 2
+                        }
+                    ],
+                    'is_enabled': True,
+                    'priority': 'P2',
+                    'is_notification_enabled': True
+                },
+                'updated user defined issue Details': {
+                    'name': 'testing item_idempotency issue_1',
+                    'description': 'testing ignore',
+                    'rules': [
+                        {
+                            'severity': '5',
+                            'facility': 'DOT1X',
+                            'mnemonic': 'FAIL',
+                            'pattern': 'issue test',
+                            'occurrences': 1,
+                            'duration_in_minutes': 3
+                        }
+                    ],
+                    'is_enabled': True,
+                    'priority': 'P4',
+                    'is_notification_enabled': False
+                }
+            }
         )
