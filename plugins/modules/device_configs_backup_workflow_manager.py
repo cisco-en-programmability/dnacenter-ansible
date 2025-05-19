@@ -555,7 +555,7 @@ class DeviceConfigsBackup(DnacBase):
                     # Check if the device is reachable and managed
                     if device_info.get("reachabilityStatus") == "Reachable" and device_info.get("collectionStatus") == "Managed":
                         # Skip Unified AP devices
-                        if device_info.get("family") != "Unified AP" :
+                        if device_info.get("family") not in {"Unified AP", "Wireless Sensor", "Third Party Device"}:
                             device_id = device_info["id"]
                             mgmt_ip_to_instance_id_map[device_ip] = device_id
                         else:
