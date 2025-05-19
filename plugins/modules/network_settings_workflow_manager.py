@@ -1167,11 +1167,6 @@ class NetworkSettings(DnacBase):
         global_pool = pool_info
         self.log("Formated global pool details: {0}".format(self.pprint(global_pool)), "DEBUG")
 
-        if not address_space["gatewayIpAddress"]:
-            global_pool.update({"gatewayIpAddress": ""})
-        else:
-            global_pool.update({"gatewayIpAddress": pool_info.get("gatewayIpAddress")[0]})
-
         return global_pool
 
     def get_reserve_pool_params(self, pool_info):
@@ -1869,6 +1864,8 @@ class NetworkSettings(DnacBase):
             network_settings.update({"syslogServer": [""]})
 
         if dhcp_details:
+            if "servers" not in dhcp_details:
+                dhcp_details["servers"] = []
             network_settings.update({"dhcpServer": dhcp_details})
         else:
             network_settings.update({"dhcpServer": [""]})
@@ -3302,7 +3299,7 @@ class NetworkSettings(DnacBase):
                             "sharedSecret": shared_secret
                         })
                 else:
-                    want_network_settings["network_aaa"] = have_network_details.get("network_aaa")
+                    del want_network_settings["network_aaa"]
 
                 client_and_endpoint_aaa = item.get("client_and_endpoint_aaa")
                 if client_and_endpoint_aaa:
@@ -3376,7 +3373,7 @@ class NetworkSettings(DnacBase):
                             "sharedSecret": shared_secret
                         })
                 else:
-                    want_network_settings["client_and_endpoint_aaa"] = have_network_details.get("client_and_endpoint_aaa")
+                    del want_network_settings["client_and_endpoint_aaa"]
 
                 network_aaa = want_network_settings.get("network_aaa")
                 client_and_endpoint_aaa = want_network_settings.get("client_and_endpoint_aaa")
@@ -3966,7 +3963,7 @@ class NetworkSettings(DnacBase):
         global_pool_index = 0
         result_global_pool = self.result.get("response")[0].get("globalPool")
         want_global_pool = self.want.get("wantGlobal").get("settings").get("ippool")
-        self.log("Global pool playbook details: {0}".format(global_pool), "DEBUG")
+        self.log("Global pool playbook details: {0}".format(self.pprint(global_pool)), "DEBUG")
 
         for item in self.have.get("globalPool"):
             result_global_pool.get("msg") \
@@ -3980,7 +3977,7 @@ class NetworkSettings(DnacBase):
 
         # Check create_global_pool; if yes, create the global pool in batches
         if create_global_pool:
-            self.log("Global pool(s) details to be created: {0}".format(create_global_pool), "INFO")
+            self.log("Global pool(s) details to be created: {0}".format(self.pprint(create_global_pool)), "INFO")
 
             batch_size = 25  # Define batch size
             for i in range(0, len(create_global_pool), batch_size):
@@ -3990,7 +3987,7 @@ class NetworkSettings(DnacBase):
                         "ippool": copy.deepcopy(batch)
                     }
                 }
-                self.log("Creating global pool batch: {0}".format(batch), "INFO")
+                self.log("Creating global pool batch: {0}".format(self.pprint(batch)), "INFO")
                 try:
                     response = self.dnac._exec(
                         family="network_settings",
@@ -4861,8 +4858,7 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params=payload,
             )
-            self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
-
+            self.log("Received API response of 'update_device_controllability_settings_v1': {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "update_device_controllability_settings_v1").check_return_status()
 
             # Update the 'msg' field
@@ -4877,7 +4873,6 @@ class NetworkSettings(DnacBase):
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
-            return self.check_return_status()
 
         return self
 
