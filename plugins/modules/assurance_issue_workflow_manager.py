@@ -311,11 +311,15 @@ options:
                 Specifies the type of device to which the issue configuration applies.
                 For example,
                 choices:
-                - Router
+                - ROUTER
                 - SWITCH_AND_HUB
                 - UNIFIED_AP
-                - FIREWALL
+                - WIRELESS_CLIENT
+                - WIRED_CLIENT
                 - CONTROLLER
+                - THIRD_PARTY_DEVICE
+                - APPLICATION
+                - SENSOR
             type: str
             required: true
           synchronize_to_health_threshold:
