@@ -640,7 +640,7 @@ class LanAutomation(DnacBase):
                         "default": False
                     },
                     "pnp_authorization": {
-                        "type": "str",
+                        "type": "bool",
                         "required": False,
                         "default": False
                     },
