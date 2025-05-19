@@ -2202,15 +2202,16 @@ class Template(DnacBase):
 
         config["templateId"] = template_details.get("id")
         have_template["id"] = template_details.get("id")
+        project_name = config.get("configuration_templates").get("project_name")
         # Get available templates which are committed under the project
         template_list = self.dnac_apply['exec'](
             family="configuration_templates",
             function="gets_the_templates_available",
             op_modifies=True,
-            params={"projectNames": config.get("projectName")},
+            params={"projectNames": project_name},
         )
         self.log("Received response from 'gets_the_templates_available' for project_name: '{0}' is {1}".format(
-            config.get("projectName"), template_list), "DEBUG")
+            project_name, template_list), "DEBUG")
         have_template["isCommitPending"] = True
         # This check will fail if specified template is there not committed in Cisco Catalyst Center
         if template_list and isinstance(template_list, list):
@@ -2728,12 +2729,25 @@ class Template(DnacBase):
             template_params.update({"id": template_id})
             self.log("Current State (have): {0}".format(self.have_template), "INFO")
             self.log("Desired State (want): {0}".format(self.want), "INFO")
-            response = self.dnac_apply['exec'](
-                family="configuration_templates",
-                function="update_template",
-                op_modifies=True,
-                params=template_params,
-            )
+
+            task_name = "update_template"
+            parameters = template_params
+            current_response = copy.deepcopy(self.result['response'])
+            task_id = self.get_taskid_post_api_call("configuration_templates", task_name, parameters)
+            template_name = self.want.get("template_params").get("name")
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}' for the template: '{1}'.".format(
+                    task_name, template_name
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
+
+            success_msg = "Successfully updated the configuration template '{0}' in Cisco Catalyst Center".format(template_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.result['response'] = copy.deepcopy(current_response)
+
             template_updated = True
             self.log("Updating existing template '{0}'."
                      .format(self.have_template.get("template").get("name")), "INFO")
@@ -2751,23 +2765,39 @@ class Template(DnacBase):
                 "comments": self.want.get("comments"),
                 "templateId": template_id
             }
-            response = self.dnac_apply['exec'](
-                family="configuration_templates",
-                function="version_template",
-                op_modifies=True,
-                params=version_params
-            )
-            task_id = response.get("response").get("taskId")
+
+            task_name = "version_template"
+            parameters = version_params
+            template_name = self.want.get("template_params").get("name")
+
+            current_response = copy.deepcopy(self.result['response'])
+
+            task_id = self.get_taskid_post_api_call("configuration_templates", task_name, parameters)
+
             if not task_id:
-                self.msg = "Task id: {0} not found".format(task_id)
-                self.status = "failed"
+                self.msg = "Unable to retrieve the task_id for the task '{0}' for the template {1}.".format(
+                    task_name, template_name
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
                 return self
+
+            success_msg = "Successfully versioned the template '{0}' with comments: '{1}' in Cisco Catalyst Center".format(
+                template_name, version_params.get("comments")
+            )
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+            self.result['response'] = copy.deepcopy(current_response)
             task_details = self.get_task_details(task_id)
             self.result['changed'] = True
             self.result['response'][0].get("configurationTemplate")['msg'] = task_details.get('progress')
             self.result['response'][0].get("configurationTemplate")['diff'] = configuration_templates
             self.log("Task details for 'version_template': {0}".format(task_details), "DEBUG")
-            self.result['response'][0].get("configurationTemplate")['response'] = task_details if task_details else response
+            if task_details:
+                self.result['response'][0].get("configurationTemplate")['response'] = task_details
+            else:
+                self.log("No task details are received for task ID: {0}".format(task_id), "WARNING")
 
             if not self.result['response'][0].get("configurationTemplate").get('msg'):
                 self.msg = "Error while versioning the template"
@@ -3886,6 +3916,18 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
     ccc_template = Template(module)
+
+    ccc_version = ccc_template.get_ccc_version()
+    if ccc_template.compare_dnac_versions(ccc_version, "2.3.7.6") < 0:
+        ccc_template.msg = (
+            "Template module is not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
+            "from '2.3.7.6' onwards."
+            .format(ccc_version)
+        )
+        ccc_template.set_operation_result(
+            "failed", False, ccc_template.msg, "ERROR"
+        ).check_return_status()
+
     ccc_template.validate_input().check_return_status()
     state = ccc_template.params.get("state")
     config_verify = ccc_template.params.get("config_verify")
