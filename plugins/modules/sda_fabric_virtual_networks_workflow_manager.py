@@ -2723,7 +2723,7 @@ class VirtualNetwork(DnacBase):
             is_pool_exist = self.is_ip_pool_exist(ip_pool_name, site_id)
             if state == "deleted" and not is_pool_exist:
                 self.log(
-                    "Given Reserve pool '{0}' already deleted from the fabric site '{1}'."
+                    "The reserved IP pool '{0}' has already been deleted from the fabric site '{1}'."
                     .format(ip_pool_name, site_name), "INFO"
                 )
                 continue
@@ -2737,8 +2737,9 @@ class VirtualNetwork(DnacBase):
                 anchored_fabric_id = vn_details_in_ccc.get("anchoredSiteId")
                 if not anchored_fabric_id:
                     self.msg = (
-                        "The virtual network '{0}' is not anchored to any site for the reserve IP pool '{1}' "
-                        "in Cisco Catalyst Center.".format(vn_name, ip_pool_name)
+                        "The virtual network '{0}' is not anchored to any site for the reserved IP pool '{1}' in "
+                        "Cisco Catalyst Center. Please ensure the virtual network is properly configured with site anchoring."
+                        .format(vn_name, ip_pool_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -3539,7 +3540,7 @@ class VirtualNetwork(DnacBase):
                 "to depict the idempotency behaviour.".format(ip_pool_name), "DEBUG"
             )
             if not is_pool_exist:
-                self.log("Given ip pool '{0}' is not present in Cisco Catalyst Center.".format(ip_pool_name), "INFO")
+                self.log("IP pool '{0}' is not present in Cisco Catalyst Center.".format(ip_pool_name), "INFO")
                 self.absent_anycast_gateways.append(unique_anycast)
                 continue
 
