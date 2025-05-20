@@ -365,7 +365,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                             duplicate_template))
                         break
 
-                    if template in day_n_template_name:
+                    if day_n_template_name and template in day_n_template_name:
                         errormsg.append("Onboarding_templates: Duplicate template " +
                                         "'{0}' found in day_n_templates".format(template))
                         break
