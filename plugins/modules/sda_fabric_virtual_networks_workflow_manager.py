@@ -2041,7 +2041,8 @@ class VirtualNetwork(DnacBase):
             response = response.get("response")
             self.log("Received API response from 'get_anycast_gateways' for the IP Pool '{0}': {1}".format(ip_pool_name, str(response)), "DEBUG")
             if not response:
-                self.log("There is no gateway '{0}' present in the Cisco Catalyst Center system.", "INFO")
+                unique_anycast = vn_name + "_" + ip_pool_name
+                self.log("Gateway '{0}' is not present in the Cisco Catalyst Center.".format(unique_anycast), "INFO")
                 return None
 
             self.log("Returning Anycast Gateway details for IP Pool '{0}': {1}".format(ip_pool_name, str(response[0])), "INFO")
