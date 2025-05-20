@@ -275,7 +275,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Application telemetry disabled successfully for all devices."
+            "Application telemetry disabling successfully for all devices."
         )
 
     def test_provision_workflow_manager_playbook_application_telemetry_enable(self):
@@ -300,7 +300,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Application telemetry enabled successfully for all devices."
+            "Application telemetry enabling successfully for all devices."
         )
 
     def test_provision_workflow_manager_playbook_delete_provision(self):
