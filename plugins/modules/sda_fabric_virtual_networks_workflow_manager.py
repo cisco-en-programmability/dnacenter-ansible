@@ -2040,9 +2040,9 @@ class VirtualNetwork(DnacBase):
             )
             response = response.get("response")
             self.log("Received API response from 'get_anycast_gateways' for the IP Pool '{0}': {1}".format(ip_pool_name, str(response)), "DEBUG")
-
             if not response:
-                self.log("There is no reserve ip pool '{0}' present in the Cisco Catalyst Center system.".format(ip_pool_name), "INFO")
+                unique_anycast = vn_name + "_" + ip_pool_name
+                self.log("Gateway '{0}' is not present in the Cisco Catalyst Center.".format(unique_anycast), "INFO")
                 return None
 
             self.log("Returning Anycast Gateway details for IP Pool '{0}': {1}".format(ip_pool_name, str(response[0])), "INFO")
@@ -2722,6 +2722,12 @@ class VirtualNetwork(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             is_pool_exist = self.is_ip_pool_exist(ip_pool_name, site_id)
+            if state == "deleted" and not is_pool_exist:
+                self.log(
+                    "The reserved IP pool '{0}' has already been deleted from the fabric site '{1}'."
+                    .format(ip_pool_name, site_name), "INFO"
+                )
+                continue
 
             if not is_pool_exist:
                 self.log(
@@ -2732,8 +2738,9 @@ class VirtualNetwork(DnacBase):
                 anchored_fabric_id = vn_details_in_ccc.get("anchoredSiteId")
                 if not anchored_fabric_id:
                     self.msg = (
-                        "Given virtual network '{0}' is not anchored at any fabric site so cannot make "
-                        "any configuration change in the anycast gateway.".format(vn_name)
+                        "The virtual network '{0}' is not anchored to any site for the reserved IP pool '{1}' in "
+                        "Cisco Catalyst Center. Please ensure the virtual network is properly configured with site anchoring."
+                        .format(vn_name, ip_pool_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -3528,6 +3535,16 @@ class VirtualNetwork(DnacBase):
 
             # Collect the gateway id with combination of vn_name, ip_pool_name and fabric id
             unique_anycast = vn_name + "_" + ip_pool_name + "_" + site_name
+            is_pool_exist = self.is_ip_pool_exist(ip_pool_name, site_id)
+            self.log(
+                "Checking if given ip pool '{0}' already deleted from the Cisco Catalyst Center "
+                "to depict the idempotency behaviour.".format(ip_pool_name), "DEBUG"
+            )
+            if not is_pool_exist:
+                self.log("IP pool '{0}' is not present in Cisco Catalyst Center.".format(ip_pool_name), "INFO")
+                self.absent_anycast_gateways.append(unique_anycast)
+                continue
+
             anycast_details_in_ccc = self.get_anycast_gateway_details(vn_name, ip_pool_name, fabric_id)
 
             if not anycast_details_in_ccc:
@@ -3536,7 +3553,6 @@ class VirtualNetwork(DnacBase):
                 continue
 
             gateway_id = anycast_details_in_ccc.get("id")
-
             self.log(
                 "Checking if Anycast Gateway '{0}' is associated with an anchored VN."
                 "If it is, sites extending the anchored VN will be deleted first, then the gateway "
