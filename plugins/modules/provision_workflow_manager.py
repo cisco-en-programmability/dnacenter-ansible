@@ -2352,7 +2352,6 @@ class Provision(DnacBase):
                 self.log("Currently we don't have any API in the Cisco Catalyst Center to fetch the provisioning details of wireless devices", "INFO")
 
         else:
-            self.log(self.config)
             for config in self.config:
                 app_telemetry = config.get("application_telemetry")
                 if app_telemetry:
