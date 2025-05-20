@@ -1,0 +1,34 @@
+--- 
+- name: Configure device credentials on Cisco DNA Center
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "credentials.yml"
+    - "input.yml"
+  tasks:
+    - name: Get Device info and updating access point details
+      cisco.dnac.accesspoint_automation:
+        display_selection: "{{display_selection}}"
+        device_filterfield: "{{device_filterfield}}"
+        device_filter_string: "{{device_filter_string}}"
+        device_fields: "{{device_fields}}"
+        ap_selected_field: "{{ap_selected_field}}"
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        accesspoints: "{{ accesspoints }}"
+      register: output_list
+    - name: iterate through module output (a list)
+      debug:
+        msg: '{{ item }}'   
+        with_items: "{{output_list.output }}"
