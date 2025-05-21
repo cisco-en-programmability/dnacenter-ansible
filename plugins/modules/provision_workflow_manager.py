@@ -663,18 +663,26 @@ class Provision(DnacBase):
           After creating the validated input, this method retrieves the
           UUID of the device.
         """
+        try:
+            dev_response = self.dnac_apply['exec'](
+                family="devices",
+                function='get_network_device_by_ip',
+                params={"ip_address": self.validated_config["management_ip_address"]}
+            )
 
-        dev_response = self.dnac_apply['exec'](
-            family="devices",
-            function='get_network_device_by_ip',
-            params={"ip_address": self.validated_config["management_ip_address"]}
-        )
+            self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
+            dev_dict = dev_response.get("response")
+            device_id = dev_dict.get("id")
 
-        self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
-        dev_dict = dev_response.get("response")
-        device_id = dev_dict.get("id")
+            self.log("Device ID of the device with IP address {0} is {1}".format(self.validated_config["management_ip_address"], device_id), "INFO")
 
-        self.log("Device ID of the device with IP address {0} is {1}".format(self.validated_config["management_ip_address"], device_id), "INFO")
+        except Exception as e:
+            self.msg = (
+                "The Device - {0} not present in the Cisco Catalyst Center."
+                .format(self.validated_config.get("management_ip_address"))
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
         return device_id
 
     def get_task_status(self, task_id=None):
@@ -1396,7 +1404,7 @@ class Provision(DnacBase):
                     enable_payload.append(device_data)
                 else:
                     disable_ids.append(device_id)
-
+        self.log("Enable payload: {0}".format(enable_payload), "DEBUG")
         # Enable telemetry
         if enable_payload:
             self.execute_api(telemetry_api_map["enable"], {"networkDevices": enable_payload}, "enabling")
@@ -2357,7 +2365,6 @@ class Provision(DnacBase):
                 if app_telemetry:
                     self.log("Since the application telemetry lacks a GET API, verification is not possible.", "INFO")
                 device_ip = config.get("management_ip_address")
-                self.device_ips.append(device_ip)
                 device_id = self.get_device_ids_from_device_ips([device_ip])
 
                 # Ensure device_id exists before proceeding
