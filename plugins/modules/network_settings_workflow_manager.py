@@ -1714,6 +1714,8 @@ class NetworkSettings(DnacBase):
             network_settings.update({"syslogServer": [""]})
 
         if dhcp_details:
+            if "servers" not in dhcp_details:
+                dhcp_details["servers"] = []
             network_settings.update({"dhcpServer": dhcp_details})
         else:
             network_settings.update({"dhcpServer": [""]})
@@ -2773,7 +2775,7 @@ class NetworkSettings(DnacBase):
                             "sharedSecret": shared_secret
                         })
                 else:
-                    want_network_settings["network_aaa"] = have_network_details.get("network_aaa")
+                    del want_network_settings["network_aaa"]
 
                 client_and_endpoint_aaa = item.get("client_and_endpoint_aaa")
                 if client_and_endpoint_aaa:
@@ -2847,7 +2849,7 @@ class NetworkSettings(DnacBase):
                             "sharedSecret": shared_secret
                         })
                 else:
-                    want_network_settings["client_and_endpoint_aaa"] = have_network_details.get("client_and_endpoint_aaa")
+                    del want_network_settings["client_and_endpoint_aaa"]
 
                 network_aaa = want_network_settings.get("network_aaa")
                 client_and_endpoint_aaa = want_network_settings.get("client_and_endpoint_aaa")
