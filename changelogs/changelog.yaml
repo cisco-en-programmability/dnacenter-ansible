@@ -1622,3 +1622,11 @@ releases:
       release_summary: Changes in request modules
       minor_changes:
         - modify problems in requests to the API
+
+  6.34.0:
+    release_date: "2025-05-22"
+    changes:
+      release_summary: Added multicast workflow manager module
+      minor_changes:
+        - Added 'sda_fabric_multicast_workflow_manager' module to support multicast operations
+ 
