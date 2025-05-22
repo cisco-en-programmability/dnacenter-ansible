@@ -450,8 +450,29 @@ facility_mnemonic_map = r"""
         "CI": ["PARTIAL_FAN_FAIL", "PARTFANFAIL", "PSFANFAIL"],
         "STANDBY": ["DUPADDR"],
         "IOSXE_PEM": ["PEMCHASFSERR", "PEMFAIL", "FAN_FAIL_SHUTDOWN", "FANFAIL"],
-        "CMRP_ENVMON": ["TEMP_SYS_SHUTDOWN_PENDING", "TEMP_WARN_CRITICAL", "TEMP_FRU_SHUTDOWN_PENDING"]
-    },
+        "CMRP_ENVMON": ["TEMP_SYS_SHUTDOWN_PENDING", "TEMP_WARN_CRITICAL", "TEMP_FRU_SHUTDOWN_PENDING"],
+        "CMRP": ["FAN_FAILURE_SYS_SHUTDOWN"],
+        "CMRP_PFU": ["PWR_MGMT_ALARM", "PWR_MGMT_LC_SHUTDOWN"],
+        "CTS": ["AUTHZ_POLICY_SGACL_ACE_FAILED",
+                "SXP_CONN_STATE_CHG_OFF",
+                "AUTHZ_POLICY_SGACL_FAILED",
+                "AAA_NO_RADIUS_SERVER",
+                "AUTHZ_ENTRY_RADIUS_FAILED",
+                "PAC_PROVI_FAIL"
+                ],
+        "ENVIRONMENT": ["OVERTEMP"],
+        "ENVM": ["FAN_FAILED", "FAN_OK_ERR", "FAN_FAILED_ERR", "FAN_ON", "FAN_RECOVERED", "FAN_SHUTDOWN_ERR"],
+        "FAN": ["FAN_OK", "FAN_FAILED"],
+        "HARDWARE": ["THERMAL_NOT_FUNCTIONING"],
+        "ILPOWER": ["CONTROLLER_ERR", "CONTROLLER_PORT_ERR", "SHUT_OVERDRAWN"],
+        "LINK": ["UPDOWN"],
+        "PLATFORM_THERMAL": ["OVERTEMP"],
+        "RMGR": ["RED_WLC_SWITCHOVER", "RED_HEARTBEAT_TMOUT"],
+        "RADIUS": ["ALLDEADSERVER"],
+        "RPS": ["FANOK, FANFAIL"],
+        "RTT": ["IPSLATHRESHOLD"],
+        "SYS": ["DISK_SPACE_ALMOST_FULL"]
+            },
     # Severity 4 facilities and mnemonics
     4: {
         "LISP": [
@@ -482,7 +503,15 @@ facility_mnemonic_map = r"""
             "FANTRAYREMOVED"
         ],
         "C6KENV": ["TERMINATOR_PS_TEMP_MAJORALARM"],
-        "MAC_MOVE": ["NOTIF"]
+        "MAC_MOVE": ["NOTIF"],
+        "ACL_ERRMSG": ["HASH_FULL"],
+        "CDP": ["NATIVE_VLAN_MISMATCH", "DUPLEX_MISMATCH"],
+        "MAC_LIMIT": ["PORT_EXCEED", "VLAN_EXCEED"],
+        "MM": ["MEMBER_DOWN", "MEMBER_UP"],
+        "PM-SP": ["ERR_DISABLE"],
+        "RADIUS": ["RADIUS_DEAD", "RADIUS_ALIVE"],
+        "REP": ["LINKSTATUS"],
+        "RTT": ["OPER_TIMEOUT"]
     },
     # Severity 5 facilities and mnemonics
     5: {
@@ -495,7 +524,18 @@ facility_mnemonic_map = r"""
         "CAPWAPAC_SMGR_TRACE_MESSAGE": ["AP_JOIN_DISJOIN"],
         "OSPF": ["ADJCHG"],
         "DOT1X": ["SUCCESS", "FAIL"],
-        "ILPOWER": ["ILPOWER_POWER_DENY"]
+        "ILPOWER": ["ILPOWER_POWER_DENY"],
+        "AUTHMGR": ["START", "SUCCESS"],
+        "CLNS": ["ADJCHANGE"],
+        "ENVIRONMENTAL": ["SENSOROK"],
+        "LINEPROTO": ["SENSOROK"],
+        "LINK": ["CHANGED"],
+        "MAB": ["FAIL", "SUCCESS"],
+        "PORT": ["IF_UP", "IF_DOWN"],
+        "PLATFORM": ["HALF_DUPLEX"],
+        "SYS": ["RESTART", "RELOAD", "CONFIG_I"],
+        "SESSION_MGR": ["START", "SUCCESS"],
+        "SPANTREE": ["ROOTCHANGE"]
     },
     # Severity 6 facilities and mnemonics
     6: {
@@ -508,7 +548,30 @@ facility_mnemonic_map = r"""
         "ENV_MON": ["REMPEM"],
         "PLATFORM": ["HASTATUS_DETAIL", "HASTATUS"],
         "IOSXE_INFRA": ["PROCPATH_CLIENT_HOG"],
-        "STACKMGR": ["STACK_LINK_CHANGE"]
+        "STACKMGR": ["STACK_LINK_CHANGE"],
+        "CMRP_PFU": ["PWR_MGMT_OK"],
+        "C4K_IOSMODPORTMAN": ["MODULEINSERTED",
+                            "POWERSUPPLYGOOD",
+                            "POWERSUPPLYFANGOOD",
+                            "MODULEREMOVED",
+                            "FANTRAYINSERTEDDETAILED",
+                            "MODULEOFFLINE",
+                            "MODULEONLINE"
+                            ],
+        "CMCC": ["MGMT_SFP_REMOVED", "MGMT_SFP_INSERT"],
+        "FLASH": ["DEVICE_INSERTED"],
+        "HA": ["SWITCHOVER"],
+        "HA_CONFIG_SYNC": ["BULK_CFGSYNC_SUCCEED"],
+        "IGMP": ["IGMP_GROUP_LIMIT"],
+        "IOSXE_REDUNDANCY": ["PEER-LOST", "PEER"],
+        "IOSD_INFRA": ["IFS_DEVICE_OIR"],
+        "OIR": ["INSCARD", "REMCARD"],
+        "PLATFORM": ["HASTATUS_DETAIL", "HASTATUS"],
+        "PTP": ["GRANDMASTER_CLOCK_CHANGE"],
+        "RBM": ["SGACLHIT"],
+        "SISF": ["ENTRY_CREATED"],
+        "SYS": ["INTF_STATUS_CHANGE"],
+        "SPA_OIR": ["OFFLINECARD"]
     }
 }
 """
@@ -1126,7 +1189,28 @@ class AssuranceSettings(DnacBase):
                 "CI": ["PARTIAL_FAN_FAIL", "PARTFANFAIL", "PSFANFAIL"],
                 "STANDBY": ["DUPADDR"],
                 "IOSXE_PEM": ["PEMCHASFSERR", "PEMFAIL", "FAN_FAIL_SHUTDOWN", "FANFAIL"],
-                "CMRP_ENVMON": ["TEMP_SYS_SHUTDOWN_PENDING", "TEMP_WARN_CRITICAL", "TEMP_FRU_SHUTDOWN_PENDING"]
+                "CMRP_ENVMON": ["TEMP_SYS_SHUTDOWN_PENDING", "TEMP_WARN_CRITICAL", "TEMP_FRU_SHUTDOWN_PENDING"],
+                "CMRP": ["FAN_FAILURE_SYS_SHUTDOWN"],
+                "CMRP_PFU": ["PWR_MGMT_ALARM", "PWR_MGMT_LC_SHUTDOWN"],
+                "CTS": ["AUTHZ_POLICY_SGACL_ACE_FAILED",
+                        "SXP_CONN_STATE_CHG_OFF",
+                        "AUTHZ_POLICY_SGACL_FAILED",
+                        "AAA_NO_RADIUS_SERVER",
+                        "AUTHZ_ENTRY_RADIUS_FAILED",
+                        "PAC_PROVI_FAIL"
+                        ],
+                "ENVIRONMENT": ["OVERTEMP"],
+                "ENVM": ["FAN_FAILED", "FAN_OK_ERR", "FAN_FAILED_ERR", "FAN_ON", "FAN_RECOVERED", "FAN_SHUTDOWN_ERR"],
+                "FAN": ["FAN_OK", "FAN_FAILED"],
+                "HARDWARE": ["THERMAL_NOT_FUNCTIONING"],
+                "ILPOWER": ["CONTROLLER_ERR", "CONTROLLER_PORT_ERR", "SHUT_OVERDRAWN"],
+                "LINK": ["UPDOWN"],
+                "PLATFORM_THERMAL": ["OVERTEMP"],
+                "RMGR": ["RED_WLC_SWITCHOVER", "RED_HEARTBEAT_TMOUT"],
+                "RADIUS": ["ALLDEADSERVER"],
+                "RPS": ["FANOK, FANFAIL"],
+                "RTT": ["IPSLATHRESHOLD"],
+                "SYS": ["DISK_SPACE_ALMOST_FULL"]
             },
             # Severity 4 facilities and mnemonics
             4: {
@@ -1158,7 +1242,15 @@ class AssuranceSettings(DnacBase):
                     "FANTRAYREMOVED"
                 ],
                 "C6KENV": ["TERMINATOR_PS_TEMP_MAJORALARM"],
-                "MAC_MOVE": ["NOTIF"]
+                "MAC_MOVE": ["NOTIF"],
+                "ACL_ERRMSG": ["HASH_FULL"],
+                "CDP": ["NATIVE_VLAN_MISMATCH", "DUPLEX_MISMATCH"],
+                "MAC_LIMIT": ["PORT_EXCEED", "VLAN_EXCEED"],
+                "MM": ["MEMBER_DOWN", "MEMBER_UP"],
+                "PM-SP": ["ERR_DISABLE"],
+                "RADIUS": ["RADIUS_DEAD", "RADIUS_ALIVE"],
+                "REP": ["LINKSTATUS"],
+                "RTT": ["OPER_TIMEOUT"]
             },
             # Severity 5 facilities and mnemonics
             5: {
@@ -1171,7 +1263,18 @@ class AssuranceSettings(DnacBase):
                 "CAPWAPAC_SMGR_TRACE_MESSAGE": ["AP_JOIN_DISJOIN"],
                 "OSPF": ["ADJCHG"],
                 "DOT1X": ["SUCCESS", "FAIL"],
-                "ILPOWER": ["ILPOWER_POWER_DENY"]
+                "ILPOWER": ["ILPOWER_POWER_DENY"],
+                "AUTHMGR": ["START", "SUCCESS"],
+                "CLNS": ["ADJCHANGE"],
+                "ENVIRONMENTAL": ["SENSOROK"],
+                "LINEPROTO": ["SENSOROK"],
+                "LINK": ["CHANGED"],
+                "MAB": ["FAIL", "SUCCESS"],
+                "PORT": ["IF_UP", "IF_DOWN"],
+                "PLATFORM": ["HALF_DUPLEX"],
+                "SYS": ["RESTART", "RELOAD", "CONFIG_I"],
+                "SESSION_MGR": ["START", "SUCCESS"],
+                "SPANTREE": ["ROOTCHANGE"]
             },
             # Severity 6 facilities and mnemonics
             6: {
@@ -1182,9 +1285,32 @@ class AssuranceSettings(DnacBase):
                 "IOSXE_PEM": ["REMPEM_FM", "FANOK", "PEMOK"],
                 "PLATFORM_STACKPOWER": ["CABLE_EVENT", "LINK_EVENT"],
                 "ENV_MON": ["REMPEM"],
-                "PLATFORM": ["HASTATUS_DETAIL", "HASTATUS"],
                 "IOSXE_INFRA": ["PROCPATH_CLIENT_HOG"],
-                "STACKMGR": ["STACK_LINK_CHANGE"]
+                "STACKMGR": ["STACK_LINK_CHANGE"],
+                "CMRP_PFU": ["PWR_MGMT_OK"],
+                "C4K_IOSMODPORTMAN": [
+                    "MODULEINSERTED",
+                    "POWERSUPPLYGOOD",
+                    "POWERSUPPLYFANGOOD",
+                    "MODULEREMOVED",
+                    "FANTRAYINSERTEDDETAILED",
+                    "MODULEOFFLINE",
+                    "MODULEONLINE"
+                ],
+                "CMCC": ["MGMT_SFP_REMOVED", "MGMT_SFP_INSERT"],
+                "FLASH": ["DEVICE_INSERTED"],
+                "HA": ["SWITCHOVER"],
+                "HA_CONFIG_SYNC": ["BULK_CFGSYNC_SUCCEED"],
+                "IGMP": ["IGMP_GROUP_LIMIT"],
+                "IOSXE_REDUNDANCY": ["PEER-LOST", "PEER"],
+                "IOSD_INFRA": ["IFS_DEVICE_OIR"],
+                "OIR": ["INSCARD", "REMCARD"],
+                "PLATFORM": ["HASTATUS_DETAIL", "HASTATUS"],
+                "PTP": ["GRANDMASTER_CLOCK_CHANGE"],
+                "RBM": ["SGACLHIT"],
+                "SISF": ["ENTRY_CREATED"],
+                "SYS": ["INTF_STATUS_CHANGE"],
+                "SPA_OIR": ["OFFLINECARD"]
             }
         }
 
@@ -1445,6 +1571,10 @@ class AssuranceSettings(DnacBase):
                 for rule in issue_setting.get("rules", []):
                     if "occurrences" not in rule:
                         rule["occurrences"] = 1
+                    elif not isinstance(rule["occurrences"], int) or rule["occurrences"] < 0:
+                        self.msg = "Invalid input: 'occurrences' must be a non-negative integer."
+                        self.log(self.msg, "ERROR")
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     severity = rule.get("severity")
                     if severity is None:
