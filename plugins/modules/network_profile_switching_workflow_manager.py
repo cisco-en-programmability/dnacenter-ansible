@@ -348,8 +348,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             onboarding_template_name = each_profile.get("onboarding_templates")
             day_n_template_name = each_profile.get("day_n_templates")
             if onboarding_template_name:
-                errormsg.append("onboarding_templates: Onboarding templates are currently unavailable "
-                                "due to SDK/API constraints. Please use the PNP module onboarding template instead.")
+                errormsg.append("onboarding_templates: Onboarding templates are currently unavailable due to SDK/API upgrade. "
+                                "This feature will be available in an upcoming release")
                 for template in onboarding_template_name:
                     param_spec = dict(type="str", length_max=200)
                     validate_str(template, param_spec, "onboarding_templates", errormsg)
