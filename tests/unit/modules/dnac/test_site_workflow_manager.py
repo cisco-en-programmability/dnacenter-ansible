@@ -302,7 +302,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             "'longitude': -121.873, 'name': 's1', 'parentNameHierarchy': 'Global/bangalore1'}: s1\", "
             "\"{'floorNumber': 3, 'type': 'floor', 'force_upload_floor_image': True, 'height': 13, 'length': 117, "
             "'name': 'cherry', 'rfModel': 'Outdoor Open Space', 'unitsOfMeasure': 'feet', "
-            "'upload_floor_image_path': '/Users/skesali/Downloads/pngegg.png', 'width': 117, "
+            "'upload_floor_image_path': '/Users/mabdulk2/pngegg.png', 'width': 117, "
             "'parentNameHierarchy': 'Global/bangalore1/s1'}: cherry\"]' created successfully in Cisco Catalyst Center."
         )
 
