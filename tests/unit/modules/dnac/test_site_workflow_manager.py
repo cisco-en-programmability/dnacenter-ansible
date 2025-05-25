@@ -17,9 +17,11 @@
 #   Sonali Deepthi Kesali <skesali@cisco.com>
 #
 # Description:
-#   Unit tests for the Ansible module `template_workflow_manager`.
-#   These tests cover various template operations such as creation,
-#   update, deletion, import, export, deploy and validation logic using mocked Catalyst Center responses.
+#   Manage operation create, bulk create, update and delete of the resource Sites.
+#   Creates site with area/building/floor with specified hierarchy.
+#   Create multiple sites (area, building, or floor) with specified hierarchies in bulk.
+#   Updates site with area/building/floor with specified hierarchy.
+#   Deletes site with area/building/floor with specified hierarchy.
 
 from __future__ import absolute_import, division, print_function
 
@@ -75,7 +77,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
 
         if "invalid_delete_config" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                # self.test_data.get(""),
             ]
 
         elif "playbook_config_bulk_site_2376" in self._testMethodName:
@@ -229,16 +230,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 self.test_data.get("delete_get_membership"),
                 self.test_data.get("delete_response2"),
                 self.test_data.get("delete_response_detail_invalid"),
-            ]
-
-        if "verify_diff" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_site_area"),
-                self.test_data.get("get_site_area"),
-                self.test_data.get("get_site_building"),
-                self.test_data.get("get_site_building"),
-                self.test_data.get("get_site_floor"),
-                self.test_data.get("get_site_floor"),
             ]
 
         if "verify_diff" in self._testMethodName:
