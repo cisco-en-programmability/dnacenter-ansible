@@ -88,7 +88,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 self.test_data.get("create_bulk_site_response_details1"),
                 self.test_data.get("create_bulk_site_response_details2"),
                 self.test_data.get("get_sites3"),
-                 self.test_data.get("upload_floor_image"),
+                self.test_data.get("upload_floor_image"),
             ]
 
         elif "invalid_create_bulk_site_type" in self._testMethodName:
@@ -297,13 +297,13 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-                "Site(s) '[\"{'name': 'bangalore1', 'type': 'area', 'parentNameHierarchy': 'Global'}: bangalore1\", "
-                "\"{'address': '1234 Elm Street3', 'type': 'building', 'country': 'india', 'latitude': 37.373, "
-                "'longitude': -121.873, 'name': 's1', 'parentNameHierarchy': 'Global/bangalore1'}: s1\", "
-                "\"{'floorNumber': 3, 'type': 'floor', 'force_upload_floor_image': True, 'height': 13, 'length': 117, "
-                "'name': 'cherry', 'rfModel': 'Outdoor Open Space', 'unitsOfMeasure': 'feet', "
-                "'upload_floor_image_path': '/Users/skesali/Downloads/pngegg.png', 'width': 117, "
-                "'parentNameHierarchy': 'Global/bangalore1/s1'}: cherry\"]' created successfully in Cisco Catalyst Center."
+            "Site(s) '[\"{'name': 'bangalore1', 'type': 'area', 'parentNameHierarchy': 'Global'}: bangalore1\", "
+            "\"{'address': '1234 Elm Street3', 'type': 'building', 'country': 'india', 'latitude': 37.373, "
+            "'longitude': -121.873, 'name': 's1', 'parentNameHierarchy': 'Global/bangalore1'}: s1\", "
+            "\"{'floorNumber': 3, 'type': 'floor', 'force_upload_floor_image': True, 'height': 13, 'length': 117, "
+            "'name': 'cherry', 'rfModel': 'Outdoor Open Space', 'unitsOfMeasure': 'feet', "
+            "'upload_floor_image_path': '/Users/skesali/Downloads/pngegg.png', 'width': 117, "
+            "'parentNameHierarchy': 'Global/bangalore1/s1'}: cherry\"]' created successfully in Cisco Catalyst Center."
         )
 
     def test_Site_workflow_manager_non_create_bulk_site(self):
