@@ -89,7 +89,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 self.test_data.get("create_bulk_site_response_details2"),
                 self.test_data.get("get_sites3"),
                  self.test_data.get("upload_floor_image"),
-
             ]
 
         elif "invalid_create_bulk_site_type" in self._testMethodName:
@@ -243,7 +242,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         if "playbook_config_site_creation" in self._testMethodName:
-             self.run_dnac_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 Exception(),
                 Exception(),
                 self.test_data.get("get_site_v1"),
@@ -260,7 +259,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 self.test_data.get("create_site3"),
                 self.test_data.get("business2"),
                 Exception(),
-                self.test_data.get("get_site_v13")
+                self.test_data.get("get_site_v13"),
             ]
 
         elif "upload_floor_map" in self._testMethodName:
@@ -274,6 +273,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 self.test_data.get("upload_task_id_details"),
                 self.test_data.get("upload_floor_map"),
             ]
+
     def test_Site_workflow_manager_playbook_config_bulk_site_2376(self):
         """
         Test case for verifying site creation using the site workflow manager in Cisco Catalyst Center (version 2.3.7.6).
@@ -297,10 +297,13 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "Site(s) '[\"{'name': 'bangalore1', 'type': 'area', 'parentNameHierarchy': 'Global'}: bangalore1\", "
-            "\"{'address': '1234 Elm Street3', 'type': 'building', 'country': 'india', 'latitude': 37.373, 'longitude': -121.873, 'name': 's1', 'parentNameHierarchy': 'Global/bangalore1'}: s1\", "
-            "\"{'floorNumber': 3, 'type': 'floor', 'force_upload_floor_image': True, 'height': 13, 'length': 117, 'name': 'cherry', 'rfModel': 'Outdoor Open Space', 'unitsOfMeasure': 'feet', "
-            "'upload_floor_image_path': '/Users/mabdulk2/pngegg.png', 'width': 117, 'parentNameHierarchy': 'Global/bangalore1/s1'}: cherry\"]' created successfully in Cisco Catalyst Center."
+                "Site(s) '[\"{'name': 'bangalore1', 'type': 'area', 'parentNameHierarchy': 'Global'}: bangalore1\", "
+                "\"{'address': '1234 Elm Street3', 'type': 'building', 'country': 'india', 'latitude': 37.373, "
+                "'longitude': -121.873, 'name': 's1', 'parentNameHierarchy': 'Global/bangalore1'}: s1\", "
+                "\"{'floorNumber': 3, 'type': 'floor', 'force_upload_floor_image': True, 'height': 13, 'length': 117, "
+                "'name': 'cherry', 'rfModel': 'Outdoor Open Space', 'unitsOfMeasure': 'feet', "
+                "'upload_floor_image_path': '/Users/skesali/Downloads/pngegg.png', 'width': 117, "
+                "'parentNameHierarchy': 'Global/bangalore1/s1'}: cherry\"]' created successfully in Cisco Catalyst Center."
         )
 
     def test_Site_workflow_manager_non_create_bulk_site(self):
@@ -451,7 +454,8 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "An error occurred while executing GET API call to Function: 'get_sites' from Family: 'site_design'. Parameters: {'name_hierarchy': 'Global/bangalore/s1/cherry', 'offset': 1, 'limit': 500}. Exception: ."
+            "An error occurred while executing GET API call to Function: 'get_sites' from Family: 'site_design'. "
+            "Parameters: {'name_hierarchy': 'Global/bangalore/s1/cherry', 'offset': 1, 'limit': 500}. Exception: ."
         )
 
     def test_Site_workflow_manager_create_site_bulk_invalid(self):
@@ -481,7 +485,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
             "Exception: ."
         )
 
-
     def test_Site_workflow_manager_verify_diff_merged_site(self):
         """
         Test case for verify parameters in site workflow manager after applying merged state.
@@ -503,7 +506,9 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "The specified version '2.2.3.3' does not support the site workflow feature. Supported versions start from '2.3.5.3' onwards. Version '2.3.5.3' introduces APIs for creating, updating, and deleting sites. Version '2.3.7.6' expands support to include APIs for bulk site creating, updating, and deleting sites."
+            "The specified version '2.2.3.3' does not support the site workflow feature. "
+            "Supported versions start from '2.3.5.3' onwards. Version '2.3.5.3' introduces APIs for creating, updating, "
+            "and deleting sites. Version '2.3.7.6' expands support to include APIs for bulk site creating, updating, and deleting sites."
         )
 
     def test_Site_workflow_manager_verify_diff_deleted_site(self):
@@ -528,9 +533,10 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "The specified version '2.2.3.3' does not support the site workflow feature. Supported versions start from '2.3.5.3' onwards. Version '2.3.5.3' introduces APIs for creating, updating, and deleting sites. Version '2.3.7.6' expands support to include APIs for bulk site creating, updating, and deleting sites."
+            "The specified version '2.2.3.3' does not support the site workflow feature. "
+            "Supported versions start from '2.3.5.3' onwards. Version '2.3.5.3' introduces APIs for creating, updating, "
+            "and deleting sites. Version '2.3.7.6' expands support to include APIs for bulk site creating, updating, and deleting sites."
         )
-
 
     def test_Site_workflow_manager_delete_a_site(self):
         """
@@ -572,16 +578,16 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="deleted",
-                config_verify= True,
+                config_verify=True,
                 config=self.playbook_site_delete_2376
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Given site(s) '['floor: Global/bangalore/s1/cherry', 'building: Global/bangalore/s1', 'area: Global/bangalore']' deleted successfully from Cisco Catalyst Center"
+            "Given site(s) '['floor: Global/bangalore/s1/cherry', 'building: Global/bangalore/s1', "
+            "'area: Global/bangalore']' deleted successfully from Cisco Catalyst Center"
         )
-
 
     def test_Site_workflow_manager_delete_site(self):
         """
