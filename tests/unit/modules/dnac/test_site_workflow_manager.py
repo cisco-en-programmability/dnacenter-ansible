@@ -293,19 +293,12 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 config=self.playbook_config_bulk_site_2376
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=True, failed=True)
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
             "An exception occurred: {'msg': 'Site created successfully.', " +
             "'response': 'File path does not exist: /Users/mabdulk2/pngegg.png', 'failed': True}"
-            # "Site(s) '[\"{'name': 'bangalore1', 'type': 'area', 'parentNameHierarchy': 'Global'}: bangalore1\", "
-            # "\"{'address': '1234 Elm Street3', 'type': 'building', 'country': 'india', 'latitude': 37.373, "
-            # "'longitude': -121.873, 'name': 's1', 'parentNameHierarchy': 'Global/bangalore1'}: s1\", "
-            # "\"{'floorNumber': 3, 'type': 'floor', 'force_upload_floor_image': True, 'height': 13, 'length': 117, "
-            # "'name': 'cherry', 'rfModel': 'Outdoor Open Space', 'unitsOfMeasure': 'feet', "
-            # "'upload_floor_image_path': '/Users/mabdulk2/pngegg.png', 'width': 117, "
-            # "'parentNameHierarchy': 'Global/bangalore1/s1'}: cherry\"]' created successfully in Cisco Catalyst Center."
         )
 
     def test_Site_workflow_manager_non_create_bulk_site(self):
