@@ -34,6 +34,7 @@ class TestDnacNetworkSettings(TestDnacModule):
     playbook_config_reserve_pool = test_data.get("playbook_config_reserve_pool")
     playbook_config_reserve_pool_deletion = test_data.get("playbook_config_reserve_pool_deletion")
     playbook_config_global_pool_deletion = test_data.get("playbook_config_global_pool_deletion")
+    playbook_config_device_controlability = test_data.get("playbook_config_device_controlability")
 
     def setUp(self):
         super(TestDnacNetworkSettings, self).setUp()
@@ -419,6 +420,13 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("update_global_pool_task"),
                 self.test_data.get("Global_Pool_1"),
                 self.test_data.get("Global_Pool_2")
+            ]
+
+        if "device_controlability_updation" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_device_controlability"),
+                self.test_data.get("update_device_controlability"),
+                self.test_data.get("get_tasks_by_id_device_controlability"),
             ]
 
     def test_Network_settings_workflow_manager_network_network_not_need_update(self):

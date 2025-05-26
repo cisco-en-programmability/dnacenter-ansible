@@ -270,6 +270,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
+                self.test_data.get("get_reserve_ip_pool_details"),
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("response_get_task_id_success"),
