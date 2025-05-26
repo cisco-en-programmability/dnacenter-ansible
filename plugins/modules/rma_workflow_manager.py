@@ -1415,7 +1415,7 @@ def main():
 
     if ccc_device_replacement.compare_dnac_versions(ccc_device_replacement.get_ccc_version(), "2.3.5.3") < 0:
         ccc_device_replacement.msg = (
-            "The specified version '{0}' does not support the 'rma_workflow_manager' feature. Supported versions start from '2.3.5.3' onwards. "
+            "The specified version '{0}' does not support the 'rma_workflow_manager' feature. Supported versions start from '2.3.5.3' onwards."
             .format(ccc_device_replacement.get_ccc_version())
         )
         ccc_device_replacement.status = "failed"
