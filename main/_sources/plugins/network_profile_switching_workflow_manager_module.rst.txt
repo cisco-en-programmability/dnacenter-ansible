@@ -990,8 +990,6 @@ Examples
             state: merged
             config:
               - profile_name: "Campus_Switching_Profile"
-                onboarding_templates:
-                  - "Campus_Access_Switch_Onboarding"
                 day_n_templates:
                   - "Campus_Switch_Config_Update"
                 site_names:
@@ -1015,9 +1013,6 @@ Examples
             state: merged
             config:
               - profile_name: "Enterprise_Switching_Profile"
-                onboarding_templates:
-                  - "Access_Switch_Onboarding"
-                  - "Enterprise_Security_Template"
                 day_n_templates:
                   - "Periodic_Config_Audit"
                 site_names:

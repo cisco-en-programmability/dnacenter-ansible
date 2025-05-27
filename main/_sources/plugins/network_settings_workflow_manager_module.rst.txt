@@ -2234,76 +2234,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_assigned_addresses"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv4_assigned_addresses:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv4_assigned_addresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4_assigned_addresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Number of IPv4 addresses that are already allocated.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_default_assigned_addresses"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv4_default_assigned_addresses:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv4_default_assigned_addresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4_default_assigned_addresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Number of IPv4 addresses assigned by default during pool creation.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_dhcp_servers"></div>
 
       .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv4_dhcp_servers:
@@ -2594,41 +2524,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_total_addresses"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv4_total_addresses:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv4_total_addresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4_total_addresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The total number of IPv4 addresses in the global IP pool.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_total_host"></div>
 
       .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv4_total_host:
@@ -2654,41 +2549,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The total number of hosts for IPv4, required when the 'ipv4\_prefix' is set to false.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_unassignable_addresses"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv4_unassignable_addresses:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv4_unassignable_addresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv4_unassignable_addresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Number of IPv4 addresses that cannot be assigned due to constraints or reservations.
-          
 
 
       .. raw:: html
@@ -2732,76 +2592,6 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6_assigned_addresses"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv6_assigned_addresses:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv6_assigned_addresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6_assigned_addresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Number of IPv6 addresses that are already allocated.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6_default_assigned_addresses"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv6_default_assigned_addresses:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv6_default_assigned_addresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6_default_assigned_addresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Number of IPv6 addresses assigned by default during pool creation.
-          
 
 
       .. raw:: html
@@ -3104,41 +2894,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6_total_addresses"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv6_total_addresses:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv6_total_addresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6_total_addresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The total number of IPv6 addresses in the global IP pool.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6_total_host"></div>
 
       .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv6_total_host:
@@ -3166,41 +2921,6 @@ Parameters
       Specifies the total number of IPv6 hosts. Required when 'ipv6\_prefix' is set to false.
 
       Must specify a number of IPv6 IP addresses that is less than 256.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv6_unassignable_addresses"></div>
-
-      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv6_unassignable_addresses:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv6_unassignable_addresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/ipv6_unassignable_addresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Number of IPv6 addresses that cannot be assigned due to constraints or reservations.
-          
 
 
       .. raw:: html
@@ -4074,8 +3794,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.create\_global\_pool, network\_settings.NetworkSettings.delete\_global\_ip\_pool, network\_settings.NetworkSettings.update\_global\_pool, network\_settings.NetworkSettings.release\_reserve\_ip\_subpool, network\_settings.NetworkSettings.reserve\_ip\_subpool, network\_settings.NetworkSettings.update\_reserve\_ip\_subpool, network\_settings.NetworkSettings.update\_network\_v2, network\_settings.NetworkSettings.retrieves\_global\_ip\_address\_pools\_v1 network\_settings.NetworkSettings.retrieves\_ip\_address\_subpools\_v1 network\_settings.NetworkSettings.create\_a\_global\_ip\_address\_pool network\_settings.NetworkSettings.reservecreate\_ip\_address\_subpools\_v1 network\_settings.NetworkSettings.delete\_a\_global\_ip\_address\_pool\_v1 network\_settings.NetworkSettings.release\_an\_ip\_address\_subpool\_v1 network\_settings.NetworkSettings.updates\_a\_global\_ip\_address\_pool\_v1 network\_settings.NetworkSettings.updates\_an\_ip\_address\_subpool\_v1 network\_settings.NetworkSettings.get\_device\_controllability\_settings\_v1 network\_settings.NetworkSettings.update\_device\_controllability\_settings\_v1
-   - Paths used are post /dna/intent/api/v1/global-pool, delete /dna/intent/api/v1/global-pool/{id}, put /dna/intent/api/v1/global-pool, post /dna/intent/api/v1/reserve-ip-subpool/{siteId}, delete /dna/intent/api/v1/reserve-ip-subpool/{id}, put /dna/intent/api/v1/reserve-ip-subpool/{siteId}, put /dna/intent/api/v2/network/{siteId}, GET /intent/api/v1/ipam/globalIpAddressPools GET /intent/api/v1/ipam/siteIpAddressPools POST /intent/api/v1/ipam/globalIpAddressPools POST /intent/api/v1/ipam/siteIpAddressPools PUT /intent/api/v1/ipam/globalIpAddressPools/{id} PUT /intent/api/v1/ipam/siteIpAddressPools/{id} DELETE  /intent/api/v1/ipam/globalIpAddressPools/{id} DELETE  /intent/api/v1/ipam/siteIpAddressPools/{id} GET /networkDevices/deviceControllability/settings PUT /dna/intent/api/v1/networkDevices/deviceControllability/settings
+   - SDK Method used are network\_settings.NetworkSettings.create\_global\_pool, network\_settings.NetworkSettings.delete\_global\_ip\_pool, network\_settings.NetworkSettings.update\_global\_pool, network\_settings.NetworkSettings.release\_reserve\_ip\_subpool, network\_settings.NetworkSettings.reserve\_ip\_subpool, network\_settings.NetworkSettings.update\_reserve\_ip\_subpool, network\_settings.NetworkSettings.update\_network\_v2,
+   - Paths used are post /dna/intent/api/v1/global-pool, delete /dna/intent/api/v1/global-pool/{id}, put /dna/intent/api/v1/global-pool, post /dna/intent/api/v1/reserve-ip-subpool/{siteId}, delete /dna/intent/api/v1/reserve-ip-subpool/{id}, put /dna/intent/api/v1/reserve-ip-subpool/{siteId}, put /dna/intent/api/v2/network/{siteId},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -4271,13 +3991,13 @@ Examples
                     protocol: string
     - name: Adding the network_aaa and client_and_endpoint_aaa ISE server
       cisco.dnac.network_settings_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
@@ -4296,24 +4016,6 @@ Examples
                     pan_address: string
                     primary_server_address: string
                     protocol: string
-
-    - name: Adding device_controllability details
-      cisco.dnac.network_settings_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: "{{ dnac_log_level }}"
-        state: merged
-        config_verify: true
-        config:
-          - device_controllability_details:
-              device_controllability: true
-              autocorrect_telemetry_config: true
 
 
 

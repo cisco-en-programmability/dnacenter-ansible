@@ -1393,7 +1393,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Defines queuing profile settings for applications.
+      Defines queuing profile settings for application traffic shaping and bandwidth allocation.
+
+      Each profile specifies whether bandwidth allocation is uniform across all interface speeds or customized per speed.
+
+      Changing the value of 'is\_common\_between\_all\_interface\_speeds' (from 'true' to 'false' or vice versa) is not supported during updates.
+
+      To switch between common and per-speed bandwidth settings, create a new queuing profile instead of updating the existing one.
 
 
       .. raw:: html

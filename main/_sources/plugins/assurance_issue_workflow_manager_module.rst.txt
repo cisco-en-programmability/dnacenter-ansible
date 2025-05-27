@@ -637,7 +637,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the type of device to which the issue configuration applies. For example, choices: - Router - SWITCH\_AND\_HUB - UNIFIED\_AP - FIREWALL - CONTROLLER
+      Specifies the type of device to which the issue configuration applies. For example, choices: - ROUTER - SWITCH\_AND\_HUB - UNIFIED\_AP - WIRELESS\_CLIENT - WIRED\_CLIENT - CONTROLLER - THIRD\_PARTY\_DEVICE - APPLICATION - SENSOR
           
 
 
