@@ -5,7 +5,7 @@
 """Ansible module to perform operations on SDA fabric devices in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
-__author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
+__author__ = ['Muthu Rakesh, Madhan Sankaranarayanan, Archit Soni']
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices_workflow_manager
@@ -18,10 +18,13 @@ description:
     and deleting configurations.
   - Manage L3 handoffs for fabric devices with SDA transit, including adding, updating,
     and deleting configurations.
+  - Configure wireless controller settings on fabric devices, including enabling/disabling
+    wireless mode, managing AP location scopes, setting rolling AP upgrade behavior,
+    and optionally reloading the device for cleanup.
 version_added: '6.21.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel) Archit Soni (@koderchit)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center after applying the
@@ -73,7 +76,7 @@ options:
                   - Mandatory parameter for all operations under fabric_devices.
                   - Device must be provisioned to the site prior to configuration.
                   - For deleting a device, the device will be deleted if the user
-                    doesnot pass the layer3_handoff_ip_transit, layer3_handoff_sda_transit
+                    does not pass the layer3_handoff_ip_transit, layer3_handoff_sda_transit
                     and layer2_handoff with the state as deleted.
                 type: str
                 required: true
@@ -100,6 +103,59 @@ options:
                 choices: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE]
                 type: list
                 elements: str
+              wireless_controller_settings:
+                description: >
+                  Dictionary containing wireless controller configurations to be applied to a network switch
+                  in a Cisco Catalyst Center SDA fabric. This includes enabling/disabling wireless mode,
+                  configuring primary and secondary managed AP locations, setting rolling AP upgrade behavior, and optionally
+                  reloading the device after disabling the wireless capabilities on the controller.
+                type: dict
+                suboptions:
+                  enable:
+                    description: >
+                      Boolean flag indicating whether wireless controller mode should be enabled (`true`)
+                      or disabled (`false`) on the switch.
+                    type: bool
+                  reload:
+                    description: >
+                      Boolean flag that, when set to `true` and wireless is being disabled, triggers a reload
+                      of the switch to clean up controller-related configurations.
+                    type: bool
+                  manage_scope:
+                    description: >
+                      Dictionary defining the AP location scopes managed by the switch when operating
+                      as a wireless controller. Includes primary and secondary scopes.
+                    type: dict
+                    suboptions:
+                      primary_scope:
+                        description: >
+                          List of strings representing the site hierarchy paths (e.g., "Global/Area/Site")
+                          where the switch is configured as the primary AP controller.
+                        type: list
+                        elements: str
+                      secondary_scope:
+                        description: >
+                          List of strings representing the site hierarchy paths where the switch is configured
+                          as a secondary AP controller.
+                        type: list
+                        elements: str
+                  rolling_ap_upgrade:
+                    description: >
+                      Dictionary to configure rolling AP upgrade settings, which define how APs reboot
+                      during a firmware upgrade to minimize service disruption.
+                    type: dict
+                    suboptions:
+                      enable:
+                        description: >
+                          Boolean indicating whether rolling AP upgrades should be enabled for the switch.
+                          Helps ensure not all APs reboot simultaneously during upgrades.
+                        type: bool
+                      ap_reboot_percentage:
+                        description: >
+                          Integer value specifying the percentage of APs that are allowed to reboot
+                          at once during a rolling upgrade. Applies only when rolling AP upgrade is enabled.
+                          Allowed values are 5, 15, 25.
+                        type: int
               borders_settings:
                 description:
                   - Effective only when the 'device_roles' contains BORDER_NODE.
@@ -332,7 +388,7 @@ options:
                   layer2_handoff:
                     description:
                       - Adds layer 2 handoffs in fabric devices.
-                      - This parameter cannots be updated.
+                      - This parameter cannot be updated.
                       - Configured while transferring a device's data traffic at Layer
                         2 (Data Link layer).
                       - If 'layer2_handoff' is set, the border type will be considered
@@ -369,6 +425,18 @@ requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
 notes:
+  - Wireless controller settings configured via this module require specific device roles and image states on the switch.
+  - A reboot is required to remove wireless configurations from the device after disabling wireless controller capabilities.
+  - Ensure the wireless image is installed and committed on the switch with wired roles enabled prior to configuration.
+  - Supported role combinations for enabling wireless controller mode are -
+    - Border + Control Plane + Edge + Wireless Controller (B+CP+E+WC)
+    - Border + Control Plane + Wireless Controller (B+CP+WC)
+    - Edge + Wireless Controller (E+WC)
+  - The 9800-SW image is required to enable wireless controller capabilities on the switch.
+    Before using the Embedded Wireless LAN Controller settings, ensure the image has been distributed and activated, and the
+    device has been resynced.
+    The SWIM Workflow Manager module can be used to perform the image distribution and activation.
+  - A maximum of two devices can have Embedded Wireless Controller Capabilities in the fabric.
   - SDK Method used are site_design.SiteDesign.get_sites, network_settings.NetworkSettings.get_reserve_ip_subpool,
     devices.Devices.get_device_list, sda.Sda.get_transit_networks, sda.Sda.get_layer3_virtual_networks,
     sda.Sda.get_fabric_sites, sda.Sda.get_fabric_zones, sda.Sda.get_provisioned_devices,
@@ -381,6 +449,14 @@ notes:
     sda.Sda.delete_fabric_device_by_id, sda.Sda.delete_fabric_device_layer3_handoffs_with_sda_transit,
     sda.Sda.delete_fabric_device_layer3_handoff_with_ip_transit_by_id, task.Task.get_tasks_by_id,
     task.Task.get_task_details_by_id,
+    fabric_wireless.FabricWireless.get_sda_wireless_details_from_switches_v1
+    wireless.Wireless.get_primary_managed_ap_locations_for_specific_wireless_controller_v1
+    wireless.Wireless.get_secondary_managed_ap_locations_for_specific_wireless_controller_v1
+    site_design.SiteDesign.get_sites
+    wireless.Wireless.assign_managed_ap_locations_for_w_l_c_v1
+    fabric_wireless.Wireless.reload_switch_for_wireless_controller_cleanup_v1
+    fabric_wireless.Wireless.switch_wireless_setting_and_rolling_ap_upgrade_management_v1
+
   - Paths used are get /dna/intent/api/v1/sites get /dna/intent/api/v1/reserve-ip-subpool
     get /dna/intent/api/v1/network-device get /dna/intent/api/v1/sda/transitNetworks
     get /dna/intent/api/v1/sda/layer3VirtualNetworks get /dna/intent/api/v1/sda/fabricSites
@@ -395,6 +471,14 @@ notes:
     delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits delete
     /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/${id} get /dna/intent/api/v1/tasks/${id}
     get /dna/intent/api/v1/tasks/${id}/detail
+    get /dna/intent/api/v1/sda/fabrics/${fabricId}/switchWirelessSetting
+    get /dna/intent/api/v1/wirelessControllers/${networkDeviceId}/primaryManagedApLocations
+    get /dna/intent/api/v1/wirelessControllers/${networkDeviceId}/secondaryManagedApLocations
+    get /dna/intent/api/v1/sites
+    post /dna/intent/api/v1/wirelessControllers/${deviceId}/assignManagedApLocations
+    post /dna/intent/api/v1/sda/fabrics/${fabricId}/switchWirelessSetting/reload
+    put /dna/intent/api/v1/sda/fabrics/${fabricId}/switchWirelessSetting
+
 """
 EXAMPLES = r"""
 - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE
@@ -435,6 +519,89 @@ EXAMPLES = r"""
           device_config:
             - device_ip: 10.0.0.1
               device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
+
+- name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE
+  cisco.dnac.sda_fabric_devices_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE]
+              borders_settings:
+                layer3_settings:
+                  local_autonomous_system_number: 1234
+                  is_default_exit: true
+                  import_external_routes: true
+                  border_priority: 1
+                  prepend_autonomous_system_count: 1
+              wireless_controller_settings:
+                enable: true
+                manage_scope:
+                  primary_scope:
+                    - Global/USA/SAN-FRANCISCO/BLD_SF
+                  secondary_scope:
+                    - Global/USA/SAN-FRANCISCO/BLD_SF1
+                rolling_ap_upgrade:
+                  enable: true
+                  ap_reboot_percentage: 25
+
+- name: Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable AP rolling upgrade.
+  cisco.dnac.sda_fabric_devices_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              wireless_controller_settings:
+                rolling_ap_upgrade:
+                  enable: false
+
+- name: Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable wireless capabilities with reload.
+  cisco.dnac.sda_fabric_devices_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              wireless_controller_settings:
+                enable: false
+                reload: true
+
+
 - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE,
     BORDER_NODE
   cisco.dnac.sda_fabric_devices_workflow_manager:
@@ -738,7 +905,7 @@ response_1:
       },
       "version": "str"
     }
-# Case_2: Successful updation of SDA fabric devices
+# Case_2: Successful update of SDA fabric devices
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -803,7 +970,7 @@ response_6:
       },
       "version": "str"
     }
-# Case_7: Successful updation L3 Handoff with SDA transit in fabric device
+# Case_7: Successful update L3 Handoff with SDA transit in fabric device
 response_7:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -816,7 +983,7 @@ response_7:
       },
       "version": "str"
     }
-# Case_8: Successful updation L3 Handoff with SDA transit in fabric device
+# Case_8: Successful update L3 Handoff with SDA transit in fabric device
 response_8:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -855,7 +1022,7 @@ response_10:
       },
       "version": "str"
     }
-# Case_11: Successful updation L3 Handoff with IP transit in fabric device
+# Case_11: Successful update L3 Handoff with IP transit in fabric device
 response_11:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -902,6 +1069,8 @@ response_13:
 """
 
 import time
+import json
+import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -956,6 +1125,32 @@ class FabricDevices(DnacBase):
                     "device_roles": {
                         "type": 'list',
                         "elements": 'str',
+                    },
+                    "wireless_controller_settings": {
+                        "type": "dict",
+                        "enable": {"type": "bool"},
+                        "reload": {"type": "bool", "default": False},
+                        "manage_scope": {
+                            "primary_scope": {
+                                "type": "list",
+                                "elements": "str",
+                            },
+                            "secondary_scope": {
+                                "type": "list",
+                                "elements": "str",
+                            }
+                        },
+                        "rolling_ap_upgrade": {
+                            "type": "dict",
+                            "enable" : {
+                                "type": "bool",
+                                "default": False
+                            },
+                            "ap_reboot_percentage": {
+                                "type": "int",
+                                "choice": ["5", "15", "25"]
+                            }
+                        }
                     },
                     "borders_settings": {
                         "type": 'list',
@@ -1065,7 +1260,7 @@ class FabricDevices(DnacBase):
         Parameters:
             transit_name (str): The name of the transit network.
         Returns:
-            transit_id (str or None): The ID of the transit network. None, if transit doesnot exist.
+            transit_id (str or None): The ID of the transit network. None, if transit does not exist.
         Description:
             Call the API 'get_transit_networks' by setting the 'name' field with the
             given transit name.
@@ -1081,7 +1276,7 @@ class FabricDevices(DnacBase):
                 params={"name": transit_name},
             )
 
-            # If the SDK returns no response, then the transit doesnot exist
+            # If the SDK returns no response, then the transit does not exist
             transit_details = transit_details.get("response")
             if not transit_details:
                 self.log(
@@ -1116,7 +1311,7 @@ class FabricDevices(DnacBase):
         Parameters:
             device_ip (str): The IP address of the network device.
         Returns:
-            device_details (dict or None): The details of the network device. None, if the device doesnot exist.
+            device_details (dict or None): The details of the network device. None, if the device does not exist.
         Description:
             Call the API 'get_device_list' by setting the 'management_ip_address' field with the
             given IP address.
@@ -1136,7 +1331,7 @@ class FabricDevices(DnacBase):
                 .format(response=device_details), "DEBUG"
             )
 
-            # If the SDK returns no response, then the device doesnot exist
+            # If the SDK returns no response, then the device does not exist
             device_details = device_details.get("response")
             if not device_details:
                 self.log(
@@ -1198,7 +1393,7 @@ class FabricDevices(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
 
-            # if the SDK returns no response, then the virtual network doesnot exist
+            # if the SDK returns no response, then the virtual network does not exist
             virtual_network_details = virtual_network_details.get("response")
             if not virtual_network_details:
                 self.log(
@@ -1364,7 +1559,7 @@ class FabricDevices(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
 
-            # if the SDK returns no response, then the virtual network doesnot exist
+            # if the SDK returns no response, then the virtual network does not exist
             fabric_site_exists = fabric_site_exists.get("response")
             if not fabric_site_exists:
                 self.log(
@@ -1431,7 +1626,7 @@ class FabricDevices(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
 
-            # if the SDK returns no response, then the virtual network doesnot exist
+            # if the SDK returns no response, then the virtual network does not exist
             fabric_zone = fabric_zone.get("response")
             if not fabric_zone:
                 self.log(
@@ -1671,7 +1866,7 @@ class FabricDevices(DnacBase):
             if self.params.get("state") == "deleted":
                 self.log(
                     "The state is 'deleted', so we are returning SDA L3 Handoffs without any further checks "
-                    "eventhough there is no transit with the name '{transit_name}'."
+                    "even though there is no transit with the name '{transit_name}'."
                     .format(transit_name=transit_name), "INFO"
                 )
                 return sda_l3_handoff_details
@@ -1785,7 +1980,7 @@ class FabricDevices(DnacBase):
             if self.params.get("state") == "deleted":
                 self.log(
                     "The state is 'deleted', so we are returning IP L3 Handoffs without any further checks "
-                    "eventhough there is no transit with the name '{transit_name}'."
+                    "even though there is no transit with the name '{transit_name}'."
                     .format(transit_name=transit_name), "INFO"
                 )
                 return ip_l3_handoff_details
@@ -2010,7 +2205,7 @@ class FabricDevices(DnacBase):
                                                    interface_name)
             fabric_devices_info.get("l2_handoff_details").append(l2_handoff_id)
 
-        self.log("Successfully proccessed the L2 Handoff information.", "DEBUG")
+        self.log("Successfully processed the L2 Handoff information.", "DEBUG")
         return fabric_devices_info
 
     def process_layer3_sda_handoff(self, fabric_devices_info, layer3_handoff_sda_transit, fabric_site_id, network_device_id, fabric_device_ip):
@@ -2052,7 +2247,7 @@ class FabricDevices(DnacBase):
                 "sda_l3_handoff_details": sda_l3_handoff_details
             })
 
-        self.log("Successfully proccessed the SDA L3 Handoff information.", "DEBUG")
+        self.log("Successfully processed the SDA L3 Handoff information.", "DEBUG")
         return fabric_devices_info
 
     def process_layer3_ip_handoff(self, fabric_devices_info, layer3_handoff_ip_transit, fabric_site_id, network_device_id, fabric_device_ip):
@@ -2116,24 +2311,24 @@ class FabricDevices(DnacBase):
                                                              vlan_id)
             fabric_devices_info.get("ip_l3_handoff_details").append(ip_l3_handoff_detail)
 
-        self.log("Successfully proccessed the IP L3 Handoff information.", "DEBUG")
+        self.log("Successfully processed the IP L3 Handoff information.", "DEBUG")
         return fabric_devices_info
 
     def get_have_fabric_devices(self, fabric_devices):
         """
-        Get the SDA fabric devices related information from Cisco
-        Catalyst Center based on the provided playbook details.
+        Retrieves SDA fabric devices information from Cisco Catalyst Center using the playbook inputs.
 
-        Parameters:
-            fabric_devices (dict): Playbook details containing fabric devices details.
+        Args:
+            fabric_devices (dict): Dictionary containing fabric details such as fabric name and devices.
+
         Returns:
-            self: The current object with updated current Fabric Devices information.
+            self: Returns the instance with updated 'have.fabric_devices' information.
+
         Description:
-            Set the structure for 'fabric_devices_info'. Get the fabric name and get the fabric ID.
-            Get the network device IP and get the device ID. Check for the provisioning status.
-            Check the existence of the fabric device. If exists, retrieve the device details.
-            Check the availability of L2 Handoff, L3 Handoff with SDA Transit, L3 Handoff with IP Transit.
-            Store it in 'fabric_devices_info' and return it.
+            - Validates the presence of required parameters such as 'fabric_name' and 'device_ip'.
+            - Retrieves site and fabric IDs, checks device existence, and provisioning state.
+            - Fetches detailed information including wireless controller settings and handoff configurations (L2, L3 SDA, L3 IP).
+            - Logs critical steps and errors during the process.
         """
 
         fabric_devices_details = []
@@ -2214,6 +2409,7 @@ class FabricDevices(DnacBase):
                 "id": None,
                 "fabric_site_id": None,
                 "network_device_id": None,
+                "wireless_controller_settings": None,
             }
 
             # Fabric device IP is mandatory for this workflow
@@ -2258,7 +2454,7 @@ class FabricDevices(DnacBase):
             if family_name != "Wireless Controller":
                 self.log(
                     "The device with the IP '{ip}' is not a Wireless Controller, "
-                    "proceeding with provisioning checks."
+                    "proceeding with provisioning checks.".format(ip=fabric_device_ip), "DEBUG"
                 )
                 self.check_device_is_provisioned(fabric_device_ip,
                                                  network_device_id,
@@ -2290,6 +2486,16 @@ class FabricDevices(DnacBase):
                 continue
 
             device_roles = device_info.get("device_details").get("deviceRoles")
+
+            self.log(
+                f"Fetching wireless controller settings for the fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            wireless_controller_settings = self.get_have_wireless_controller_settings(fabric_name, fabric_site_id, network_device_id, fabric_device_ip)
+            fabric_devices_info.update({
+                "wireless_controller_settings": wireless_controller_settings
+            })
+
             is_border_device = False
             if "BORDER_NODE" in device_roles:
                 is_border_device = True
@@ -2334,6 +2540,253 @@ class FabricDevices(DnacBase):
         self.msg = "Collecting the SDA fabric devices details from the Cisco Catalyst Center."
         self.status = "success"
         return self
+
+    def get_sda_wireless_details_for_switches(self, fabric_name, fabric_id, network_device_id, fabric_device_ip):
+        """
+        Retrieves SDA wireless details for a specific switch in a given fabric.
+
+        Args:
+            fabric_name (str): Name of the fabric to query.
+            fabric_id (str): ID of the fabric in Cisco Catalyst Center.
+            network_device_id (str): Network device ID of the target switch.
+            fabric_device_ip (str): IP address of the switch.
+
+        Returns:
+            dict or None: The wireless details dictionary for the matching switch, or None if not found.
+
+        Description:
+            This function invokes the Cisco Catalyst Center SDA API to retrieve wireless configuration data from
+            switches belonging to the specified fabric. It filters the response to find and return the details for
+            the switch with the provided network_device_id. If the switch is not found or the API response is empty,
+            the function returns None. If an exception occurs during the API call, it logs and raises the error.
+        """
+
+        self.log(
+            f"Initializing retrieval of SDA wireless details for switch with IP address: '{fabric_device_ip}' in fabric '{fabric_name}'.",
+            "DEBUG",
+        )
+        try:
+            response = self.dnac._exec(
+                family="fabric_wireless", function="get_sda_wireless_details_from_switches_v1", params={"fabric_id": fabric_id}
+            )
+
+            self.log(
+                f"Received API response from 'get_sda_wireless_details_from_switches_v1' for the fabric '{fabric_name}': {response}",
+                "DEBUG",
+            )
+
+            wireless_data = response.get("response")
+
+            if not isinstance(wireless_data, list) or not wireless_data:
+                self.log(
+                    f"No wireless details found or response is not a list for fabric: '{fabric_name}'. Response: {wireless_data}",
+                    "DEBUG",
+                )
+                return None
+
+            for switch_data in wireless_data:
+                if switch_data.get("id") == network_device_id:
+                    self.log(
+                        f"Found wireless details for fabric device IP '{fabric_device_ip}' in fabric '{fabric_name}'. Details: {self.pprint(switch_data)}",
+                        "DEBUG",
+                    )
+                    return switch_data
+
+            self.log(
+                f"No matching device found for fabric device IP '{fabric_device_ip}' in fabric '{fabric_name}'. Returning None.",
+                "DEBUG",
+            )
+            return None
+
+        except Exception as e:
+            self.msg = f"Error retrieving wireless details for fabric '{fabric_name}' from Cisco Catalyst Center: {e}"
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+    def get_managed_ap_locations_for_network_device(self, fabric_device_ip, network_device_id, ap_type="primary"):
+        """
+        Retrieves managed AP locations (primary or secondary) associated with a specific device.
+
+        Args:
+            fabric_device_ip (str): IP address of the network device.
+            network_device_id (str): Network device ID of the device in Cisco Catalyst Center.
+            ap_type (str): Type of AP locations to retrieve: 'primary' or 'secondary'. Defaults to 'primary'.
+
+        Returns:
+            list: A list of managed AP location objects associated with the given device.
+
+        Description:
+            This function paginates through the Cisco Catalyst Center API to retrieve all primary or secondary managed
+            AP locations managed by the specified device. It uses the DNA Center API client to make paginated requests
+            and aggregates the responses into a single list. Handles retries and gracefully exits on specific known
+            API error messages.
+        """
+        allowed_ap_type = ["primary", "secondary"]
+        if ap_type not in allowed_ap_type:
+            self.log(f"Invalid ap_type: '{ap_type}' provided. Allowed types: {', '.join(allowed_ap_type)}", "ERROR")
+            return []
+
+        api_function = f"get_{ap_type}_managed_ap_locations_for_specific_wireless_controller_v1"
+
+        self.log(
+            f"Initializing retrieval of {ap_type} managed AP locations for device with IP address: {fabric_device_ip}",
+            "DEBUG",
+        )
+
+        managed_ap_locations_all = []
+        offset = 1
+        limit = 500
+        retry_count = 0
+
+        while True:
+            retry_count += 1
+            self.log(
+                f"API call attempt {retry_count}: Requesting {ap_type} managed AP locations for device '{fabric_device_ip}' with offset {offset} "
+                f"and limit {limit}",
+                "DEBUG",
+            )
+
+            try:
+                response = self.dnac._exec(
+                    family="wireless",
+                    function=api_function,
+                    op_modifies=False,
+                    params={
+                        "network_device_id": network_device_id,
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                )
+
+                self.log(
+                    f"API Response ({ap_type.capitalize()} Managed AP Locations) for device '{fabric_device_ip}' (Offset {offset}): {response}",
+                    "DEBUG",
+                )
+
+                managed_ap_response = response.get("response")
+                if not response or not managed_ap_response:
+                    self.log(
+                        f"No {ap_type} managed AP locations found in response for device '{fabric_device_ip}'. Ending pagination loop.",
+                        "DEBUG",
+                    )
+                    break
+
+                managed_ap_locations = managed_ap_response.get("managedApLocations", [])
+                self.log(
+                    f"Successfully retrieved {len(managed_ap_locations)} {ap_type} managed AP locations in current batch.",
+                    "DEBUG",
+                )
+                managed_ap_locations_all.extend(managed_ap_locations)
+
+                if len(managed_ap_locations) < limit:
+                    self.log(
+                        f"Fetched the last batch of {ap_type} managed AP locations for device '{fabric_device_ip}'.",
+                        "DEBUG",
+                    )
+                    break
+
+                offset += limit
+
+            except Exception as e:
+                if "no locations were discovered corresponding to the specified wireless controller" in str(e).lower():
+                    self.log(
+                        f"No more {ap_type} managed AP locations found in batch '{retry_count}' for device '{fabric_device_ip}'.",
+                        "DEBUG",
+                    )
+                    break
+
+                self.msg = (
+                    f"Error occurred while retrieving {ap_type} managed AP locations for device '{fabric_device_ip}': {e}"
+                )
+                self.fail_and_exit(self.msg)
+
+        self.log(
+            f"Completed retrieval. Total number of {ap_type} managed AP locations fetched: {len(managed_ap_locations_all)}\n"
+            f"{ap_type} managed AP locations are: {self.pprint(managed_ap_locations_all)}",
+            "INFO",
+        )
+        return managed_ap_locations_all
+
+    def get_have_wireless_controller_settings(self, fabric_name, fabric_site_id, network_device_id, fabric_device_ip):
+        """
+        Retrieves wireless controller settings (including primary/secondary scopes and rolling AP upgrade)
+        for a given device in a specified SDA fabric.
+
+        Args:
+            fabric_name (str): Name of the fabric.
+            fabric_site_id (str): ID of the fabric site.
+            network_device_id (str): Network device ID.
+            fabric_device_ip (str): IP address of the network device.
+
+        Returns:
+            dict or None: Dictionary containing wireless controller settings including:
+                        - enable (bool)
+                        - rolling_ap_upgrade (dict with 'enable' and 'ap_reboot_percentage')
+                        - primary_scope (list)
+                        - secondary_scope (list)
+                        Returns None if the Catalyst Center version does not support wireless controller settings.
+
+        Description:
+            This function checks the Cisco Catalyst Center version for compatibility of wireless settings.
+            If supported, it retrieves SDA wireless details, primary and secondary managed AP locations,
+            and rolling AP upgrade settings for the specified wireless controller.
+        """
+
+        self.log(
+            f"Initializing retrieval of wireless controller settings for device with IP Address '{fabric_device_ip}' "
+            f"in fabric '{fabric_name}'.",
+            "DEBUG"
+        )
+        ccc_version = self.get_ccc_version()
+        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+            self.log(
+                f"Wireless controller settings are not supported in Catalyst Center version '{ccc_version}'. "
+                "Minimum required version is 2.3.7.9. Returning None.",
+                "DEBUG"
+            )
+            return None
+        self.log(
+            f"Catalyst Center version '{ccc_version}' supports wireless controller settings. "
+            f"Proceeding with configuration check for device with IP Address '{fabric_device_ip}' in fabric '{fabric_name}'.",
+            "DEBUG"
+        )
+
+        wireless_controller_settings = {
+            "enable": False,
+            "primary_scope": None,
+            "secondary_scope": None,
+            "rolling_ap_upgrade": None
+        }
+
+        sda_wireless_details = self.get_sda_wireless_details_for_switches(fabric_name, fabric_site_id, network_device_id, fabric_device_ip)
+
+        if sda_wireless_details:
+            rolling_ap_upgrade_details = sda_wireless_details.get("rollingApUpgrade")
+            self.log(
+                f"Rolling AP Upgrade details for device with IP address '{fabric_device_ip}' in fabric '{fabric_name}': "
+                f"{self.pprint(rolling_ap_upgrade_details)}",
+                "DEBUG"
+            )
+            wireless_controller_settings.update({
+                "enable": True,
+                "rolling_ap_upgrade": {
+                    "enable": rolling_ap_upgrade_details.get("enableRollingApUpgrade"),
+                    "ap_reboot_percentage": rolling_ap_upgrade_details.get("apRebootPercentage")
+                }
+            })
+
+        primary_scope_details = self.get_managed_ap_locations_for_network_device(fabric_device_ip, network_device_id, ap_type="primary")
+        secondary_scope_details = self.get_managed_ap_locations_for_network_device(fabric_device_ip, network_device_id, ap_type="secondary")
+
+        wireless_controller_settings.update({
+            "primary_scope": primary_scope_details,
+            "secondary_scope": secondary_scope_details
+        })
+        self.log(
+            f"Returning wireless controller settings for device with IP Address '{fabric_device_ip}' in fabric '{fabric_name}': "
+            f"{self.pprint(wireless_controller_settings)}",
+            "INFO"
+        )
+        return wireless_controller_settings
 
     def get_have(self, config):
         """
@@ -2469,8 +2922,7 @@ class FabricDevices(DnacBase):
         self.log("Existing device details found: {device_details}".format(device_details=have_device_details), "DEBUG")
         have_device_exists = False
         if have_device_details:
-            have_device_exists = self.have.get("fabric_devices")[config_index] \
-                                          .get("exists")
+            have_device_exists = self.have.get("fabric_devices")[config_index].get("exists")
 
         self.log("Device exists status: {device_exists}".format(device_exists=have_device_exists), "DEBUG")
 
@@ -2516,9 +2968,17 @@ class FabricDevices(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
 
+            if "WIRELESS_CONTROLLER_NODE" in device_roles:
+                device_roles.remove("WIRELESS_CONTROLLER_NODE")
+                # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
+
         else:
-            device_roles_list = ["CONTROL_PLANE_NODE", "EDGE_NODE",
-                                 "BORDER_NODE", "WIRELESS_CONTROLLER_NODE"]
+            device_roles_list = [
+                "CONTROL_PLANE_NODE",
+                "EDGE_NODE",
+                "BORDER_NODE",
+                "WIRELESS_CONTROLLER_NODE"
+            ]
             if device_roles is not None:
                 for item in device_roles:
                     if item not in device_roles_list:
@@ -2529,7 +2989,13 @@ class FabricDevices(DnacBase):
                         self.status = "failed"
                         return self.check_return_status()
 
-            # The role of the device cannot be updated
+            have_wireless_controller_node = "WIRELESS_CONTROLLER_NODE" in have_device_details.get("deviceRoles")
+            want_wireless_controller_node = "WIRELESS_CONTROLLER_NODE" in device_roles
+
+            if want_wireless_controller_node and not have_wireless_controller_node:
+                device_roles.remove("WIRELESS_CONTROLLER_NODE")
+                # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
+
             if device_roles and sorted(device_roles) != sorted(have_device_details.get("deviceRoles")):
                 self.msg = (
                     "The parameter 'device_roles' cannot be updated in the device with IP '{ip}'."
@@ -2881,7 +3347,7 @@ class FabricDevices(DnacBase):
                 },
             )
 
-            # If the SDK returns no response, then the transit doesnot exist with type 'SDA_LISP_PUB_SUB_TRANSIT'
+            # If the SDK returns no response, then the transit does not exist with type 'SDA_LISP_PUB_SUB_TRANSIT'
             transit_details = transit_details.get("response")
             if not transit_details:
                 self.log(
@@ -3035,8 +3501,7 @@ class FabricDevices(DnacBase):
         }
 
         is_sda_l3_handoff_exists = False
-        have_sda_l3_handoff = self.have.get("fabric_devices")[device_config_index] \
-                                       .get("sda_l3_handoff_details")
+        have_sda_l3_handoff = self.have.get("fabric_devices")[device_config_index].get("sda_l3_handoff_details")
         if have_sda_l3_handoff:
             self.log(
                 "Existing L3 handoff found for device IP: {device_ip}"
@@ -3389,8 +3854,7 @@ class FabricDevices(DnacBase):
                 "fabricId": fabric_id,
             }
             is_ip_l3_handoff_exists = False
-            have_ip_l3_handoff = self.have.get("fabric_devices")[device_config_index] \
-                                          .get("ip_l3_handoff_details")
+            have_ip_l3_handoff = self.have.get("fabric_devices")[device_config_index].get("ip_l3_handoff_details")
             if have_ip_l3_handoff and have_ip_l3_handoff[l3_ip_handoff_index]:
                 is_ip_l3_handoff_exists = True
                 self.log(
@@ -3423,7 +3887,7 @@ class FabricDevices(DnacBase):
                 .format(l3_ip_handoff=l3_ip_handoff), "DEBUG"
             )
 
-            # If the fabric device is avaiable, then fetch the local and remote IP addresses
+            # If the fabric device is available, then fetch the local and remote IP addresses
             if is_ip_l3_handoff_exists:
                 local_ip_address = have_ip_l3_handoff[l3_ip_handoff_index].get("localIpAddress")
                 remote_ip_address = have_ip_l3_handoff[l3_ip_handoff_index].get("remoteIpAddress")
@@ -3490,16 +3954,470 @@ class FabricDevices(DnacBase):
 
         return ip_l3_handoff_info
 
+    def deduplicate_list_of_dict(self, dict_list):
+        """
+        Removes duplicate dictionaries from a list while preserving order.
+
+        This method logs the initial input list, processes each dictionary to ensure
+        uniqueness based on its key-value pairs, and logs the final deduplicated output.
+
+        Args:
+            dict_list (list of dict): A list containing dictionaries that may have duplicates.
+
+        Returns:
+            list of dict: A new list containing only unique dictionaries from the input list,
+                        with order preserved based on the first occurrence.
+
+        Description:
+            This method iterates over the input list, checks if a dictionary (represented
+            as a frozenset of its items) has been seen before, and if not, adds it to the
+            result list. The deduplication is performed based on the equality of the dictionary's
+            key-value pairs. Logs are generated to track the start and completion of the process,
+            along with the length of the original and deduplicated lists.
+        """
+
+        self.log("Initializing deduplication of list of dictionaries.", "INFO")
+        self.log(f"Input list:\n{dict_list}", "INFO")
+        seen = set()
+        deduped = []
+
+        for d in dict_list:
+            identifier = frozenset(d.items())  # Used only for comparison
+            if identifier not in seen:
+                seen.add(identifier)
+                deduped.append(d)  # Keep original dict
+
+        self.log(
+            f"Deduplication complete.\nOriginal list length: {len(dict_list)}\n"
+            f"Deduplicated list length: {len(deduped)}\nFinal output:\n{deduped}",
+            "INFO"
+        )
+
+        return deduped
+
+    def _process_scope_list(self, scope_list):
+        """
+        Process a list of site names to retrieve detailed site info including child sites.
+
+        Args:
+            scope_list (list): List of site names.
+
+        Returns:
+            list: Deduplicated list of dicts with 'siteId' and 'siteNameHierarchy' for sites.
+
+        Description:
+            For each site name, this method fetches both the site and its child sites from Catalyst Center
+            using `get_site()`. It then extracts relevant site details and deduplicates the final list before returning.
+        """
+        self.log(f"Processing scope list with {len(scope_list)} site(s): {scope_list}", "DEBUG")
+
+        if not scope_list:
+            self.log("Scope list is empty, returning empty list.", "DEBUG")
+            return []
+
+        processed_scope = []
+        for site_name in scope_list:
+            child_sites = self.get_site(site_name + "/.*").get("response", [])
+            current_site = self.get_site(site_name).get("response", [])
+
+            self.log(
+                f"For site '{site_name}', found {len(child_sites)} child sites and {len(current_site)} current site(s).",
+                "DEBUG"
+            )
+
+            all_containing_sites = child_sites + current_site
+            for containing_site in all_containing_sites:
+                containing_site_info = {
+                    "siteId": containing_site.get("id"),
+                    "siteNameHierarchy": containing_site.get("nameHierarchy")
+                }
+                processed_scope.append(containing_site_info)
+
+        deduped_scope = self.deduplicate_list_of_dict(processed_scope)
+        self.log(f"Deduplicated scope list contains {len(deduped_scope)} entries.", "DEBUG")
+
+        return deduped_scope
+
+    def _validate_enable_field(self, wireless_controller_config):
+        """
+        Validate the 'enable' field in wireless_controller_settings.
+
+        Args:
+            wireless_controller_config (dict): Wireless controller settings dict from playbook.
+
+        Returns:
+            bool: The value of the 'enable' field.
+
+        Description:
+            Checks if the 'enable' field is present and is a boolean.
+            Logs relevant messages during validation.
+            Exits the program if validation fails.
+        """
+        self.log("Starting validation of 'enable' field in wireless controller settings...", "DEBUG")
+        enable = wireless_controller_config.get("enable")
+        if enable is None:
+            self.msg = "'enable' field is required but missing in wireless controller settings."
+            self.fail_and_exit(self.msg)
+        if not isinstance(enable, bool):
+            self.msg = "'enable' field must be a boolean value in wireless controller settings."
+            self.fail_and_exit(self.msg)
+        self.log(f"Validated 'enable' field: {enable}", "DEBUG")
+        return enable
+
+    def _validate_reload_field(self, wireless_controller_config):
+        """
+        Validate the 'reload' field in wireless_controller_settings.
+
+        Args:
+            wireless_controller_config (dict): Wireless controller settings dict from playbook.
+
+        Returns:
+            bool: The value of the 'reload' field, defaulting to False if not present.
+
+        Description:
+            Checks if the 'reload' field is a boolean if provided.
+            Logs relevant messages during validation.
+            Exits the program if validation fails.
+        """
+        self.log("Starting validation of 'reload' field in wireless controller settings...", "DEBUG")
+        reload_on_disable = wireless_controller_config.get("reload", False)
+        if not isinstance(reload_on_disable, bool):
+            self.fail_and_exit("'reload' field must be a boolean value in wireless controller settings.")
+        self.log(f"Validated 'reload' field: {reload_on_disable}", "DEBUG")
+        return reload_on_disable
+
+    def _validate_manage_scope(self, manage_scope):
+        """
+        Validate the 'manage_scope' section in wireless_controller_settings.
+
+        Args:
+            manage_scope (dict or None): The manage_scope dict or None.
+
+        Returns:
+            tuple: (primary_scope (list or None), secondary_scope (list or None))
+
+        Description:
+            Validates that 'manage_scope' is a dict containing 'primary_scope' and 'secondary_scope' lists.
+            Ensures at least one of the scopes is non-empty if both are present.
+            Logs validation progress and exits on failure.
+        """
+        self.log("Starting validation of 'manage_scope' in wireless controller settings...", "DEBUG")
+
+        primary_scope = None
+        secondary_scope = None
+
+        if manage_scope is None:
+            self.log("No 'manage_scope' provided; defaulting primary_scope and secondary_scope to None.", "DEBUG")
+            return primary_scope, secondary_scope
+
+        if not isinstance(manage_scope, dict):
+            self.msg = "'manage_scope' field must be a dictionary in wireless controller settings."
+            self.fail_and_exit(self.msg)
+
+        primary_scope = manage_scope.get("primary_scope")
+        if primary_scope is None:
+            self.log("'primary_scope' not provided.", "DEBUG")
+        elif not isinstance(primary_scope, list):
+            self.msg = "'primary_scope' must be a list in wireless controller settings."
+            self.fail_and_exit(self.msg)
+        else:
+            primary_scope = self._process_scope_list(primary_scope)
+            self.log(f"Validated 'primary_scope': {primary_scope}", "DEBUG")
+
+        secondary_scope = manage_scope.get("secondary_scope")
+        if secondary_scope is None:
+            self.log("'secondary_scope' not provided.", "DEBUG")
+        elif not isinstance(secondary_scope, list):
+            self.msg = "'secondary_scope' must be a list in wireless controller settings."
+            self.fail_and_exit(self.msg)
+        else:
+            secondary_scope = self._process_scope_list(secondary_scope)
+            self.log(f"Validated 'secondary_scope': {secondary_scope}", "DEBUG")
+
+        # Check if both are empty lists
+        if isinstance(primary_scope, list) and isinstance(secondary_scope, list) and len(primary_scope) == 0 and len(secondary_scope) == 0:
+            self.msg = "Both 'primary_scope' and 'secondary_scope' cannot be empty in wireless controller settings."
+            self.fail_and_exit(self.msg)
+
+        self.log(f"Completed validation of 'manage_scope': primary_scope={primary_scope}, secondary_scope={secondary_scope}", "DEBUG")
+        return primary_scope, secondary_scope
+
+    def _validate_rolling_ap_upgrade(self, rolling_ap_upgrade):
+        """
+        Validate the 'rolling_ap_upgrade' section in wireless_controller_settings.
+
+        Args:
+            rolling_ap_upgrade (dict or None): The rolling_ap_upgrade dict or None.
+
+        Returns:
+            dict or None: Validated rolling_ap_upgrade dict or None if not provided.
+
+        Description:
+            Validates that 'rolling_ap_upgrade' is a dict containing 'enable' (bool) and optional 'ap_reboot_percentage' (int) with specific allowed values.
+            Logs validation progress and exits on failure.
+        """
+        self.log("Starting validation of 'rolling_ap_upgrade' in wireless controller settings...", "DEBUG")
+
+        if rolling_ap_upgrade is None:
+            self.log("No 'rolling_ap_upgrade' section provided; returning None.", "DEBUG")
+            return None
+
+        if not isinstance(rolling_ap_upgrade, dict):
+            self.msg = "'rolling_ap_upgrade' must be a dictionary in wireless controller settings."
+            self.fail_and_exit(self.msg)
+
+        enable_rolling_ap_upgrade = rolling_ap_upgrade.get("enable")
+        if enable_rolling_ap_upgrade is None:
+            self.msg = "'enable' is required inside 'rolling_ap_upgrade' section."
+            self.fail_and_exit(self.msg)
+        if not isinstance(enable_rolling_ap_upgrade, bool):
+            self.msg = "'enable' in 'rolling_ap_upgrade' must be a boolean."
+            self.fail_and_exit(self.msg)
+        self.log(f"Validated 'rolling_ap_upgrade.enable': {enable_rolling_ap_upgrade}", "DEBUG")
+
+        ap_reboot_percentage = rolling_ap_upgrade.get("ap_reboot_percentage")
+        allowed_values = [5, 15, 25]
+        if ap_reboot_percentage is None:
+            self.log("No 'ap_reboot_percentage' provided in rolling_ap_upgrade; skipping validation.", "DEBUG")
+        elif not isinstance(ap_reboot_percentage, int):
+            self.msg = "'ap_reboot_percentage' in 'rolling_ap_upgrade' must be an integer."
+            self.fail_and_exit(self.msg)
+        elif ap_reboot_percentage not in allowed_values:
+            self.msg = f"'ap_reboot_percentage': '{ap_reboot_percentage}' in 'rolling_ap_upgrade' must be one of {allowed_values}."
+            self.fail_and_exit(self.msg)
+        else:
+            self.log(f"Validated 'ap_reboot_percentage': {ap_reboot_percentage}", "DEBUG")
+
+        self.log(f"Completed validation of 'rolling_ap_upgrade': {rolling_ap_upgrade}", "DEBUG")
+        return rolling_ap_upgrade
+
+    def validate_device_roles_for_wireless_settings(self, device_roles):
+        """
+        Validate if the device roles are allowed for wireless controller configuration.
+
+        Args:
+            device_details (dict): Dictionary containing details of the device, including its current roles under the key 'device_roles'.
+
+        Returns:
+            self: Returns the class instance for chaining or further processing.
+
+        Description:
+            This method checks whether the current device roles are part of the predefined allowed combinations
+            for enabling wireless controller settings. The supported combinations are:
+                - ['BORDER_NODE', 'CONTROL_PLANE_NODE', 'EDGE_NODE', 'WIRELESS_CONTROLLER_NODE']
+                - ['BORDER_NODE', 'CONTROL_PLANE_NODE', 'WIRELESS_CONTROLLER_NODE']
+                - ['EDGE_NODE', 'WIRELESS_CONTROLLER_NODE']
+            If the device's role combination is invalid, the module execution will fail with an error message.
+        """
+        self.log("Validating device roles for wireless controller configuration...", "INFO")
+
+        temp_device_roles = copy.deepcopy(device_roles)
+        if "WIRELESS_CONTROLLER_NODE" not in temp_device_roles:
+            # WIRELESS_CONTROLLER_NODE may always not be present in the device roles.
+            # In get_device_params we are removing it to not cause issues in the Update API.
+            temp_device_roles.append("WIRELESS_CONTROLLER_NODE")
+
+        allowed_device_roles = [
+            ["BORDER_NODE", "CONTROL_PLANE_NODE", "EDGE_NODE" , "WIRELESS_CONTROLLER_NODE"],
+            ["BORDER_NODE", "CONTROL_PLANE_NODE", "WIRELESS_CONTROLLER_NODE"],
+            ["EDGE_NODE" , "WIRELESS_CONTROLLER_NODE"]
+        ]
+        is_allowed = any(sorted(temp_device_roles) == sorted(allowed) for allowed in allowed_device_roles)
+
+        if is_allowed:
+            self.log(f"Device roles {temp_device_roles} are valid for wireless controller configuration.", "DEBUG")
+        else:
+            allowed_str = "\n  - ".join([str(comb) for comb in allowed_device_roles])
+            self.msg = (
+                f"Invalid device role combination for wireless controller settings: {temp_device_roles}\n"
+                f"Allowed combinations are:\n  - {allowed_str}"
+            )
+            self.fail_and_exit(self.msg)
+
+        self.log("Device role validation for wireless controller settings completed successfully.", "INFO")
+
+        return self
+
+    def get_want_wireless_controller_settings(self, device_details, fabric_name, fabric_device_ip, config_index):
+        """
+        Retrieve and validate wireless controller settings from the device playbook details.
+
+        Args:
+            device_details (dict): Device details dict from the playbook.
+            fabric_name (str): Name of the fabric.
+            fabric_device_ip (str): IP address of the fabric device.
+            config_index (int): Index of the configuration.
+
+        Returns:
+            dict or None: Validated wireless controller settings dict or None if not applicable.
+
+        Description:
+            Validates wireless controller settings, checking Catalyst Center version compatibility.
+            Utilizes helper functions for validating individual sections.
+            Logs all major steps and errors.
+        """
+
+        self.log(
+            f"Starting retrieval of wireless controller settings for device '{fabric_device_ip}' in fabric '{fabric_name}'...",
+            "DEBUG"
+        )
+
+        wireless_controller_config = device_details.get("wireless_controller_settings")
+        if not wireless_controller_config:
+            self.log(
+                f"No wireless controller settings found for device '{fabric_device_ip}' in fabric '{fabric_name}'. Returning None.",
+                "DEBUG"
+            )
+            return None
+
+        ccc_version = self.get_ccc_version()
+        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+            self.msg = (
+                f"Wireless controller settings are not supported in Catalyst Center version '{ccc_version}'. "
+                "Minimum required version is 2.3.7.9."
+            )
+            self.fail_and_exit(self.msg)
+
+        self.log(
+            f"Catalyst Center version '{ccc_version}' supports wireless controller settings. Proceeding with validation.",
+            "DEBUG"
+        )
+
+        enable = self._validate_enable_field(wireless_controller_config)
+        rolling_ap_upgrade = None
+        primary_scope = None
+        reload_on_disable = None
+        secondary_scope = None
+
+        if enable is False:
+            reload_on_disable = self._validate_reload_field(wireless_controller_config)
+        else:
+            primary_scope, secondary_scope = self._validate_manage_scope(wireless_controller_config.get("manage_scope"))
+            rolling_ap_upgrade = self._validate_rolling_ap_upgrade(wireless_controller_config.get("rolling_ap_upgrade"))
+
+        want_wireless_controller_settings = {
+            "enable": enable,
+            "primary_scope": primary_scope,
+            "secondary_scope": secondary_scope,
+            "rolling_ap_upgrade": rolling_ap_upgrade
+        }
+        if not enable:
+            want_wireless_controller_settings["reload"] = reload_on_disable
+
+        self.log(f"Wireless controller settings after validation: {self.pprint(want_wireless_controller_settings)}", "DEBUG")
+
+        updated_settings = self.update_get_want_wireless_controller_settings(
+            fabric_name, fabric_device_ip, config_index, want_wireless_controller_settings
+        )
+
+        self.log(f"Final wireless controller settings to return: {self.pprint(updated_settings)}", "DEBUG")
+        return updated_settings
+
+    def update_get_want_wireless_controller_settings(self, fabric_name, fabric_device_ip, config_index, want_wireless_controller_settings):
+        """
+        Update and normalize the wireless controller settings for a fabric device.
+
+        Args:
+            fabric_name (str): Name of the fabric where the device resides.
+            fabric_device_ip (str): Management IP address of the fabric device.
+            config_index (int): Index of the device inside self.have["fabric_devices"] list.
+            want_wireless_controller_settings (dict): Desired wireless controller settings from the playbook.
+
+        Returns:
+            dict: Final wireless controller settings with missing values filled from Catalyst Center config or defaults.
+
+        Description:
+            This method ensures that the desired wireless controller settings are complete by
+            supplementing missing values with the existing Catalyst Center configuration or default values.
+            It checks for the presence of 'primary_scope', 'secondary_scope', and 'rolling_ap_upgrade'.
+            If both scopes are missing or empty, it raises an error, since at least one must be provided.
+            The method logs the start and end of the update process as well as intermediate decisions.
+        """
+
+        self.log(f"Starting update of wireless controller settings for device {fabric_device_ip} in fabric '{fabric_name}'", "INFO")
+
+        have_wireless_controller_settings = self.have.get("fabric_devices")[config_index].get("wireless_controller_settings")
+
+        self.log(f"Current (have) wireless controller settings:\n{self.pprint(have_wireless_controller_settings)}", "DEBUG")
+        self.log(f"Desired (want) wireless controller settings:\n{self.pprint(want_wireless_controller_settings)}", "DEBUG")
+
+        # PRIMARY SCOPE
+        primary_scope = want_wireless_controller_settings.get("primary_scope")
+        if primary_scope is None:
+            have_primary_scope = have_wireless_controller_settings.get("primary_scope")
+            if not have_primary_scope:
+                self.log("No 'primary_scope' found in both playbook and existing catalyst center config. Setting to empty list.", "INFO")
+                primary_scope = []
+            else:
+                primary_scope = have_primary_scope
+                self.log(f"'primary_scope' not defined in playbook. Using existing Catalyst Center config value: {primary_scope}", "INFO")
+        else:
+            self.log(f"'primary_scope' found in playbook: {primary_scope}", "INFO")
+
+        # SECONDARY SCOPE
+        secondary_scope = want_wireless_controller_settings.get("secondary_scope")
+        if secondary_scope is None:
+            have_secondary_scope = have_wireless_controller_settings.get("secondary_scope")
+            if not have_secondary_scope:
+                secondary_scope = []
+                self.log("No 'secondary_scope' found in both playbook and existing Catalyst Center config. Setting to empty list.", "INFO")
+            else:
+                secondary_scope = have_secondary_scope
+                self.log(f"'secondary_scope' not defined in playbook. Using existing Catalyst Center config value: {secondary_scope}", "INFO")
+        else:
+            self.log(f"'secondary_scope' found in playbook: {secondary_scope}", "INFO")
+
+        # ROLLING AP UPGRADE
+        rolling_ap_upgrade = want_wireless_controller_settings.get("rolling_ap_upgrade")
+        if rolling_ap_upgrade is None:
+            have_rolling_ap_upgrade = have_wireless_controller_settings.get("rolling_ap_upgrade")
+            if have_rolling_ap_upgrade is None:
+                rolling_ap_upgrade = {
+                    "enable": True,
+                    "ap_reboot_percentage": 25
+                }
+                self.log(f"No 'rolling_ap_upgrade' found in both playbook and Catalyst Center config. Setting to default: {rolling_ap_upgrade}", "INFO")
+            else:
+                rolling_ap_upgrade = have_rolling_ap_upgrade
+                self.log(f"'rolling_ap_upgrade' not defined in playbook. Using existing Catalyst Center config: {rolling_ap_upgrade}", "INFO")
+        else:
+            ap_reboot_percentage = rolling_ap_upgrade.get("ap_reboot_percentage")
+            if ap_reboot_percentage is None:
+                have_rolling_ap_upgrade = have_wireless_controller_settings.get("rolling_ap_upgrade")
+                if have_rolling_ap_upgrade:
+                    ap_reboot_percentage = have_rolling_ap_upgrade.get("ap_reboot_percentage")
+                    rolling_ap_upgrade["ap_reboot_percentage"] = ap_reboot_percentage
+                    self.log(f"'ap_reboot_percentage' missing in playbook. Using existing Catalyst Center config value: {ap_reboot_percentage}", "INFO")
+                else:
+                    rolling_ap_upgrade.update({"ap_reboot_percentage": 25})
+                    self.log("No 'ap_reboot_percentage' found in both playbook and Catalyst Center config. Setting to default: 25", "INFO")
+            else:
+                self.log(f"'rolling_ap_upgrade' found in playbook with 'ap_reboot_percentage': {ap_reboot_percentage}", "INFO")
+
+        # COMPILE FINAL OUTPUT
+        want_wireless_controller_settings.update({
+            "primary_scope": primary_scope,
+            "secondary_scope": secondary_scope,
+            "rolling_ap_upgrade": rolling_ap_upgrade
+        })
+
+        self.log(
+            f"Completed update of wireless controller settings for device {fabric_device_ip}. "
+            f"Final settings:\n{want_wireless_controller_settings}",
+            "INFO"
+        )
+        return want_wireless_controller_settings
+
     def get_want_fabric_devices(self, fabric_devices):
         """
         Get all the SDA fabric devices along with the Border settings, L2 Handoff,
-        L3 SDA Handoff, L3 IP Handoff information from playbook.
+        L3 SDA Handoff, L3 IP Handoff, wireless controller settings information from playbook.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
         Parameters:
             fabric_devices (dict): Playbook details containing fabric devices details along
-            with the Border Settings, L2 Handoff, L3 SDA Handoff, L3 IP Handoff information.
+            with the Border Settings, L2 Handoff, L3 SDA Handoff, L3 IP Handoff information, Wireless controller information.
         Returns:
             self: The current object with updated desired fabric devices information.
         Description:
@@ -3507,6 +4425,7 @@ class FabricDevices(DnacBase):
             in such a way that we can pass it to the API.
             Call the respective functions for gathering the device details,
             L2 Handoff, L3 IP Handoff, L3 SDA Handoff provided by the user.
+            Also gathers and updates wireless controller settings per device.
         """
 
         fabric_name = fabric_devices.get("fabric_name")
@@ -3520,7 +4439,7 @@ class FabricDevices(DnacBase):
         for item in device_config:
             device_config_index += 1
             fabric_site_id = self.have.get("fabric_devices")[device_config_index].get("fabric_site_id")
-            device_ip = fabric_devices.get("device_ip")
+            device_ip = item.get("device_ip")
             self.log(
                 "Processing device configuration at index: {index}"
                 .format(index=device_config_index), "DEBUG"
@@ -3533,23 +4452,37 @@ class FabricDevices(DnacBase):
             }
             network_device_id = self.have.get("fabric_devices")[device_config_index].get("network_device_id")
             fabric_devices_info.update({
-                "device_details": self.get_device_params(fabric_site_id,
-                                                         network_device_id,
-                                                         item,
-                                                         device_config_index),
-                "l2_handoff_details": self.get_l2_handoff_params(fabric_site_id,
-                                                                 network_device_id,
-                                                                 item,
-                                                                 device_config_index),
-                "sda_l3_handoff_details": self.get_sda_l3_handoff_params(fabric_site_id,
-                                                                         network_device_id,
-                                                                         item,
-                                                                         device_config_index),
-                "ip_l3_handoff_details": self.get_ip_l3_handoff_params(fabric_site_id,
-                                                                       network_device_id,
-                                                                       item,
-                                                                       device_config_index,
-                                                                       fabric_name),
+                "device_details": self.get_device_params(
+                    fabric_site_id,
+                    network_device_id,
+                    item,
+                    device_config_index
+                ),
+                "l2_handoff_details": self.get_l2_handoff_params(
+                    fabric_site_id,
+                    network_device_id,
+                    item,
+                    device_config_index
+                ),
+                "sda_l3_handoff_details": self.get_sda_l3_handoff_params(
+                    fabric_site_id,
+                    network_device_id,
+                    item,
+                    device_config_index
+                ),
+                "ip_l3_handoff_details": self.get_ip_l3_handoff_params(
+                    fabric_site_id,
+                    network_device_id,
+                    item,
+                    device_config_index,
+                    fabric_name
+                ),
+                "wireless_controller_settings" : self.get_want_wireless_controller_settings(
+                    item,
+                    fabric_name,
+                    device_ip,
+                    device_config_index
+                ),
             })
             self.log(
                 "The fabric device with IP '{ip}' details under the site '{site}': {details}"
@@ -3611,7 +4544,7 @@ class FabricDevices(DnacBase):
         Returns:
             self (object): The current object with adding SDA fabric device information.
         Description:
-            Find the length of the payload, if it is greater than 40, seperate it out into batches of 40.
+            Find the length of the payload, if it is greater than 40, separate it out into batches of 40.
             Call the add fabric devices API with the bulk payload. Check the task status from the task ID.
         """
 
@@ -3625,7 +4558,7 @@ class FabricDevices(DnacBase):
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = (
-                        "Unable to retrive the task_id for the task '{task_name}'."
+                        "Unable to retrieve the task_id for the task '{task_name}'."
                         .format(task_name=task_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -3664,7 +4597,7 @@ class FabricDevices(DnacBase):
         Returns:
             self (object): The current object with updated SDA fabric device information.
         Description:
-            Find the length of the payload, if it is greater than 40, seperate it out into batches of 40.
+            Find the length of the payload, if it is greater than 40, separate it out into batches of 40.
             Call the update fabric devices API with the bulk payload. Check the task status from the task ID.
         """
 
@@ -3678,7 +4611,7 @@ class FabricDevices(DnacBase):
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = (
-                        "Unable to retrive the task_id for the task '{task_name}'."
+                        "Unable to retrieve the task_id for the task '{task_name}'."
                         .format(task_name=task_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -3708,9 +4641,14 @@ class FabricDevices(DnacBase):
 
         return self
 
-    def update_l2_handoff(self, have_l2_handoff, want_l2_handoff,
-                          device_ip, result_fabric_device_response,
-                          result_fabric_device_msg):
+    def update_l2_handoff(
+            self,
+            have_l2_handoff,
+            want_l2_handoff,
+            device_ip,
+            result_fabric_device_response,
+            result_fabric_device_msg
+    ):
         """
         Create L2 Handoff in a fabric device with fields provided in playbook.
 
@@ -3733,7 +4671,7 @@ class FabricDevices(DnacBase):
         create_l2_handoff = []
         l2_handoff_index = -1
 
-        # The L2 Handoffs doesnot support updation
+        # The L2 Handoffs does not support update
         # So find which L2 handoffs need to be created and which needs to be ignored
         for item in want_l2_handoff:
             l2_handoff_index += 1
@@ -3761,7 +4699,7 @@ class FabricDevices(DnacBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
             if not task_id:
                 self.msg = (
-                    "Unable to retrive the task_id for the task '{task_name}'."
+                    "Unable to retrieve the task_id for the task '{task_name}'."
                     .format(task_name=task_name)
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -3792,9 +4730,14 @@ class FabricDevices(DnacBase):
         self.status = "success"
         return self
 
-    def update_sda_l3_handoff(self, have_sda_l3_handoff, want_sda_l3_handoff,
-                              device_ip, result_fabric_device_response,
-                              result_fabric_device_msg):
+    def update_sda_l3_handoff(
+            self,
+            have_sda_l3_handoff,
+            want_sda_l3_handoff,
+            device_ip,
+            result_fabric_device_response,
+            result_fabric_device_msg
+    ):
         """
         Create SDA L3 Handoff in a fabric device with fields provided in playbook.
 
@@ -3832,7 +4775,7 @@ class FabricDevices(DnacBase):
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = (
-                        "Unable to retrive the task_id for the task '{task_name}'."
+                        "Unable to retrieve the task_id for the task '{task_name}'."
                         .format(task_name=task_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -3883,7 +4826,7 @@ class FabricDevices(DnacBase):
             result_fabric_device_msg.update({
                 "sda_l3_handoff_details": "SDA L3 Handoff doesn't require an update."
             })
-            self.msg = "L3 Handoff with SDA Transit doesnot require an update."
+            self.msg = "L3 Handoff with SDA Transit does not require an update."
             self.status = "success"
             return self
 
@@ -3903,7 +4846,7 @@ class FabricDevices(DnacBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
             if not task_id:
                 self.msg = (
-                    "Unable to retrive the task_id for the task '{task_name}'."
+                    "Unable to retrieve the task_id for the task '{task_name}'."
                     .format(task_name=task_name)
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -3938,9 +4881,14 @@ class FabricDevices(DnacBase):
         self.status = "success"
         return self
 
-    def update_ip_l3_handoff(self, have_ip_l3_handoff, want_ip_l3_handoff,
-                             device_ip, result_fabric_device_response,
-                             result_fabric_device_msg):
+    def update_ip_l3_handoff(
+            self,
+            have_ip_l3_handoff,
+            want_ip_l3_handoff,
+            device_ip,
+            result_fabric_device_response,
+            result_fabric_device_msg
+    ):
         """
         Create IP L3 Handoff in a fabric device with fields provided in playbook.
 
@@ -4039,7 +4987,7 @@ class FabricDevices(DnacBase):
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = (
-                        "Unable to retrive the task_id for the task '{task_name}'."
+                        "Unable to retrieve the task_id for the task '{task_name}'."
                         .format(task_name=task_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -4078,7 +5026,7 @@ class FabricDevices(DnacBase):
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = (
-                        "Unable to retrive the task_id for the task '{task_name}'."
+                        "Unable to retrieve the task_id for the task '{task_name}'."
                         .format(task_name=task_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -4106,12 +5054,438 @@ class FabricDevices(DnacBase):
                 "updation": update_ip_l3_handoff
             })
             result_fabric_device_msg.get("ip_l3_handoff_details").update({
-                "updation": "IP L3 Handoffs updation is successful."
+                "updation": "IP L3 Handoffs update is successful."
             })
 
         self.msg = "L3 Handoff(s) with IP Transit operations are successful."
         self.log(str(self.msg), "DEBUG")
         self.status = "success"
+        return self
+
+    def compare_unordered_lists_of_dicts(self, list1, list2):
+        """
+        Compare two unordered lists of dictionaries for equality.
+
+        Args:
+            list1 (list): First list of dictionaries to compare.
+            list2 (list): Second list of dictionaries to compare.
+
+        Returns:
+            bool: True if both lists contain the same dictionaries (order-independent), False otherwise.
+
+        Description:
+            This function normalizes each dictionary by converting it to a JSON string with sorted keys,
+            then sorts both lists of these strings and compares them to determine equality.
+        """
+        self.log("Starting comparison of two unordered lists of dictionaries", "INFO")
+
+        # Convert dicts to JSON strings with sorted keys for consistent comparison
+        def normalize(d):
+            return json.dumps(d, sort_keys=True)
+
+        normalized1 = sorted(normalize(d) for d in list1)
+        normalized2 = sorted(normalize(d) for d in list2)
+        result = normalized1 == normalized2
+
+        self.log(f"Completed comparison. Result: {result}", "INFO")
+        return result
+
+    def check_managed_ap_locations_requires_update(self, have_wireless_controller_details, want_wireless_controller_details, device_ip):
+        """
+        Check if the managed AP locations require updating by comparing current and desired wireless controller scopes.
+
+        Args:
+            have_wireless_controller_details (dict): Current wireless controller details, including primary and secondary scopes.
+            want_wireless_controller_details (dict): Desired wireless controller details to compare against.
+            device_ip (str): IP address of the device being checked.
+
+        Returns:
+            tuple:
+                bool: True if update is required, False otherwise.
+                dict: Updated scope details containing 'primary_scope' and 'secondary_scope' from the desired state.
+
+        Description:
+            This method compares the unordered lists of dictionaries for both primary and secondary scopes
+            between the current and desired wireless controller settings to determine if an update is necessary.
+            It returns a flag indicating whether an update is needed and the updated scope details.
+        """
+
+        self.log(f"Checking if managed AP locations require update for device IP '{device_ip}'", "INFO")
+
+        requires_update = False
+        want_primary_scope = want_wireless_controller_details.get("primary_scope")
+        want_secondary_scope = want_wireless_controller_details.get("secondary_scope")
+
+        updated_scope_details = {
+            "primary_scope": want_primary_scope,
+            "secondary_scope": want_secondary_scope
+        }
+
+        if have_wireless_controller_details is None:
+            requires_update = True
+            self.log(
+                f"Have wireless controller settings are not present for device: {device_ip}\n"
+                f"Managed AP location update required for device IP '{device_ip}': {requires_update}\n"
+                f"Updated scope details: '{self.pprint(updated_scope_details)}'",
+                "INFO"
+            )
+            return requires_update, updated_scope_details
+
+        have_primary_scope = have_wireless_controller_details.get("primary_scope")
+        requires_update = not self.compare_unordered_lists_of_dicts(have_primary_scope, want_primary_scope)
+
+        have_secondary_scope = have_wireless_controller_details.get("secondary_scope")
+        requires_update |= not self.compare_unordered_lists_of_dicts(have_secondary_scope, want_secondary_scope)
+
+        self.log(f"Managed AP location update required for device IP '{device_ip}': {requires_update}", "INFO")
+        self.log(f"Updated scope details: '{self.pprint(updated_scope_details)}'", "INFO")
+
+        return requires_update, updated_scope_details
+
+    def update_managed_ap_locations_for_network_device(self, managed_ap_locations, fabric_device_ip, device_id):
+        """
+        Update managed AP locations for a given network device by posting site scope information to Catalyst Center.
+
+        Args:
+            managed_ap_locations (dict): Dictionary with 'primary_scope' and 'secondary_scope' containing site IDs.
+            fabric_device_ip (str): IP address of the target fabric device.
+            device_id (str): Device ID of the fabric device in Cisco Catalyst Center.
+
+        Returns:
+            self: The current object after performing the update.
+
+        Description:
+            This function extracts primary and secondary site IDs from the given managed AP locations,
+            constructs the API payload, makes a POST API call, and tracks task status to ensure
+            the AP locations are successfully updated for the device.
+        """
+
+        self.log(f"Initiating update of managed ap locations for device with IP address: '{fabric_device_ip}'", "INFO")
+
+        task_name = "assign_managed_ap_locations_for_w_l_c_v1"
+        primary_scope_site_id = [scope_details.get("siteId") for scope_details in managed_ap_locations.get("primary_scope")]
+        secondary_scope_site_id = [scope_details.get("siteId") for scope_details in managed_ap_locations.get("secondary_scope")]
+
+        self.log(f"[{fabric_device_ip}] Updating managed AP scopes:\n  - Primary: {primary_scope_site_id}\n  - Secondary: {secondary_scope_site_id}", "DEBUG")
+
+        parameters = {
+            "device_id": device_id,
+            "primaryManagedAPLocationsSiteIds": primary_scope_site_id,
+            "secondaryManagedAPLocationsSiteIds": secondary_scope_site_id
+        }
+
+        task_id = self.get_taskid_post_api_call("wireless", task_name, parameters)
+
+        if not task_id:
+            self.msg = (
+                f"Unable to retrieve the task_id for the updating managed ap locations for device with IP address: {fabric_device_ip}'."
+            )
+            self.fail_and_exit(self.msg)
+
+        success_msg = (
+            f"Managed AP locations for device with IP Address: '{fabric_device_ip}' updated successfully in the Cisco Catalyst Center"
+        )
+        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        self.log(f"Completed update of managed AP locations for device IP: '{fabric_device_ip}'", "DEBUG")
+
+        return self
+
+    def are_dicts_equal(self, dict1, dict2):
+        """
+        Check if two dictionaries are equal, considering:
+        - Either or both dictionaries can be None.
+        - Keys can be in any order.
+
+        Args:
+            dict1 (dict or None): First dictionary.
+            dict2 (dict or None): Second dictionary.
+
+        Returns:
+            bool: True if both are equal, False otherwise.
+        """
+        if dict1 is None and dict2 is None:
+            return True
+        if dict1 is None or dict2 is None:
+            return False
+        return dict1 == dict2
+
+    def check_wireless_controller_settings_requires_update(self, have_wireless_controller_details, want_wireless_controller_details, device_ip):
+        """
+        Check if wireless controller settings require an update based on 'enable' and 'rolling_ap_upgrade' fields.
+
+        Args:
+            have_wireless_controller_details (dict): Current state from the system.
+            want_wireless_controller_details (dict): Desired state from the playbook.
+            device_ip (str): IP address of the wireless controller device being validated.
+
+        Returns:
+            tuple:
+                bool: True if an update is required, False otherwise.
+                dict: Wireless controller settings from the desired state.
+
+        Description:
+            This function compares the current ('have') and desired ('want') wireless controller settings for a specific device.
+            It checks two fields: 'enable' (bool) and 'rolling_ap_upgrade' (dict).
+            - If both 'enable' values are False, no update is required.
+            - If there is any mismatch in 'enable' or 'rolling_ap_upgrade', an update is required.
+            The function returns a boolean flag and the desired wireless controller settings to be applied.
+        """
+
+        self.log(f"Starting wireless controller settings comparison for device: {device_ip}", "INFO")
+
+        requires_update = False
+        want_enable = want_wireless_controller_details.get("enable")
+        want_rolling_ap_upgrade = want_wireless_controller_details.get("rolling_ap_upgrade")
+        wireless_controller_settings = {
+            "enable": want_enable,
+            "rolling_ap_upgrade": want_rolling_ap_upgrade
+        }
+
+        if have_wireless_controller_details is None:
+            self.log(
+                f"Have wireless controller settings are not present for device: {device_ip}\n"
+                f"Wireless controller settings requires update : {requires_update} for device {device_ip}.\n"
+                f"Updated wireless controller settings: {wireless_controller_settings}",
+                "INFO"
+            )
+            requires_update = True
+            return requires_update, wireless_controller_settings
+
+        have_enable = have_wireless_controller_details.get("enable")
+
+        if have_enable is False and want_enable is False:
+            self.log(f"'enable' is False for both have and want on device {device_ip}. No update required.", "DEBUG")
+            return requires_update, wireless_controller_settings
+        if have_enable != want_enable:
+            self.log(f"'enable' mismatch for device {device_ip} → have: {have_enable}, want: {want_enable}", "DEBUG")
+            requires_update = True
+
+        have_rolling_ap_upgrade = have_wireless_controller_details.get("rolling_ap_upgrade")
+
+        if not self.are_dicts_equal(have_rolling_ap_upgrade, want_rolling_ap_upgrade):
+            self.log(f"'rolling_ap_upgrade' mismatch for device {device_ip}:\n  have: {have_rolling_ap_upgrade}\n  want: {want_rolling_ap_upgrade}", "DEBUG")
+            requires_update = True
+        else:
+            self.log(f"'rolling_ap_upgrade' matches for device {device_ip}.", "DEBUG")
+
+        self.log(
+            f"Wireless controller settings requires update : {requires_update} for device {device_ip}."
+            f"Updated wireless controller settings: {wireless_controller_settings}",
+            "INFO"
+        )
+        return requires_update, wireless_controller_settings
+
+    def update_wireless_controller_settings(self, fabric_devices):
+        """
+        Update wireless controller settings and managed AP locations for each device in the fabric.
+
+        Args:
+            fabric_devices (dict): Dictionary containing fabric details including 'fabric_name' and
+                                a list of 'device_config' with device-specific configurations.
+
+        Returns:
+            self: Returns the instance to allow method chaining.
+
+        Description:
+            Iterates through each device in the fabric, compares current ('have') and desired ('want')
+            wireless controller settings and managed AP locations, and updates them if required.
+            It logs each significant step and condition, and handles device reloads when disabling
+            wireless controller settings if configured to do so.
+        """
+
+        fabric_name = fabric_devices.get("fabric_name")
+        self.log(
+            f"Starting to update wireless controller settings for fabric: {fabric_name}", "DEBUG"
+        )
+
+        device_config = fabric_devices.get("device_config")
+
+        for device_config_index, item in enumerate(device_config):
+            fabric_site_id = self.have.get("fabric_devices")[device_config_index].get("fabric_site_id")
+            if self.have.get("fabric_devices")[device_config_index].get("device_details"):
+                device_roles = self.have.get("fabric_devices")[device_config_index].get("device_details").get("deviceRoles")
+            else:
+                device_roles = item.get("device_roles")
+
+            self.validate_device_roles_for_wireless_settings(device_roles).check_return_status()
+            device_ip = item.get("device_ip")
+
+            self.log(
+                f"Starting update for device index {device_config_index} with IP Address: {device_ip}",
+                "DEBUG"
+            )
+
+            network_device_id = self.have.get("fabric_devices")[device_config_index].get("network_device_id")
+            have_wireless_controller_details = self.have.get("fabric_devices")[device_config_index].get("wireless_controller_settings")
+            want_wireless_controller_details = self.want.get("fabric_devices")[device_config_index].get("wireless_controller_settings")
+
+            self.log(f"Current wireless controller details: {self.pprint(have_wireless_controller_details)}", "DEBUG")
+            self.log(f"Desired wireless controller details: {self.pprint(want_wireless_controller_details)}", "DEBUG")
+
+            # Check if managed AP locations require update
+            requires_update, updated_scope_details = self.check_managed_ap_locations_requires_update(
+                have_wireless_controller_details,
+                want_wireless_controller_details,
+                device_ip
+            )
+            self.log(f"Managed AP locations require update: {requires_update}", "DEBUG")
+            if requires_update:
+                self.log(f"Updated scope details: {self.pprint(updated_scope_details)}", "DEBUG")
+                self.update_managed_ap_locations_for_network_device(updated_scope_details, device_ip, network_device_id)
+            else:
+                self.log(f"No update required for managed AP locations on device {device_ip}", "DEBUG")
+
+            # Check if wireless controller settings require update
+            requires_update, updated_wireless_settings = self.check_wireless_controller_settings_requires_update(
+                have_wireless_controller_details,
+                want_wireless_controller_details,
+                device_ip
+            )
+            self.log(f"Wireless controller settings require update: {requires_update}", "DEBUG")
+
+            if requires_update:
+                self.log(f"Updated wireless settings for device '{device_ip}' to apply: {self.pprint(updated_wireless_settings)}", "DEBUG")
+                self.update_switch_wireless_setting_and_rolling_ap_upgrade_management(
+                    updated_wireless_settings,
+                    device_ip,
+                    network_device_id,
+                    fabric_name,
+                    fabric_site_id
+                )
+            else:
+                self.log(f"No update required for wireless controller settings on device {device_ip}", "DEBUG")
+
+            enable = updated_wireless_settings.get("enable")
+            if not enable:
+                self.log(f"'enable' is False for device {device_ip}, checking for reload on disable flag.", "DEBUG")
+                reload_on_disable = want_wireless_controller_details.get("reload")
+                if reload_on_disable:
+                    self.log(f"Reload required for device {device_ip} due to wireless controller disable.", "INFO")
+                    self.reload_switch_for_wireless_controller_cleanup(device_ip, network_device_id, fabric_name, fabric_site_id)
+                else:
+                    self.log(f"No reload required for device {device_ip} after wireless controller disable.", "DEBUG")
+
+        self.log(f"Completed updating wireless controller settings for fabric: {fabric_name}", "INFO")
+        return self
+
+    def update_switch_wireless_setting_and_rolling_ap_upgrade_management(self, wireless_settings, device_ip, network_device_id, fabric_name, fabric_site_id):
+        """
+        Update switch wireless settings and rolling AP upgrade management for a specific device.
+
+        Args:
+            wireless_settings (dict): Desired wireless settings including 'enable' (bool) and
+                                    'rolling_ap_upgrade' (dict with keys 'enable' and 'ap_reboot_percentage').
+            device_ip (str): IP address of the device to update.
+            network_device_id (str): Network device identifier.
+            fabric_name (str): Name of the fabric to which the device belongs.
+            fabric_site_id (str): Site ID of the fabric.
+
+        Returns:
+            self: Returns the instance to allow method chaining.
+
+        Description:
+            This method constructs and sends an update request to the Cisco Catalyst Center API
+            to modify the wireless settings and rolling AP upgrade configurations for the specified device.
+            It logs all major steps, checks for task ID retrieval success, and waits for task completion.
+        """
+
+        self.log(
+            f"Initiating update of switch wireless settings and rolling AP upgrade management for device '{device_ip}' under fabric '{fabric_name}'",
+            "INFO",
+        )
+        payload = {
+            "fabric_id": fabric_site_id,
+            "id": network_device_id
+        }
+
+        enable = wireless_settings.get("enable")
+        payload.update({
+            "enableWireless": enable,
+        })
+        if enable:
+            rolling_ap_upgrade = wireless_settings.get("rolling_ap_upgrade")
+            self.log(f"Applying rolling AP upgrade settings: {rolling_ap_upgrade}", "DEBUG")
+            payload.update({
+                "enableWireless": enable,
+                "rollingApUpgrade": {
+                    "enableRollingApUpgrade" : rolling_ap_upgrade.get("enable"),
+                    "apRebootPercentage" : rolling_ap_upgrade.get("ap_reboot_percentage"),
+                }
+            })
+        else:
+            self.log(f"Wireless settings is to be disabled for device '{device_ip}'. Skipping rolling AP upgrade settings.", "DEBUG")
+
+        task_name = "switch_wireless_setting_and_rolling_ap_upgrade_management_v1"
+        parameters = payload
+
+        task_id = self.get_taskid_post_api_call("fabric_wireless", task_name, parameters)
+        if not task_id:
+            self.msg = (
+                f"Unable to retrieve the task_id for the updating wireless settings for the device with IP address: '{device_ip}' under fabric: '{fabric_name}'"
+            )
+            self.fail_and_exit(self.msg)
+
+        success_msg = (
+            f"Wireless Controller Settings for the device with IP address: '{device_ip}' under "
+            f"fabric: '{fabric_name}' updated successfully in the Cisco Catalyst Center."
+        )
+        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        self.log(
+            f"Completed update of switch wireless settings and rolling AP upgrade management for device '{device_ip}' under fabric '{fabric_name}'",
+            "INFO",
+        )
+        return self
+
+    def reload_switch_for_wireless_controller_cleanup(self, device_ip, network_device_id, fabric_name, fabric_site_id):
+        """
+        Reload the switch device for wireless controller cleanup after disabling wireless controller capabilities.
+
+        Args:
+            device_ip (str): IP address of the device to reload.
+            network_device_id (str): Network device identifier.
+            fabric_name (str): Name of the fabric to which the device belongs.
+            fabric_site_id (str): Site ID of the fabric.
+
+        Returns:
+            self: Returns the instance to allow method chaining.
+
+        Description:
+            This method triggers a reload of the specified switch device by making a task API call
+            to the Cisco Catalyst Center. It logs key steps, ensures task ID retrieval,
+            waits for task completion, and handles failures gracefully.
+        """
+
+        self.log(
+            f"Initiating reload of the device with IP address: '{device_ip}' under fabric: '{fabric_name}' for "
+            "controller cleanup after disabline wireless controller capabilities.",
+            "INFO",
+        )
+        payload = {
+            "fabric_id": fabric_site_id,
+            "deviceId": network_device_id
+        }
+
+        task_name = "reload_switch_for_wireless_controller_cleanup_v1"
+        parameters = payload
+        task_id = self.get_taskid_post_api_call("fabric_wireless", task_name, parameters)
+
+        if not task_id:
+            self.msg = (
+                f"Unable to retrieve the task_id for the reloading the device with IP address: '{device_ip}' under fabric: '{fabric_name}'"
+            )
+            self.fail_and_exit(self.msg)
+
+        success_msg = (
+            f"Reload successful for the device with IP address: '{device_ip}' under fabric: '{fabric_name}' in the Cisco Catalyst Center"
+        )
+        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        self.log(
+            f"Completed API request for reload of the device '{device_ip}' under fabric '{fabric_name}'.",
+            "INFO",
+        )
         return self
 
     def update_fabric_devices(self, fabric_devices):
@@ -4141,7 +5515,7 @@ class FabricDevices(DnacBase):
             self.set_operation_result("failed", False, "Fabric name is required.", "ERROR")
             return self
 
-        self.log("Fabric name: '{fabric_name}".format(fabric_name=fabric_name))
+        self.log("Fabric name: '{fabric_name}'".format(fabric_name=fabric_name))
         fabric_device_index = -1
         device_config = fabric_devices.get("device_config")
         if not device_config:
@@ -4198,8 +5572,11 @@ class FabricDevices(DnacBase):
 
             # Check fabric device exists, if not add it
             if not have_device_details:
-                self.log("Desired fabric device '{ip}' details (want): {requested_state}"
-                         .format(ip=device_ip, requested_state=want_device_details), "DEBUG")
+                self.log(
+                    "Desired fabric device '{ip}' details (want): {requested_state}"
+                    .format(ip=device_ip, requested_state=want_device_details),
+                    "DEBUG"
+                )
                 try:
                     device_roles = want_device_details.get("deviceRoles")
                     self.log(
@@ -4334,9 +5711,13 @@ class FabricDevices(DnacBase):
                     "Operating the L2 Handoff details for the device '{device_ip}'."
                     .format(device_ip=device_ip)
                 )
-                self.update_l2_handoff(have_l2_handoff, want_l2_handoff, device_ip,
-                                       result_fabric_device_response,
-                                       result_fabric_device_msg)
+                self.update_l2_handoff(
+                    have_l2_handoff,
+                    want_l2_handoff,
+                    device_ip,
+                    result_fabric_device_response,
+                    result_fabric_device_msg
+                )
 
             have_sda_l3_handoff = have_fabric_device.get("sda_l3_handoff_details")
             self.log(
@@ -4353,9 +5734,13 @@ class FabricDevices(DnacBase):
                     "Operating the L3 Handoff with SDA Transit details for the device '{device_ip}'."
                     .format(device_ip=device_ip)
                 )
-                self.update_sda_l3_handoff(have_sda_l3_handoff, want_sda_l3_handoff, device_ip,
-                                           result_fabric_device_response,
-                                           result_fabric_device_msg)
+                self.update_sda_l3_handoff(
+                    have_sda_l3_handoff,
+                    want_sda_l3_handoff,
+                    device_ip,
+                    result_fabric_device_response,
+                    result_fabric_device_msg
+                )
 
             have_ip_l3_handoff = have_fabric_device.get("ip_l3_handoff_details")
             self.log(
@@ -4372,9 +5757,13 @@ class FabricDevices(DnacBase):
                     "Operating the L3 Handoff with IP Transit details for the device '{device_ip}'."
                     .format(device_ip=device_ip)
                 )
-                self.update_ip_l3_handoff(have_ip_l3_handoff, want_ip_l3_handoff, device_ip,
-                                          result_fabric_device_response,
-                                          result_fabric_device_msg)
+                self.update_ip_l3_handoff(
+                    have_ip_l3_handoff,
+                    want_ip_l3_handoff,
+                    device_ip,
+                    result_fabric_device_response,
+                    result_fabric_device_msg
+                )
 
         self.result.update({
             "response": self.response
@@ -4403,6 +5792,7 @@ class FabricDevices(DnacBase):
             self.log("Updating fabric devices: {devices}".format(devices=fabric_devices), "DEBUG")
             try:
                 self.update_fabric_devices(fabric_devices).check_return_status()
+                self.update_wireless_controller_settings(fabric_devices).check_return_status()
                 self.log("Successfully updated fabric devices.", "INFO")
             except Exception as e:
                 self.log("Error while updating fabric devices: {error}".format(error=str(e)), "ERROR")
@@ -4476,9 +5866,13 @@ class FabricDevices(DnacBase):
 
         return updated_device_config
 
-    def delete_l2_handoff(self, have_l2_handoff, device_ip,
-                          result_fabric_device_response,
-                          result_fabric_device_msg):
+    def delete_l2_handoff(
+            self,
+            have_l2_handoff,
+            device_ip,
+            result_fabric_device_response,
+            result_fabric_device_msg
+    ):
         """
         Delete L2 Handoffs in Cisco Catalyst Center with fields provided in playbook.
 
@@ -4527,7 +5921,7 @@ class FabricDevices(DnacBase):
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = (
-                        "Unable to retrive the task_id for the task '{task_name}'."
+                        "Unable to retrieve the task_id for the task '{task_name}'."
                         .format(task_name=task_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -4566,9 +5960,13 @@ class FabricDevices(DnacBase):
         self.status = "success"
         return self
 
-    def delete_sda_l3_handoff(self, have_sda_l3_handoff, device_ip,
-                              result_fabric_device_response,
-                              result_fabric_device_msg):
+    def delete_sda_l3_handoff(
+            self,
+            have_sda_l3_handoff,
+            device_ip,
+            result_fabric_device_response,
+            result_fabric_device_msg
+    ):
         """
         Delete L3 Handoff with SDA Transit in Cisco Catalyst Center with fields provided in playbook.
 
@@ -4594,7 +5992,7 @@ class FabricDevices(DnacBase):
                 "No SDA L3 Handoff found for device IP '{device_ip}'."
                 .format(device_ip=device_ip), "DEBUG"
             )
-            self.log("The SDA L3 Handoff doesnot exist under the device {device_ip}.".format(device_ip=device_ip))
+            self.log("The SDA L3 Handoff does not exist under the device {device_ip}.".format(device_ip=device_ip))
             result_fabric_device_msg.update({
                 "sda_l3_handoff_details": "SDA L3 Handoff is not found in the Cisco Catalyst Center."
             })
@@ -4615,7 +6013,7 @@ class FabricDevices(DnacBase):
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = (
-                        "Unable to retrive the task_id for the task '{task_name}'."
+                        "Unable to retrieve the task_id for the task '{task_name}'."
                         .format(task_name=task_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -4647,9 +6045,13 @@ class FabricDevices(DnacBase):
         self.status = "success"
         return self
 
-    def delete_ip_l3_handoff(self, have_ip_l3_handoff, device_ip,
-                             result_fabric_device_response,
-                             result_fabric_device_msg):
+    def delete_ip_l3_handoff(
+        self,
+        have_ip_l3_handoff,
+        device_ip,
+        result_fabric_device_response,
+        result_fabric_device_msg
+    ):
         """
         Delete L3 Handoff with IP Transit in Cisco Catalyst Center with fields provided in playbook.
 
@@ -4676,7 +6078,7 @@ class FabricDevices(DnacBase):
         delete_ip_l3_handoff = []
         non_existing_ip_l3_handoff = []
 
-        # Check which IP L3 Handoff exists and which doesnot
+        # Check which IP L3 Handoff exists and which does not
         for item in have_ip_l3_handoff:
             if not item:
                 non_existing_ip_l3_handoff.append(item)
@@ -4697,7 +6099,7 @@ class FabricDevices(DnacBase):
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = (
-                        "Unable to retrive the task_id for the task '{task_name}'."
+                        "Unable to retrieve the task_id for the task '{task_name}'."
                         .format(task_name=task_name)
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -4792,34 +6194,42 @@ class FabricDevices(DnacBase):
             have_l2_handoff = have_fabric_device.get("l2_handoff_details")
             if have_l2_handoff:
                 self.log("Deleting L2 Handoff for device '{device_ip}'".format(device_ip=device_ip), "DEBUG")
-                self.delete_l2_handoff(have_l2_handoff, device_ip,
-                                       result_fabric_device_response,
-                                       result_fabric_device_msg).check_return_status()
+                self.delete_l2_handoff(
+                    have_l2_handoff,
+                    device_ip,
+                    result_fabric_device_response,
+                    result_fabric_device_msg
+                ).check_return_status()
             else:
                 result_fabric_device_msg.update({
-                    "l3_ip_handoff": "IP L3 Handoff doesnot found in the Cisco Catalyst Center."
+                    "l3_ip_handoff": "IP L3 Handoff does not found in the Cisco Catalyst Center."
                 })
             have_sda_l3_handoff = have_fabric_device.get("sda_l3_handoff_details")
             if have_sda_l3_handoff:
                 self.log("Deleting SDA L3 Handoff for device '{device_ip}'".format(device_ip=device_ip), "DEBUG")
-                self.delete_sda_l3_handoff(have_sda_l3_handoff, device_ip,
-                                           result_fabric_device_response,
-                                           result_fabric_device_msg).check_return_status()
+                self.delete_sda_l3_handoff(
+                    have_sda_l3_handoff,
+                    device_ip,
+                    result_fabric_device_response,
+                    result_fabric_device_msg
+                ).check_return_status()
             else:
                 result_fabric_device_msg.update({
-                    "l3_sda_handoff": "SDA L3 Handoff doesnot found in the Cisco Catalyst Center."
+                    "l3_sda_handoff": "SDA L3 Handoff does not found in the Cisco Catalyst Center."
                 })
 
             have_ip_l3_handoff = have_fabric_device.get("ip_l3_handoff_details")
 
             if have_ip_l3_handoff:
                 self.log("Deleting IP L3 Handoff for device '{device_ip}'".format(device_ip=device_ip), "DEBUG")
-                self.delete_ip_l3_handoff(have_ip_l3_handoff, device_ip,
-                                          result_fabric_device_response,
-                                          result_fabric_device_msg).check_return_status()
+                self.delete_ip_l3_handoff(
+                    have_ip_l3_handoff,
+                    device_ip,
+                    result_fabric_device_response,
+                    result_fabric_device_msg).check_return_status()
             else:
                 result_fabric_device_msg.update({
-                    "l2_handoff": "L2 Handoff doesnot found in the Cisco Catalyst Center."
+                    "l2_handoff": "L2 Handoff does not found in the Cisco Catalyst Center."
                 })
 
             device_exists = have_fabric_device.get("exists")
@@ -4856,7 +6266,7 @@ class FabricDevices(DnacBase):
                         task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                         if not task_id:
                             self.msg = (
-                                "Unable to retrive the task_id for the task '{task_name}'."
+                                "Unable to retrieve the task_id for the task '{task_name}'."
                                 .format(task_name=task_name)
                             )
                             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -5015,7 +6425,7 @@ class FabricDevices(DnacBase):
 
         if self.requires_update(have_device_details, want_device_details, self.fabric_devices_obj_params):
             self.msg = (
-                "The border setting for SDA devce with IP '{ip}' is still not "
+                "The border setting for SDA device with IP '{ip}' is still not "
                 "applied to the Cisco Catalyst Center.".format(ip=device_ip)
             )
             self.status = "failed"
@@ -5023,6 +6433,105 @@ class FabricDevices(DnacBase):
 
         self.msg = "Successfully validated SDA fabric device details."
         self.status = "success"
+        return self
+
+    def verify_enable_wireless_controller_settings(self, have_wireless_controller_settings, want_wireless_controller_settings, fabric_name, device_ip):
+        """
+        Verify that the wireless controller settings and managed AP locations are correctly updated for a device.
+
+        Args:
+            have_wireless_controller_settings (dict): Current wireless controller settings of the device.
+            want_wireless_controller_settings (dict): Desired wireless controller settings to verify against.
+            fabric_name (str): Name of the fabric to which the device belongs.
+            device_ip (str): IP address of the device.
+
+        Returns:
+            self: Returns the instance to allow method chaining.
+
+        Description:
+            This method checks if the managed AP locations and wireless controller settings match the desired state.
+            If any setting is not updated as expected, it logs an error message and stops execution.
+            On success, it logs and confirms the verification.
+        """
+        self.log(
+            f"Starting verification of wireless controller settings and managed AP locations for device with IP '{device_ip}' under fabric '{fabric_name}'.",
+            "INFO"
+        )
+        requires_update, updated_scope_details = self.check_managed_ap_locations_requires_update(
+            have_wireless_controller_settings,
+            want_wireless_controller_settings,
+            device_ip
+        )
+        if requires_update:
+            self.msg = (
+                f"Managed AP Locations are NOT updated for device with IP '{device_ip}' under fabric '{fabric_name}'. Verification failed."
+            )
+            self.fail_and_exit(self.msg)
+        else:
+            self.log(
+                f"Managed AP Locations are updated for device with IP '{device_ip}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+
+        want_rolling_ap_upgrade_enable = want_wireless_controller_settings.get("rolling_ap_upgrade").get("enable")
+        self.log(f"Checking if 'rolling_ap_upgrade' is enabled in the desired settings for device '{device_ip}'.", "INFO")
+
+        if want_rolling_ap_upgrade_enable:
+            self.log(f"'rolling_ap_upgrade' is enabled in the desired configuration for device '{device_ip}'. Checking if an update is required.", "INFO")
+            requires_update, updated_wireless_settings = self.check_wireless_controller_settings_requires_update(
+                have_wireless_controller_settings,
+                want_wireless_controller_settings,
+                device_ip
+            )
+            if requires_update:
+                self.msg = (
+                    f"Wireless Controller Settings are NOT updated for device with IP '{device_ip}' under fabric '{fabric_name}'. Verification failed."
+                )
+                self.fail_and_exit(self.msg)
+            else:
+                self.log(
+                    f"Wireless Controller Settings are updated for the device with IP address '{device_ip}' under fabric: '{fabric_name}.'",
+                    "INFO"
+                )
+        else:
+            self.log(f"'rolling_ap_upgrade' is disabled in the desired configuration for device '{device_ip}'. Checking if an update is required.", "INFO")
+            if have_wireless_controller_settings:
+                self.log(f"Current wireless controller settings found for device '{device_ip}'. Verifying 'rolling_ap_upgrade' status.", "INFO")
+                have_rolling_ap_upgrade_enable = have_wireless_controller_settings.get("rolling_ap_upgrade").get("enable")
+                if have_rolling_ap_upgrade_enable != want_rolling_ap_upgrade_enable:
+                    self.msg = (
+                        f"Mismatch in 'rolling_ap_upgrade' configuration for device '{device_ip}' under fabric '{fabric_name}'. "
+                        f"Expected 'disabled', but found 'enabled'. Verification failed."
+                    )
+                    self.fail_and_exit(self.msg)
+                else:
+                    self.log(f"'rolling_ap_upgrade' is correctly disabled on device '{device_ip}'. No update needed.", "INFO")
+            else:
+                self.msg = (
+                    f"Failed to retrieve current wireless controller settings for device '{device_ip}'. "
+                    f"Verification failed."
+                )
+                self.fail_and_exit(self.msg)
+
+        self.msg = (
+            f"All Wireless Controller Settings are updated successfully for the device with IP address '{device_ip}' under fabric: '{fabric_name}.'"
+            "Verification Successful"
+        )
+        return self
+
+    def verify_disable_wireless_controller_settings(self, have_wireless_controller_settings, fabric_name, device_ip):
+        have_enable = have_wireless_controller_settings.get("enable")
+        if have_enable:
+            self.msg = (
+                f"Wireless controller settings is not disabled for the device with IP address: '{device_ip}' under fabric: '{fabric_name}'"
+                "Verification Failed"
+            )
+            self.fail_and_exit(self.msg)
+
+        self.msg = (
+            f"Wireless controller settings is disabled for the device with IP address: '{device_ip}' under fabric: '{fabric_name}'"
+            "Verification Successful"
+        )
         return self
 
     def verify_diff_merged(self, config):
@@ -5054,6 +6563,19 @@ class FabricDevices(DnacBase):
                 device_ip = item.get("device_ip")
                 have_details = self.have.get("fabric_devices")[fabric_device_index]
                 want_details = self.want.get("fabric_devices")[fabric_device_index]
+                if item.get("wireless_controller_settings"):
+                    have_wireless_controller_settings = have_details.get("wireless_controller_settings", None)
+                    want_wireless_controller_settings = want_details.get("wireless_controller_settings")
+                    enable = want_wireless_controller_settings.get("enable")
+                    if enable:
+                        self.verify_enable_wireless_controller_settings(
+                            have_wireless_controller_settings,
+                            want_wireless_controller_settings,
+                            fabric_name,
+                            device_ip
+                        ).check_return_status()
+                    else:
+                        self.verify_disable_wireless_controller_settings(have_wireless_controller_settings, fabric_name, device_ip).check_return_status()
 
                 # Verifying whether the IP L3 Handoff is applied to the Cisco Catalyst Center or not
                 if item.get("layer3_handoff_ip_transit"):
@@ -5214,7 +6736,7 @@ class FabricDevices(DnacBase):
 
     def reset_values(self):
         """
-        Reset all neccessary attributes to default values
+        Reset all necessary attributes to default values
 
         Parameters:
             self (object): The current object details.
