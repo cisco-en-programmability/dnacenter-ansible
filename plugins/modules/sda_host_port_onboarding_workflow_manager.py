@@ -872,7 +872,7 @@ class SDAHostPortOnboarding(DnacBase):
             "Device '{0}' does not have an acceptable collection status. "
             "Current collection status: '{1}'.".format(device_identifier, collection_status)
         )
-        return False   
+        return False
 
     def validate_ip_and_hostname(self, ip_address, hostname, device_collection_status_check):
         """
