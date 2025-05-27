@@ -836,6 +836,13 @@ class Site(DnacBase):
             to the specified precision and checking if the rounded values are equal. It returns
             True if the rounded values are equal within the specified precision, and False otherwise.
         """
+        # Check if both the requested and existing values are None or falsy
+        if not ele1 and not ele2:
+            return True
+
+        # Check if only one of the values is None or falsy
+        if bool(ele1) != bool(ele2):
+            return False
 
         return round(float(ele1), precision) == round(float(ele2), precision)
 
@@ -878,10 +885,10 @@ class Site(DnacBase):
             updated_site['name'] == requested_site['name'] and
             updated_site['parentName'] == requested_site['parentName'] and
             ('latitude' in requested_site and (requested_site['latitude'] is None or
-                                               self.compare_float_values(updated_site['latitude'],
+                                               self.compare_float_values(updated_site.get('latitude'),
                                                                          requested_site.get('latitude')))) and
             ('longitude' in requested_site and (requested_site['longitude'] is None or self.compare_float_values(
-                updated_site['longitude'], requested_site.get('longitude')))) and
+                updated_site.get('longitude'), requested_site.get('longitude')))) and
             ('address' in requested_site and (requested_site['address'] is None or updated_site.get(
                 'address') == requested_site.get('address')))
         )
@@ -911,7 +918,7 @@ class Site(DnacBase):
             self.log("RF model mismatch: updated '{}', requested '{}'".format(updated_rf_model, requested_site.get('rfModel')), "DEBUG")
             return False
 
-        if requested_site.get('floorNumber'):
+        if str(requested_site.get('floorNumber')):
             if int(requested_site.get('floorNumber')) != int(updated_site.get('floorNumber')):
                 self.log(
                     "Floor number mismatch: updated '{}', requested '{}'".format(updated_site.get('floorNumber'), requested_site.get('floorNumber')), "DEBUG")
@@ -956,8 +963,8 @@ class Site(DnacBase):
             updated_site = current_site
             requested_site = config.get('site_params', {}).get('site', {}).get(site_type)
 
-        self.log("Updated Site details: {}".format(updated_site), "INFO")
-        self.log("Requested Site details: {}".format(requested_site), "INFO")
+        self.log("Updated Site details: {0}".format(self.pprint(updated_site)), "INFO")
+        self.log("Requested Site details: {0}".format(self.pprint(requested_site)), "INFO")
 
         if site_type == "building":
             needs_update = not self.is_building_updated(updated_site, requested_site)
