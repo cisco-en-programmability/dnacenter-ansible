@@ -2348,7 +2348,10 @@ such as traffic prioritization and resource allocation.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-config/queuing_profile"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-queuing-profile"><strong>queuing_profile</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/queuing_profile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines queuing profile settings for applications.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines queuing profile settings for application traffic shaping and bandwidth allocation.</p>
+<p>Each profile specifies whether bandwidth allocation is uniform across all interface speeds or customized per speed.</p>
+<p>Changing the value of 'is_common_between_all_interface_speeds' (from 'true' to 'false' or vice versa) is not supported during updates.</p>
+<p>To switch between common and per-speed bandwidth settings, create a new queuing profile instead of updating the existing one.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">

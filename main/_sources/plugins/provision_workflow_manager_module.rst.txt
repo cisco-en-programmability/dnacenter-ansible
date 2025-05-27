@@ -144,6 +144,206 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_telemetry"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/application_telemetry:
+
+      .. rst-class:: ansible-option-title
+
+      **application_telemetry**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_telemetry" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - A list of settings for enabling or disabling application telemetry on a group of network devices.
+          - Supported in Cisco Catalyst version 2.3.7.9 and later.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_telemetry/device_ips"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/application_telemetry/device_ips:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ips**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_telemetry/device_ips" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of IP addresses representing the network devices on which application telemetry should be enabled or disabled.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_telemetry/include_guest_ssid"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/application_telemetry/include_guest_ssid:
+
+      .. rst-class:: ansible-option-title
+
+      **include_guest_ssid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_telemetry/include_guest_ssid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A flag that indicates whether to include guest SSID information when enabling telemetry for wireless devices.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_telemetry/telemetry"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/application_telemetry/telemetry:
+
+      .. rst-class:: ansible-option-title
+
+      **telemetry**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_telemetry/telemetry" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Specifies whether to enable or disable application telemetry on the devices.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"enable"`
+      - :ansible-option-choices-entry:`"disable"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/application_telemetry/wlan_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/application_telemetry/wlan_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **wlan_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/application_telemetry/wlan_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - Defines the WLAN mode for the device.
+          - Applicable when enabling telemetry on wireless devices
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"LOCAL"`
+      - :ansible-option-choices-entry:`"NON\_LOCAL"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/dynamic_interfaces"></div>
 
       .. _ansible_collections.cisco.dnac.provision_workflow_manager_module__parameter-config/dynamic_interfaces:
@@ -1504,8 +1704,8 @@ Notes
 -----
 
 .. note::
-   - SDK Methods used are sites.Sites.get\_site, devices.Devices.get\_network\_device\_by\_ip, task.Task.get\_task\_by\_id, sda.Sda.get\_provisioned\_wired\_device, sda.Sda.re\_provision\_wired\_device, sda.Sda.provision\_wired\_device, wireless.Wireless.provision
-   - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress} get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/business/sda/provision-device put /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/wireless/provision
+   - SDK Methods used are sites.Sites.get\_site, devices.Devices.get\_network\_device\_by\_ip, task.Task.get\_task\_by\_id, sda.Sda.get\_provisioned\_wired\_device, sda.Sda.re\_provision\_wired\_device, sda.Sda.provision\_wired\_device, wireless.Wireless.provision devices.Device.delete\_network\_device\_with\_configuration\_cleanup, devices.Device.delete\_a\_network\_device\_without\_configuration\_cleanup, application\_policy.ApplicationPolicy.enable\_application\_telemetry\_feature\_on\_multiple\_network\_devices\_v1, application\_policy.ApplicationPolicy.disable\_application\_telemetry\_feature\_on\_multiple\_network\_devices\_v1
+   - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress} get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/business/sda/provision-device put /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/wireless/provision delete /dna/intent/api/v1/networkDevices/deleteWithCleanup delete /dna/intent/api/v1/networkDevices/deleteWithoutCleanup post /dna/intent/api/v1/applicationVisibility/networkDevices/enableAppTelemetry post /dna/intent/api/v1/applicationVisibility/networkDevices/disableAppTelemetry
    - Added 'provisioning' option in v6.16.0
    - Added provisioning and reprovisioning of wireless devices in v6.16.0
    - Does not support \ :literal:`check\_mode`\ 
@@ -1544,6 +1744,7 @@ Examples
                 interface_name: Vlan1866
                 interface_ip_address: 204.192.6.200
                 interface_gateway: 204.192.6.1
+
     - name: Provision a wireless device to a site for version - 2.3.7.6
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1571,6 +1772,7 @@ Examples
             rolling_ap_upgrade:
               enable_rolling_ap_upgrade: false
               ap_reboot_percentage: 5
+
     - name: Provision a wired device to a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1585,6 +1787,7 @@ Examples
         config:
           - site_name_hierarchy: Global/USA/San Francisco/BGL_18
             management_ip_address: 204.192.3.40
+
     - name: Re-Provision a wired device to a site forcefully
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1600,6 +1803,7 @@ Examples
           - site_name_hierarchy: Global/USA/San Francisco/BGL_18
             management_ip_address: 204.192.3.40
             force_provisioning: true
+
     - name: Assign a wired device to a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1615,6 +1819,7 @@ Examples
           - site_name_hierarchy: Global/USA/San Francisco/BGL_18
             management_ip_address: 204.192.3.40
             provisioning: false
+
     - name: Provision a wireless device to a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1632,6 +1837,7 @@ Examples
             management_ip_address: 204.192.12.201
             managed_ap_locations:
               - Global/USA/RTP/BLD11/BLD11_FLOOR1
+
     - name: Unprovision a device from a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1646,6 +1852,78 @@ Examples
         config_verify: true
         config:
           - management_ip_address: 204.1.2.2
+
+    - name: Unprovision a device from a site
+      cisco.dnac.provision_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        state: deleted
+        config_verify: true
+        config:
+          - management_ip_address: 204.1.2.2
+            clean_config: true
+
+    - name: Configure application telemetry for network devices on Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Enable application telemetry on specified network devices
+          cisco.dnac.provision_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - application_telemetry:
+                  - device_ips: ["204.1.1.2", "204.192.6.200"]
+                    telemetry: enable
+                    wlan_mode: LOCAL
+                    include_guest_ssid: true
+
+    - name: Configure application telemetry for network devices on Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Disable application telemetry on specified network devices
+          cisco.dnac.provision_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: false
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: merged
+            config:
+              - application_telemetry:
+                  - device_ips: ["204.1.1.2", "204.192.6.200"]
+                    telemetry: disable
 
 
 
