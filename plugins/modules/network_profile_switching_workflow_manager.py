@@ -120,8 +120,6 @@ EXAMPLES = r"""
         state: merged
         config:
           - profile_name: "Campus_Switching_Profile"
-            onboarding_templates:
-              - "Campus_Access_Switch_Onboarding"
             day_n_templates:
               - "Campus_Switch_Config_Update"
             site_names:
@@ -145,9 +143,6 @@ EXAMPLES = r"""
         state: merged
         config:
           - profile_name: "Enterprise_Switching_Profile"
-            onboarding_templates:
-              - "Access_Switch_Onboarding"
-              - "Enterprise_Security_Template"
             day_n_templates:
               - "Periodic_Config_Audit"
             site_names:
@@ -353,8 +348,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             onboarding_template_name = each_profile.get("onboarding_templates")
             day_n_template_name = each_profile.get("day_n_templates")
             if onboarding_template_name:
-                errormsg.append("onboarding_templates: Onboarding templates are currently unavailable "
-                                "due to SDK/API constraints. Please use the PNP onboarding template instead.")
+                errormsg.append("onboarding_templates: Onboarding templates are currently unavailable due to SDK/API upgrade. "
+                                "This feature will be available in an upcoming release")
                 for template in onboarding_template_name:
                     param_spec = dict(type="str", length_max=200)
                     validate_str(template, param_spec, "onboarding_templates", errormsg)
@@ -365,7 +360,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                             duplicate_template))
                         break
 
-                    if template in day_n_template_name:
+                    if day_n_template_name and template in day_n_template_name:
                         errormsg.append("Onboarding_templates: Duplicate template " +
                                         "'{0}' found in day_n_templates".format(template))
                         break
