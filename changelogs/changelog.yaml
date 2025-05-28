@@ -1624,7 +1624,7 @@ releases:
         - modify problems in requests to the API
 
   6.34.0:
-    release_date: "2025-05-17"
+    release_date: "2025-05-28"
     changes:
       release_summary: Added compatibility with Cisco version 3.1.3.0
       minor_changes:
@@ -1848,6 +1848,7 @@ releases:
         - product_series_product_series_ordinal_info    - new module
         - product_series_product_series_ordinal_v1_info    - new module
         - product_series_v1_info    - new module
+        - sda_fabric_multicast_workflow_manager - new module
         - security_service_insertion_fabric_sites_readiness_id_info    - new module
         - security_service_insertion_fabric_sites_readiness_id_v1_info    - new module
         - security_service_insertion_fabric_sites_readiness_info    - new module
