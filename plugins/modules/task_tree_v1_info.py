@@ -65,9 +65,7 @@ dnac_response:
           "instanceTenantId": "string",
           "isError": true,
           "lastUpdate": 0,
-          "operationIdList": [
-            "string"
-          ],
+          "operationIdList": {},
           "parentId": "string",
           "progress": "string",
           "rootId": "string",

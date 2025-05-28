@@ -28,7 +28,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Devices StopWirelessRogueAPContainmentV1
     description: Complete reference of the StopWirelessRogueAPContainmentV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!stop-wireless-rogue-ap-containment
+    link:
+      https://developer.cisco.com/docs/dna-center/#!stop-wireless-rogue-ap-containment
 notes:
   - SDK Method used are devices.Devices.stop_wireless_rogue_ap_containment_v1,
   - Paths used are post /dna/intent/api/v1/security/rogue/wireless-containment/stop,

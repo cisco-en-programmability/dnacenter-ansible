@@ -16,6 +16,9 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  ignoreHours:
+    description: Ignore Hours.
+    type: int
   issueIds:
     description: Issue Ids.
     elements: str
@@ -26,7 +29,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Issues IgnoreTheGivenListOfIssuesV1
     description: Complete reference of the IgnoreTheGivenListOfIssuesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!ignore-the-given-list-of-issues
+    link:
+      https://developer.cisco.com/docs/dna-center/#!ignore-the-given-list-of-issues
 notes:
   - SDK Method used are issues.Issues.ignore_the_given_list_of_issues_v1,
   - Paths used are post /dna/intent/api/v1/assuranceIssues/ignore,
@@ -43,6 +47,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: '{{my_headers | from_json}}'
+    ignoreHours: 0
     issueIds:
       - string
 """

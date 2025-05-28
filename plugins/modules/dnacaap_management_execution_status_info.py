@@ -26,7 +26,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Task GetBusinessAPIExecutionDetailsV1
     description: Complete reference of the GetBusinessAPIExecutionDetailsV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-business-api-execution-details
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-business-api-execution-details
 notes:
   - SDK Method used are task.Task.get_business_api_execution_details_v1,
   - Paths used are get /dna/intent/api/v1/dnacaap/management/execution-status/{executionId},

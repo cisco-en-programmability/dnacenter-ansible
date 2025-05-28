@@ -113,8 +113,20 @@ dnac_response:
           "discoveryLevel": 0,
           "discoveryTimeout": 0,
           "discoveryDevices": [
-            {}
-          ]
+            {
+              "deviceSerialNumber": "string",
+              "deviceHostName": "string",
+              "deviceManagementIPAddress": "string",
+              "deviceSiteId": "string",
+              "deviceSiteNameHierarchy": "string",
+              "isDeviceDiscovered": true,
+              "isIPAllocated": true,
+              "isIPAssigned": true,
+              "pnpDeviceId": "string"
+            }
+          ],
+          "hostNamePrefix": "string",
+          "hostNameFileId": "string"
         }
       ],
       "version": "string"

@@ -110,7 +110,10 @@ options:
       antennaGain:
         description: Configure the antenna gain on the specified radio for an access
           point by setting a decimal value (in dBi). To configure "antennaGain", set
-          "antennaPatternName" value to "other".
+          "antennaPatternName" value to "other". The External Antenna Gain value will
+          be applied in 0.5 dBi increments on the controller. Therefore, the value
+          entered will be multiplied by 2 to configure the absolute gain value. AntennaGain
+          should be in range of 0-20.
         type: int
       antennaPatternName:
         description: Specify the antenna name on the specified radio for an access
@@ -181,8 +184,8 @@ options:
         type: int
       radioBand:
         description: Configure the band on the specified radio for an access point
-          for 2.4 GHz, set "RADIO24"; for 5 GHz, set "RADIO5". Any other string is
-          invalid, including empty string.
+          for 2.4 GHz, set "RADIO24"; for 5 GHz, set "RADIO5"; for 6 GHz, set "RADIO6".
+          Any other string is invalid, including empty string.
         type: str
       radioRoleAssignment:
         description: Configure only one of the following roles on the specified radio

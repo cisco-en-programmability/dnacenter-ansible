@@ -26,6 +26,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     issueIds=dict(type="list"),
+    ignoreHours=dict(type="int"),
     headers=dict(type="dict"),
 ))
 
@@ -65,6 +66,7 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             issueIds=params.get("issueIds"),
+            ignoreHours=params.get("ignoreHours"),
             headers=params.get("headers"),
         )
         return new_object

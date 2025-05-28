@@ -82,6 +82,7 @@ dnac_response:
         {
           "id": "string",
           "name": "string",
+          "siteId": "string",
           "type": "string",
           "ipTransitSettings": {
             "routingProtocolName": "string",

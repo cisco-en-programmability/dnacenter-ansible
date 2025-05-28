@@ -60,7 +60,10 @@ dnac_response:
         "longitude": 0,
         "address": "string",
         "country": "string",
-        "type": "string"
+        "type": "string",
+        "id": "string",
+        "nameHierarchy": "string",
+        "siteHierarchyId": "string"
       }
     }
 """

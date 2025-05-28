@@ -53,10 +53,12 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Network Settings DeleteAGlobalIPAddressPoolV1
     description: Complete reference of the DeleteAGlobalIPAddressPoolV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-a-global-ip-address-pool
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-a-global-ip-address-pool
   - name: Cisco DNA Center documentation for Network Settings UpdatesAGlobalIPAddressPoolV1
     description: Complete reference of the UpdatesAGlobalIPAddressPoolV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!updates-a-global-ip-address-pool
+    link:
+      https://developer.cisco.com/docs/dna-center/#!updates-a-global-ip-address-pool
 notes:
   - SDK Method used are network_settings.NetworkSettings.delete_a_global_ip_address_pool_v1,
     network_settings.NetworkSettings.updates_a_global_ip_address_pool_v1,

@@ -110,7 +110,8 @@ seealso:
       https://developer.cisco.com/docs/dna-center/#!delete-multicast-virtual-network-by-id
   - name: Cisco DNA Center documentation for SDA UpdateMulticastVirtualNetworksV1
     description: Complete reference of the UpdateMulticastVirtualNetworksV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-multicast-virtual-networks
+    link:
+      https://developer.cisco.com/docs/dna-center/#!update-multicast-virtual-networks
 notes:
   - SDK Method used are sda.Sda.add_multicast_virtual_networks_v1, sda.Sda.delete_multicast_virtual_network_by_id_v1,
     sda.Sda.update_multicast_virtual_networks_v1,

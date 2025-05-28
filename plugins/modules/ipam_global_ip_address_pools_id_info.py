@@ -26,7 +26,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Network Settings RetrievesAGlobalIPAddressPoolV1
     description: Complete reference of the RetrievesAGlobalIPAddressPoolV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieves-a-global-ip-address-pool
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-a-global-ip-address-pool
 notes:
   - SDK Method used are network_settings.NetworkSettings.retrieves_a_global_ip_address_pool_v1,
   - Paths used are get /dna/intent/api/v1/ipam/globalIpAddressPools/{id},

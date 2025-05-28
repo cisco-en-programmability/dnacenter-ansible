@@ -9,8 +9,15 @@ short_description: Resource module for Network Devices Delete Without Cleanup V1
 description:
   - Manage operation create of the resource Network Devices Delete Without Cleanup
     V1.
-  - This API endpoint facilitates the deletion of a network device without performing
-    configuration cleanup on the device.
+  - >
+    This API endpoint facilitates the deletion of a network device without performing
+    configuration cleanup on the
+    device. To delete a device via API, you must have permission to provision the
+    network device. Although the API
+    operation does not change the device configuration, removing a device without
+    cleaning up its configuration could
+    lead to a network behaviour that is not consistent with the configurations that
+    are known to the system.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module

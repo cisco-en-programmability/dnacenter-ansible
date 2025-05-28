@@ -30,7 +30,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!add-edge-device-in-sda-fabric
   - name: Cisco DNA Center documentation for SDA DeleteEdgeDeviceFromSDAFabricV1
     description: Complete reference of the DeleteEdgeDeviceFromSDAFabricV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-edge-device-from-sda-fabric
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-edge-device-from-sda-fabric
 notes:
   - SDK Method used are sda.Sda.add_edge_device, sda.Sda.delete_edge_device,
   - Paths used are post /dna/intent/api/v1/business/sda/edge-device, delete /dna/intent/api/v1/business/sda/edge-device,

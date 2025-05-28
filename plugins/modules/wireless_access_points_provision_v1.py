@@ -25,6 +25,9 @@ options:
     description: Wireless Access Points Provision's networkDevices.
     elements: dict
     suboptions:
+      beamState:
+        description: Beam State (Applicable only for CW9179F AP models).
+        type: str
       deviceId:
         description: Network device ID of access points.
         type: str
@@ -61,7 +64,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     apZoneName: string
     networkDevices:
-      - deviceId: string
+      - beamState: string
+        deviceId: string
         meshRole: string
     rfProfileName: string
     siteId: string

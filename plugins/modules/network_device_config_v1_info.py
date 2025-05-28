@@ -35,7 +35,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id
   - name: Cisco DNA Center documentation for Devices GetDeviceConfigForAllDevicesV1
     description: Complete reference of the GetDeviceConfigForAllDevicesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices
 notes:
   - SDK Method used are devices.Devices.get_device_config_by_id_v1, devices.Devices.get_device_config_for_all_devices_v1,
   - Paths used are get /dna/intent/api/v1/network-device/config, get /dna/intent/api/v1/network-device/{networkDeviceId}/config,

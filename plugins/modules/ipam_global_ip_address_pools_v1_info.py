@@ -27,7 +27,7 @@ options:
     type: float
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page;The minimum
+      - Limit query parameter. The number of records to show for this page; the minimum
         is 1, and the maximum is 500.
     type: float
   sortBy:
@@ -45,7 +45,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Network Settings RetrievesGlobalIPAddressPoolsV1
     description: Complete reference of the RetrievesGlobalIPAddressPoolsV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieves-global-ip-address-pools
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-global-ip-address-pools
 notes:
   - SDK Method used are network_settings.NetworkSettings.retrieves_global_ip_address_pools_v1,
   - Paths used are get /dna/intent/api/v1/ipam/globalIpAddressPools,

@@ -25,7 +25,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Device Replacement DeployDeviceReplacementWorkflowV1
     description: Complete reference of the DeployDeviceReplacementWorkflowV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!deploy-device-replacement-workflow
+    link:
+      https://developer.cisco.com/docs/dna-center/#!deploy-device-replacement-workflow
 notes:
   - SDK Method used are device_replacement.DeviceReplacement.deploy_device_replacement_workflow_v1,
   - Paths used are post /dna/intent/api/v1/device-replacement/workflow,

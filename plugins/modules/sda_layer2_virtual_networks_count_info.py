@@ -44,7 +44,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for SDA GetLayer2VirtualNetworkCountV1
     description: Complete reference of the GetLayer2VirtualNetworkCountV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-layer-2-virtual-network-count
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-layer-2-virtual-network-count
 notes:
   - SDK Method used are sda.Sda.get_layer2_virtual_network_count_v1,
   - Paths used are get /dna/intent/api/v1/sda/layer2VirtualNetworks/count,

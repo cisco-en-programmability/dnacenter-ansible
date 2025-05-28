@@ -29,7 +29,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Site Design AssignNetworkDevicesToASiteV1
     description: Complete reference of the AssignNetworkDevicesToASiteV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!assign-network-devices-to-a-site
+    link:
+      https://developer.cisco.com/docs/dna-center/#!assign-network-devices-to-a-site
 notes:
   - SDK Method used are site_design.SiteDesign.assign_network_devices_to_a_site_v1,
   - Paths used are post /dna/intent/api/v1/networkDevices/assignToSite/apply,

@@ -28,6 +28,8 @@ argument_spec.update(dict(
     startTime=dict(type="float"),
     endTime=dict(type="float"),
     id=dict(type="str"),
+    siteHierarchy=dict(type="str"),
+    siteHierarchyId=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -69,6 +71,8 @@ class ActionModule(ActionBase):
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
             id=params.get("id"),
+            site_hierarchy=params.get("siteHierarchy"),
+            site_hierarchy_id=params.get("siteHierarchyId"),
             headers=params.get("headers"),
         )
         return new_object

@@ -33,6 +33,12 @@ options:
     description: Sda Port Assignments's payload.
     elements: dict
     suboptions:
+      allowedVlanRanges:
+        description: Allowed VLAN of the port assignment, this option is only applicable
+          to TRUNKING_DEVICE connectedDeviceType. (VLAN must be between 1 and 4094
+          (Ex 100,200,300-400) or 'all'. In cases value not set when connectedDeviceType
+          is TRUNKING_DEVICE, default value will be 'all').
+        type: str
       authenticateTemplateName:
         description: Authenticate template name of the port assignment.
         type: str
@@ -51,6 +57,12 @@ options:
       interfaceName:
         description: Interface name of the port assignment.
         type: str
+      nativeVlanId:
+        description: Integer example 1 Native VLAN of the port assignment, this option
+          is only applicable to TRUNKING_DEVICE connectedDeviceType. (VLAN must be
+          between 1 and 4094. In cases value not set when connectedDeviceType is TRUNKING_DEVICE,
+          default value will be 1).
+        type: int
       networkDeviceId:
         description: Network device ID of the port assignment.
         type: str
@@ -99,12 +111,14 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-      - authenticateTemplateName: string
+      - allowedVlanRanges: string
+        authenticateTemplateName: string
         connectedDeviceType: string
         dataVlanName: string
         fabricId: string
         interfaceDescription: string
         interfaceName: string
+        nativeVlanId: 0
         networkDeviceId: string
         securityGroupName: string
         voiceVlanName: string
@@ -119,13 +133,15 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-      - authenticateTemplateName: string
+      - allowedVlanRanges: string
+        authenticateTemplateName: string
         connectedDeviceType: string
         dataVlanName: string
         fabricId: string
         id: string
         interfaceDescription: string
         interfaceName: string
+        nativeVlanId: 0
         networkDeviceId: string
         scalableGroupName: string
         voiceVlanName: string
