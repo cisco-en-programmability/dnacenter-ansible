@@ -311,9 +311,9 @@ options:
                 type: str
       device_collection_status_check:
         description:
-          - When set to true, the module will skip checking the device collection status for
+          - When set to false, the module will skip checking the device collection status for
             states 'In Progress' or 'Managed'.
-          - The default value is false.
+          - The default value is true.
         type: bool
         default: True
 
