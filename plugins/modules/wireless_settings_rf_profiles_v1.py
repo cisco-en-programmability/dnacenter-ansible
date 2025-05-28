@@ -68,8 +68,8 @@ options:
       enableStandardPowerService:
         description: True if Standard Power Service is enabled, else False.
         type: bool
-      fraProperties:
-        description: Wireless Settings Rf Profiles's fraProperties.
+      fraPropertiesC:
+        description: Wireless Settings Rf Profiles's fraPropertiesC.
         suboptions:
           clientResetCount:
             description: Client Reset Count of 6 GHz radio band.
@@ -216,8 +216,8 @@ options:
         description: Data rates of 5 GHz radio band passed in comma separated format
           without any spaces. Permissible values 6, 9, 12, 18, 24, 36, 48, 54.
         type: str
-      fraProperties:
-        description: Wireless Settings Rf Profiles's fraProperties.
+      fraPropertiesA:
+        description: Wireless Settings Rf Profiles's fraPropertiesA.
         suboptions:
           clientAware:
             description: Client Aware of 5 GHz radio band.
@@ -410,7 +410,7 @@ EXAMPLES = r"""
       dataRates: string
       discoveryFrames6GHz: string
       enableStandardPowerService: true
-      fraProperties:
+      fraPropertiesC:
         clientResetCount: 0
         clientUtilizationThreshold: 0
       mandatoryDataRates: string
@@ -454,7 +454,7 @@ EXAMPLES = r"""
         chdVoiceRssiThreshold: 0
       customRxSopThreshold: 0
       dataRates: string
-      fraProperties:
+      fraPropertiesA:
         clientAware: true
         clientReset: 0
         clientSelect: 0
@@ -534,7 +534,7 @@ EXAMPLES = r"""
       dataRates: string
       discoveryFrames6GHz: string
       enableStandardPowerService: true
-      fraProperties:
+      fraPropertiesC:
         clientResetCount: 0
         clientUtilizationThreshold: 0
       mandatoryDataRates: string
@@ -578,7 +578,7 @@ EXAMPLES = r"""
         chdVoiceRssiThreshold: 0
       customRxSopThreshold: 0
       dataRates: string
-      fraProperties:
+      fraPropertiesA:
         clientAware: true
         clientReset: 0
         clientSelect: 0

@@ -55,6 +55,7 @@ dnac_response:
     {
       "response": {
         "id": "string",
+        "siteHierarchyId": "string",
         "name": "string",
         "nameHierarchy": "string",
         "parentId": "string",

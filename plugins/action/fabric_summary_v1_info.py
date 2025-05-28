@@ -27,6 +27,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     startTime=dict(type="float"),
     endTime=dict(type="float"),
+    siteHierarchy=dict(type="str"),
+    siteHierarchyId=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -67,6 +69,8 @@ class ActionModule(ActionBase):
         new_object = dict(
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
+            site_hierarchy=params.get("siteHierarchy"),
+            site_hierarchy_id=params.get("siteHierarchyId"),
             headers=params.get("headers"),
         )
         return new_object

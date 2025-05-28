@@ -41,6 +41,9 @@ options:
         description: Enable/disable BPDU Guard. Only applicable when authenticationProfileName
           is set to "Closed Authentication" (defaults to true).
         type: bool
+      isVoiceVlanEnabled:
+        description: Enable/disable Voice Vlan.
+        type: bool
       numberOfHosts:
         description: Number of Hosts.
         type: str
@@ -106,6 +109,7 @@ EXAMPLES = r"""
         fabricId: string
         id: string
         isBpduGuardEnabled: true
+        isVoiceVlanEnabled: true
         numberOfHosts: string
         preAuthAcl:
           accessContracts:

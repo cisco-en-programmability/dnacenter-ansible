@@ -77,6 +77,32 @@ options:
         API specification document
         mentioned in the description.
     type: str
+  siteHierarchy:
+    description:
+      - >
+        SiteHierarchy query parameter. The full hierarchical breakdown of the site
+        tree starting from Global site
+        name and ending with the specific site name. The Root site is named "Global"
+        (Ex.
+        `Global/AreaName/BuildingName/FloorName`) This field supports wildcard asterisk
+        (`*`) character search
+        support. E.g. `*/San*, */San, /San*` Examples `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
+        (single siteHierarchy requested) `?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Global
+        /AreaName2/BuildingName2/FloorName2` (multiple siteHierarchies requested).
+    type: str
+  siteHierarchyId:
+    description:
+      - >
+        SiteHierarchyId query parameter. The full hierarchy breakdown of the site
+        tree in id form starting from
+        Global site UUID and ending with the specific site UUID. (Ex. `globalUuid/areaUuid/buildingUuid/floorUuid`)
+        This field supports wildcard asterisk (`*`) character search support. E.g.
+        `*uuid*, *uuid, uuid*` Examples
+        `?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid `(single siteHierarchyId
+        requested) `?siteHiera
+        rchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globalUuid/areaUuid2/buildingUuid2/floorUu
+        id2` (multiple siteHierarchyIds requested).
+    type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
@@ -110,97 +136,113 @@ EXAMPLES = r"""
     id: string
     attribute: string
     view: string
+    siteHierarchy: string
+    siteHierarchyId: string
   register: result
 """
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "id": "string",
-        "name": "string",
-        "goodHealthPercentage": 0,
-        "goodHealthDeviceCount": 0,
-        "totalDeviceCount": 0,
-        "poorHealthDeviceCount": 0,
-        "fairHealthDeviceCount": 0,
-        "associatedL2VnCount": 0,
-        "associatedL3VnCount": 0,
-        "networkProtocol": "string",
-        "connectivityGoodHealthPercentage": 0,
-        "connectivityTotalHealthDeviceCount": 0,
-        "connectivityGoodHealthDeviceCount": 0,
-        "connectivityPoorHealthDeviceCount": 0,
-        "connectivityFairHealthDeviceCount": 0,
-        "infraGoodHealthPercentage": 0,
-        "infraTotalHealthDeviceCount": 0,
-        "infraGoodHealthDeviceCount": 0,
-        "infraFairHealthDeviceCount": 0,
-        "infraPoorHealthDeviceCount": 0,
-        "controlPlaneGoodHealthPercentage": 0,
-        "controlPlaneTotalHealthDeviceCount": 0,
-        "controlPlaneGoodHealthDeviceCount": 0,
-        "controlPlanePoorHealthDeviceCount": 0,
-        "controlPlaneFairHealthDeviceCount": 0,
-        "pubsubInfraVnGoodHealthPercentage": 0,
-        "pubsubInfraVnTotalHealthDeviceCount": 0,
-        "pubsubInfraVnGoodHealthDeviceCount": 0,
-        "pubsubInfraVnPoorHealthDeviceCount": 0,
-        "pubsubInfraVnFairHealthDeviceCount": 0,
-        "bgpEvpnGoodHealthPercentage": {},
-        "bgpEvpnTotalHealthDeviceCount": 0,
-        "bgpEvpnGoodHealthDeviceCount": 0,
-        "bgpEvpnPoorHealthDeviceCount": 0,
-        "bgpEvpnFairHealthDeviceCount": 0,
-        "ctsEnvDataDownloadGoodHealthPercentage": 0,
-        "ctsEnvDataDownloadTotalHealthDeviceCount": 0,
-        "ctsEnvDataDownloadGoodHealthDeviceCount": 0,
-        "ctsEnvDataDownloadPoorHealthDeviceCount": 0,
-        "ctsEnvDataDownloadFairHealthDeviceCount": 0,
-        "aaaStatusGoodHealthPercentage": 0,
-        "aaaStatusTotalHealthDeviceCount": 0,
-        "aaaStatusGoodHealthDeviceCount": 0,
-        "aaaStatusPoorHealthDeviceCount": 0,
-        "aaaStatusFairHealthDeviceCount": 0,
-        "portChannelGoodHealthPercentage": 0,
-        "portChannelTotalHealthDeviceCount": 0,
-        "portChannelGoodHealthDeviceCount": 0,
-        "portChannelPoorHealthDeviceCount": 0,
-        "portChannelFairHealthDeviceCount": 0,
-        "peerScoreGoodHealthPercentage": {},
-        "peerScoreTotalHealthDeviceCount": 0,
-        "peerScoreGoodHealthDeviceCount": 0,
-        "peerScorePoorHealthDeviceCount": 0,
-        "peerScoreFairHealthDeviceCount": 0,
-        "lispSessionGoodHealthPercentage": 0,
-        "lispSessionTotalHealthDeviceCount": 0,
-        "lispSessionGoodHealthDeviceCount": 0,
-        "lispSessionPoorHealthDeviceCount": 0,
-        "lispSessionFairHealthDeviceCount": 0,
-        "borderToControlPlaneGoodHealthPercentage": 0,
-        "borderToControlPlaneTotalHealthDeviceCount": 0,
-        "borderToControlPlaneGoodHealthDeviceCount": 0,
-        "borderToControlPlanePoorHealthDeviceCount": 0,
-        "borderToControlPlaneFairHealthDeviceCount": 0,
-        "bgpBgpSiteGoodHealthPercentage": 0,
-        "bgpBgpSiteTotalHealthDeviceCount": 0,
-        "bgpBgpSiteGoodHealthDeviceCount": 0,
-        "bgpBgpSitePoorHealthDeviceCount": 0,
-        "bgpBgpSiteFairHealthDeviceCount": 0,
-        "bgpPubsubSiteGoodHealthPercentage": 0,
-        "bgpPubsubSiteTotalHealthDeviceCount": 0,
-        "bgpPubsubSiteGoodHealthDeviceCount": 0,
-        "bgpPubsubSitePoorHealthDeviceCount": 0,
-        "bgpPubsubSiteFairHealthDeviceCount": 0,
-        "bgpPeerInfraVnScoreGoodHealthPercentage": 0,
-        "bgpPeerInfraVnTotalHealthDeviceCount": 0,
-        "bgpPeerInfraVnGoodHealthDeviceCount": 0,
-        "bgpPeerInfraVnPoorHealthDeviceCount": 0,
-        "bgpPeerInfraVnFairHealthDeviceCount": 0
-      }
-    ]
+    {
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "totalDeviceCount": 0,
+          "goodHealthPercentage": 0,
+          "totalHealthDeviceCount": 0,
+          "goodHealthDeviceCount": 0,
+          "poorHealthDeviceCount": 0,
+          "fairHealthDeviceCount": 0,
+          "connectivityGoodHealthPercentage": 0,
+          "connectivityTotalHealthDeviceCount": 0,
+          "connectivityGoodHealthDeviceCount": 0,
+          "connectivityPoorHealthDeviceCount": 0,
+          "connectivityFairHealthDeviceCount": 0,
+          "infraGoodHealthPercentage": 0,
+          "infraTotalHealthDeviceCount": 0,
+          "infraGoodHealthDeviceCount": 0,
+          "infraFairHealthDeviceCount": 0,
+          "infraPoorHealthDeviceCount": 0,
+          "controlPlaneGoodHealthPercentage": 0,
+          "controlPlaneTotalHealthDeviceCount": 0,
+          "controlPlaneGoodHealthDeviceCount": 0,
+          "controlPlanePoorHealthDeviceCount": 0,
+          "controlPlaneFairHealthDeviceCount": 0,
+          "pubsubInfraVnGoodHealthPercentage": 0,
+          "pubsubInfraVnTotalHealthDeviceCount": 0,
+          "pubsubInfraVnGoodHealthDeviceCount": 0,
+          "pubsubInfraVnPoorHealthDeviceCount": 0,
+          "pubsubInfraVnFairHealthDeviceCount": 0,
+          "bgpEvpnGoodHealthPercentage": 0,
+          "bgpEvpnTotalHealthDeviceCount": 0,
+          "bgpEvpnGoodHealthDeviceCount": 0,
+          "bgpEvpnPoorHealthDeviceCount": 0,
+          "bgpEvpnFairHealthDeviceCount": 0,
+          "ctsEnvDataDownloadGoodHealthPercentage": 0,
+          "ctsEnvDataDownloadTotalHealthDeviceCount": 0,
+          "ctsEnvDataDownloadGoodHealthDeviceCount": 0,
+          "ctsEnvDataDownloadPoorHealthDeviceCount": 0,
+          "ctsEnvDataDownloadFairHealthDeviceCount": 0,
+          "aaaStatusGoodHealthPercentage": 0,
+          "aaaStatusTotalHealthDeviceCount": 0,
+          "aaaStatusGoodHealthDeviceCount": 0,
+          "aaaStatusPoorHealthDeviceCount": 0,
+          "aaaStatusFairHealthDeviceCount": 0,
+          "portChannelGoodHealthPercentage": 0,
+          "portChannelTotalHealthDeviceCount": 0,
+          "portChannelGoodHealthDeviceCount": 0,
+          "portChannelPoorHealthDeviceCount": 0,
+          "portChannelFairHealthDeviceCount": 0,
+          "peerScoreGoodHealthPercentage": 0,
+          "peerScoreTotalHealthDeviceCount": 0,
+          "peerScoreGoodHealthDeviceCount": 0,
+          "peerScorePoorHealthDeviceCount": 0,
+          "peerScoreFairHealthDeviceCount": 0,
+          "lispSessionGoodHealthPercentage": 0,
+          "lispSessionTotalHealthDeviceCount": 0,
+          "lispSessionGoodHealthDeviceCount": 0,
+          "lispSessionPoorHealthDeviceCount": 0,
+          "lispSessionFairHealthDeviceCount": 0,
+          "borderToControlPlaneGoodHealthPercentage": 0,
+          "borderToControlPlaneTotalHealthDeviceCount": 0,
+          "borderToControlPlaneGoodHealthDeviceCount": 0,
+          "borderToControlPlanePoorHealthDeviceCount": 0,
+          "borderToControlPlaneFairHealthDeviceCount": 0,
+          "bgpBgpSiteGoodHealthPercentage": 0,
+          "bgpBgpSiteTotalHealthDeviceCount": 0,
+          "bgpBgpSiteGoodHealthDeviceCount": 0,
+          "bgpBgpSitePoorHealthDeviceCount": 0,
+          "bgpBgpSiteFairHealthDeviceCount": 0,
+          "bgpPubsubSiteGoodHealthPercentage": 0,
+          "bgpPubsubSiteTotalHealthDeviceCount": 0,
+          "bgpPubsubSiteGoodHealthDeviceCount": 0,
+          "bgpPubsubSitePoorHealthDeviceCount": 0,
+          "bgpPubsubSiteFairHealthDeviceCount": 0,
+          "bgpPeerInfraVnScoreGoodHealthPercentage": 0,
+          "bgpPeerInfraVnTotalHealthDeviceCount": 0,
+          "bgpPeerInfraVnGoodHealthDeviceCount": 0,
+          "bgpPeerInfraVnPoorHealthDeviceCount": 0,
+          "bgpPeerInfraVnFairHealthDeviceCount": 0,
+          "associatedL2VnCount": 0,
+          "associatedL3VnCount": 0,
+          "networkProtocol": "string"
+        }
+      ],
+      "page": {
+        "limit": 0,
+        "offset": 0,
+        "count": 0,
+        "sortBy": [
+          {
+            "name": "string",
+            "order": "string"
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

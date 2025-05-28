@@ -27,7 +27,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Devices GetOrganizationListForMerakiV1
     description: Complete reference of the GetOrganizationListForMerakiV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-organization-list-for-meraki
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-organization-list-for-meraki
 notes:
   - SDK Method used are devices.Devices.get_organization_list_for_meraki_v1,
   - Paths used are get /dna/intent/api/v1/network-device/{id}/meraki-organization,

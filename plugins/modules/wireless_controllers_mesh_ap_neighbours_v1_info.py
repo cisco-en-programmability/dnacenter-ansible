@@ -79,6 +79,7 @@ dnac_response:
       "neighbourMacAddress": "string",
       "wlcIpAddress": "string",
       "neighbourType": "string",
-      "meshRole": "string"
+      "meshRole": "string",
+      "neighbourApName": "string"
     }
 """

@@ -101,6 +101,10 @@ dnac_response:
           "vlanId": 0,
           "trafficType": "string",
           "isFabricEnabledWireless": true,
+          "isWirelessFloodingEnabled": true,
+          "isResourceGuardEnabled": true,
+          "layer2FloodingAddressAssignment": "string",
+          "layer2FloodingAddress": "string",
           "isMultipleIpToMacAddresses": true,
           "associatedLayer3VirtualNetworkName": "string"
         }

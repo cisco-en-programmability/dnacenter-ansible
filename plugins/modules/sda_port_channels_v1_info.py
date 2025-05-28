@@ -36,6 +36,15 @@ options:
         The allowed values are
         TRUNK, EXTENDED_NODE.
     type: str
+  nativeVlanId:
+    description:
+      - >
+        NativeVlanId query parameter. Native VLAN of the port channel, this option
+        is only applicable to TRUNK
+        connectedDeviceType.(VLAN must be between 1 and 4094. In cases value not set
+        when connectedDeviceType is
+        TRUNK, default value will be '1').
+    type: float
   offset:
     description:
       - Offset query parameter. Starting record for pagination.
@@ -73,6 +82,7 @@ EXAMPLES = r"""
     networkDeviceId: string
     portChannelName: string
     connectedDeviceType: string
+    nativeVlanId: 0
     offset: 0
     limit: 0
   register: result
@@ -95,7 +105,9 @@ dnac_response:
           ],
           "connectedDeviceType": "string",
           "protocol": "string",
-          "description": "string"
+          "description": "string",
+          "nativeVlanId": 0,
+          "allowedVlanRanges": "string"
         }
       ],
       "version": "string"

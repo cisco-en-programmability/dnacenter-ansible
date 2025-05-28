@@ -8,7 +8,7 @@ module: wireless_settings_ap_profiles_v1_info
 short_description: Information module for Wireless Settings Ap Profiles V1
 description:
   - Get all Wireless Settings Ap Profiles V1.
-  - This API allows the user to get AP profiles that are captured in wireless settings
+  - This API allows the user to get AP Profiles that captured in wireless settings
     design.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -21,13 +21,13 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records to show for this page. The default
-        is 500 if not specified. The
-        maximum allowed limit is 500.
+        Limit query parameter. The number of records to show for this page. Default
+        is 500 if not specified. Maximum
+        allowed limit is 500.
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first
+      - Offset query parameter. The first record to show for this page, the first
         record is numbered 1.
     type: str
   apProfileName:
@@ -113,8 +113,12 @@ dnac_response:
             "duration": {
               "schedulerStartTime": "string",
               "schedulerEndTime": "string",
-              "schedulerDay": "string",
-              "schedulerDate": "string"
+              "schedulerDay": [
+                "string"
+              ],
+              "schedulerDate": [
+                "string"
+              ]
             }
           },
           "countryCode": "string",

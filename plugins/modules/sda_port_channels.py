@@ -31,6 +31,12 @@ options:
     description: Sda Port Channels's payload.
     elements: dict
     suboptions:
+      allowedVlanRanges:
+        description: Allowed VLAN of the port channel, this option is only applicable
+          to TRUNK connectedDeviceType. (VLAN must be between 1 and 4094 (Ex 100,200,300-400)
+          or 'all'. In cases value not set when connectedDeviceType is TRUNK, default
+          value will be 'all').
+        type: str
       connectedDeviceType:
         description: Connected device type of the port channel.
         type: str
@@ -45,6 +51,11 @@ options:
           protocol, Maximum 8 ports for PAGP and ON protocol).
         elements: str
         type: list
+      nativeVlanId:
+        description: Native VLAN of the port channel, this option is only applicable
+          to TRUNK connectedDeviceType. (VLAN must be between 1 and 4094. In cases
+          value not set when connectedDeviceType is TRUNK, default value will be 1).
+        type: int
       networkDeviceId:
         description: ID of the network device.
         type: str
@@ -95,11 +106,13 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-      - connectedDeviceType: string
+      - allowedVlanRanges: string
+        connectedDeviceType: string
         description: string
         fabricId: string
         interfaceNames:
           - string
+        nativeVlanId: 0
         networkDeviceId: string
         protocol: string
 - name: Update all
@@ -113,12 +126,14 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-      - connectedDeviceType: string
+      - allowedVlanRanges: string
+        connectedDeviceType: string
         description: string
         fabricId: string
         id: string
         interfaceNames:
           - string
+        nativeVlanId: 0
         networkDeviceId: string
         portChannelName: string
         protocol: string
