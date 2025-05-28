@@ -3428,7 +3428,6 @@ def main():
         ccc_sda_multicast.reset_values()
         ccc_sda_multicast.get_have(config).check_return_status()
         ccc_sda_multicast.get_want(config).check_return_status()
-        ccc_sda_multicast.fail_and_exit("HELLO")
         ccc_sda_multicast.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_sda_multicast.verify_diff_state_apply[state](config).check_return_status()
