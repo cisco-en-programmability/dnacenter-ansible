@@ -459,7 +459,6 @@ response_4:
 
 """
 
-import time
 import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
@@ -1555,7 +1554,9 @@ class FabricMulticast(DnacBase):
                 self.fail_and_exit(self.msg)
 
             if default_ipv4_allowed:
-                self.log(f"Default IPv4 RP is allowed. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+                self.log(
+                    f"Default IPv4 RP is allowed. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG"
+                )
                 rendezvous_point["isDefaultV4RP"] = item["is_default_v4_rp"]
             else:
                 self.msg = (
@@ -1572,10 +1573,10 @@ class FabricMulticast(DnacBase):
             self.fail_and_exit(self.msg)
 
         self.log(
-                f"Completed processing IPv4 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
-                f"Current 'rendezvous_point' details: {rendezvous_point}",
-                "DEBUG"
-            )
+            f"Completed processing IPv4 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+            f"Current 'rendezvous_point' details: {rendezvous_point}",
+            "DEBUG"
+        )
 
     def process_asm_ipv6_ranges(self, item, rendezvous_point, default_ipv6_allowed, fabric_name, layer3_virtual_network):
         """
@@ -1616,7 +1617,10 @@ class FabricMulticast(DnacBase):
                 self.fail_and_exit(self.msg)
 
             if default_ipv6_allowed:
-                self.log(f"Default IPv6 RP is allowed. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+                self.log(
+                    f"Default IPv6 RP is allowed. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                    "DEBUG"
+                )
                 rendezvous_point["isDefaultV6RP"] = item["is_default_v6_rp"]
             else:
                 self.msg = (
@@ -1676,7 +1680,11 @@ class FabricMulticast(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         # Get device IDs
-        self.log(f"Retrieving device IDs for the L3 VN : '{layer3_virtual_network}' under fabric '{fabric_name}' using network_device_ips: {network_device_ips}", "DEBUG")
+        self.log(
+            f"Retrieving device IDs for the L3 VN : '{layer3_virtual_network}' under fabric '{fabric_name}' "
+            f"using network_device_ips: {network_device_ips}",
+            "DEBUG"
+        )
         network_device_ids = self.get_the_device_ids(fabric_name, network_device_ips)
 
         # Build RP details
@@ -1750,14 +1758,22 @@ class FabricMulticast(DnacBase):
 
         # Add external IPv4 and Process IPv4 ASM ranges
         if ex_rp_ipv4_address:
-            self.log(f"External IPv4 address found: {ex_rp_ipv4_address}. Updating rendezvous_point for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            self.log(
+                f"External IPv4 address found: {ex_rp_ipv4_address}. Updating rendezvous_point for L3 VN '{layer3_virtual_network}' "
+                f"under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
             rendezvous_point["ipv4Address"] = ex_rp_ipv4_address
             self.log(f"Calling process_asm_ipv4_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
             self.process_asm_ipv4_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
 
         # Add external IPv6 and Process IPv6 ASM ranges
         if ex_rp_ipv6_address:
-            self.log(f"External IPv6 address found: {ex_rp_ipv6_address}. Updating rendezvous_point for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            self.log(
+                f"External IPv6 address found: {ex_rp_ipv6_address}. Updating rendezvous_point for L3 VN '{layer3_virtual_network}' "
+                f"under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
             rendezvous_point["ipv6Address"] = ex_rp_ipv6_address
             self.log(f"Calling process_asm_ipv6_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
             self.process_asm_ipv6_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
@@ -3412,6 +3428,7 @@ def main():
         ccc_sda_multicast.reset_values()
         ccc_sda_multicast.get_have(config).check_return_status()
         ccc_sda_multicast.get_want(config).check_return_status()
+        ccc_sda_multicast.fail_and_exit("HELLO")
         ccc_sda_multicast.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_sda_multicast.verify_diff_state_apply[state](config).check_return_status()
