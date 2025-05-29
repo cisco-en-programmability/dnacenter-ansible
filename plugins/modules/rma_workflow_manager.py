@@ -1413,6 +1413,14 @@ def main():
     ccc_device_replacement = DeviceReplacement(module)
     state = ccc_device_replacement.params.get("state")
 
+    if ccc_device_replacement.compare_dnac_versions(ccc_device_replacement.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_device_replacement.msg = (
+            "The specified version '{0}' does not support the 'rma_workflow_manager' feature. Supported versions start from '2.3.5.3' onwards."
+            .format(ccc_device_replacement.get_ccc_version())
+        )
+        ccc_device_replacement.status = "failed"
+        ccc_device_replacement.check_return_status()
+
     ccc_device_replacement.validate_input().check_return_status()
     config_verify = ccc_device_replacement.params.get("config_verify")
 
