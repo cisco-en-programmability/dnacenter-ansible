@@ -461,6 +461,7 @@ response_4:
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
+from collections import defaultdict
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
@@ -719,7 +720,7 @@ class FabricMulticast(DnacBase):
                 return False
 
             self.log(
-                f"The reserved pool '{reserved_pool_name}' found in the site '{fabric_name}'." "DEBUG"
+                f"The reserved pool '{reserved_pool_name}' found in the site '{fabric_name}'." , "DEBUG"
             )
             return True
 
@@ -2517,6 +2518,26 @@ class FabricMulticast(DnacBase):
             self.set_operation_result("failed", False, "Input fabric_multicast is required.", "ERROR")
             return self
 
+        # Check for conflicting replication mode within the same fabric
+        self.log("Starting to build replication mode conflict check list.", "DEBUG")
+
+        to_check_for_replication_mode_conflicts = []
+        for index, multicast_config in enumerate(fabric_multicast):
+            self.log(f"Processing fabric_multicast index {index}: {multicast_config}", "DEBUG")
+
+            replication_params = copy.deepcopy(self.want.get("fabric_multicast")[index].get("replication_mode_details"))
+            self.log(f"replication_mode_details at index {index}: {replication_params}", "DEBUG")
+
+            fabric_name = multicast_config.get("fabric_name")
+            self.log(f"fabric_name at index '{index}': '{fabric_name}'", "DEBUG")
+
+            replication_params.update({"fabricName": fabric_name})
+            to_check_for_replication_mode_conflicts.append(replication_params)
+
+        self.log(f"Completed building list for conflict check: {to_check_for_replication_mode_conflicts}", "DEBUG")
+
+        self.check_replication_mode_conflicts(to_check_for_replication_mode_conflicts)
+
         # Process each multicast configuration
         for multicast_config in fabric_multicast:
             fabric_multicast_index += 1
@@ -2654,6 +2675,7 @@ class FabricMulticast(DnacBase):
             self.bulk_add_multicast_config(to_create_multicast).check_return_status()
 
         if to_update_replication_mode:
+            to_update_replication_mode = self.deduplicate_by_fabric_id(to_update_replication_mode)
             self.log(
                 "Attempting to update {count} replication mode(s)."
                 .format(count=len(to_update_replication_mode)), "INFO"
@@ -2674,6 +2696,73 @@ class FabricMulticast(DnacBase):
         self.msg = "The operations on fabric device is successful."
         self.status = "success"
         return self
+
+    def check_replication_mode_conflicts(self, fabric_list):
+        """
+        Check for conflicting replication modes per fabric ID.
+
+        Parameters:
+            fabric_list (list of dict): List of dictionaries with keys 'fabricId', 'fabricName', and 'replicationMode'.
+
+        Returns:
+            None
+
+        Description:
+            Raises an error via self.fail_and_exit if any fabricId has multiple replication modes.
+            Logs start, conflict errors, and successful completion.
+        """
+
+        self.log(f"Starting conflict check for the fabric list {fabric_list}.", "DEBUG")
+        fabric_modes = defaultdict(set)
+        fabric_names = {}
+
+        for entry in fabric_list:
+            fabric_id = entry["fabricId"]
+            replication_mode = entry["replicationMode"]
+            fabric_modes[fabric_id].add(replication_mode)
+            fabric_names[fabric_id] = entry["fabricName"]
+
+        for fabric_id, modes in fabric_modes.items():
+            if len(modes) > 1:
+                fabric_name = fabric_names.get(fabric_id, "Unknown")
+                self.msg = (
+                    f"Conflict detected for fabric Name '{fabric_name}: "
+                    f"multiple replication modes found: {modes}. "
+                    "Can have only one replication mode for a fabric site."
+                )
+                self.fail_and_exit(self.msg)
+
+        self.log("Conflict check completed successfully. No conflicts found.", "DEBUG")
+
+    def deduplicate_by_fabric_id(self, fabric_list):
+        """
+        Deduplicate fabric list by fabricId.
+
+        Parameters:
+            fabric_list (list of dict): List of fabric dictionaries containing 'fabricId' and 'replicationMode'.
+
+        Returns:
+            list of dict: Deduplicated list with unique fabricId entries.
+
+        Description:
+            Iterates over fabric_list and returns a list of unique fabric dictionaries,
+            preserving the first occurrence of each fabricId.
+            Logs start and end with counts of entries before and after deduplication.
+        """
+        self.log(f"Starting deduplication by fabricId for the fabric list: {fabric_list}.", "DEBUG")
+
+        deduped = {}
+        for entry in fabric_list:
+            fabric_id = entry["fabricId"]
+            if fabric_id not in deduped:
+                deduped[fabric_id] = entry
+
+        deduped_list = list(deduped.values())
+
+        self.log(f"Deduplication completed. Reduced from {len(fabric_list)} to {len(deduped_list)} entries.", "DEBUG")
+        self.log(f"Deduplicated list: {deduped_list}", "DEBUG")
+
+        return deduped_list
 
     def get_diff_merged(self, config):
         """
