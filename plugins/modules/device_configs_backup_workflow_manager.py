@@ -362,7 +362,6 @@ EXAMPLES = r"""
     config:
       - site_list: ["Global"]
         family_list: ["Switches and Hubs"]
-        series_list: ["Cisco Catalyst 9300 Series Switches"]
         ip_address_list: ["204.1.2.5"]
         file_path: backup
         unzip_backup: false
