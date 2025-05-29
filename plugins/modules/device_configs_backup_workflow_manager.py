@@ -367,9 +367,10 @@ EXAMPLES = r"""
         file_path: backup
         unzip_backup: false
         config_file_types:
-            - VLAN
-            - STARTUPCONFIG
-            - RUNNINGCONFIG
+          - VLAN
+          - STARTUPCONFIG
+          - RUNNINGCONFIG
+
 """
 RETURN = r"""
 # Case_1: Successful creation and exportation of device configs
