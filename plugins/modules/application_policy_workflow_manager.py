@@ -179,6 +179,8 @@ options:
           - Defines a logical grouping of network applications that share common policies and configuration settings.
           - Application sets enable network administrators to manage and apply policies to multiple applications simultaneously,
             streamlining policy enforcement, monitoring, and optimization.
+          - Creation and deletion of application sets is not supported in this version.
+          - This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release.
         type: list
         elements: dict
         suboptions:
@@ -191,6 +193,8 @@ options:
         description:
           - Defines individual applications within an application set that share a common purpose or function.
           - Grouping similar applications into sets allows administrators to apply uniform policies efficiently.
+          - Creation, updation, and deletion of application is not supported in this version.
+          - This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release.
         type: list
         elements: dict
         suboptions:
@@ -1721,8 +1725,15 @@ class ApplicationPolicy(DnacBase):
         want = {}
         want["queuing_profile"] = config.get("queuing_profile")
         want["application_set_details"] = config.get("application_set_details")
-        want["application"] = config.get("application")
         want["application_policy"] = config.get("application_policy")
+
+        if config.get("application"):
+            self.msg = (
+                "Creation, updation, and deletion of application is not supported in this version. "
+                "This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release."
+            )
+            self.set_operation_result("success", False, self.msg, "Info")
+            return self
 
         required_params = ["queuing_profile", "application", "application_policy"]
         if not any(config.get(param) for param in required_params):
@@ -2217,8 +2228,15 @@ class ApplicationPolicy(DnacBase):
                 self.get_diff_application_set().check_return_status()
 
         if config.get("application"):
-            self.log("Processing application details...", "INFO")
-            self.get_diff_application().check_return_status()
+            self.msg = (
+                "Creation, updation, and deletion of application is not supported in this version. "
+                "This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release."
+            )
+            self.set_operation_result("success", False, self.msg, "Info")
+            return self
+        # if config.get("application"):
+        #     self.log("Processing application details...", "INFO")
+        #     self.get_diff_application().check_return_status()
 
         if config.get("application_policy"):
             self.log("Processing application policy details...", "INFO")
@@ -5014,8 +5032,15 @@ class ApplicationPolicy(DnacBase):
             self.delete_application_queuing_profile().check_return_status()
 
         if config.get("application"):
-            self.log("Deleting application", "INFO")
-            self.delete_application().check_return_status()
+            self.msg = (
+                "Creation, updation, and deletion of application is not supported in this version. "
+                "This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release."
+            )
+            self.set_operation_result("success", False, self.msg, "Info")
+            return self
+        # if config.get("application"):
+        #     self.log("Deleting application", "INFO")
+        #     self.delete_application().check_return_status()
 
         if config.get("application_policy"):
             self.log("Deleting application policy", "INFO")
