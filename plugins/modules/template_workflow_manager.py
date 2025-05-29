@@ -960,6 +960,11 @@ options:
             description: Boolean flag indicating whether the template is composite,
               which means the template is built using multiple smaller templates.
             type: bool
+          is_copy_the_config:
+            description: Boolean flag indicating whether the configuration should
+              be copied to the start up config from the device before applying the template.
+            type: bool
+            default: true
           template_parameters:
             description: A list of parameter name-value pairs used for customizing
               the template with specific values for each device.
@@ -972,6 +977,35 @@ options:
                 type: str
               param_value:
                 description: Value assigned to the parameter for deployment to devices.
+                type: str
+          resource_parameters:
+            description: Resource params to be provisioned.
+            type: list
+            elements: dict
+            suboptions:
+              resource_type:
+                description: The type of the resource param that is to be provisioned during template deployment
+                  Possible enum values are -
+                    MANAGED_DEVICE_UUID - Used when the param value is the UUID of the device
+                    MANAGED_DEVICE_IP - Used when the param value will be the device IP
+                    MANAGED_DEVICE_HOSTNAME - Used when the param value will be the device hostname
+                    SITE_UUID - Used when the param value will be the UUID of a site
+                    MANAGED_AP_LOCATIONS - Used when param value will be the locations of managed access points within the network
+                    SECONDARY_MANAGED_AP_LOCATIONS - Used when param value will be the locations of secondary or backup managed access points
+                    SSID_NAME - Used when param value will be the name of a wireless network
+                    POLICY_PROFILES - Used when param value will be sets of policies that can be applied to network devices or users
+                type: str
+              resource_scope:
+                description:  The scope in which the resource parameter is to be provisioned
+                  Possible enum values are -
+                    RUNTIME - A parameter with a runtime scope is provided at the time of the deployment and may include data that could be
+                        different each time the template is applied to a device or network so it is typically dynamic and may change from
+                        one deployment to another.
+                    DESIGN - The parameter with a design scope is defined during the design phase of the template. These values are usually
+                      static after template creation and do not change with each deployment.
+                type: str
+              resource_value:
+                description: The actual value of the resource param to be provisioned.
                 type: str
           device_details:
             description: Details specific to devices where the template will be deployed,
@@ -1189,6 +1223,91 @@ EXAMPLES = r"""
           do_version: false
           project_name: string
           template_file: string
+- name: Configuring a template with the language JINJA
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: true
+    config:
+      - configuration_templates:
+          author: Test_User
+          composite: false
+          custom_params_order: true
+          description: Template to configure Access Vlan n Access Interfaces
+          device_types:
+            - product_family: Switches and Hubs
+              product_series: Cisco Catalyst 9300 Series Switches
+          failure_policy: ABORT_TARGET_ON_ERROR
+          language: JINJA
+          name: access_van_template_9300_switches
+          project_name: access_van_template_9300_switches
+          project_description: This project contains all the templates for Access Switches
+          software_type: IOS-XE
+          template_name: PnP-Upstream-SW1
+          template_content: |
+            {% raw %}
+            vlan {{ vlan }}
+            interface {{ interface }}
+            no shutdown
+            switchport access vlan {{ vlan }}
+            switchport mode access
+            description {{ interface_description }}
+            {% endraw %}
+          version: "1.0"
+- name: Configuring a template with the language VELOCITY
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: true
+    config:
+      - configuration_templates:
+          name: "Fusion Router Config"
+          template_name: "Fusion Router Config"
+          description: "Configuration template for Fusion Router setup on Catalyst 3850 switches"
+          project_name: "Network Configuration Templates"
+          tags: []
+          author: admin
+          device_types:
+            - product_family: "Switches and Hubs"
+              product_series: "Cisco Catalyst 3850 Series Ethernet Stackable Switch"
+          software_type: IOS-XE
+          language: VELOCITY
+          failure_policy: ABORT_TARGET_ON_ERROR
+          template_content: |
+            ! L3handoff Vlan
+            vlan $VLANID
+            hostname  Old$__device.hostname
+            interface Loopback0
+            ip address $LOOPBACKIP 255.255.255.255
+            ipv6 address $LOOPBACKIPV6
+            ipv6 enable
+            ipv6 nd other-config-flag
+            ipv6 dhcp server EMPPool
+
+            ! L3handdoff interface for provider VN
+            interface Vlan$VLANID
+            description L3handoff $VLANID
+            ip address $interfaceIP 255.255.255.252
+            ip route-cache same-interface
+            ipv6 address $interfaceIPV6
+            ipv6 enable
+            ipv6 tcp adjust-mss 1400
 - name: Deploy the given template to the devices based on site specific details
     and other filtering mode
   cisco.dnac.template_workflow_manager:
@@ -1241,6 +1360,35 @@ EXAMPLES = r"""
             param_value: "testvlan31"
         device_details:
           device_ips: ["10.1.2.1", "10.2.3.4"]
+- name: Deploy template to the devices using resource parameters and copying config
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: true
+    config:
+      deploy_template:
+        project_name: "Sample_Project"
+        template_name: "Sample Template"
+        force_push: true
+        template_parameters:
+          - param_name: "vlan_id"
+            param_value: "1431"
+          - param_name: "vlan_name"
+            param_value: "testvlan31"
+        resource_parameters:
+          - resource_type: "MANAGED_DEVICE_IP"
+            resource_scope: "RUNTIME"
+        device_details:
+          device_ips: ["10.1.2.1", "10.2.3.4"]
+        is_copy_the_config: true
 - name: Delete the given project or template from the Cisco Catalyst Center
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1331,6 +1479,7 @@ response_5:
 import copy
 import json
 import time
+import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -1418,11 +1567,19 @@ class Template(DnacBase):
                 'template_name': {'type': 'str'},
                 'force_push': {'type': 'bool'},
                 'is_composite': {'type': 'bool'},
+                'is_copy_the_config': {'type': 'bool', 'default': True},
                 'template_parameters': {
                     'type': 'list',
                     'elements': 'dict',
                     'param_name': {'type': 'str'},
                     'param_value': {'type': 'str'},
+                },
+                'resource_parameters': {
+                    'type': 'list',
+                    'elements': 'dict',
+                    'resource_type': {'type': 'str'},
+                    'resource_scope': {'type': 'str'},
+                    'resource_value': {'type': 'str'},
                 },
                 'device_details': {
                     'type': 'dict',
@@ -3191,6 +3348,7 @@ class Template(DnacBase):
             "forcePushTemplate": deploy_temp_details.get("force_push", False),
             "isComposite": deploy_temp_details.get("is_composite", False),
             "templateId": template_id,
+            "copyingConfig": deploy_temp_details.get("is_copy_the_config", True),
         }
         self.log(
             "Handling template parameters for the deployment of template '{0}'.".format(template_name),
@@ -3218,6 +3376,25 @@ class Template(DnacBase):
             self.log("No versioning found for the template: {0}".format(template_name), "INFO")
             version_template_id = template_id
 
+        # Get the type of the resource parameter that is to be provisioned during template deployment
+        resource_params = deploy_temp_details.get("resource_parameters")
+        resource_params_list = []
+        if resource_params:
+            for resource_param in resource_params:
+                type = resource_param.get("resource_type")
+                scope = resource_param.get("resource_scope", "RUNTIME")
+                resource_params_dict = {
+                    'type': type,
+                    'scope': scope
+                }
+                value = resource_param.get("resource_value")
+                if value:
+                    resource_params_dict['value'] = value
+
+                self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(type, scope), "DEBUG")
+                resource_params_list.append(resource_params_dict)
+                del resource_params_dict
+
         self.log("Preparing to deploy template '{0}' to the following device IDs: '{1}'".format(template_name, device_ids), "DEBUG")
         for device_id in device_ids:
             self.log("Adding device '{0}' to the deployment payload.".format(device_id), "DEBUG")
@@ -3227,6 +3404,11 @@ class Template(DnacBase):
                 "versionedTemplateId": version_template_id,
                 "params": template_dict,
             }
+
+            if resource_params_list:
+                self.log("Adding resource parameters to the target device dictionary for template '{0}'.".format(template_name), "DEBUG")
+                target_device_dict["resourceParams"] = resource_params_list
+
             target_info_list.append(target_device_dict)
             del target_device_dict
 
@@ -3234,6 +3416,96 @@ class Template(DnacBase):
         self.log("Successfully generated deployment payload for template '{0}'.".format(template_name), "INFO")
 
         return deploy_payload
+
+    def check_template_deployment_status(self, template_name, deployment_id, device_ips):
+        """
+        Monitors the status of a template deployment in Cisco Catalyst Center until it completes
+        successfully, fails, or times out.
+
+        Args:
+            self (object): An instance of the class interacting with Cisco Catalyst Center.
+            template_name (str): Name of the configuration template being deployed.
+            deployment_id (str): Unique identifier for the deployment task.
+            device_ips (list): List of IP addresses of devices to which the template is being deployed.
+        Description:
+            This method continuously polls the deployment status of a configuration template applied
+            to one or more devices using the Cisco Catalyst Center API. It logs status updates, handles
+            failures, and manages timeout conditions. Upon successful deployment, it marks the
+            operation as successful; otherwise, it collects and logs failure reasons and exits
+            accordingly.
+        """
+
+        loop_start_time = time.time()
+        self.log("Starting template deployment monitoring for '{0}' with deployment ID '{1}'.".format(template_name, deployment_id), "DEBUG")
+
+        while True:
+            try:
+                task_name = "get_template_deployment_status"
+                response = self.dnac._exec(
+                    family="configuration_templates",
+                    function=task_name,
+                    params={"deployment_id": deployment_id},
+                    op_modifies=True,
+                )
+                self.log(
+                    "Retrieving deployment details by the API 'get_template_deployment_status' using deployment ID: "
+                    "{0}, Response: {1}".format(deployment_id, response), "DEBUG"
+                )
+
+                if not isinstance(response, dict):
+                    self.log("Failed to retrieve deployment details with deployment ID: {0}".format(deployment_id), "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                deployment_status = response.get('status')
+                self.log("Deployment status for template '{0}': {1}".format(template_name, deployment_status), "DEBUG")
+                if deployment_status == "SUCCESS":
+                    self.msg = (
+                        "Given template '{0}' deployed successfully to all the device(s) '{1}' "
+                        " in the Cisco Catalyst Center."
+                    ).format(template_name, device_ips)
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    return self
+
+                if deployment_status == "FAILURE":
+                    self.log("Collecting the individual device deployment failure messages for template '{0}'.".format(template_name), "DEBUG")
+                    devices = response.get('devices', [])
+                    failure_msg = []
+                    for device in devices:
+                        status_msg = device.get('detailedStatusMessage')
+                        if status_msg:
+                            self.log("Device deployment failure message: {0}".format(status_msg), "ERROR")
+                            failure_msg.append(status_msg)
+
+                    failure_reason = "Deployment of the template '{0}' failed on devices {1} with the following reason(s): {2}".format(
+                        template_name, device_ips, ", ".join(failure_msg)
+                    )
+                    self.msg = failure_reason
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                # Check if the elapsed time exceeds the timeout
+                elapsed_time = time.time() - loop_start_time
+                if self.check_timeout_and_exit(loop_start_time, deployment_id, task_name):
+                    self.log(
+                        "Timeout exceeded after {0:.2f} seconds while monitoring task '{1}' with task ID '{2}'.".format(
+                            elapsed_time, task_name, deployment_id
+                        ),
+                        "DEBUG"
+                    )
+                    self.check_return_status()
+
+                # Wait for the specified poll interval before the next check
+                poll_interval = self.params.get("dnac_task_poll_interval")
+                self.log("Waiting for the next poll interval of {0} seconds before checking deployment status again.".format(poll_interval), "DEBUG")
+                time.sleep(poll_interval)
+
+            except Exception as e:
+                self.msg = (
+                    "An error occurred while executing API call to Function: '{0}' "
+                    "due to the the following exception: {1}."
+                ).format(task_name, str(e))
+                self.fail_and_exit(self.msg)
 
     def deploy_template_to_devices(self, deploy_temp_payload, template_name, device_ips):
         """
@@ -3291,6 +3563,36 @@ class Template(DnacBase):
 
                 progress = task_details.get("progress")
                 self.log("Task ID '{0}' details for the API '{1}': {2}".format(task_id, task_name, progress), "DEBUG")
+                # Get the deployment id of the template if it get deployed successfully on the devices
+                self.log("Regex to find the Deployment Id of the template...", "DEBUG")
+                match = re.search(r'Template\s+Deployemnt\s+Id:\s+([a-f0-9\-]+)', progress, re.IGNORECASE)
+                deployment_id = None
+                if match:
+                    self.log("Deployment Id found in the progress message.", "DEBUG")
+                    deployment_id = match.group(1)
+                    self.log("Template Deployment Id: {0}".format(deployment_id), "DEBUG")
+                else:
+                    self.log("Deployment Id not found...", "WARNING")
+
+                if deployment_id:
+                    self.log("Deployment Id found: {0}".format(deployment_id), "DEBUG")
+                    self.check_template_deployment_status(template_name, deployment_id, device_ips).check_return_status()
+
+                if "already deployed with same params" in progress:
+                    self.msg = (
+                        "Template '{0}' is already deployed with same params, Hence not deploying on devices."
+                        .format(template_name)
+                    )
+                    self.log(self.msg, "INFO")
+                    self.set_operation_result("success", False, self.msg, "INFO")
+                    return self
+
+                failure_reason = task_details.get("failureReason")
+                if failure_reason:
+                    self.log("Deployment of the template {0} failed with reason: {1}".format(template_name, failure_reason), "ERROR")
+                    self.msg = failure_reason
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
                 if "not deploying" in progress:
                     self.log("Deployment of the template {0} gets failed because of: {1}".format(template_name, progress), "WARNING")
