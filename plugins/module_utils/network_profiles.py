@@ -249,7 +249,7 @@ class NetworkProfileFunctions(DnacBase):
             self.msg = "Error on retrieving {0} profile list: Unable to get the profile list. ".format(
                 profile_type)
             self.log(self.msg + str(e), "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            #self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
     def get_templates_for_profile(self, profile_id):

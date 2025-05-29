@@ -366,14 +366,15 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         break
 
             if day_n_template_name:
+                duplicate_template = []
                 for template in day_n_template_name:
                     param_spec = dict(type="str", length_max=200)
                     validate_str(template, param_spec, "day_n_templates", errormsg)
                     duplicate_template = list(set([item for item in day_n_template_name
                                                    if day_n_template_name.count(item) > 1]))
-                    if duplicate_template:
-                        errormsg.append("Duplicate template(s) '{0}' found in day_n_template_name".format(
-                            duplicate_template))
+                if duplicate_template:
+                    errormsg.append("Duplicate template(s) '{0}' found in day_n_template_name".format(
+                        duplicate_template))
 
         if errormsg:
             self.msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
@@ -731,6 +732,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
         profile_no = 0
         match_count = 0
+        self.changed = False
+        self.msg = ""
         for each_profile in config:
             unmatch_stat = self.have["switch_profile"][profile_no].get("profile_compare_stat")
             if any(profile["name"] == each_profile["profile_name"]
@@ -841,7 +844,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             self.changed = True
 
         if self.not_processed:
-            self.msg = self.msg + "Unable to create or already created Switch profile '{0}'.".format(
+            self.msg = self.msg + " Unable to create or already created Switch profile '{0}'.".format(
                 str(self.not_processed))
             self.log(self.msg, "DEBUG")
 
