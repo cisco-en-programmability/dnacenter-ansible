@@ -960,9 +960,10 @@ options:
             description: Boolean flag indicating whether the template is composite,
               which means the template is built using multiple smaller templates.
             type: bool
-          is_copy_the_config:
+          copy_config:
             description: Boolean flag indicating whether the configuration should
               be copied to the start up config from the device before applying the template.
+              If true (by default true) it will copy the config to startup config.
             type: bool
             default: true
           template_parameters:
@@ -979,7 +980,9 @@ options:
                 description: Value assigned to the parameter for deployment to devices.
                 type: str
           resource_parameters:
-            description: Resource params to be provisioned.
+            description: Resource params to be provisioned. The resource params to be provided if
+              system variables are used in the template the system variables are the variables which
+              starts with __. For example __device.
             type: list
             elements: dict
             suboptions:
@@ -1388,7 +1391,7 @@ EXAMPLES = r"""
             resource_scope: "RUNTIME"
         device_details:
           device_ips: ["10.1.2.1", "10.2.3.4"]
-        is_copy_the_config: true
+        copy_config: true
 - name: Delete the given project or template from the Cisco Catalyst Center
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1567,7 +1570,7 @@ class Template(DnacBase):
                 'template_name': {'type': 'str'},
                 'force_push': {'type': 'bool'},
                 'is_composite': {'type': 'bool'},
-                'is_copy_the_config': {'type': 'bool', 'default': True},
+                'copy_config': {'type': 'bool', 'default': True},
                 'template_parameters': {
                     'type': 'list',
                     'elements': 'dict',
@@ -3348,7 +3351,7 @@ class Template(DnacBase):
             "forcePushTemplate": deploy_temp_details.get("force_push", False),
             "isComposite": deploy_temp_details.get("is_composite", False),
             "templateId": template_id,
-            "copyingConfig": deploy_temp_details.get("is_copy_the_config", True),
+            "copyingConfig": deploy_temp_details.get("copy_config", True),
         }
         self.log(
             "Handling template parameters for the deployment of template '{0}'.".format(template_name),
