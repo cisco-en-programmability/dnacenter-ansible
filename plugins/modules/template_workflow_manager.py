@@ -961,9 +961,11 @@ options:
               which means the template is built using multiple smaller templates.
             type: bool
           copy_config:
-            description: Boolean flag indicating whether the configuration should
-              be copied to the start up config from the device before applying the template.
-              If true (by default true) it will copy the config to startup config.
+            description:
+              - A boolean flag that specifies whether the device's running configuration
+                should be copied to the startup configuration after applying the template.
+              - If set to 'true', the updated configuration will be saved to the startup configuration.
+                be copied to the start up config from the device before applying the template.
             type: bool
             default: true
           template_parameters:
@@ -980,32 +982,34 @@ options:
                 description: Value assigned to the parameter for deployment to devices.
                 type: str
           resource_parameters:
-            description: Resource params to be provisioned. The resource params to be provided if
-              system variables are used in the template the system variables are the variables which
-              starts with __. For example __device.
+            description: A list of configuration parameters required for provisioning resources in the system.
+              These parameters define specific settings or details that must be supplied when deploying templates.
+              If the template uses system variables (variables prefixed with __, (e.g., __device), the corresponding
+              resource parameters must be provided to ensure successful deployment.
             type: list
             elements: dict
             suboptions:
               resource_type:
                 description: The type of the resource param that is to be provisioned during template deployment
-                  Possible enum values are -
-                    MANAGED_DEVICE_UUID - Used when the param value is the UUID of the device
-                    MANAGED_DEVICE_IP - Used when the param value will be the device IP
-                    MANAGED_DEVICE_HOSTNAME - Used when the param value will be the device hostname
-                    SITE_UUID - Used when the param value will be the UUID of a site
-                    MANAGED_AP_LOCATIONS - Used when param value will be the locations of managed access points within the network
-                    SECONDARY_MANAGED_AP_LOCATIONS - Used when param value will be the locations of secondary or backup managed access points
-                    SSID_NAME - Used when param value will be the name of a wireless network
-                    POLICY_PROFILES - Used when param value will be sets of policies that can be applied to network devices or users
+                  - Specifies the type of the resource parameter to be provisioned during template deployment.
+                  - Possible enum values are -
+                    - MANAGED_DEVICE_UUID - Used when the parameter value is the UUID of the device.
+                    - MANAGED_DEVICE_IP - Used when the parameter value is the device's IP address.
+                    - MANAGED_DEVICE_HOSTNAME - Used when the parameter value is the device's hostname.
+                    - SITE_UUID - Used when the parameter value is the UUID of a site.
+                    - MANAGED_AP_LOCATIONS - Used when the parameter value is the locations of managed access points within the network.
+                    - SECONDARY_MANAGED_AP_LOCATIONS - Used when the parameter value is the locations of secondary or backup managed access points.
+                    - SSID_NAME - Used when the parameter value is the name of a wireless network.
+                    - POLICY_PROFILE - Used when the parameter value is a set of policies that can be applied to network devices or users.
                 type: str
               resource_scope:
-                description:  The scope in which the resource parameter is to be provisioned
-                  Possible enum values are -
-                    RUNTIME - A parameter with a runtime scope is provided at the time of the deployment and may include data that could be
-                        different each time the template is applied to a device or network so it is typically dynamic and may change from
-                        one deployment to another.
-                    DESIGN - The parameter with a design scope is defined during the design phase of the template. These values are usually
-                      static after template creation and do not change with each deployment.
+                description:
+                  - Specifies the scope in which the resource parameter is to be provisioned.
+                  - Possible enum values are -
+                    - RUNTIME - A parameter with a runtime scope is provided at the time of deployment. These values are dynamic
+                      and may change with each deployment, as they are based on the specific context of the deployment.
+                    - DESIGN - A parameter with a design scope is defined during the design phase of the template. These values
+                      are static after template creation and remain consistent across deployments.
                 type: str
               resource_value:
                 description: The actual value of the resource param to be provisioned.
