@@ -1249,7 +1249,7 @@ class DeviceConfigsBackup(DnacBase):
                                 output_file_path = os.path.join(target_dir, os.path.basename(name))
                                 with open(output_file_path, "wb") as f:
                                     f.write(file_bytes)
-                                self.log("Extracted {} to: {}".format(name, output_file_path), "DEBUG")
+                                self.log("Extracted {} to: {}".format(name, output_file_path), "INFO")
                             except RuntimeError as re:
                                 self.log("Password error for {}: {}".format(name, re), "ERROR")
                 except Exception as e:
