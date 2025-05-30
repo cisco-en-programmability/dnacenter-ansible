@@ -3976,7 +3976,7 @@ class FabricDevices(DnacBase):
             The method iterates over the input list, converting each dictionary into a frozenset of
             its items for hashable comparison. It tracks dictionaries that have already been seen,
             and if a dictionary is unique (not previously seen), it is added to the result list.
-            Logs are generated to track the start of the process, each dictionary’s processing result,
+            Logs are generated to track the start of the process, each dictionary's processing result,
             and the completion of deduplication including original and deduplicated list sizes.
         """
 
