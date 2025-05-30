@@ -179,8 +179,7 @@ options:
           - Defines a logical grouping of network applications that share common policies and configuration settings.
           - Application sets enable network administrators to manage and apply policies to multiple applications simultaneously,
             streamlining policy enforcement, monitoring, and optimization.
-          - Creation and deletion of application sets is not supported in this version.
-          - This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release.
+          - The creation and deletion of application sets are currently unavailable due to an API issue and are expected to be resolved in a future release.
         type: list
         elements: dict
         suboptions:
@@ -193,7 +192,7 @@ options:
         description:
           - Defines individual applications within an application set that share a common purpose or function.
           - Grouping similar applications into sets allows administrators to apply uniform policies efficiently.
-          - The creation and deletion of application sets are currently unavailable due to an API issue and are expected to be resolved in a future release.
+          - The creation and deletion of application are currently unavailable due to an API issue and are expected to be resolved in a future release.
           - This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release.
         type: list
         elements: dict
@@ -1729,7 +1728,7 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation and deletion of application sets are currently unavailable "
+                "The creation and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
@@ -2229,7 +2228,7 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation and deletion of application sets are currently unavailable "
+                "The creation and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
@@ -5033,7 +5032,7 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation and deletion of application sets are currently unavailable "
+                "The creation and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
