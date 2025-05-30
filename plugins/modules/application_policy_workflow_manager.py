@@ -193,7 +193,7 @@ options:
         description:
           - Defines individual applications within an application set that share a common purpose or function.
           - Grouping similar applications into sets allows administrators to apply uniform policies efficiently.
-          - Creation, updation, and deletion of application is not supported in this version.
+          - The creation and deletion of application sets are currently unavailable due to an API issue and are expected to be resolved in a future release.
           - This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release.
         type: list
         elements: dict
@@ -1729,8 +1729,8 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "Creation, updation, and deletion of application is not supported in this version. "
-                "This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release."
+                "The creation and deletion of application sets are currently unavailable "
+                "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
             return self
@@ -2229,8 +2229,8 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "Creation, updation, and deletion of application is not supported in this version. "
-                "This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release."
+                "The creation and deletion of application sets are currently unavailable "
+                "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
             return self
@@ -5033,8 +5033,8 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "Creation, updation, and deletion of application is not supported in this version. "
-                "This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release."
+                "The creation and deletion of application sets are currently unavailable "
+                "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
             return self
