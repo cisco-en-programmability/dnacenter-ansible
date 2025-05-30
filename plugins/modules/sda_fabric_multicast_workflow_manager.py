@@ -1822,7 +1822,7 @@ class FabricMulticast(DnacBase):
 
         multicast_rps = []
 
-        default_allowed = bool(len(any_source_multicast) == 1)
+        default_allowed = (len(any_source_multicast) == 1)
         for item in any_source_multicast:
             rendezvous_point = {}
             rp_device_location = item.get("rp_device_location")
