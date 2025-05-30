@@ -2567,7 +2567,9 @@ class FabricDevices(DnacBase):
         )
         try:
             response = self.dnac._exec(
-                family="fabric_wireless", function="get_sda_wireless_details_from_switches_v1", params={"fabric_id": fabric_id}
+                family="fabric_wireless",
+                function="get_sda_wireless_details_from_switches_v1",
+                params={"fabric_id": fabric_id}
             )
 
             self.log(
@@ -3954,46 +3956,51 @@ class FabricDevices(DnacBase):
 
         return ip_l3_handoff_info
 
-    def deduplicate_list_of_dict(self, dict_list):
+    def deduplicate_list_of_dict(self, list_of_dicts):
         """
         Removes duplicate dictionaries from a list while preserving order.
 
-        This method logs the initial input list, processes each dictionary to ensure
-        uniqueness based on its key-value pairs, and logs the final deduplicated output.
+        This method logs the initial input list, processes each dictionary to ensure uniqueness
+        based on its key-value pairs, and logs detailed information about each dictionary processed,
+        including whether it was added as unique or skipped as a duplicate. Finally, it logs the
+        summary of the deduplication process along with the resulting list.
 
         Args:
-            dict_list (list of dict): A list containing dictionaries that may have duplicates.
+            list_of_dicts (list of dict): A list containing dictionaries that may have duplicates.
 
         Returns:
             list of dict: A new list containing only unique dictionaries from the input list,
                         with order preserved based on the first occurrence.
 
         Description:
-            This method iterates over the input list, checks if a dictionary (represented
-            as a frozenset of its items) has been seen before, and if not, adds it to the
-            result list. The deduplication is performed based on the equality of the dictionary's
-            key-value pairs. Logs are generated to track the start and completion of the process,
-            along with the length of the original and deduplicated lists.
+            The method iterates over the input list, converting each dictionary into a frozenset of
+            its items for hashable comparison. It tracks dictionaries that have already been seen,
+            and if a dictionary is unique (not previously seen), it is added to the result list.
+            Logs are generated to track the start of the process, each dictionary’s processing result,
+            and the completion of deduplication including original and deduplicated list sizes.
         """
 
         self.log("Initializing deduplication of list of dictionaries.", "INFO")
-        self.log(f"Input list:\n{dict_list}", "INFO")
-        seen = set()
-        deduped = []
+        self.log(f"Input list:\n{list_of_dicts}", "INFO")
+        seen_dicts = set()
+        unique_dicts = []
 
-        for d in dict_list:
-            identifier = frozenset(d.items())  # Used only for comparison
-            if identifier not in seen:
-                seen.add(identifier)
-                deduped.append(d)  # Keep original dict
+        for index, current_dict in enumerate(list_of_dicts):
+            dict_identifier = frozenset(current_dict.items())  # Used only for comparison
+            if dict_identifier not in seen_dicts:
+                seen_dicts.add(dict_identifier)
+                unique_dicts.append(current_dict)  # Keep original dict
+                self.log(f"Added unique dictionary at index {index}: {current_dict}", "INFO")
+            else:
+                self.log(f"Skipped duplicate dictionary at index {index}: {current_dict}", "INFO")
 
         self.log(
-            f"Deduplication complete.\nOriginal list length: {len(dict_list)}\n"
-            f"Deduplicated list length: {len(deduped)}\nFinal output:\n{deduped}",
+            f"Deduplication complete.\nOriginal list length: {len(list_of_dicts)}\n"
+            f"Deduplicated list length: {len(unique_dicts)}\nFinal output:\n{unique_dicts}",
             "INFO"
         )
 
-        return deduped
+        return unique_dicts
 
     def _process_scope_list(self, scope_list):
         """
@@ -5185,7 +5192,7 @@ class FabricDevices(DnacBase):
         success_msg = (
             f"Managed AP locations for device with IP Address: '{fabric_device_ip}' updated successfully in the Cisco Catalyst Center"
         )
-        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
 
         self.log(f"Completed update of managed AP locations for device IP: '{fabric_device_ip}'", "DEBUG")
 
@@ -5430,7 +5437,7 @@ class FabricDevices(DnacBase):
             f"Wireless Controller Settings for the device with IP address: '{device_ip}' under "
             f"fabric: '{fabric_name}' updated successfully in the Cisco Catalyst Center."
         )
-        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
 
         self.log(
             f"Completed update of switch wireless settings and rolling AP upgrade management for device '{device_ip}' under fabric '{fabric_name}'",
@@ -5480,7 +5487,7 @@ class FabricDevices(DnacBase):
         success_msg = (
             f"Reload successful for the device with IP address: '{device_ip}' under fabric: '{fabric_name}' in the Cisco Catalyst Center"
         )
-        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
 
         self.log(
             f"Completed API request for reload of the device '{device_ip}' under fabric '{fabric_name}'.",
@@ -6488,11 +6495,11 @@ class FabricDevices(DnacBase):
                     f"Wireless Controller Settings are NOT updated for device with IP '{device_ip}' under fabric '{fabric_name}'. Verification failed."
                 )
                 self.fail_and_exit(self.msg)
-            else:
-                self.log(
-                    f"Wireless Controller Settings are updated for the device with IP address '{device_ip}' under fabric: '{fabric_name}.'",
-                    "INFO"
-                )
+
+            self.log(
+                f"Wireless Controller Settings are updated for the device with IP address '{device_ip}' under fabric: '{fabric_name}.'",
+                "INFO"
+            )
         else:
             self.log(f"'rolling_ap_upgrade' is disabled in the desired configuration for device '{device_ip}'. Checking if an update is required.", "INFO")
             if have_wireless_controller_settings:
@@ -6504,8 +6511,8 @@ class FabricDevices(DnacBase):
                         f"Expected 'disabled', but found 'enabled'. Verification failed."
                     )
                     self.fail_and_exit(self.msg)
-                else:
-                    self.log(f"'rolling_ap_upgrade' is correctly disabled on device '{device_ip}'. No update needed.", "INFO")
+
+                self.log(f"'rolling_ap_upgrade' is correctly disabled on device '{device_ip}'. No update needed.", "INFO")
             else:
                 self.msg = (
                     f"Failed to retrieve current wireless controller settings for device '{device_ip}'. "
