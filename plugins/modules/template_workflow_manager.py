@@ -1429,7 +1429,6 @@ EXAMPLES = r"""
         software_type: "IOS-XE"
         device_types:
           - product_family: "Switches and Hubs"
-
 """
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of template/project
