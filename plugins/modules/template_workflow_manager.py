@@ -1116,6 +1116,7 @@ EXAMPLES = r"""
               name: string
           template_content: string
           version: string
+
 - name: Update a template.
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1153,6 +1154,7 @@ EXAMPLES = r"""
               name: string
           template_content: string
           version: string
+
 - name: Export the projects.
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1171,6 +1173,7 @@ EXAMPLES = r"""
         project:
           - string
           - string
+
 - name: Export the templates.
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1191,6 +1194,7 @@ EXAMPLES = r"""
             template_name: string
           - project_name: string
             template_name: string
+
 - name: Import the Projects.
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1211,6 +1215,7 @@ EXAMPLES = r"""
           payload:
             - name: string
             - name: string
+
 - name: Import the Templates.
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1230,7 +1235,8 @@ EXAMPLES = r"""
           do_version: false
           project_name: string
           template_file: string
-- name: Configuring a template with the language JINJA
+
+- name: Creating a JINJA-based template to configure access VLAN and interfaces on Catalyst 9300
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -1248,20 +1254,20 @@ EXAMPLES = r"""
           author: Test_User
           composite: false
           custom_params_order: true
-          description: Template to configure Access Vlan n Access Interfaces
+          description: Template to configure access VLAN and access interfaces
           device_types:
             - product_family: Switches and Hubs
               product_series: Cisco Catalyst 9300 Series Switches
           failure_policy: ABORT_TARGET_ON_ERROR
           language: JINJA
-          name: access_van_template_9300_switches
-          project_name: access_van_template_9300_switches
+          template_name: PnP-Upstream-SW1
+          project_name: access_vlan_template_9300_switches
           project_description: This project contains all the templates for Access Switches
           software_type: IOS-XE
-          template_name: PnP-Upstream-SW1
           template_content: |
             {% raw %}
             vlan {{ vlan }}
+
             interface {{ interface }}
             no shutdown
             switchport access vlan {{ vlan }}
@@ -1269,7 +1275,8 @@ EXAMPLES = r"""
             description {{ interface_description }}
             {% endraw %}
           version: "1.0"
-- name: Configuring a template with the language VELOCITY
+
+- name: Creating a VELOCITY-based Fusion Router template for Catalyst 3850 switches
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -1284,9 +1291,8 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - configuration_templates:
-          name: "Fusion Router Config"
           template_name: "Fusion Router Config"
-          description: "Configuration template for Fusion Router setup on Catalyst 3850 switches"
+          description: "VELOCITY template to configure L3 handoff and loopback on Catalyst 3850"
           project_name: "Network Configuration Templates"
           tags: []
           author: admin
@@ -1299,7 +1305,9 @@ EXAMPLES = r"""
           template_content: |
             ! L3handoff Vlan
             vlan $VLANID
+
             hostname  Old$__device.hostname
+
             interface Loopback0
             ip address $LOOPBACKIP 255.255.255.255
             ipv6 address $LOOPBACKIPV6
@@ -1315,6 +1323,7 @@ EXAMPLES = r"""
             ipv6 address $interfaceIPV6
             ipv6 enable
             ipv6 tcp adjust-mss 1400
+
 - name: Deploy the given template to the devices based on site specific details
     and other filtering mode
   cisco.dnac.template_workflow_manager:
@@ -1342,6 +1351,7 @@ EXAMPLES = r"""
         site_provisioning_details:
           - site_name: "Global/Bangalore/Building14/Floor1"
             device_family: "Switches and Hubs"
+
 - name: Deploy the given template to the devices based on device specific details
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1367,6 +1377,7 @@ EXAMPLES = r"""
             param_value: "testvlan31"
         device_details:
           device_ips: ["10.1.2.1", "10.2.3.4"]
+
 - name: Deploy template to the devices using resource parameters and copying config
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1396,6 +1407,7 @@ EXAMPLES = r"""
         device_details:
           device_ips: ["10.1.2.1", "10.2.3.4"]
         copy_config: true
+
 - name: Delete the given project or template from the Cisco Catalyst Center
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1417,6 +1429,7 @@ EXAMPLES = r"""
         software_type: "IOS-XE"
         device_types:
           - product_family: "Switches and Hubs"
+
 """
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of template/project
@@ -3388,17 +3401,17 @@ class Template(DnacBase):
         resource_params_list = []
         if resource_params:
             for resource_param in resource_params:
-                type = resource_param.get("resource_type")
+                r_type = resource_param.get("resource_type")
                 scope = resource_param.get("resource_scope", "RUNTIME")
                 resource_params_dict = {
-                    'type': type,
+                    'type': r_type,
                     'scope': scope
                 }
                 value = resource_param.get("resource_value")
                 if value:
                     resource_params_dict['value'] = value
 
-                self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(type, scope), "DEBUG")
+                self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
                 resource_params_list.append(resource_params_dict)
                 del resource_params_dict
 
@@ -3424,7 +3437,7 @@ class Template(DnacBase):
 
         return deploy_payload
 
-    def check_template_deployment_status(self, template_name, deployment_id, device_ips):
+    def monitor_template_deployment_status(self, template_name, deployment_id, device_ips):
         """
         Monitors the status of a template deployment in Cisco Catalyst Center until it completes
         successfully, fails, or times out.
@@ -3443,6 +3456,13 @@ class Template(DnacBase):
         """
 
         loop_start_time = time.time()
+        self.log(
+            "Starting template deployment monitoring for '{0}' with deployment ID '{1}', targeting"
+            " devices: {2}.".format(
+                template_name, deployment_id, device_ips
+            ),
+            "DEBUG"
+        )
         self.log("Starting template deployment monitoring for '{0}' with deployment ID '{1}'.".format(template_name, deployment_id), "DEBUG")
 
         while True:
@@ -3455,12 +3475,19 @@ class Template(DnacBase):
                     op_modifies=True,
                 )
                 self.log(
-                    "Retrieving deployment details by the API 'get_template_deployment_status' using deployment ID: "
-                    "{0}, Response: {1}".format(deployment_id, response), "DEBUG"
+                    "API response received for task '{0}'. Deployment ID: '{1}', Response: {2}".format(
+                        task_name, deployment_id, response
+                    ),
+                    "DEBUG"
                 )
 
                 if not isinstance(response, dict):
-                    self.log("Failed to retrieve deployment details with deployment ID: {0}".format(deployment_id), "ERROR")
+                    self.log(
+                        "Error: Received invalid response type for deployment ID: '{0}'. Expected a dictionary but got: {1}".format(
+                            deployment_id, type(response).__name__
+                        ),
+                        "ERROR"
+                    )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
@@ -3475,14 +3502,16 @@ class Template(DnacBase):
                     return self
 
                 if deployment_status == "FAILURE":
-                    self.log("Collecting the individual device deployment failure messages for template '{0}'.".format(template_name), "DEBUG")
+                    self.log("Deployment of template '{0}' failed. Retrieving detailed failure messages...".format(template_name), "ERROR")
                     devices = response.get('devices', [])
                     failure_msg = []
                     for device in devices:
-                        status_msg = device.get('detailedStatusMessage')
-                        if status_msg:
-                            self.log("Device deployment failure message: {0}".format(status_msg), "ERROR")
-                            failure_msg.append(status_msg)
+                        status_msg = device.get('detailedStatusMessage', 'No detailed status available.')
+                        self.log(
+                            "Device deployment failure: {0}".format(status_msg),
+                            "ERROR"
+                        )
+                        failure_msg.append(status_msg)
 
                     failure_reason = "Deployment of the template '{0}' failed on devices {1} with the following reason(s): {2}".format(
                         template_name, device_ips, ", ".join(failure_msg)
@@ -3495,7 +3524,7 @@ class Template(DnacBase):
                 elapsed_time = time.time() - loop_start_time
                 if self.check_timeout_and_exit(loop_start_time, deployment_id, task_name):
                     self.log(
-                        "Timeout exceeded after {0:.2f} seconds while monitoring task '{1}' with task ID '{2}'.".format(
+                        "Timeout exceeded after {0:.2f} seconds while monitoring deployment task '{1}'. Deployment ID: '{2}'.".format(
                             elapsed_time, task_name, deployment_id
                         ),
                         "DEBUG"
@@ -3509,9 +3538,9 @@ class Template(DnacBase):
 
             except Exception as e:
                 self.msg = (
-                    "An error occurred while executing API call to Function: '{0}' "
-                    "due to the the following exception: {1}."
-                ).format(task_name, str(e))
+                    "An unexpected error occurred during API call for task '{0}'. Deployment ID: '{1}'. "
+                    "Exception: {2}".format(task_name, deployment_id, str(e))
+                )
                 self.fail_and_exit(self.msg)
 
     def deploy_template_to_devices(self, deploy_temp_payload, template_name, device_ips):
@@ -3569,25 +3598,37 @@ class Template(DnacBase):
                     return self
 
                 progress = task_details.get("progress")
-                self.log("Task ID '{0}' details for the API '{1}': {2}".format(task_id, task_name, progress), "DEBUG")
+                self.log(
+                    "Task ID '{0}' progress details retrieved from API '{1}'. Progress: '{2}'."
+                    .format(task_id, task_name, progress),
+                    "DEBUG"
+                )
                 # Get the deployment id of the template if it get deployed successfully on the devices
-                self.log("Regex to find the Deployment Id of the template...", "DEBUG")
+                self.log("Searching for the Deployment ID in the task progress message using regex..." , "DEBUG")
                 match = re.search(r'Template\s+Deployemnt\s+Id:\s+([a-f0-9\-]+)', progress, re.IGNORECASE)
                 deployment_id = None
                 if match:
-                    self.log("Deployment Id found in the progress message.", "DEBUG")
                     deployment_id = match.group(1)
-                    self.log("Template Deployment Id: {0}".format(deployment_id), "DEBUG")
+                    if deployment_id:
+                        self.log("Deployment ID found in the progress message. Template Deployment ID: '{0}'.".format(deployment_id), "DEBUG")
+                        self.log("Proceeding to monitor the deployment with Deployment ID: '{0}'.".format(deployment_id), "DEBUG")
+                        self.monitor_template_deployment_status(template_name, deployment_id, device_ips).check_return_status()
+                    else:
+                        self.log(
+                            "Regex matched the progress message, but no Deployment ID was captured. "
+                            "This could indicate an issue with the progress message or the regex pattern. Progress: '{0}'.".format(progress),
+                            "ERROR"
+                        )
                 else:
-                    self.log("Deployment Id not found...", "WARNING")
-
-                if deployment_id:
-                    self.log("Deployment Id found: {0}".format(deployment_id), "DEBUG")
-                    self.check_template_deployment_status(template_name, deployment_id, device_ips).check_return_status()
+                    self.log(
+                        "Deployment ID not found in the progress message. This could indicate that the template '{0}' is already deployed with"
+                        " same parameters, Hence not deploying on devices. Progress message: '{1}'.".format(template_name, progress),
+                        "WARNING"
+                    )
 
                 if "already deployed with same params" in progress:
                     self.msg = (
-                        "Template '{0}' is already deployed with same params, Hence not deploying on devices."
+                        "Template '{0}' is already deployed with the same parameters. No deployment actions will be performed."
                         .format(template_name)
                     )
                     self.log(self.msg, "INFO")
@@ -3596,7 +3637,11 @@ class Template(DnacBase):
 
                 failure_reason = task_details.get("failureReason")
                 if failure_reason:
-                    self.log("Deployment of the template {0} failed with reason: {1}".format(template_name, failure_reason), "ERROR")
+                    self.log(
+                        "Deployment of the template '{0}' failed. Failure reason: '{1}'. No further actions will be taken."
+                        .format(template_name, failure_reason),
+                        "ERROR"
+                    )
                     self.msg = failure_reason
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
