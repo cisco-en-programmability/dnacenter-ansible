@@ -844,8 +844,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             self.changed = True
 
         if self.not_processed:
-            self.msg = self.msg + " Unable to create or already created Switch profile '{0}'.".format(
-                str(self.not_processed))
+            self.msg += " Unable to process the following Switch Profile(s): '{0}'. They may not have been created or already exist.".format(
+                ", ".join(map(str, self.not_processed)))
             self.log(self.msg, "DEBUG")
 
         self.log(self.msg, "INFO")
