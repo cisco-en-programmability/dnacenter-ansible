@@ -18,6 +18,9 @@ description:
   - It supports creating, updating, and deleting configurations for issue settings and issue resolution functionalities.
   - This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs,
     and more for issue settings and issue resolution.
+  - Global and Customized Settings – Updating Global and Customized Settings, custom profiles site assignment
+    functionality is currently unavailable due to an API/SDK upgrade. It will be available under the
+    Network Assurance Profile Workflow Manager once the updated API is released.
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
