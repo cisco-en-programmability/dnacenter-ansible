@@ -116,6 +116,14 @@ dnac_response:
               "string"
             ]
           }
+        ],
+        "featureTemplates": [
+          {
+            "id": "string",
+            "ssids": [
+              "string"
+            ]
+          }
         ]
       },
       "version": "string"

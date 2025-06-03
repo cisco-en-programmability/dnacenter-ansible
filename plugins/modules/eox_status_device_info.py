@@ -41,7 +41,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-details-per-device
   - name: Cisco DNA Center documentation for EoX GetEoXStatusForAllDevicesV1
     description: Complete reference of the GetEoXStatusForAllDevicesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices
 notes:
   - SDK Method used are eox.Eox.get_eox_details_per_device_v1, eox.Eox.get_eox_status_for_all_devices_v1,
   - Paths used are get /dna/intent/api/v1/eox-status/device, get /dna/intent/api/v1/eox-status/device/{deviceId},

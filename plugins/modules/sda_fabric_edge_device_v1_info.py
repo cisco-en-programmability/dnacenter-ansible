@@ -27,7 +27,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for SDA GetEdgeDeviceFromSDAFabricV1
     description: Complete reference of the GetEdgeDeviceFromSDAFabricV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-edge-device-from-sda-fabric
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-edge-device-from-sda-fabric
 notes:
   - SDK Method used are sda.Sda.get_edge_device,
   - Paths used are get /dna/intent/api/v1/business/sda/edge-device,

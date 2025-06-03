@@ -73,6 +73,7 @@ class ActionModule(ActionBase):
             network_device_id=params.get("networkDeviceId"),
             port_channel_name=params.get("portChannelName"),
             connected_device_type=params.get("connectedDeviceType"),
+            native_vlan_id=params.get("nativeVlanId"),
             offset=params.get("offset"),
             limit=params.get("limit"),
             headers=params.get("headers"),
@@ -91,7 +92,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="sda",
-            function='get_port_channels_v1',
+            function='get_port_channels_connectivity_v1',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

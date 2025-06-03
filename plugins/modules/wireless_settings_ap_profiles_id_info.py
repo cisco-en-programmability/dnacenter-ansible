@@ -95,8 +95,12 @@ dnac_response:
             "duration": {
               "schedulerStartTime": "string",
               "schedulerEndTime": "string",
-              "schedulerDay": "string",
-              "schedulerDate": "string"
+              "schedulerDay": [
+                "string"
+              ],
+              "schedulerDate": [
+                "string"
+              ]
             }
           },
           "countryCode": "string",

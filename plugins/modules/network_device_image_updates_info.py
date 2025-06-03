@@ -86,7 +86,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetNetworkDeviceImageUpdatesV1
     description: Complete reference of the GetNetworkDeviceImageUpdatesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-network-device-image-updates
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-network-device-image-updates
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.get_network_device_image_updates_v1,

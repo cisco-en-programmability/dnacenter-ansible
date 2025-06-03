@@ -27,7 +27,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for SDA GetDeviceInfoFromSDAFabricV1
     description: Complete reference of the GetDeviceInfoFromSDAFabricV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-info-from-sda-fabric
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-device-info-from-sda-fabric
 notes:
   - SDK Method used are sda.Sda.get_device_info,
   - Paths used are get /dna/intent/api/v1/business/sda/device,

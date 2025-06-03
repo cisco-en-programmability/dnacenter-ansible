@@ -22,7 +22,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for File GetListOfAvailableNamespacesV1
     description: Complete reference of the GetListOfAvailableNamespacesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-list-of-available-namespaces
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-list-of-available-namespaces
 notes:
   - SDK Method used are file.File.get_list_of_available_namespaces_v1,
   - Paths used are get /dna/intent/api/v1/file/namespace,

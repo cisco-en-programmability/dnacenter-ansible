@@ -12,6 +12,14 @@ description:
     Returns the list of network devices, determined by the filters. It is possible
     to filter the network devices based
     on various parameters, such as device type, device role, software version, etc.
+    The API returns a paginated
+    response based on 'limit' and 'offset' parameters, allowing up to 500 records
+    per page. 'limit' specifies the
+    number of records, and 'offset' sets the starting point using 1-based indexing.
+    Use
+    '/dna/intent/api/v1/networkDevices/query/count' API to get the total record count.
+    For data sets over 500 records,
+    make multiple calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -74,7 +82,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Devices QueryNetworkDevicesWithFiltersV1
     description: Complete reference of the QueryNetworkDevicesWithFiltersV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!query-network-devices-with-filters
+    link:
+      https://developer.cisco.com/docs/dna-center/#!query-network-devices-with-filters
 notes:
   - SDK Method used are devices.Devices.query_network_devices_with_filters_v1,
   - Paths used are post /dna/intent/api/v1/networkDevices/query,

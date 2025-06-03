@@ -44,7 +44,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Discovery GetDiscoveredDevicesByRangeV1
     description: Complete reference of the GetDiscoveredDevicesByRangeV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-discovered-devices-by-range
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-discovered-devices-by-range
 notes:
   - SDK Method used are discovery.Discovery.get_discovered_devices_by_range_v1,
   - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn},

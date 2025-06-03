@@ -25,7 +25,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Network Settings SyncNetworkDevicesCredentialV1
     description: Complete reference of the SyncNetworkDevicesCredentialV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!sync-network-devices-credential
+    link:
+      https://developer.cisco.com/docs/dna-center/#!sync-network-devices-credential
 notes:
   - SDK Method used are network_settings.NetworkSettings.sync_network_devices_credential_v1,
   - Paths used are post /dna/intent/api/v1/sites/deviceCredentials/apply,

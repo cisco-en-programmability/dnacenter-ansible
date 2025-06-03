@@ -87,6 +87,32 @@ options:
         passed to get one or more of the specific health data summaries associated
         with virtual networks.
     type: str
+  siteHierarchy:
+    description:
+      - >
+        SiteHierarchy query parameter. The full hierarchical breakdown of the site
+        tree starting from Global site
+        name and ending with the specific site name. The Root site is named "Global"
+        (Ex.
+        `Global/AreaName/BuildingName/FloorName`) This field supports wildcard asterisk
+        (`*`) character search
+        support. E.g. `*/San*, */San, /San*` Examples `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
+        (single siteHierarchy requested) `?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Global
+        /AreaName2/BuildingName2/FloorName2` (multiple siteHierarchies requested).
+    type: str
+  SiteHierarchyId:
+    description:
+      - >
+        SiteHierarchyId query parameter. The full hierarchy breakdown of the site
+        tree in id form starting from
+        Global site UUID and ending with the specific site UUID. (Ex. `globalUuid/areaUuid/buildingUuid/floorUuid`)
+        This field supports wildcard asterisk (`*`) character search support. E.g.
+        `*uuid*, *uuid, uuid*` Examples
+        `?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid `(single siteHierarchyId
+        requested) `?siteHiera
+        rchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globalUuid/areaUuid2/buildingUuid2/floorUu
+        id2` (multiple siteHierarchyIds requested).
+    type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
@@ -121,86 +147,100 @@ EXAMPLES = r"""
     vnLayer: string
     attribute: string
     view: string
+    siteHierarchy: string
+    SiteHierarchyId: string
   register: result
 """
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "id": "string",
-        "name": "string",
-        "networkProtocol": "string",
-        "vlan": {},
-        "vnid": 0,
-        "layer": {},
-        "totalFabricSites": 0,
-        "associatedL3Vn": {},
-        "totalEndpoints": 0,
-        "goodHealthPercentage": 0,
-        "totalDeviceCount": 0,
-        "goodHealthDeviceCount": 0,
-        "fairHealthDeviceCount": 0,
-        "poorHealthDeviceCount": 0,
-        "noHealthDeviceCount": 0,
-        "vnFabricControlPlaneGoodHealthPercentage": 0,
-        "vnFabricControlPlaneTotalDeviceCount": 0,
-        "vnFabricControlPlaneGoodHealthDeviceCount": 0,
-        "vnFabricControlPlanePoorHealthDeviceCount": 0,
-        "vnFabricControlPlaneFairHealthDeviceCount": 0,
-        "vnFabricControlPlaneNoHealthDeviceCount": 0,
-        "vnServicesHealthPercentage": 0,
-        "vnServicesTotalDeviceCount": 0,
-        "vnServicesGoodHealthDeviceCount": 0,
-        "vnServicesPoorHealthDeviceCount": 0,
-        "vnServicesFairHealthDeviceCount": 0,
-        "vnServicesNoHealthDeviceCount": 0,
-        "vnExitHealthPercentage": 0,
-        "vnExitTotalDeviceCount": 0,
-        "vnExitGoodHealthDeviceCount": 0,
-        "vnExitPoorHealthDeviceCount": 0,
-        "vnExitFairHealthDeviceCount": 0,
-        "vnExitNoHealthDeviceCount": 0,
-        "vnStatusHealthPercentage": {},
-        "vnStatusTotalDeviceCount": 0,
-        "vnStatusGoodHealthDeviceCount": 0,
-        "vnStatusPoorHealthDeviceCount": 0,
-        "vnStatusFairHealthDeviceCount": 0,
-        "vnStatusNoHealthDeviceCount": 0,
-        "pubsubSessionGoodHealthPercentage": 0,
-        "pubsubSessionTotalDeviceCount": 0,
-        "pubsubSessionGoodHealthDeviceCount": 0,
-        "pubsubSessionPoorHealthDeviceCount": 0,
-        "pubsubSessionFairHealthDeviceCount": 0,
-        "pubsubSessionNoHealthDeviceCount": 0,
-        "multiCastGoodHealthPercentage": {},
-        "multiCastTotalDeviceCount": 0,
-        "multiCastGoodHealthDeviceCount": 0,
-        "multiCastPoorHealthDeviceCount": 0,
-        "multiCastFairHealthDeviceCount": 0,
-        "multiCastNoHealthDeviceCount": 0,
-        "internetAvailGoodHealthPercentage": 0,
-        "internetAvailTotalDeviceCount": 0,
-        "internetAvailGoodHealthDeviceCount": 0,
-        "internetAvailPoorHealthDeviceCount": 0,
-        "internetAvailFairHealthDeviceCount": 0,
-        "internetAvailNoHealthDeviceCount": 0,
-        "bgpPeerGoodHealthPercentage": 0,
-        "bgpPeerTotalDeviceCount": 0,
-        "bgpPeerGoodHealthDeviceCount": 0,
-        "bgpPeerPoorHealthDeviceCount": 0,
-        "bgpPeerFairHealthDeviceCount": 0,
-        "bgpPeerNoHealthDeviceCount": 0,
-        "vniGoodHealthPercentage": {},
-        "vniTotalDeviceCount": 0,
-        "vniGoodHealthDeviceCount": 0,
-        "vniPoorHealthDeviceCount": 0,
-        "vniFairHealthDeviceCount": 0,
-        "vniNoHealthDeviceCount": 0
-      }
-    ]
+    {
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "vlan": "string",
+          "vnid": "string",
+          "layer": "string",
+          "associatedL3Vn": "string",
+          "totalEndpoints": 0,
+          "totalFabricSites": 0,
+          "goodHealthPercentage": 0,
+          "goodHealthDeviceCount": 0,
+          "totalHealthDeviceCount": 0,
+          "fairHealthDeviceCount": 0,
+          "poorHealthDeviceCount": 0,
+          "noHealthDeviceCount": 0,
+          "vnFabricControlPlaneGoodHealthPercentage": 0,
+          "vnFabricControlPlaneTotalDeviceCount": 0,
+          "vnFabricControlPlaneGoodHealthDeviceCount": 0,
+          "vnFabricControlPlanePoorHealthDeviceCount": 0,
+          "vnFabricControlPlaneFairHealthDeviceCount": 0,
+          "vnFabricControlPlaneNoHealthDeviceCount": 0,
+          "vnServicesHealthPercentage": 0,
+          "vnServicesTotalDeviceCount": 0,
+          "vnServicesGoodHealthDeviceCount": 0,
+          "vnServicesPoorHealthDeviceCount": 0,
+          "vnServicesFairHealthDeviceCount": 0,
+          "vnServicesNoHealthDeviceCount": 0,
+          "vnExitHealthPercentage": 0,
+          "vnExitTotalDeviceCount": 0,
+          "vnExitGoodHealthDeviceCount": 0,
+          "vnExitPoorHealthDeviceCount": 0,
+          "vnExitFairHealthDeviceCount": 0,
+          "vnExitNoHealthDeviceCount": 0,
+          "vnStatusHealthPercentage": 0,
+          "vnStatusTotalDeviceCount": 0,
+          "vnStatusGoodHealthDeviceCount": 0,
+          "vnStatusPoorHealthDeviceCount": 0,
+          "vnStatusFairHealthDeviceCount": 0,
+          "vnStatusNoHealthDeviceCount": 0,
+          "pubsubSessionGoodHealthPercentage": 0,
+          "pubsubSessionTotalDeviceCount": 0,
+          "pubsubSessionGoodHealthDeviceCount": 0,
+          "pubsubSessionPoorHealthDeviceCount": 0,
+          "pubsubSessionFairHealthDeviceCount": 0,
+          "pubsubSessionNoHealthDeviceCount": 0,
+          "multiCastGoodHealthPercentage": 0,
+          "multiCastTotalDeviceCount": 0,
+          "multiCastGoodHealthDeviceCount": 0,
+          "multiCastPoorHealthDeviceCount": 0,
+          "multiCastFairHealthDeviceCount": 0,
+          "internetAvailGoodHealthPercentage": 0,
+          "internetAvailTotalDeviceCount": 0,
+          "internetAvailGoodHealthDeviceCount": 0,
+          "internetAvailPoorHealthDeviceCount": 0,
+          "internetAvailFairHealthDeviceCount": 0,
+          "internetAvailNoHealthDeviceCount": 0,
+          "bgpPeerGoodHealthPercentage": 0,
+          "bgpPeerTotalDeviceCount": 0,
+          "bgpPeerGoodHealthDeviceCount": 0,
+          "bgpPeerPoorHealthDeviceCount": 0,
+          "bgpPeerFairHealthDeviceCount": 0,
+          "bgpPeerNoHealthDeviceCount": 0,
+          "vniGoodHealthPercentage": 0,
+          "vniTotalDeviceCount": 0,
+          "vniGoodHealthDeviceCount": 0,
+          "vniPoorHealthDeviceCount": 0,
+          "vniFairHealthDeviceCount": 0,
+          "vniNoHealthDeviceCount": 0,
+          "networkProtocol": "string"
+        }
+      ],
+      "page": {
+        "limit": 0,
+        "offset": 0,
+        "count": 0,
+        "sortBy": [
+          {
+            "name": "string",
+            "order": "string"
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

@@ -112,51 +112,69 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "id": "string",
-        "name": "string",
-        "controlPlaneCount": 0,
-        "transitType": "string",
-        "fabricSitesCount": 0,
-        "goodHealthPercentage": 0,
-        "goodHealthDeviceCount": 0,
-        "totalDeviceCount": 0,
-        "poorHealthDeviceCount": 0,
-        "fairHealthDeviceCount": 0,
-        "transitControlPlaneHealthPercentage": 0,
-        "transitControlPlaneTotalDeviceCount": 0,
-        "transitControlPlaneGoodHealthDeviceCount": 0,
-        "transitControlPlanePoorHealthDeviceCount": 0,
-        "transitControlPlaneFairHealthDeviceCount": 0,
-        "transitServicesHealthPercentage": 0,
-        "transitServicesTotalDeviceCount": 0,
-        "transitServicesGoodHealthDeviceCount": 0,
-        "transitServicesPoorHealthDeviceCount": 0,
-        "transitServicesFairHealthDeviceCount": 0,
-        "pubsubTransitHealthPercentage": 0,
-        "pubsubTransitTotalDeviceCount": 0,
-        "pubsubTransitGoodHealthDeviceCount": 0,
-        "pubsubTransitPoorHealthDeviceCount": 0,
-        "pubsubTransitFairHealthDeviceCount": 0,
-        "lispTransitHealthPercentage": 0,
-        "lispTransitTotalDeviceCount": 0,
-        "lispTransitGoodHealthDeviceCount": 0,
-        "lispTransitPoorHealthDeviceCount": 0,
-        "lispTransitFairHealthDeviceCount": 0,
-        "internetAvailTransitHealthPercentage": 0,
-        "internetAvailTransitTotalDeviceCount": 0,
-        "internetAvailTransitGoodHealthDeviceCount": 0,
-        "internetAvailTransitPoorHealthDeviceCount": 0,
-        "internetAvailTransitFairHealthDeviceCount": 0,
-        "bgpTcpHealthPercentage": 0,
-        "bgpTcpTotalDeviceCount": 0,
-        "bgpTcpGoodHealthDeviceCount": 0,
-        "bgpTcpPoorHealthDeviceCount": 0,
-        "bgpTcpFairHealthDeviceCount": 0
-      }
-    ]
+    {
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "controlPlaneCount": 0,
+          "transitType": [
+            "string"
+          ],
+          "networkProtocol": "string",
+          "fabricSitesCount": 0,
+          "goodHealthPercentage": 0,
+          "goodHealthDeviceCount": 0,
+          "totalHealthDeviceCount": 0,
+          "poorHealthDeviceCount": 0,
+          "fairHealthDeviceCount": 0,
+          "transitControlPlaneHealthPercentage": 0,
+          "transitControlPlaneTotalDeviceCount": 0,
+          "transitControlPlaneGoodHealthDeviceCount": 0,
+          "transitControlPlanePoorHealthDeviceCount": 0,
+          "transitControlPlaneFairHealthDeviceCount": 0,
+          "transitServicesHealthPercentage": 0,
+          "transitServicesTotalDeviceCount": 0,
+          "transitServicesGoodHealthDeviceCount": 0,
+          "transitServicesPoorHealthDeviceCount": 0,
+          "transitServicesFairHealthDeviceCount": 0,
+          "pubsubTransitHealthPercentage": 0,
+          "pubsubTransitTotalDeviceCount": 0,
+          "pubsubTransitGoodHealthDeviceCount": 0,
+          "pubsubTransitPoorHealthDeviceCount": 0,
+          "pubsubTransitFairHealthDeviceCount": 0,
+          "lispTransitHealthPercentage": 0,
+          "lispTransitTotalDeviceCount": 0,
+          "lispTransitGoodHealthDeviceCount": 0,
+          "lispTransitPoorHealthDeviceCount": 0,
+          "lispTransitFairHealthDeviceCount": 0,
+          "internetAvailTransitHealthPercentage": 0,
+          "internetAvailTransitTotalDeviceCount": 0,
+          "internetAvailTransitGoodHealthDeviceCount": 0,
+          "internetAvailTransitPoorHealthDeviceCount": 0,
+          "internetAvailTransitFairHealthDeviceCount": 0,
+          "bgpTcpHealthPercentage": 0,
+          "bgpTcpTotalDeviceCount": 0,
+          "bgpTcpGoodHealthDeviceCount": 0,
+          "bgpTcpPoorHealthDeviceCount": 0,
+          "bgpTcpFairHealthDeviceCount": 0,
+          "siteHierarchy": "string",
+          "siteHierarchyId": "string"
+        }
+      ],
+      "page": {
+        "limit": 0,
+        "offset": 0,
+        "count": 0,
+        "sortBy": [
+          {
+            "name": "string",
+            "order": "string"
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

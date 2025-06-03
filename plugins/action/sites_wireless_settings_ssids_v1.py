@@ -97,6 +97,8 @@ argument_spec.update(dict(
     isHex=dict(type="bool"),
     isRandomMacFilterEnabled=dict(type="bool"),
     fastTransitionOverTheDistributedSystemEnable=dict(type="bool"),
+    isRadiusProfilingEnabled=dict(type="bool"),
+    policyProfileName=dict(type="str"),
     siteId=dict(type="str"),
     id=dict(type="str"),
     removeOverrideInHierarchy=dict(type="bool"),
@@ -181,6 +183,8 @@ class SitesWirelessSettingsSsidsV1(object):
             isHex=params.get("isHex"),
             isRandomMacFilterEnabled=params.get("isRandomMacFilterEnabled"),
             fastTransitionOverTheDistributedSystemEnable=params.get("fastTransitionOverTheDistributedSystemEnable"),
+            isRadiusProfilingEnabled=params.get("isRadiusProfilingEnabled"),
+            policyProfileName=params.get("policyProfileName"),
             site_id=params.get("siteId"),
             id=params.get("id"),
             remove_override_in_hierarchy=params.get("removeOverrideInHierarchy"),
@@ -269,6 +273,8 @@ class SitesWirelessSettingsSsidsV1(object):
         new_object_params['isHex'] = self.new_object.get('isHex')
         new_object_params['isRandomMacFilterEnabled'] = self.new_object.get('isRandomMacFilterEnabled')
         new_object_params['fastTransitionOverTheDistributedSystemEnable'] = self.new_object.get('fastTransitionOverTheDistributedSystemEnable')
+        new_object_params['isRadiusProfilingEnabled'] = self.new_object.get('isRadiusProfilingEnabled')
+        new_object_params['policyProfileName'] = self.new_object.get('policyProfileName')
         new_object_params['siteId'] = self.new_object.get('siteId')
         return new_object_params
 
@@ -347,6 +353,8 @@ class SitesWirelessSettingsSsidsV1(object):
         new_object_params['isHex'] = self.new_object.get('isHex')
         new_object_params['isRandomMacFilterEnabled'] = self.new_object.get('isRandomMacFilterEnabled')
         new_object_params['fastTransitionOverTheDistributedSystemEnable'] = self.new_object.get('fastTransitionOverTheDistributedSystemEnable')
+        new_object_params['isRadiusProfilingEnabled'] = self.new_object.get('isRadiusProfilingEnabled')
+        new_object_params['policyProfileName'] = self.new_object.get('policyProfileName')
         new_object_params['siteId'] = self.new_object.get('siteId')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
@@ -477,6 +485,8 @@ class SitesWirelessSettingsSsidsV1(object):
             ("isHex", "isHex"),
             ("isRandomMacFilterEnabled", "isRandomMacFilterEnabled"),
             ("fastTransitionOverTheDistributedSystemEnable", "fastTransitionOverTheDistributedSystemEnable"),
+            ("isRadiusProfilingEnabled", "isRadiusProfilingEnabled"),
+            ("policyProfileName", "policyProfileName"),
             ("siteId", "site_id"),
             ("id", "id"),
             ("removeOverrideInHierarchy", "remove_override_in_hierarchy"),

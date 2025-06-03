@@ -28,6 +28,41 @@ options:
     description: DeviceId path parameter. Network Device ID. This value can be obtained
       by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
+  featureTemplatesOverridenAttributes:
+    description: Wireless Controllers Provision's featureTemplatesOverridenAttributes.
+    suboptions:
+      editFeatureTemplates:
+        description: Wireless Controllers Provision's editFeatureTemplates.
+        elements: dict
+        suboptions:
+          additionalIdentifiers:
+            description: Wireless Controllers Provision's additionalIdentifiers.
+            suboptions:
+              siteUuid:
+                description: Site UUID. This must be provided if `featureTemplateId`
+                  belongs to `Flex Configuration` feature template.
+                type: str
+              wlanProfileName:
+                description: WLAN Profile Name. This must be passed if `featureTemplateId`
+                  belongs to `Advanced SSID Configuration` Feature Template.
+                type: str
+            type: dict
+          attributes:
+            description: This dynamic map should contain attribute name and overridden
+              value of respective Feature Template whose `featureTemplateId`. List
+              of attributes applicable to given `featureTemplateId` can be retrieved
+              from its GET API call
+              /dna/intent/api/v1/featureTemplates/wireless/<featureTemplateName>/featureTemplateId.
+            type: dict
+          excludedAttributes:
+            description: List of attributes which will NOT be provisioned.
+            elements: str
+            type: list
+          featureTemplateId:
+            description: Feature Template ID.
+            type: str
+        type: list
+    type: dict
   interfaces:
     description: Wireless Controllers Provision's interfaces.
     elements: dict
@@ -89,6 +124,15 @@ EXAMPLES = r"""
     apAuthorizationListName: string
     authorizeMeshAndNonMeshAccessPoints: true
     deviceId: string
+    featureTemplatesOverridenAttributes:
+      editFeatureTemplates:
+        - additionalIdentifiers:
+            siteUuid: string
+            wlanProfileName: string
+          attributes: {}
+          excludedAttributes:
+            - string
+          featureTemplateId: string
     interfaces:
       - interfaceGateway: string
         interfaceIPAddress: string

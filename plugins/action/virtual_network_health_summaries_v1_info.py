@@ -35,6 +35,8 @@ argument_spec.update(dict(
     vnLayer=dict(type="str"),
     attribute=dict(type="str"),
     view=dict(type="str"),
+    siteHierarchy=dict(type="str"),
+    SiteHierarchyId=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -83,6 +85,8 @@ class ActionModule(ActionBase):
             vn_layer=params.get("vnLayer"),
             attribute=params.get("attribute"),
             view=params.get("view"),
+            site_hierarchy=params.get("siteHierarchy"),
+            site_hierarchy_id=params.get("SiteHierarchyId"),
             headers=params.get("headers"),
         )
         return new_object
