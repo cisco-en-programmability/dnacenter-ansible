@@ -1134,11 +1134,11 @@ class AssuranceSettings(DnacBase):
                     validate_str(device_name, param_spec, "device_name", errormsg)
 
                 start_datetime = each_issue.get("start_datetime")
+                end_datetime = each_issue.get("end_datetime")
                 if start_datetime:
                     param_spec = dict(type="str", length_max=20)
                     validate_str(start_datetime, param_spec, "start_datetime", errormsg)
 
-                end_datetime = each_issue.get("end_datetime")
                 if end_datetime:
                     param_spec = dict(type="str", length_max=20)
                     validate_str(end_datetime, param_spec, "end_datetime", errormsg)
@@ -1940,7 +1940,7 @@ class AssuranceSettings(DnacBase):
         avoid_keys = [
             "site_hierarchy", "start_datetime", "end_datetime",
             "issue_name", "network_device_ip_address", "device_name",
-            "issue_process_type"
+            "issue_process_type", "mac_address"
         ]
 
         for key, value in config_data.items():
@@ -1979,9 +1979,7 @@ class AssuranceSettings(DnacBase):
                 self.log(self.msg, "INFO")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            payload_data[self.keymap["mac_address"]] = device_info.get("mac_address")
-            if payload_data.get(self.keymap["site_hierarchy"]):
-                payload_data["deviceId"] = device_info.get("id")
+            payload_data["device_id"] = device_info.get("id")
 
         self.log("Collecting Issue ids for given config: {0}".format(
             self.pprint(payload_data)), "INFO")
