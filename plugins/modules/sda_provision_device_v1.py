@@ -33,7 +33,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!provision-wired-device
   - name: Cisco DNA Center documentation for SDA DeleteProvisionedWiredDeviceV1
     description: Complete reference of the DeleteProvisionedWiredDeviceV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-wired-device
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-provisioned-wired-device
   - name: Cisco DNA Center documentation for SDA ReProvisionWiredDeviceV1
     description: Complete reference of the ReProvisionWiredDeviceV1 API.
     link: https://developer.cisco.com/docs/dna-center/#!re-provision-wired-device

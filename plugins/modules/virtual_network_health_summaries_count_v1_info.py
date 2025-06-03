@@ -51,6 +51,32 @@ options:
       - VnLayer query parameter. VN Layer information covering Layer 3 or Layer 2
         VNs.
     type: str
+  siteHierarchy:
+    description:
+      - >
+        SiteHierarchy query parameter. The full hierarchical breakdown of the site
+        tree starting from Global site
+        name and ending with the specific site name. The Root site is named "Global"
+        (Ex.
+        `Global/AreaName/BuildingName/FloorName`) This field supports wildcard asterisk
+        (`*`) character search
+        support. E.g. `*/San*, */San, /San*` Examples `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
+        (single siteHierarchy requested) `?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Global
+        /AreaName2/BuildingName2/FloorName2` (multiple siteHierarchies requested).
+    type: str
+  siteHierarchyId:
+    description:
+      - >
+        SiteHierarchyId query parameter. The full hierarchy breakdown of the site
+        tree in id form starting from
+        Global site UUID and ending with the specific site UUID. (Ex. `globalUuid/areaUuid/buildingUuid/floorUuid`)
+        This field supports wildcard asterisk (`*`) character search support. E.g.
+        `*uuid*, *uuid, uuid*` Examples
+        `?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid `(single siteHierarchyId
+        requested) `?siteHiera
+        rchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globalUuid/areaUuid2/buildingUuid2/floorUu
+        id2` (multiple siteHierarchyIds requested).
+    type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
@@ -77,6 +103,8 @@ EXAMPLES = r"""
     endTime: 0
     id: string
     vnLayer: string
+    siteHierarchy: string
+    siteHierarchyId: string
   register: result
 """
 RETURN = r"""

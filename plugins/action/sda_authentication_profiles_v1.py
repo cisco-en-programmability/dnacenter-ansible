@@ -115,6 +115,7 @@ class SdaAuthenticationProfilesV1(object):
             ("wakeOnLan", "wakeOnLan"),
             ("numberOfHosts", "numberOfHosts"),
             ("isBpduGuardEnabled", "isBpduGuardEnabled"),
+            ("isVoiceVlanEnabled", "isVoiceVlanEnabled"),
             ("preAuthAcl", "preAuthAcl"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params

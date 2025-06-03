@@ -38,7 +38,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Health and Performance RetrievesAllTheValidationSetsV1
     description: Complete reference of the RetrievesAllTheValidationSetsV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets
   - name: Cisco DNA Center documentation for Health and Performance RetrievesValidationDetailsForAValidationSetV1
     description: Complete reference of the RetrievesValidationDetailsForAValidationSetV1
       API.

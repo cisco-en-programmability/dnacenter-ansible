@@ -42,7 +42,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Devices GetFunctionalCapabilityByIdV1
     description: Complete reference of the GetFunctionalCapabilityByIdV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-functional-capability-by-id
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-functional-capability-by-id
   - name: Cisco DNA Center documentation for Devices GetFunctionalCapabilityForDevicesV1
     description: Complete reference of the GetFunctionalCapabilityForDevicesV1 API.
     link:

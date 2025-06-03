@@ -42,8 +42,9 @@ options:
           this field is not allowed).
         type: bool
       isGroupBasedPolicyEnforcementEnabled:
-        description: Enable/disable Group-Based Policy Enforcement (applicable only
-          to INFRA_VN; defaults to false).
+        description: Enable/disable Group-Based Policy Enforcement (defaults to false
+          when using INFRA_VN; defaults to true for other VNs; can only be modified
+          when using INFRA_VN).
         type: bool
       isIntraSubnetRoutingEnabled:
         description: Enable/disable Intra-Subnet Routing (not applicable to INFRA_VN;
@@ -59,13 +60,32 @@ options:
         description: Enable/disable multiple IP-to-MAC Addresses (Wireless Bridged-Network
           Virtual Machine; not applicable to INFRA_VN).
         type: bool
+      isResourceGuardEnabled:
+        description: Enable/disable Resource Guard (not applicable to INFRA_VN).
+        type: bool
       isSupplicantBasedExtendedNodeOnboarding:
         description: Enable/disable Supplicant-Based Extended Node Onboarding (applicable
           only to INFRA_VN requests; must not be null when poolType is EXTENDED_NODE).
         type: bool
+      isWirelessFloodingEnabled:
+        description: Enable/disable wireless flooding (not applicable to INFRA_VN;
+          can only be true when isWirelessPool is true).
+        type: bool
       isWirelessPool:
         description: Enable/disable fabric-enabled wireless (not applicable to INFRA_VN).
         type: bool
+      layer2FloodingAddress:
+        description: The flooding address to use for layer 2 flooding. The IP address
+          must be in the 239.0.0.0/8 range. This property is applicable only when
+          the flooding address source is set to "CUSTOM".
+        type: str
+      layer2FloodingAddressAssignment:
+        description: The source of the flooding address for layer 2 flooding. Layer
+          2 flooding must be enabled to configure this property. "SHARED" means that
+          the anycast gateway will inherit the flooding address from the fabric. "CUSTOM"
+          allows the anycast gateway to use a different flooding address (not applicable
+          to INFRA_VN; defaults to "SHARED").
+        type: str
       poolType:
         description: The pool type of the anycast gateway (required for & applicable
           only to INFRA_VN; updating this field is not allowed).
@@ -132,8 +152,12 @@ EXAMPLES = r"""
         isIpDirectedBroadcast: true
         isLayer2FloodingEnabled: true
         isMultipleIpToMacAddresses: true
+        isResourceGuardEnabled: true
         isSupplicantBasedExtendedNodeOnboarding: true
+        isWirelessFloodingEnabled: true
         isWirelessPool: true
+        layer2FloodingAddress: string
+        layer2FloodingAddressAssignment: string
         poolType: string
         securityGroupName: string
         tcpMssAdjustment: 0
@@ -161,8 +185,12 @@ EXAMPLES = r"""
         isIpDirectedBroadcast: true
         isLayer2FloodingEnabled: true
         isMultipleIpToMacAddresses: true
+        isResourceGuardEnabled: true
         isSupplicantBasedExtendedNodeOnboarding: true
+        isWirelessFloodingEnabled: true
         isWirelessPool: true
+        layer2FloodingAddress: string
+        layer2FloodingAddressAssignment: string
         poolType: string
         securityGroupName: string
         tcpMssAdjustment: 0
