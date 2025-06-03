@@ -311,11 +311,12 @@ options:
                 type: str
       device_collection_status_check:
         description:
-          - When set to false, the module will skip checking the device collection status for
-            states 'In Progress' or 'Managed'.
+          - Determines whether the module should check the device collection status before proceeding with the configuration.
+          - If set to false, the module skips verifying whether the device collection status is in a valid state
+            ('In Progress' or 'Managed') for configuration.
           - The default value is true.
         type: bool
-        default: True
+        default: true
 
 requirements:
   - dnacentersdk >= 2.9.2
@@ -652,6 +653,65 @@ EXAMPLES = r"""
             ssid_details:
               - ssid_name: "guest_ssid_1"
               - ssid_name: "ent-ssid-2-wpa2"
+- name: Skip collection status check when add/update port assignments, port channels and wireless ssids for a
+    specific fabric site
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - ip_address: "204.1.2.2"
+        # Set device_collection_status_check to false to skip the check
+        device_collection_status_check: false
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
+          - interface_name: "FortyGigabitEthernet1/1/1"
+            connected_device_type: "TRUNKING_DEVICE"
+          - interface_name: "FortyGigabitEthernet1/1/2"
+            connected_device_type: "TRUNKING_DEVICE"
+            authentication_template_name: "No Authentication"
+            interface_description: "Trunk Port"
+        port_channels:
+          - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
+            connected_device_type: "TRUNK"
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-1"
+            ssid_details:
+              - ssid_name: "open1-iac"
+- name: Skip device collection stat when Deleting specific port assignments, port channels
+    and wireless SSID mappings
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - ip_address: "204.1.2.2"
+        # Set device_collection_status_checkwq to false to skip the check
+        device_collection_status_check: false
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
+          - interface_name: "FortyGigabitEthernet1/1/1"
+          - interface_name: "FortyGigabitEthernet1/1/2"
+        port_channels:
+          - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-3"
+            ssid_details:
+              - ssid_name: "ent_ssid_1_wpa3"
 """
 RETURN = r"""
 # Case_1: Success Scenario
