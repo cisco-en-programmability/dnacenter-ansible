@@ -1418,6 +1418,7 @@ class AssuranceSettings(DnacBase):
         try:
             start_datetime = datetime.strptime(start_time, date_format)
             end_datetime = datetime.strptime(end_time, date_format)
+            seven_day = 7 * 24 * 60 * 60 * 1000
 
             if start_datetime > end_datetime:
                 errormsg.append("Start datetime '{start_time}' must be before end datetime '{end_time}'.")
@@ -1425,6 +1426,10 @@ class AssuranceSettings(DnacBase):
 
             start_epoch_ms = int(start_datetime.timestamp() * 1000)
             end_epoch_ms = int(end_datetime.timestamp() * 1000)
+            if (end_epoch_ms - start_epoch_ms) >= seven_day:
+                errormsg.append("The time range must not exceed 7 days.")
+                return None, None
+
             self.log("Successfully validated start and end datetime.", "INFO")
 
             return start_epoch_ms, end_epoch_ms
