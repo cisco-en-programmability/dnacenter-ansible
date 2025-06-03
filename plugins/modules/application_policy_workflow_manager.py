@@ -174,118 +174,6 @@ options:
               bulk_data:
                 description: DSCP value for large-volume data transfers that can tolerate delays or interruptions.
                 type: str
-      application_sets:
-        description:
-          - Defines a logical grouping of network applications that share common policies and configuration settings.
-          - Application sets enable network administrators to manage and apply policies to multiple applications simultaneously,
-            streamlining policy enforcement, monitoring, and optimization.
-          - The creation and deletion of application sets are currently unavailable due to an API issue and are expected to be resolved in a future release.
-        type: list
-        elements: dict
-        suboptions:
-          name:
-            description:
-              - Specifies the name of the application set.
-              - Required for deleting an application set.
-            type: str
-      application:
-        description:
-          - Defines individual applications within an application set that share a common purpose or function.
-          - Grouping similar applications into sets allows administrators to apply uniform policies efficiently.
-          - The creation and deletion of application are currently unavailable due to an API issue and are expected to be resolved in a future release.
-          - This feature is deferred due to an API issue. Once it's fixed, we will address it in the upcoming release.
-        type: list
-        elements: dict
-        suboptions:
-          name:
-            description:
-              - Specifies the name of the application.
-              - Required for create, update, and delete operations.
-            type: str
-          description:
-            description: A brief description of the application.
-            type: str
-          help_string:
-            description: Provides the purpose or intended use of the application.
-            type: str
-          type:
-            description: |
-              - Specifies how the application is identified within the network.
-              - Permissible values:
-                - server_name: Custom application identified by server name.
-                - url: Custom application identified by URL.
-                - server_ip: Custom application identified by server IP address.
-            type: str
-          server_name:
-            description: Required if `type` is `server_name`; specifies the server name for application identification.
-            type: str
-          dscp:
-            description:
-              - Required if `type` is `server_ip`; specifies DSCP value or `network_identity` details for the application.
-              - DSCP value must be in the range 0 - 63.
-            type: int
-          network_identity:
-            description: Required if `type` is `server_ip`; defines network-related parameters for application identification.
-            type: dict
-            suboptions:
-              protocol:
-                description: Specifies the network protocol used by the application.
-                type: str
-              port:
-                description: Specifies the communication port number for the application.
-                type: str
-              ip_subnet:
-                description: List of IP addresses or subnets associated with the application.
-                type: list
-                elements: str
-              lower_port:
-                description: Specifies the lower range of ports for network communication.
-                type: str
-              upper_port:
-                description: Specifies the upper range of ports for network communication.
-                type: str
-          app_protocol:
-            description: |
-              - Required if `type` is `url` or `server_ip`; specifies the protocol used by the application.
-              - If `type` is `url`, `app_protocol` must be `TCP`.
-              - Permissible values:
-                - 'TCP': Transmission Control Protocol (reliable, connection-oriented).
-                - 'UDP': User Datagram Protocol (fast, connectionless, no guaranteed delivery).
-                - 'TCP_UDP': Supports both TCP and UDP communication.
-                - 'IP': Internet Protocol for network addressing and routing.
-            type: str
-          url:
-            description: Required if `type` is `url`; specifies the URL for application identification.
-            type: str
-          traffic_class:
-            description: |
-              - Defines traffic prioritization based on network policies, ensuring critical applications receive the required bandwidth.
-              - Permissible values:
-                  - "BROADCAST_VIDEO": Video traffic broadcasted to multiple recipients.
-                  - "BULK_DATA": Large data transfers like file uploads or backups.
-                  - "MULTIMEDIA_CONFERENCING": Audio and video traffic for conferencing.
-                  - "MULTIMEDIA_STREAMING": Streaming video or audio content.
-                  - "NETWORK_CONTROL": Traffic for managing and controlling network infrastructure.
-                  - "OPS_ADMIN_MGMT": Traffic for network operational and administrative tasks.
-                  - "REAL_TIME_INTERACTIVE": Low-latency traffic for real-time interactive applications.
-                  - "SIGNALING": Control traffic for setting up and managing sessions (e.g., VoIP).
-                  - "TRANSACTIONAL_DATA": Data related to transactions, like financial or retail operations.
-                  - "VOIP_TELEPHONY": Voice traffic over IP networks.
-                  - "BEST_EFFORT": Non-critical traffic delivered on a best-effort basis.
-                  - "SCAVENGER": Low-priority traffic, often background tasks.
-            type: str
-          ignore_conflict:
-            description: Flag to indicate whether to ignore conflicts during configuration.
-            type: bool
-          rank:
-            description: Specifies the priority ranking of the application.
-            type: int
-          engine_id:
-            description: Identifier for the engine managing the application.
-            type: int
-          application_set_name:
-            description: Specifies the application set under which this application is created.
-            type: str
       application_policy:
         description: Defines how an application's traffic is managed and prioritized within a network.
         type: list
@@ -358,13 +246,6 @@ notes:
   - application_policy.ApplicationPolicy.update_application_policy_queuing_profile
   - application_policy.ApplicationPolicy.create_application_policy_queuing_profile
   - application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
-  - application_policy.ApplicationPolicy.get_application_sets
-  - application_policy.ApplicationPolicy.create_application_set
-  - application_policy.ApplicationPolicy.delete_application_set
-  - application_policy.ApplicationPolicy.get_applications
-  - application_policy.ApplicationPolicy.create_application
-  - application_policy.ApplicationPolicy.update_application
-  - application_policy.ApplicationPolicy.delete_application
 
 - Paths used are
   - GET/dna/intent/api/v1/app-policy
@@ -373,13 +254,6 @@ notes:
   - POST/dna/intent/api/v1/app-policy-queuing-profile
   - PUT/dna/intent/api/v1/app-policy-queuing-profile
   - DELETE/dna/intent/api/v1/app-policy-queuing-profile/{id}
-  - GET/dna/intent/api/v1/application-policy-application-set
-  - POST//dna/intent/api/v1/application-policy-application-set
-  - DELETE/dna/intent/api/v2/application-policy-application-set/{id}
-  - GET/dna/intent/api/v2/applications
-  - POST/dna/intent/api/v2/applications
-  - PUT/dna/intent/api/v1/applications
-  - DELETE/dna/intent/api/v2/applications/{id}
 """
 
 EXAMPLES = r"""
@@ -821,152 +695,6 @@ EXAMPLES = r"""
           - queuing_profile:
               - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
 
-# Playbook - create application - type server_name
-
-- name: Create application on Cisco Catalyst Center
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars_files:
-    - "credentials.yml"
-  tasks:
-    - name: Create Application with Server Name on Cisco Catalyst Center
-      cisco.dnac.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        config_verify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
-        state: merged
-        config:
-          - application:
-              - name: "Security_Gateway_App"
-                help_string: "Application for network security and access control"
-                description: "Security Gateway Application"
-                type: "server_name"
-                server_name: "www.securitygateway.com"
-                traffic_class: "BROADCAST_VIDEO"
-                ignore_conflict: "true"
-                rank: 23
-                engineId: 4
-                application_set_name: "local-services"
-
-# Playbook - create application - type server_ip
-
-- name: Create application on Cisco Catalyst Center
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars_files:
-    - "credentials.yml"
-  tasks:
-    - name: Create application with Server IP on Cisco Catalyst Center
-      cisco.dnac.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        config_verify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
-        state: merged
-        config:
-          - application:
-              - name: "Security_Gateway_IP_App"
-                help_string: "Security Gateway Application based on IP"
-                description: "Defines security gateway policies using server IPs"
-                type: "server_ip"
-                network_identity_setting:
-                  protocol: "UDP"
-                  port: "2000"
-                  ip_subnet: ["1.1.1.1", "2.2.2.2", "3.3.3.3"]
-                  lower_port: 10
-                  upper_port: 100
-                dscp: 2
-                traffic_class: "BROADCAST_VIDEO"
-                ignore_conflict: "true"
-                rank: "23"
-                engine_id: "4"
-                application_set_name: "local-services"
-
-# Playbook - create application - type url
-
-- name: Define and Register Application in Cisco Catalyst Center
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars_files:
-    - "credentials.yml"
-  tasks:
-    - name: Create Application with URL Type in Cisco Catalyst Center
-      cisco.dnac.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        config_verify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
-        state: merged
-        config:
-          - application:
-              - name: "video_streaming_app"
-                help_string: "Manages video streaming application traffic"
-                description: "Defines security gateway policies using server urls"
-                type: "url"
-                app_protocol: "TCP"
-                url: "www.videostreaming.com"
-                traffic_class: "BROADCAST_VIDEO"
-                ignore_conflict: true
-                rank: "23"
-                engine_id: "4"
-                application_set_name: "local-services"
-
-# Playbook - delete application
-
-- name: Delete application from Cisco Catalyst Center
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars_files:
-    - "credentials.yml"
-  tasks:
-    - name: Delete Video Streaming Application from Cisco Catalyst Center
-      cisco.dnac.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        config_verify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
-        state: deleted
-        config:
-          - application:
-              - name: "video_streaming_app"
-
 # Playbook - create application policy – wired
 
 - name: Create Wired Application Policy in Cisco Catalyst Center
@@ -1220,122 +948,6 @@ application_queuing_profile_not_found_response_task_execution:
         "taskId": "str",
         "url": "str"
       }
-    }
-
-# Case 9: Successful creation of application
-
-successful_creation_of_application_response_task_execution:
-  description: With task id get details for successful task execution
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Application 'video_streaming_app' created successfully.",
-      "response":
-      {
-        "taskId": "str",
-        "url": "str"
-      },
-      "status": "success"
-    }
-
-# Case 10: Successful update of application
-
-successful_update_of_application_response_task_execution:
-  description: With task id get details for successful task execution
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Application 'video_streaming_app' updated successfully.",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-      "status": "success"
-    }
-
-# Case 11: Successful deletion of application
-
-deletion_of_application_response_task_execution:
-  description: With task id get details for successful task execution
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Application 'video_streaming_app' deleted successfully.",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-      "status": "success"
-    }
-
-# Case 12: update not required for application
-
-update_not_required_for_application_response_task_execution:
-  description: With task id get details for task execution
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Application 'video_streaming_app' does not need any update. ",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-      "status": "success"
-    }
-
-# Case 13: Error during application create
-
-error_during_application_create_response_task_execution:
-  description: With task id get details for task execution
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Creation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-    }
-
-# Case 14: Error during application update
-
-error_during_application_update_response_task_execution:
-  description: With task id get details for task execution.
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "update of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-    }
-
-# Case 15: Application not found (during delete operation)
-
-application_not_found_response_task_execution:
-  description: With task id get details for task execution.
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Application 'Security_Gateway_IP_App' does not present in the cisco catalyst center or it's been already deleted",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
     }
 
 # Case 16: Successful creation of application policy
@@ -1728,7 +1340,7 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation and deletion of application are currently unavailable "
+                "The creation, updation and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
@@ -2228,7 +1840,7 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation and deletion of application are currently unavailable "
+                "The creation, updation and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
@@ -5032,7 +4644,7 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation and deletion of application are currently unavailable "
+                "The creation, updation and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
