@@ -149,18 +149,19 @@ options:
           ipv4_global_pool:
             description:
               - IP v4 Global pool address with cidr, example 175.175.0.0/16.
-              - If both 'ipv6_global_pool' and 'ipv4_global_pool_name' are provided,
-                the 'ipv4_global_pool' will be given priority.
+              - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided,
+                then 'ipv4_global_pool' will be given priority.
             type: str
           ipv4_global_pool_name:
             description:
               - Specifies the name to be associated with the IPv4 Global IP Pool.
               - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided,
-                the 'ipv4_global_pool' will be given priority.
+                then 'ipv4_global_pool' will be given priority.
             type: str
             version_added: 6.14.0
           ipv4_subnet:
             description: Indicates the IPv4 subnet address, for example, "175.175.0.0".
+                         This parameter is required starting from Cisco Catalyst Center version 2.3.7.9 and later.
             type: str
           ipv4_prefix:
             description: ip4 prefix length is enabled or ipv4 total Host input is
@@ -168,11 +169,11 @@ options:
             type: bool
           ipv4_prefix_length:
             description: The ipv4 prefix length is required when ipv4_prefix value
-              is true.
+              is true. Mandatory starting from Cisco Catalyst Center version 2.3.7.9 when ipv4_total_host is not specified.
             type: int
           ipv4_total_host:
             description: The total number of hosts for IPv4, required when the 'ipv4_prefix'
-              is set to false.
+              is set to false. Mandatory starting from Cisco Catalyst Center version 2.3.7.9 when ipv4_prefix_length is not specified.
             type: int
           ipv4_gateway:
             description: Provides the gateway's IPv4 address, for example, "175.175.0.1".
@@ -223,6 +224,7 @@ options:
             version_added: 6.14.0
           ipv6_subnet:
             description: IPv6 Subnet address, example 2001:db8:85a3:0:100.
+                         This parameter is required starting from Cisco Catalyst Center version 2.3.7.9 and later.
             type: str
           ipv6_prefix:
             description: >
@@ -234,13 +236,14 @@ options:
             type: bool
           ipv6_prefix_length:
             description: Specifies the IPv6 prefix length. Required when 'ipv6_prefix'
-              is set to true.
+              is set to true. Mandatory starting from Cisco Catalyst Center version 2.3.7.9 when ipv6_total_host is not specified.
             type: int
           ipv6_total_host:
             description:
               - Specifies the total number of IPv6 hosts. Required when 'ipv6_prefix'
                 is set to false.
               - Must specify a number of IPv6 IP addresses that is less than 256.
+              - Mandatory starting from Cisco Catalyst Center version 2.3.7.9 when ipv6_prefix_length is not specified.
             type: int
           prev_name:
             description: The former name associated with the reserved IP sub-pool.
@@ -478,6 +481,24 @@ options:
                     elements: str
                     type: list
                 type: dict
+      device_controllability_details:
+        description:
+            - Set default device controllability settings for the site.
+        type: dict
+        suboptions:
+          device_controllability:
+            description:
+                - Enables or disables device controllability at the site level.
+                - Required setting that controls whether Catalyst Center can apply telemetry and configuration policies to devices.
+            type: bool
+            required: true
+          autocorrect_telemetry_config:
+            description:
+                - Automatically correct telemetry configuration on devices if it deviates from the expected state.
+                - Optional setting. Defaults to False.
+            type: bool
+            required: false
+            default: false
 requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9
@@ -778,7 +799,7 @@ response_3:
       "message": "string"
     }
 """
-
+import math
 import copy
 import re
 import time
@@ -881,11 +902,9 @@ class NetworkSettings(DnacBase):
                     "choices": ["Generic", "LAN", "Management", "Service", "WAN"]
                 },
                 'force_delete': {'type': 'bool', 'required': False, 'default': True},
-                "ipv4_total_addresses": {'type': 'str', 'required': False},
                 "ipv4_unassignable_addresses": {'type': 'str', 'required': False},
                 "ipv4_assigned_addresses": {'type': 'str', 'required': False},
                 "ipv4_default_assigned_addresses": {'type': 'str', 'required': False},
-                "ipv6_total_addresses": {'type': 'str', 'required': False},
                 "ipv6_unassignable_addresses": {'type': 'str', 'required': False},
                 "ipv6_assigned_addresses": {'type': 'str', 'required': False},
                 "ipv6_default_assigned_addresses": {'type': 'str', 'required': False}
@@ -1166,11 +1185,6 @@ class NetworkSettings(DnacBase):
         address_space = pool_info.get("addressSpace")
         global_pool = pool_info
         self.log("Formated global pool details: {0}".format(self.pprint(global_pool)), "DEBUG")
-
-        if not address_space["gatewayIpAddress"]:
-            global_pool.update({"gatewayIpAddress": ""})
-        else:
-            global_pool.update({"gatewayIpAddress": pool_info.get("gatewayIpAddress")[0]})
 
         return global_pool
 
@@ -1869,6 +1883,8 @@ class NetworkSettings(DnacBase):
             network_settings.update({"syslogServer": [""]})
 
         if dhcp_details:
+            if "servers" not in dhcp_details:
+                dhcp_details["servers"] = []
             network_settings.update({"dhcpServer": dhcp_details})
         else:
             network_settings.update({"dhcpServer": [""]})
@@ -2521,7 +2537,7 @@ class NetworkSettings(DnacBase):
         if global_pool_cidr and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
             return global_pool_cidr
 
-        if not global_pool_name:
+        if not global_pool_name and not global_pool_cidr:
             self.msg = "Missing parameter 'Global Pool CIDR' or 'Global Pool name' is required under reserve_pool_details."
             self.status = "failed"
             return self.check_return_status()
@@ -2573,12 +2589,33 @@ class NetworkSettings(DnacBase):
                     self.log("Global Pool '{0}' cidr: {1}".format(global_pool_name, global_pool_cidr), "INFO")
                     return global_pool_cidr
             else:
-                global_pool_details = get_dict_result(all_global_pool_details, "name", global_pool_name)
+                if global_pool_name:
+                    global_pool_details = get_dict_result(all_global_pool_details, "name", global_pool_name)
+                else:
+                    cidr = self.split_cidr(global_pool_cidr)
+                    subnet = cidr.get("network_prefix")
+                    # Loop through and manually check nested addressSpace
+                    for item in all_global_pool_details:
+                        if not isinstance(item, dict):
+                            continue
+                        address_space = item.get("addressSpace")
+                        if not isinstance(address_space, dict):
+                            continue
+                        match = get_dict_result([address_space], "subnet", subnet)
+                        if match:
+                            global_pool_details = item
+                            break
+                    else:
+                        global_pool_details = None
+
                 if global_pool_details:
                     global_pool_id = global_pool_details.get("id")
-                    self.log("Global pool found with name '{0}': {1}".format(global_pool_name, global_pool_details), "INFO")
-                    self.log("Global Pool '{0}' id: {1}".format(global_pool_name, global_pool_id), "INFO")
+                    self.log("Global pool found: {0}".format(global_pool_details), "INFO")
+                    self.log("Global Pool ID: {0}".format(global_pool_id), "INFO")
                     return global_pool_id
+                else:
+                    self.log("No matching global pool found.", "ERROR")
+                    return None
 
     def get_want_global_pool_v1(self, global_ippool):
         """
@@ -2761,8 +2798,8 @@ class NetworkSettings(DnacBase):
                     addressSpace.update({"dnsServers": []})
                 if addressSpace.get("gatewayIpAddress") is None:
                     addressSpace.pop("gatewayIpAddress")
-                if addressSpace.get("type") is None:
-                    addressSpace.update({"poolType": "Generic"})
+                if pool_values.get("poolType") is None:
+                    pool_values.update({"poolType": "Generic"})
             else:
                 have_ippool = self.have.get("globalPool")[global_pool_index].get("details")
                 if pool_details.get("prev_name"):
@@ -2916,6 +2953,43 @@ class NetworkSettings(DnacBase):
         self.status = "success"
         return self
 
+    def get_prefix_length_from_total_hosts(self, total_hosts, ip_version="IPv4"):
+        """
+        Calculates the IP prefix length from the total number of addresses in the pool
+        for both IPv4 and IPv6. Updates status and message on failure.
+
+        Args:
+            self: The object containing `msg` and `status`.
+            total_hosts (int or str): Total number of addresses in the pool.
+            reserve_pool_index (int): Index of the reserve pool for logging.
+            ip_version (str): Either 'IPv4' or 'IPv6'. Default is 'IPv4'.
+
+        Returns:
+            int or self: Prefix length on success, or self on failure.
+        """
+        try:
+            total_hosts = int(total_hosts)
+        except (ValueError, TypeError):
+            self.msg = "Failed to add {0} in reserve_pool_details. Total hosts must be a number.".format(
+                ip_version
+            )
+            self.log(self.msg, "WARNING")
+            self.set_operation_result("failed", False, self.msg,
+                                      "ERROR", self.global_pool_response).check_return_status()
+
+        max_bits = 32 if ip_version == "IPv4" else 128
+        max_addresses = 2 ** max_bits
+
+        if total_hosts <= 0 or total_hosts > max_addresses or (total_hosts & (total_hosts - 1)) != 0:
+            self.msg = "Failed to add {0} in reserve_pool_details." \
+                       "The value for 'total_hosts' must be a positive power of 2 and not exceed the maximum allowable addresses.".format(ip_version)
+            self.log(self.msg, "WARNING")
+            self.set_operation_result("failed", False, self.msg,
+                                      "ERROR", self.global_pool_response).check_return_status()
+
+        prefix_length = max_bits - int(math.log2(total_hosts))
+        return prefix_length
+
     def get_want_reserve_pool_v2(self, reserve_pool):
         """
         Get all the Reserved Pool information from playbook for DNAC version > 2.3.7.6.
@@ -2940,17 +3014,32 @@ class NetworkSettings(DnacBase):
             ipv4_global_pool_id = self.get_global_pool_cidr(item.get("ipv4_global_pool"),
                                                             item.get("ipv4_global_pool_name"))
             ipv4_prefix_length = item.get("ipv4_prefix_length")
+            ipv4_total_addresses = item.get("ipv4_total_host")
             ipv4_gateway = item.get("ipv4_gateway")
             ipv4_dhcp_servers = item.get("ipv4_dhcp_servers")
             ipv4_dns_servers = item.get("ipv4_dns_servers")
             ipv4_subnet = item.get("ipv4_subnet")
             slaac_support = item.get("slaac_support")
+            if ipv4_prefix_length is None and not ipv4_total_addresses:
+                self.msg = "Failed to add IPv4 in reserve_pool_details '{0}'. ".format(reserve_pool_index + 1) + \
+                           "Atleast either one of ipv4_prefix_length and ipv4_total_host should be provided."
+                self.status = "failed"
+                return self
+
+            if ipv4_prefix_length is None and ipv4_total_addresses:
+                ipv4_prefix_length = self.get_prefix_length_from_total_hosts(ipv4_total_addresses, "IPv4")
             ipv4_address_space = {
                 "subnet": ipv4_subnet,
                 "prefixLength": ipv4_prefix_length,
                 "globalPoolId": ipv4_global_pool_id
             }
 
+            if ipv4_prefix_length:
+                self.log(ipv4_prefix_length)
+            if ipv4_subnet:
+                self.log(ipv4_subnet)
+            if ipv4_global_pool_id:
+                self.log(ipv4_global_pool_id)
             if not (ipv4_prefix_length and ipv4_subnet and ipv4_global_pool_id):
                 self.msg = "Failed to add IPv4 in reserve_pool_details '{0}'. ".format(reserve_pool_index + 1) + \
                            "Required parameters 'ipv4_subnet' or 'ipv4_global_pool_id' or 'ipv4_prefix_length' are missing."
@@ -3002,12 +3091,21 @@ class NetworkSettings(DnacBase):
                 ipv6_gateway = item.get("ipv6_gateway")
                 ipv6_dhcp_servers = item.get("ipv6_dhcp_servers")
                 ipv6_dns_servers = item.get("ipv6_dns_servers")
-                ipv6_total_addresses = item.get("ipv6_total_addresses")
+                ipv6_total_addresses = item.get("ipv6_total_host")
                 ipv6_unassignable_addresses = item.get("ipv6_unassignable_addresses")
                 ipv6_assigned_addresses = item.get("ipv6_assigned_addresses")
                 ipv6_default_assigned_addresses = item.get("ipv6_default_assigned_addresses")
                 ipv6_global_pool_id = self.get_global_pool_cidr(item.get("ipv6_global_pool"),
                                                                 item.get("ipv6_global_pool_name"))
+                if ipv6_prefix_length is None and not ipv6_total_addresses:
+                    self.msg = "Failed to add IPv6 in reserve_pool_details '{0}'. ".format(reserve_pool_index + 1) + \
+                               "Atleast either one of ipv6_prefix_length and ipv6_total_host should be provided."
+                    self.status = "failed"
+                    return self
+
+                if ipv6_prefix_length is None and ipv6_total_addresses:
+                    ipv4_prefix_length = self.get_prefix_length_from_total_hosts(ipv6_total_addresses)
+
                 ipv6_address_space = {
                     "subnet": ipv6_subnet,
                     "prefixLength": ipv6_prefix_length,
@@ -3044,8 +3142,8 @@ class NetworkSettings(DnacBase):
                 if slaac_support and ipv6_prefix_length == 64:
                     ipv6_address_space["slaacSupport"] = slaac_support
 
-            if ipv6_address_space:
-                pool_values["ipV6AddressSpace"] = ipv6_address_space
+                if ipv6_address_space:
+                    pool_values["ipV6AddressSpace"] = ipv6_address_space
 
             if not pool_values.get("name"):
                 self.msg = "Missing required parameter 'name' in reserve_pool_details '{0}' element" \
@@ -3302,7 +3400,7 @@ class NetworkSettings(DnacBase):
                             "sharedSecret": shared_secret
                         })
                 else:
-                    want_network_settings["network_aaa"] = have_network_details.get("network_aaa")
+                    del want_network_settings["network_aaa"]
 
                 client_and_endpoint_aaa = item.get("client_and_endpoint_aaa")
                 if client_and_endpoint_aaa:
@@ -3376,7 +3474,7 @@ class NetworkSettings(DnacBase):
                             "sharedSecret": shared_secret
                         })
                 else:
-                    want_network_settings["client_and_endpoint_aaa"] = have_network_details.get("client_and_endpoint_aaa")
+                    del want_network_settings["client_and_endpoint_aaa"]
 
                 network_aaa = want_network_settings.get("network_aaa")
                 client_and_endpoint_aaa = want_network_settings.get("client_and_endpoint_aaa")
@@ -3966,7 +4064,7 @@ class NetworkSettings(DnacBase):
         global_pool_index = 0
         result_global_pool = self.result.get("response")[0].get("globalPool")
         want_global_pool = self.want.get("wantGlobal").get("settings").get("ippool")
-        self.log("Global pool playbook details: {0}".format(global_pool), "DEBUG")
+        self.log("Global pool playbook details: {0}".format(self.pprint(global_pool)), "DEBUG")
 
         for item in self.have.get("globalPool"):
             result_global_pool.get("msg") \
@@ -3980,7 +4078,7 @@ class NetworkSettings(DnacBase):
 
         # Check create_global_pool; if yes, create the global pool in batches
         if create_global_pool:
-            self.log("Global pool(s) details to be created: {0}".format(create_global_pool), "INFO")
+            self.log("Global pool(s) details to be created: {0}".format(self.pprint(create_global_pool)), "INFO")
 
             batch_size = 25  # Define batch size
             for i in range(0, len(create_global_pool), batch_size):
@@ -3990,7 +4088,7 @@ class NetworkSettings(DnacBase):
                         "ippool": copy.deepcopy(batch)
                     }
                 }
-                self.log("Creating global pool batch: {0}".format(batch), "INFO")
+                self.log("Creating global pool batch: {0}".format(self.pprint(batch)), "INFO")
                 try:
                     response = self.dnac._exec(
                         family="network_settings",
@@ -4861,8 +4959,7 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params=payload,
             )
-            self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
-
+            self.log("Received API response of 'update_device_controllability_settings_v1': {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "update_device_controllability_settings_v1").check_return_status()
 
             # Update the 'msg' field
@@ -4877,7 +4974,6 @@ class NetworkSettings(DnacBase):
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
-            return self.check_return_status()
 
         return self
 
@@ -4954,8 +5050,9 @@ class NetworkSettings(DnacBase):
             self.log("Response received from delete {0} pool API: {1}".
                      format(pool_type, self.pprint(response)), "DEBUG")
             execution_id = response.get("executionId")
+            task_id = response["response"]["taskId"]
 
-            if execution_id and self.status == "success":
+            if (execution_id or task_id) and self.status == "success":
                 return {
                     "name": name,
                     "msg": success_msg,
