@@ -25,7 +25,7 @@ description:
 version_added: '6.30.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Archit Soni (@arcsoni)
+author: Archit Soni (@koderchit)
         Madhan Sankaranarayanan (@madhansansel)
 options:
   dnac_version:
@@ -184,46 +184,6 @@ options:
                     type: str
                     choices: [ILIKE, LIKE]
                     default: 'ILIKE'
-          network_device_tag_retrieval_batch_size:
-            description: >
-                This constant defines the batch size for retrieving tags associated with network devices in the Cisco Catalyst Center.
-                The retrieval process involves processing network devices in smaller chunks, and this value determines how many devices
-                are included in each batch.
-                - Minimum - 1
-                - Maximum - 500
-            type: int
-            required: false
-            default: 500
-          interface_tag_retrieval_batch_size:
-            description: >
-                This constant defines the batch size for retrieving tags associated with interfaces in the Cisco Catalyst Center.
-                The retrieval process involves processing interfaces in smaller chunks, and this value determines how many devices are included
-                in each batch.
-                - Minimum - 1
-                - Maximum - 500
-            type: int
-            required: false
-            default: 500
-          network_device_tag_update_batch_size:
-            description: >
-                This constant specifies the batch size for updating tags associated with network devices in the Cisco Catalyst Center.
-                During the update process, network devices are grouped into batches, and the batch size determines how many devices are
-                included in each update request.
-                - Minimum - 1
-                - Maximum - 500
-            type: int
-            required: false
-            default: 500
-          interface_tag_update_batch_size:
-            description: >
-                This constant defines the batch size for updating tags associated with interfaces in the Cisco Catalyst Center.
-                During the update process, interfaces are grouped into batches, and the batch size determines how many devices are included
-                in each update request.
-                - Minimum - 1
-                - Maximum - 500
-            type: int
-            required: false
-            default: 500
       tag_memberships:
         description: A dictionary containing detailed configuration for managing tag memberships for devices and interfaces.
         type: dict
@@ -282,46 +242,6 @@ options:
                   If port_names is given, the tags will be assigned to these ports under devices belonging to the given sites.
                 type: list
                 elements: str
-          network_device_tag_retrieval_batch_size:
-            description: >
-                Controls This constant defines the batch size for retrieving tags associated with network devices in the Cisco Catalyst Center.
-                The retrieval process involves processing network devices in smaller chunks, and this value determines how many devices are
-                included in each batch.
-                - Minimum - 1
-                - Maximum - 500
-            type: int
-            required: false
-            default: 500
-          interface_tag_retrieval_batch_size:
-            description: >
-                Controls This constant defines the batch size for retrieving tags associated with interfaces in the Cisco Catalyst Center.
-                The retrieval process involves processing interfaces in smaller chunks, and this value determines how many devices are
-                included in each batch.
-                - Minimum - 1
-                - Maximum - 500
-            type: int
-            required: false
-            default: 500
-          network_device_tag_update_batch_size:
-            description: >
-                This constant specifies the batch size for updating tags associated with network devices in the Cisco Catalyst Center.
-                During the update process, network devices are grouped into batches, and the batch size determines how many devices are
-                included in each update request.
-                - Minimum - 1
-                - Maximum - 500
-            type: int
-            required: false
-            default: 500
-          interface_tag_update_batch_size:
-            description: >
-                This constant defines the batch size for updating tags associated with interfaces in the Cisco Catalyst Center.
-                During the update process, interfaces are grouped into batches, and the batch size determines how many devices are
-                included in each update request.
-                - Minimum - 1
-                - Maximum - 500
-            type: int
-            required: false
-            default: 500
 
 requirements:
   - dnacentersdk >= 2.10.3

@@ -90,11 +90,14 @@ dnac_response:
         "id": "string",
         "name": "string",
         "controlPlaneCount": 0,
-        "transitType": "string",
+        "transitType": [
+          "string"
+        ],
+        "networkProtocol": "string",
         "fabricSitesCount": 0,
         "goodHealthPercentage": 0,
         "goodHealthDeviceCount": 0,
-        "totalDeviceCount": 0,
+        "totalHealthDeviceCount": 0,
         "poorHealthDeviceCount": 0,
         "fairHealthDeviceCount": 0,
         "transitControlPlaneHealthPercentage": 0,
@@ -126,7 +129,10 @@ dnac_response:
         "bgpTcpTotalDeviceCount": 0,
         "bgpTcpGoodHealthDeviceCount": 0,
         "bgpTcpPoorHealthDeviceCount": 0,
-        "bgpTcpFairHealthDeviceCount": 0
-      }
+        "bgpTcpFairHealthDeviceCount": 0,
+        "siteHierarchy": "string",
+        "siteHierarchyId": "string"
+      },
+      "version": "string"
     }
 """

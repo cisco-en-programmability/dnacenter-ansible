@@ -35,6 +35,7 @@ argument_spec.update(dict(
     ssidDetails=dict(type="list"),
     additionalInterfaces=dict(type="list"),
     apZones=dict(type="list"),
+    featureTemplates=dict(type="list"),
     id=dict(type="str"),
 ))
 
@@ -55,6 +56,7 @@ class WirelessProfilesV1(object):
             ssidDetails=params.get("ssidDetails"),
             additionalInterfaces=params.get("additionalInterfaces"),
             apZones=params.get("apZones"),
+            featureTemplates=params.get("featureTemplates"),
             id=params.get("id"),
         )
 
@@ -72,6 +74,7 @@ class WirelessProfilesV1(object):
         new_object_params['ssidDetails'] = self.new_object.get('ssidDetails')
         new_object_params['additionalInterfaces'] = self.new_object.get('additionalInterfaces')
         new_object_params['apZones'] = self.new_object.get('apZones')
+        new_object_params['featureTemplates'] = self.new_object.get('featureTemplates')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -85,6 +88,7 @@ class WirelessProfilesV1(object):
         new_object_params['ssidDetails'] = self.new_object.get('ssidDetails')
         new_object_params['additionalInterfaces'] = self.new_object.get('additionalInterfaces')
         new_object_params['apZones'] = self.new_object.get('apZones')
+        new_object_params['featureTemplates'] = self.new_object.get('featureTemplates')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -152,6 +156,7 @@ class WirelessProfilesV1(object):
             ("ssidDetails", "ssidDetails"),
             ("additionalInterfaces", "additionalInterfaces"),
             ("apZones", "apZones"),
+            ("featureTemplates", "featureTemplates"),
             ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

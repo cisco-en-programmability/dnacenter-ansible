@@ -94,14 +94,12 @@ dnac_response:
       "response": {
         "id": "string",
         "name": "string",
-        "goodHealthPercentage": 0,
-        "goodHealthDeviceCount": 0,
         "totalDeviceCount": 0,
+        "goodHealthPercentage": 0,
+        "totalHealthDeviceCount": 0,
+        "goodHealthDeviceCount": 0,
         "poorHealthDeviceCount": 0,
         "fairHealthDeviceCount": 0,
-        "associatedL2VnCount": 0,
-        "associatedL3VnCount": 0,
-        "networkProtocol": "string",
         "connectivityGoodHealthPercentage": 0,
         "connectivityTotalHealthDeviceCount": 0,
         "connectivityGoodHealthDeviceCount": 0,
@@ -122,7 +120,7 @@ dnac_response:
         "pubsubInfraVnGoodHealthDeviceCount": 0,
         "pubsubInfraVnPoorHealthDeviceCount": 0,
         "pubsubInfraVnFairHealthDeviceCount": 0,
-        "bgpEvpnGoodHealthPercentage": {},
+        "bgpEvpnGoodHealthPercentage": 0,
         "bgpEvpnTotalHealthDeviceCount": 0,
         "bgpEvpnGoodHealthDeviceCount": 0,
         "bgpEvpnPoorHealthDeviceCount": 0,
@@ -142,7 +140,7 @@ dnac_response:
         "portChannelGoodHealthDeviceCount": 0,
         "portChannelPoorHealthDeviceCount": 0,
         "portChannelFairHealthDeviceCount": 0,
-        "peerScoreGoodHealthPercentage": {},
+        "peerScoreGoodHealthPercentage": 0,
         "peerScoreTotalHealthDeviceCount": 0,
         "peerScoreGoodHealthDeviceCount": 0,
         "peerScorePoorHealthDeviceCount": 0,
@@ -171,7 +169,11 @@ dnac_response:
         "bgpPeerInfraVnTotalHealthDeviceCount": 0,
         "bgpPeerInfraVnGoodHealthDeviceCount": 0,
         "bgpPeerInfraVnPoorHealthDeviceCount": 0,
-        "bgpPeerInfraVnFairHealthDeviceCount": 0
-      }
+        "bgpPeerInfraVnFairHealthDeviceCount": 0,
+        "associatedL2VnCount": 0,
+        "associatedL3VnCount": 0,
+        "networkProtocol": "string"
+      },
+      "version": "string"
     }
 """

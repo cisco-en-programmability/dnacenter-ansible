@@ -30,11 +30,11 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Sensors GeneratesTheDevice'sCLIsOfTheICAPConfigurationIntentV1
-    description: Complete reference of the GeneratesTheDevice'sCLIsOfTheICAPConfigurationIntentV1
+  - name: Cisco DNA Center documentation for Sensors GeneratesTheDevicesCLIsOfTheICAPConfigurationIntentV1
+    description: Complete reference of the GeneratesTheDevicesCLIsOfTheICAPConfigurationIntentV1
       API.
     link:
-      https://developer.cisco.com/docs/dna-center/#!generates-the-device's-cl-is-of-the-icap-configuration-intent
+      https://developer.cisco.com/docs/dna-center/#!generates-the-devices-cl-is-of-the-icap-configuration-intent
 notes:
   - SDK Method used are sensors.Sensors.generates_the_devices_clis_of_the_i_cap_configuration_intent_v1,
   - Paths used are post

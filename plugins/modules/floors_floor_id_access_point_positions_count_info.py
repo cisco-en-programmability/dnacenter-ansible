@@ -43,7 +43,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Site Design GetAccessPointsPositionsCountV2
     description: Complete reference of the GetAccessPointsPositionsCountV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-access-points-positions-count
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-access-points-positions-count
 notes:
   - SDK Method used are site_design.SiteDesign.get_access_points_positions_count_v2,
   - Paths used are get /dna/intent/api/v2/floors/{floorId}/accessPointPositions/count,

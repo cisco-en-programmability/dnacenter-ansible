@@ -79,8 +79,7 @@ options:
           make Cisco Access Points known to its neighboring devices and vice-versa.
         type: bool
       dot1xPassword:
-        description: Password for 802.1X authentication. AP dot1x password length
-          should not exceed 120.
+        description: Password for 802.1X authentication. Length must be 8-120 characters.
         type: str
       dot1xUsername:
         description: Username for 802.1X authentication. Dot1xUsername must have a
@@ -206,8 +205,10 @@ EXAMPLES = r"""
     awipsForensicEnabled: true
     calendarPowerProfiles:
       duration:
-        schedulerDate: string
-        schedulerDay: string
+        schedulerDate:
+          - string
+        schedulerDay:
+          - string
         schedulerEndTime: string
         schedulerStartTime: string
       powerProfileName: string

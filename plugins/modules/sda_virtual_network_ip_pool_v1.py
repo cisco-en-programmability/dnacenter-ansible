@@ -87,7 +87,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for SDA AddIPPoolInSDAVirtualNetworkV1
     description: Complete reference of the AddIPPoolInSDAVirtualNetworkV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!add-ip-pool-in-sda-virtual-network
+    link:
+      https://developer.cisco.com/docs/dna-center/#!add-ip-pool-in-sda-virtual-network
   - name: Cisco DNA Center documentation for SDA DeleteIPPoolFromSDAVirtualNetworkV1
     description: Complete reference of the DeleteIPPoolFromSDAVirtualNetworkV1 API.
     link:

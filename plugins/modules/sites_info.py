@@ -96,7 +96,8 @@ dnac_response:
           "unitsOfMeasure": "string",
           "type": "string",
           "id": "string",
-          "parentId": "string"
+          "parentId": "string",
+          "siteHierarchyId": "string"
         }
       ],
       "version": "string"
