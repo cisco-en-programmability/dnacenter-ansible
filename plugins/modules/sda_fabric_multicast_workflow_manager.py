@@ -1539,13 +1539,14 @@ class FabricMulticast(DnacBase):
         self.log(f"Processing IPv4 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
 
         if item.get("ipv4_asm_ranges"):
-            self.log(f"'ipv4_asm_ranges' found. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
             if not isinstance(item["ipv4_asm_ranges"], list):
                 self.msg = (
                     f"'ipv4_asm_ranges' must be a list for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
                 )
                 self.fail_and_exit(self.msg)
 
+            self.log(f"'ipv4_asm_ranges' found. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            rendezvous_point["isDefaultV4RP"] = False
             rendezvous_point["ipv4AsmRanges"] = item["ipv4_asm_ranges"]
         elif item.get("is_default_v4_rp"):
             if not isinstance(item["is_default_v4_rp"], bool):
@@ -1555,10 +1556,19 @@ class FabricMulticast(DnacBase):
                 self.fail_and_exit(self.msg)
 
             if default_ipv4_allowed:
+                if item["is_default_v4_rp"] is False:
+                    self.msg = (
+                        f"'is_default_v4_rp' is: 'false' but 'ipv4_asm_ranges' are not provided for the L3 VN '{layer3_virtual_network}' "
+                        f"under fabric: {fabric_name}\n"
+                        f"Can not pass 'is_default_v4_rp' as 'false', IPv4 ASM Group details are required or pass 'is_default_v4_rp' as 'true."
+                    )
+                    self.fail_and_exit(self.msg)
+
                 self.log(
                     f"Default IPv4 RP is allowed. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG"
                 )
                 rendezvous_point["isDefaultV4RP"] = item["is_default_v4_rp"]
+                rendezvous_point["ipv4AsmRanges"] = []
             else:
                 self.msg = (
                     f"More than one Rendezvous Point Device Locations are provided for the L3 VN '{layer3_virtual_network}' "
@@ -1569,9 +1579,10 @@ class FabricMulticast(DnacBase):
         else:
             self.msg = (
                 "Both 'ipv4_asm_ranges' and 'is_default_v4_rp' are not provided. "
-                f"At least one is required to configure IPv4 ASM Group for L3 VN '{layer3_virtual_network}' under fabric: '{fabric_name}'"
+                "Setting it to empty list and null value."
             )
-            self.fail_and_exit(self.msg)
+            rendezvous_point["isDefaultV4RP"] = False
+            rendezvous_point["ipv4AsmRanges"] = []
 
         self.log(
             f"Completed processing IPv4 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
@@ -1609,6 +1620,7 @@ class FabricMulticast(DnacBase):
                 self.fail_and_exit(self.msg)
 
             self.log(f"'ipv6_asm_ranges' found. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            rendezvous_point["isDefaultV6RP"] = False
             rendezvous_point["ipv6AsmRanges"] = item["ipv6_asm_ranges"]
         elif item.get("is_default_v6_rp"):
             if not isinstance(item["is_default_v6_rp"], bool):
@@ -1618,11 +1630,20 @@ class FabricMulticast(DnacBase):
                 self.fail_and_exit(self.msg)
 
             if default_ipv6_allowed:
+                if item["is_default_v6_rp"] is False:
+                    self.msg = (
+                        f"'is_default_v6_rp' is: 'false' but 'ipv6_asm_ranges' are not provided for the L3 VN '{layer3_virtual_network}' "
+                        f"under fabric: {fabric_name}\n"
+                        f"Can not pass 'is_default_v6_rp' as 'false', IPv6 ASM Group details are required or pass 'is_default_v6_rp' as 'true."
+                    )
+                    self.fail_and_exit(self.msg)
+
                 self.log(
                     f"Default IPv6 RP is allowed. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
                     "DEBUG"
                 )
                 rendezvous_point["isDefaultV6RP"] = item["is_default_v6_rp"]
+                rendezvous_point["ipv6AsmRanges"] = []
             else:
                 self.msg = (
                     f"More than one Rendezvous Point Device Locations are provided for the L3 VN '{layer3_virtual_network}' "
@@ -1633,9 +1654,10 @@ class FabricMulticast(DnacBase):
         else:
             self.msg = (
                 "Both 'ipv6_asm_ranges' and 'is_default_v6_rp' are not provided. "
-                f"Atleast one is required to configure IPv6 ASM Group for L3 VN '{layer3_virtual_network}' under fabric: '{fabric_name}'"
+                "Setting it to empty list and null value."
             )
-            self.fail_and_exit(self.msg)
+            rendezvous_point["isDefaultV6RP"] = False
+            rendezvous_point["ipv6AsmRanges"] = []
 
         self.log(
             f"Completed processing IPv6 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'. "
@@ -1708,15 +1730,34 @@ class FabricMulticast(DnacBase):
         if ipv4_asm_group_config_exists:
             self.log(f"Calling process_asm_ipv4_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
             self.process_asm_ipv4_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No IPv4 ASM ranges or default RP provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["isDefaultV4RP"] = False
+            rendezvous_point["ipv4AsmRanges"] = []
 
         # Process IPv6 ASM ranges
         if ipv6_asm_group_config_exists:
             self.log(f"Calling process_asm_ipv6_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
             self.process_asm_ipv6_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No IPv6 ASM ranges or default RP provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["isDefaultV6RP"] = False
+            rendezvous_point["ipv6AsmRanges"] = []
+
+        # Setting fabric ipv4 and ipv6 addresses to none and RP Location to FABRIC
+        rendezvous_point["ipv4Address"] = None
+        rendezvous_point["ipv6Address"] = None
+        rendezvous_point["rpDeviceLocation"] = "FABRIC"
 
         self.log(
             f"Completed processing FABRIC RP details for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.\n"
-            f"Final rendezvous_point: {rendezvous_point}",
+            f"Final rendezvous_point: {self.pprint(rendezvous_point)}",
             "DEBUG"
         )
 
@@ -1767,6 +1808,14 @@ class FabricMulticast(DnacBase):
             rendezvous_point["ipv4Address"] = ex_rp_ipv4_address
             self.log(f"Calling process_asm_ipv4_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
             self.process_asm_ipv4_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No external IPv4 address provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["ipv4Address"] = None
+            rendezvous_point["isDefaultV4RP"] = False
+            rendezvous_point["ipv4AsmRanges"] = []
 
         # Add external IPv6 and Process IPv6 ASM ranges
         if ex_rp_ipv6_address:
@@ -1778,10 +1827,23 @@ class FabricMulticast(DnacBase):
             rendezvous_point["ipv6Address"] = ex_rp_ipv6_address
             self.log(f"Calling process_asm_ipv6_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
             self.process_asm_ipv6_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No external IPv6 address provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["ipv6Address"] = None
+            rendezvous_point["isDefaultV6RP"] = False
+            rendezvous_point["ipv6AsmRanges"] = []
+
+        # Setting RP device location to EXTERNAL and networkDeviceIds to empty list
+        rendezvous_point["rpDeviceLocation"] = "EXTERNAL"
+        rendezvous_point["networkDeviceIds"] = []
+
 
         self.log(
             f"Completed processing EXTERNAL RP details for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.\n"
-            f"Final rendezvous_point: {rendezvous_point}",
+            f"Final rendezvous_point: {self.pprint(rendezvous_point)}",
             "DEBUG"
         )
 
@@ -2111,6 +2173,32 @@ class FabricMulticast(DnacBase):
         self.status = "success"
         return self
 
+    def find_dict_by_key_value(self, data_list, key, value):
+        """
+        Find a dictionary in a list by a matching key-value pair.
+
+        Parameters:
+            data_list (list): List of dictionaries to search.
+            key (str): The key to match in each dictionary.
+            value (any): The value to match against the given key.
+
+        Returns:
+            dict or None: The dictionary that matches the key-value pair, or None if not found.
+
+        Description:
+            Iterates through the list of dictionaries and returns the first dictionary
+            where the specified key has the specified value. If no match is found, returns None.
+        """
+        self.log(f"Searching for key '{key}' with value '{value}' in data_list.", "DEBUG")
+        for idx, item in enumerate(data_list):
+            self.log(f"Checking item at index {idx}: {item}", "DEBUG")
+            if item.get(key) == value:
+                self.log(f"Match found at index {idx}: {item}", "DEBUG")
+                return item
+
+        self.log("No matching item found.", "DEBUG")
+        return None
+
     def retain_multicast_cc_values(self, want_multicast_params, have_multicast_params):
         """
         Retain and merge multicast configurations from the playbook with existing configurations.
@@ -2199,17 +2287,23 @@ class FabricMulticast(DnacBase):
                 fabric_rp_ipv4_address = None
                 fabric_rp_ipv6_address = None
                 if rp_device_location == "FABRIC":
-                    asm_config_in_cc = get_dict_result(have_asm_config, "rpDeviceLocation", "FABRIC")
+                    asm_config_in_cc = self.find_dict_by_key_value(have_asm_config, "rpDeviceLocation", "FABRIC")
                     self.log(
                         "The asm config for the RP with location 'FABRIC' is '{asm_config}'."
                         .format(asm_config=asm_config_in_cc), "DEBUG"
                     )
                     if asm_config_in_cc:
-                        fabric_rp_ipv4_address = asm_config_in_cc.get("ipv4Address")
-                        fabric_rp_ipv6_address = asm_config_in_cc.get("ipv6Address")
                         self.log(
                             "The multicast configuration with the RP as 'FABRIC' is available "
                             "in the Cisco Catalyst Center.", "DEBUG"
+                        )
+                        fabric_rp_ipv4_address = asm_config_in_cc.get("ipv4Address")
+                        fabric_rp_ipv6_address = asm_config_in_cc.get("ipv6Address")
+                        item.update(
+                            {
+                                "ipv4Address": fabric_rp_ipv4_address,
+                                "ipv6Address": fabric_rp_ipv6_address,
+                            }
                         )
                     else:
                         self.log(
@@ -2225,44 +2319,28 @@ class FabricMulticast(DnacBase):
                         "The IPv6 address of the 'FABRIC' RP is '{ipv6}'."
                         .format(ipv6=fabric_rp_ipv6_address), "DEBUG"
                     )
-                elif ipv4_address:
-                    asm_config_in_cc = get_dict_result(have_asm_config, "ipv4Address", ipv4_address)
-                    if len(have_asm_config) == 1:
-                        if have_asm_config[0].get("ipv4Address") is None or \
-                           have_asm_config[0].get("ipv4Address") == ipv4_address:
-                            asm_config_in_cc = None
+                else:
+                    if ipv4_address:
+                        asm_config_in_cc = self.find_dict_by_key_value(have_asm_config, "ipv4Address", ipv4_address)
+                        self.log(
+                            "The asm config for the IPv4 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'."
+                            .format(ip=ipv4_address, asm_config=asm_config_in_cc), "INFO"
+                        )
+                    if ipv6_address:
+                        asm_config_in_cc = self.find_dict_by_key_value(have_asm_config, "ipv6Address", ipv6_address)
+                        self.log(
+                            "The asm config for the IPv6 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'."
+                            .format(ip=ipv6_address, asm_config=asm_config_in_cc), "INFO"
+                        )
 
                     self.log(
-                        "The asm config for the IPv4 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'."
-                        .format(ip=ipv4_address, asm_config=asm_config_in_cc), "INFO"
-                    )
-                elif ipv6_address:
-                    asm_config_in_cc = get_dict_result(have_asm_config, "ipv6Address", ipv6_address)
-                    if len(have_asm_config) == 1:
-                        if have_asm_config[0].get("ipv6Address") is None or \
-                           have_asm_config[0].get("ipv6Address") == ipv6_address:
-                            asm_config_in_cc = None
-
-                    self.log(
-                        "The asm config for the IPv6 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'."
-                        .format(ip=ipv6_address, asm_config=asm_config_in_cc), "INFO"
+                        "Before updating the asm config: {updated_asm_config}"
+                        .format(updated_asm_config=updated_asm_config), "DEBUG"
                     )
 
-                self.log(
-                    "Before updating the asm config: {updated_asm_config}"
-                    .format(updated_asm_config=updated_asm_config), "DEBUG"
-                )
                 if asm_config_in_cc:
+                    self.log("Removing the existing asm config: {asm_config_in_cc} from updated_asm_config to update with playbook config.")
                     updated_asm_config.remove(asm_config_in_cc)
-                    if fabric_rp_ipv4_address:
-                        item.update({
-                            "ipv4Address": fabric_rp_ipv4_address
-                        })
-
-                    if fabric_rp_ipv6_address:
-                        item.update({
-                            "ipv6Address": fabric_rp_ipv6_address
-                        })
 
                 updated_asm_config.append(item)
                 self.log(
@@ -2275,7 +2353,7 @@ class FabricMulticast(DnacBase):
         })
         self.log(
             "Final updated asm config: {updated_asm_config}"
-            .format(updated_asm_config=updated_asm_config), "INFO"
+            .format(updated_asm_config=self.pprint(updated_asm_config)), "INFO"
         )
         return updated_multicast_params
 
@@ -2592,11 +2670,13 @@ class FabricMulticast(DnacBase):
                     "The multicast configurations for the VN '{l3_vn}' under the '{fabric_name}' is available "
                     "in the Cisco Catalyst Center.".format(l3_vn=layer3_virtual_network, fabric_name=fabric_name), "DEBUG"
                 )
+
                 want_multicast_params = self.want.get("fabric_multicast")[fabric_multicast_index].get("multicast_details")
                 want_replication_params = self.want.get("fabric_multicast")[fabric_multicast_index].get("replication_mode_details")
                 have_multicast_params = self.have.get("fabric_multicast")[fabric_multicast_index].get("multicast_details")
                 have_replication_params = self.have.get("fabric_multicast")[fabric_multicast_index].get("replication_mode_details")
                 updated_multicast_params = self.retain_multicast_cc_values(want_multicast_params, have_multicast_params)
+
                 self.log(
                     "The updated playbook details after retaining the Cisco Catalyst Center details "
                     "to the playbook details: {updated_multicast_params}"
