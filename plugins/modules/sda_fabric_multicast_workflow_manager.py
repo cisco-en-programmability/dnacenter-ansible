@@ -1840,7 +1840,6 @@ class FabricMulticast(DnacBase):
         rendezvous_point["rpDeviceLocation"] = "EXTERNAL"
         rendezvous_point["networkDeviceIds"] = []
 
-
         self.log(
             f"Completed processing EXTERNAL RP details for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.\n"
             f"Final rendezvous_point: {self.pprint(rendezvous_point)}",
