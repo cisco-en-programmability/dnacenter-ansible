@@ -18,9 +18,9 @@ description:
   - It supports creating, updating, and deleting configurations for issue settings and issue resolution functionalities.
   - This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs,
     and more for issue settings and issue resolution.
-  - Global and Customized Settings – Updating Global and Customized Settings, custom profiles site assignment
-    functionality is currently unavailable due to an API/SDK upgrade. It will be available under the
-    Network Assurance Profile Workflow Manager once the updated API is released.
+  - The functionality for updating 'Global and Customized Settings', including custom profiles site assignment,
+    is currently unavailable due to an API/SDK upgrade. It will be accessible under the 'Network Assurance
+    Profile Workflow Manager' once the updated API is released.
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -1418,7 +1418,7 @@ class AssuranceSettings(DnacBase):
         try:
             start_datetime = datetime.strptime(start_time, date_format)
             end_datetime = datetime.strptime(end_time, date_format)
-            seven_day = 7 * 24 * 60 * 60 * 1000
+            seven_days_in_ms = 7 * 24 * 60 * 60 * 1000
 
             if start_datetime > end_datetime:
                 errormsg.append("Start datetime '{start_time}' must be before end datetime '{end_time}'.")
@@ -1426,7 +1426,7 @@ class AssuranceSettings(DnacBase):
 
             start_epoch_ms = int(start_datetime.timestamp() * 1000)
             end_epoch_ms = int(end_datetime.timestamp() * 1000)
-            if (end_epoch_ms - start_epoch_ms) >= seven_day:
+            if (end_epoch_ms - start_epoch_ms) >= seven_days_in_ms:
                 errormsg.append("The time range must not exceed 7 days.")
                 return None, None
 
