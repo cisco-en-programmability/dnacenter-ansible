@@ -3107,6 +3107,9 @@ class NetworkSettings(DnacBase):
                 }
 
                 if not (ipv6_prefix_length and ipv6_subnet and ipv6_global_pool_id):
+                    self.log(ipv6_prefix_length)
+                    self.log(ipv6_subnet)
+                    self.log(ipv6_global_pool_id)
                     self.msg = "Failed to add IPv6 in reserve_pool_details '{0}'. ".format(reserve_pool_index + 1) + \
                                "Required parameters 'ipv6_subnet' or 'ipv6_global_pool_id' or 'ipv6_prefix_length' are missing."
                     self.status = "failed"
