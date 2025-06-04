@@ -17,7 +17,15 @@ description:
     start schedule and end schedule
     using the `GET /dna/intent/api/v1/activities/{id}` API. Completed maintenance
     schedules are automatically removed
-    from the system after two weeks.
+    from the system after two weeks. The API returns a paginated response based on
+    'limit' and 'offset' parameters,
+    allowing up to 500 records per page. 'limit' specifies the number of records,
+    and 'offset' sets the starting point
+    using 1-based indexing. Use '/dna/intent/api/v1/networkDeviceMaintenanceSchedules/count'
+    API to get the total
+    record count. For data sets over 500 records, make multiple calls, adjusting 'limit'
+    and 'offset' to retrieve all
+    records incrementally.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

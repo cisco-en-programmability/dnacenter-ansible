@@ -26,7 +26,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Health and Performance RetrievesDiagnosticTaskByIDV1
     description: Complete reference of the RetrievesDiagnosticTaskByIDV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieves-diagnostic-task-by-id
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-diagnostic-task-by-id
 notes:
   - SDK Method used are health_and_performance.HealthAndPerformance.retrieves_diagnostic_task_by_id_v1,
   - Paths used are get /dna/intent/api/v1/diagnosticTasks/{id},

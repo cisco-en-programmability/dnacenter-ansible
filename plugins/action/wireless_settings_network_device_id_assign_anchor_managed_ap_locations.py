@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -- coding: utf-8 --
 from ansible.plugins.action import ActionBase
-from ansible_collections.cisco.dnac.plugins.action.wireless_settings_network_device_id_assign_anchor_managed_ap_locations_v1 import ActionModule
+from ansible_collections.cisco.dnac.plugins.action.wireless_settings_network_device_id_assign_anchor_managed_ap_locations_v1 import ActionModule  # noqa: E501
 
 
 class ActionModule2(ActionBase):

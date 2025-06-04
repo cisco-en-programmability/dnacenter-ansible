@@ -25,6 +25,8 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
+    limit=dict(type="str"),
+    offset=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -63,6 +65,8 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            limit=params.get("limit"),
+            offset=params.get("offset"),
             headers=params.get("headers"),
         )
         return new_object

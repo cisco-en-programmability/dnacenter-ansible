@@ -152,7 +152,7 @@ class DiscoveryV1(object):
         new_object_params['snmpRwCommunityDesc'] = self.new_object.get('snmpRwCommunityDesc')
         new_object_params['snmpUserName'] = self.new_object.get('snmpUserName')
         new_object_params['snmpVersion'] = self.new_object.get('snmpVersion')
-        new_object_params['timeout'] = self.new_object.get('timeout')
+        new_object_params['timeOut'] = self.new_object.get('timeOut')
         new_object_params['userNameList'] = self.new_object.get('userNameList')
         return new_object_params
 

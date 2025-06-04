@@ -53,7 +53,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivationV1
     description: Complete reference of the TriggerSoftwareImageActivationV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation
+    link:
+      https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation_v1,

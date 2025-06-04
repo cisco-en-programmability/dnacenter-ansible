@@ -194,7 +194,8 @@ dnac_response:
         "isRandomMacFilterEnabled": true,
         "fastTransitionOverTheDistributedSystemEnable": true,
         "inheritedSiteNameHierarchy": "string",
-        "inheritedSiteUUID": "string"
+        "inheritedSiteUUID": "string",
+        "isRadiusProfilingEnabled": true
       },
       "version": "string"
     }

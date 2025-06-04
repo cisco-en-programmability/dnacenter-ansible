@@ -493,8 +493,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         onboarding_templates = config.get("onboarding_templates")
         day_n_templates = config.get("day_n_templates")
         if onboarding_templates:
-            errormsg.append("onboarding_templates: Onboarding templates are unavailable due to SDK/API constraints. "
-                            "Please use the PNP onboarding template instead.")
+            errormsg.append("onboarding_templates: Onboarding templates are currently unavailable due to SDK/API upgrade. "
+                            "This feature will be available in an upcoming release")
             for template_name in onboarding_templates:
                 validate_str(template_name, param_spec_str, "onboarding_templates", errormsg)
                 duplicate_template = list(set([template for template in onboarding_templates

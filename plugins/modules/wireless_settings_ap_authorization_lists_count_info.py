@@ -23,7 +23,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Wireless GetAPAuthorizationListCountV1
     description: Complete reference of the GetAPAuthorizationListCountV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-list-count
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-list-count
 notes:
   - SDK Method used are wireless.Wireless.get_ap_authorization_list_count_v1,
   - Paths used are get /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/count,

@@ -54,6 +54,12 @@ options:
               applicable for transit of type SDA_LISP_PUB_SUB_TRANSIT.
             type: bool
         type: dict
+      siteId:
+        description: ID of the site of this transit network. The transit network will
+          be anchored at this Site. Only Fabric Sites within this Site location can
+          associate their borders with this transit network. Additionally, the Transit
+          Control Plane Devices must be located within the transit network's Site.
+        type: str
       type:
         description: Type of the transit network (updating this field is not allowed).
         type: str
@@ -93,6 +99,7 @@ EXAMPLES = r"""
           controlPlaneNetworkDeviceIds:
             - string
           isMulticastOverTransitEnabled: true
+        siteId: string
         type: string
 - name: Create
   cisco.dnac.sda_transit_networks_v1:
@@ -113,6 +120,7 @@ EXAMPLES = r"""
           controlPlaneNetworkDeviceIds:
             - string
           isMulticastOverTransitEnabled: true
+        siteId: string
         type: string
 """
 RETURN = r"""

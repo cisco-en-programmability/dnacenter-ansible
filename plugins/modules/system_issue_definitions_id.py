@@ -34,7 +34,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Issues IssueTriggerDefinitionUpdateV1
     description: Complete reference of the IssueTriggerDefinitionUpdateV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update
+    link:
+      https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update
 notes:
   - SDK Method used are issues.Issues.issue_trigger_definition_update_v1,
   - Paths used are put /dna/intent/api/v1/systemIssueDefinitions/{id},
