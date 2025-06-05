@@ -5031,6 +5031,8 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": pool_id},
             )
+            execution_id = None
+            task_id = None
             if pool_type == "Global":
                 success_msg = "Global pool deleted successfully."
                 failed_msg = "Unable to delete global pool reservation. "
@@ -5038,13 +5040,13 @@ class NetworkSettings(DnacBase):
                 success_msg = "Ip subpool reservation released successfully."
                 failed_msg = "Unable to release subpool reservation. "
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
-                self.check_tasks_response_status(response, function_name).check_return_status
+                self.check_tasks_response_status(response, function_name)
+                task_id = response["response"]["taskId"]
             else:
                 self.check_execution_response_status(response, function_name)
+                execution_id = response.get("executionId")
             self.log("Response received from delete {0} pool API: {1}".
-                     format(pool_type, self.pprint(response)), "DEBUG")
-            execution_id = response.get("executionId")
-            task_id = response["response"]["taskId"]
+                        format(pool_type, self.pprint(response)), "DEBUG")
 
             if (execution_id or task_id) and self.status == "success":
                 return {
@@ -5125,6 +5127,9 @@ class NetworkSettings(DnacBase):
                         self.log("Deletion completed for reserved pool '{0}' with ID '{1}'"
                                  .format(pool_name, pool_id), "DEBUG")
                     self.reserve_pool_response = result_reserve_pool["response"]
+                    if execution_details["status"]== "failed":
+                        self.set_operation_result("failed", False, self.msg,
+                                          "ERROR", self.reserve_pool_response).check_return_status()
                 else:
                     result_reserve_pool["msg"].update({site_name: "No Reserve Pools available"})
                     self.log("No Reserved IP Subpools found for site '{0}'. Skipping deletion."
@@ -5157,6 +5162,9 @@ class NetworkSettings(DnacBase):
                 self.log("Deletion completed for reserved pool '{0}' with ID '{1}'".format(pool_name, pool_id), "DEBUG")
                 result_reserve_pool["response"].update({pool_name: execution_details})
                 self.reserve_pool_response = result_reserve_pool["response"]
+                if execution_details["status"]== "failed":
+                        self.set_operation_result("failed", False, self.msg,
+                                          "ERROR", self.reserve_pool_response).check_return_status()
 
         self.msg = "Reserved pool(s) released successfully"
         self.status = "success"
@@ -5205,6 +5213,9 @@ class NetworkSettings(DnacBase):
                 self.log("Deletion completed for global pool all:'{0}'".format(
                     self.pprint(result_global_pool["response"])), "DEBUG")
                 self.global_pool_response = result_global_pool["response"]
+                if execution_details["status"]== "failed":
+                        self.set_operation_result("failed", False, self.msg,
+                                          "ERROR", self.global_pool_response).check_return_status()
             else:
                 self.log("Processing global pool deletion for a single item", "INFO")
                 global_pool_exists = item.get("exists")
@@ -5227,6 +5238,9 @@ class NetworkSettings(DnacBase):
                                                             "Global")
                 result_global_pool.get("response").update({pool_name: execution_details})
                 self.global_pool_response = result_global_pool.get("response")
+                if execution_details["status"]== "failed":
+                        self.set_operation_result("failed", False, self.msg,
+                                          "ERROR", self.global_pool_response).check_return_status()
 
         self.msg = "Global pools deleted successfully"
         self.status = "success"
