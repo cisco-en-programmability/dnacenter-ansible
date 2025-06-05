@@ -32,17 +32,17 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Sensors RetrievesTheDevice'sCLIsOfTheICAPIntentV1
-    description: Complete reference of the RetrievesTheDevice'sCLIsOfTheICAPIntentV1
+  - name: Cisco DNA Center documentation for Sensors RetrievesTheDevicesCLIsOfTheICAPIntentV1
+    description: Complete reference of the RetrievesTheDevicesCLIsOfTheICAPIntentV1
       API.
     link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-the-device's-cl-is-of-the-icap-intent
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-devices-cl-is-of-the-icap-intent
 notes:
   - SDK Method used are sensors.Sensors.retrieves_the_devices_clis_of_the_i_capintent_v1,
   - Paths used are get
     /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/config,
   - It should be noted that this module is an alias of
-    icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1_info                                                     # noqa: E501
+    icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1_info
 """
 EXAMPLES = r"""
 - name: Get Icap Settings Configuration Models Preview Activity Id Network Devices

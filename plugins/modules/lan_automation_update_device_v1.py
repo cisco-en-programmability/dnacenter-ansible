@@ -43,7 +43,8 @@ options:
         type: str
       ipPoolName:
         description: Name of the IP LAN Pool, required for Link Add should be from
-          discovery site of source and destination device.
+          discovery site of source and destination device. It is optional for Link
+          Delete.
         type: str
       sourceDeviceInterfaceName:
         description: Source Device Interface Name.

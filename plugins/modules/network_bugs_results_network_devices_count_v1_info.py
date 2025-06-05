@@ -47,7 +47,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Compliance GetCountOfNetworkBugDevicesV1
     description: Complete reference of the GetCountOfNetworkBugDevicesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-count-of-network-bug-devices
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-count-of-network-bug-devices
 notes:
   - SDK Method used are compliance.Compliance.get_count_of_network_bug_devices_v1,
   - Paths used are get /dna/intent/api/v1/networkBugs/results/networkDevices/count,

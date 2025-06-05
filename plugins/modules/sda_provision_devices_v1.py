@@ -51,7 +51,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!provision-devices
   - name: Cisco DNA Center documentation for SDA DeleteProvisionedDeviceByIdV1
     description: Complete reference of the DeleteProvisionedDeviceByIdV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-device-by-id
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-provisioned-device-by-id
   - name: Cisco DNA Center documentation for SDA DeleteProvisionedDevicesV1
     description: Complete reference of the DeleteProvisionedDevicesV1 API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-devices

@@ -120,6 +120,28 @@ dnac_response:
       "wlcIpAddress": "string",
       "reachabilityStatus": "string",
       "managementIpAddress": "string",
-      "provisioned": "string"
+      "provisioningStatus": "string",
+      "radioDTOs": [
+        {
+          "ifType": 0,
+          "ifTypeValue": "string",
+          "slotId": 0,
+          "macAddress": "string",
+          "adminStatus": "string",
+          "powerAssignmentMode": "string",
+          "powerlevel": 0,
+          "channelAssignmentMode": "string",
+          "channelNumber": 0,
+          "channelWidth": "string",
+          "antennaPatternName": "string",
+          "antennaAngle": 0,
+          "antennaElevAngle": 0,
+          "antennaGain": 0,
+          "radioRoleAssignment": {},
+          "radioBand": {},
+          "cleanAirSI": "string",
+          "dualRadioMode": "string"
+        }
+      ]
     }
 """

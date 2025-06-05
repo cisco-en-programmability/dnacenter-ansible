@@ -132,7 +132,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Sites GetSiteAnalyticsForOneSiteV1
     description: Complete reference of the GetSiteAnalyticsForOneSiteV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-one-site
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-one-site
 notes:
   - SDK Method used are sites.Sites.get_site_analytics_for_one_site_v1,
   - Paths used are get /dna/data/api/v1/siteKpiSummaries/{id},

@@ -70,7 +70,7 @@ options:
   wiredDataCollection:
     description: Sites Telemetry Settings's wiredDataCollection.
     suboptions:
-      enableWiredDataCollectio:
+      enableWiredDataCollection:
         description: Track the presence, location, and movement of wired endpoints
           in the network. Traffic received from endpoints is used to extract and store
           their identity information (MAC address and IP address). Other features,
@@ -95,7 +95,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Network Settings SetTelemetrySettingsForASiteV1
     description: Complete reference of the SetTelemetrySettingsForASiteV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!set-telemetry-settings-for-a-site
+    link:
+      https://developer.cisco.com/docs/dna-center/#!set-telemetry-settings-for-a-site
 notes:
   - SDK Method used are network_settings.NetworkSettings.set_telemetry_settings_for_a_site_v1,
   - Paths used are put /dna/intent/api/v1/sites/{id}/telemetrySettings,
@@ -128,7 +129,7 @@ EXAMPLES = r"""
         - string
       useBuiltinSyslogServer: true
     wiredDataCollection:
-      enableWiredDataCollectio: true
+      enableWiredDataCollection: true
     wirelessTelemetry:
       enableWirelessTelemetry: true
 """

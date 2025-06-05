@@ -122,7 +122,7 @@ dnac_response:
           "zeroWaitDfsEnable": true,
           "customRxSopThreshold": 0,
           "maxRadioClients": 0,
-          "fraProperties": {
+          "fraPropertiesA": {
             "clientAware": true,
             "clientSelect": 0,
             "clientReset": 0
@@ -201,7 +201,7 @@ dnac_response:
           "pscEnforcingEnabled": true,
           "discoveryFrames6GHz": "string",
           "broadcastProbeResponseInterval": 0,
-          "fraProperties": {
+          "fraPropertiesC": {
             "clientResetCount": 0,
             "clientUtilizationThreshold": 0
           },

@@ -92,6 +92,7 @@ argument_spec.update(dict(
     isRandomMacFilterEnabled=dict(type="bool"),
     fastTransitionOverTheDistributedSystemEnable=dict(type="bool"),
     isRadiusProfilingEnabled=dict(type="bool"),
+    policyProfileName=dict(type="str"),
     siteId=dict(type="str"),
     id=dict(type="str"),
 ))
@@ -198,6 +199,7 @@ class ActionModule(ActionBase):
             isRandomMacFilterEnabled=params.get("isRandomMacFilterEnabled"),
             fastTransitionOverTheDistributedSystemEnable=params.get("fastTransitionOverTheDistributedSystemEnable"),
             isRadiusProfilingEnabled=params.get("isRadiusProfilingEnabled"),
+            policyProfileName=params.get("policyProfileName"),
             site_id=params.get("siteId"),
             id=params.get("id"),
         )

@@ -29,7 +29,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-all-view-groups
   - name: Cisco DNA Center documentation for Reports GetViewsForAGivenViewGroupV1
     description: Complete reference of the GetViewsForAGivenViewGroupV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-views-for-a-given-view-group
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-views-for-a-given-view-group
 notes:
   - SDK Method used are reports.Reports.get_all_view_groups_v1, reports.Reports.get_views_for_a_given_view_group_v1,
   - Paths used are get /dna/intent/api/v1/data/view-groups, get /dna/intent/api/v1/data/view-groups/{viewGroupId},

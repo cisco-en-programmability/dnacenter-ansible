@@ -124,6 +124,7 @@ class SdaTransitNetworksV1(object):
         obj_params = [
             ("id", "id"),
             ("name", "name"),
+            ("siteId", "siteId"),
             ("type", "type"),
             ("ipTransitSettings", "ipTransitSettings"),
             ("sdaTransitSettings", "sdaTransitSettings"),

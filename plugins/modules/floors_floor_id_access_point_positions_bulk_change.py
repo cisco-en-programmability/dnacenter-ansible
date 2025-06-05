@@ -68,7 +68,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Site Design EditTheAccessPointsPositionsV2
     description: Complete reference of the EditTheAccessPointsPositionsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!edit-the-access-points-positions
+    link:
+      https://developer.cisco.com/docs/dna-center/#!edit-the-access-points-positions
 notes:
   - SDK Method used are site_design.SiteDesign.edit_the_access_points_positions_v2,
   - Paths used are post /dna/intent/api/v2/floors/{floorId}/accessPointPositions/bulkChange,

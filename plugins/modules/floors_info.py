@@ -69,7 +69,8 @@ dnac_response:
         "unitsOfMeasure": "string",
         "type": "string",
         "id": "string",
-        "nameHierarchy": "string"
+        "nameHierarchy": "string",
+        "siteHierarchyId": "string"
       }
     }
 """

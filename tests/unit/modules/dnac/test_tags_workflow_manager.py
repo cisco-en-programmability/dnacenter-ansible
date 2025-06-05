@@ -12,9 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Authors:
+#   Archit Soni <soni.archit03@gmail.com>
+#
+# Description:
+#   Unit tests for the Ansible module `tags_workflow_manager`.
+#   These tests cover various tag and tag membership operations such as creation,
+#   update, deletion, and validation logic using mocked Catalyst Center responses.
+
 from __future__ import absolute_import, division, print_function
 
+# Metadata
 __metaclass__ = type
+__author__ = "Archit Soni"
+__email__ = "soni.archit03@gmail.com"
+__version__ = "1.0.0"
+
 from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import tags_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData

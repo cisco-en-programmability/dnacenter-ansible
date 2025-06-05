@@ -149,7 +149,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Network Settings ReservecreateIPAddressSubpoolsV1
     description: Complete reference of the ReservecreateIPAddressSubpoolsV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!reservecreate-ip-address-subpools
+    link:
+      https://developer.cisco.com/docs/dna-center/#!reservecreate-ip-address-subpools
 notes:
   - SDK Method used are network_settings.NetworkSettings.reservecreate_ip_address_subpools_v1,
   - Paths used are post /dna/intent/api/v1/ipam/siteIpAddressPools,

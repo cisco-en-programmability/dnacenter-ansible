@@ -119,8 +119,9 @@ dnac_response:
       "page": {
         "limit": 0,
         "offset": 0,
+        "count": 0,
         "timeSortOrder": "string"
       },
-      "version": 0
+      "version": "string"
     }
 """

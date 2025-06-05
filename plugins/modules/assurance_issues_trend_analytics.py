@@ -77,7 +77,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Issues GetTrendAnalyticsDataOfIssuesV1
     description: Complete reference of the GetTrendAnalyticsDataOfIssuesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-issues
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-issues
 notes:
   - SDK Method used are issues.Issues.get_trend_analytics_data_of_issues_v1,
   - Paths used are post /dna/data/api/v1/assuranceIssues/trendAnalytics,

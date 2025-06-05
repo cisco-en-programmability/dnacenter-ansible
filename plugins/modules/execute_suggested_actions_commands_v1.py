@@ -30,7 +30,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Issues ExecuteSuggestedActionsCommandsV1
     description: Complete reference of the ExecuteSuggestedActionsCommandsV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!execute-suggested-actions-commands
+    link:
+      https://developer.cisco.com/docs/dna-center/#!execute-suggested-actions-commands
 notes:
   - SDK Method used are issues.Issues.execute_suggested_actions_commands_v1,
   - Paths used are post /dna/intent/api/v1/execute-suggested-actions-commands,

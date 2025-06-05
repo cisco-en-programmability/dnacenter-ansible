@@ -74,6 +74,8 @@ class SdaPortChannelsV1(object):
             self.new_object.get('port_channel_name')
         new_object_params['connected_device_type'] = self.new_object.get('connectedDeviceType') or \
             self.new_object.get('connected_device_type')
+        new_object_params['native_vlan_id'] = self.new_object.get('nativeVlanId') or \
+            self.new_object.get('native_vlan_id')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params
@@ -154,6 +156,8 @@ class SdaPortChannelsV1(object):
             ("connectedDeviceType", "connectedDeviceType"),
             ("protocol", "protocol"),
             ("description", "description"),
+            ("nativeVlanId", "nativeVlanId"),
+            ("allowedVlanRanges", "allowedVlanRanges"),
             ("fabricId", "fabric_id"),
             ("networkDeviceId", "network_device_id"),
             ("portChannelName", "port_channel_name"),

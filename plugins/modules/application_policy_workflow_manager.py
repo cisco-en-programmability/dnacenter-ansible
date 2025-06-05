@@ -44,7 +44,11 @@ options:
     required: true
     suboptions:
       queuing_profile:
-        description: Defines queuing profile settings for applications.
+        description:
+            - Defines queuing profile settings for application traffic shaping and bandwidth allocation.
+            - Each profile specifies whether bandwidth allocation is uniform across all interface speeds or customized per speed.
+            - Changing the value of 'is_common_between_all_interface_speeds' (from 'true' to 'false' or vice versa) is not supported during updates.
+            - To switch between common and per-speed bandwidth settings, create a new queuing profile instead of updating the existing one.
         type: list
         elements: dict
         suboptions:
@@ -5473,12 +5477,12 @@ class ApplicationPolicy(DnacBase):
             no_update_list.append(msg)
 
         if self.deleted_application_policy:
-            msg = "Application Policie(s) '{0}' deleted successfully from Cisco Catalyst Center.".format("', '".join(self.deleted_application_policy))
+            msg = "Application Policy(ies) '{0}' deleted successfully from Cisco Catalyst Center.".format("', '".join(self.deleted_application_policy))
             result_msg_list.append(msg)
 
         if self.no_deleted_application_policy:
             msg = (
-                "Application Policie(s) '{0}' do not exist or are already deleted in Cisco Catalyst Center."
+                "Application Policy(ies) '{0}' do not exist or are already deleted in Cisco Catalyst Center."
                 .format("', '".join(self.no_deleted_application_policy))
             )
             no_update_list.append(msg)
@@ -5494,7 +5498,6 @@ class ApplicationPolicy(DnacBase):
 
         if self.no_update_queuing_profile:
             msg = "Queuing Profile(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_queuing_profile))
-            self.log(self.no_update_queuing_profile)
             no_update_list.append(msg)
 
         if self.deleted_queuing_profile:

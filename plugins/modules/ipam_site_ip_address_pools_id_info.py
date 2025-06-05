@@ -26,7 +26,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Network Settings RetrievesAnIPAddressSubpoolV1
     description: Complete reference of the RetrievesAnIPAddressSubpoolV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieves-an-ip-address-subpool
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-an-ip-address-subpool
 notes:
   - SDK Method used are network_settings.NetworkSettings.retrieves_an_ip_address_subpool_v1,
   - Paths used are get /dna/intent/api/v1/ipam/siteIpAddressPools/{id},
