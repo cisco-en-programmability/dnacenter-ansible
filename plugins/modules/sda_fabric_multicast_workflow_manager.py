@@ -3227,6 +3227,77 @@ class FabricMulticast(DnacBase):
         self.status = "success"
         return self
 
+    def multicast_config_needs_update(self, have_details, want_details):
+        """
+        Determine if the current multicast configuration ('have_details') requires an update
+        to match the desired configuration ('want_details').
+
+        Comparison rules:
+        - Only keys present in 'want_details' are checked.
+        - For dictionary values:
+            - Recursively compare corresponding keys.
+            - For entries where 'rpDeviceLocation' is 'FABRIC', skip checking 'ipv4Address' and 'ipv6Address'
+            if those values are None in 'want_details' (since these can be allocated dynamically).
+        - For list values:
+            - Lengths of the lists must be equal.
+            - Each item in the 'want_details' list must match at least one item in the 'have_details' list.
+            (Order of items does not matter.)
+        - For other values, simple equality check is performed.
+
+        Logs:
+        - Logs the starting state of comparison with 'have_details' and 'want_details'.
+        - Logs the result of whether an update is required or not.
+
+        Returns:
+            bool: True if update is required, False otherwise.
+        """
+        self.log("Starting multicast configuration update check...", "DEBUG")
+        self.log(f"Current HAVE details: {self.pprint(have_details)}", "DEBUG")
+        self.log(f"Desired WANT details: {self.pprint(want_details)}", "DEBUG")
+
+        def _compare(have, want, context=None):
+            if isinstance(want, dict):
+                for key, want_val in want.items():
+                    if key not in have:
+                        return True
+
+                    # Skip IP address comparison for FABRIC RP when want value is None
+                    if context and context.get("rpDeviceLocation") == "FABRIC":
+                        if key in ("ipv4Address", "ipv6Address") and want_val is None:
+                            continue
+
+                    next_context = want if "rpDeviceLocation" in want else context
+                    if _compare(have[key], want_val, context=next_context):
+                        return True
+                return False
+
+            elif isinstance(want, list):
+                if len(have) != len(want):
+                    return True
+
+                # Each want item must match at least one have item
+                for w_item in want:
+                    matched = False
+                    for h_item in have:
+                        if not _compare(h_item, w_item, context=w_item):
+                            matched = True
+                            break
+                    if not matched:
+                        return True
+                return False
+
+            else:
+                return have != want
+
+        update_needed = _compare(have_details, want_details)
+
+        if update_needed:
+            self.log("Multicast configuration requires update.", "DEBUG")
+        else:
+            self.log("Multicast configuration is up-to-date. No update required.", "DEBUG")
+
+        return update_needed
+
     def verify_diff_merged(self, config):
         """
         Validating the Cisco Catalyst Center configuration with the playbook details
@@ -3271,7 +3342,7 @@ class FabricMulticast(DnacBase):
             if want_details:
                 want_details = want_details.get("multicast_details")
 
-            if self.requires_update(have_details, want_details, self.multicast_vn_obj_params):
+            if self.multicast_config_needs_update(have_details, want_details):
                 self.msg = (
                     "The SDA multicast configuration of the layer 3 virtual network '{l3_vn}' "
                     "under the fabric site '{fabric_name}' is not applied to the Cisco Catalyst Center."
