@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: floors_v2
 short_description: Resource module for Floors V2
 description:
-- Manage operations create, update and delete of the resource Floors V2.
-- Create a floor in the network hierarchy under building.
-- Deletes a floor from the network hierarchy. This operations fails if there are any devices assigned to this floor.
-- Updates a floor in the network hierarchy.
+  - Manage operations create, update and delete of the resource Floors V2.
+  - Create a floor in the network hierarchy under building.
+  - Deletes a floor from the network hierarchy. This operations fails if there are
+    any devices assigned to this floor.
+  - Updates a floor in the network hierarchy.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -46,31 +45,24 @@ options:
     description: Floor width. Example 100.5.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design CreatesAFloorV2
-  description: Complete reference of the CreatesAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-floor
-- name: Cisco DNA Center documentation for Site Design DeletesAFloorV2
-  description: Complete reference of the DeletesAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-floor
-- name: Cisco DNA Center documentation for Site Design UpdatesAFloorV2
-  description: Complete reference of the UpdatesAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-a-floor
+  - name: Cisco DNA Center documentation for Site Design CreatesAFloorV2
+    description: Complete reference of the CreatesAFloorV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!creates-a-floor
+  - name: Cisco DNA Center documentation for Site Design DeletesAFloorV2
+    description: Complete reference of the DeletesAFloorV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!deletes-a-floor
+  - name: Cisco DNA Center documentation for Site Design UpdatesAFloorV2
+    description: Complete reference of the UpdatesAFloorV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!updates-a-floor
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.creates_a_floor_v2,
-    site_design.SiteDesign.deletes_a_floor_v2,
+  - SDK Method used are site_design.SiteDesign.creates_a_floor_v2, site_design.SiteDesign.deletes_a_floor_v2,
     site_design.SiteDesign.updates_a_floor_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/floors,
-    delete /dna/intent/api/v2/floors/{id},
+  - Paths used are post /dna/intent/api/v2/floors, delete /dna/intent/api/v2/floors/{id},
     put /dna/intent/api/v2/floors/{id},
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.floors_v2:
@@ -90,7 +82,6 @@ EXAMPLES = r"""
     rfModel: string
     unitsOfMeasure: string
     width: 0
-
 - name: Update by id
   cisco.dnac.floors_v2:
     dnac_host: "{{dnac_host}}"
@@ -110,7 +101,6 @@ EXAMPLES = r"""
     rfModel: string
     unitsOfMeasure: string
     width: 0
-
 - name: Delete by id
   cisco.dnac.floors_v2:
     dnac_host: "{{dnac_host}}"
@@ -122,7 +112,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_border_device_v1_info
 short_description: Information module for Sda Fabric Border Device V1
 description:
-- Get all Sda Fabric Border Device V1.
-- Get border device detail from SDA Fabric.
+  - Get all Sda Fabric Border Device V1.
+  - Get border device detail from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,24 +20,20 @@ options:
   deviceManagementIpAddress:
     version_added: "4.0.0"
     description:
-    - DeviceManagementIpAddress query parameter.
+      - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetBorderDeviceDetailFromSDAFabricV1
-  description: Complete reference of the GetBorderDeviceDetailFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA GetBorderDeviceDetailFromSDAFabricV1
+    description: Complete reference of the GetBorderDeviceDetailFromSDAFabricV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric
 notes:
-  - SDK Method used are
-    sda.Sda.gets_border_device_detail,
-
-  - Paths used are
-    get /dna/intent/api/v1/business/sda/border-device,
-
+  - SDK Method used are sda.Sda.gets_border_device_detail,
+  - Paths used are get /dna/intent/api/v1/business/sda/border-device,
 """
-
 EXAMPLES = r"""
 - name: Get all Sda Fabric Border Device V1
   cisco.dnac.sda_fabric_border_device_v1_info:
@@ -53,7 +47,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

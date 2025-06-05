@@ -1,5 +1,6 @@
 ---
-- hosts: dnac_servers
+- name: Download Device Cmd Runner Output
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   vars:
@@ -72,7 +73,7 @@
         msg: >-
           Filename: {{ download_file.dnac_response.filename }}
           Filepath: {{ download_file.dnac_response.path }}
-          Data extract: {{ download_file.dnac_response.data[:50]}}"
+          Data extract: {{ download_file.dnac_response.data[:50] }}"
       when:
         - download_file is defined
         - download_file.dnac_response is defined

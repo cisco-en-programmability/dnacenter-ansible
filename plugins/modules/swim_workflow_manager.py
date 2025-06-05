@@ -1,101 +1,116 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari, Syed Khadeer Ahmed, Ajith Andrew J")
-
 DOCUMENTATION = r"""
 ---
 module: swim_workflow_manager
-short_description: Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center
+short_description: Module to manage SWIM (Software Image Management) operations in
+  Cisco Catalyst Center
 description:
-- Manages operations for image importation, distribution, activation, and tagging images as golden.
-- Provides an API to fetch a software image from a remote file system via HTTP/FTP and upload it to Catalyst Center.
-  Supported file extensions - bin, img, tar, smu, pie, aes, iso, ova, tar.gz, qcow2.
-- Provides an API to fetch a software image from a local file system and upload it to Catalyst Center.
-  Supported file extensions - bin, img, tar, smu, pie, aes, iso, ova, tar.gz, qcow2.
-- Provides an API to fetch a software image from Cisco Connection Online (CCO) and upload it to Catalyst Center.
-  Refer to https://software.cisco.com/download/home for suggested images in Cisco Catalyst Center.
-  CCO functionality is available starting from Cisco Catalyst version 2.3.7.6.
-- Provides an API to tag or untag an image as golden for a given family of devices.
-- Provides an API to distribute a software image to a device. The software image must be imported into Catalyst Center before it can be distributed.
+  - Manages operations for image importation, distribution, activation, and tagging
+    images as golden.
+  - Provides an API to fetch a software image from a remote file system via HTTP/FTP
+    and upload it to Catalyst Center. Supported file extensions - bin, img, tar, smu,
+    pie, aes, iso, ova, tar.gz, qcow2.
+  - Provides an API to fetch a software image from a local file system and upload
+    it to Catalyst Center. Supported file extensions - bin, img, tar, smu, pie, aes,
+    iso, ova, tar.gz, qcow2.
+  - Provides an API to fetch a software image from Cisco Connection Online (CCO) and
+    upload it to Catalyst Center. Refer to https://software.cisco.com/download/home
+    for suggested images in Cisco Catalyst Center. CCO functionality is available
+    starting from Cisco Catalyst version 2.3.7.6.
+  - Provides an API to tag or untag an image as golden for a given family of devices.
+  - Provides an API to distribute a software image to a device. The software image
+    must be imported into Catalyst Center before it can be distributed.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Madhan Sankaranarayanan (@madhansansel)
-        Rishita Chowdhary (@rishitachowdhary)
-        Abhishek Maheshwari (@abmahesh)
-        Syed Khadeer Ahmed (@syed-khadeerahmed)
-        Ajith Andrew J (@ajithandrewj)
+author: Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
+  Abhishek Maheshwari (@abmahesh) Syed Khadeer Ahmed (@syed-khadeerahmed) Ajith Andrew
+  J (@ajithandrewj)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Catalyst Center after module completion.
     type: str
-    choices: [ merged ]
+    choices: [merged]
     default: merged
   config:
     description: List of details of SWIM image being managed
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       import_image_details:
         description: Details of image being imported
         type: dict
         suboptions:
           type:
-            description: Specifies the source of the image import. Supported values are 'local' for local file import,
-                'remote' for remote URL import, or 'CCO' for import from Cisco Connection Online.
+            description: Specifies the source of the image import. Supported values
+              are 'local' for local file import, 'remote' for remote URL import, or
+              'CCO' for import from Cisco Connection Online.
             type: str
           local_image_details:
             description: Details of the local path of the image to be imported.
             type: dict
             suboptions:
               file_path:
-                description: Provide the absolute file path needed to import an image from your local system (Eg "/path/to/your/file").
-                    Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
+                description: Provide the absolute file path needed to import an image
+                  from your local system (Eg "/path/to/your/file"). Accepted files
+                  formats are -
+                  .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
                 type: str
               is_third_party:
-                description: Query parameter to determine if the image is from a third party (optional).
+                description: Query parameter to determine if the image is from a third
+                  party (optional).
                 type: bool
               third_party_application_type:
-                description: Specify the ThirdPartyApplicationType query parameter to indicate the type of third-party application. Allowed
-                    values include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY, etc.(optional).
-                  WLC (Wireless LAN Controller) - It's a network device that manages and controls multiple wireless access points (APs) in a
-                    centralized manner.
-                  LINUX - It's an open-source operating system that provides a complete set of software packages and utilities.
-                  FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on
-                    predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks
-                    (such as the internet), preventing unauthorized access.
-                  WINDOWS - It's an operating system known for its graphical user interface (GUI) support, extensive compatibility with hardware
-                    and software, and widespread use across various applications.
-                  LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers
-                    or resources.
-                  THIRDPARTY - It refers to third-party images or applications that are not part of the core system.
-                  NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and
-                    monitoring of network access policies, user authentication, and device compliance.
-                  WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes
-                    various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce
-                    latency, increase throughput, and improve user experience over WAN connections.
-                  Unknown - It refers to an unspecified or unrecognized application type.
-                  Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple
-                    networks together and directing traffic between them.
+                description: Specify the ThirdPartyApplicationType query parameter
+                  to indicate the type of third-party application. Allowed values
+                  include WLC, LINUX, FIREWALL, WINDOWS, LOADBALANCER, THIRDPARTY,
+                  etc.(optional). WLC (Wireless LAN Controller) - It's a network device
+                  that manages and controls multiple wireless access points (APs)
+                  in a centralized manner. LINUX - It's an open-source operating system
+                  that provides a complete set of software packages and utilities.
+                  FIREWALL - It's a network security device that monitors and controls
+                  incoming and outgoing network traffic based on predetermined security
+                  rules.It acts as a barrier between a trusted internal network and
+                  untrusted external networks (such as the internet), preventing unauthorized
+                  access. WINDOWS - It's an operating system known for its graphical
+                  user interface (GUI) support, extensive compatibility with hardware
+                  and software, and widespread use across various applications. LOADBALANCER
+                  - It's a network device or software application that distributes
+                  incoming network traffic across multiple servers or resources. THIRDPARTY
+                  - It refers to third-party images or applications that are not part
+                  of the core system. NAM (Network Access Manager) - It's a network
+                  management tool or software application that provides centralized
+                  control and monitoring of network access policies, user authentication,
+                  and device compliance. WAN Optimization - It refers to techniques
+                  and technologies used to improve the performance and efficiency
+                  of WANs. It includes various optimization techniques such as data
+                  compression, caching, protocol optimization, and traffic prioritization
+                  to reduce latency, increase throughput, and improve user experience
+                  over WAN connections. Unknown - It refers to an unspecified or unrecognized
+                  application type. Router - It's a network device that forwards data
+                  packets between computer networks. They are essential for connecting
+                  multiple networks together and directing traffic between them.
                 type: str
               third_party_image_family:
-                description: Provide the ThirdPartyImageFamily query parameter to identify the family of the third-party image. Image Family name
-                    like PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).
+                description: Provide the ThirdPartyImageFamily query parameter to
+                  identify the family of the third-party image. Image Family name
+                  like PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).
                 type: str
               third_party_vendor:
-                description: Include the ThirdPartyVendor query parameter to specify the vendor of the third party.
+                description: Include the ThirdPartyVendor query parameter to specify
+                  the vendor of the third party.
                 type: str
           url_details:
             description: URL details for SWIM import
@@ -107,68 +122,89 @@ options:
                 elements: dict
                 suboptions:
                   application_type:
-                    description: An optional parameter that specifies the type of application. Allowed values include WLC, LINUX, FIREWALL, WINDOWS,
-                        LOADBALANCER, THIRDPARTY, etc. This is only applicable for third-party image types(optional).
-                      WLC (Wireless LAN Controller) - It's network device that manages and controls multiple wireless access points (APs) in a
-                        centralized manner.
-                      LINUX - It's an open source which provide complete operating system with a wide range of software packages and utilities.
-                      FIREWALL - It's a network security device that monitors and controls incoming and outgoing network traffic based on
-                        predetermined security rules.It acts as a barrier between a trusted internal network and untrusted external networks
-                        (such as the internet), preventing unauthorized access.
-                      WINDOWS - It's an OS which provides GUI support for various applications, and extensive compatibility with hardware
-                        and software.
-                      LOADBALANCER - It's a network device or software application that distributes incoming network traffic across multiple servers
-                        or resources.
-                      THIRDPARTY - It refers to third-party images or applications that are not part of the core system.
-                      NAM (Network Access Manager) - It's a network management tool or software application that provides centralized control and
-                        monitoring of network access policies, user authentication, and device compliance.
-                      WAN Optimization - It refers to techniques and technologies used to improve the performance and efficiency of WANs. It includes
-                        various optimization techniques such as data compression, caching, protocol optimization, and traffic prioritization to reduce
-                        latency, increase throughput, and improve user experience over WAN connections.
-                      Unknown - It refers to an unspecified or unrecognized application type.
-                      Router - It's a network device that forwards data packets between computer networks. They are essential for connecting multiple
-                        networks together and directing traffic between them.
+                    description: An optional parameter that specifies the type of
+                      application. Allowed values include WLC, LINUX, FIREWALL, WINDOWS,
+                      LOADBALANCER, THIRDPARTY, etc. This is only applicable for third-party
+                      image types(optional). WLC (Wireless LAN Controller) - It's
+                      network device that manages and controls multiple wireless access
+                      points (APs) in a centralized manner. LINUX - It's an open source
+                      which provide complete operating system with a wide range of
+                      software packages and utilities. FIREWALL - It's a network security
+                      device that monitors and controls incoming and outgoing network
+                      traffic based on predetermined security rules.It acts as a barrier
+                      between a trusted internal network and untrusted external networks
+                      (such as the internet), preventing unauthorized access. WINDOWS
+                      - It's an OS which provides GUI support for various applications,
+                      and extensive compatibility with hardware and software. LOADBALANCER
+                      - It's a network device or software application that distributes
+                      incoming network traffic across multiple servers or resources.
+                      THIRDPARTY - It refers to third-party images or applications
+                      that are not part of the core system. NAM (Network Access Manager)
+                      - It's a network management tool or software application that
+                      provides centralized control and monitoring of network access
+                      policies, user authentication, and device compliance. WAN Optimization
+                      - It refers to techniques and technologies used to improve the
+                      performance and efficiency of WANs. It includes various optimization
+                      techniques such as data compression, caching, protocol optimization,
+                      and traffic prioritization to reduce latency, increase throughput,
+                      and improve user experience over WAN connections. Unknown -
+                      It refers to an unspecified or unrecognized application type.
+                      Router - It's a network device that forwards data packets between
+                      computer networks. They are essential for connecting multiple
+                      networks together and directing traffic between them.
                     type: str
                   image_family:
-                    description: Represents the name of the image family and is applicable only when uploading third-party images. Image Family name
-                        like PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).
+                    description: Represents the name of the image family and is applicable
+                      only when uploading third-party images. Image Family name like
+                      PALOALTO, RIVERBED, FORTINET, CHECKPOINT, SILVERPEAK etc. (optional).
                     type: str
                   source_url:
-                    description: A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL
-                        to import an image..(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
-                        ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
+                    description: A mandatory parameter for importing a SWIM image
+                      via a remote URL. This parameter is required when using a URL
+                      to import an image..(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
+                      ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
+                      source url can be either str or list
                     type: list
                     elements: str
                   is_third_party:
-                    description: Flag indicates whether the image is uploaded from a third party (optional).
+                    description: Flag indicates whether the image is uploaded from
+                      a third party (optional).
                     type: bool
                   vendor:
-                    description: The name of the vendor, that applies only to third-party image types when importing via URL (optional).
+                    description: The name of the vendor, that applies only to third-party
+                      image types when importing via URL (optional).
                     type: str
               schedule_at:
-                description: ScheduleAt query parameter. Epoch Time (The number of milli-seconds since
-                  January 1 1970 UTC) at which the distribution should be scheduled (optional).
+                description: ScheduleAt query parameter. Epoch Time (The number of
+                  milli-seconds since January 1 1970 UTC) at which the distribution
+                  should be scheduled (optional).
                 type: str
               schedule_desc:
                 description: ScheduleDesc query parameter. Custom Description (optional).
                 type: str
               schedule_origin:
-                description: ScheduleOrigin query parameter. Originator of this call (optional).
+                description: ScheduleOrigin query parameter. Originator of this call
+                  (optional).
                 type: str
           cco_image_details:
             description:
-              - Parameters related to importing a software image from Cisco Connection Online (CCO) into Catalyst Center.
-              - This API fetches the specified image from CCO and uploads it to Catalyst Center.
+              - Parameters related to importing a software image from Cisco Connection
+                Online (CCO) into Catalyst Center.
+              - This API fetches the specified image from CCO and uploads it to Catalyst
+                Center.
               - Supported from Cisco Catalyst Center version 2.3.7.6 onward.
-              - Refer to the Cisco software download portal (https://software.cisco.com/download/home) for recommended images.
+              - Refer to the Cisco software download portal (https://software.cisco.com/download/home)
+                for recommended images.
             type: dict
             suboptions:
               image_name:
                 description:
-                  - The name of the software image to be imported from Cisco.com.
-                  - This is a mandatory parameter and must be provided to initiate the download from CCO.
-
-                type: dict
+                  - Specifies the name of the software image to be imported from Cisco.com.
+                  - This parameter is mandatory to initiate the download from CCO.
+                  - Accepts either a single image name as a string or multiple image
+                    names as a list.
+                type: list
+                elements: str
       tagging_details:
         description: Details for tagging or untagging an image as golden
         type: dict
@@ -200,13 +236,13 @@ options:
             description: Device Image family name(Eg Cisco Catalyst 9300 Switch)
             type: str
           site_name:
-            description: Site name for which SWIM image will be tagged/untagged as golden.
-              If not provided, SWIM image will be mapped to global site.
+            description: Site name for which SWIM image will be tagged/untagged as
+              golden. If not provided, SWIM image will be mapped to global site.
             type: str
           tagging:
-            description: Booelan value to tag/untag SWIM image as golden
-              If True then the given image will be tagged as golden.
-              If False then the given image will be un-tagged as golden.
+            description: Booelan value to tag/untag SWIM image as golden If True then
+              the given image will be tagged as golden. If False then the given image
+              will be un-tagged as golden.
             type: bool
       image_distribution_details:
         description: |
@@ -218,39 +254,53 @@ options:
           - site_name (if specified, the image will be distributed to all devices within the site)
           At least one of these parameters must be provided. If 'site_name' is provided, additional filters
           such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
+          - SAPRO devices are not eligible for image distribution.
         type: dict
         suboptions:
           device_role:
-            description: Device Role and  permissible Values are ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION and CORE.
-              ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
-              UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
-                This could happen if the platform is unable to determine the device's role based on available information.
-              ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
-                These devices are often located at the edge of the network and provide connectivity to end-user devices.
-              BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
-                gateways between different networks, such as connecting an enterprise network to the internet or connecting
-                multiple branch offices.
-              DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
-                from access switches and route it toward the core of the network or toward other distribution switches.
-              CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
-                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
-                providing interconnection between different network segments.
+            description: Device Role and  permissible Values are ALL, UNKNOWN, ACCESS,
+              BORDER ROUTER, DISTRIBUTION and CORE. ALL - This role typically represents
+              all devices within the network, regardless of their specific roles or
+              functions. UNKNOWN - This role is assigned to devices whose roles or
+              functions have not been identified or classified within Cisco Catalsyt
+              Center. This could happen if the platform is unable to determine the
+              device's role based on available information. ACCESS - This role typically
+              represents switches or access points that serve as access points for
+              end-user devices to connect to the network. These devices are often
+              located at the edge of the network and provide connectivity to end-user
+              devices. BORDER ROUTER - These are devices that connect different network
+              domains or segments together. They often serve as gateways between different
+              networks, such as connecting an enterprise network to the internet or
+              connecting multiple branch offices. DISTRIBUTION - This role represents
+              function as distribution switches or routers in hierarchical network
+              designs. They aggregate traffic from access switches and route it toward
+              the core of the network or toward other distribution switches. CORE
+              - This role typically represents high-capacity switches or routers that
+              form the backbone of the network. They handle large volumes of traffic
+              and provide connectivity between different parts of network, such as
+              connecting distribution switches or providing interconnection between
+              different network segments.
             type: str
           device_family_name:
-            description: Specify the name of the device family such as Switches and Hubs, etc.
+            description: Specify the name of the device family such as Switches and
+              Hubs, etc.
             type: str
           site_name:
             description: Used to get device details associated to this site.
             type: str
           device_series_name:
-            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
-                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
+            description: This parameter specifies the name of the device series. It
+              is used to identify a specific series of devices, such as Cisco Catalyst
+              9300 Series Switches, within the Cisco Catalyst Center.
             type: str
             version_added: 6.12.0
           image_name:
-            description: SWIM image's name
+            description: Specifies the name of the SWIM image to be distributed.
             type: str
+          sub_package_images:
+            description: Specifies a list of SWIM sub-package image names.
+            type: list
+            elements: str
           device_serial_number:
             description: Device serial number where the image needs to be distributed
             type: str
@@ -273,45 +323,61 @@ options:
           - site_name (if specified, the image will be activated on all devices within the site)
           At least one of these parameters must be provided. If 'site_name' is provided, additional filters
           such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
+          - SAPRO devices are not eligible for image activation.
         type: dict
         suboptions:
           device_role:
-            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION, and CORE.
+            description: Defines the device role, with permissible values including
+              ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION, and CORE.
             type: str
           device_family_name:
-            description: Specify the name of the device family such as Switches and Hubs, etc.
+            description: Specify the name of the device family such as Switches and
+              Hubs, etc.
             type: str
           site_name:
             description: Used to get device details associated to this site.
             type: str
           device_series_name:
-            description: This parameter specifies the name of the device series. It is used to identify a specific series of devices,
-                such as Cisco Catalyst 9300 Series Switches, within the Cisco Catalyst Center.
+            description: This parameter specifies the name of the device series. It
+              is used to identify a specific series of devices, such as Cisco Catalyst
+              9300 Series Switches, within the Cisco Catalyst Center.
             type: str
             version_added: 6.12.0
           activate_lower_image_version:
             description: ActivateLowerImageVersion flag.
             type: bool
           device_upgrade_mode:
-            description: It specifies the mode of upgrade to be applied to the devices having the following values - 'install', 'bundle', and 'currentlyExists'.
-              install - This mode instructs Cisco Catalyst Center to perform a clean installation of the new image on the target devices.
-                When this mode is selected, the existing image on the device is completely replaced with the new image during the upgrade process.
-                This ensures that the device runs only the new image version after the upgrade is completed.
-              bundle - This mode instructs Cisco Catalyst Center bundles the new image with the existing image on the device before initiating
-                the upgrade process. This mode allows for a more efficient upgrade process by preserving the existing image on the device while
-                adding the new image as an additional bundle. After the upgrade, the device can run either the existing image or the new bundled
-                image, depending on the configuration.
-              currentlyExists - This mode instructs Cisco Catalyst Center to checks if the target devices already have the desired image version
-                installed. If image already present on devices, no action is taken and upgrade process is skipped for those devices. This mode
-                is useful for avoiding unnecessary upgrades on devices that already have the correct image version installed, thereby saving time.
+            description: It specifies the mode of upgrade to be applied to the devices
+              having the following values - 'install', 'bundle', and 'currentlyExists'.
+              install - This mode instructs Cisco Catalyst Center to perform a clean
+              installation of the new image on the target devices. When this mode
+              is selected, the existing image on the device is completely replaced
+              with the new image during the upgrade process. This ensures that the
+              device runs only the new image version after the upgrade is completed.
+              bundle - This mode instructs Cisco Catalyst Center bundles the new image
+              with the existing image on the device before initiating the upgrade
+              process. This mode allows for a more efficient upgrade process by preserving
+              the existing image on the device while adding the new image as an additional
+              bundle. After the upgrade, the device can run either the existing image
+              or the new bundled image, depending on the configuration. currentlyExists
+              - This mode instructs Cisco Catalyst Center to checks if the target
+              devices already have the desired image version installed. If image already
+              present on devices, no action is taken and upgrade process is skipped
+              for those devices. This mode is useful for avoiding unnecessary upgrades
+              on devices that already have the correct image version installed, thereby
+              saving time.
             type: str
           distribute_if_needed:
-            description: Enable the distribute_if_needed option when activating the SWIM image.
+            description: Enable the distribute_if_needed option when activating the
+              SWIM image.
             type: bool
           image_name:
-            description: SWIM image's name
+            description: Specifies the name of the SWIM image to be activated.
             type: str
+          sub_package_images:
+            description: Specifies a list of SWIM sub-package image names.
+            type: list
+            elements: str
           device_serial_number:
             description: Device serial number where the image needs to be activated
             type: str
@@ -325,31 +391,23 @@ options:
             description: Device MAC address where the image needs to be activated
             type: str
           schedule_validate:
-            description: ScheduleValidate query parameter. ScheduleValidate, validates data
-              before schedule (optional).
+            description: ScheduleValidate query parameter. ScheduleValidate, validates
+              data before schedule (optional).
             type: bool
 requirements:
-- dnacentersdk == 2.7.3
-- python >= 3.9
+  - dnacentersdk == 2.7.3
+  - python >= 3.9
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,
-
-  - Paths used are
-    post /dna/intent/api/v1/image/importation/source/url,
-    post /dna/intent/api/v1/image/importation/golden,
-    post /dna/intent/api/v1/image/distribution,
-    post /dna/intent/api/v1/image/activation/device,
-
-  - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
-
-
-
+  - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden,
+    post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device,
+  - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options
+    in v6.13.2.
 """
-
 EXAMPLES = r"""
 - name: Import an image from a URL, tag it as golden and load it on device
   cisco.dnac.swim_workflow_manager:
@@ -361,31 +419,30 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - import_image_details:
-        type: remote
-        url_details:
-          payload:
-          - source_url:
-            - "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
-            is_third_party: False
-      tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ACCESS
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        site_name: Global/USA/San Francisco/BGL_18
-        tagging: True
-      image_distribution_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_serial_number: FJC2327U0S2
-      image_activation_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        schedule_validate: False
-        activate_lower_image_version: False
-        distribute_if_needed: True
-        device_serial_number: FJC2327U0S2
-
+      - import_image_details:
+          type: remote
+          url_details:
+            payload:
+              - source_url:
+                  - "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+                is_third_party: false
+        tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: ACCESS
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          site_name: Global/USA/San Francisco/BGL_18
+          tagging: true
+        image_distribution_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_serial_number: FJC2327U0S2
+        image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          schedule_validate: false
+          activate_lower_image_version: false
+          distribute_if_needed: true
+          device_serial_number: FJC2327U0S2
 - name: Import an image from local, tag it as golden.
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -396,20 +453,19 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - import_image_details:
-        type: local
-        local_image_details:
+      - import_image_details:
+          type: local
+          local_image_details:
             file_path: /Users/Downloads/cat9k_iosxe.17.12.01.SPA.bin
-            is_third_party: False
-      tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ACCESS
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        site_name: Global/USA/San Francisco/BGL_18
-        tagging: True
-
+            is_third_party: false
+        tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: ACCESS
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          site_name: Global/USA/San Francisco/BGL_18
+          tagging: true
 - name: Import bulk images from URL
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -420,17 +476,34 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - import_image_details:
-        type: remote
-        url_details:
+      - import_image_details:
+          type: remote
+          url_details:
             payload:
-            - source_url:
-                - "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
-                - "http://10.10.10.10/stda/cat9k_iosxe.17.12.02.SPA.bin"
-            third_party: False
-
+              - source_url:
+                  - "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+                  - "http://10.10.10.10/stda/cat9k_iosxe.17.12.02.SPA.bin"
+            is_third_party: false
+- name: Import image from URL using str
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - import_image_details:
+          type: remote
+          url_details:
+            payload:
+              - source_url: "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+            is_third_party: false
 - name: Import images from CCO (cisco.com)
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -441,13 +514,31 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - import_image_details:
-        type: CCO
-        cco_image_details:
+      - import_image_details:
+          type: CCO
+          cco_image_details:
             image_name: cat9k_iosxe.17.06.06a.SPA.bin
-
+- name: Import list of images from CCO (cisco.com)
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - import_image_details:
+          type: CCO
+          cco_image_details:
+            image_name:
+              - cat9k_iosxe.17.16.01.SPA.bin
+              - C9800-SW-iosxe-wlc.17.16.01.SPA.bin
+              - C9800-80-universalk9_wlc.17.15.02b.SPA.bin
 - name: Tag the given image as golden and load it on device
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -458,15 +549,14 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ACCESS
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        site_name: Global/USA/San Francisco/BGL_18
-        tagging: True
-
+      - tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: ACCESS
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          site_name: Global/USA/San Francisco/BGL_18
+          tagging: true
 # Remove the golden tag from the specified image for the given device role and assign it to another device role.
 - name: Update golden tag assignment for image based on device role
   cisco.dnac.swim_workflow_manager:
@@ -480,18 +570,18 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     config:
-    - tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: CORE
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        tagging: false
-    - tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ACCESS
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        tagging: true
-
-- name: Tag the specified image as golden for multiple device roles and load it into the device
+      - tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: CORE
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          tagging: false
+      - tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: ACCESS
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          tagging: true
+- name: Tag the specified image as golden for multiple device roles and load it
+    into the device
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -501,15 +591,14 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ACCESS,CORE
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        site_name: Global/USA/San Francisco/BGL_18
-        tagging: True
-
+      - tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: ACCESS,CORE
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          site_name: Global/USA/San Francisco/BGL_18
+          tagging: true
 - name: Un-tagged the given image as golden and load it on device
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -520,16 +609,16 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - tagging_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: ACCESS
-        device_image_family_name: Cisco Catalyst 9300 Switch
-        site_name: Global/USA/San Francisco/BGL_18
-        tagging: False
-
-- name: Distribute the given image on devices associated to that site with specified role.
+      - tagging_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_role: ACCESS
+          device_image_family_name: Cisco Catalyst 9300 Switch
+          site_name: Global/USA/San Francisco/BGL_18
+          tagging: false
+- name: Distribute the given image on devices associated to that site with specified
+    role.
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -539,16 +628,16 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - image_distribution_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        site_name: Global/USA/San Francisco/BGL_18
-        device_role: ALL
-        device_family_name: Switches and Hubs
-        device_series_name: Cisco Catalyst 9300 Series Switches
-
-- name: Activate the given image on devices associated to that site with specified role.
+      - image_distribution_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/USA/San Francisco/BGL_18
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_series_name: Cisco Catalyst 9300 Series Switches
+- name: Activate the given image on devices associated to that site with specified
+    role.
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -558,20 +647,18 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
-    - image_activation_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        site_name: Global/USA/San Francisco/BGL_18
-        device_role: ALL
-        device_family_name: Switches and Hubs
-        device_series_name: Cisco Catalyst 9300 Series Switches
-        scehdule_validate: False
-        activate_lower_image_version: True
-        distribute_if_needed: True
-
+      - image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/USA/San Francisco/BGL_18
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_series_name: Cisco Catalyst 9300 Series Switches
+          scehdule_validate: false
+          activate_lower_image_version: true
+          distribute_if_needed: true
 """
-
 RETURN = r"""
 #Case: SWIM image is successfully imported, tagged as golden, distributed and activated on a device
 response:
@@ -596,7 +683,6 @@ response:
                   },
       "msg": String
     }
-
 """
 
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
@@ -749,7 +835,7 @@ class Swim(DnacBase):
 
         Returns:
             str: The image ID corresponding to the given image name.
-
+            None: If the image is not present in the Cisco catalyst center
         Raises:
             AnsibleFailJson: If the image ID cannot be found in the response.
 
@@ -781,13 +867,11 @@ class Swim(DnacBase):
                     image_id = image.get("id")
                     if image_id:
                         return image_id
-            raise Exception
+            return None
         except Exception as e:
-            self.status = "failed"
-            self.msg = "Image with name '{0}' not found on Cisco.com".format(cco_image_name)
-            self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
+            dnac_host = self.params.get("dnac_host")
+            self.msg = "CCO image '{0}' not found in the image repository on Cisco Catalyst Center '{1}'".format(cco_image_name, dnac_host)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_image_name_from_id(self, image_id):
         """
@@ -925,7 +1009,7 @@ class Swim(DnacBase):
         device_uuid_list = []
         device_id_list, site_response_list = [], []
         if not site_name:
-            site_name = "Global"
+            site_names = "Global/.*"
             self.log("Site name not specified; defaulting to 'Global' to fetch all devices under this category", "INFO")
 
         (site_exists, site_id) = self.site_exists(site_name)
@@ -966,35 +1050,61 @@ class Swim(DnacBase):
                     for item_dict in item['response']:
                         site_response_list.append(item_dict)
         else:
-            site_names = site_name + ".*"
+            site_type = self.get_sites_type(site_name)
+            site_info = {}
+
+            if site_type == "building":
+                self.log("Processing site as a building: {site_name}".format(site_name=site_name), "DEBUG")
+                get_site_names = self.get_site(site_name)
+                for item in get_site_names['response']:
+                    if 'nameHierarchy' in item and 'id' in item:
+                        site_info[item['nameHierarchy']] = item['id']
+                site_names = site_name + "/.*"
+
+            elif site_type == "area":
+                self.log("Processing site as an area: {site_name}".format(site_name=site_name), "DEBUG")
+                site_names = site_name + "/.*"
+
+            elif site_type == "floor":
+                self.log("Processing site as a floor: {site_name}".format(site_name=site_name), "DEBUG")
+                site_names = site_name
+
+            else:
+                self.log("Unknown site type '{site_type}' for site '{site_name}'.".format(site_type=site_type, site_name=site_name), "ERROR")
+
             get_site_names = self.get_site(site_names)
             self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
-
-            site_info = {}
 
             for item in get_site_names['response']:
                 if 'nameHierarchy' in item and 'id' in item:
                     site_info[item['nameHierarchy']] = item['id']
 
             for site_name, site_id in site_info.items():
-                try:
-                    response = self.dnac._exec(
-                        family="site_design",
-                        function='get_site_assigned_network_devices',
-                        params={"site_id": site_id},
-                    )
-                    self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
-                    devices = response.get('response')
-                    if not devices:
-                        self.log("No devices found for site - '{0}'.". format(site_name), "WARNING")
-                        continue
+                offset = 1
+                limit = self.get_device_details_limit()
 
-                    for device_id in devices:
-                        device_id_list.append(device_id.get("deviceId"))
+                while True:
+                    try:
+                        response = self.dnac._exec(
+                            family="site_design",
+                            function="get_site_assigned_network_devices",
+                            params={"site_id": site_id, "offset": offset, "limit": limit}
+                        )
+                        self.log("Received API response from 'get_site_assigned_network_devices' for site '{0}': {1}".format(site_name, response), "DEBUG")
 
-                except Exception as e:
-                    self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
-                    return device_uuid_list
+                        devices = response.get("response", [])
+                        if not devices:
+                            self.log("No more devices found for site '{0}'.".format(site_name), "INFO")
+                            break
+
+                        for device in devices:
+                            device_id_list.append(device.get("deviceId"))
+
+                        offset += limit
+
+                    except Exception as e:
+                        self.log("Unable to fetch devices for site '{0}' due to '{1}'".format(site_name, e), "WARNING")
+                        break
 
             for device_id in device_id_list:
                 self.log("Processing device_id: {0}".format(device_id))
@@ -1368,6 +1478,7 @@ class Swim(DnacBase):
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         """
 
+        images_failed_to_import = []
         try:
             import_type = self.want.get("import_type")
 
@@ -1382,32 +1493,77 @@ class Swim(DnacBase):
                 return self
 
             self.log("image_type - {0}".format(import_type))
-
             if import_type == "remote":
-                image_names = self.want.get("url_import_details", {}).get("payload", [])[0].get("source_url", [])
+                image_names = []
+                for item in self.want.get("url_import_details", {}).get("payload", []):
+                    source_url = item.get("source_url")  # Fetch once
+                    if source_url:
+                        if isinstance(source_url, list):
+                            image_names.extend(source_url)
+                        elif isinstance(source_url, str):
+                            image_names.append(source_url)
+                        else:
+                            self.msg = "Warning: Unexpected type for source_url"
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                 self.log("Image(s) '{0}' to be imported in Cisco Catalyst Center".format(image_names), "INFO")
             elif import_type == "local":
                 image_names = [self.want.get("local_import_details", {}).get("file_path", "")]
                 self.log("Image '{0}' to be imported in Cisco Catalyst Center".format(image_names[0]), "INFO")
             else:  # CCO import
-                image_names = [self.want.get("cco_import_details", {}).get("image_name", "")]
-                self.log("Image '{0}' to be imported in Cisco Catalyst Center".format(image_names[0]), "INFO")
+                image_names = self.want.get("cco_import_details", {}).get("image_name", "")
+                self.log("Image '{0}' to be imported in Cisco Catalyst Center".format(image_names), "INFO")
 
             # Code to check if the image(s) already exist in Catalyst Center
             existing_images, images_to_import = [], []
 
-            for image_name in image_names:
-                name = image_name.split('/')[-1]
-                self.log(name)
-                if self.is_image_exist(name):
-                    existing_images.append(name)
-                    self.existing_images.append(name)
-                    self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
+            if isinstance(image_names, str):
+                image_name = image_names.split('/')[-1]
+                if self.is_image_exist(image_name):
+                    existing_images.append(image_name)
+                    self.existing_images.append(image_name)
+                    self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(image_name), "INFO")
                 else:
+                    images_to_import.append(image_name)
+            else:
+                seen = set()
+                unique_image_names = []
+                duplicate_image_names = set()
+
+                for index, image_name in enumerate(image_names):
+                    if image_name not in seen:
+                        seen.add(image_name)
+                        unique_image_names.append(image_name)
+                    else:
+                        duplicate_image_names.add(image_name)
+                        self.log(
+                            "Duplicate image '{0}' detected at index {1}, skipping repeated check."
+                            .format(image_name, index),
+                            "WARNING"
+                        )
+
+                for image_name in unique_image_names:
+                    name = image_name.split('/')[-1]
+                    if self.is_image_exist(name):
+                        existing_images.append(name)
+                        self.existing_images.append(name)
+                        self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
+                        continue
+
+                    self.log("Image '{0}' is ready to be imported into Cisco Catalyst Center.".format(name), "INFO")
                     images_to_import.append(name)
+
+            self.log("Image import summary:", "INFO")
+            self.log("- Total input images         : {}".format(len(image_names)), "INFO")
+            self.log("- Unique images              : {}".format(len(unique_image_names)), "INFO")
+            self.log("- Duplicate images skipped   : {}".format(len(duplicate_image_names)), "INFO")
+            self.log("- Images already existing    : {}".format(len(existing_images)), "INFO")
+            self.log("- Images ready to import     : {}".format(len(images_to_import)), "INFO")
 
             if existing_images:
                 self.log("Skipping import for existing images: {0}".format(", ".join(existing_images)), "INFO")
+
+            import_params = None
 
             if images_to_import:
                 import_key_mapping = {
@@ -1423,15 +1579,42 @@ class Swim(DnacBase):
 
                     for temp_payload in temp_payloads:
                         source_urls = temp_payload.get('source_url', [])
-                        for url in source_urls:
-                            if url.split('/')[-1] in images_to_import:
+
+                        if isinstance(source_urls, list):
+                            for url in source_urls:
+                                if url.split('/')[-1] in images_to_import:
+                                    import_payload_dict = {}
+
+                                    if 'source_url' in import_key_mapping:
+                                        import_payload_dict['sourceURL'] = url
+
+                                    if 'image_family' in import_key_mapping:
+                                        import_payload_dict['imageFamily'] = temp_payload.get('image_family')
+
+                                    if 'application_type' in import_key_mapping:
+                                        import_payload_dict['applicationType'] = temp_payload.get('application_type')
+
+                                    if 'is_third_party' in import_key_mapping:
+                                        import_payload_dict['thirdParty'] = temp_payload.get('is_third_party')
+
+                                    import_image_payload.append(import_payload_dict)
+
+                        elif isinstance(source_urls, str):
+                            if source_urls.split('/')[-1] in images_to_import:
                                 import_payload_dict = {}
+
                                 if 'source_url' in import_key_mapping:
-                                    import_payload_dict['sourceURL'] = url
+                                    import_payload_dict['sourceURL'] = source_urls
+
                                 if 'image_family' in import_key_mapping:
                                     import_payload_dict['imageFamily'] = temp_payload.get('image_family')
+
                                 if 'application_type' in import_key_mapping:
                                     import_payload_dict['applicationType'] = temp_payload.get('application_type')
+
+                                if 'is_third_party' in import_key_mapping:
+                                    import_payload_dict['thirdParty'] = temp_payload.get('is_third_party')
+
                                 import_image_payload.append(import_payload_dict)
 
                     import_params = dict(
@@ -1453,69 +1636,117 @@ class Swim(DnacBase):
                         multipart_monitor_callback=None
                     )
                     import_function = 'import_local_software_image'
-
                 else:  # CCO import
-                    image_name = images_to_import[0]
-                    cco_image_id = self.get_cco_image_id(image_name)
-                    import_params = {"id": cco_image_id}
+                    cco_image_ids = []
+                    image_name_id_mapping = []
+                    for image_name in images_to_import:
+                        cco_image_id = self.get_cco_image_id(image_name)
+                        if not cco_image_id:
+                            dnac_host = self.params.get("dnac_host")
+                            self.msg = "CCO image '{0}' not found in the image repository on Cisco Catalyst Center '{1}'".format(image_name, dnac_host)
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                        cco_image_ids.append(cco_image_id)
+                        image_name_id_mapping.append({image_name: cco_image_id})
                     import_function = 'download_the_software_image'
 
-                self.log("importing with the import_params - {0}".format(import_params))
-                response = self.dnac._exec(
-                    family="software_image_management_swim",
-                    function=import_function,
-                    op_modifies=True,
-                    params=import_params,
-                )
-                self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
+                if import_type == "remote" or import_type == "local":
+                    try:
+                        response = self.dnac._exec(
+                            family="software_image_management_swim",
+                            function=import_function,
+                            op_modifies=True,
+                            params=import_params,
+                        )
+                        self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
 
-                task_details = {}
-                task_id = response.get("response").get("taskId")
+                        if response and isinstance(response, dict) and "response" in response:
+                            task_id = response["response"].get("taskId")
+                        else:
+                            self.msg = "Invalid API response received in {0}".format(import_function)
+                            self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+
+                    except Exception as e:
+                        self.msg = ("An exception occurred in {0} - {1} ".format(import_function , e))
+                        self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+
+                else:
+                    task_ids = []
+                    task_id_mapping = []
+                    for index, cco_image_id in enumerate(cco_image_ids):
+                        import_params = {"id": cco_image_id}
+                        try:
+                            response = self.dnac._exec(
+                                family="software_image_management_swim",
+                                function=import_function,
+                                op_modifies=True,
+                                params=import_params,
+                            )
+                            self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
+
+                            if not response or not isinstance(response, dict) or "response" not in response:
+                                self.log("Invalid API response received for {0}".format(import_function), "WARNING")
+                                continue
+
+                            task_id = response["response"].get("taskId")
+                            if not task_id:
+                                self.log("No taskId found in API response for {0}".format(import_function), "WARNING")
+                                continue
+
+                            task_ids.append(task_id)
+                            task_id_mapping.append({task_id: image_name_id_mapping[index]})
+
+                        except Exception as e:
+                            self.msg = "An unknown exception occurred in {0} - {1}".format(import_function, e)
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                images_failed_to_import = []
 
                 # Monitor the task progress
-                while True:
-                    task_details = self.get_task_details(task_id)
+                if import_type in ["remote", "local"]:
+                    self.log("Starting SWIM image import process (type: {0}) for task ID: {1}".format(import_type, task_id), "DEBUG")
+                    task_details = self.get_task_status_from_tasks_by_id(task_id, "import_image(s)", True)
+                    self.log("Checking task status for task ID: {0}".format(task_id), "DEBUG")
 
-                    if not task_details:
-                        self.msg = "Failed to retrieve task details."
-                        self.log(self.msg, "ERROR")
-                        self.result['response'] = "No task details found."
-                        self.status = "failed"
-                        return self
-
-                    if "completed successfully" in task_details.get("progress", "").lower():
+                    if task_details:
                         if images_to_import:
                             images_to_import_str = ", ".join(images_to_import)
                             self.images_to_import.append(images_to_import_str)
-                            self.result['changed'] = True
-                            self.status = "success"
-                            self.msg = "Swim Image(s) {0} imported successfully".format(images_to_import_str)
-                            self.result['msg'] = self.msg
-                            self.result['response'] = self.msg
-                            self.log(self.msg, "INFO")
-                            break
+                    else:
+                        images_to_import_str = ", ".join(images_to_import)
+                        images_failed_to_import.append(images_to_import_str)
 
-                    if task_details.get("isError"):
-                        if "already exists" in task_details.get("failureReason", ""):
-                            self.msg = "SWIM Image {0} already exists in the Cisco Catalyst Center".format(image_name.split('/')[-1])
-                            self.result['msg'] = self.msg
-                            self.result['response'] = self.msg
-                            self.log(self.msg, "INFO")
-                            self.status = "success"
-                            self.result['changed'] = False
-                            break
+                    image_name = image_name.split('/')[-1]
+                    self.log("Retrieving imported image ID for: {0}".format(image_name), "DEBUG")
+                    image_id = self.get_image_id(image_name)
+                    self.have["imported_image_id"] = image_id
+                    self.log("Stored imported image ID: {0}".format(image_id), "INFO")
+
+                else:
+                    for task_id in task_ids:
+                        self.log("Processing task: {0}".format(task_id))
+                        task_details = self.get_task_status_from_tasks_by_id(task_id, "import_image(s)", True)
+                        self.log("Checking task status for task ID: {0}".format(task_id), "DEBUG")
+
+                        if task_details:
+                            for mapping in task_id_mapping:
+                                if task_id in mapping:
+                                    image_name = list(mapping[task_id].keys())[0]
+                                    self.images_to_import.append(image_name)
                         else:
-                            self.status = "failed"
-                            self.msg = task_details.get("failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
-                            self.log(self.msg, "WARNING")
-                            self.result['response'] = self.msg
-                            return self
+                            for mapping in task_id_mapping:
+                                if task_id in mapping:
+                                    image_name = list(mapping[task_id].keys())[0]
+                                    images_failed_to_import.append(image_name)
+                        continue
 
-                image_name = image_name.split('/')[-1]
-                image_id = self.get_image_id(image_name)
-                self.have["imported_image_id"] = image_id
+                    image_name = image_name.split('/')[-1]
+                    self.log("Retrieving imported image ID for: {0}".format(image_name), "DEBUG")
+                    image_id = self.get_image_id(image_name)
+                    self.have["imported_image_id"] = image_id
+                    self.log("Stored imported image ID: {0}".format(image_id), "INFO")
 
             imported_images_str = ", ".join(images_to_import)
+            imported_images_failed_str = ", ".join(images_failed_to_import)
             skipped_images_str = ", ".join(existing_images)
 
             messages = []
@@ -1525,18 +1756,27 @@ class Swim(DnacBase):
                     messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center.".format(skipped_images_str))
                     messages.append("Images {0} have been imported successfully.".format(imported_images_str))
                 else:
-                    messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center."
-                                    "No new images were imported.".format(skipped_images_str))
+                    messages.append(
+                        "Image(s) {0} were skipped as they already exist in Cisco Catalyst Center. "
+                        "No new images were imported.".format(skipped_images_str)
+                    )
             elif imported_images_str:
-                messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
+                if imported_images_failed_str:
+                    messages.append(
+                        "Image(s) {0} have been imported successfully into Cisco Catalyst Center. "
+                        "However, image(s) {1} failed to import.".format(imported_images_str, imported_images_failed_str)
+                    )
+                else:
+                    messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
+            elif imported_images_failed_str:
+                messages.append("Image(s) {0} failed to import into Cisco Catalyst Center.".format(imported_images_failed_str))
             else:
                 messages.append("No images were imported.")
 
             self.msg = " ".join(messages)
-
+            self.log(self.msg, "INFO")
             self.result['msg'] = self.msg
             self.result['response'] = self.msg
-            self.log(self.msg, "INFO")
 
             return self
 
@@ -1849,70 +2089,144 @@ class Swim(DnacBase):
             progress and updates the 'result' dictionary. If the operation is successful, 'changed' is set to True.
         """
 
+        self.log("Retrieving distribution details from the playbook.", "DEBUG")
+
         distribution_details = self.want.get("distribution_details")
+        if not distribution_details:
+            self.log("No distribution details found. Skipping image distribution.", "ERROR")
+            return self
+
         site_name = distribution_details.get("site_name")
         device_family = distribution_details.get("device_family_name")
         device_role = distribution_details.get("device_role", "ALL")
         device_series_name = distribution_details.get("device_series_name")
+
+        self.log("Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
+            site_name, device_family, device_role, device_series_name), "DEBUG")
+
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("distribution_image_id")
-        self.complete_successful_distribution = False
-        self.partial_successful_distribution = False
-        self.single_device_distribution = False
         distribution_device_id = self.have.get("distribution_device_id")
         device_ip = self.get_device_ip_from_id(distribution_device_id)
         image_name = self.want.get("distribution_details").get("image_name")
+        sub_package_images = self.want.get("distribution_details").get("sub_package_images")
+
+        self.log("Fetched device details: "
+                 "UUID list: {0}, "
+                 "Image ID: {1}, "
+                 "Distribution Device ID: {2}, "
+                 "Device IP: {3}, "
+                 "Image Name: {4}, "
+                 "Sub-package Images: {5}".format(
+                     device_uuid_list if device_uuid_list else "Not Available",
+                     image_id if image_id else "Not Available",
+                     distribution_device_id if distribution_device_id else "Not Available",
+                     device_ip if device_ip else "Not Available",
+                     image_name if image_name else "Not Available",
+                     sub_package_images if sub_package_images else "Not Available"
+                 ), "DEBUG")
+
+        self.complete_successful_distribution = False
+        self.partial_successful_distribution = False
+        self.single_device_distribution = False
+
+        all_images_for_distribution = []
+        all_images_for_distribution.append(image_name)
+
+        if sub_package_images:
+            all_images_for_distribution.extend([str(img) for img in sub_package_images])
+            self.log("Identified images for distribution: {0}".format(all_images_for_distribution), "DEBUG")
+
+        image_ids = {image: self.get_image_id(image) for image in all_images_for_distribution}
+        self.log("Resolved image IDs: {0}".format(image_ids), "DEBUG")
+
+        final_msg = ""
+        success_msg_parts = []
+        failed_msg_parts = []
 
         if distribution_device_id:
-            self.log("Starting image distribution for device IP {0} with ID {1}, targeting software version {2}.".format(
+            self.log("Starting image distribution for device IP {0} (ID: {1}) with software version {2}.".format(
                 device_ip, distribution_device_id, image_name), "INFO")
-            distribution_params = dict(
-                payload=[dict(
-                    deviceUuid=self.have.get("distribution_device_id"),
-                    imageUuid=image_id
-                )]
-            )
-            self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
 
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='trigger_software_image_distribution',
-                op_modifies=True,
-                params=distribution_params,
-            )
-            self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
+            elg_device_ip, device_id = self.check_device_compliance(distribution_device_id, image_name)
+            self.log("Device compliance check completed. IP: {0}, Device ID: {1}".format(elg_device_ip, device_id), "DEBUG")
 
-            if response:
-                task_details = {}
-                task_id = response.get("response").get("taskId")
+            if not elg_device_ip:
+                self.msg = "The image '{0}' is already distributed on device {1}".format(image_name, device_ip)
+                self.set_operation_result("success", False, self.msg, "INFO")
+                return self
 
-                while (True):
+            success_distribution_list = []
+            failed_distribution_list = []
+
+            for image_name, image_id in image_ids.items():
+                self.log("Initiating image distribution for '{0}' (ID: {1}) to device {2}".format(image_name, image_id, elg_device_ip), "INFO")
+                distribution_params = {
+                    "payload": [
+                        {"deviceUuid": device_id, "imageUuid": image_id}
+                    ]
+                }
+                self.log("Generated distribution parameters: {0}".format(distribution_params), "DEBUG")
+
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function="trigger_software_image_distribution",
+                    op_modifies=True,
+                    params=distribution_params,
+                )
+                self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
+
+                if not response or "response" not in response or "taskId" not in response["response"]:
+                    failed_msg = "Failed to initiate image distribution for '{0}' (ID: {1}) to the device with IP {2}.".format(
+                        image_name, image_id, elg_device_ip)
+                    failed_msg_parts.append(failed_msg)
+                    failed_distribution_list.append(image_name)
+                    self.log(failed_msg, "ERROR")
+                    continue
+
+                task_id = response["response"]["taskId"]
+                self.log("Tracking distribution task with Task ID: {0}".format(task_id), "INFO")
+
+                while True:
                     task_details = self.get_task_details(task_id)
+                    self.log("Task details received: {0}".format(task_details), "DEBUG")
 
-                    if not task_details.get("isError") and \
-                            ("completed successfully" in task_details.get("progress")):
-                        self.result['changed'] = True
-                        self.status = "success"
-                        self.single_device_distribution = True
-                        self.result['msg'] = "Image '{0}' (ID: {1}) has been successfullyyy distributed to the device with IP address {2}.".format(
-                            image_name, image_id, device_ip)
-                        self.result['response'] = self.result['msg']
-                        self.log(self.result['msg'])
+                    if not task_details.get("isError") and "completed successfully" in task_details.get("progress"):
+                        success_msg = "'{0}' (ID: {1}) successfully distributed.".format(image_name, image_id)
+                        success_msg_parts.append(success_msg)
+                        success_distribution_list.append(image_name)
+                        self.log(success_msg, "INFO")
                         break
 
                     if task_details.get("isError"):
-                        self.status = "failed"
-                        self.msg = "Failed to distribute image '{0}' (ID: {1}) to the device with IP address {2}.".format(
-                            image_name, image_id, device_ip)
-                        self.result['msg'] = self.msg
-                        self.result['response'] = task_details
-                        self.log(self.result['msg'])
+                        failed_msg = "Image '{0}' (ID: {1}) distribution failed for device {2}.".format(
+                            image_name, image_id, elg_device_ip)
+                        failed_msg_parts.append(failed_msg)
+                        failed_distribution_list.append(image_name)
+                        self.log(failed_msg, "ERROR")
                         break
 
-                    self.result['response'] = task_details if task_details else response
+            if success_msg_parts:
+                final_msg += "Successfully distributed: " + "; ".join(success_msg_parts)
+            if failed_msg_parts:
+                if final_msg:
+                    final_msg += ". "
+                final_msg += "Failed to distribute: " + "; ".join(failed_msg_parts) + "."
+
+            if not success_distribution_list and failed_distribution_list:
+                self.msg = final_msg
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            elif success_distribution_list and failed_distribution_list:
+                self.msg = final_msg
+                self.set_operation_result("success", True, self.msg, "INFO")
+                self.partial_successful_distribution = True
+            else:
+                self.msg = final_msg
+                self.set_operation_result("success", True, self.msg, "INFO")
+                self.complete_successful_distribution = True
 
             return self
-
+        self.log("Starting SWIM image distribution process", "INFO")
         if len(device_uuid_list) == 0:
             self.status = "success"
             self.msg = "The SWIM image distribution task could not proceed because no eligible devices were found"
@@ -1922,55 +2236,156 @@ class Swim(DnacBase):
             return self
 
         self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
+
         distribution_task_dict = {}
+        success_distribution_list = []
+        failed_distribution_list = []
+        already_distributed_devices = []
+        elg_device_list = []
+        device_ip_for_not_elg_list = []
 
         for device_uuid in device_uuid_list:
-            self.log("Starting distribution of image '{0}' to multiple devices.".format(image_name))
-            device_management_ip = self.get_device_ip_from_id(device_uuid)
-            distribution_params = dict(
-                payload=[dict(
-                    deviceUuid=device_uuid,
-                    imageUuid=image_id
-                )]
-            )
-            self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='trigger_software_image_distribution',
-                op_modifies=True,
-                params=distribution_params,
-            )
-            self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
+            device_ip = self.get_device_ip_from_id(device_uuid)
+            self.log("Processing device: {0}".format(device_ip), "DEBUG")
+            distributed = False
 
-            if response:
-                task_details = {}
-                task_id = response.get("response").get("taskId")
-                distribution_task_dict[device_management_ip] = task_id
+            for img_name, img_id in image_ids.items():
+                self.log("Checking compliance for image '{0}' on device {1}".format(img_name, device_ip), "DEBUG")
+                elg_device_ip, device_id = self.check_device_compliance(device_uuid, img_name)
 
-        device_ips_list, device_distribution_count = self.check_swim_task_status(distribution_task_dict, 'Distribution')
+                if not elg_device_ip:
+                    device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
+                    device_ip_for_not_elg_list.append(device_ip_for_not_elg)
+                    self.log("Device {0} is not eligible for image '{1}'".format(device_ip, img_name), "WARNING")
+                    continue
 
-        if device_distribution_count == 0:
-            self.status = "failed"
-            self.msg = "Image with Id {0} Distribution Failed for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
-            self.result['response'] = self.msg
-        elif device_distribution_count == len(device_uuid_list):
-            self.result['changed'] = True
-            self.status = "success"
-            self.complete_successful_distribution = True
-            self.msg = "Image with Id {0} Distributed Successfully for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
-            self.result['response'] = self.msg
+                self.log("Device {0} is eligible for distribution of image {1}".format(elg_device_ip, image_name), "INFO")
+                elg_device_list.append(elg_device_ip)
+
+                self.log("Starting distribution of '{0}' to device {1}".format(img_name, device_ip), "INFO")
+                distribution_params = dict(payload=[dict(deviceUuid=device_id, imageUuid=img_id)])
+                self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
+
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='trigger_software_image_distribution',
+                    op_modifies=True,
+                    params=distribution_params,
+                )
+                self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
+
+                if response:
+                    task_id = response.get("response", {}).get("taskId")
+                    distribution_task_dict[(device_ip, img_name)] = task_id
+                    distributed = True
+
+            if not distributed:
+                already_distributed_devices.append(device_ip)
+
+        # Check task status sequentially
+        self.log("Checking task statuses for distributed images", "INFO")
+
+        for (device_ip, img_name), task_id in distribution_task_dict.items():
+            task_name = "Distribution to {0}".format(device_ip)
+            success_msg = "Successfully distributed image {0} to device {1}".format(img_name, device_ip)
+
+            status_check = self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+            if status_check.status == "success":
+                success_distribution_list.append((device_ip, img_name))
+            else:
+                failed_distribution_list.append((device_ip, img_name))
+
+        success_image_map = {}
+        failed_image_map = {}
+
+        for device_ip, img_name in success_distribution_list:
+            if img_name not in success_image_map:
+                success_image_map[img_name] = []
+            success_image_map[img_name].append(device_ip)
+
+        for device_ip, img_name in failed_distribution_list:
+            if img_name not in failed_image_map:
+                failed_image_map[img_name] = []
+            failed_image_map[img_name].append(device_ip)
+
+        success_msg_parts = [
+            "{} to {}".format(img, ", ".join(devices))
+            for img, devices in success_image_map.items()
+        ]
+
+        failed_msg_parts = [
+            "{} to {}".format(img, ", ".join(devices))
+            for img, devices in failed_image_map.items()
+        ]
+
+        final_msg = ""
+        if success_msg_parts:
+            final_msg += "Successfully distributed: " + "; ".join(success_msg_parts)
+        if failed_msg_parts:
+            if final_msg:
+                final_msg += ". "
+            final_msg += "Failed to distribute: " + "; ".join(failed_msg_parts) + "."
+
+        self.log("Final Distribution Summary: {0}".format(final_msg), "INFO")
+
+        if not success_distribution_list and failed_distribution_list:
+            self.msg = final_msg
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        elif success_distribution_list and failed_distribution_list:
+            self.msg = final_msg
+            self.set_operation_result("success", True, self.msg, "INFO")
+            self.partial_successful_distribution = True
         else:
-            self.result['changed'] = True
-            self.status = "success"
-            self.partial_successful_distribution = False
-            self.msg = "Image {0} with Id '{1}' Distributed and partially successfull".format(image_name, image_id)
-            self.log("For device(s) {0} image Distribution gets failed".format(str(device_ips_list)), "CRITICAL")
-
-        self.result['msg'] = self.msg
-        self.result['response'] = self.msg
-        self.log(self.msg, "INFO")
+            self.msg = final_msg
+            self.set_operation_result("success", True, self.msg, "INFO")
+            self.complete_successful_distribution = True
 
         return self
+
+    def check_device_compliance(self, device_uuid, image_name):
+        """
+        Check the compliance status of a device's image.
+        Parameters:
+            self (object): An instance of the class interacting with Cisco DNA Center.
+            device_uuid (str): The unique identifier of the device to check compliance for.
+            image_name (str): The expected image name for compliance verification.
+        Returns:
+            tuple: A tuple containing:
+                - device_ip (str or None): The IP address of the non-compliant device if it is not compliant, otherwise None.
+                - device_id (str or None): The device UUID if it is non-compliant, otherwise None.
+        Description:
+            This function queries Cisco DNA Center for the compliance status of a given device's software image.
+            If the device is found to be "NON_COMPLIANT," it retrieves the device's IP address and returns it along with the device UUID.
+            If the device is compliant, a debug log is generated, and None is returned.
+            In case of an exception, an error is logged, and the function updates the result status accordingly.
+        """
+
+        try:
+            response = self.dnac._exec(
+                family="compliance",
+                function='compliance_details_of_device',
+                params={
+                    "device_uuid": device_uuid,
+                    "category": "IMAGE"
+                }
+            )
+
+            self.log("Received API response from 'compliance_details_of_device': {0}".format(str(response)), "DEBUG")
+            response = response.get("response")[0]
+
+            if response.get("status") == "NON_COMPLIANT":
+                device_ip = self.get_device_ip_from_id(device_uuid)
+                device_id = device_uuid
+                self.log("Device {0} (IP: {1}) is NON_COMPLIANT.".format(device_id, device_ip), "WARNING")
+                return device_ip, device_id
+
+            self.log("The device with device id - {0} already distributed/activated with the image - {1} ".format(device_uuid, image_name))
+            return None, None
+
+        except Exception as e:
+            self.msg = "Error in compliance_details_of_device due to {0}".format(e)
+            self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
 
     def get_diff_activation(self):
         """
@@ -1984,71 +2399,151 @@ class Swim(DnacBase):
             activation of the specified software image on the specified device. It monitors the activation task's progress and
             updates the 'result' dictionary. If the operation is successful, 'changed' is set to True.
         """
+        self.log("Retrieving distribution details from the playbook.", "DEBUG")
 
         activation_details = self.want.get("activation_details")
+        if not activation_details:
+            self.log("No distribution details found. Skipping image activation.", "ERROR")
+            return self
+
         site_name = activation_details.get("site_name")
         device_family = activation_details.get("device_family_name")
         device_role = activation_details.get("device_role", "ALL")
         device_series_name = activation_details.get("device_series_name")
+
+        self.log("Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
+            site_name, device_family, device_role, device_series_name), "DEBUG")
+
         device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("activation_image_id")
-        self.complete_successful_activation = False
-        self.partial_successful_activation = False
-        self.single_device_activation = False
         activation_device_id = self.have.get("activation_device_id")
         device_ip = self.get_device_ip_from_id(activation_device_id)
         image_name = self.want.get("activation_details").get("image_name")
+        sub_package_images = self.want.get("activation_details").get("sub_package_images")
+
+        self.log("Fetched device details: "
+                 "UUID list: {0}, "
+                 "Image ID: {1}, "
+                 "Distribution Device ID: {2}, "
+                 "Device IP: {3}, "
+                 "Image Name: {4}, "
+                 "Sub-package Images: {5}".format(
+                     device_uuid_list if device_uuid_list else "Not Available",
+                     image_id if image_id else "Not Available",
+                     activation_device_id if activation_device_id else "Not Available",
+                     device_ip if device_ip else "Not Available",
+                     image_name if image_name else "Not Available",
+                     sub_package_images if sub_package_images else "Not Available"
+                 ), "DEBUG")
+
+        self.complete_successful_activation = False
+        self.partial_successful_activation = False
+        self.single_device_activation = False
+
+        self.log("Fetching image activation parameters from playbook.", "INFO")
+
+        all_images_for_activation = []
+        all_images_for_activation.append(image_name)
+
+        if sub_package_images:
+            all_images_for_activation.extend([str(img) for img in sub_package_images])
+
+        image_ids = {image: self.get_image_id(image) for image in all_images_for_activation}
+        self.log("Images identified for activation: {0}".format(", ".join(image_ids.keys())), "INFO")
 
         if activation_device_id:
+            success_msg_parts = []
+            failed_msg_parts = []
+
             self.log("Starting image activation for device IP {0} with ID {1}, targeting software version {2}.".format(
                 device_ip, activation_device_id, image_name), "INFO")
-            payload = [dict(
-                activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
-                deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
-                distributeIfNeeded=activation_details.get("distribute_if_needed"),
-                deviceUuid=self.have.get("activation_device_id"),
-                imageUuidList=[image_id]
-            )]
 
-            activation_params = dict(
-                schedule_validate=activation_details.get("scehdule_validate"),
-                payload=payload
-            )
-            self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
+            elg_device_ip, device_id = self.check_device_compliance(self.have.get("activation_device_id"), image_name)
 
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='trigger_software_image_activation',
-                op_modifies=True,
-                params=activation_params,
-            )
-            self.log("Received API response from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
+            if not elg_device_ip:
+                self.msg = "The image '{0}' has already been activated on the device '{1}'.".format(image_name, device_ip)
+                self.set_operation_result("success", False, self.msg, "ERROR")
+                return self
 
-            task_details = {}
-            task_id = response.get("response").get("taskId")
+            self.log("Device {0} is eligible for activation of image '{1}'.".format(device_ip, image_name), "INFO")
 
-            while (True):
-                task_details = self.get_task_details(task_id)
+            success_activation_list = []
+            failed_activation_list = []
 
-                if not task_details.get("isError") and \
-                        ("completed successfully" in task_details.get("progress")):
-                    self.result['changed'] = True
-                    self.result['msg'] = "Image '{0}' (ID: {1}) has been successfully activated on the device with IP address {2}.".format(
-                        image_name, image_id, device_ip)
-                    self.result['response'] = self.result['msg']
-                    self.status = "success"
-                    self.single_device_activation = True
-                    break
+            for image_name, image_id in image_ids.items():
+                payload = [{
+                    "activateLowerImageVersion": activation_details.get("activate_lower_image_version"),
+                    "deviceUpgradeMode": activation_details.get("device_upgrade_mode"),
+                    "distributeIfNeeded": activation_details.get("distribute_if_needed"),
+                    "deviceUuid": self.have.get("activation_device_id"),
+                    "imageUuidList": [image_id]
+                }]
 
-                if task_details.get("isError"):
-                    self.status = "failed"
-                    self.msg = "Activation of image '{0}' (ID: {1}) to the device with IP address {2} has failed.".format(image_name, image_id, device_ip)
-                    self.result['msg'] = self.msg
-                    self.result['response'] = task_details
-                    self.log(self.result['msg'], "ERROR")
-                    return self
+                activation_params = {
+                    "schedule_validate": activation_details.get("schedule_validate"),
+                    "payload": payload
+                }
 
-            self.result['response'] = task_details if task_details else response
+                self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
+
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function="trigger_software_image_activation",
+                    op_modifies=True,
+                    params=activation_params,
+                )
+                self.log("Received API response from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
+
+                if not response or "response" not in response or "taskId" not in response["response"]:
+                    failed_msg = "Failed to initiate activation for image '{0}' (ID: {1}) on device with IP {2}.".format(
+                        image_name, image_id, elg_device_ip)
+                    failed_msg_parts.append(failed_msg)
+                    failed_activation_list.append(image_name)
+                    self.log(failed_msg, "ERROR")
+                    continue
+
+                task_id = response["response"]["taskId"]
+                self.log("Tracking activation task with Task ID: {0}".format(task_id), "INFO")
+
+                while True:
+                    task_details = self.get_task_details(task_id)
+
+                    if not task_details.get("isError") and "completed successfully" in task_details.get("progress"):
+                        success_msg = "'{0}' (ID: {1})".format(image_name, image_id)
+                        success_msg_parts.append(success_msg)
+                        success_activation_list.append(image_name)
+                        self.log("Image '{0}' (ID: {1}) activation success.".format(image_name, image_id), "INFO")
+                        break
+
+                    if task_details.get("isError"):
+                        failed_msg = "Activation of image '{0}' (ID: {1}) to the device with IP {2} has failed. Error: {3}".format(
+                            image_name, image_id, elg_device_ip, task_details.get("progress", "Unknown error"))
+                        failed_msg_parts.append(failed_msg)
+                        failed_activation_list.append(image_name)
+                        self.log(failed_msg, "ERROR")
+                        break
+
+            final_msg = ""
+            if success_msg_parts:
+                final_msg += "Successfully activated: " + "; ".join(success_msg_parts)
+            if failed_msg_parts:
+                if final_msg:
+                    final_msg += ". "
+                final_msg += "Failed to activate: " + "; ".join(failed_msg_parts) + "."
+
+            self.log("Final activation status: {0}".format(final_msg), "INFO")
+
+            if not success_activation_list and failed_activation_list:
+                self.msg = final_msg
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            elif success_activation_list and failed_activation_list:
+                self.msg = final_msg
+                self.set_operation_result("success", True, self.msg, "INFO")
+                self.partial_successful_activation = True
+            else:
+                self.msg = final_msg
+                self.set_operation_result("success", True, self.msg, "INFO")
+                self.complete_successful_activation = True
 
             return self
 
@@ -2061,59 +2556,121 @@ class Swim(DnacBase):
             return self
 
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
+
         activation_task_dict = {}
+        success_activation_list = []
+        failed_activation_list = []
+        already_activated_devices = []
+        elg_device_list = []
+        device_ip_for_not_elg_list = []
 
         for device_uuid in device_uuid_list:
-            self.log("Starting activation of image '{0}' to multiple devices.".format(image_name))
-            device_management_ip = self.get_device_ip_from_id(device_uuid)
-            payload = [dict(
-                activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
-                deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
-                distributeIfNeeded=activation_details.get("distribute_if_needed"),
-                deviceUuid=device_uuid,
-                imageUuidList=[image_id]
-            )]
+            device_ip = self.get_device_ip_from_id(device_uuid)
+            activated = False
+            self.log("Checking compliance for device {0}".format(device_ip), "INFO")
 
-            activation_params = dict(
-                schedule_validate=activation_details.get("scehdule_validate"),
-                payload=payload
-            )
-            self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
+            for image_name, image_id in image_ids.items():
 
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='trigger_software_image_activation',
-                op_modifies=True,
-                params=activation_params,
-            )
-            self.log("Received API response from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
+                elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
 
-            if response:
-                task_details = {}
-                task_id = response.get("response").get("taskId")
-                activation_task_dict[device_management_ip] = task_id
+                if not elg_device_ip:
+                    device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
+                    device_ip_for_not_elg_list.append(device_ip_for_not_elg)
+                    self.log("Device {0} is not eligible for activation of image '{1}'".format(device_ip, image_name), "WARNING")
+                    continue
 
-        device_ips_list, device_activation_count = self.check_swim_task_status(activation_task_dict, 'Activation')
+                self.log("Device {0} is eligible for activation of image {1}".format(elg_device_ip, image_name), "INFO")
+                elg_device_list.append(elg_device_ip)
 
-        if device_activation_count == 0:
-            self.status = "failed"
-            self.msg = "Image with Id '{0}' activation failed for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
-        elif device_activation_count == len(device_uuid_list):
-            self.result['changed'] = True
-            self.status = "success"
-            self.complete_successful_activation = True
-            self.msg = "Image with Id '{0}' activated successfully for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
-        else:
-            self.result['changed'] = True
-            self.status = "success"
+                self.log("Starting activation of image '{0}' on device {1}".format(image_name, device_ip), "INFO")
+
+                payload = [dict(
+                    activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
+                    deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
+                    distributeIfNeeded=activation_details.get("distribute_if_needed"),
+                    deviceUuid=device_id,
+                    imageUuidList=[image_id]
+                )]
+
+                activation_params = dict(
+                    schedule_validate=activation_details.get("schedule_validate"),
+                    payload=payload
+                )
+                self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
+
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='trigger_software_image_activation',
+                    op_modifies=True,
+                    params=activation_params,
+                )
+                self.log("Received API from from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
+
+                if response:
+                    task_id = response.get("response", {}).get("taskId")
+                    activation_task_dict[(device_ip, image_name)] = task_id
+                    self.log("Task ID {0} assigned for image {1} activation on device {2}".format(task_id, image_name, device_ip), "INFO")
+                    activated = True
+
+            if not activated:
+                already_activated_devices.append(device_ip)
+                self.log("Image already activated on device {0}".format(device_ip), "INFO")
+
+        # Check activation status sequentially
+        for (device_ip, img_name), task_id in activation_task_dict.items():
+            task_name = "Activation for {0}".format(device_ip)
+            self.log("Checking activation status for device {0}, image {1}, Task ID {2}".format(device_ip, img_name, task_id), "INFO")
+            success_msg = "Successfully activated image {0} on device {1}".format(img_name, device_ip)
+
+            status_check = self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+            if status_check.status == "success":
+                success_activation_list.append((device_ip, img_name))
+                self.log("Activation successful for device {0}, image {1}".format(device_ip, img_name), "INFO")
+            else:
+                failed_activation_list.append((device_ip, img_name))
+                self.log("Activation failed for device {0}, image {1}".format(device_ip, img_name), "ERROR")
+
+        success_image_map = {}
+        failed_image_map = {}
+
+        for device_ip, img_name in success_activation_list:
+            success_image_map.setdefault(img_name, []).append(device_ip)
+
+        for device_ip, img_name in failed_activation_list:
+            failed_image_map.setdefault(img_name, []).append(device_ip)
+
+        # Building message parts
+        success_msg_parts = [
+            "{} to {}".format(img, ", ".join(devices))
+            for img, devices in success_image_map.items()
+        ]
+
+        failed_msg_parts = [
+            "{} to {}".format(img, ", ".join(devices))
+            for img, devices in failed_image_map.items()
+        ]
+
+        # Final single-line message formation
+        final_msg = ""
+        if success_msg_parts:
+            final_msg += "Successfully activated: " + "; ".join(success_msg_parts)
+        if failed_msg_parts:
+            if final_msg:
+                final_msg += ". "
+            final_msg += "Failed to activate: " + "; ".join(failed_msg_parts) + "."
+
+        if not success_activation_list and failed_activation_list:
+            self.msg = final_msg
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        elif success_activation_list and failed_activation_list:
+            self.msg = final_msg
+            self.set_operation_result("success", True, self.msg, "INFO")
             self.partial_successful_activation = True
-            self.msg = ("Image with ID '{0}' was activated, but only partially successful. The image activation failed for the "
-                        "following device(s): {1}.").format(image_id, "', '".join(device_ips_list))
-            self.log("Image activation failed for the following device(s): {0}".format(", ".join(device_ips_list)), "CRITICAL")
-
-        self.result['msg'] = self.msg
-        self.result['response'] = self.msg
-        self.log(self.msg, "INFO")
+        else:
+            self.msg = final_msg
+            self.set_operation_result("success", True, self.msg, "INFO")
+            self.complete_successful_activation = True
 
         return self
 
@@ -2158,27 +2715,49 @@ class Swim(DnacBase):
             If the image does not exist, a warning message is logged indicating a potential import failure.
         """
         names_of_images = []
+        existence_status = {}
 
         if import_type == "remote":
-            image_names = self.want.get("url_import_details", {}).get("payload", [{}])[0].get("source_url", [])
+            image_names = [
+                url
+                for item in self.want.get("url_import_details", {}).get("payload", [])
+                for url in (item.get("source_url") if isinstance(item.get("source_url"), list) else [item.get("source_url")])
+            ]
         elif import_type == "local":
             image_names = self.want.get("local_import_details", {}).get("file_path")
         else:
             image_names = self.want.get("cco_import_details", {}).get("image_name")
 
-        if import_type == "remote":
-            for image_name in image_names:
-                name = image_name.split('/')[-1]
+        if import_type == "remote" or import_type == "cco":
+            if isinstance(image_names, str):
+                name = image_names.split('/')[-1]
                 image_exist = self.is_image_exist(name)
                 names_of_images.append(name)
+            else:
+                for image_name in image_names:
+                    name = image_name.split('/')[-1]
+                    image_exist = self.is_image_exist(name)
+                    existence_status[name] = image_exist
+                    names_of_images.append(name)
+
+                    if image_exist:
+                        self.log("Image '{0}' exists in the Cisco Catalyst Center.".format(name), "INFO")
+                    else:
+                        self.log("Image '{0}' does NOT exist in the Cisco Catalyst Center.".format(name), "WARNING")
+
         else:
             name = image_names.split('/')[-1]
             image_exist = self.is_image_exist(name)
+            existence_status[name] = image_exist
             names_of_images.append(name)
+            if image_exist:
+                self.log("Image '{0}' exists in the Cisco Catalyst Center.".format(name), "INFO")
+            else:
+                self.log("Image '{0}' does NOT exist in the Cisco Catalyst Center.".format(name), "WARNING")
 
         imported_images = ", ".join(names_of_images)
 
-        if image_exist:
+        if all(existence_status.values()):
             self.status = "success"
             self.msg = "The requested image '{0}' has been imported into the Cisco Catalyst Center and its presence has been verified.".format(imported_images)
             self.log(self.msg, "INFO")
@@ -2386,6 +2965,7 @@ class Swim(DnacBase):
 
             if imported_images_str:
                 messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
+                self.result["changed"] = True
 
             elif not skipped_images_str:
                 messages.append("No images were imported.")
@@ -2427,6 +3007,14 @@ def main():
 
     ccc_swims = Swim(module)
     state = ccc_swims.params.get("state")
+
+    if ccc_swims.compare_dnac_versions(ccc_swims.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_swims.msg = (
+            "The specified version '{0}' does not support the 'swim_workflow_manager' feature. Supported versions start from '2.3.5.3' onwards. "
+            .format(ccc_swims.get_ccc_version())
+        )
+        ccc_swims.status = "failed"
+        ccc_swims.check_return_status()
 
     if state not in ccc_swims.supported_states:
         ccc_swims.status = "invalid"

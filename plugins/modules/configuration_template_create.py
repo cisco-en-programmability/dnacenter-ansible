@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: configuration_template_create
 short_description: Resource module for Configuration Template Create
 description:
-- This module represents an alias of the module configuration_template_create_v1
+  - This module represents an alias of the module configuration_template_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -508,22 +505,17 @@ options:
     description: Current version of template.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates CreateTemplateV1
-  description: Complete reference of the CreateTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-template
+  - name: Cisco DNA Center documentation for Configuration Templates CreateTemplateV1
+    description: Complete reference of the CreateTemplateV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-template
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.create_template_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
+  - SDK Method used are configuration_templates.ConfigurationTemplates.create_template_v1,
+  - Paths used are post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
   - It should be noted that this module is an alias of configuration_template_create_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.configuration_template_create:
@@ -537,82 +529,82 @@ EXAMPLES = r"""
     author: string
     composite: true
     containingTemplates:
-    - composite: true
-      description: string
-      deviceTypes:
-      - productFamily: string
-        productSeries: string
-        productType: string
-      id: string
-      language: string
-      name: string
-      projectName: string
-      rollbackTemplateParams:
-      - binding: string
-        customOrder: 0
-        dataType: string
-        defaultValue: string
+      - composite: true
         description: string
-        displayName: string
-        group: string
+        deviceTypes:
+          - productFamily: string
+            productSeries: string
+            productType: string
         id: string
-        instructionText: string
-        key: string
-        notParam: true
-        order: 0
-        paramArray: true
-        parameterName: string
-        provider: string
-        range:
-        - id: string
-          maxValue: 0
-          minValue: 0
-        required: true
-        selection:
-          defaultSelectedValues:
-          - string
-          id: string
-          selectionType: string
-          selectionValues: {}
-      tags:
-      - id: string
+        language: string
         name: string
-      templateContent: string
-      templateParams:
-      - binding: string
-        customOrder: 0
-        dataType: string
-        defaultValue: string
-        description: string
-        displayName: string
-        group: string
-        id: string
-        instructionText: string
-        key: string
-        notParam: true
-        order: 0
-        paramArray: true
-        parameterName: string
-        provider: string
-        range:
-        - id: string
-          maxValue: 0
-          minValue: 0
-        required: true
-        selection:
-          defaultSelectedValues:
-          - string
-          id: string
-          selectionType: string
-          selectionValues: {}
-      version: string
+        projectName: string
+        rollbackTemplateParams:
+          - binding: string
+            customOrder: 0
+            dataType: string
+            defaultValue: string
+            description: string
+            displayName: string
+            group: string
+            id: string
+            instructionText: string
+            key: string
+            notParam: true
+            order: 0
+            paramArray: true
+            parameterName: string
+            provider: string
+            range:
+              - id: string
+                maxValue: 0
+                minValue: 0
+            required: true
+            selection:
+              defaultSelectedValues:
+                - string
+              id: string
+              selectionType: string
+              selectionValues: {}
+        tags:
+          - id: string
+            name: string
+        templateContent: string
+        templateParams:
+          - binding: string
+            customOrder: 0
+            dataType: string
+            defaultValue: string
+            description: string
+            displayName: string
+            group: string
+            id: string
+            instructionText: string
+            key: string
+            notParam: true
+            order: 0
+            paramArray: true
+            parameterName: string
+            provider: string
+            range:
+              - id: string
+                maxValue: 0
+                minValue: 0
+            required: true
+            selection:
+              defaultSelectedValues:
+                - string
+              id: string
+              selectionType: string
+              selectionValues: {}
+        version: string
     createTime: 0
     customParamsOrder: true
     description: string
     deviceTypes:
-    - productFamily: string
-      productSeries: string
-      productType: string
+      - productFamily: string
+        productSeries: string
+        productType: string
     failurePolicy: string
     id: string
     language: string
@@ -624,73 +616,72 @@ EXAMPLES = r"""
     projectName: string
     rollbackTemplateContent: string
     rollbackTemplateParams:
-    - binding: string
-      customOrder: 0
-      dataType: string
-      defaultValue: string
-      description: string
-      displayName: string
-      group: string
-      id: string
-      instructionText: string
-      key: string
-      notParam: true
-      order: 0
-      paramArray: true
-      parameterName: string
-      provider: string
-      range:
-      - id: string
-        maxValue: 0
-        minValue: 0
-      required: true
-      selection:
-        defaultSelectedValues:
-        - string
+      - binding: string
+        customOrder: 0
+        dataType: string
+        defaultValue: string
+        description: string
+        displayName: string
+        group: string
         id: string
-        selectionType: string
-        selectionValues: {}
+        instructionText: string
+        key: string
+        notParam: true
+        order: 0
+        paramArray: true
+        parameterName: string
+        provider: string
+        range:
+          - id: string
+            maxValue: 0
+            minValue: 0
+        required: true
+        selection:
+          defaultSelectedValues:
+            - string
+          id: string
+          selectionType: string
+          selectionValues: {}
     softwareType: string
     softwareVariant: string
     softwareVersion: string
     tags:
-    - id: string
-      name: string
+      - id: string
+        name: string
     templateContent: string
     templateParams:
-    - binding: string
-      customOrder: 0
-      dataType: string
-      defaultValue: string
-      description: string
-      displayName: string
-      group: string
-      id: string
-      instructionText: string
-      key: string
-      notParam: true
-      order: 0
-      paramArray: true
-      parameterName: string
-      provider: string
-      range:
-      - id: string
-        maxValue: 0
-        minValue: 0
-      required: true
-      selection:
-        defaultSelectedValues:
-        - string
+      - binding: string
+        customOrder: 0
+        dataType: string
+        defaultValue: string
+        description: string
+        displayName: string
+        group: string
         id: string
-        selectionType: string
-        selectionValues: {}
+        instructionText: string
+        key: string
+        notParam: true
+        order: 0
+        paramArray: true
+        parameterName: string
+        provider: string
+        range:
+          - id: string
+            maxValue: 0
+            minValue: 0
+        required: true
+        selection:
+          defaultSelectedValues:
+            - string
+          id: string
+          selectionType: string
+          selectionValues: {}
     validationErrors:
       rollbackTemplateErrors: {}
       templateErrors: {}
       templateId: string
       templateVersion: string
     version: string
-
 """
 RETURN = r"""
 dnac_response:

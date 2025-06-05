@@ -1,21 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: discovery_v1
 short_description: Resource module for Discovery V1
 description:
-- Manage operations create, update and delete of the resource Discovery V1.
-- Initiates discovery with the given parameters.
-- Stops all the discoveries and removes them.
-- >
-   Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get
-   Discoveries by range" API.
-- Stops or starts an existing discovery.
+  - Manage operations create, update and delete of the resource Discovery V1.
+  - Initiates discovery with the given parameters.
+  - Stops all the discoveries and removes them.
+  - >
+    Stops the discovery for the given Discovery ID and removes it. Discovery ID can
+    be obtained using the "Get
+    Discoveries by range" API.
+  - Stops or starts an existing discovery.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,7 +34,8 @@ options:
       Progress.
     type: str
   discoveryStatus:
-    description: Status of the discovery. Available options are Active, Inactive, Edit.
+    description: Status of the discovery. Available options are Active, Inactive,
+      Edit.
     type: str
   discoveryType:
     description: Type of the discovery. 'Single', 'Range', 'Multi Range', 'CDP', 'LLDP',
@@ -148,11 +148,12 @@ options:
     description: Password of the devices to be discovered.
     type: str
   preferredMgmtIPMethod:
-    description: Preferred management IP method. Available options are 'None' and 'UseLoopBack'.
+    description: Preferred management IP method. Available options are 'None' and
+      'UseLoopBack'.
     type: str
   protocolOrder:
-    description: Order of protocol (ssh/telnet) in which device connection will be tried.
-      Ex 'telnet' only telnet; 'ssh,telnet' ssh with higher order than telnet.
+    description: Order of protocol (ssh/telnet) in which device connection will be
+      tried. Ex 'telnet' only telnet; 'ssh,telnet' ssh with higher order than telnet.
     type: str
   retry:
     description: Number of times to try establishing connection to device.
@@ -197,43 +198,37 @@ options:
     description: Time to wait for device response.
     type: int
   updateMgmtIp:
-    description: Updates Management IP if multiple IPs are available for a device. If
-      set to true, when a device is rediscovered with a different IP, the management
+    description: Updates Management IP if multiple IPs are available for a device.
+      If set to true, when a device is rediscovered with a different IP, the management
       IP is updated. Default value is false.
     type: bool
   userNameList:
     description: Username of the devices to be discovered.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery StartDiscoveryV1
-  description: Complete reference of the StartDiscoveryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!start-discovery
-- name: Cisco DNA Center documentation for Discovery DeleteAllDiscoveryV1
-  description: Complete reference of the DeleteAllDiscoveryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-all-discovery
-- name: Cisco DNA Center documentation for Discovery DeleteDiscoveryByIdV1
-  description: Complete reference of the DeleteDiscoveryByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id
-- name: Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedIdV1
-  description: Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id
+  - name: Cisco DNA Center documentation for Discovery StartDiscoveryV1
+    description: Complete reference of the StartDiscoveryV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!start-discovery
+  - name: Cisco DNA Center documentation for Discovery DeleteAllDiscoveryV1
+    description: Complete reference of the DeleteAllDiscoveryV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-all-discovery
+  - name: Cisco DNA Center documentation for Discovery DeleteDiscoveryByIdV1
+    description: Complete reference of the DeleteDiscoveryByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id
+  - name: Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedIdV1
+    description: Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedIdV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id
 notes:
-  - SDK Method used are
-    discovery.Discovery.delete_discovery_by_id_v1,
-    discovery.Discovery.start_discovery_v1,
+  - SDK Method used are discovery.Discovery.delete_discovery_by_id_v1, discovery.Discovery.start_discovery_v1,
     discovery.Discovery.updates_discovery_by_id,
-
-  - Paths used are
-    post /dna/intent/api/v1/discovery,
-    delete /dna/intent/api/v1/discovery,
-    delete /dna/intent/api/v1/discovery/{id},
-    put /dna/intent/api/v1/discovery,
-
+  - Paths used are post /dna/intent/api/v1/discovery, delete /dna/intent/api/v1/discovery,
+    delete /dna/intent/api/v1/discovery/{id}, put /dna/intent/api/v1/discovery,
 """
-
 EXAMPLES = r"""
 - name: Delete all
   cisco.dnac.discovery_v1:
@@ -245,7 +240,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
-
 - name: Update all
   cisco.dnac.discovery_v1:
     dnac_host: "{{dnac_host}}"
@@ -264,7 +258,7 @@ EXAMPLES = r"""
     discoveryType: string
     enablePasswordList: string
     globalCredentialIdList:
-    - string
+      - string
     httpReadCredential:
       comments: string
       credentialType: string
@@ -313,7 +307,6 @@ EXAMPLES = r"""
     timeOut: 0
     updateMgmtIp: true
     userNameList: string
-
 - name: Create
   cisco.dnac.discovery_v1:
     dnac_host: "{{dnac_host}}"
@@ -327,9 +320,9 @@ EXAMPLES = r"""
     cdpLevel: 0
     discoveryType: string
     enablePasswordList:
-    - string
+      - string
     globalCredentialIdList:
-    - string
+      - string
     httpReadCredential:
       password: string
       port: 0
@@ -342,12 +335,12 @@ EXAMPLES = r"""
       username: string
     ipAddressList: string
     ipFilterList:
-    - string
+      - string
     lldpLevel: 0
     name: string
     netconfPort: string
     passwordList:
-    - string
+      - string
     preferredMgmtIPMethod: string
     protocolOrder: string
     retry: 0
@@ -364,8 +357,7 @@ EXAMPLES = r"""
     snmpVersion: string
     timeOut: 0
     userNameList:
-    - string
-
+      - string
 - name: Delete by id
   cisco.dnac.discovery_v1:
     dnac_host: "{{dnac_host}}"
@@ -377,7 +369,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

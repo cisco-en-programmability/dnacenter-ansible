@@ -1,17 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_ap_authorization_lists_id_v1
-short_description: Resource module for Wireless Settings Ap Authorization Lists Id V1
+short_description: Resource module for Wireless Settings Ap Authorization Lists Id
+  V1
 description:
-- Manage operations update and delete of the resource Wireless Settings Ap Authorization Lists Id V1.
-- This API allows the user to delete an AP Authorization List.
-- This API allows the user to update an AP Authorization List.
+  - Manage operations update and delete of the resource Wireless Settings Ap Authorization
+    Lists Id V1.
+  - This API allows the user to delete an AP Authorization List.
+  - This API allows the user to update an AP Authorization List.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -47,8 +47,8 @@ options:
         type: list
       authorizeApWithMac:
         description: True if AP Authorization List should authorise APs With MAC addresses,
-          else False. (For Non-Mesh Access Points, either of Authorize AP With MAC Address
-          or Serial Number is required to be set to true).
+          else False. (For Non-Mesh Access Points, either of Authorize AP With MAC
+          Address or Serial Number is required to be set to true).
         type: bool
       authorizeApWithSerialNumber:
         description: True if server IpAddresses are added and AP Authorization List
@@ -58,26 +58,20 @@ options:
         type: bool
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless DeleteAPAuthorizationListV1
-  description: Complete reference of the DeleteAPAuthorizationListV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-ap-authorization-list
-- name: Cisco DNA Center documentation for Wireless UpdateAPAuthorizationListV1
-  description: Complete reference of the UpdateAPAuthorizationListV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-ap-authorization-list
+  - name: Cisco DNA Center documentation for Wireless DeleteAPAuthorizationListV1
+    description: Complete reference of the DeleteAPAuthorizationListV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-ap-authorization-list
+  - name: Cisco DNA Center documentation for Wireless UpdateAPAuthorizationListV1
+    description: Complete reference of the UpdateAPAuthorizationListV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-ap-authorization-list
 notes:
-  - SDK Method used are
-    wireless.Wireless.delete_ap_authorization_list_v1,
-    wireless.Wireless.update_ap_authorization_list_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id},
+  - SDK Method used are wireless.Wireless.delete_ap_authorization_list_v1, wireless.Wireless.update_ap_authorization_list_v1,
+  - Paths used are delete /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id},
     put /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id},
-
 """
-
 EXAMPLES = r"""
 - name: Delete by id
   cisco.dnac.wireless_settings_ap_authorization_lists_id_v1:
@@ -90,7 +84,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 - name: Update by id
   cisco.dnac.wireless_settings_ap_authorization_lists_id_v1:
     dnac_host: "{{dnac_host}}"
@@ -105,15 +98,14 @@ EXAMPLES = r"""
     id: string
     localAuthorization:
       apMacEntries:
-      - string
+        - string
       apSerialNumberEntries:
-      - string
+        - string
     remoteAuthorization:
       aaaServers:
-      - string
+        - string
       authorizeApWithMac: true
       authorizeApWithSerialNumber: true
-
 """
 RETURN = r"""
 dnac_response:

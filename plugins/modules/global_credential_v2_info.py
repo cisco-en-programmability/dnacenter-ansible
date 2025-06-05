@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: global_credential_v2_info
 short_description: Information module for Global Credential V2
 description:
-- Get all Global Credential V2.
-- >
-   API to get device credentials' details. It fetches all global credentials of all types at once, without the need
-   to pass any input parameters.
+  - Get all Global Credential V2.
+  - >
+    API to get device credentials' details. It fetches all global credentials of all
+    types at once, without the need
+    to pass any input parameters.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,21 +21,16 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetAllGlobalCredentialsV2
-  description: Complete reference of the GetAllGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-global-credentials
+  - name: Cisco DNA Center documentation for Discovery GetAllGlobalCredentialsV2
+    description: Complete reference of the GetAllGlobalCredentialsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-all-global-credentials
 notes:
-  - SDK Method used are
-    discovery.Discovery.get_all_global_credentials_v2,
-
-  - Paths used are
-    get /dna/intent/api/v2/global-credential,
-
+  - SDK Method used are discovery.Discovery.get_all_global_credentials_v2,
+  - Paths used are get /dna/intent/api/v2/global-credential,
 """
-
 EXAMPLES = r"""
 - name: Get all Global Credential V2
   cisco.dnac.global_credential_v2_info:
@@ -49,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: fabric_summary_v1_info
 short_description: Information module for Fabric Summary V1
 description:
-- Get all Fabric Summary V1.
-- >
-   Read Fabric summary for overall deployment. Get an aggregated summary of all fabric entities in a deployment
-   including the entity health.
+  - Get all Fabric Summary V1.
+  - >
+    Read Fabric summary for overall deployment. Get an aggregated summary of all fabric
+    entities in a deployment
+    including the entity health.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,32 +22,29 @@ options:
     type: dict
   startTime:
     description:
-    - >
-      StartTime query parameter. Start time from which API queries the data set related to the resource. It must
-      be specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        StartTime query parameter. Start time from which API queries the data set
+        related to the resource. It must
+        be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
-    - >
-      EndTime query parameter. End time to which API queries the data set related to the resource. It must be
-      specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        EndTime query parameter. End time to which API queries the data set related
+        to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA ReadFabricEntitySummaryV1
-  description: Complete reference of the ReadFabricEntitySummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-fabric-entity-summary
+  - name: Cisco DNA Center documentation for SDA ReadFabricEntitySummaryV1
+    description: Complete reference of the ReadFabricEntitySummaryV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!read-fabric-entity-summary
 notes:
-  - SDK Method used are
-    sda.Sda.read_fabric_entity_summary_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/fabricSummary,
-
+  - SDK Method used are sda.Sda.read_fabric_entity_summary_v1,
+  - Paths used are get /dna/data/api/v1/fabricSummary,
 """
-
 EXAMPLES = r"""
 - name: Get all Fabric Summary V1
   cisco.dnac.fabric_summary_v1_info:
@@ -63,7 +59,6 @@ EXAMPLES = r"""
     startTime: 0
     endTime: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

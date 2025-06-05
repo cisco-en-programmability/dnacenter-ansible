@@ -1,0 +1,1620 @@
+{
+    "create_a_tag_with_device_port_rules_case_1": [
+        {
+            "tag": {
+                "name": "ServersTag",
+                "description": "Tag for devices and interfaces connected to servers",
+                "system_tag": false,
+                "device_rules": {
+                    "rule_descriptions": [
+                        {
+                            "rule_name": "device_name",
+                            "search_pattern": "equals",
+                            "value": "Border",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "device_family",
+                            "search_pattern": "contains",
+                            "value": "9300",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "device_series",
+                            "search_pattern": "equals",
+                            "value": "9X",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "ip_address",
+                            "search_pattern": "starts_with",
+                            "value": "10.197",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "location",
+                            "search_pattern": "contains",
+                            "value": "Global/India",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "version",
+                            "search_pattern": "ends_with",
+                            "value": "3.8.0",
+                            "operation": "ILIKE"
+                        }
+                    ]
+                },
+                "port_rules": {
+                    "scope_description": {
+                        "scope_category": "TAG",
+                        "scope_members": [
+                            "TEST101",
+                            "TEST102"
+                        ]
+                    },
+                    "rule_descriptions": [
+                        {
+                            "rule_name": "speed",
+                            "search_pattern": "contains",
+                            "value": "100000",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "admin_status",
+                            "search_pattern": "Equals",
+                            "value": "Active",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "port_name",
+                            "search_pattern": "equals",
+                            "value": "TenGigaBitEthernet1/0/1",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "operational_status",
+                            "search_pattern": "contains",
+                            "value": "Active",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "description",
+                            "search_pattern": "contains",
+                            "value": "Border To Fusion Link",
+                            "operation": "ILIKE"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "get_tag_case_1_call_1": {
+        "response": []
+    },
+    "get_tag_case_1_call_2": {
+        "response": [
+            {
+                "systemTag": false,
+                "name": "TEST101",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "43560e5e-975c-453b-b5f5-d753a676261f"
+            }
+        ]
+    },
+    "get_tag_case_1_call_3": {
+        "response": [
+            {
+                "systemTag": false,
+                "name": "TEST102",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "ac6d535c-2053-4123-b363-204e577e7a76"
+            }
+        ]
+    },
+    "create_tag_case_1_call_1": {
+        "response": {
+            "taskId": "019522b4-61df-7831-bb0f-1fc323431206",
+            "url": "/api/v1/task/019522b4-61df-7831-bb0f-1fc323431206"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_case_1_call_1": {
+        "response": {
+            "endTime": 1740044001877,
+            "status": "SUCCESS",
+            "startTime": 1740044001759,
+            "resultLocation": "/dna/intent/api/v1/tasks/019522b4-61df-7831-bb0f-1fc323431206/detail",
+            "id": "019522b4-61df-7831-bb0f-1fc323431206"
+        },
+        "version": "1.0"
+    },
+    "get_tag_case_1_call_4": {
+        "response": [
+            {
+                "dynamicRules": [
+                    {
+                        "memberType": "interface",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "AND",
+                                    "items": [
+                                        {
+                                            "operation": "AND",
+                                            "items": [
+                                                {
+                                                    "operation": "AND",
+                                                    "items": [
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "speed",
+                                                            "value": "%100000%000%"
+                                                        },
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "adminStatus",
+                                                            "value": "Active"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "operation": "ILIKE",
+                                                    "name": "portName",
+                                                    "value": "TenGigaBitEthernet1/0/1"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "operation": "ILIKE",
+                                            "name": "status",
+                                            "value": "%Active%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "description",
+                                    "value": "%Border To Fusion Link%"
+                                }
+                            ]
+                        },
+                        "scopeRule": {
+                            "memberType": "networkdevice",
+                            "inherit": false,
+                            "groupType": "TAG",
+                            "scopeObjectIds": [
+                                "43560e5e-975c-453b-b5f5-d753a676261f",
+                                "ac6d535c-2053-4123-b363-204e577e7a76"
+                            ]
+                        }
+                    },
+                    {
+                        "memberType": "networkdevice",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "AND",
+                                    "items": [
+                                        {
+                                            "operation": "AND",
+                                            "items": [
+                                                {
+                                                    "operation": "AND",
+                                                    "items": [
+                                                        {
+                                                            "operation": "AND",
+                                                            "items": [
+                                                                {
+                                                                    "operation": "ILIKE",
+                                                                    "name": "hostname",
+                                                                    "value": "Border"
+                                                                },
+                                                                {
+                                                                    "operation": "ILIKE",
+                                                                    "name": "family",
+                                                                    "value": "%9300%"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "series",
+                                                            "value": "9X"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "operation": "ILIKE",
+                                                    "name": "managementIpAddress",
+                                                    "value": "10.197%"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "operation": "ILIKE",
+                                            "name": "groupNameHierarchy",
+                                            "value": "%Global/India%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "softwareVersion",
+                                    "value": "%3.8.0"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "systemTag": false,
+                "description": "Tag for devices and interfaces connected to servers",
+                "name": "ServersTag",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "e448964a-723f-4ac1-887a-a6c68fab90f2"
+            }
+        ]
+    },
+    "delete_a_tag_with_device_port_rules_case_2": [
+        {
+            "tag": {
+                "name": "ServersTag"
+            }
+        }
+    ],
+    "get_tag_case_2_call_1": {
+        "response": [
+            {
+                "dynamicRules": [
+                    {
+                        "memberType": "networkdevice",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "AND",
+                                    "items": [
+                                        {
+                                            "operation": "AND",
+                                            "items": [
+                                                {
+                                                    "operation": "AND",
+                                                    "items": [
+                                                        {
+                                                            "operation": "AND",
+                                                            "items": [
+                                                                {
+                                                                    "operation": "ILIKE",
+                                                                    "name": "hostname",
+                                                                    "value": "Border"
+                                                                },
+                                                                {
+                                                                    "operation": "ILIKE",
+                                                                    "name": "family",
+                                                                    "value": "%9300%"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "series",
+                                                            "value": "9X"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "operation": "ILIKE",
+                                                    "name": "managementIpAddress",
+                                                    "value": "10.197%"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "operation": "ILIKE",
+                                            "name": "groupNameHierarchy",
+                                            "value": "%Global/India%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "softwareVersion",
+                                    "value": "%3.8.0"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "memberType": "interface",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "AND",
+                                    "items": [
+                                        {
+                                            "operation": "AND",
+                                            "items": [
+                                                {
+                                                    "operation": "AND",
+                                                    "items": [
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "speed",
+                                                            "value": "%100000%000%"
+                                                        },
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "adminStatus",
+                                                            "value": "Active"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "operation": "ILIKE",
+                                                    "name": "portName",
+                                                    "value": "TenGigaBitEthernet1/0/1"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "operation": "ILIKE",
+                                            "name": "status",
+                                            "value": "%Active%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "description",
+                                    "value": "%Border To Fusion Link%"
+                                }
+                            ]
+                        },
+                        "scopeRule": {
+                            "memberType": "networkdevice",
+                            "inherit": false,
+                            "groupType": "TAG",
+                            "scopeObjectIds": [
+                                "43560e5e-975c-453b-b5f5-d753a676261f",
+                                "ac6d535c-2053-4123-b363-204e577e7a76"
+                            ]
+                        }
+                    }
+                ],
+                "systemTag": false,
+                "description": "Tag for devices and interfaces connected to servers",
+                "name": "ServersTag",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "9bd08caf-54ba-470a-b080-42e2c7f8ca49"
+            }
+        ]
+    },
+    "delete_tag_case_2_call_2": {
+        "response": {
+            "taskId": "0195232e-717f-71b6-9d00-ce8a130c282d",
+            "url": "/api/v1/task/0195232e-717f-71b6-9d00-ce8a130c282d"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_case_2_call_1": {
+        "response": {
+            "endTime": 1740052001190,
+            "status": "FAILURE",
+            "startTime": 1740052001151,
+            "resultLocation": "/dna/intent/api/v1/tasks/0195232e-717f-71b6-9d00-ce8a130c282d/detail",
+            "id": "0195232e-717f-71b6-9d00-ce8a130c282d"
+        },
+        "version": "1.0"
+    },
+    "get_task_details_by_id_case_2_call_1": {
+        "response": {
+            "progress": "Group deletion failed.",
+            "errorCode": "InternalError"
+        }
+    },
+    "force_delete_a_tag_with_device_port_rules_case_3": [
+        {
+            "tag": {
+                "name": "ServersTag",
+                "force_delete": true
+            }
+        }
+    ],
+    "get_tag_case_3_call_1": {
+        "response": [
+            {
+                "systemTag": false,
+                "name": "ServersTag",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "c5ce2efe-24d2-4a49-a1b3-21334a534b58"
+            }
+        ]
+    },
+    "update_tag_case_3_call_1": {
+        "response": {
+            "taskId": "0195231e-cb83-7ee1-9212-3be40f18e730",
+            "url": "/api/v1/task/0195231e-cb83-7ee1-9212-3be40f18e730"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_case_3_call_1": {
+        "response": {
+            "endTime": 1740050975643,
+            "status": "SUCCESS",
+            "startTime": 1740050975619,
+            "resultLocation": "/dna/intent/api/v1/tasks/0195231e-cb83-7ee1-9212-3be40f18e730/detail",
+            "id": "0195231e-cb83-7ee1-9212-3be40f18e730"
+        },
+        "version": "1.0"
+    },
+    "get_tag_members_by_id_case_3_call_1": {
+        "response": [
+            {
+                "instanceUuid": "deab46a9-f2cf-43fb-b7f2-501eb2194456",
+                "instanceId": 432443,
+                "authEntityId": 432443,
+                "authEntityClass": -927529445,
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "deployPending": "NONE",
+                "instanceVersion": 0,
+                "apManagerInterfaceIp": "",
+                "associatedWlcIp": "",
+                "bootDateTime": "2025-02-20 05:13:46",
+                "collectionInterval": "Global Default",
+                "collectionIntervalValue": "24:00:00",
+                "collectionStatus": "Partial Collection Failure",
+                "collectionTier": "Not Applicable",
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "deviceSupportLevel": "Supported",
+                "dnsResolvedManagementAddress": "22.1.1.2",
+                "errorCode": "DEV-UNREACHED",
+                "family": "Switches and Hubs",
+                "hostname": "S2-VZA-Border-2.cisco.com",
+                "interfaceCount": "0",
+                "lastDeviceResyncStartTime": "2025-02-20 04:54:41",
+                "lastManagedResyncReasons": "Link Up/Down Event",
+                "lastUpdateTime": 1740028546770,
+                "lastUpdated": "2025-02-20 05:15:46",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "macAddress": "00:bf:77:b8:3d:00",
+                "managedAtleastOnce": false,
+                "managementIpAddress": "22.1.1.2",
+                "managementState": "Managed",
+                "memorySize": "NA",
+                "paddedMgmtIpAddress": " 22.  1.  1.  2",
+                "pendingSyncRequestsCount": "0",
+                "platformId": "C9500-12Q",
+                "reachabilityFailureReason": "SNMP Connectivity Failed",
+                "reachabilityStatus": "Unreachable",
+                "reasonsForDeviceResync": "Periodic",
+                "reasonsForPendingSyncRequests": "",
+                "role": "DISTRIBUTION",
+                "roleSource": "AUTO",
+                "serialNumber": "FCW2203A1MU",
+                "series": "Cisco Catalyst 9500 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "syncRequestedByApp": "",
+                "tagCount": "0",
+                "type": "Cisco Catalyst 9500 Switch",
+                "upTime": "0:02:38.74",
+                "uptimeSeconds": 22549,
+                "vendor": "Cisco",
+                "displayName": "432443"
+            },
+            {
+                "instanceUuid": "fb8c31e1-49d3-4439-8674-61ac2c5385e4",
+                "instanceId": 432438,
+                "authEntityId": 432438,
+                "authEntityClass": -927529445,
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "deployPending": "NONE",
+                "instanceVersion": 0,
+                "apManagerInterfaceIp": "",
+                "associatedWlcIp": "",
+                "bootDateTime": "2025-02-20 05:11:46",
+                "collectionInterval": "Global Default",
+                "collectionIntervalValue": "24:00:00",
+                "collectionStatus": "Partial Collection Failure",
+                "collectionTier": "Not Applicable",
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "deviceSupportLevel": "Supported",
+                "dnsResolvedManagementAddress": "22.1.1.1",
+                "errorCode": "DEV-UNREACHED",
+                "family": "Switches and Hubs",
+                "hostname": "S2-VZA-Border-1",
+                "interfaceCount": "0",
+                "lastDeviceResyncStartTime": "2025-02-20 04:54:41",
+                "lastManagedResyncReasons": "Link Up/Down Event",
+                "lastUpdateTime": 1740028546505,
+                "lastUpdated": "2025-02-20 05:15:46",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "macAddress": "00:3c:10:52:bf:00",
+                "managedAtleastOnce": false,
+                "managementIpAddress": "22.1.1.1",
+                "managementState": "Managed",
+                "memorySize": "NA",
+                "paddedMgmtIpAddress": " 22.  1.  1.  1",
+                "pendingSyncRequestsCount": "0",
+                "platformId": "C9500-12Q",
+                "reachabilityFailureReason": "SNMP Connectivity Failed",
+                "reachabilityStatus": "Unreachable",
+                "reasonsForDeviceResync": "Periodic",
+                "reasonsForPendingSyncRequests": "",
+                "role": "DISTRIBUTION",
+                "roleSource": "AUTO",
+                "serialNumber": "FCW2152A0Y3",
+                "series": "Cisco Catalyst 9500 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "syncRequestedByApp": "",
+                "tagCount": "0",
+                "type": "Cisco Catalyst 9500 Switch",
+                "upTime": "0:04:00.97",
+                "uptimeSeconds": 22669,
+                "vendor": "Cisco",
+                "displayName": "432438"
+            }
+        ]
+    },
+    "get_device_list_case_3_call_1": {
+        "response": [
+            {
+                "type": "Cisco Catalyst 9500 Switch",
+                "lastUpdateTime": 1740028546770,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "macAddress": "00:bf:77:b8:3d:00",
+                "serialNumber": "FCW2203A1MU",
+                "lastManagedResyncReasons": "Link Up/Down Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Periodic",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "22.1.1.2",
+                "syncRequestedByApp": "",
+                "lastUpdated": "2025-02-20 05:15:46",
+                "upTime": "0:02:38.74",
+                "roleSource": "AUTO",
+                "interfaceCount": "0",
+                "bootDateTime": "2025-02-20 05:13:46",
+                "reachabilityFailureReason": "SNMP Connectivity Failed",
+                "reachabilityStatus": "Unreachable",
+                "series": "Cisco Catalyst 9500 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": "DEV-UNREACHED",
+                "errorDescription": "NCIM12013: SNMP timeouts are occurring with this device. Either the SNMP credentials are not correctly provided to Catalyst Center or the device is responding slow and SNMP timeout is low. If it's a timeout issue, Catalyst Center will attempt to progressively adjust the timeout in subsequent collection cycles to get device to managed state. User can also run discovery again only for this device using the discovery feature after adjusting the timeout and SNMP credentials as required. Or user can update the timeout and SNMP credentials as required using update credentials.",
+                "lastDeviceResyncStartTime": "2025-02-20 04:54:41",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": false,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 22549,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Partial Collection Failure",
+                "family": "Switches and Hubs",
+                "hostname": "S2-VZA-Border-2.cisco.com",
+                "locationName": null,
+                "managementIpAddress": "22.1.1.2",
+                "platformId": "C9500-12Q",
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "location": null,
+                "role": "DISTRIBUTION",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "instanceUuid": "deab46a9-f2cf-43fb-b7f2-501eb2194456",
+                "id": "deab46a9-f2cf-43fb-b7f2-501eb2194456"
+            }
+        ]
+    },
+    "get_device_list_case_3_call_2": {
+        "response": [
+            {
+                "type": "Cisco Catalyst 9500 Switch",
+                "lastUpdateTime": 1740028546505,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "macAddress": "00:3c:10:52:bf:00",
+                "serialNumber": "FCW2152A0Y3",
+                "lastManagedResyncReasons": "Link Up/Down Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Periodic",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "22.1.1.1",
+                "syncRequestedByApp": "",
+                "lastUpdated": "2025-02-20 05:15:46",
+                "upTime": "0:04:00.97",
+                "roleSource": "AUTO",
+                "interfaceCount": "0",
+                "bootDateTime": "2025-02-20 05:11:46",
+                "reachabilityFailureReason": "SNMP Connectivity Failed",
+                "reachabilityStatus": "Unreachable",
+                "series": "Cisco Catalyst 9500 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": "DEV-UNREACHED",
+                "errorDescription": "NCIM12013: SNMP timeouts are occurring with this device. Either the SNMP credentials are not correctly provided to Catalyst Center or the device is responding slow and SNMP timeout is low. If it's a timeout issue, Catalyst Center will attempt to progressively adjust the timeout in subsequent collection cycles to get device to managed state. User can also run discovery again only for this device using the discovery feature after adjusting the timeout and SNMP credentials as required. Or user can update the timeout and SNMP credentials as required using update credentials.",
+                "lastDeviceResyncStartTime": "2025-02-20 04:54:41",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": false,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 22669,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Partial Collection Failure",
+                "family": "Switches and Hubs",
+                "hostname": "S2-VZA-Border-1",
+                "locationName": null,
+                "managementIpAddress": "22.1.1.1",
+                "platformId": "C9500-12Q",
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "location": null,
+                "role": "DISTRIBUTION",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "instanceUuid": "fb8c31e1-49d3-4439-8674-61ac2c5385e4",
+                "id": "fb8c31e1-49d3-4439-8674-61ac2c5385e4"
+            }
+        ]
+    },
+    "get_tag_members_by_id_case_3_call_2": {
+        "response": [
+            {
+                "instanceUuid": "3a2ebdb7-6e24-4704-802c-aa395e69d0da",
+                "instanceId": 3608808509,
+                "authEntityId": 432442,
+                "authEntityClass": -927529445,
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "deployPending": "NONE",
+                "instanceCreatedOn": 1734671591041,
+                "instanceUpdatedOn": 1734671591041,
+                "instanceVersion": 0,
+                "description": "",
+                "owningEntityId": "432442_432442",
+                "addresses": [
+                    {
+                        "address": {
+                            "ipAddress": {
+                                "address": "172.12.11.1"
+                            },
+                            "ipMask": {
+                                "address": "255.255.255.0"
+                            },
+                            "isInverseMask": false
+                        },
+                        "type": "IPV4_PRIMARY"
+                    }
+                ],
+                "adminStatus": "UP",
+                "deviceId": "511d93af-a07b-4298-8eba-0d8af4ad42d1",
+                "duplex": "FullDuplex",
+                "ifIndex": "19",
+                "interfaceType": "Physical",
+                "ipv4Address": "172.12.11.1",
+                "ipv4Mask": "255.255.255.0",
+                "isisSupport": "true",
+                "lastInput": 1734689842000,
+                "lastOutput": 1734689842000,
+                "macAddress": "0c:75:bd:aa:8b:57",
+                "mtu": "1500",
+                "nativeVlanId": "",
+                "networkdevice_id": 432442,
+                "ospfSupport": "false",
+                "pid": "C9300-24UX",
+                "portMode": "routed",
+                "portName": "TenGigabitEthernet1/0/11",
+                "portType": "Ethernet Port",
+                "poweroverethernet": 0,
+                "serialNo": "FCW2336D0G2",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "speed": "1000000",
+                "status": "up",
+                "vlanId": "0",
+                "voiceVlan": "",
+                "managedNetworkElement": null,
+                "displayName": "73a7e982[TenGigabitEthernet1/0/11,432442_432442]"
+            }
+        ]
+    },
+    "get_device_list_case_3_call_3": {
+        "response": [
+            {
+                "type": "Cisco Catalyst 9300 Switch",
+                "lastUpdateTime": 1740028546867,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "macAddress": "0c:75:bd:aa:8b:00",
+                "serialNumber": "FCW2336D0G2",
+                "lastManagedResyncReasons": "Config Change Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Periodic",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "22.1.1.3",
+                "syncRequestedByApp": "",
+                "lastUpdated": "2025-02-20 05:15:46",
+                "upTime": "0:12:19.33",
+                "roleSource": "AUTO",
+                "interfaceCount": "0",
+                "bootDateTime": "2025-02-20 05:03:46",
+                "reachabilityFailureReason": "SNMP Connectivity Failed",
+                "reachabilityStatus": "Unreachable",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": "DEV-UNREACHED",
+                "errorDescription": "NCIM12013: SNMP timeouts are occurring with this device. Either the SNMP credentials are not correctly provided to Catalyst Center or the device is responding slow and SNMP timeout is low. If it's a timeout issue, Catalyst Center will attempt to progressively adjust the timeout in subsequent collection cycles to get device to managed state. User can also run discovery again only for this device using the discovery feature after adjusting the timeout and SNMP credentials as required. Or user can update the timeout and SNMP credentials as required using update credentials.",
+                "lastDeviceResyncStartTime": "2025-02-20 04:54:41",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": false,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 23149,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Partial Collection Failure",
+                "family": "Switches and Hubs",
+                "hostname": "S2-VZA-Edge-1",
+                "locationName": null,
+                "managementIpAddress": "22.1.1.3",
+                "platformId": "C9300-24UX",
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "location": null,
+                "role": "ACCESS",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "instanceUuid": "511d93af-a07b-4298-8eba-0d8af4ad42d1",
+                "id": "511d93af-a07b-4298-8eba-0d8af4ad42d1"
+            }
+        ]
+    },
+    "query_the_tags_associated_with_network_devices_case_3_call_1": {
+        "response": [
+            {
+                "id": "deab46a9-f2cf-43fb-b7f2-501eb2194456",
+                "tags": [
+                    {
+                        "id": "c5ce2efe-24d2-4a49-a1b3-21334a534b58",
+                        "name": "ServersTag"
+                    }
+                ]
+            },
+            {
+                "id": "fb8c31e1-49d3-4439-8674-61ac2c5385e4",
+                "tags": [
+                    {
+                        "id": "c5ce2efe-24d2-4a49-a1b3-21334a534b58",
+                        "name": "ServersTag"
+                    }
+                ]
+            }
+        ]
+    },
+    "update_tags_associated_with_the_network_devices_case_3_call_1": {
+        "response": {
+            "taskId": "0195231e-cd84-7b4e-b737-df6fad8910e3",
+            "url": "/api/v1/task/0195231e-cd84-7b4e-b737-df6fad8910e3"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_case_3_call_2": {
+        "response": {
+            "endTime": 1740050976228,
+            "status": "SUCCESS",
+            "startTime": 1740050976132,
+            "resultLocation": "/dna/intent/api/v1/tasks/0195231e-cd84-7b4e-b737-df6fad8910e3/detail",
+            "id": "0195231e-cd84-7b4e-b737-df6fad8910e3"
+        },
+        "version": "1.0"
+    },
+    "query_the_tags_associated_with_interfaces_case_3_call_1": {
+        "response": [
+            {
+                "id": "3a2ebdb7-6e24-4704-802c-aa395e69d0da",
+                "tags": [
+                    {
+                        "id": "c5ce2efe-24d2-4a49-a1b3-21334a534b58",
+                        "name": "ServersTag"
+                    },
+                    {
+                        "id": "f25207b0-fa69-4e49-b20c-9073d50e56f5",
+                        "name": "TEST"
+                    }
+                ]
+            }
+        ]
+    },
+    "update_tags_associated_with_the_interfaces_case_3_call_1": {
+        "response": {
+            "taskId": "0195231e-d624-78f0-ac07-c1271a9240c0",
+            "url": "/api/v1/task/0195231e-d624-78f0-ac07-c1271a9240c0"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_case_3_call_3": {
+        "response": {
+            "endTime": 1740050978356,
+            "status": "SUCCESS",
+            "startTime": 1740050978340,
+            "resultLocation": "/dna/intent/api/v1/tasks/0195231e-d624-78f0-ac07-c1271a9240c0/detail",
+            "id": "0195231e-d624-78f0-ac07-c1271a9240c0"
+        },
+        "version": "1.0"
+    },
+    "delete_tag_case_3_call_1": {
+        "response": {
+            "taskId": "0195231e-d68b-7fe7-ab5e-7ee5cd8bf98c",
+            "url": "/api/v1/task/0195231e-d68b-7fe7-ab5e-7ee5cd8bf98c"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_case_3_call_4": {
+        "response": {
+            "endTime": 1740050978456,
+            "status": "SUCCESS",
+            "startTime": 1740050978443,
+            "resultLocation": "/dna/intent/api/v1/tasks/0195231e-d68b-7fe7-ab5e-7ee5cd8bf98c/detail",
+            "id": "0195231e-d68b-7fe7-ab5e-7ee5cd8bf98c"
+        },
+        "version": "1.0"
+    },
+    "get_tag_case_3_call_2": {
+        "response": []
+    },
+    "update_scope_of_a_tag_with_only_port_rule_case_4": [
+        {
+            "tag": {
+                "name": "ServersTag",
+                "description": "Tag for devices and interfaces connected to servers",
+                "system_tag": false,
+                "device_rules": {
+                    "rule_descriptions": [
+                        {
+                            "rule_name": "device_name",
+                            "search_pattern": "equals",
+                            "value": "Border",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "device_family",
+                            "search_pattern": "contains",
+                            "value": "9300",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "device_series",
+                            "search_pattern": "equals",
+                            "value": "9X",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "ip_address",
+                            "search_pattern": "starts_with",
+                            "value": "10.197",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "location",
+                            "search_pattern": "contains",
+                            "value": "Global/India",
+                            "operation": "ILIKE"
+                        },
+                        {
+                            "rule_name": "version",
+                            "search_pattern": "ends_with",
+                            "value": "3.8.0",
+                            "operation": "ILIKE"
+                        }
+                    ]
+                },
+                "port_rules": {
+                    "scope_description": {
+                        "scope_category": "SITE",
+                        "scope_members": [
+                            "Global"
+                        ]
+                    }
+                }
+            }
+        }
+    ],
+    "get_tag_case_4_call_1": {
+        "response": [
+            {
+                "dynamicRules": [
+                    {
+                        "memberType": "interface",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "speed",
+                                    "value": "%100000%000%"
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "adminStatus",
+                                    "value": "Active"
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "portName",
+                                    "value": "TenGigaBitEthernet1/0/1"
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "status",
+                                    "value": "%Active%"
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "description",
+                                    "value": "%Border To Fusion Link%"
+                                }
+                            ]
+                        },
+                        "scopeRule": {
+                            "memberType": "networkdevice",
+                            "inherit": false,
+                            "groupType": "TAG",
+                            "scopeObjectIds": [
+                                "6a446a23-78b3-4031-8241-422da9e4c4b0",
+                                "567b05b8-3e77-4ca1-90e1-c77acf9b2b26"
+                            ]
+                        }
+                    }
+                ],
+                "systemTag": false,
+                "description": "Tag for devices and interfaces connected to servers",
+                "name": "ServersTag",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "c74e540a-f616-4648-82a9-13f545a9cc0d"
+            }
+        ]
+    },
+    "get_site_id_case_4_call_1": {
+        "response": [
+            {
+                "id": "7f10bb46-1ec0-4a58-9947-c55654ae5d16",
+                "name": "Global",
+                "type": "global"
+            }
+        ]
+    },
+    "update_tag_case_4_call_1": {
+        "response": {
+            "taskId": "0195293f-22b8-775d-b0eb-1c3bf6532131",
+            "url": "/api/v1/task/0195293f-22b8-775d-b0eb-1c3bf6532131"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_case_4_call_1": {
+        "response": {
+            "endTime": 1740153758586,
+            "status": "SUCCESS",
+            "startTime": 1740153758392,
+            "resultLocation": "/dna/intent/api/v1/tasks/0195293f-22b8-775d-b0eb-1c3bf6532131/detail",
+            "id": "0195293f-22b8-775d-b0eb-1c3bf6532131"
+        },
+        "version": "1.0"
+    },
+    "get_tag_case_4_call_2": {
+        "response": [
+            {
+                "dynamicRules": [
+                    {
+                        "memberType": "networkdevice",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "AND",
+                                    "items": [
+                                        {
+                                            "operation": "AND",
+                                            "items": [
+                                                {
+                                                    "operation": "AND",
+                                                    "items": [
+                                                        {
+                                                            "operation": "AND",
+                                                            "items": [
+                                                                {
+                                                                    "operation": "ILIKE",
+                                                                    "name": "hostname",
+                                                                    "value": "Border"
+                                                                },
+                                                                {
+                                                                    "operation": "ILIKE",
+                                                                    "name": "family",
+                                                                    "value": "%9300%"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "series",
+                                                            "value": "9X"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "operation": "ILIKE",
+                                                    "name": "managementIpAddress",
+                                                    "value": "10.197%"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "operation": "ILIKE",
+                                            "name": "groupNameHierarchy",
+                                            "value": "%Global/India%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "softwareVersion",
+                                    "value": "%3.8.0"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "memberType": "interface",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "AND",
+                                    "items": [
+                                        {
+                                            "operation": "AND",
+                                            "items": [
+                                                {
+                                                    "operation": "AND",
+                                                    "items": [
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "speed",
+                                                            "value": "%100000%000%"
+                                                        },
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "adminStatus",
+                                                            "value": "Active"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "operation": "ILIKE",
+                                                    "name": "portName",
+                                                    "value": "TenGigaBitEthernet1/0/1"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "operation": "ILIKE",
+                                            "name": "status",
+                                            "value": "%Active%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "description",
+                                    "value": "%Border To Fusion Link%"
+                                }
+                            ]
+                        },
+                        "scopeRule": {
+                            "memberType": "networkdevice",
+                            "inherit": true,
+                            "groupType": "SITE",
+                            "scopeObjectIds": [
+                                "7f10bb46-1ec0-4a58-9947-c55654ae5d16"
+                            ]
+                        }
+                    }
+                ],
+                "systemTag": true,
+                "description": "Tag for devices and interfaces connected to servers",
+                "name": "ServersTag",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "c74e540a-f616-4648-82a9-13f545a9cc0d"
+            }
+        ]
+    },
+    "get_site_id_case_4_call_2": {
+        "response": [
+            {
+                "id": "7f10bb46-1ec0-4a58-9947-c55654ae5d16",
+                "name": "Global",
+                "type": "global"
+            }
+        ]
+    },
+    "update_scope_members_of_tag_with_device_ports_rules_case_5": [
+        {
+            "tag": {
+                "name": "ServersTag",
+                "description": "Tag for devices and interfaces connected to servers",
+                "system_tag": false,
+                "port_rules": {
+                    "scope_description": {
+                        "scope_category": "TAG",
+                        "scope_members": [
+                            "TEST102"
+                        ]
+                    }
+                }
+            }
+        }
+    ],
+    "get_tag_case_5_call_1": {
+        "response": [
+            {
+                "dynamicRules": [
+                    {
+                        "memberType": "networkdevice",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "AND",
+                                    "items": [
+                                        {
+                                            "operation": "AND",
+                                            "items": [
+                                                {
+                                                    "operation": "AND",
+                                                    "items": [
+                                                        {
+                                                            "operation": "AND",
+                                                            "items": [
+                                                                {
+                                                                    "operation": "ILIKE",
+                                                                    "name": "hostname",
+                                                                    "value": "Border"
+                                                                },
+                                                                {
+                                                                    "operation": "ILIKE",
+                                                                    "name": "family",
+                                                                    "value": "%9300%"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "series",
+                                                            "value": "9X"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "operation": "ILIKE",
+                                                    "name": "managementIpAddress",
+                                                    "value": "10.197%"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "operation": "ILIKE",
+                                            "name": "groupNameHierarchy",
+                                            "value": "%Global/India%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "softwareVersion",
+                                    "value": "%3.8.0"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "memberType": "interface",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "AND",
+                                    "items": [
+                                        {
+                                            "operation": "AND",
+                                            "items": [
+                                                {
+                                                    "operation": "AND",
+                                                    "items": [
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "speed",
+                                                            "value": "%100000%000%"
+                                                        },
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "adminStatus",
+                                                            "value": "Active"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "operation": "ILIKE",
+                                                    "name": "portName",
+                                                    "value": "TenGigaBitEthernet1/0/1"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "operation": "ILIKE",
+                                            "name": "status",
+                                            "value": "%Active%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "description",
+                                    "value": "%Border To Fusion Link%"
+                                }
+                            ]
+                        },
+                        "scopeRule": {
+                            "memberType": "networkdevice",
+                            "inherit": false,
+                            "groupType": "TAG",
+                            "scopeObjectIds": [
+                                "5d6dc815-d7ab-41fe-90a7-56e85bca726e"
+                            ]
+                        }
+                    }
+                ],
+                "systemTag": false,
+                "description": "Tag for devices and interfaces connected to servers",
+                "name": "ServersTag",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "e8b60379-5a42-4e3c-9e26-53dbbab55d34"
+            }
+        ]
+    },
+    "get_tag_case_5_call_2": {
+        "response": [
+            {
+                "systemTag": false,
+                "name": "TEST102",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "c701af1f-d0e7-4a04-963b-ad64aaa83540"
+            }
+        ]
+    },
+    "update_tag_case_5_call_1": {
+        "response": {
+            "taskId": "01953678-b695-7225-859f-a52a58e1de3a",
+            "url": "/api/v1/task/01953678-b695-7225-859f-a52a58e1de3a"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_case_5_call_1": {
+        "response": {
+            "endTime": 1740375635722,
+            "status": "SUCCESS",
+            "startTime": 1740375635605,
+            "resultLocation": "/dna/intent/api/v1/tasks/01953678-b695-7225-859f-a52a58e1de3a/detail",
+            "id": "01953678-b695-7225-859f-a52a58e1de3a"
+        },
+        "version": "1.0"
+    },
+    "get_tag_case_5_call_3": {
+        "response": [
+            {
+                "dynamicRules": [
+                    {
+                        "memberType": "networkdevice",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "AND",
+                                    "items": [
+                                        {
+                                            "operation": "AND",
+                                            "items": [
+                                                {
+                                                    "operation": "AND",
+                                                    "items": [
+                                                        {
+                                                            "operation": "AND",
+                                                            "items": [
+                                                                {
+                                                                    "operation": "ILIKE",
+                                                                    "name": "hostname",
+                                                                    "value": "Border"
+                                                                },
+                                                                {
+                                                                    "operation": "ILIKE",
+                                                                    "name": "family",
+                                                                    "value": "%9300%"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "series",
+                                                            "value": "9X"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "operation": "ILIKE",
+                                                    "name": "managementIpAddress",
+                                                    "value": "10.197%"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "operation": "ILIKE",
+                                            "name": "groupNameHierarchy",
+                                            "value": "%Global/India%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "softwareVersion",
+                                    "value": "%3.8.0"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "memberType": "interface",
+                        "rules": {
+                            "operation": "AND",
+                            "items": [
+                                {
+                                    "operation": "AND",
+                                    "items": [
+                                        {
+                                            "operation": "AND",
+                                            "items": [
+                                                {
+                                                    "operation": "AND",
+                                                    "items": [
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "speed",
+                                                            "value": "%100000%000%"
+                                                        },
+                                                        {
+                                                            "operation": "ILIKE",
+                                                            "name": "adminStatus",
+                                                            "value": "Active"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "operation": "ILIKE",
+                                                    "name": "portName",
+                                                    "value": "TenGigaBitEthernet1/0/1"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "operation": "ILIKE",
+                                            "name": "status",
+                                            "value": "%Active%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "operation": "ILIKE",
+                                    "name": "description",
+                                    "value": "%Border To Fusion Link%"
+                                }
+                            ]
+                        },
+                        "scopeRule": {
+                            "memberType": "networkdevice",
+                            "inherit": false,
+                            "groupType": "TAG",
+                            "scopeObjectIds": [
+                                "5d6dc815-d7ab-41fe-90a7-56e85bca726e",
+                                "c701af1f-d0e7-4a04-963b-ad64aaa83540"
+                            ]
+                        }
+                    }
+                ],
+                "systemTag": false,
+                "description": "Tag for devices and interfaces connected to servers",
+                "name": "ServersTag",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "e8b60379-5a42-4e3c-9e26-53dbbab55d34"
+            }
+        ]
+    },
+    "get_tag_case_5_call_4": {
+        "response": [
+            {
+                "systemTag": false,
+                "name": "TEST102",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "c701af1f-d0e7-4a04-963b-ad64aaa83540"
+            }
+        ]
+    },
+    "name_not_provided_case_6": [
+        {
+            "tag": {
+                "description": "Tag for devices and interfaces connected to servers"
+            }
+        }
+    ],
+    "rule_description_not_provided_properly_in_device_rules_case_7": [
+        {
+            "tag": {
+                "name": "Servers_Connected_Devices_and_Interfaces",
+                "description": "Tag for devices and interfaces connected to servers",
+                "device_rules": {
+                    "rule_descriptions": [
+                        {
+                            "operation": "ILIKE"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "rule_description_not_provided_properly_in_port_rules_case_8": [
+        {
+            "tag": {
+                "name": "Servers_Connected_Devices_and_Interfaces",
+                "description": "Tag for devices and interfaces connected to servers",
+                "port_rules": {
+                    "rule_descriptions": [
+                        {
+                            "operation": "ILIKE"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "scope_category_not_provided_case_9": [
+        {
+            "tag": {
+                "name": "Servers_Connected_Devices_and_Interfaces",
+                "description": "Tag for devices and interfaces connected to servers",
+                "port_rules": {
+                    "scope_description": {
+                        "scope_members": [
+                            "GLOBAL"
+                        ]
+                    }
+                }
+            }
+        }
+    ],
+    "not_enough_details_provided_in_device_details_in_tag_memberships_case_10": [
+        {
+            "tag_memberships": {
+                "tags": [
+                    "Servers_Connected_Devices_and_Interfaces"
+                ],
+                "device_details": [
+                    {
+                        "port_names": [
+                            "FortyGigabitEthernet1/1/1",
+                            "FortyGigabitEthernet1/1/2"
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "get_tag_case_10_call_1": {
+        "response": [
+            {
+                "systemTag": false,
+                "name": "Servers_Connected_Devices_and_Interfaces",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "e44881e0-9ac8-4ff2-8407-2cd17c8d7f7d"
+            }
+        ],
+        "version": "1.0"
+    },
+    "tags_not_provided_in_tag_memberships_case_11": [
+        {
+            "tag_memberships": {
+                "device_details": [
+                    {
+                        "port_names": [
+                            "FortyGigabitEthernet1/1/1",
+                            "FortyGigabitEthernet1/1/2"
+                        ]
+                    }
+                ],
+                "site_details": [
+                    {
+                        "site_names": [
+                            "Global/prime_site_global/prime_site/Bengaluru"
+                        ],
+                        "port_names": [
+                            "FortyGigabitEthernet1/1/1",
+                            "FortyGigabitEthernet1/1/2"
+                        ]
+                    }
+                ],
+                "network_device_tag_retrieval_batch_size": 1,
+                "interface_tag_retrieval_batch_size": 1,
+                "network_device_tag_update_batch_size": 1,
+                "interface_tag_update_batch_size": 1
+            }
+        }
+    ],
+    "site_names_not_provided_in_tag_memberships_case_12": [
+        {
+            "tag_memberships": {
+                "tags": ["Servers_Connected_Devices_and_Interfaces"],
+                "site_details": [
+                    {
+                        "port_names": [
+                            "FortyGigabitEthernet1/1/1",
+                            "FortyGigabitEthernet1/1/2"
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "updating_only_port_rules_description_when_no_port_rules_are_present_case_13": [
+        {
+            "tag": {
+                "name": "Test1011",
+                "description": "Test tag created for unit testing.",
+                "port_rules": {
+                    "rule_descriptions": [
+                        {
+                            "rule_name": "speed",
+                            "search_pattern": "contains",
+                            "value": "100000",
+                            "operation": "ILIKE"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

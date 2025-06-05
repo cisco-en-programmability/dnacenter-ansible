@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: discovery_range_info
 short_description: Information module for Discovery Range Info
 description:
-- This module represents an alias of the module discovery_range_v1_info
+  - This module represents an alias of the module discovery_range_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,29 +18,25 @@ options:
     type: dict
   startIndex:
     description:
-    - StartIndex path parameter. Starting index for the records.
+      - StartIndex path parameter. Starting index for the records.
     type: int
   recordsToReturn:
     description:
-    - RecordsToReturn path parameter. Number of records to fetch from the starting index.
+      - RecordsToReturn path parameter. Number of records to fetch from the starting
+        index.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRangeV1
-  description: Complete reference of the GetDiscoveriesByRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range
+  - name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRangeV1
+    description: Complete reference of the GetDiscoveriesByRangeV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range
 notes:
-  - SDK Method used are
-    discovery.Discovery.get_discoveries_by_range_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn},
+  - SDK Method used are discovery.Discovery.get_discoveries_by_range_v1,
+  - Paths used are get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn},
   - It should be noted that this module is an alias of discovery_range_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Discovery Range Info
   cisco.dnac.discovery_range_info:
@@ -58,7 +51,6 @@ EXAMPLES = r"""
     startIndex: 0
     recordsToReturn: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

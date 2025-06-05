@@ -1,0 +1,813 @@
+{
+    "playbook_config_creation": [
+        {
+          "profile_name": "sd_sw_1",
+          "day_n_templates": ["Template Provisioning To Device"],
+          "site_names": [
+            "Global/Chennai/LTTS/FLOOR11",
+            "Global/Madurai/LTTS/FLOOR1"
+          ]
+        }
+      ],
+
+    "get_network_profile":
+    {
+        "response": [
+            {
+                "id": "248d843e-352f-43f0-af2e-69eeccb2df5f",
+                "name": "PNP_Onboarding_Profile",
+                "type": "Switching"
+            },
+            {
+                "id": "a40be97d-e8d8-4cf5-9606-fbf88853a0ae",
+                "name": "sd_sw_1",
+                "type": "Switching"
+            },
+            {
+                "id": "a8ce7984-4253-4bdd-b558-00c7d5e9e1b0",
+                "name": "Rafeek_sw_1",
+                "type": "Switching"
+            },
+            {
+                "id": "cd0c94e5-3453-46a7-ab9d-c2b5544555ce",
+                "name": "switchProfile1",
+                "type": "Switching"
+            },
+            {
+                "id": "efde4d92-dfd5-4031-819e-d35062bb3f6f",
+                "name": "API_SWITCH_2",
+                "type": "Switching"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_network_profile_not_exist":
+    {
+        "response": [
+            {
+                "id": "248d843e-352f-43f0-af2e-69eeccb2df5f",
+                "name": "PNP_Onboarding_Profile",
+                "type": "Switching"
+            },
+            {
+                "id": "a40be97d-e8d8-4cf5-9606-fbf88853a0ae",
+                "name": "sd1_sw_1",
+                "type": "Switching"
+            },
+            {
+                "id": "a8ce7984-4253-4bdd-b558-00c7d5e9e1b0",
+                "name": "Rafeek_sw_1",
+                "type": "Switching"
+            },
+            {
+                "id": "cd0c94e5-3453-46a7-ab9d-c2b5544555ce",
+                "name": "switchProfile1",
+                "type": "Switching"
+            },
+            {
+                "id": "efde4d92-dfd5-4031-819e-d35062bb3f6f",
+                "name": "API_SWITCH_2",
+                "type": "Switching"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_templates_details":
+    [
+        {
+            "name": "Ansible_PNP_Switch",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "c79f4a36-ab36-478d-8bee-848d01606a87",
+            "versionsInfo": [
+                {
+                    "id": "4fe2f46a-3654-4187-81e4-b28bc107f5aa",
+                    "description": "",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "",
+                    "versionTime": 1727827112635
+                },
+                {
+                    "id": "3630f8ba-0e6d-4652-bfa0-5bde0e31bdf0",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1727826624453
+                },
+                {
+                    "id": "a9d28bdd-afac-462e-a1b2-e102a7f2ded5",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1727826687240
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs",
+                    "productSeries": "Cisco Catalyst 9300 Series Switches"
+                }
+            ]
+        },
+        {
+            "name": "DMVPN Hub for Cloud Router- System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "204831af-8704-4210-878f-b8996daf79e1",
+            "versionsInfo": [
+                {
+                    "id": "c9acd88f-dbd5-40d2-9185-4e6bd3269528",
+                    "description": "Dynamic Multipoint VPN Hub for Cloud Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259145198
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "7319e510-81fa-4912-8433-fcf719a0d2be",
+                    "name": "cloud-dmvpn-hub"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "DMVPN Spoke for Branch Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "a4e53ade-cc6e-409e-8b2f-ec191f8e2242",
+            "versionsInfo": [
+                {
+                    "id": "a7cab587-05fc-4af2-af19-795f607970f3",
+                    "description": "Dynamic Multipoint VPN Spoke for Branch Router",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259147229
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "ac89003f-3822-430f-99b9-073403e57bdf",
+                    "name": "branch-router-dmvpn-spoke"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "DMVPN for Cloud Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "57d312d6-a596-4937-a3b9-0816ea13c563",
+            "versionsInfo": [
+                {
+                    "id": "05200455-e0f8-4bb7-8750-37f43dfc7a4a",
+                    "description": "DMVPN for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259147588
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "a228c460-cf09-498f-a828-79ee7db8c2c9",
+                    "name": "cloud-dmvpn"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "Example_test1",
+            "projectName": "Sample Jinja Templates",
+            "projectId": "6f447090-f983-49e6-b9a7-2f6c3c1eb31a",
+            "templateId": "ba45f0cf-2527-40d1-bc24-8870878cf66a",
+            "versionsInfo": [
+                {
+                    "id": "9e5b0de0-2c44-480e-9f20-62a8d4cfbc92",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "for_testing",
+                    "versionTime": 1727411364175
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "Cisco Controller-",
+            "deviceTypes": [
+                {
+                    "productFamily": "Network Management"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 1 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "df994c94-1e2d-49d7-9a20-327a6ce247ce",
+            "versionsInfo": [
+                {
+                    "id": "0caa1c6d-a4f9-495d-96f1-e4bfd2fd17e0",
+                    "description": "IPsec 1 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259144388
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "4092287b-7d32-4f28-a742-57f10bd45013",
+                    "name": "cloud-ipsec-one-branch-router"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec 2 Branch for Cloud Router - System Default",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "c886c090-a756-457a-997d-af31ce251118",
+            "versionsInfo": [
+                {
+                    "id": "7f3e3de2-7973-46dd-bd05-6b9e7bb0a45c",
+                    "description": "IPsec 2 Branch for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259145806
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "6fdaa4cf-92c3-4e0b-8ede-232c58af0b3e",
+                    "name": "cloud-ipsec-two-branch-routers"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "IPsec for Branch Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "e0df50ea-9325-4e3d-b330-441e99233b42",
+            "versionsInfo": [
+                {
+                    "id": "8e7feed5-da2a-4d36-8fbf-876e6e0c8db6",
+                    "description": "IPsec for Branch Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259146404
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "ea3c92c4-82c5-4a72-bd02-aec09270ee3e",
+                    "name": "branch-router-ipsec"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers"
+                }
+            ]
+        },
+        {
+            "name": "IPsec for Cloud Router - System Default",
+            "projectName": "Cloud DayN Templates",
+            "projectId": "b6131824-7441-479f-9076-e24a401d63ed",
+            "templateId": "c0495d8e-872c-432e-b963-fbda3c483389",
+            "versionsInfo": [
+                {
+                    "id": "e6527c3a-96c0-4c46-ae18-ca72f47e3ec7",
+                    "description": "IPsec for Cloud Router - System Default",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "SYSTEM",
+                    "versionTime": 1726259146878
+                }
+            ],
+            "composite": false,
+            "tags": [
+                {
+                    "id": "bc94116e-8c35-4cd2-88d6-14d2297f6a41",
+                    "name": "cloud-ipsec"
+                }
+            ],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Routers",
+                    "productSeries": "Cisco Cloud Services Router 1000V Series"
+                }
+            ]
+        },
+        {
+            "name": "Template Provisioning To Device",
+            "projectName": "ODC Provisioning",
+            "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+            "templateId": "3b282b66-eff3-4f32-8b64-427365996537",
+            "versionsInfo": [
+                {
+                    "id": "2fdce9e7-89c1-4637-acef-477d030b86cf",
+                    "description": "",
+                    "author": "SYSTEM",
+                    "version": "1",
+                    "versionComment": "ImportedTemplate",
+                    "versionTime": 1728540268394
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        },
+        {
+            "name": "WLC Template",
+            "projectName": "ODC Provisioning",
+            "projectId": "fa18dd05-d41c-441c-af44-8e2644781823",
+            "templateId": "5935fbdb-3d4c-4d6c-be5f-c61401be6b93",
+            "versionsInfo": [
+                {
+                    "id": "ffa990c4-df80-4f70-90e2-f7e9d6869865",
+                    "description": "",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1730796226724
+                },
+                {
+                    "id": "719eed23-3a4f-4f71-a425-fdae7d6adc49",
+                    "description": "",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "",
+                    "versionTime": 1730785136128
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Wireless Controller"
+                }
+            ]
+        },
+        {
+            "name": "test_template",
+            "projectName": "Onboarding Configuration",
+            "projectId": "a5c62e74-968b-45d0-bc67-4ae6a5b341ce",
+            "templateId": "6e8d2b85-d1db-4de0-b061-43e1549b863f",
+            "versionsInfo": [
+                {
+                    "id": "ca13dbfc-e294-4ecb-8de4-acec7c4c1bf4",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "Test Template",
+                    "versionTime": 1734486512141
+                },
+                {
+                    "id": "2615d973-ce61-47f5-85e7-823682f4c297",
+                    "author": "admin",
+                    "version": "2",
+                    "versionComment": "",
+                    "versionTime": 1728539252590
+                },
+                {
+                    "id": "5e32637f-066b-4720-b235-237a15d87ed6",
+                    "author": "admin",
+                    "version": "3",
+                    "versionComment": "Test Template",
+                    "versionTime": 1734486512179
+                },
+                {
+                    "id": "82e652ab-b40f-4163-883d-3b252f7691af",
+                    "author": "admin",
+                    "version": "1",
+                    "versionComment": "Test Template",
+                    "versionTime": 1727764542722
+                }
+            ],
+            "composite": false,
+            "tags": [],
+            "softwareType": "IOS-XE",
+            "deviceTypes": [
+                {
+                    "productFamily": "Switches and Hubs"
+                }
+            ]
+        }
+    ],
+
+    "get_site_response1":
+    {
+        "response": [
+          {
+            "id": "03072c33-bd11-4914-9c0e-3c53379b2813",
+            "parentId": "c3293908-c136-45b9-b74f-d5dfaabb26a9",
+            "name": "FLOOR11",
+            "nameHierarchy": "Global/Chennai/LTTS/FLOOR11",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 177.0,
+            "length": 171.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+          }
+        ],
+        "version": "1.0"
+      },
+
+    "get_site_response2":
+      {
+        "response": [
+          {
+            "id": "65761e39-fd3f-4eec-b174-ba968c0c7fee",
+            "parentId": "61a79a23-210b-44d8-84fa-6f0a7d08f73b",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/Madurai/LTTS/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+          }
+        ],
+        "version": "1.0"
+      },
+
+      "get_sitelist_for_profile": {
+            "response": [
+            {
+                "id": "c3293908-c136-45b9-b74f-d5dfaabb26a9"
+            },
+            {
+                "id": "61a79a23-210b-44d8-84fa-6f0a7d08f73b"
+            },
+            {
+                "id": "b0292a67-36ff-49ad-9135-5e79b056019e"
+            },
+            {
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813"
+            },
+            {
+                "id": "65761e39-fd3f-4eec-b174-ba968c0c7fee"
+            },
+            {
+                "id": "9e35764a-b591-4301-b52c-6f8d33e5e919"
+            },
+            {
+                "id": "976ec932-e5b3-403c-add8-09ebc0af0f03"
+            }
+        ],
+        "version": "1.0"
+      },
+
+      "create_switch_profile":
+      {
+        "response": {
+            "taskId": "0194d4b7-a0db-79e0-afd9-3477ec7b5456",
+            "url": "/api/v1/task/0194d4b7-a0db-79e0-afd9-3477ec7b5456"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id1":
+    {
+        "response": {
+          "endTime": 1738735591659,
+          "status": "SUCCESS",
+          "startTime": 1738735591643,
+          "resultLocation": "/dna/intent/api/v1/tasks/0194d4b7-a0db-79e0-afd9-3477ec7b5456/detail",
+          "id": "0194d4b7-a0db-79e0-afd9-3477ec7b5456"
+        },
+        "version": "1.0"
+      },
+      "assign_a_network_profile_for_sites1":
+      {
+        "response": {
+          "taskId": "0194d4b7-a409-773d-b99e-8fc7e502b865",
+          "url": "/api/v1/task/0194d4b7-a409-773d-b99e-8fc7e502b865"
+        },
+        "version": "1.0"
+      },
+    "get_tasks_by_id2":
+    {
+        "response": {
+          "endTime": 1738735592484,
+          "status": "SUCCESS",
+          "startTime": 1738735592457,
+          "resultLocation": "/dna/intent/api/v1/tasks/0194d4b7-a409-773d-b99e-8fc7e502b865/detail",
+          "id": "0194d4b7-a409-773d-b99e-8fc7e502b865"
+        },
+        "version": "1.0"
+      },
+      "assign_a_network_profile_for_sites2":
+      {
+        "response": {
+          "taskId": "0194d4b7-a739-7dea-a09d-b8d002baeb16",
+          "url": "/api/v1/task/0194d4b7-a739-7dea-a09d-b8d002baeb16"
+        },
+        "version": "1.0"
+      },
+      "get_tasks_by_id3":
+      {
+        "response": {
+          "endTime": 1738735593298,
+          "status": "SUCCESS",
+          "startTime": 1738735593273,
+          "resultLocation": "/dna/intent/api/v1/tasks/0194d4b7-a739-7dea-a09d-b8d002baeb16/detail",
+          "id": "0194d4b7-a739-7dea-a09d-b8d002baeb16"
+        },
+        "version": "1.0"
+      },
+      "get_templates_for_profile":
+      {
+        "response": [
+            {
+                "id": "c79f4a36-ab36-478d-8bee-848d01606a87",
+                "name": "Ansible_PNP_Switch"
+            },
+            {
+                "id": "3b282b66-eff3-4f32-8b64-427365996537",
+                "name": "Template Provisioning To Device"
+            }
+        ],
+        "version": "1.0"
+      },
+
+      "unassigns_a_network_profile_for_sites1":
+      {
+        "response": {
+          "taskId": "0194d5f5-fa6c-77cb-a826-722028097b0e",
+          "url": "/api/v1/task/0194d5f5-fa6c-77cb-a826-722028097b0e"
+        },
+        "version": "1.0"
+      },
+
+      "task_site_unassigned": {
+        "progress": "Sites Successfully Disassociated from Network Profile [a40be97d-e8d8-4cf5-9606-fbf88853a0ae]"
+      },
+
+      "get_tasks_by_id4":
+      {
+        "response": {
+          "endTime": 1738756455047,
+          "status": "SUCCESS",
+          "startTime": 1738756455020,
+          "resultLocation": "/dna/intent/api/v1/tasks/0194d5f5-fa6c-77cb-a826-722028097b0e/detail",
+          "id": "0194d5f5-fa6c-77cb-a826-722028097b0e"
+        },
+        "version": "1.0"
+      },
+      "unassigns_a_network_profile_for_sites2":
+      {
+        "response": {
+          "taskId": "0194d5f5-feca-7a94-9478-39f31add04ec",
+          "url": "/api/v1/task/0194d5f5-feca-7a94-9478-39f31add04ec"
+        },
+        "version": "1.0"
+      },
+      "get_tasks_by_id5":
+      {
+        "response": {
+          "endTime": 1738756456163,
+          "status": "SUCCESS",
+          "startTime": 1738756456138,
+          "resultLocation": "/dna/intent/api/v1/tasks/0194d5f5-feca-7a94-9478-39f31add04ec/detail",
+          "id": "0194d5f5-feca-7a94-9478-39f31add04ec"
+        },
+        "version": "1.0"
+      },
+      "deletes_a_network_profile_for_sites_v1":
+      {
+        "response": {
+          "taskId": "0194d5f6-029c-7465-b71a-d0fb128ceac7",
+          "url": "/api/v1/task/0194d5f6-029c-7465-b71a-d0fb128ceac7"
+        },
+        "version": "1.0"
+      },
+      "get_task_by_id6":
+      {
+        "response": {
+          "endTime": 1738756457137,
+          "status": "SUCCESS",
+          "startTime": 1738756457116,
+          "resultLocation": "/dna/intent/api/v1/tasks/0194d5f6-029c-7465-b71a-d0fb128ceac7/detail",
+          "id": "0194d5f6-029c-7465-b71a-d0fb128ceac7"
+        },
+        "version": "1.0"
+      },
+      "playbook_config_update":[
+      {
+        "switch_profile": [
+          {
+            "profile_name": "sd_sw_1",
+            "onboarding_template": ["Ansible_PNP_Switch"],
+            "day_n_template": ["Template Provisioning To Device"],
+            "site_name": [
+              "Global/USA/San Jose/BLDG23/FLOOR1_LEVEL1",
+              "Global/tamilnadu/BLD1/FLOOR1"
+            ]
+          }
+        ],
+        "register": "output_list"
+      }],
+      "get_site_response3":
+      {
+        "response": [
+          {
+            "id": "5fc3b912-8cb8-4c73-8ef3-97b544af6843",
+            "parentId": "5a9bb391-fb8f-47a5-8dd9-31c6fa7d8289",
+            "name": "FLOOR1_LEVEL1",
+            "nameHierarchy": "Global/USA/San Jose/BLDG23/FLOOR1_LEVEL1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+          }
+        ],
+        "version": "1.0"
+      },
+      "get_site_response4":
+      {
+        "response": [
+          {
+            "id": "ca82e433-dd7e-40cc-9220-41294dfb6d59",
+            "parentId": "74549cff-b640-4279-93f0-d5003229fdad",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/tamilnadu/BLD1/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+          }
+        ],
+        "version": "1.0"
+      },
+      "get_site_lists_for_profile":
+      {
+        "response": [
+            {
+                "id": "65761e39-fd3f-4eec-b174-ba968c0c7fee"
+            },
+            {
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813"
+            }
+        ],
+        "version": "1.0"
+    },
+    "unassigns_a_network_profile_for_sites3":
+    {
+        "response": {
+          "taskId": "0194dada-222a-7fe6-b18f-e6123e261398",
+          "url": "/api/v1/task/0194dada-222a-7fe6-b18f-e6123e261398"
+        },
+        "version": "1.0"
+      },
+    "get_tasks_by_id7":
+    {
+        "response": {
+          "endTime": 1738838516338,
+          "status": "SUCCESS",
+          "startTime": 1738838516266,
+          "resultLocation": "/dna/intent/api/v1/tasks/0194dada-222a-7fe6-b18f-e6123e261398/detail",
+          "id": "0194dada-222a-7fe6-b18f-e6123e261398"
+        },
+        "version": "1.0"
+      },
+    "unassigns_a_network_profile_for_sites4":
+    {
+        "response": {
+          "taskId": "0194dada-2570-76bd-842a-d37f2641223a",
+          "url": "/api/v1/task/0194dada-2570-76bd-842a-d37f2641223a"
+        },
+        "version": "1.0"
+      },
+    "get_tasks_by_id8":
+    {
+        "response": {
+          "endTime": 1738838517184,
+          "status": "SUCCESS",
+          "startTime": 1738838517104,
+          "resultLocation": "/dna/intent/api/v1/tasks/0194dada-2570-76bd-842a-d37f2641223a/detail",
+          "id": "0194dada-2570-76bd-842a-d37f2641223a"
+        },
+        "version": "1.0"
+      },
+    "assign_a_network_profile_for_sites3":
+    {
+        "response": {
+          "taskId": "0194dada-28ae-7559-b551-a92093133bc8",
+          "url": "/api/v1/task/0194dada-28ae-7559-b551-a92093133bc8"
+        },
+        "version": "1.0"
+      },
+    "get_tasks_by_id9":
+    {
+        "response": {
+          "endTime": 1738838517953,
+          "status": "SUCCESS",
+          "startTime": 1738838517934,
+          "resultLocation": "/dna/intent/api/v1/tasks/0194dada-28ae-7559-b551-a92093133bc8/detail",
+          "id": "0194dada-28ae-7559-b551-a92093133bc8"
+        },
+        "version": "1.0"
+      },
+    "assign_a_network_profile_for_sites4":
+    {
+        "response": {
+          "taskId": "0194dada-2bfe-7d37-93e9-f76a20cca6f3",
+          "url": "/api/v1/task/0194dada-2bfe-7d37-93e9-f76a20cca6f3"
+        },
+        "version": "1.0"
+      },
+    "get_tasks_by_id10":
+    {
+        "response": {
+          "endTime": 1738838518796,
+          "status": "SUCCESS",
+          "startTime": 1738838518782,
+          "resultLocation": "/dna/intent/api/v1/tasks/0194dada-2bfe-7d37-93e9-f76a20cca6f3/detail",
+          "id": "0194dada-2bfe-7d37-93e9-f76a20cca6f3"
+        },
+        "version": "1.0"
+      },
+      "playbook_config_invalid":
+      {
+        "switch_profile": [
+          {
+            "profile_name": "sd_sw_1",
+            "onboarding_template": ["Ansible_PNP_Switch"],
+            "day_n_template": ["Template Provisioning To Device"],
+            "site_name": [
+              "",
+              "Global/tamilnadu/BLD1/FLOOR1",
+              "Global/Invalid/Location/BLDG99/FLOORX"
+            ]
+          }
+        ],
+        "register": "output_list"
+      }
+  }
+  

@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: wireless_psk_override
 short_description: Resource module for Wireless Psk Override
 description:
-- This module represents an alias of the module wireless_psk_override_v1
+  - This module represents an alias of the module wireless_psk_override_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -34,22 +31,17 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless PSKOverrideV1
-  description: Complete reference of the PSKOverrideV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!p-sk-override
+  - name: Cisco DNA Center documentation for Wireless PSKOverrideV1
+    description: Complete reference of the PSKOverrideV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!p-sk-override
 notes:
-  - SDK Method used are
-    wireless.Wireless.psk_override,
-
-  - Paths used are
-    post /dna/intent/api/v1/wireless/psk-override,
+  - SDK Method used are wireless.Wireless.psk_override,
+  - Paths used are post /dna/intent/api/v1/wireless/psk-override,
   - It should be noted that this module is an alias of wireless_psk_override_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.wireless_psk_override:
@@ -61,11 +53,10 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - passPhrase: string
-      site: string
-      ssid: string
-      wlanProfileName: string
-
+      - passPhrase: string
+        site: string
+        ssid: string
+        wlanProfileName: string
 """
 RETURN = r"""
 dnac_response:

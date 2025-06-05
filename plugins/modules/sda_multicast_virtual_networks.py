@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: sda_multicast_virtual_networks
 short_description: Resource module for Sda Multicast Virtual Networks
 description:
-- This module represents an alias of the module sda_multicast_virtual_networks_v1
+  - This module represents an alias of the module sda_multicast_virtual_networks_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -47,12 +44,12 @@ options:
               request and SDA allocated address should be retained in subsequent requests.
             type: str
           ipv4AsmRanges:
-            description: IPv4 Any Source Multicast ranges. Comma seperated list of IPv4
-              multicast group ranges that will be served by a given Multicast RP. Only
-              IPv4 ranges can be provided. For fabric RP, both IPv4 and IPv6 ranges
-              can be provided together. For external RP, IPv4 ranges should be provided
-              for IPv4 external RP and IPv6 ranges should be provided for IPv6 external
-              RP.
+            description: IPv4 Any Source Multicast ranges. Comma seperated list of
+              IPv4 multicast group ranges that will be served by a given Multicast
+              RP. Only IPv4 ranges can be provided. For fabric RP, both IPv4 and IPv6
+              ranges can be provided together. For external RP, IPv4 ranges should
+              be provided for IPv4 external RP and IPv6 ranges should be provided
+              for IPv6 external RP.
             elements: str
             type: list
           ipv6Address:
@@ -64,12 +61,12 @@ options:
               (IPv4 + IPv6) multicast pool.
             type: str
           ipv6AsmRanges:
-            description: IPv6 Any Source Multicast ranges. Comma seperated list of IPv6
-              multicast group ranges that will be served by a given Multicast RP. Only
-              IPv6 ranges can be provided. IPv6 ranges can only be provided for dual
-              stack multicast pool. For fabric RP, both IPv4 and IPv6 ranges can be
-              provided together. For external RP, IPv4 ranges should be provided for
-              IPv4 external RP and IPv6 ranges should be provided for IPv6 external
+            description: IPv6 Any Source Multicast ranges. Comma seperated list of
+              IPv6 multicast group ranges that will be served by a given Multicast
+              RP. Only IPv6 ranges can be provided. IPv6 ranges can only be provided
+              for dual stack multicast pool. For fabric RP, both IPv4 and IPv6 ranges
+              can be provided together. For external RP, IPv4 ranges should be provided
+              for IPv4 external RP and IPv6 ranges should be provided for IPv6 external
               RP.
             elements: str
             type: list
@@ -80,12 +77,12 @@ options:
             description: Specifies whether it is a default IPv6 RP.
             type: bool
           networkDeviceIds:
-            description: IDs of the network devices. This is a required field for fabric
-              RPs. There can be maximum of two fabric RPs for a fabric site and these
-              are shared across all multicast virtual networks. For configuring two
-              fabric RPs in a fabric site both devices must have border roles. Only
-              one RP can be configured in scenarios where a fabric edge device is used
-              as RP or a dual stack multicast pool is used.
+            description: IDs of the network devices. This is a required field for
+              fabric RPs. There can be maximum of two fabric RPs for a fabric site
+              and these are shared across all multicast virtual networks. For configuring
+              two fabric RPs in a fabric site both devices must have border roles.
+              Only one RP can be configured in scenarios where a fabric edge device
+              is used as RP or a dual stack multicast pool is used.
             elements: str
             type: list
           rpDeviceLocation:
@@ -97,32 +94,26 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddMulticastVirtualNetworksV1
-  description: Complete reference of the AddMulticastVirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-multicast-virtual-networks
-- name: Cisco DNA Center documentation for SDA DeleteMulticastVirtualNetworkByIdV1
-  description: Complete reference of the DeleteMulticastVirtualNetworkByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-multicast-virtual-network-by-id
-- name: Cisco DNA Center documentation for SDA UpdateMulticastVirtualNetworksV1
-  description: Complete reference of the UpdateMulticastVirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-multicast-virtual-networks
+  - name: Cisco DNA Center documentation for SDA AddMulticastVirtualNetworksV1
+    description: Complete reference of the AddMulticastVirtualNetworksV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-multicast-virtual-networks
+  - name: Cisco DNA Center documentation for SDA DeleteMulticastVirtualNetworkByIdV1
+    description: Complete reference of the DeleteMulticastVirtualNetworkByIdV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-multicast-virtual-network-by-id
+  - name: Cisco DNA Center documentation for SDA UpdateMulticastVirtualNetworksV1
+    description: Complete reference of the UpdateMulticastVirtualNetworksV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-multicast-virtual-networks
 notes:
-  - SDK Method used are
-    sda.Sda.add_multicast_virtual_networks_v1,
-    sda.Sda.delete_multicast_virtual_network_by_id_v1,
+  - SDK Method used are sda.Sda.add_multicast_virtual_networks_v1, sda.Sda.delete_multicast_virtual_network_by_id_v1,
     sda.Sda.update_multicast_virtual_networks_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sda/multicast/virtualNetworks,
-    delete /dna/intent/api/v1/sda/multicast/virtualNetworks/{id},
+  - Paths used are post /dna/intent/api/v1/sda/multicast/virtualNetworks, delete /dna/intent/api/v1/sda/multicast/virtualNetworks/{id},
     put /dna/intent/api/v1/sda/multicast/virtualNetworks,
   - It should be noted that this module is an alias of sda_multicast_virtual_networks_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.sda_multicast_virtual_networks:
@@ -135,24 +126,23 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - fabricId: string
-      ipPoolName: string
-      ipv4SsmRanges:
-      - string
-      multicastRPs:
-      - ipv4Address: string
-        ipv4AsmRanges:
-        - string
-        ipv6Address: string
-        ipv6AsmRanges:
-        - string
-        isDefaultV4RP: true
-        isDefaultV6RP: true
-        networkDeviceIds:
-        - string
-        rpDeviceLocation: string
-      virtualNetworkName: string
-
+      - fabricId: string
+        ipPoolName: string
+        ipv4SsmRanges:
+          - string
+        multicastRPs:
+          - ipv4Address: string
+            ipv4AsmRanges:
+              - string
+            ipv6Address: string
+            ipv6AsmRanges:
+              - string
+            isDefaultV4RP: true
+            isDefaultV6RP: true
+            networkDeviceIds:
+              - string
+            rpDeviceLocation: string
+        virtualNetworkName: string
 - name: Update all
   cisco.dnac.sda_multicast_virtual_networks:
     dnac_host: "{{dnac_host}}"
@@ -164,25 +154,24 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - fabricId: string
-      id: string
-      ipPoolName: string
-      ipv4SsmRanges:
-      - string
-      multicastRPs:
-      - ipv4Address: string
-        ipv4AsmRanges:
-        - string
-        ipv6Address: string
-        ipv6AsmRanges:
-        - string
-        isDefaultV4RP: true
-        isDefaultV6RP: true
-        networkDeviceIds:
-        - string
-        rpDeviceLocation: string
-      virtualNetworkName: string
-
+      - fabricId: string
+        id: string
+        ipPoolName: string
+        ipv4SsmRanges:
+          - string
+        multicastRPs:
+          - ipv4Address: string
+            ipv4AsmRanges:
+              - string
+            ipv6Address: string
+            ipv6AsmRanges:
+              - string
+            isDefaultV4RP: true
+            isDefaultV6RP: true
+            networkDeviceIds:
+              - string
+            rpDeviceLocation: string
+        virtualNetworkName: string
 - name: Delete by id
   cisco.dnac.sda_multicast_virtual_networks:
     dnac_host: "{{dnac_host}}"
@@ -194,7 +183,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

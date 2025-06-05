@@ -1,0 +1,48 @@
+---
+- debug: msg="Starting assurance icap management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+    - name: Load vars and declare dnac vars
+      include_vars:
+        file: "{{ role_path }}/vars/vars_assurance_icap_management.yml"
+        name: vars_map
+      vars:
+        dnac_login: &dnac_login
+          dnac_host: "{{ dnac_host }}"
+          dnac_username: "{{ dnac_username }}"
+          dnac_password: "{{ dnac_password }}"
+          dnac_verify: "{{ dnac_verify }}"
+          dnac_port: "{{ dnac_port }}"
+          dnac_version: "{{ dnac_version }}"
+          dnac_debug: "{{ dnac_debug }}"
+          dnac_log: true
+          dnac_log_level: DEBUG
+          dnac_log_append: false
+          config_verify: true
+
+    # ############################################
+    #               Assurance ICAP               #
+    # ############################################
+
+    - name: Create assurance ICAP
+      cisco.dnac.assurance_icap_settings_workflow_manager:
+        <<: *dnac_login
+        state: merged
+        config:
+          - "{{ item }}"
+      loop: "{{ vars_map.icap_config }}"
+      register: result_assurance_icap
+
+    - name: Debug item
+      debug:
+        var: item.msg
+      loop: "{{ result_assurance_icap.results }}"
+
+    - name: Assert assurance icap
+      assert:
+        that:
+          - item.changed == true
+          - "'created successfully' in item.msg"
+      loop: "{{ result_assurance_icap.results }}"
+      when: result_assurance_icap is defined

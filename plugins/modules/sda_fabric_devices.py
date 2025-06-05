@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices
 short_description: Resource module for Sda Fabric Devices
 description:
-- This module represents an alias of the module sda_fabric_devices_v1
+  - This module represents an alias of the module sda_fabric_devices_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,7 +24,8 @@ options:
     description: Id path parameter. ID of the fabric device.
     type: str
   networkDeviceId:
-    description: NetworkDeviceId query parameter. Network device ID of the fabric device.
+    description: NetworkDeviceId query parameter. Network device ID of the fabric
+      device.
     type: str
   payload:
     description: Sda Fabric Devices's payload.
@@ -45,20 +43,20 @@ options:
             description: Sda Fabric Devices's layer3Settings.
             suboptions:
               borderPriority:
-                description: Border priority of the fabric border device. Allowed range
-                  is 1-9. A lower value indicates higher priority. E.g., a priority
+                description: Border priority of the fabric border device. Allowed
+                  range is 1-9. A lower value indicates higher priority. E.g., a priority
                   of 1 takes precedence over 5. Default priority would be set to 10.
                 type: int
               importExternalRoutes:
-                description: Set this to import external routes from other routing protocols
-                  (such as BGP) to the fabric control plane. (updating this field is
-                  not allowed).
+                description: Set this to import external routes from other routing
+                  protocols (such as BGP) to the fabric control plane. (updating this
+                  field is not allowed).
                 type: bool
               isDefaultExit:
-                description: Set this to make the fabric border device the gateway of
-                  last resort for this site. Any unknown traffic will be sent to this
-                  fabric border device from edge nodes. (updating this field is not
-                  allowed).
+                description: Set this to make the fabric border device the gateway
+                  of last resort for this site. Any unknown traffic will be sent to
+                  this fabric border device from edge nodes. (updating this field
+                  is not allowed).
                 type: bool
               localAutonomousSystemNumber:
                 description: BGP Local autonomous system number of the fabric border
@@ -66,8 +64,8 @@ options:
                   not allowed).
                 type: str
               prependAutonomousSystemCount:
-                description: Prepend autonomous system count of the fabric border device.
-                  Allowed range is 1 to 10.
+                description: Prepend autonomous system count of the fabric border
+                  device. Allowed range is 1 to 10.
                 type: int
             type: dict
         type: dict
@@ -78,48 +76,40 @@ options:
         elements: str
         type: list
       fabricId:
-        description: ID of the fabric of this fabric device. (updating this field is
-          not allowed).
+        description: ID of the fabric of this fabric device. (updating this field
+          is not allowed).
         type: str
       id:
         description: ID of the fabric device. (updating this field is not allowed).
         type: str
       networkDeviceId:
-        description: Network device ID of the fabric device. (updating this field is
-          not allowed).
+        description: Network device ID of the fabric device. (updating this field
+          is not allowed).
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddFabricDevicesV1
-  description: Complete reference of the AddFabricDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices
-- name: Cisco DNA Center documentation for SDA DeleteFabricDeviceByIdV1
-  description: Complete reference of the DeleteFabricDeviceByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-by-id
-- name: Cisco DNA Center documentation for SDA DeleteFabricDevicesV1
-  description: Complete reference of the DeleteFabricDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-devices
-- name: Cisco DNA Center documentation for SDA UpdateFabricDevicesV1
-  description: Complete reference of the UpdateFabricDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices
+  - name: Cisco DNA Center documentation for SDA AddFabricDevicesV1
+    description: Complete reference of the AddFabricDevicesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices
+  - name: Cisco DNA Center documentation for SDA DeleteFabricDeviceByIdV1
+    description: Complete reference of the DeleteFabricDeviceByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-by-id
+  - name: Cisco DNA Center documentation for SDA DeleteFabricDevicesV1
+    description: Complete reference of the DeleteFabricDevicesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-devices
+  - name: Cisco DNA Center documentation for SDA UpdateFabricDevicesV1
+    description: Complete reference of the UpdateFabricDevicesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices
 notes:
-  - SDK Method used are
-    sda.Sda.add_fabric_devices_v1,
-    sda.Sda.delete_fabric_device_by_id_v1,
+  - SDK Method used are sda.Sda.add_fabric_devices_v1, sda.Sda.delete_fabric_device_by_id_v1,
     sda.Sda.update_fabric_devices_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sda/fabricDevices,
-    delete /dna/intent/api/v1/sda/fabricDevices,
-    delete /dna/intent/api/v1/sda/fabricDevices/{id},
-    put /dna/intent/api/v1/sda/fabricDevices,
+  - Paths used are post /dna/intent/api/v1/sda/fabricDevices, delete /dna/intent/api/v1/sda/fabricDevices,
+    delete /dna/intent/api/v1/sda/fabricDevices/{id}, put /dna/intent/api/v1/sda/fabricDevices,
   - It should be noted that this module is an alias of sda_fabric_devices_v1
-
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.dnac.sda_fabric_devices:
@@ -132,21 +122,20 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - borderDeviceSettings:
-        borderTypes:
-        - string
-        layer3Settings:
-          borderPriority: 0
-          importExternalRoutes: true
-          isDefaultExit: true
-          localAutonomousSystemNumber: string
-          prependAutonomousSystemCount: 0
-      deviceRoles:
-      - string
-      fabricId: string
-      id: string
-      networkDeviceId: string
-
+      - borderDeviceSettings:
+          borderTypes:
+            - string
+          layer3Settings:
+            borderPriority: 0
+            importExternalRoutes: true
+            isDefaultExit: true
+            localAutonomousSystemNumber: string
+            prependAutonomousSystemCount: 0
+        deviceRoles:
+          - string
+        fabricId: string
+        id: string
+        networkDeviceId: string
 - name: Delete all
   cisco.dnac.sda_fabric_devices:
     dnac_host: "{{dnac_host}}"
@@ -160,7 +149,6 @@ EXAMPLES = r"""
     deviceRoles: string
     fabricId: string
     networkDeviceId: string
-
 - name: Create
   cisco.dnac.sda_fabric_devices:
     dnac_host: "{{dnac_host}}"
@@ -172,20 +160,19 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - borderDeviceSettings:
-        borderTypes:
-        - string
-        layer3Settings:
-          borderPriority: 0
-          importExternalRoutes: true
-          isDefaultExit: true
-          localAutonomousSystemNumber: string
-          prependAutonomousSystemCount: 0
-      deviceRoles:
-      - string
-      fabricId: string
-      networkDeviceId: string
-
+      - borderDeviceSettings:
+          borderTypes:
+            - string
+          layer3Settings:
+            borderPriority: 0
+            importExternalRoutes: true
+            isDefaultExit: true
+            localAutonomousSystemNumber: string
+            prependAutonomousSystemCount: 0
+        deviceRoles:
+          - string
+        fabricId: string
+        networkDeviceId: string
 - name: Delete by id
   cisco.dnac.sda_fabric_devices:
     dnac_host: "{{dnac_host}}"
@@ -197,7 +184,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

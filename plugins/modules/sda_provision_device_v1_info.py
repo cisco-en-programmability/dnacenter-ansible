@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: sda_provision_device_v1_info
 short_description: Information module for Sda Provision Device V1
 description:
-- Get all Sda Provision Device V1.
-- Get Provisioned Wired Device.
+  - Get all Sda Provision Device V1.
+  - Get Provisioned Wired Device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,24 +19,19 @@ options:
     type: dict
   deviceManagementIpAddress:
     description:
-    - DeviceManagementIpAddress query parameter.
+      - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetProvisionedWiredDeviceV1
-  description: Complete reference of the GetProvisionedWiredDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-wired-device
+  - name: Cisco DNA Center documentation for SDA GetProvisionedWiredDeviceV1
+    description: Complete reference of the GetProvisionedWiredDeviceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-wired-device
 notes:
-  - SDK Method used are
-    sda.Sda.get_provisioned_wired_device_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/business/sda/provision-device,
-
+  - SDK Method used are sda.Sda.get_provisioned_wired_device_v1,
+  - Paths used are get /dna/intent/api/v1/business/sda/provision-device,
 """
-
 EXAMPLES = r"""
 - name: Get all Sda Provision Device V1
   cisco.dnac.sda_provision_device_v1_info:
@@ -52,7 +45,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

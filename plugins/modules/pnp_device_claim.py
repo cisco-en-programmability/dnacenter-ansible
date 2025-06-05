@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: pnp_device_claim
 short_description: Resource module for Pnp Device Claim
 description:
-- This module represents an alias of the module pnp_device_claim_v1
+  - This module represents an alias of the module pnp_device_claim_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -80,22 +77,17 @@ options:
     description: Pnp Device Claim's workflowId.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDeviceV1
-  description: Complete reference of the ClaimDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!claim-device
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDeviceV1
+    description: Complete reference of the ClaimDeviceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!claim-device
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.claim_device_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-device/claim,
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.claim_device_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/claim,
   - It should be noted that this module is an alias of pnp_device_claim_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.pnp_device_claim:
@@ -110,22 +102,21 @@ EXAMPLES = r"""
     configFileUrl: string
     configId: string
     deviceClaimList:
-    - configList:
-      - configId: string
-        configParameters:
-        - key: string
-          value: string
-      deviceId: string
-      licenseLevel: string
-      licenseType: string
-      topOfStackSerialNumber: string
+      - configList:
+          - configId: string
+            configParameters:
+              - key: string
+                value: string
+        deviceId: string
+        licenseLevel: string
+        licenseType: string
+        topOfStackSerialNumber: string
     fileServiceId: string
     imageId: string
     imageUrl: string
     populateInventory: true
     projectId: string
     workflowId: string
-
 """
 RETURN = r"""
 dnac_response:

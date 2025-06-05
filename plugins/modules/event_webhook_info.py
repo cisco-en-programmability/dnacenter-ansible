@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: event_webhook_info
 short_description: Information module for Event Webhook Info
 description:
-- This module represents an alias of the module event_webhook_v1_info
+  - This module represents an alias of the module event_webhook_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,41 +18,38 @@ options:
     type: dict
   webhookIds:
     description:
-    - WebhookIds query parameter. List of webhook configurations.
+      - WebhookIds query parameter. List of webhook configurations.
     type: str
   offset:
     description:
-    - Offset query parameter. The number of webhook configuration's to offset in the resultset whose default value 0.
+      - Offset query parameter. The number of webhook configuration's to offset in
+        the resultset whose default value 0.
     type: float
   limit:
     description:
-    - Limit query parameter. The number of webhook configuration's to limit in the resultset whose default value 10.
+      - Limit query parameter. The number of webhook configuration's to limit in the
+        resultset whose default value 10.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. SortBy field name.
+      - SortBy query parameter. SortBy field name.
     type: str
   order:
     description:
-    - Order query parameter.
+      - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetWebhookDestinationV1
-  description: Complete reference of the GetWebhookDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-webhook-destination
+  - name: Cisco DNA Center documentation for Event Management GetWebhookDestinationV1
+    description: Complete reference of the GetWebhookDestinationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-webhook-destination
 notes:
-  - SDK Method used are
-    event_management.EventManagement.get_webhook_destination_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/event/webhook,
+  - SDK Method used are event_management.EventManagement.get_webhook_destination_v1,
+  - Paths used are get /dna/intent/api/v1/event/webhook,
   - It should be noted that this module is an alias of event_webhook_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Event Webhook Info
   cisco.dnac.event_webhook_info:
@@ -73,7 +67,6 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

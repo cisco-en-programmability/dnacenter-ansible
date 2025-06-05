@@ -1,0 +1,168 @@
+---
+- debug: msg="Starting network settings management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_assurance_issue_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Clean up before test
+    cisco.dnac.assurance_issue_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_issue }}"
+
+#############################################
+#        CREATE USER DEFINED ISSUES         #
+#############################################
+
+  - name: Create user defined issue
+    cisco.dnac.assurance_issue_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_user_issue }}"
+    register: result_create_issue
+
+  - name: Debug item
+    debug:
+      var: item.response
+    loop: "{{ result_create_issue.results }}"
+    when: result_create_issue is defined
+
+  - name: Assert issue creation success for each issue
+    assert:
+      that:
+        - item.changed == true
+        - "'Created Successfully' in item.response[0].assurance_user_defined_issue_settings.msg.ippo"
+    loop: "{{ result_create_issue.results }}"
+    when: result_create_issue is defined
+
+###############################################
+#        UPDATE USER DEFINED ISSUES           #
+###############################################
+
+  - name: Update user defined issue
+    cisco.dnac.assurance_issue_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_user_issue }}"
+    register: result_update_user_issue
+
+  - name: Debug item
+    debug:
+      var: item
+    loop: "{{ result_update_user_issue.results }}"
+    when: result_update_user_issue is defined
+
+  - name: Assert user defined issue updation success
+    assert:
+      that:
+        - item.changed == true
+        - "'updated Successfully' in item.response[0].assurance_user_defined_issue_settings.msg.ippo"
+    loop: "{{ result_update_user_issue.results }}"
+    when: result_update_user_issue is defined
+
+####################################################
+#            UPDATE SYSTEM DEFINED ISSUES          #
+####################################################
+  - name: update system issue
+    cisco.dnac.assurance_issue_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_system_issue }}"
+    register: result_update_system_issues
+
+  - name: Debug item
+    debug:
+      var: item
+    loop: "{{ result_update_system_issues.results }}"
+    when: result_update_system_issues is defined
+
+  - name: Assert update system issue success
+    assert:
+      that:
+        - item.changed == true
+        - "'System issue Updated Successfully' in item.response[1].assurance_system_issue_settings.msg['Router unreachable']"
+    loop: "{{ result_update_system_issues.results }}"
+    when: result_update_system_issues is defined
+
+
+####################################################
+#            UPDATE SYSTEM DEFINED ISSUES          #
+####################################################
+  - name: update system issue
+    cisco.dnac.assurance_issue_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_system_issue_again }}"
+    register: result_update_system_issues
+
+  - name: Debug item
+    debug:
+      var: item
+    loop: "{{ result_update_system_issues.results }}"
+    when: result_update_system_issues is defined
+
+  - name: Assert update system issue success
+    assert:
+      that:
+        - item.changed == true
+        - "'System issue Updated Successfully' in item.response[1].assurance_system_issue_settings.msg['Router unreachable']"
+    loop: "{{ result_update_system_issues.results }}"
+    when: result_update_system_issues is defined
+
+
+#############################################
+#                DELETE ISSUE               #
+#############################################
+
+  - name: Delete issue 
+    cisco.dnac.assurance_issue_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_issue }}"
+    register: result_delete_issue
+
+  - name: Debug item
+    debug:
+      var: item
+    loop: "{{ result_delete_issue.results }}"
+    when: result_delete_issue is defined
+
+  - name: Assert deletion success for each issue
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response[0].assurance_user_defined_issue_settings.msg.ippo"
+    loop: "{{ result_delete_issue.results }}"
+    when: result_delete_issue is defined

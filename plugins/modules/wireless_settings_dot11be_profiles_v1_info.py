@@ -1,18 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_dot11be_profiles_v1_info
 short_description: Information module for Wireless Settings Dot11be Profiles V1
 description:
-- Get all Wireless Settings Dot11be Profiles V1.
-- Get Wireless Settings Dot11be Profiles V1 by id.
-- This API allows the user to get 802.11be Profile by ID.
-- This API allows the user to get 802.11be Profiles configured under Wireless Settings.
+  - Get all Wireless Settings Dot11be Profiles V1.
+  - Get Wireless Settings Dot11be Profiles V1 by id.
+  - This API allows the user to get 802.11be Profile by ID.
+  - This API allows the user to get 802.11be Profiles configured under Wireless Settings.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,63 +21,58 @@ options:
     type: dict
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
-      allowed limit is 500.
+      - >
+        Limit query parameter. The number of records to show for this page. Default
+        is 500 if not specified. Maximum
+        allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter. The first record to show for this page, the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page, the first
+        record is numbered 1.
     type: float
   profileName:
     description:
-    - ProfileName query parameter. Profile Name.
+      - ProfileName query parameter. Profile Name.
     type: str
   isOfDmaDownLink:
     description:
-    - IsOfDmaDownLink query parameter. OFDMA Downlink.
+      - IsOfDmaDownLink query parameter. OFDMA Downlink.
     type: bool
   isOfDmaUpLink:
     description:
-    - IsOfDmaUpLink query parameter. OFDMA Uplink.
+      - IsOfDmaUpLink query parameter. OFDMA Uplink.
     type: bool
   isMuMimoUpLink:
     description:
-    - IsMuMimoUpLink query parameter. MU-MIMO Uplink.
+      - IsMuMimoUpLink query parameter. MU-MIMO Uplink.
     type: bool
   isMuMimoDownLink:
     description:
-    - IsMuMimoDownLink query parameter. MU-MIMO Downlink.
+      - IsMuMimoDownLink query parameter. MU-MIMO Downlink.
     type: bool
   isOfDmaMultiRu:
     description:
-    - IsOfDmaMultiRu query parameter. OFDMA Multi-RU.
+      - IsOfDmaMultiRu query parameter. OFDMA Multi-RU.
     type: bool
   id:
     description:
-    - Id path parameter. 802.11be Profile ID.
+      - Id path parameter. 802.11be Profile ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless Get80211beProfileByIDV1
-  description: Complete reference of the Get80211beProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id
-- name: Cisco DNA Center documentation for Wireless Get80211beProfilesV1
-  description: Complete reference of the Get80211beProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles
+  - name: Cisco DNA Center documentation for Wireless Get80211beProfileByIDV1
+    description: Complete reference of the Get80211beProfileByIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id
+  - name: Cisco DNA Center documentation for Wireless Get80211beProfilesV1
+    description: Complete reference of the Get80211beProfilesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles
 notes:
-  - SDK Method used are
-    wireless.Wireless.get80211be_profile_by_id_v1,
-    wireless.Wireless.get80211be_profiles_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessSettings/dot11beProfiles,
-    get /dna/intent/api/v1/wirelessSettings/dot11beProfiles/{id},
-
+  - SDK Method used are wireless.Wireless.get80211be_profile_by_id_v1, wireless.Wireless.get80211be_profiles_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessSettings/dot11beProfiles, get /dna/intent/api/v1/wirelessSettings/dot11beProfiles/{id},
 """
-
 EXAMPLES = r"""
 - name: Get all Wireless Settings Dot11be Profiles V1
   cisco.dnac.wireless_settings_dot11be_profiles_v1_info:
@@ -94,13 +87,12 @@ EXAMPLES = r"""
     limit: 0
     offset: 0
     profileName: string
-    isOfDmaDownLink: True
-    isOfDmaUpLink: True
-    isMuMimoUpLink: True
-    isMuMimoDownLink: True
-    isOfDmaMultiRu: True
+    isOfDmaDownLink: true
+    isOfDmaUpLink: true
+    isMuMimoUpLink: true
+    isMuMimoDownLink: true
+    isOfDmaMultiRu: true
   register: result
-
 - name: Get Wireless Settings Dot11be Profiles V1 by id
   cisco.dnac.wireless_settings_dot11be_profiles_v1_info:
     dnac_host: "{{dnac_host}}"
@@ -113,7 +105,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

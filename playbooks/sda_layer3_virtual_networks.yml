@@ -1,5 +1,6 @@
 ---
-- hosts: dnac_servers
+- name: Sda layer3 virtual networks
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -35,5 +36,5 @@
       register: result
 
     - name: Show result
-      debug:
+      ansible.builtin.debug:
         var: result

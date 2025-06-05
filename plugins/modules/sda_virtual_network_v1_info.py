@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: sda_virtual_network_v1_info
 short_description: Information module for Sda Virtual Network V1
 description:
-- Get all Sda Virtual Network V1.
-- Get virtual network VN from SDA Fabric.
+  - Get all Sda Virtual Network V1.
+  - Get virtual network VN from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,28 +19,23 @@ options:
     type: dict
   virtualNetworkName:
     description:
-    - VirtualNetworkName query parameter.
+      - VirtualNetworkName query parameter.
     type: str
   siteNameHierarchy:
     description:
-    - SiteNameHierarchy query parameter.
+      - SiteNameHierarchy query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetVNFromSDAFabricV1
-  description: Complete reference of the GetVNFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-vn-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA GetVNFromSDAFabricV1
+    description: Complete reference of the GetVNFromSDAFabricV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-vn-from-sda-fabric
 notes:
-  - SDK Method used are
-    sda.Sda.get_vn,
-
-  - Paths used are
-    get /dna/intent/api/v1/business/sda/virtual-network,
-
+  - SDK Method used are sda.Sda.get_vn,
+  - Paths used are get /dna/intent/api/v1/business/sda/virtual-network,
 """
-
 EXAMPLES = r"""
 - name: Get all Sda Virtual Network V1
   cisco.dnac.sda_virtual_network_v1_info:
@@ -57,7 +50,6 @@ EXAMPLES = r"""
     virtualNetworkName: string
     siteNameHierarchy: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:
