@@ -938,7 +938,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             "Application Policy(ies) 'policy_1' do not exist or are already deleted in Cisco Catalyst Center."
         )
 
-
     def test_application_policy_workflow_manager_playbook_profile_alreadydeleted(self):
         """
         Test the Application Policy Workflow Manager's update process from server name to URL.
