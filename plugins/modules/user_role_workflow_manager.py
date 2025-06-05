@@ -1459,7 +1459,7 @@ class UserandRole(DnacBase):
 
                 if self.want.get("password_update"):
                     if update_required_param.get("role_list"):
-                        if self.want["username"] not in self.have["current_user_config"]["username"]:
+                        if self.want["username"].lower() not in self.have["current_user_config"]["username"]:
                             task_response = {"error_message": "Username for an existing user cannot be updated."}
                         else:
                             self.get_diff_deleted(self.want)
@@ -1483,7 +1483,7 @@ class UserandRole(DnacBase):
                         return self
 
                     if update_required_param.get("role_list"):
-                        if self.want["username"] not in self.have["current_user_config"]["username"]:
+                        if self.want["username"].lower() not in self.have["current_user_config"]["username"]:
                             task_response = {"error_message": "Username for an existing user cannot be updated."}
                         else:
                             user_in_have = self.have["current_user_config"]
@@ -1601,9 +1601,10 @@ class UserandRole(DnacBase):
             roles = response_role.get("response", {}).get("roles", [])
 
             for user in users:
-                if user.get("username") == input_config.get("username"):
-                    current_user_configuration = user
-                    user_exists = True
+                if input_config.get("username") is not None:
+                    if user.get("username") == input_config.get("username").lower():
+                        current_user_configuration = user
+                        user_exists = True
                 elif input_config.get("email") is not None:
                     if user.get("email") == input_config.get("email"):
                         current_user_configuration = user
@@ -1889,11 +1890,9 @@ class UserandRole(DnacBase):
                 operations = self.convert_permission_to_operations(permission)
                 self.log("Converted permission {0} to operations {1}".format(permission, operations), "DEBUG")
 
-                if resource_name == "overall":
-                    unique_types[entry_types["type"]] = entry_types
-                else:
+                if resource_name == "overall" or resource_name == "data_access":
                     new_entry = {
-                        "type": "Network Analytics.{0}".format(resource_name.replace("_", " ").title()),
+                        "type": "Network Analytics.Data Access",
                         "operations": operations
                     }
                     unique_types[new_entry["type"]] = new_entry
@@ -2298,6 +2297,12 @@ class UserandRole(DnacBase):
         if role_operation == "create":
             self.log("Role operation is 'create'. Adding default system entries.", "DEBUG")
             self.add_entries(entry_types, ["gRead"], unique_types)
+            new_entry = {
+                "type": "System.Basic",
+                "operations": ["gRead", "gUpdate", "gCreate", "gRemove"]
+            }
+            unique_types[new_entry["type"]] = new_entry
+            self.log("Added entry for resource basic: {0}".format(new_entry), "DEBUG")
         else:
             self.log("Role operation is not 'create'. Skipping default system entries.", "DEBUG")
 
