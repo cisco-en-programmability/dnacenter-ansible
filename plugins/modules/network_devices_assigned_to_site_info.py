@@ -37,7 +37,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Site Design GetSiteAssignedNetworkDevicesV1
     description: Complete reference of the GetSiteAssignedNetworkDevicesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-site-assigned-network-devices
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-site-assigned-network-devices
 notes:
   - SDK Method used are site_design.SiteDesign.get_site_assigned_network_devices_v1,
   - Paths used are get /dna/intent/api/v1/networkDevices/assignedToSite,

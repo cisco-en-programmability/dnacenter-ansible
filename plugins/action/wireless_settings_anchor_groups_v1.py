@@ -52,6 +52,8 @@ class WirelessSettingsAnchorGroupsV1(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
+        new_object_params['limit'] = self.new_object.get('limit')
+        new_object_params['offset'] = self.new_object.get('offset')
         return new_object_params
 
     def create_params(self):

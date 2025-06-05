@@ -37,7 +37,8 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Sites ImportMapArchiveImportStatusV1
     description: Complete reference of the ImportMapArchiveImportStatusV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-import-status
+    link:
+      https://developer.cisco.com/docs/dna-center/#!import-map-archive-import-status
 notes:
   - SDK Method used are sites.Sites.import_map_archive_import_status_v1,
   - Paths used are get /dna/intent/api/v1/maps/import/{importContextUuid}/status,
