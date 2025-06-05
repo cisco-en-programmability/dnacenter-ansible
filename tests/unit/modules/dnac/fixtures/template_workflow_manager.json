@@ -2012,20 +2012,15 @@
     "import_project_playbook_case_8": [{
         "projects": [{
             "name": "test-project-1",
-            "description": "test-rename descriptions",
-            "tags": [
-                {
-                    "name": "testing_proj"
-                }
-            ]
+            "description": "test-rename descriptions"
         }]
     }],
 
-    "get_projects_response_8_call_1": {
+    "get_projects_response_case_8_call_1": {
         "response": []
     },
 
-    "get_projects_response_8_call_2": {
+    "get_projects_response_case_8_call_2": {
         "response": {
           "taskId": "0196abfb-4c1c-7354-a21f-f7d626f17a30",
           "url": "/api/v1/task/0196abfb-4c1c-7354-a21f-f7d626f17a30"
@@ -2033,7 +2028,7 @@
         "version": "1.0"
     },
 
-    "get_projects_response_8_call_3": {
+    "get_projects_response_case_8_call_3": {
         "response": {
           "endTime": 1746642095138,
           "status": "SUCCESS",
@@ -2048,23 +2043,17 @@
         "projects": [{
             "name": "test-project-1",
             "new_name": "test-rename-2",
-            "description": "test-rename descriptions",
-            "tags": [
-                {
-                    "name": "testing_proj"
-                }
-            ]
+            "description": "test-rename descriptions"
         }]
     }],
 
-    "get_projects_response_update_9_call_1": {
+    "get_projects_response_update_case_9_call_1": {
         "response": [
           {
             "name": "test-project-1",
             "description": "test-rename descriptions",
             "id": "a702401e-949e-4e52-8088-9171cb193a20",
             "lastUpdateTime": 1746642095134,
-            "templates": [],
             "isDeletable": true
           }
         ],
@@ -2077,14 +2066,13 @@
         }]
     }],
 
-    "get_projects_response_delete_10_call_1": {
+    "get_projects_response_delete_case_10_call_1": {
         "response": [
           {
             "name": "test-rename-2",
             "description": "test-rename descriptions",
             "id": "a702401e-949e-4e52-8088-9171cb193a20",
             "lastUpdateTime": 1746642095134,
-            "templates": [],
             "isDeletable": true
           }
         ],
