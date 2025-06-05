@@ -1845,9 +1845,6 @@ class ApplicationPolicy(DnacBase):
             )
             self.set_operation_result("success", False, self.msg, "Info")
             return self
-        # if config.get("application"):
-        #     self.log("Processing application details...", "INFO")
-        #     self.get_diff_application().check_return_status()
 
         if config.get("application_policy"):
             self.log("Processing application policy details...", "INFO")
@@ -4649,9 +4646,6 @@ class ApplicationPolicy(DnacBase):
             )
             self.set_operation_result("success", False, self.msg, "Info")
             return self
-        # if config.get("application"):
-        #     self.log("Deleting application", "INFO")
-        #     self.delete_application().check_return_status()
 
         if config.get("application_policy"):
             self.log("Deleting application policy", "INFO")
