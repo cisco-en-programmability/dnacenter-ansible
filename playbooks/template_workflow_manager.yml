@@ -29,9 +29,6 @@
               - name: Wireless_Controller
                 new_name: Wireless_Template_Management
                 description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
-                tags:
-                  - name: wlc_templates
-                  - name: wireless
 
           - configuration_templates:
               project_name: "{{ item.proj_name }}"

@@ -71,17 +71,6 @@ options:
             description: A brief description of the project.
             type: str
             required: false
-          tags:
-            description: |
-              A list of tags to associate with the project. Tags help categorize and filter projects.
-            type: list
-            elements: dict
-            required: false
-            suboptions:
-              name:
-                description: The name of the tag to attach to the project.
-                type: str
-                required: true
 
       configuration_templates:
         description: Operations for Create/Update/Delete on a template.
@@ -1334,10 +1323,6 @@ EXAMPLES = r"""
       - projects:
           - name: Wireless_Controller
             description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
-            tags:
-              - name: wlc_templates
-              - name: wireless
-              - name: configuration
 
 - name: Update project name and details.
   cisco.dnac.template_workflow_manager:
@@ -1357,10 +1342,6 @@ EXAMPLES = r"""
           - name: Wireless_Controller
             new_name: Wireless_Template_Management
             description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
-            tags:
-              - name: wlc_templates
-              - name: wireless
-              - name: configuration
 
 - name: Delete project based on the name.
   cisco.dnac.template_workflow_manager:
@@ -1660,8 +1641,7 @@ class Template(DnacBase):
                 "options": {
                     "name": {"type": "str", "required": True},
                     "new_name": {"type": "str"},
-                    "description": {"type": "str"},
-                    "tags": {"type": "list", "elements": "dict"}
+                    "description": {"type": "str"}
                 }
             }
         }
@@ -1730,13 +1710,6 @@ class Template(DnacBase):
                 description = each_project.get("description")
                 if description and isinstance(description, str):
                     validate_str(description, param_spec_str, "description", errormsg)
-
-                tags = each_project.get("tags")
-                if tags and isinstance(tags, list):
-                    for each_tag in tags:
-                        if each_tag and isinstance(each_tag, dict):
-                            if each_tag.get("name"):
-                                validate_str(each_tag, param_spec_str, "templates", errormsg)
 
         if errormsg:
             msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
@@ -2690,10 +2663,6 @@ class Template(DnacBase):
 
         if input_config and current_proj:
             for key, value in input_config.items():
-                # Exclude "tags" from comparison
-                if key == "tags":
-                    continue
-
                 # Compare values of the current key
                 if current_proj.get(key) != value:
                     unmatched_keys.append(key)
@@ -2832,16 +2801,6 @@ class Template(DnacBase):
                 "createTime": int(time.time()),
                 "lastUpdateTime": int(time.time())
             }
-            tags = project_detail.get("tags", [])
-            if tags:
-                create_project_params["tags"] = []
-                for each_tag in tags:
-                    if each_tag.get("name"):
-                        create_project_params["tags"].append(each_tag)
-
-            templates = project_detail.get("templates", [])
-            if templates:
-                create_project_params["templates"] = templates
 
             self.log("Creating project with parameters: {0}".format(
                 self.pprint(create_project_params)), "INFO")
@@ -2911,7 +2870,6 @@ class Template(DnacBase):
                 "id": existing_project.get("id"),
                 "name": new_name,
                 "description": project_detail.get("description", existing_project.get("description")),
-                "tags": project_detail.get("tags", existing_project.get("tags", [])),
                 "createTime": existing_project.get("createTime"),
                 "lastUpdateTime": int(time.time()),
                 "templates": project_detail.get("templates", existing_project.get("templates", []))

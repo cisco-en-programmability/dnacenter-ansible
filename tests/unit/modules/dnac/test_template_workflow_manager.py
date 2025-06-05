@@ -154,22 +154,22 @@ class TestDnacTemplateWorkflow(TestDnacModule):
             ]
         elif "test_import_project_playbook_case_8" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_projects_response_8_call_1"),
-                self.test_data.get("get_projects_response_8_call_2"),
-                self.test_data.get("get_projects_response_8_call_3"),
+                self.test_data.get("get_projects_response_case_8_call_1"),
+                self.test_data.get("get_projects_response_case_8_call_2"),
+                self.test_data.get("get_projects_response_case_8_call_3"),
             ]
         elif "test_import_project_playbook_case_9" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_projects_response_update_9_call_1"),
-                self.test_data.get("get_projects_response_update_9_call_1"),
-                self.test_data.get("get_projects_response_8_call_2"),
-                self.test_data.get("get_projects_response_8_call_3"),
+                self.test_data.get("get_projects_response_update_case_9_call_1"),
+                self.test_data.get("get_projects_response_update_case_9_call_1"),
+                self.test_data.get("get_projects_response_case_8_call_2"),
+                self.test_data.get("get_projects_response_case_8_call_3"),
             ]
         elif "test_import_project_playbook_case_10" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_projects_response_delete_10_call_1"),
-                self.test_data.get("get_projects_response_8_call_2"),
-                self.test_data.get("get_projects_response_8_call_1")
+                self.test_data.get("get_projects_response_delete_case_10_call_1"),
+                self.test_data.get("get_projects_response_case_8_call_2"),
+                self.test_data.get("get_projects_response_case_8_call_1")
             ]
 
     def test_create_template_playbook_case_1(self):
