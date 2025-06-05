@@ -316,7 +316,7 @@ options:
                 - UNIFIED_AP
                 - WIRELESS_CLIENT
                 - WIRED_CLIENT
-                - CONTROLLER
+                - WIRELESS_CONTROLLER
                 - THIRD_PARTY_DEVICE
                 - APPLICATION
                 - SENSOR
@@ -1352,7 +1352,7 @@ class AssuranceSettings(DnacBase):
                     # for rule in issue_setting.get("rules", []):
                     for rule in each_issue.get("rules", []):  # Loop through rules list
                         for field in required_fields:
-                            if field not in rule:  # Check if the field is missing
+                            if field not in rule or rule[field] is None:  # Check if the field is missing
                                 self.msg = "Mandatory field '{}' is missing in rules. Please provide all required values.".format(field)
                                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
