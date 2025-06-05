@@ -1,19 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: pnp_virtual_account_add_v1
 short_description: Resource module for Pnp Virtual Account Add V1
 description:
-- Manage operation create of the resource Pnp Virtual Account Add V1.
-- >
-   Registers a Smart Account, Virtual Account and the relevant server profile info with the PnP System & database.
-   The devices present in the registered virtual account are synced with the PnP database as well. The response
-   payload returns the new profile.
+  - Manage operation create of the resource Pnp Virtual Account Add V1.
+  - >
+    Registers a Smart Account, Virtual Account and the relevant server profile info
+    with the PnP System & database.
+    The devices present in the registered virtual account are synced with the PnP
+    database as well. The response
+    payload returns the new profile.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -104,21 +104,16 @@ options:
     description: Pnp Virtual Account Add's virtualAccountId.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccountV1
-  description: Complete reference of the AddVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccountV1
+    description: Complete reference of the AddVirtualAccountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-settings/savacct,
-
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-settings/savacct,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.pnp_virtual_account_add_v1:
@@ -146,9 +141,9 @@ EXAMPLES = r"""
     smartAccountId: string
     syncResult:
       syncList:
-      - deviceSnList:
-        - string
-        syncType: string
+        - deviceSnList:
+            - string
+          syncType: string
       syncMsg: string
     syncResultStr: string
     syncStartTime: 0
@@ -156,7 +151,6 @@ EXAMPLES = r"""
     tenantId: string
     token: string
     virtualAccountId: string
-
 """
 RETURN = r"""
 dnac_response:

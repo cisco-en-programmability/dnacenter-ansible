@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: service_provider_profile_delete
 short_description: Resource module for Service Provider Profile Delete
 description:
-- This module represents an alias of the module service_provider_profile_delete_v1
+  - This module represents an alias of the module service_provider_profile_delete_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,22 +17,17 @@ options:
     description: SpProfileName path parameter. Sp profile name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings DeleteSPProfileV1
-  description: Complete reference of the DeleteSPProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile
+  - name: Cisco DNA Center documentation for Network Settings DeleteSPProfileV1
+    description: Complete reference of the DeleteSPProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.delete_sp_profile_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/sp-profile/{spProfileName},
+  - SDK Method used are network_settings.NetworkSettings.delete_sp_profile_v1,
+  - Paths used are delete /dna/intent/api/v1/sp-profile/{spProfileName},
   - It should be noted that this module is an alias of service_provider_profile_delete_v1
-
 """
-
 EXAMPLES = r"""
 - name: Delete by name
   cisco.dnac.service_provider_profile_delete:
@@ -47,7 +39,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     spProfileName: string
-
 """
 RETURN = r"""
 dnac_response:

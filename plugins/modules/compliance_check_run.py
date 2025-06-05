@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: compliance_check_run
 short_description: Resource module for Compliance Check Run
 description:
-- This module represents an alias of the module compliance_check_run_v1
+  - This module represents an alias of the module compliance_check_run_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,26 +25,21 @@ options:
     type: list
   triggerFull:
     description: If it is true then compliance will be triggered for all categories.
-      If it is false then compliance will be triggered for categories mentioned in categories
-      section .
+      If it is false then compliance will be triggered for categories mentioned in
+      categories section .
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance RunComplianceV1
-  description: Complete reference of the RunComplianceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!run-compliance
+  - name: Cisco DNA Center documentation for Compliance RunComplianceV1
+    description: Complete reference of the RunComplianceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!run-compliance
 notes:
-  - SDK Method used are
-    compliance.Compliance.run_compliance_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/compliance/,
+  - SDK Method used are compliance.Compliance.run_compliance_v1,
+  - Paths used are post /dna/intent/api/v1/compliance/,
   - It should be noted that this module is an alias of compliance_check_run_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.compliance_check_run:
@@ -59,11 +51,10 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     categories:
-    - string
+      - string
     deviceUuids:
-    - string
+      - string
     triggerFull: true
-
 """
 RETURN = r"""
 dnac_response:

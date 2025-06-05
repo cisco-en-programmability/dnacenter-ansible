@@ -1,19 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: network_device_maintenance_schedules_v1
 short_description: Resource module for Network Device Maintenance Schedules V1
 description:
-- Manage operation create of the resource Network Device Maintenance Schedules V1.
-- >
-   API to create maintenance schedule for network devices. The state of network device can be queried using API `GET
-   /dna/intent/api/v1/networkDevices`. The `managementState` attribute of the network device will be updated to
-   `UNDER_MAINTENANCE` when the maintenance window starts.
+  - Manage operation create of the resource Network Device Maintenance Schedules V1.
+  - >
+    API to create maintenance schedule for network devices. The state of network device
+    can be queried using API `GET
+    /dna/intent/api/v1/networkDevices`. The `managementState` attribute of the network
+    device will be updated to
+    `UNDER_MAINTENANCE` when the maintenance window starts.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -34,8 +34,8 @@ options:
         suboptions:
           interval:
             description: Interval for recurrence in days. The interval must be longer
-              than the duration of the schedules. The maximum allowed interval is 365
-              days.
+              than the duration of the schedules. The maximum allowed interval is
+              365 days.
             type: int
           recurrenceEndTime:
             description: The end date for the recurrence in Unix epoch time in milliseconds.
@@ -43,31 +43,28 @@ options:
             type: float
         type: dict
       startTime:
-        description: Start time indicates the beginning of the maintenance window in
-          Unix epoch time in milliseconds.
+        description: Start time indicates the beginning of the maintenance window
+          in Unix epoch time in milliseconds.
         type: float
     type: dict
   networkDeviceIds:
-    description: List of network device ids. This field is applicable only during creation
-      of schedules; for updates, it is read-only.
+    description: List of network device ids. This field is applicable only during
+      creation of schedules; for updates, it is read-only.
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices CreateMaintenanceScheduleForNetworkDevicesV1
-  description: Complete reference of the CreateMaintenanceScheduleForNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-maintenance-schedule-for-network-devices
+  - name: Cisco DNA Center documentation for Devices CreateMaintenanceScheduleForNetworkDevicesV1
+    description: Complete reference of the CreateMaintenanceScheduleForNetworkDevicesV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!create-maintenance-schedule-for-network-devices
 notes:
-  - SDK Method used are
-    devices.Devices.create_maintenance_schedule_for_network_devices_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/networkDeviceMaintenanceSchedules,
-
+  - SDK Method used are devices.Devices.create_maintenance_schedule_for_network_devices_v1,
+  - Paths used are post /dna/intent/api/v1/networkDeviceMaintenanceSchedules,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.network_device_maintenance_schedules_v1:
@@ -87,8 +84,7 @@ EXAMPLES = r"""
         recurrenceEndTime: 0
       startTime: 0
     networkDeviceIds:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

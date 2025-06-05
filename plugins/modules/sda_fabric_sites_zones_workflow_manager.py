@@ -1,18 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Abhishek Maheshwari, Madhan Sankaranarayanan")
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_sites_zones_workflow_manager
-short_description: Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
+short_description: Manage fabric site(s)/zone(s) and update the authentication profile
+  template in Cisco Catalyst Center.
 description:
   - Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
   - Updating fabric site(s) for the SDA operation in Cisco Catalyst Center.
@@ -20,15 +17,16 @@ description:
   - Updating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
   - Deletes fabric site(s) from Cisco Catalyst Center.
   - Deletes fabric zone(s) from Cisco Catalyst Center.
-  - Configure the authentication profile template for fabric site/zone in Cisco Catalyst Center.
+  - Configure the authentication profile template for fabric site/zone in Cisco Catalyst
+    Center.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abhishek Maheshwari (@abmahesh)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center configuration after applying the playbook configuration.
+    description: Set to True to verify the Cisco Catalyst Center configuration after
+      applying the playbook configuration.
     type: bool
     default: false
   state:
@@ -37,102 +35,178 @@ options:
     choices: [merged, deleted]
     default: merged
   config:
-    description: A list containing detailed configurations for creating, updating, or deleting fabric sites or zones
-        in a Software-Defined Access (SDA) environment. It also includes specifications for updating the authentication
-        profile template for these sites. Each element in the list represents a specific operation to be performed on
-        the SDA infrastructure, such as the addition, modification, or removal of fabric sites/zones, and modifications
-        to authentication profiles.
+    description: A list containing detailed configurations for creating, updating,
+      or deleting fabric sites or zones in a Software-Defined Access (SDA) environment.
+      It also includes specifications for updating the authentication profile template
+      for these sites. Each element in the list represents a specific operation to
+      be performed on the SDA infrastructure, such as the addition, modification,
+      or removal of fabric sites/zones, and modifications to authentication profiles.
     type: list
     elements: dict
     required: true
     suboptions:
       fabric_sites:
-        description: A dictionary containing detailed configurations for managing REST Endpoints that will receive Audit log
-            and Events from the Cisco Catalyst Center Platform. This dictionary is essential for specifying attributes and
-            parameters required for the lifecycle management of fabric sites, zones, and associated authentication profiles.
+        description: A dictionary containing detailed configurations for managing
+          REST Endpoints that will receive Audit log and Events from the Cisco Catalyst
+          Center Platform. This dictionary is essential for specifying attributes
+          and parameters required for the lifecycle management of fabric sites, zones,
+          and associated authentication profiles.
         type: dict
         suboptions:
           site_name_hierarchy:
-            description: This name uniquely identifies the site for operations such as creating, updating, or deleting fabric
-                sites or zones, as well as for updating the authentication profile template. This parameter is mandatory for
-                any fabric site/zone management operation.
+            description: This name uniquely identifies the site for operations such
+              as creating, updating, or deleting fabric sites or zones, as well as
+              for updating the authentication profile template. This parameter is
+              mandatory for any fabric site/zone management operation.
             type: str
             required: true
           fabric_type:
-            description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
-                and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
-                'fabric_zone' typically refers to a more specific segment within the site.
+            description: Specifies the type of site to be managed within the SDA environment.
+              The acceptable values are 'fabric_site' and 'fabric_zone'. The default
+              value is 'fabric_site', indicating the configuration of a broader network
+              area, whereas 'fabric_zone' typically refers to a more specific segment
+              within the site.
             type: str
             required: true
           authentication_profile:
-            description: The authentication profile applied to the specified fabric. This profile determines the security posture and
-                controls for network access within the site. Possible values include 'Closed Authentication', 'Low Impact',
-                'No Authentication', and 'Open Authentication'. This setting is critical when creating or updating a fabric site or
-                updating the authentication profile template.
+            description: The authentication profile applied to the specified fabric.
+              This profile determines the security posture and controls for network
+              access within the site. Possible values include 'Closed Authentication',
+              'Low Impact', 'No Authentication', and 'Open Authentication'. This setting
+              is critical when creating or updating a fabric site or updating the
+              authentication profile template.
             type: str
           is_pub_sub_enabled:
-            description: A boolean flag that indicates whether the pub/sub mechanism is enabled for control nodes in the fabric site.
-                This feature is relevant only when creating or updating fabric sites, not fabric zones. When set to True,
-                pub/sub facilitates more efficient communication and control within the site. The default is True for fabric sites,
-                and this setting is not applicable for fabric zones.
+            description: A boolean flag that indicates whether the pub/sub mechanism
+              is enabled for control nodes in the fabric site. This feature is relevant
+              only when creating or updating fabric sites, not fabric zones. When
+              set to True, pub/sub facilitates more efficient communication and control
+              within the site. The default is True for fabric sites, and this setting
+              is not applicable for fabric zones.
+            type: bool
+          apply_pending_events:
+            description: Modifying an IP address pool used in a fabric causes the
+              fabric to become outdated. An update is required to apply the IP address
+              pool changes to the devices in the fabric site. The reconfiguration
+              time depends on the number of devices. During an upgrade, any pending
+              fabric updates are captured as pending fabric events and applied to
+              the respective site.  By default, this is set to False.
             type: bool
           update_authentication_profile:
-            description: A dictionary containing the specific details required to update the authentication profile template associated
-                with the fabric site. This includes advanced settings that fine-tune the authentication process and security controls
-                within the site.
+            description: A dictionary containing the specific details required to
+              update the authentication profile template associated with the fabric
+              site. This includes advanced settings that fine-tune the authentication
+              process and security controls within the site.
             type: dict
             suboptions:
               authentication_order:
-                description: Specifies the primary method of authentication for the site. The available methods are 'dot1x' (IEEE 802.1X)
-                    and 'mac' (MAC-based authentication). This setting determines the order in which authentication mechanisms are attempted.
+                description: Specifies the primary method of authentication for the
+                  site. The available methods are 'dot1x' (IEEE 802.1X) and 'mac'
+                  (MAC-based authentication). This setting determines the order in
+                  which authentication mechanisms are attempted.
                 type: str
               dot1x_fallback_timeout:
-                description: The timeout duration, in seconds, for falling back from 802.1X authentication. This value must be within the
-                    range of 3 to 120 seconds. It defines the period a device waits before attempting an alternative authentication method
-                    if 802.1X fails.
+                description: The timeout duration, in seconds, for falling back from
+                  802.1X authentication. This value must be within the range of 3
+                  to 120 seconds. It defines the period a device waits before attempting
+                  an alternative authentication method if 802.1X fails.
                 type: int
               wake_on_lan:
-                description: A boolean value indicating whether the Wake-on-LAN feature is enabled. Wake-on-LAN allows the network to
-                    remotely wake up devices that are in a low-power state.
+                description: A boolean value indicating whether the Wake-on-LAN feature
+                  is enabled. Wake-on-LAN allows the network to remotely wake up devices
+                  that are in a low-power state.
                 type: bool
               number_of_hosts:
-                description: Specifies the number of hosts allowed per port. The available options are 'Single' for one device per port or
-                    'Unlimited' for multiple devices. This setting helps in controlling the network access and maintaining security.
+                description: Specifies the number of hosts allowed per port. The available
+                  options are 'Single' for one device per port or 'Unlimited' for
+                  multiple devices. This setting helps in controlling the network
+                  access and maintaining security.
                 type: str
               enable_bpu_guard:
-                description: A boolean setting that enables or disables BPDU Guard. BPDU Guard provides a security mechanism by disabling
-                    a port when a BPDU (Bridge Protocol Data Unit) is received, protecting against potential network loops. This setting
-                    defaults to true and is applicable only when the authentication profile is set to "Closed Authentication".
+                description: A boolean setting that enables or disables BPDU Guard.
+                  BPDU Guard provides a security mechanism by disabling a port when
+                  a BPDU (Bridge Protocol Data Unit) is received, protecting against
+                  potential network loops. This setting defaults to true and is applicable
+                  only when the authentication profile is set to "Closed Authentication".
                 type: bool
-
-
+              pre_auth_acl:
+                description: Defines the Pre-Authentication Access Control List (ACL),
+                  which is applicable only when the 'authentication_profile' is set
+                  to "Low Impact." This profile allows limited network access before
+                  authentication, and the ACL controls which traffic is allowed or
+                  blocked during this phase. It is not used with other profiles, as
+                  they typically block all traffic until authentication is complete.
+                type: dict
+                suboptions:
+                  enabled:
+                    description: A boolean value indicating whether the Pre-Authentication
+                      ACL is enabled. When set to 'true', the ACL rules are enforced
+                      to control traffic before authentication.
+                    type: bool
+                  implicit_action:
+                    description: Specifies the default action for traffic that does
+                      not match any explicit ACL rules. Common actions include 'PERMIT'
+                      to allow unmatched traffic or 'DENY' to block it.  Implicit
+                      behaviour unless overridden (defaults to "DENY").
+                    type: str
+                    default: "DENY"
+                  description:
+                    description: A brief text description of the Pre-Authentication
+                      ACL, outlining its purpose or providing relevant notes for administrators.
+                    type: str
+                  access_contracts:
+                    description: A list of rules that specify how traffic is handled
+                      based on defined conditions. Each rule determines whether traffic
+                      is permitted or denied based on the contract parameters. If
+                      the 'access_contracts' is not provided or is set to null, the
+                      system will fall back on its default traffic handling settings.
+                      Additionally, up to 3 access control rules can be defined at
+                      a time.
+                    type: list
+                    elements: dict
+                    suboptions:
+                      action:
+                        description: The action to apply when traffic matches the
+                          rule. The allowed actions are 'PERMIT' (allow the traffic)
+                          and 'DENY' (block the traffic).
+                        type: str
+                      protocol:
+                        description: The protocol that defines the type of traffic
+                          to be filtered by the access contract rule. The allowed
+                          protocols are 'UDP', 'TCP', and 'TCP_UDP'. However, 'TCP'
+                          and 'TCP_UDP' are only allowed when the contract port is
+                          set to 'domain'.
+                        type: str
+                      port:
+                        description: Specifies the symbolic port name to which the
+                          ACL rule applies. The allowed values are 'domain' (DNS),
+                          'bootpc' (Bootstrap Protocol Client), and 'bootps' (Bootstrap
+                          Protocol Server). Each port name can only be used once in
+                          the Access Contract list.
+                        type: str
 requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
-
 notes:
-  - To ensure the module operates correctly for scaled sets, which involve creating or updating fabric sites/zones and handling
-    the updation of authentication profile template, please provide valid input in the playbook. If any failure is encountered,
+  - To ensure the module operates correctly for scaled sets, which involve creating
+    or updating fabric sites/zones and handling the updation of authentication profile
+    template, please provide valid input in the playbook. If any failure is encountered,
     the module will and halt execution without proceeding to further operations.
-  - When deleting fabric sites, make sure to provide the input to remove the fabric zones associated with them in the
-    playbook. Fabric sites cannot be deleted until all underlying fabric zones have been removed and it can be any order as per
-    the module design fabric zones will be deleted first followed by fabric sites.
+  - When deleting fabric sites, make sure to provide the input to remove the fabric
+    zones associated with them in the playbook. Fabric sites cannot be deleted until
+    all underlying fabric zones have been removed and it can be any order as per the
+    module design fabric zones will be deleted first followed by fabric sites.
+  - Reconfiguration of fabric pending events is supported starting from version 2.3.7.9
+    onwards. Additionally, the authentication profile for the 'Low Impact' profile
+    now allows more customization of its parameters
   - Parameter 'site_name' is updated to 'site_name_hierarchy'.
-  - SDK Method used are
-    ccc_fabric_sites.FabricSitesZones.get_site
-    ccc_fabric_sites.FabricSitesZones.get_fabric_sites
-    ccc_fabric_sites.FabricSitesZones.get_fabric_zones
-    ccc_fabric_sites.FabricSitesZones.add_fabric_site
-    ccc_fabric_sites.FabricSitesZones.update_fabric_site
-    ccc_fabric_sites.FabricSitesZones.add_fabric_zone
-    ccc_fabric_sites.FabricSitesZones.update_fabric_zone
-    ccc_fabric_sites.FabricSitesZones.get_authentication_profiles
-    ccc_fabric_sites.FabricSitesZones.update_authentication_profile
-    ccc_fabric_sites.FabricSitesZones.delete_fabric_site_by_id
+  - SDK Method used are ccc_fabric_sites.FabricSitesZones.get_site ccc_fabric_sites.FabricSitesZones.get_fabric_sites
+    ccc_fabric_sites.FabricSitesZones.get_fabric_zones ccc_fabric_sites.FabricSitesZones.add_fabric_site
+    ccc_fabric_sites.FabricSitesZones.update_fabric_site ccc_fabric_sites.FabricSitesZones.add_fabric_zone
+    ccc_fabric_sites.FabricSitesZones.update_fabric_zone ccc_fabric_sites.FabricSitesZones.get_authentication_profiles
+    ccc_fabric_sites.FabricSitesZones.update_authentication_profile ccc_fabric_sites.FabricSitesZones.delete_fabric_site_by_id
     ccc_fabric_sites.FabricSitesZones.delete_fabric_zone_by_id
-
 """
-
 EXAMPLES = r"""
 - name: Create a fabric site for SDA with the specified name.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
@@ -144,14 +218,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1"
-          authentication_profile: "Closed Authentication"
-          is_pub_sub_enabled: False
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
+            authentication_profile: "Closed Authentication"
+            is_pub_sub_enabled: false
 - name: Update a fabric site for SDA with the specified name.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -162,13 +235,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1"
-          authentication_profile: "Open Authentication"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
+            authentication_profile: "Open Authentication"
 - name: Update a fabric zone for SDA with the specified name.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -179,14 +251,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
-          fabric_type: "fabric_zone"
-          authentication_profile: "Closed Authentication"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+            fabric_type: "fabric_zone"
+            authentication_profile: "Closed Authentication"
 - name: Update fabric zone for sda with given name.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -197,14 +268,67 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
-          fabric_type: "fabric_zone"
-          authentication_profile: "Open Authentication"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+            fabric_type: "fabric_zone"
+            authentication_profile: "Open Authentication"
+- name: Apply all the pending sda fabric events to the given site.
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: false
+    state: merged
+    config:
+      - fabric_sites:
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
+            authentication_profile: "Open Authentication"
+            apply_pending_events: true
+- name: Set up Pre-Authentication ACL for Low Impact Profile
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: false
+    state: merged
+    config:
+      - fabric_sites:
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
+            fabric_type: "fabric_zone"
+            authentication_profile: "Low Impact"
+            is_pub_sub_enabled: false
+            update_authentication_profile:
+              authentication_order: "dot1x"
+              dot1x_fallback_timeout: 28
+              wake_on_lan: false
+              number_of_hosts: "Single"
+              pre_auth_acl:
+                enabled: true
+                implicit_action: "PERMIT"
+                description: "low auth profile description"
+                access_contracts:
+                  - action: "PERMIT"
+                    protocol: "UDP"
+                    port: "bootps"
+                  - action: "PERMIT"
+                    protocol: "UDP"
+                    port: "bootpc"
+                  - action: "PERMIT"
+                    protocol: "UDP"
+                    port: "domain"
 - name: Update/customise authentication profile template for fabric site/zone.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -215,20 +339,19 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1"
-          fabric_type: "fabric_zone"
-          authentication_profile: "Open Authentication"
-          is_pub_sub_enabled: False
-          update_authentication_profile:
-            authentication_order: "dot1x"
-            dot1x_fallback_timeout: 28
-            wake_on_lan: False
-            number_of_hosts: "Single"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
+            fabric_type: "fabric_zone"
+            authentication_profile: "Open Authentication"
+            is_pub_sub_enabled: false
+            update_authentication_profile:
+              authentication_order: "dot1x"
+              dot1x_fallback_timeout: 28
+              wake_on_lan: false
+              number_of_hosts: "Single"
 - name: Deleting/removing fabric site from sda from Cisco Catalyst Center
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -239,12 +362,11 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: deleted
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1"
 - name: Deleting/removing fabric zone from sda from Cisco Catalyst Center
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -255,17 +377,14 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: deleted
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
-          fabric_type: "fabric_zone"
-
+          - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+            fabric_type: "fabric_zone"
 """
-
 RETURN = r"""
-
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -295,7 +414,7 @@ class FabricSitesZones(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.create_site, self.update_site, self.no_update_site = [], [], []
         self.create_zone, self.update_zone, self.no_update_zone = [], [], []
-        self.update_auth_profile, self.no_update_profile = [], []
+        self.update_auth_profile, self.no_update_profile, self.pending_fabric_event = [], [], []
         self.delete_site, self.delete_zone, self.absent_site, self.absent_zone = [], [], [], []
 
     def validate_input(self):
@@ -324,16 +443,30 @@ class FabricSitesZones(DnacBase):
                 'site_name_hierarchy': {'type': 'str'},
                 'fabric_type': {'type': 'str', 'default': 'fabric_site'},
                 'authentication_profile': {'type': 'str'},
-                'is_pub_sub_enabled': {'type': 'bool', 'default': False},
+                'is_pub_sub_enabled': {'type': 'bool', 'default': True},
+                'apply_pending_events': {'type': 'bool', 'default': False},
                 'update_authentication_profile': {
-                    'elements': 'dict',
+                    'type': 'dict',
                     'site_name_hierarchy': {'type': 'str'},
                     'authentication_profile': {'type': 'str'},
                     'authentication_order': {'type': 'str'},
                     'dot1x_fallback_timeout': {'type': 'int'},
                     'wake_on_lan': {'type': 'bool'},
                     'number_of_hosts': {'type': 'str'},
-                    'enable_bpu_guard': {'type': 'bool'}
+                    'enable_bpu_guard': {'type': 'bool'},
+                    'pre_auth_acl': {
+                        'type': 'dict',
+                        'enabled': {'type': 'bool'},
+                        'implicit_action': {'type': 'str'},
+                        'description': {'type': 'str'},
+                        'access_contracts': {
+                            'type': 'list',
+                            'elements': 'dict',
+                            'action': {'type': 'str'},
+                            'protocol': {'type': 'str'},
+                            'port': {'type': 'str'},
+                        }
+                    }
                 }
             },
         }
@@ -807,7 +940,7 @@ class FabricSitesZones(DnacBase):
 
         return self
 
-    def validate_auth_profile_parameters(self, auth_profile_dict):
+    def validate_auth_profile_parameters(self, auth_profile_dict, auth_profile):
         """
         Validates the parameters provided for updating the authentication profile template.
         Args:
@@ -829,7 +962,7 @@ class FabricSitesZones(DnacBase):
         if auth_order and auth_order not in ["dot1x", "mac"]:
             invalid_auth_profile_list.append("authentication_order")
             msg = (
-                "Invalid authentication_order '{0}'given in the playbook for the updation of authentication profile template. "
+                "Invalid authentication_order '{0}'given in the playbook for the update of authentication profile template. "
                 "Please provide one of the following authentication_order ['dot1x', 'mac'] in the playbook."
             ).format(auth_order)
             self.log(msg, "ERROR")
@@ -857,10 +990,78 @@ class FabricSitesZones(DnacBase):
         if number_of_hosts and number_of_hosts.title() not in ["Single", "Unlimited"]:
             invalid_auth_profile_list.append("number_of_hosts")
             msg = (
-                "Invalid number_of_hosts '{0}'given in the playbook for the updation of authentication profile template. "
+                "Invalid number_of_hosts '{0}'given in the playbook for the update of authentication profile template. "
                 "Please provide one of the following: ['Single', 'Unlimited']."
             ).format(auth_order)
             self.log(msg, "ERROR")
+
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0 and auth_profile == "Low Impact":
+            pre_auth_acl = auth_profile_dict.get("pre_auth_acl")
+            if pre_auth_acl:
+                enabled = pre_auth_acl.get("enabled")
+
+                if enabled is None:
+                    invalid_auth_profile_list.append("enabled")
+                    self.log("Parameter 'enable' should be given either true/false for the Pre-Auth ACL.", "ERROR")
+
+                access_contracts_list = auth_profile_dict.get("access_contracts")
+                if access_contracts_list:
+                    if len(access_contracts_list) > 3:
+                        invalid_auth_profile_list.append("access_contracts")
+                        msg = (
+                            "Access Control schema should be of length less than or equal to 3. And in the input "
+                            "playbook schema it's given of length {0}."
+                        ).format(len(access_contracts_list))
+                        self.log(msg, "ERROR")
+
+                    for access_contract in access_contracts_list:
+                        action = access_contract.get("action")
+                        protocol = access_contract.get("protocol")
+                        port = access_contract.get("port")
+
+                        if not action:
+                            self.log("Given parameter 'action' is not provided in the input playbook", "INFO")
+                            invalid_auth_profile_list.append("action")
+
+                        if not protocol:
+                            self.log("Given parameter 'protocol' is not provided in the input playbook", "INFO")
+                            invalid_auth_profile_list.append("protocol")
+
+                        if not port:
+                            self.log("Given parameter 'port' is not provided in the input playbook", "INFO")
+                            invalid_auth_profile_list.append("port")
+
+                        if action and action.upper() not in ["PERMIT", "DENY"]:
+                            invalid_auth_profile_list.append("action")
+                            msg = (
+                                "Invalid action '{0}' given in the playbook for updating the authentication profile template. "
+                                "Please provide one of the following action ['PERMIT', 'DENY'] in the playbook."
+                            ).format(action)
+                            self.log(msg, "ERROR")
+
+                        if port and port not in ["domain", "bootpc", "bootps"]:
+                            invalid_auth_profile_list.append("port")
+                            msg = (
+                                "Invalid port '{0}' given in the playbook for updating the authentication profile template. "
+                                "Please provide one of the following port ['domain', 'bootpc', 'bootps'] in the playbook."
+                            ).format(port)
+                            self.log(msg, "ERROR")
+
+                        if protocol and protocol.upper() not in ["UDP", "TCP", "TCP_UDP"]:
+                            invalid_auth_profile_list.append("protocol")
+                            msg = (
+                                "Invalid protocol '{0}' given in the playbook for updating the authentication profile template. "
+                                "Please provide one of the following protocol ['UDP', 'TCP', 'TCP_UDP'] in the playbook."
+                            ).format(protocol)
+                            self.log(msg, "ERROR")
+
+                        if port and port == "domain" and protocol and protocol.upper() == "UDP":
+                            invalid_auth_profile_list.append("protocol")
+                            msg = (
+                                "Invalid protocol 'UDP' given in the playbook for updating the authentication profile template. "
+                                "'TCP' and 'TCP_UDP' are only allowed when the contract port is 'domain'."
+                            )
+                            self.log(msg, "ERROR")
 
         if invalid_auth_profile_list:
             self.msg = (
@@ -904,7 +1105,7 @@ class FabricSitesZones(DnacBase):
             self.log("Received API response from 'get_authentication_profiles' for the site '{0}': {1}".format(site_name, str(response)), "DEBUG")
 
             if not response:
-                self.log("No Authentication profile asssociated to this site '{0}' in Cisco Catalyst Center.".format(site_name), "INFO")
+                self.log("No Authentication profile associated to this site '{0}' in Cisco Catalyst Center.".format(site_name), "INFO")
                 return profile_details
 
             profile_details = response[0]
@@ -942,7 +1143,8 @@ class FabricSitesZones(DnacBase):
             "wake_on_lan": "wakeOnLan",
             "number_of_hosts": "numberOfHosts"
         }
-        if auth_profile_in_ccc.get("authenticationProfileName") == "Closed Authentication":
+        profile_name = auth_profile_in_ccc.get("authenticationProfileName")
+        if profile_name == "Closed Authentication":
             profile_key_mapping["enable_bpu_guard"] = "isBpduGuardEnabled"
 
         for key, ccc_key in profile_key_mapping.items():
@@ -959,6 +1161,35 @@ class FabricSitesZones(DnacBase):
 
             if desired_value != current_value:
                 return True
+
+        if profile_name == "Low Impact" and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            pre_auth_acl = auth_profile_dict.get("pre_auth_acl")
+            acl_in_ccc = auth_profile_in_ccc.get("preAuthAcl")
+            if pre_auth_acl:
+                self.log("Pre-Auth ACL settings found in the input profile.", "INFO")
+                if pre_auth_acl.get("enabled") and pre_auth_acl.get("enabled") != acl_in_ccc.get("enabled"):
+                    self.log("Mismatch found in 'enabled' flag between input profile and CCC configuration.", "INFO")
+                    return True
+
+                if pre_auth_acl.get("implicit_action") and pre_auth_acl.get("implicit_action") != acl_in_ccc.get("implicitAction"):
+                    self.log("Mismatch found in 'implicit_action' between input profile and CCC configuration.", "INFO")
+                    return True
+
+                if pre_auth_acl.get("description") and pre_auth_acl.get("description") != acl_in_ccc.get("description"):
+                    self.log("Mismatch found in 'description' between input profile and CCC configuration.", "INFO")
+                    return True
+
+                access_contracts = pre_auth_acl.get("access_contracts")
+                access_contracts_in_ccc = acl_in_ccc.get("accessContracts")
+
+                if access_contracts:
+                    self.log("Access Contracts found in the input profile. Comparing with CCC configuration.", "DEBUG")
+                    input_access_contracts = {frozenset(contracts.items()) for contracts in access_contracts}
+                    ccc_access_contracts = {frozenset(contracts.items()) for contracts in access_contracts_in_ccc}
+
+                    if input_access_contracts != ccc_access_contracts:
+                        self.log("Mismatch found in Access Contracts between input profile and CCC configuration.", "INFO")
+                        return True
 
         return False
 
@@ -998,11 +1229,40 @@ class FabricSitesZones(DnacBase):
 
         if profile_name == "Closed Authentication":
             if auth_profile_dict.get("enable_bpu_guard") is None:
-                auth_profile_dict["isBpduGuardEnabled"] = auth_profile_in_ccc.get("isBpduGuardEnabled", True)
+                authentications_params_dict["isBpduGuardEnabled"] = auth_profile_in_ccc.get("isBpduGuardEnabled", True)
             else:
-                auth_profile_dict["isBpduGuardEnabled"] = auth_profile_dict.get("enable_bpu_guard")
+                authentications_params_dict["isBpduGuardEnabled"] = auth_profile_dict.get("enable_bpu_guard")
+
+        if profile_name == "Low Impact" and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            pre_auth_acl = auth_profile_dict.get("pre_auth_acl")
+            acl_in_ccc = auth_profile_in_ccc.get("preAuthAcl")
+
+            if pre_auth_acl:
+                self.log("Low Impact profile detected. Pre-Auth ACL settings will be updated.", "DEBUG")
+                authentications_params_dict["preAuthAcl"] = {}
+                enabled_flag = pre_auth_acl.get("enabled")
+                if enabled_flag is not None:
+                    authentications_params_dict["preAuthAcl"]["enabled"] = enabled_flag
+                    self.log("Pre-Auth ACL 'enabled' flag set to: {0}".format(enabled_flag), "INFO")
+                else:
+                    enabled_flag_in_ccc = acl_in_ccc.get("enabled")
+                    authentications_params_dict["preAuthAcl"]["enabled"] = enabled_flag_in_ccc
+                    self.log("Pre-Auth ACL 'enabled' flag not provided. Falling back to existing configuration: {0}".format(enabled_flag_in_ccc), "INFO")
+
+                authentications_params_dict["preAuthAcl"]["implicitAction"] = pre_auth_acl.get("implicit_action") or acl_in_ccc.get("implicitAction", "DENY")
+                self.log("Pre-Auth ACL 'implicitAction' set to: {0}".format(authentications_params_dict["preAuthAcl"]["implicitAction"]), "DEBUG")
+                authentications_params_dict["preAuthAcl"]["description"] = pre_auth_acl.get("description") or acl_in_ccc.get("description")
+                self.log("Pre-Auth ACL 'description' set to: {0}".format(authentications_params_dict["preAuthAcl"]["description"]), "DEBUG")
+
+                if pre_auth_acl.get("access_contracts") is not None:
+                    self.log("Pre-Auth ACL 'accessContracts' set from input profile.", "DEBUG")
+                    authentications_params_dict["preAuthAcl"]["accessContracts"] = pre_auth_acl.get("access_contracts")
+                else:
+                    self.log("Pre-Auth ACL 'accessContracts' not provided. Falling back to existing configuration.", "DEBUG")
+                    authentications_params_dict["preAuthAcl"]["accessContracts"] = acl_in_ccc.get("accessContracts")
 
         updated_params.append(authentications_params_dict)
+        self.log("Payload for updating authentication profile collected successfully: {0}".format(updated_params), "INFO")
 
         return updated_params
 
@@ -1037,8 +1297,16 @@ class FabricSitesZones(DnacBase):
             success_msg = "Authentication profile for the site '{0}' updated successfully in the Cisco Catalyst Center".format(site_name)
             self.log(success_msg, "DEBUG")
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-            self.update_auth_profile.append(site_name)
+            auth_profile_name = profile_update_params[0].get("authenticationProfileName")
+            if auth_profile_name == "Low Impact":
+                self.log(
+                    "Site '{0}' uses 'Low Impact' authentication profile (with with pre-authentication access control list configuration)."
+                    .format(site_name), "DEBUG"
+                )
+                site_name += " (with pre-authentication access control list configuration)"
 
+            self.update_auth_profile.append(site_name)
+            self.log("Site '{0}' added to the list of updated authentication profiles.".format(site_name), "DEBUG")
         except Exception as e:
             self.msg = "An exception occured while updating the authentication profile for site '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1136,9 +1404,12 @@ class FabricSitesZones(DnacBase):
             no_update_zone_msg = "Fabric zone(s) '{0}' need no update in Cisco Catalyst Center.".format(self.no_update_zone)
             result_msg_list.append(no_update_zone_msg)
 
+        if self.pending_fabric_event:
+            pending_event_msg = "Following pending fabric event(s) '{0}' applied successfully in Cisco Catalyst Center.".format(self.pending_fabric_event)
+            result_msg_list.append(pending_event_msg)
+
         if self.update_auth_profile:
-            update_auth_msg = """Authentication profile template for site(s) '{0}' updated successfully in Cisco Catalyst
-                        Center.""".format(self.update_auth_profile)
+            update_auth_msg = "Authentication profile template for site(s) '{0}' updated successfully in Catalyst Center.".format(self.update_auth_profile)
             result_msg_list.append(update_auth_msg)
 
         if self.no_update_profile:
@@ -1161,7 +1432,8 @@ class FabricSitesZones(DnacBase):
             absent_zone_msg = "Unable to delete fabric zone(s) '{0}' as they are not present in Cisco Catalyst Center.".format(self.absent_zone)
             result_msg_list.append(absent_zone_msg)
 
-        if self.create_site or self.update_site or self.create_zone or self.update_zone or self.delete_site or self.update_auth_profile:
+        if (self.create_site or self.update_site or self.create_zone or self.update_zone or self.delete_zone or
+                self.delete_site or self.update_auth_profile or self.pending_fabric_event):
             self.result["changed"] = True
 
         self.msg = " ".join(result_msg_list)
@@ -1249,7 +1521,7 @@ class FabricSitesZones(DnacBase):
             )
             telemetry_details = telemetry_response.get("response", {})
             if not telemetry_details:
-                self.mg = "No telemetry settings found for site '{0}' (ID: {1})".format(site_name, site_id)
+                self.msg = "No telemetry settings found for site '{0}' (ID: {1})".format(site_name, site_id)
                 self.set_operation_result("failed", False, self.msg, "CRITICAL").check_return_status()
 
             self.log("Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_details), "DEBUG")
@@ -1292,7 +1564,11 @@ class FabricSitesZones(DnacBase):
 
             payload = {
                 "id": site_id,
-                "payload": telemetry_settings
+                "wiredDataCollection": telemetry_settings.get("wiredDataCollection"),
+                "wirelessTelemetry": telemetry_settings.get("wirelessTelemetry"),
+                "snmpTraps": telemetry_settings.get("snmpTraps"),
+                "syslogs": telemetry_settings.get("syslogs"),
+                "applicationVisibility": telemetry_settings.get("applicationVisibility")
             }
             task_name = "set_telemetry_settings_for_a_site"
             task_id = self.get_taskid_post_api_call("network_settings", task_name, payload)
@@ -1307,9 +1583,188 @@ class FabricSitesZones(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
         except Exception as e:
             self.msg = (
-                "An exception occured while eanbling the Wired Data Collection for the site '{0}' "
+                "An exception occured while enabling the Wired Data Collection for the site '{0}' "
                 "in Cisco Catalyst Center: {1}"
             ).format(site_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
+    def get_all_pending_events_ids(self, site_name, fabric_id):
+        """
+        Fetches all pending fabric events for a specified site in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            site_name (str): The name of the site for which pending fabric events need to be retrieved.
+            fabric_id (str): The unique identifier of the fabric associated with the site.
+        Returns:
+            dict: A dictionary where keys are event details (names) and values are their corresponding event IDs.
+        Description:
+            This function iteratively retrieves all pending fabric events for a given site using the `get_pending_fabric_events`
+            API in Cisco Catalyst Center. It uses pagination, incrementing the offset by 500 for each subsequent API call until no
+            more events are found. Each event's name (`detail`) and ID (`id`) are extracted and stored in a dictionary.
+
+            This method helps in monitoring or troubleshooting fabric events that haven't been addressed yet within the network.
+        """
+
+        self.log("Fetching all the pending fabric events for site: {0}".format(site_name), "INFO")
+        pending_fabric_events = {}
+        offset = 1
+        while True:
+            try:
+                self.log("Fetching events with offset: {0}".format(offset), "INFO")
+                response = self.dnac._exec(
+                    family="sda",
+                    function='get_pending_fabric_events',
+                    op_modifies=True,
+                    params={
+                        "fabric_id": fabric_id,
+                        "offset": offset
+                    }
+                )
+                response = response.get("response")
+                if not response:
+                    self.log("There is no more pending fabric event for the site: {0}".format(site_name), "INFO")
+                    break
+
+                self.log("Received API response from 'get_pending_fabric_events' for the site '{0}': {1}".format(site_name, str(response)), "DEBUG")
+
+                for event in response:
+                    event_id = event.get("id")
+                    event_name = event.get("detail")
+                    pending_fabric_events[event_name] = event_id
+
+                if len(response) < 500:
+                    self.log("response from 'get_pending_fabric_events' for the site is less than 500 so coming out of the loop", "DEBUG")
+                    break
+
+                offset += 500
+            except Exception as e:
+                self.msg = (
+                    "Exception occurred while fetching the pending fabric events for site '{0}': {1}".format(site_name, str(e))
+                )
+                self.set_operation_result("failed", False, self.msg, "CRITICAL").check_return_status()
+
+        return pending_fabric_events
+
+    def apply_pending_fabric_events(self, event_name, event_id, fabric_id, site_name):
+        """
+        Applies a pending fabric event to a specified site in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            event_name (str): The name of the fabric event to be applied.
+            event_id (str): The unique identifier of the pending fabric event.
+            fabric_id (str): The unique identifier of the fabric where the event should be applied.
+            site_name (str): The name of the site associated with the fabric event.
+        Returns:
+            self (object): Returns the instance of the class to allow method chaining.
+        Description:
+            This function applies a pending fabric event to a specific site within Cisco DNA Center. It constructs a payload
+            containing the `fabricId` and `eventId`, then initiates the API call to apply the event.
+            The function logs the payload details and checks for the task ID to confirm the event application process
+            initiation. If the task ID retrieval fails, it logs an error and marks the operation as failed. Upon successfully
+            retrieving the task ID, the function monitors the task status to ensure the event is applied correctly.
+            If any exception occurs during this process, it logs an error message and updates the operation result to "failed."
+        """
+
+        try:
+            event_payload = {
+                "fabricId": fabric_id,
+                "id": event_id
+            }
+            self.log("Requested payload for applying fabric event '{0}' is:  {1}".format(event_name, event_payload), "INFO")
+            task_name = "apply_pending_fabric_events"
+            payload = {"payload": [event_payload]}
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = "Pending fabric event '{0}' applied successfully to the fabric site {1}".format(event_name, site_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = "An exception occured while applying the pending fabric event '{0}' for site {1}: {2}".format(event_name, site_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
+    def make_hashable(self, obj):
+        """
+        Recursively converts a dictionary (or nested data structure) into a hashable format.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            obj (dict | list | any): The dictionary, list, or other data structure to be converted
+                                        into a hashable form. Nested dictionaries and lists are also supported.
+        Returns:
+            frozenset | tuple | any:
+                - If `obj` is a dictionary, it returns a `frozenset` of key-value pairs where values are recursively processed.
+                - If `obj` is a list, it returns a `tuple` of elements processed recursively.
+                - If `obj` is neither a dictionary nor a list, it returns the object as is.
+        Description:
+            This function allows dictionaries, lists, and other nested data structures to be converted
+            into hashable types, enabling them to be used as keys in other dictionaries or stored in sets.
+            Dictionaries are converted into `frozensets` of key-value pairs, and lists are converted into
+            `tuples`. Non-iterable values are returned without modification. This is useful when needing
+            to cache or compare complex data structures.
+        """
+
+        if isinstance(obj, dict):
+            return frozenset((k, self.make_hashable(v)) for k, v in obj.items())
+        elif isinstance(obj, list):
+            return tuple(self.make_hashable(v) for v in obj)
+
+        self.log("The object '{0}' converted into hashable format.".format(obj), "INFO")
+
+        return obj
+
+    def reconfigure_the_fabric_site(self, site_name, fabric_id):
+        """
+        Reconfigures the fabric site by applying any pending fabric events for the given site in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            site_name (str): The name of the site for which to reconfigure the fabric.
+            fabric_id (str): The unique identifier of the fabric associated with the site.
+
+        Returns:
+            self (object): Returns the current instance of the class (self), updated with the result of the operation.
+
+        Description:
+            This method checks if the Cisco Catalyst Center (CCC) version supports pending fabric event reconfiguration
+            (only versions >= 2.3.7.9). If supported, it retrieves and applies all pending fabric events for the specified site
+            and fabric ID. It logs each step of the process and handles exceptions gracefully.
+        """
+
+        try:
+            current_version = self.get_ccc_version()
+            if not self.compare_dnac_versions(current_version, "2.3.7.9") >= 0:
+                self.log(
+                    "Reconfiguring fabric pending events is supported only from Cisco Catalyst Center version 2.3.7.9 onwards."
+                    " Current version: {0}".format(current_version),
+                    "WARNING"
+                )
+                return self
+
+            self.log("Checking for pending fabric events on site '{0}' with fabric ID '{1} in Catalyst Center.".format(site_name, fabric_id), "DEBUG")
+            pending_events_map = self.get_all_pending_events_ids(site_name, fabric_id)
+            if not pending_events_map:
+                self.log("No pending fabric events found for site '{0}'.".format(site_name), "INFO")
+                return self
+
+            for event_detail, event_id in pending_events_map.items():
+                self.log("Applying pending fabric event '{0}' (event ID: {1}) for site '{2}'.".format(event_detail, event_id, site_name), "DEBUG")
+                self.apply_pending_fabric_events(event_detail, event_id, fabric_id, site_name).check_return_status()
+                self.pending_fabric_event.append(event_detail + " for site " + site_name)
+                self.log("Successfully applied fabric event '{0}' for site '{1}'.".format(event_detail, site_name), "INFO")
+
+        except Exception as e:
+            self.msg = "An exception occurred while applying the reconfiguring the fabric site {0}: {1}".format(site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
@@ -1339,17 +1794,18 @@ class FabricSitesZones(DnacBase):
 
         # Create/Update Fabric sites/zones in Cisco Catalyst Center
         raw_fabric_sites = self.want.get('fabric_sites')
-        # Preserve the order of input while deduplicating
+        self.log("Preserve the order of input while deduplicating", "DEBUG")
         self.log("Starting deduplication of raw_fabric_sites.", "DEBUG")
         unique_fabric_site_set = set()
         fabric_sites = []
         for fabric_site_dict in raw_fabric_sites:
             # Convert dictionary to a frozenset - immutable set
-            site_zone = frozenset(fabric_site_dict.items())
+            site_zone = frozenset(self.make_hashable(fabric_site_dict))
             if site_zone not in unique_fabric_site_set:
                 self.log("New unique site found: '{0}'".format(site_zone), "DEBUG")
                 unique_fabric_site_set.add(site_zone)
                 fabric_sites.append(fabric_site_dict)
+
         self.log("Deduplication complete. Total unique sites: {0}".format(len(fabric_sites)), "DEBUG")
 
         for site in fabric_sites:
@@ -1387,14 +1843,22 @@ class FabricSitesZones(DnacBase):
                     self.log("Starting the process of making site {0} as fabric site...".format(site_name), "DEBUG")
                     self.create_fabric_site(site).check_return_status()
                 else:
-                    self.log("Checkiing whether the given fabric site {0} needs update or not.".format(site_name), "DEBUG")
+                    self.log("Checking whether the given fabric site '{0}' needs to be reconfigured.".format(site_name), "DEBUG")
+                    pending_events = site.get("apply_pending_events")
                     site_in_ccc = self.get_fabric_site_detail(site_name, site_id)
+                    if pending_events:
+                        self.log("Pending events detected for fabric site '{0}'".format(site_name), "DEBUG")
+                        fabric_id = site_in_ccc.get("id")
+                        self.log("Reconfiguring fabric site '{0}' with fabric ID '{1}'.".format(site_name, fabric_id), "DEBUG")
+                        self.reconfigure_the_fabric_site(site_name, fabric_id).check_return_status()
+
+                    self.log("Checking whether the given fabric site '{0}' needs to be updated.".format(site_name), "DEBUG")
                     require_update = self.fabric_site_needs_update(site, site_in_ccc)
                     if require_update:
                         self.update_fabric_site(site, site_in_ccc).check_return_status()
                     else:
                         self.no_update_site.append(site_name)
-                        self.log("Fabric site '{0}' already present and doesnot need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
+                        self.log("Fabric site '{0}' already present and does not need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
             else:
                 self.log("Checking whether the given site {0} is already fabric zone or not.".format(site_name), "DEBUG")
 
@@ -1402,9 +1866,16 @@ class FabricSitesZones(DnacBase):
                     self.log("Starting the process of making site {0} as fabric zone...".format(site_name), "DEBUG")
                     self.create_fabric_zone(site).check_return_status()
                 else:
-                    self.log("Checking whether the given fabric zone {0} needs update or not.".format(site_name), "DEBUG")
+                    self.log("Checking whether the given fabric zone {0} needs to be reconfigured or not.".format(site_name), "DEBUG")
+                    pending_events = site.get("apply_pending_events")
                     zone_in_ccc = self.get_fabric_zone_detail(site_name, site_id)
+                    if pending_events:
+                        self.log("Pending events detected for fabric zone '{0}'. Retrieving zone details.".format(site_name), "DEBUG")
+                        fabric_id = zone_in_ccc.get("id")
+                        self.log("Reconfiguring fabric zone '{0}' with fabric ID '{1}'.".format(site_name, fabric_id), "DEBUG")
+                        self.reconfigure_the_fabric_site(site_name, fabric_id).check_return_status()
 
+                    self.log("Checking whether the given fabric zone '{0}' needs an update.".format(site_name), "DEBUG")
                     if auth_profile and auth_profile != zone_in_ccc.get("authenticationProfileName"):
                         self.log(
                             "Authentication profile '{0}' does not match the profile '{1}' in Cisco Catalyst Center "
@@ -1413,13 +1884,13 @@ class FabricSitesZones(DnacBase):
                         self.update_fabric_zone(site, zone_in_ccc).check_return_status()
                     else:
                         self.no_update_zone.append(site_name)
-                        self.log("Fabric zone '{0}' already present and doesnot need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
+                        self.log("Fabric zone '{0}' already present and does not need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
 
             # Updating/customising the default parameters for authentication profile template
             if site.get("update_authentication_profile"):
                 if not auth_profile:
                     self.msg = (
-                        "Required parameter 'authentication_profile' is missing needed for updation of Authentication Profile template. "
+                        "Required parameter 'authentication_profile' is missing needed for updating the authentication profile template. "
                         "Please provide one of the following authentication_profile ['Closed Authentication', 'Low Impact'"
                         ", 'Open Authentication'] in the playbook."
                     )
@@ -1445,9 +1916,9 @@ class FabricSitesZones(DnacBase):
 
                 # Validate the playbook input parameter for updating the authentication profile
                 auth_profile_dict = site.get("update_authentication_profile")
-                self.validate_auth_profile_parameters(auth_profile_dict).check_return_status()
+                self.validate_auth_profile_parameters(auth_profile_dict, auth_profile).check_return_status()
                 validate_msg = (
-                    "All the given parameter(s) '{0}' in the playbook for the updation of authentication "
+                    "All the given parameter(s) '{0}' in the playbook for updating the authentication"
                     " profile in SDA fabric site/zone are validated successfully."
                 ).format(auth_profile_dict)
                 self.log(validate_msg, "INFO")
@@ -1512,7 +1983,7 @@ class FabricSitesZones(DnacBase):
         fabric_sites = []
         for fabric_site_dict in raw_fabric_sites:
             # Convert dictionary to a frozenset - immutable set
-            site_zone = frozenset(fabric_site_dict.items())
+            site_zone = frozenset(self.make_hashable(fabric_site_dict))
             if site_zone not in unique_fabric_site_set:
                 self.log("New unique site found: '{0}'".format(site_zone), "DEBUG")
                 unique_fabric_site_set.add(site_zone)
@@ -1526,7 +1997,7 @@ class FabricSitesZones(DnacBase):
             fabric_type = site.get("fabric_type", "fabric_site")
 
             if not site_name:
-                self.msg = "Unable to delete fabric site/zone as required parameter 'site_name' is not given in the playbook."
+                self.msg = "Unable to delete fabric site/zone as required parameter 'site_name_hierarchy' is not given in the playbook."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -1583,7 +2054,7 @@ class FabricSitesZones(DnacBase):
 
         if config.get('fabric_sites'):
             raw_fabric_sites = self.want.get('fabric_sites')
-            unique_fabric_sites = {tuple(sorted(d.items())) for d in raw_fabric_sites}
+            unique_fabric_sites = {self.make_hashable(d) for d in raw_fabric_sites}
             fabric_sites = [dict(t) for t in unique_fabric_sites]
             verify_site_list, verify_auth_list = [], []
             site_name_list, auth_name_list = [], []
@@ -1611,7 +2082,7 @@ class FabricSitesZones(DnacBase):
                 #  Verifying updating/customising the default parameters for authentication profile template
                 if site.get("update_authentication_profile"):
                     auth_flag = True
-                    # With the given site id collect the fabric site/zone id
+                    self.log("Fetching the fabric site/zone id with the given site id...", "DEBUG")
                     if fabric_type == "fabric_site":
                         site_detail = self.get_fabric_site_detail(site_name, site_id)
                         fabric_id = site_detail.get("id")
@@ -1627,37 +2098,36 @@ class FabricSitesZones(DnacBase):
             if not verify_site_list:
                 msg = (
                     "Requested fabric site(s)/zone(s) '{0}' have been successfully added/updated to the Cisco Catalyst Center "
-                    "and their addition/updation has been verified."
+                    "and their addition/update has been verified."
                 ).format(site_name_list)
-                self.log(msg, "INFO")
             else:
                 msg = (
                     "Playbook's input does not match with Cisco Catalyst Center, indicating that the fabric site(s) '{0}' "
-                    " addition/updation task may not have executed successfully."
+                    " addition/update task may not have executed successfully."
                 ).format(verify_site_list)
-                self.log(msg, "INFO")
 
+            self.log(msg, "INFO")
             if not auth_flag:
                 return self
 
             if not verify_auth_list:
                 msg = (
                     "Authentication template profile for the site(s) '{0}' have been successfully updated to the Cisco Catalyst Center "
-                    "and their updation has been verified."
+                    "and their update has been verified."
                 ).format(auth_name_list)
-                self.log(msg, "INFO")
             else:
                 msg = (
                     "Playbook's input does not match with Cisco Catalyst Center, indicating that the Authentication template "
-                    "profile for the site(s) '{0}' updation task may not have executed successfully."
+                    "profile for the site(s) '{0}' update task may not have executed successfully."
                 ).format(verify_auth_list)
-                self.log(msg, "INFO")
+
+            self.log(msg, "INFO")
 
         return self
 
     def verify_diff_deleted(self, config):
         """
-        Verify the deletion status of fabric sites/zones fromt the Cisco Catalyst Center.
+        Verify the deletion status of fabric sites/zones from the Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): The configuration details to be verified.
@@ -1701,12 +2171,12 @@ class FabricSitesZones(DnacBase):
                 "Requested fabric site(s)/zones(s) '{0}' have been successfully deleted from the Cisco Catalyst "
                 "Center and their deletion has been verified."
             ).format(site_name_list)
-            self.log(msg, "INFO")
         else:
             msg = (
                 "Playbook's input does not match with Cisco Catalyst Center, indicating that fabric site(s)/zones(s)"
                 " '{0}' deletion task may not have executed successfully."
             ).format(verify_site_list)
+        self.log(msg, "INFO")
 
         return self
 
@@ -1719,7 +2189,7 @@ def main():
                     'dnac_port': {'type': 'str', 'default': '443'},
                     'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
                     'dnac_password': {'type': 'str', 'no_log': True},
-                    'dnac_verify': {'type': 'bool', 'default': 'True'},
+                    'dnac_verify': {'type': 'bool', 'default': True},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log_level': {'type': 'str', 'default': 'WARNING'},

@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_authentication_profile_v1_info
 short_description: Information module for Sda Fabric Authentication Profile V1
 description:
-- Get all Sda Fabric Authentication Profile V1.
-- Get default authentication profile from SDA Fabric.
+  - Get all Sda Fabric Authentication Profile V1.
+  - Get default authentication profile from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,29 +19,26 @@ options:
     type: dict
   siteNameHierarchy:
     description:
-    - SiteNameHierarchy query parameter.
+      - SiteNameHierarchy query parameter.
     type: str
   authenticateTemplateName:
     version_added: "4.0.0"
     description:
-    - AuthenticateTemplateName query parameter.
+      - AuthenticateTemplateName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetDefaultAuthenticationProfileFromSDAFabricV1
-  description: Complete reference of the GetDefaultAuthenticationProfileFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-default-authentication-profile-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA GetDefaultAuthenticationProfileFromSDAFabricV1
+    description: Complete reference of the GetDefaultAuthenticationProfileFromSDAFabricV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-default-authentication-profile-from-sda-fabric
 notes:
-  - SDK Method used are
-    sda.Sda.get_default_authentication_profile,
-
-  - Paths used are
-    get /dna/intent/api/v1/business/sda/authentication-profile,
-
+  - SDK Method used are sda.Sda.get_default_authentication_profile,
+  - Paths used are get /dna/intent/api/v1/business/sda/authentication-profile,
 """
-
 EXAMPLES = r"""
 - name: Get all Sda Fabric Authentication Profile V1
   cisco.dnac.sda_fabric_authentication_profile_v1_info:
@@ -58,7 +53,6 @@ EXAMPLES = r"""
     siteNameHierarchy: string
     authenticateTemplateName: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

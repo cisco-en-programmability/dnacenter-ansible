@@ -1,0 +1,271 @@
+---
+- debug: msg="Starting application policy workflow manager test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name:  Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_application_policy_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+####################################################
+#                CREATE APPLICATION                #
+####################################################
+
+  - name: Create Application
+    cisco.dnac.application_policy_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_application }}"
+    register: result_create_application
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_application.results }}"
+  #   when: result_create_application is defined
+
+  - name: Assert Create Application
+    assert:
+      that:
+        - item.changed == true
+        - "'created successfully' in item.response"
+    loop: "{{ result_create_application.results }}"
+    when: result_create_application is defined
+
+####################################################
+#                UPDATE APPLICATION                #
+####################################################
+
+  - name: Update Application
+    cisco.dnac.application_policy_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_application }}"
+    register: result_update_application
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_application.results }}"
+  #   when: result_update_application is defined
+
+  - name: Assert Update Application
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_update_application.results }}"
+    when: result_update_application is defined
+
+
+####################################################################
+#                CREATE APPLICATION QUEUING PROFILE                #
+####################################################################
+
+  - name: Create Application Queuing Profile
+    cisco.dnac.application_policy_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_application_queuing_profile }}"
+    register: result_create_application_queuing_profile
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ create_application_queuing_profile.results }}"
+  #   when: create_application_queuing_profile is defined
+
+  - name: Assert Create Application Queuing Profile
+    assert:
+      that:
+        - item.changed == true
+        - "'application queuing profile created successfully' in item.response"
+    loop: "{{ create_application_queuing_profile.results }}"
+    when: create_application_queuing_profile is defined
+
+####################################################################
+#                UPDATE APPLICATION QUEUING PROFILE                #
+####################################################################
+
+  - name: Update Application Queuing Profile
+    cisco.dnac.application_policy_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_application_queuing_profile }}"
+    register: result_update_application_queuing_profile
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_application_queuing_profile.results }}"
+  #   when: result_update_application_queuing_profile is defined
+
+  - name: Assert Application Queuing Profile
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully.' in item.response"
+    loop: "{{ result_update_application_queuing_profile.results }}"
+    when: result_update_application_queuing_profile is defined
+
+###########################################################
+#                CREATE APPLICATION POLICY                #
+###########################################################
+
+  - name: Create Application Policy
+    cisco.dnac.application_policy_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_application_policy }}"
+    register: result_create_application_policy
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_application_policy.results }}"
+  #   when: result_create_application_policy is defined
+
+  - name: Assert Create Application Policy
+    assert:
+      that:
+        - item.changed == true
+        - "'created successfully' in item.response"
+    loop: "{{ result_create_application_policy.results }}"
+    when: result_create_application_policy is defined
+
+#############################################################
+#                UPDATE APPLICATION POLICY                  #
+#############################################################
+
+  - name: Update Application Policy
+    cisco.dnac.application_policy_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_application_policy }}"
+    register: result_update_application_policy
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_application_policy.results }}"
+  #   when: result_update_application_policy is defined
+
+  - name: Assert Update Application Policy
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_update_application_policy.results }}"
+    when: result_update_application_policy is defined
+
+#############################################
+#      DELETE APPLICATION    #
+#############################################
+
+  - name: Delete Application
+    cisco.dnac.application_policy_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_application }}"
+    register: result_deleted_application
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_deleted_application.results }}"
+  #   when: result_deleted_application is defined
+
+  - name: Assert Delete Application
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response"
+    loop: "{{ result_deleted_application.results }}"
+    when: result_deleted_application is defined
+
+##################################################
+#      DELETE APPLICATION POLICY - CLEAN-UP      #
+##################################################
+
+  - name: Delete Application Policy
+    cisco.dnac.application_policy_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_application_policy }}"
+    register: result_delete_application_policy
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_application_policy.results }}"
+  #   when: result_delete_application_policy is defined
+
+  - name: Assert Delete Application Policy
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response"
+    loop: "{{ result_delete_application_policy.results }}"
+    when: result_delete_application_policy is defined
+
+#############################################################
+#      DELETE APPLICATION QUEUING PROFILE - CLEAN-UP        #
+#############################################################
+
+  - name: Delete Application Queuing Profile
+    cisco.dnac.application_policy_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_application_queuing }}"
+    register: result_delete_application_queuing
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_application_queuing.results }}"
+  #   when: result_delete_application_queuing is defined
+
+  - name: Assert DELETE APPLICATION QUEUING PROFILE
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response"
+    loop: "{{ result_delete_application_queuing.results }}"
+    when: result_delete_application_queuing is defined

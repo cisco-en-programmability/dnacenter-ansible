@@ -1,5 +1,6 @@
 ---
-- hosts: dnac_servers
+- name: Import image file
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -10,11 +11,11 @@
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
-        filePath: fullpath/playbooks/files/test.template # string
-        isThirdParty: true # boolean
-        thirdPartyApplicationType: SomeValue # string
-        thirdPartyImageFamily: SomeValue # string
-        thirdPartyVendor: SomeValue # string
+        filePath: fullpath/playbooks/files/test.template  # string
+        isThirdParty: true  # boolean
+        thirdPartyApplicationType: SomeValue  # string
+        thirdPartyImageFamily: SomeValue  # string
+        thirdPartyVendor: SomeValue  # string
       register: result
 
     - name: Show result

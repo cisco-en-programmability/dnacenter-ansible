@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: reserve_ip_subpool_update_v1
 short_description: Resource module for Reserve Ip Subpool Update V1
 description:
-- Manage operation update of the resource Reserve Ip Subpool Update V1.
-- API to update ip subpool from the global pool.
+  - Manage operation update of the resource Reserve Ip Subpool Update V1.
+  - API to update ip subpool from the global pool.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,8 +29,8 @@ options:
     description: Gateway ip address details, example 175.175.0.1.
     type: str
   ipv6AddressSpace:
-    description: If the value is false only ipv4 input are required. NOTE if value is
-      false then any existing ipv6 subpool in the group will be removed.
+    description: If the value is false only ipv4 input are required. NOTE if value
+      is false then any existing ipv6 subpool in the group will be removed.
     type: bool
   ipv6DhcpServers:
     description: IPv6 format dhcp server as input example "2001 db8 1234".
@@ -73,21 +71,16 @@ options:
     description: Slaac Support.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
-  description: Complete reference of the UpdateReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
+  - name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
+    description: Complete reference of the UpdateReserveIPSubpoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.update_reserve_ip_subpool_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
-
+  - SDK Method used are network_settings.NetworkSettings.update_reserve_ip_subpool_v1,
+  - Paths used are put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
 """
-
 EXAMPLES = r"""
 - name: Update by id
   cisco.dnac.reserve_ip_subpool_update_v1:
@@ -100,15 +93,15 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     id: string
     ipv4DhcpServers:
-    - string
+      - string
     ipv4DnsServers:
-    - string
+      - string
     ipv4GateWay: string
     ipv6AddressSpace: true
     ipv6DhcpServers:
-    - string
+      - string
     ipv6DnsServers:
-    - string
+      - string
     ipv6GateWay: string
     ipv6GlobalPool: string
     ipv6Prefix: true
@@ -118,7 +111,6 @@ EXAMPLES = r"""
     name: string
     siteId: string
     slaacSupport: true
-
 """
 RETURN = r"""
 dnac_response:

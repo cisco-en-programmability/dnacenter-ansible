@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: swim_import_via_url
 short_description: Resource module for Swim Import Via Url
 description:
-- This module represents an alias of the module swim_import_via_url_v1
+  - This module represents an alias of the module swim_import_via_url_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -47,22 +44,18 @@ options:
     description: ScheduleOrigin query parameter. Originator of this call (Optional).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportSoftwareImageViaURLV1
-  description: Complete reference of the ImportSoftwareImageViaURLV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-software-image-via-url
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportSoftwareImageViaURLV1
+    description: Complete reference of the ImportSoftwareImageViaURLV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!import-software-image-via-url
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/image/importation/source/url,
+  - Paths used are post /dna/intent/api/v1/image/importation/source/url,
   - It should be noted that this module is an alias of swim_import_via_url_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.swim_import_via_url:
@@ -74,15 +67,14 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - applicationType: string
-      imageFamily: string
-      sourceURL: string
-      thirdParty: true
-      vendor: string
+      - applicationType: string
+        imageFamily: string
+        sourceURL: string
+        thirdParty: true
+        vendor: string
     scheduleAt: string
     scheduleDesc: string
     scheduleOrigin: string
-
 """
 RETURN = r"""
 dnac_response:

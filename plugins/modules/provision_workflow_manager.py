@@ -1,172 +1,216 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Abinash Mishra, Madhan Sankaranarayanan, Syed Khadeer Ahmed, Ajith Andrew J")
-
 DOCUMENTATION = r"""
 ---
 module: provision_workflow_manager
 short_description: Resource module for provision related functions
 description:
-- Manage operations related to wired and wireless provisioning
-- API to re-provision provisioned devices
-- API to un-provision provisioned devices
+  - Manage operations related to wired and wireless provisioning
+  - API to re-provision provisioned devices
+  - API to un-provision provisioned devices
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abinash Mishra (@abimishr)
-        Madhan Sankaranarayanan (@madhansansel)
-        Syed Khadeer Ahmed(@syed-khadeerahmed)
-        Ajith Andrew J (@ajithandrewj)
+author: Abinash Mishra (@abimishr) Madhan Sankaranarayanan (@madhansansel) Syed Khadeer
+  Ahmed(@syed-khadeerahmed) Ajith Andrew J (@ajithandrewj)
 options:
   config_verify:
-    description: Set to true to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to true to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
     default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - List of details of device being managed.
+      - List of details of device being managed.
     type: list
     elements: dict
     required: true
     suboptions:
-        management_ip_address:
-            description: Management Ip Address of the device.
+      management_ip_address:
+        description: Management Ip Address of the device.
+        type: str
+        required: true
+      provisioning:
+        description:
+          - Specifies whether the user intends to perform site assignment only or
+            full provisioning for a wired device.
+          - Set to 'false' to carry out site assignment only.
+          - Set to 'true' to proceed with provisioning to a site.
+        type: bool
+        required: false
+        default: true
+      force_provisioning:
+        description:
+          - Determines whether to force reprovisioning of a device.
+          - A device cannot be re-provisioned to a different site.
+          - The 'provisioning' option should not be set to 'false' for 'force_provisioning'
+            to take effect.
+          - Set to 'true' to enforce reprovisioning, even if the device is already
+            provisioned.
+          - Set to 'false' to skip provisioning for devices that are already provisioned.
+        type: bool
+        required: false
+        default: false
+      site_name_hierarchy:
+        description: Name of the site where the device will be added. This parameter
+          is required for provisioning the device and assigning it to a site.
+        type: str
+        required: true
+      managed_ap_locations:
+        description:
+          - Specifies the site locations allocated for Access Points (APs).
+          - Renamed to 'primary_managed_ap_locations' starting from Cisco Catalyst
+            version 2.3.7.6 to differentiate between primary and secondary managed
+            AP locations.
+          - Backward compatibility is maintained; either 'managed_ap_locations' or
+            'primary_managed_ap_locations' can be specified, with no changes required
+            after upgrades.
+          - Either 'managed_ap_locations' or 'primary_managed_ap_locations' can be
+            used interchangeably, but only one of them is mandatory and must be provided.
+        type: list
+        elements: str
+      primary_managed_ap_locations:
+        description:
+          - Specifies the site locations assigned to primary managed Access Points
+            (APs).
+          - Introduced as the updated name for 'managed_ap_locations' starting from
+            Cisco Catalyst version 2.3.7.6.
+          - Backward compatible with 'managed_ap_locations'; either parameter can
+            be specified without requiring changes after upgrades.
+          - Mandatory for provisioning wireless devices if 'managed_ap_locations'
+            is not used.
+          - Supported in Cisco Catalyst version 2.3.7.6 and later.
+        type: list
+        elements: str
+      secondary_managed_ap_locations:
+        description:
+          - Specifies the site locations assigned to secondary managed Access Points
+            (APs).
+          - Introduced in Cisco Catalyst version 2.3.7.6 to allow differentiation
+            between primary and secondary managed AP locations.
+          - Mandatory for provisioning wireless devices in scenarios where secondary
+            AP locations are required.
+        type: list
+        elements: str
+      dynamic_interfaces:
+        description:
+          - A list of dynamic interfaces on the wireless controller.
+          - Each entry represents an interface with associated configuration details.
+        type: list
+        elements: dict
+        suboptions:
+          interface_name:
+            description: The name of the interface.
             type: str
-            required: true
-        provisioning:
-            description:
-                - Specifies whether the user intends to perform site assignment only or full provisioning for a wired device.
-                - Set to 'false' to carry out site assignment only.
-                - Set to 'true' to proceed with provisioning to a site.
-            type: bool
-            required: false
-            default: true
-        force_provisioning:
-            description:
-                - Determines whether to force reprovisioning of a device.
-                - A device cannot be re-provisioned to a different site.
-                - The 'provisioning' option should not be set to 'false' for 'force_provisioning' to take effect.
-                - Applicable only for wired devices.
-                - Set to 'true' to enforce reprovisioning, even if the device is already provisioned.
-                - Set to 'false' to skip provisioning for devices that are already provisioned.
-            type: bool
-            required: false
-            default: false
-        site_name_hierarchy:
-            description: Name of the site where the device will be added. This parameter is required for provisioning the device and assigning it to a site.
+          vlan_id:
+            description: The VLAN ID associated with the interface.
             type: str
-            required: true
-        managed_ap_locations:
+          interface_ip_address:
+            description: The IP address assigned to the interface.
+            type: str
+          interface_netmask_in_c_i_d_r:
+            description: The netmask of the interface in CIDR format (e.g., 24 for
+              255.255.255.0).
+            type: str
+          interface_gateway:
+            description: The gateway IP address for the interface.
+            type: str
+          lag_or_port_number:
+            description: The port number or LAG (Link Aggregation Group) identifier.
+            type: str
+      skip_ap_provision:
+        description:
+          - If set to 'true', Access Point (AP) provisioning will be skipped during
+            the workflow.
+          - Use this option when AP provisioning is not required as part of the current
+            operation.
+          - Supported in Cisco Catalyst version 2.3.7.6 and later.
+        type: bool
+        default: false
+      rolling_ap_upgrade:
+        description:
+          - Configuration options for performing a rolling upgrade of Access Points
+            (APs) in phases.
+          - Allows control over the gradual rebooting of APs during the upgrade process.
+          - Supported in Cisco Catalyst version 2.3.7.6 and later.
+        type: dict
+        suboptions:
+          enable_rolling_ap_upgrade:
             description:
-                - Location of the sites allocated for the APs.
-                - This is mandatory for provisioning of wireless devices.
-            type: list
-            elements: str
-        primary_managed_ap_locations:
-            description:
-                - List of site locations assigned to primary managed Access Points (APs).
-                - Required for provisioning wireless devices if the managed AP location is not set.
-                - Supported in Cisco Catalyst version 2.3.7.6 and later.
-            type: list
-            elements: str
-        secondary_managed_ap_locations:
-            description:
-                - List of site locations assigned to secondary managed Access Points (APs).
-                - Required for provisioning wireless devices if the managed AP location is not set.
-                - Supported in Cisco Catalyst version 2.3.7.6 and later.
-            type: list
-            elements: str
-        dynamic_interfaces:
-            description:
-              - A list of dynamic interfaces on the wireless controller.
-              - Each entry represents an interface with associated configuration details.
-            type: list
-            elements: dict
-            suboptions:
-                interface_name:
-                    description: The name of the interface.
-                    type: str
-                vlan_id:
-                    description: The VLAN ID associated with the interface.
-                    type: str
-                interface_ip_address:
-                    description: The IP address assigned to the interface.
-                    type: str
-                interface_netmask_in_c_i_d_r:
-                    description: The netmask of the interface in CIDR format (e.g., 24 for 255.255.255.0).
-                    type: str
-                interface_gateway:
-                    description: The gateway IP address for the interface.
-                    type: str
-                lag_or_port_number:
-                    description: The port number or LAG (Link Aggregation Group) identifier.
-                    type: str
-        skip_ap_provision:
-            description:
-              - If set to 'true', Access Point (AP) provisioning will be skipped during the workflow.
-              - Use this option when AP provisioning is not required as part of the current operation.
+              - Enable or disable the rolling AP upgrade feature.
+              - If set to 'true', APs will be upgraded in batches based on the specified
+                reboot percentage.
               - Supported in Cisco Catalyst version 2.3.7.6 and later.
             type: bool
             default: false
-        rolling_ap_upgrade:
+          ap_reboot_percentage:
             description:
-              - Configuration options for performing a rolling upgrade of Access Points (APs) in phases.
-              - Allows control over the gradual rebooting of APs during the upgrade process.
+              - The percentage of APs to reboot simultaneously during an upgrade.
               - Supported in Cisco Catalyst version 2.3.7.6 and later.
-            type: dict
-            suboptions:
-                enable_rolling_ap_upgrade:
-                    description:
-                      - Enable or disable the rolling AP upgrade feature.
-                      - If set to 'true', APs will be upgraded in batches based on the specified reboot percentage.
-                      - Supported in Cisco Catalyst version 2.3.7.6 and later.
-                    type: bool
-                    default: false
-                ap_reboot_percentage:
-                    description:
-                      - The percentage of APs to reboot simultaneously during an upgrade.
-                      - Supported in Cisco Catalyst version 2.3.7.6 and later.
-                      - Must be either 5, 15 or 25 representing the proportion of APs to reboot at once.
-                    type: int
+              - Must be either 5, 15 or 25 representing the proportion of APs to reboot
+                at once.
+            type: int
+      application_telemetry:
+        description: |
+            - A list of settings for enabling or disabling application telemetry on a group of network devices.
+            - Supported in Cisco Catalyst version 2.3.7.9 and later.
+        type: list
+        elements: dict
+        suboptions:
+          device_ips:
+            description: A list of IP addresses representing the network devices on which application telemetry should be enabled or disabled.
+            type: list
+            elements: str
+          telemetry:
+            description: |
+                - Specifies whether to enable or disable application telemetry on the devices.
+            type: str
+            choices: ["enable", "disable"]
+          wlan_mode:
+            description: |
+                - Defines the WLAN mode for the device.
+                - Applicable when enabling telemetry on wireless devices
+            type: str
+            choices: ["LOCAL", "NON_LOCAL"]
+          include_guest_ssid:
+            description: A flag that indicates whether to include guest SSID information when enabling telemetry for wireless devices.
+            type: bool
+            default: false
 
 requirements:
-- dnacentersdk == 2.4.5
-- python >= 3.9
+  - dnacentersdk == 2.4.5
+  - python >= 3.9
 notes:
-  - SDK Methods used are
-    sites.Sites.get_site,
-    devices.Devices.get_network_device_by_ip,
-    task.Task.get_task_by_id,
-    sda.Sda.get_provisioned_wired_device,
-    sda.Sda.re_provision_wired_device,
-    sda.Sda.provision_wired_device,
-    wireless.Wireless.provision
+  - SDK Methods used are sites.Sites.get_site, devices.Devices.get_network_device_by_ip,
+    task.Task.get_task_by_id, sda.Sda.get_provisioned_wired_device, sda.Sda.re_provision_wired_device,
+    sda.Sda.provision_wired_device, wireless.Wireless.provision
+    devices.Device.delete_network_device_with_configuration_cleanup,
+    devices.Device.delete_a_network_device_without_configuration_cleanup,
+    application_policy.ApplicationPolicy.enable_application_telemetry_feature_on_multiple_network_devices_v1,
+    application_policy.ApplicationPolicy.disable_application_telemetry_feature_on_multiple_network_devices_v1
 
-  - Paths used are
-    get /dna/intent/api/v1/site
-    get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
-    get /dna/intent/api/v1/task/{taskId}
-    get /dna/intent/api/v1/business/sda/provision-device
-    put /dna/intent/api/v1/business/sda/provision-device
-    post /dna/intent/api/v1/business/sda/provision-device
+  - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
+    get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/business/sda/provision-device
+    put /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/business/sda/provision-device
     post /dna/intent/api/v1/wireless/provision
+    delete /dna/intent/api/v1/networkDevices/deleteWithCleanup
+    delete /dna/intent/api/v1/networkDevices/deleteWithoutCleanup
+    post /dna/intent/api/v1/applicationVisibility/networkDevices/enableAppTelemetry
+    post /dna/intent/api/v1/applicationVisibility/networkDevices/disableAppTelemetry
 
   - Added 'provisioning' option in v6.16.0
   - Added provisioning and reprovisioning of wireless devices in v6.16.0
-
 """
-
 EXAMPLES = r"""
 - name: Provision a wireless device to a site
   cisco.dnac.provision_workflow_manager:
@@ -180,15 +224,15 @@ EXAMPLES = r"""
     dnac_log: true
     state: merged
     config:
-        - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-          management_ip_address: 204.192.3.40
-          managed_ap_locations:
-            - Global/USA/San Francisco/BGL_18/Test_Floor2
-          dynamic_interfaces:
-            - vlan_id: 1866
-              interface_name: Vlan1866
-              interface_ip_address: 204.192.6.200
-              interface_gateway: 204.192.6.1
+      - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+        management_ip_address: 204.192.3.40
+        managed_ap_locations:
+          - Global/USA/San Francisco/BGL_18/Test_Floor2
+        dynamic_interfaces:
+          - vlan_id: 1866
+            interface_name: Vlan1866
+            interface_ip_address: 204.192.6.200
+            interface_gateway: 204.192.6.1
 
 - name: Provision a wireless device to a site for version - 2.3.7.6
   cisco.dnac.provision_workflow_manager:
@@ -202,21 +246,21 @@ EXAMPLES = r"""
     dnac_log: true
     state: merged
     config:
-        - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-          management_ip_address: 204.192.3.40
-          primary_managed_ap_locations:
-            - Global/USA/San Francisco/BGL_18/Test_Floor2
-          secondary_managed_ap_locations:
-            - Global/USA/San Francisco/BGL_18/Test_Floor1
-          dynamic_interfaces:
-            - interface_name: Vlan1866
-              vlan_id: 1866
-              interface_ip_address: 204.192.6.200
-              interface_gateway: 204.192.6.1
-          skip_ap_provision: false
-          rolling_ap_upgrade:
-            enable_rolling_ap_upgrade: false
-            ap_reboot_percentage: 5
+      - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+        management_ip_address: 204.192.3.40
+        primary_managed_ap_locations:
+          - Global/USA/San Francisco/BGL_18/Test_Floor2
+        secondary_managed_ap_locations:
+          - Global/USA/San Francisco/BGL_18/Test_Floor1
+        dynamic_interfaces:
+          - interface_name: Vlan1866
+            vlan_id: 1866
+            interface_ip_address: 204.192.6.200
+            interface_gateway: 204.192.6.1
+        skip_ap_provision: false
+        rolling_ap_upgrade:
+          enable_rolling_ap_upgrade: false
+          ap_reboot_percentage: 5
 
 - name: Provision a wired device to a site
   cisco.dnac.provision_workflow_manager:
@@ -230,8 +274,8 @@ EXAMPLES = r"""
     dnac_log: true
     state: merged
     config:
-        - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-          management_ip_address: 204.192.3.40
+      - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+        management_ip_address: 204.192.3.40
 
 - name: Re-Provision a wired device to a site forcefully
   cisco.dnac.provision_workflow_manager:
@@ -245,9 +289,9 @@ EXAMPLES = r"""
     dnac_log: true
     state: merged
     config:
-        - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-          management_ip_address: 204.192.3.40
-          force_provisioning: true
+      - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+        management_ip_address: 204.192.3.40
+        force_provisioning: true
 
 - name: Assign a wired device to a site
   cisco.dnac.provision_workflow_manager:
@@ -261,9 +305,9 @@ EXAMPLES = r"""
     dnac_log: true
     state: merged
     config:
-        - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-          management_ip_address: 204.192.3.40
-          provisioning: false
+      - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+        management_ip_address: 204.192.3.40
+        provisioning: false
 
 - name: Provision a wireless device to a site
   cisco.dnac.provision_workflow_manager:
@@ -278,10 +322,10 @@ EXAMPLES = r"""
     state: merged
     config_verify: true
     config:
-        - site_name_hierarchy: Global/USA/RTP/BLD11
-          management_ip_address: 204.192.12.201
-          managed_ap_locations:
-            - Global/USA/RTP/BLD11/BLD11_FLOOR1
+      - site_name_hierarchy: Global/USA/RTP/BLD11
+        management_ip_address: 204.192.12.201
+        managed_ap_locations:
+          - Global/USA/RTP/BLD11/BLD11_FLOOR1
 
 - name: Unprovision a device from a site
   cisco.dnac.provision_workflow_manager:
@@ -296,10 +340,80 @@ EXAMPLES = r"""
     state: deleted
     config_verify: true
     config:
-        - management_ip_address: 204.1.2.2
+      - management_ip_address: 204.1.2.2
 
+- name: Unprovision a device from a site
+  cisco.dnac.provision_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    state: deleted
+    config_verify: true
+    config:
+      - management_ip_address: 204.1.2.2
+        clean_config: true
+
+- name: Configure application telemetry for network devices on Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Enable application telemetry on specified network devices
+      cisco.dnac.provision_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: false
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - application_telemetry:
+              - device_ips: ["204.1.1.2", "204.192.6.200"]
+                telemetry: enable
+                wlan_mode: LOCAL
+                include_guest_ssid: true
+
+- name: Configure application telemetry for network devices on Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Disable application telemetry on specified network devices
+      cisco.dnac.provision_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: false
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - application_telemetry:
+              - device_ips: ["204.1.1.2", "204.192.6.200"]
+                telemetry: disable
 """
-
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of provision
 response_1:
@@ -315,7 +429,6 @@ response_1:
         },
       "msg": String
     }
-
 # Case_2: Error while creating a provision
 response_2:
   description: A list with the response returned by the Cisco Catalyst Center Python SDK
@@ -326,7 +439,6 @@ response_2:
       "response": [],
       "msg": String
     }
-
 # Case_3: Already exists and requires no update
 response_3:
   description: A dictionary with the exisiting details as returned by the Cisco Cisco Catalyst Center  Python SDK
@@ -354,6 +466,7 @@ class Provision(DnacBase):
     """
     def __init__(self, module):
         super().__init__(module)
+        self.device_type = None
 
     def validate_input(self, state=None):
 
@@ -382,10 +495,10 @@ class Provision(DnacBase):
             return self
 
         provision_spec = {
-            "management_ip_address": {'type': 'str', 'required': True},
-            "site_name_hierarchy": {'type': 'str', 'required': False},
+            "management_ip_address": {'type': 'str', 'required': False},
             "managed_ap_locations": {'type': 'list', 'required': False,
                                      'elements': 'str'},
+            "site_name_hierarchy": {'type': 'str', 'required': False},
             "primary_managed_ap_locations": {'type': 'list', 'required': False,
                                              'elements': 'str'},
             "secondary_managed_ap_locations": {'type': 'list', 'required': False,
@@ -395,21 +508,77 @@ class Provision(DnacBase):
             "skip_ap_provision": {'type': 'bool', 'required': False},
             "rolling_ap_upgrade": {'type': 'dict', 'required': False},
             "provisioning": {'type': 'bool', 'required': False, "default": True},
-            "force_provisioning": {'type': 'bool', 'required': False, "default": False}
+            "force_provisioning": {'type': 'bool', 'required': False, "default": False},
+            "clean_config": {'type': 'bool', 'required': False, "default": False},
+            'application_telemetry': {
+                'type': 'list',
+                'elements': 'dict',
+                'options': {
+                    'device_ips': {'type': 'list', 'elements': 'str', 'required': True},
+                    'telemetry': {'type': 'str', 'required': True},
+                    'wlan_mode': {'type': 'str', 'required': False},
+                    'include_guest_ssid': {'type': 'bool', 'required': False, "default": False}
+                }
+            }
         }
-        if state == "merged":
-            provision_spec["site_name_hierarchy"] = {'type': 'str', 'required': True}
-            missing_params = []
-            for config_item in self.config:
-                if "site_name_hierarchy" not in config_item or config_item["site_name_hierarchy"] is None:
-                    missing_params.append("site_name_hierarchy")
-                if "management_ip_address" not in config_item or config_item["management_ip_address"] is None:
-                    missing_params.append("management_ip_address")
 
-            if missing_params:
-                self.msg = "Missing or invalid required parameter(s): {0}".format(', '.join(missing_params))
-                self.status = "failed"
-                return self
+        if state == "merged":
+            application_telemetry_present = any("application_telemetry" in config_item for config_item in self.config)
+            missing_params = []
+
+            if application_telemetry_present:
+                self.log("Detected 'application_telemetry' in the configuration")
+
+                for config_item in self.config:
+                    telemetry_list = config_item.get("application_telemetry", [])
+                    for index, config_item in enumerate(self.config):
+                        telemetry_list = config_item.get("application_telemetry", [])
+
+                        # Validate each telemetry entry
+                        for entry_index, telemetry_entry in enumerate(telemetry_list):
+
+                            if "device_ips" not in telemetry_entry or not telemetry_entry["device_ips"]:
+                                missing_params.add("device_ips")
+                                self.log(
+                                    "Missing or empty 'device_ips' in 'application_telemetry' at config item {}, telemetry entry {}."
+                                    .format(index, entry_index),
+                                    "DEBUG"
+                                )
+
+                            if "telemetry" not in telemetry_entry or telemetry_entry["telemetry"] is None:
+                                missing_params.add("telemetry")
+                                self.log(
+                                    "Missing or empty 'telemetry' in 'application_telemetry' at config item {}, telemetry entry {}."
+                                    .format(index, entry_index),
+                                    "DEBUG"
+                                )
+
+                if missing_params:
+                    self.msg = "Missing or invalid required parameter(s) in application_telemetry: {0}".format(', '.join(set(missing_params)))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
+
+            else:
+                self.log("'application_telemetry' not found. Validating other required parameters.", "INFO")
+                provision_spec["site_name_hierarchy"] = {'type': 'str', 'required': True}
+                for index, config_item in enumerate(self.config):
+                    if "site_name_hierarchy" not in config_item or not config_item["site_name_hierarchy"]:
+                        missing_params.add("site_name_hierarchy")
+                        self.log(
+                            "Missing or empty 'site_name_hierarchy' in config item at index {0}.".format(index), "ERROR"
+                        )
+
+                    if "management_ip_address" not in config_item or not config_item["management_ip_address"]:
+                        missing_params.add("management_ip_address")
+                        self.log(
+                            "Missing or empty 'management_ip_address' in config item at index {0}.".format(index), "ERROR"
+                        )
+
+                if missing_params:
+                    self.msg = "Missing or invalid required parameter(s): {0}".format(', '.join(set(missing_params)))
+                    self.status = "failed"
+                    return self
 
         valid_provision, invalid_params = validate_list_of_dicts(
             self.config, provision_spec
@@ -436,8 +605,8 @@ class Provision(DnacBase):
                   to be validated.
         Returns:
           The method returns an instance of the class with updated attributes:
-          - device_type: A string indicating the type of the
-                       device (wired/wireless).
+          str: The type of the device ('wired' or 'wireless'), or None if the device is
+              unrecognized, not present, or an error occurs.
         Example:
           Post creation of the validated input, we use this method to get the
           type of the device.
@@ -448,22 +617,38 @@ class Provision(DnacBase):
                 function='get_network_device_by_ip',
                 params={"ip_address": self.validated_config["management_ip_address"]}
             )
+
+            self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
+
+            dev_dict = dev_response.get("response", {})
+            if not dev_dict:
+                self.log("Invalid response received from the API 'get_network_device_by_ip'. 'response' is empty or missing.", "WARNING")
+                return None
+
+            device_family = dev_dict.get("family")
+            if not device_family:
+                self.log("Device family is missing in the response.", "WARNING")
+                return None
+
+            if device_family == "Wireless Controller":
+                device_type = "wireless"
+            elif device_family in ["Switches and Hubs", "Routers"]:
+                device_type = "wired"
+            else:
+                device_type = None
+
+            self.log("The device type is {0}".format(device_type), "INFO")
+
+            return device_type
+
         except Exception as e:
-            self.log(str(e), "ERROR")
-            self.module.fail_json(msg=str(e))
+            msg = (
+                "The Device - {0} not present in the Cisco Catalyst Center."
+                .format(self.validated_config.get("management_ip_address"))
+            )
+            self.log(msg, "INFO")
 
-        self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
-        dev_dict = dev_response.get("response")
-        device_family = dev_dict["family"]
-
-        if device_family == "Wireless Controller":
-            device_type = "wireless"
-        elif device_family in ["Switches and Hubs", "Routers"]:
-            device_type = "wired"
-        else:
-            device_type = None
-        self.log("The device type is {0}".format(device_type), "INFO")
-        return device_type
+            return None
 
     def get_device_id(self):
         """
@@ -478,60 +663,27 @@ class Provision(DnacBase):
           After creating the validated input, this method retrieves the
           UUID of the device.
         """
-
-        dev_response = self.dnac_apply['exec'](
-            family="devices",
-            function='get_network_device_by_ip',
-            params={"ip_address": self.validated_config["management_ip_address"]}
-        )
-
-        self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
-        dev_dict = dev_response.get("response")
-        device_id = dev_dict.get("id")
-
-        self.log("Device ID of the device with IP address {0} is {1}".format(self.validated_config["management_ip_address"], device_id), "INFO")
-        return device_id
-
-    def get_serial_number(self):
-        """
-        Fetches the serial number of the device
-
-        Parameters:
-          - self: The instance of the class containing the 'config' attribute
-                  to be validated.
-        Returns:
-          The method returns the serial number of the device as a string. If it fails, it returns None.
-        Example:
-          After creating the validated input, this method retrieves the
-          serial number of the device.
-        """
-
         try:
-            response = self.dnac_apply['exec'](
+            dev_response = self.dnac_apply['exec'](
                 family="devices",
                 function='get_network_device_by_ip',
                 params={"ip_address": self.validated_config["management_ip_address"]}
             )
 
+            self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
+            dev_dict = dev_response.get("response")
+            device_id = dev_dict.get("id")
+
+            self.log("Device ID of the device with IP address {0} is {1}".format(self.validated_config["management_ip_address"], device_id), "INFO")
+
         except Exception as e:
-            self.log("An error occurred while fetching the serial number: {0}".format(str(e)), "ERROR")
-            return None
+            self.msg = (
+                "The Device - {0} not present in the Cisco Catalyst Center."
+                .format(self.validated_config.get("management_ip_address"))
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        if not (response or response.get("response")):
-            self.log("No response received from 'get_network_device_by_ip' API or it's invalid.", "ERROR")
-            return None
-
-        self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(response)), "DEBUG")
-        dev_dict = response.get("response")
-        serial_number = dev_dict.get("serialNumber")
-
-        if not serial_number:
-            self.log("Serial number not found in the response.", "ERROR")
-            return None
-
-        self.log("Serial Number of the device is {0}".format(str(serial_number)), "INFO")
-
-        return serial_number
+        return device_id
 
     def get_task_status(self, task_id=None):
         """
@@ -834,59 +986,65 @@ class Provision(DnacBase):
           paramters and stores it for further processing and calling the
           parameters in other APIs.
         """
-
+        ip_address = self.validated_config.get("management_ip_address")
+        ap_locations = self.validated_config.get("primary_managed_ap_locations") or self.validated_config.get("managed_ap_locations")
         wireless_params = [
             {
                 "site": self.validated_config.get("site_name_hierarchy"),
-                "managedAPLocations": self.validated_config.get("managed_ap_locations"),
+                "managedAPLocations": ap_locations,
             }
         ]
 
-        ap_locations = wireless_params[0].get("managedAPLocations")
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
-            if not ap_locations or not isinstance(ap_locations, list):
-                self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
-                msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
-                    within the site hierarchy."
-                self.log(msg, "CRITICAL")
-                self.module.fail_json(msg=msg, response=[])
-
-        else:
-            if (not self.validated_config.get("primary_managed_ap_locations")) :
-                self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
-                msg = "Missing primary Managed AP Locations: Please specify the intended location(s) for the wireless device \
-                    within the site hierarchy."
-                self.log(msg, "CRITICAL")
-                self.module.fail_json(msg=msg, response=[])
+        if not ap_locations :
+            self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
+            self.msg = (
+                "Missing Managed AP Locations or Primary Managed AP Locations: "
+                "Please specify the intended location(s) for the wireless device {0} "
+                "within the site hierarchy".format(ip_address)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         ap_locations = self.validated_config.get("primary_managed_ap_locations") or self.validated_config.get("managed_ap_locations")
 
         self.floor_names = []
-        for ap_loc in ap_locations:
-            self.log("Processing AP location: {0}".format(ap_loc), "DEBUG")
-            site_type = self.get_site_type(site_name_hierarchy=ap_loc)
-            self.log("Resolved site type for AP location '{0}': '{1}'".format(ap_loc, site_type), "DEBUG")
 
-            if site_type == "floor":
-                self.log("Adding '{0}' to floor names list".format(ap_loc), "DEBUG")
-                self.floor_names.append(ap_loc)
-            elif site_type == "building":
-                self.log("Building site type detected for '{0}'. Retrieving floor details.".format(ap_loc), "DEBUG")
-                building_name = ap_loc + ".*"
-                floors = self.get_site(building_name)
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            for ap_loc in ap_locations:
+                self.log("Processing AP location: {0}".format(ap_loc), "DEBUG")
+                site_type = self.get_site_type(site_name_hierarchy=ap_loc)
+                self.log("Resolved site type for AP location '{0}': '{1}'".format(ap_loc, site_type), "DEBUG")
 
-                for item in floors['response']:
-                    if item.get('type') == 'floor':
-                        self.log("Floor found: '{0}' for building '{1}'".format(item['nameHierarchy'], ap_loc), "DEBUG")
-                        self.floor_names.append(item['nameHierarchy'])
-                    elif 'additionalInfo' in item:
-                        for additional_info in item['additionalInfo']:
-                            if 'attributes' in additional_info and additional_info['attributes'].get('type') == 'floor':
-                                self.log("Floor found in additionalInfo: '{0}' for building '{1}'".format(item['siteNameHierarchy'], ap_loc), "DEBUG")
-                                self.floor_names.append(item['siteNameHierarchy'])
-            else:
-                self.log("Invalid site type detected for '{0}'. Managed AP Location must be building or floor.".format(ap_loc), "CRITICAL")
-                self.module.fail_json(msg="Managed AP Location must be building or floor", response=[])
+                if site_type == "floor":
+                    self.log("Site type is 'floor'. Adding '{0}' to the floor names list.".format(ap_loc), "DEBUG")
+                    self.floor_names.append(ap_loc)
+                elif site_type == "building":
+                    self.log("Site type is 'building'. Retrieving floor details for building '{0}'.".format(ap_loc), "DEBUG")
+                    building_name = ap_loc + ".*"
+                    floors = self.get_site(building_name)
+
+                    if 'response' in floors and isinstance(floors['response'], list):
+                        for item in floors['response']:
+                            if item.get('type') == 'floor':
+                                self.log("Floor found: '{0}' for building '{1}'.".format(item['nameHierarchy'], ap_loc), "DEBUG")
+                                self.floor_names.append(item['nameHierarchy'])
+                            elif 'additionalInfo' in item:
+                                for additional_info in item['additionalInfo']:
+                                    if 'attributes' in additional_info and additional_info['attributes'].get('type') == 'floor':
+                                        self.log("Floor found in additionalInfo: '{0}' for building '{1}'.".format(
+                                            additional_info['siteNameHierarchy'], ap_loc), "DEBUG"
+                                        )
+                                        self.floor_names.append(additional_info['siteNameHierarchy'])
+                    else:
+                        self.log("No floors found for building '{0}' or 'response' is invalid.".format(ap_loc), "DEBUG")
+                else:
+                    self.log("Invalid site type '{0}' for location '{1}'. Managed AP Location must be building or floor.".format(site_type, ap_loc), "CRITICAL")
+                    self.module.fail_json(
+                        msg=(
+                            "Invalid site type '{0}' for location '{1}'. Managed AP Location must be building or floor."
+                            .format(site_type, ap_loc)
+                        ),
+                        response=[]
+                    )
 
         self.log("Final list of floor names: {0}".format(self.floor_names), "DEBUG")
 
@@ -944,6 +1102,26 @@ class Provision(DnacBase):
         self.want = {}
         self.device_ip = self.validated_config["management_ip_address"]
         state = self.params.get("state")
+
+        application_telemetry = self.validated_config.get('application_telemetry', [])
+
+        MIN_SUPPORTED_VERSION = "2.3.7.9"
+        current_version = self.get_ccc_version()
+
+        if self.compare_dnac_versions(current_version, MIN_SUPPORTED_VERSION) >= 0:
+            self.log("Current Catalyst Center version ({0}) supports application telemetry.".format(current_version), "DEBUG")
+
+            if application_telemetry:
+                self.log("Application telemetry configuration detected: {0}".format(application_telemetry), "DEBUG")
+                self.want["application_telemetry"] = application_telemetry
+                return self
+            else:
+                self.log("No application telemetry configuration found in the validated config.", "DEBUG")
+        else:
+            self.msg = "Application telemetry is available only in version {0} or higher. Current version: {1}".format(MIN_SUPPORTED_VERSION, current_version)
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
         self.want["device_type"] = self.get_dev_type()
 
         if self.want["device_type"] == "wired":
@@ -1023,6 +1201,41 @@ class Provision(DnacBase):
             self.status = "failed"
             return self
 
+    def get_device_provision_status_for_wlc(self):
+        """
+        Retrieves the provisioning status of a device based on its management IP address.
+
+        Returns:
+            str: The provisioning status of the device, either 'success' or 'failed'.
+        Description:
+            Depending on the Cisco Catalyst Center (CCC) version, this function calls different APIs to
+            check if a device is provisioned. It handles both wired and wireless device provisioning
+            checks and logs relevant status and errors.
+        """
+
+        status = "failed"
+        device_management_ip = self.validated_config.get("management_ip_address")
+        self.log("Checking provisioning status for device with management IP '{0}' '".format(device_management_ip), "DEBUG")
+        try:
+            status_response = self.dnac_apply['exec'](
+                family="sda",
+                function="get_provisioned_wired_device",
+                params={"device_management_ip_address": device_management_ip},
+            )
+
+            if isinstance(status_response, dict):
+                self.log("Received API response for device '{0}': {1}".format(device_management_ip, status_response), "DEBUG")
+                status = status_response.get("status", "failed")
+            else:
+                self.log("Invalid or empty response received for device with management IP '{}'".format(device_management_ip), "DEBUG")
+
+        except Exception as e:
+            self.log("Device '{0}' is not provisioned due to error: {1}".format(device_management_ip, str(e)), "ERROR")
+            status = "failed"
+
+        self.log("Final provisioning status for device '{}': '{}'".format(device_management_ip, status), "DEBUG")
+        return status
+
     def get_diff_merged(self):
         """
         Process and merge device provisioning differences.
@@ -1035,29 +1248,398 @@ class Provision(DnacBase):
             the processing of device provisioning differences.
 
         Description:
-            This function identifies differences in device provisioning parameters and
-            processes them accordingly. It handles wired and wireless devices by checking
-            their current provisioning status and determining the necessary actions—whether
-            to provision, reprovision, or assign devices to a site. The function logs the
-            outcomes of these operations and updates the instance with the results, status,
-            and relevant task IDs. If any errors occur during processing, they are logged,
-            and the status is updated to reflect the failure.
+            - Processes device provisioning differences by checking device types and provisioning statuses.
+            - Handles both wired and wireless devices:
+                1. Wired Devices:
+                    - Provisions the device if required.
+                    - Uses the `provision_wired_device()` function to perform provisioning.
+                2. Wireless Devices:
+                    - Checks the current provisioning status.
+                    - If already provisioned and `force_provisioning` is not enabled, logs a message and exits.
+                    - Otherwise, it proceeds with provisioning using `provision_wireless_device()`.
+            - Applies version-based checks using `compare_dnac_versions()`:
+                - Devices running ≤ 2.3.5.3 always follow this provisioning logic.
+                - Wireless devices running ≥ 2.3.7.6 also follow this logic.
+            - If these conditions are not met, bulk provisioning for wired devices is handled via `provision_bulk_wired_device()`.
+            - Any errors encountered are logged appropriately.
         """
 
-        device_type = self.want.get("device_type")
-        to_force_provisioning = self.validated_config.get("force_provisioning")
-        to_provisioning = self.validated_config.get("provisioning")
-        self.device_ip = self.validated_config["management_ip_address"]
-        self.site_name = self.validated_config["site_name_hierarchy"]
+        # Retrieve the current Cisco Catalyst Center version for comparison
+        ccc_version = self.get_ccc_version()
+        self.log("Fetched CCC version: {0}".format(ccc_version), "DEBUG")
 
-        if device_type == "wired":
-            self.provision_wired_device(to_provisioning, to_force_provisioning)
+        # Check if provisioning should be handled based on DNAC version:
+        # - If DNAC version is ≤ 2.3.5.3, always proceed with provisioning logic.
+        # - If DNAC version is ≥ 2.3.7.6 AND the device is wireless, follow wireless provisioning logic.
+
+        if (
+            self.compare_dnac_versions(ccc_version, "2.3.5.3") <= 0
+            or (
+                self.compare_dnac_versions(ccc_version, "2.3.7.6") >= 0
+                and self.device_type == 'wireless'
+            )
+        ):
+            # Fetch device details from validated config
+            self.log("Proceeding with provisioning logic based on CCC version and device type", "DEBUG")
+            device_type = self.want.get("device_type")
+            to_force_provisioning = self.validated_config.get("force_provisioning")
+            to_provisioning = self.validated_config.get("provisioning")
+            self.device_ip = self.validated_config["management_ip_address"]
+            self.site_name = self.validated_config["site_name_hierarchy"]
+            self.log("Device Type: {0}, Device IP: {1}, Site: {2}".format(device_type, self.device_ip, self.site_name), "DEBUG")
+
+            if device_type == "wired":
+                self.log("Initiating provisioning for wired device: {0}".format(self.device_ip), "INFO")
+                self.provision_wired_device(to_provisioning, to_force_provisioning)
+
+            elif device_type == "wireless":
+                self.log("Checking provisioning status for wireless device: {0}".format(self.device_ip), "DEBUG")
+                status = self.get_device_provision_status_for_wlc()
+                if status == 'success':
+
+                    if not to_force_provisioning:
+                        self.msg = "Wireless Device '{0}' is already provisioned.".format(self.device_ip)
+                        self.set_operation_result("success", False, self.msg, "INFO")
+                        return self
+
+                self.log("Starting wireless device provisioning...", "INFO")
+                self.provision_wireless_device()
+
+            else:
+                self.msg = "Exception occurred while getting the device type, device '{0}' is not present in the cisco catalyst center".format(self.device_ip)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        elif self.want.get("application_telemetry"):
+            telemetry_config = self.want
+            self.log("Application telemetry config found. Proceeding with telemetry logic...", "DEBUG")
+            self.application_telemetry(telemetry_config)
+
         else:
-            self.provision_wireless_device()
+            self.log("Skipping individual provisioning. Initiating bulk provisioning for wired devices.", "INFO")
+            self.provision_bulk_wired_device()
 
         return self
 
-    def get_device_provision_status(self, device_id):
+    def application_telemetry(self, telemetry_config):
+        """
+        Enables or disables application telemetry on network devices based on the given telemetry configuration.
+
+        Args:
+            telemetry_config (dict): A dictionary containing the application telemetry configuration,
+                                    including device IPs, telemetry action (enable/disable), WLAN mode,
+                                    and guest SSID inclusion.
+
+        Returns:
+            self: The updated instance with telemetry enable/disable operation results.
+
+        Description:
+            - Iterates over a list of device IPs and determines whether telemetry should be enabled or disabled.
+            - Validates the device type and retrieves the corresponding device ID from the network.
+            - For enabling telemetry:
+                - Builds a payload including WLAN mode and guest SSID details for non-wired devices.
+                - Sends the payload using the appropriate API to enable telemetry.
+                - Logs and tracks the success or failure of the operation.
+            - For disabling telemetry:
+                - Gathers device IDs to be disabled.
+                - Sends the payload using the appropriate API to disable telemetry.
+                - Logs and tracks the success or failure of the operation.
+            - Handles and logs any exceptions that may occur during the API execution.
+        """
+
+        self.log(
+            "Starting application_telemetry function: Enabling/disabling telemetry on network devices. "
+            "Received telemetry configuration: {0}".format(telemetry_config),
+            "INFO"
+        )
+        application_telemetry_details = telemetry_config.get("application_telemetry", [])
+
+        if not application_telemetry_details:
+            self.log("No application telemetry details found in the configuration.", "DEBUG")
+            self.msg = "No valid application telemetry configuration provided."
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
+        enable_payload = []
+        disable_ids = []
+
+        telemetry_api_map = {
+            "enable": "enable_application_telemetry_feature_on_multiple_network_devices_v1",
+            "disable": "disable_application_telemetry_feature_on_multiple_network_devices_v1"
+        }
+
+        for detail in application_telemetry_details:
+            device_ips = detail.get("device_ips", [])
+            telemetry = detail.get("telemetry")  # "enable" or "disable"
+            wlan_mode = detail.get("wlan_mode")
+            include_guest_ssid = detail.get("include_guest_ssid", False)
+
+            for ip in device_ips:
+                self.validated_config["management_ip_address"] = ip
+                device_type = self.get_dev_type()
+                device_id = self.get_device_id()
+
+                if not device_ips:
+                    self.log("No device IPs found in the telemetry configuration: {0}".format(detail), "WARNING")
+                    continue
+
+                if telemetry not in ["enable", "disable"]:
+                    self.log("Invalid telemetry action '{0}' specified in the configuration. Skipping.".format(telemetry), "WARNING")
+                    continue
+
+                if not device_id:
+                    self.log("Skipping IP {0} due to missing device_id".format(ip), "WARNING")
+                    continue
+
+                if telemetry == "enable":
+                    device_data = {"id": device_id}
+                    if device_type != "wired":
+                        if not wlan_mode:
+                            self.msg = "wlan_mode is mandatory for wireless devices. Skipping device {0}.".format(ip)
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                        else:
+                            device_data["includeWlanModes"] = [wlan_mode]
+
+                        if include_guest_ssid:
+                            device_data["includeGuestSsids"] = include_guest_ssid
+                    enable_payload.append(device_data)
+                else:
+                    disable_ids.append(device_id)
+        self.log("Enable payload: {0}".format(enable_payload), "DEBUG")
+        # Enable telemetry
+        if enable_payload:
+            self.execute_api(telemetry_api_map["enable"], {"networkDevices": enable_payload}, "enabling")
+
+        if disable_ids:
+            self.execute_api(telemetry_api_map["disable"], {"networkDeviceIds": disable_ids}, "disabling")
+
+        return self
+
+    def execute_api(self, api_function, payload, action):
+        """
+        Executes an API call to configure application telemetry on network devices.
+
+        This method sends a request to the specified Cisco Catalyst Center API with the provided
+        payload to either enable or disable telemetry.
+
+        Args:
+            api_function: The name of the Catalyst Center API function to be called.
+            payload: The request payload containing device-specific data used to enable or disable application telemetry on network devices.
+            action: Descriptive label of the action being performed (e.g., "enabling", "disabling").
+
+        Returns:
+            self: The instance with updated execution status and messages.
+
+        Description:
+            This method:
+            - Sends an API request to Catalyst Center to enable or disable application telemetry.
+            - Executes the API using the provided function name and payload.
+            - Validates the response by checking the task execution status.
+            - Updates the operation result and logs appropriate success or failure messages.
+            - Handles any exceptions gracefully and logs errors with detailed context.
+        """
+        try:
+            self.log("Sending {0} payload: {1}".format(action, payload), "DEBUG")
+            response = self.dnac._exec(
+                family="application_policy",
+                function=api_function,
+                op_modifies=True,
+                params={"payload": payload}
+            )
+            self.log("Received API response for {0}: {1}".format(action, response), "DEBUG")
+            self.check_tasks_response_status(response, api_function)
+
+            if self.status not in ["failed", "exited"]:
+                self.msg = "Application telemetry {0} successfully for all devices.".format(action)
+                self.set_operation_result("success", True, self.msg, "INFO")
+            else:
+                self.msg = "Application telemetry {0} failed: {1}".format(action, self.msg)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        except Exception as e:
+            self.msg = "Exception while {0} telemetry: {1}".format(action, e)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        return self
+
+    def provision_bulk_wired_device(self):
+        """
+        Provisions or reprovisions wired network devices in bulk based on the given validated configuration.
+
+        Args:
+            self: An instance of a class used for interacting with network devices.
+
+        Returns:
+            self: The updated instance with provisioning results.
+
+        Description:
+            This method:
+            - Identifies devices that need provisioning or reprovisioning.
+            - Checks their current provision status.
+            - Logs and updates provisioning status accordingly.
+            - Ensures already provisioned devices are not unnecessarily reprovisioned unless forced.
+            - Updates the instance with provisioning results and logs messages accordingly.
+        """
+
+        provision_params, reprovision_params, self.device_ips = [], [], []
+        already_provisioned_devices = []
+
+        self.reprovisioned_device, self.provisioned_device, self.already_provisioned_devices = [], [], []
+        success_msg, provision_needed, reprovision_needed = [], [], []
+        self.log("Starting bulk wired device provisioning process.", "INFO")
+
+        for config in self.validated_config:
+            device_ip = config.get("management_ip_address")
+
+            if device_ip not in self.device_dict['wired']:
+                self.log("Skipping device '{0}': Not a wired device.".format(device_ip), "DEBUG")
+                continue
+
+            site_name = config.get("site_name_hierarchy")
+            site_id_tuple = self.get_site_id(site_name)
+            site_id = site_id_tuple[1]
+            self.device_ips.append(device_ip)
+
+            network_device_id = self.get_device_ids_from_device_ips([device_ip]).get(device_ip)
+            if not network_device_id:
+                self.log("Skipping device '{0}': Device ID not found.".format(device_ip), "ERROR")
+                continue
+
+            provision_id, status = self.get_device_provision_status(network_device_id, device_ip)
+            self.log("Device '{0}': provision_id='{1}', status='{2}'".format(device_ip, provision_id, status), "DEBUG")
+
+            to_force_provisioning = config.get("force_provisioning", False)
+            to_provisioning = config.get("provisioning", False)
+
+            if not to_provisioning and status != "success":
+                self.log("Provisioning not required; assigning device '{0}' to site '{1}' (site_id: {2}).".format(device_ip, site_name, site_id), "INFO")
+                if self.assign_device_to_site([network_device_id], site_name, site_id):
+                    success_msg.append("Wired Device '{0}' is assigned to site {1}.".format(device_ip, site_name))
+
+                continue
+
+            if status == "success":
+                if not to_force_provisioning:
+                    self.already_provisioned_devices.append(device_ip)
+                    success_msg.append("Wired Device '{0}' is already provisioned.".format(device_ip))
+                    self.log(success_msg[-1], "INFO")
+
+                    if not to_provisioning:
+                        self.msg = ("Cannot assign a provisioned device to the site. "
+                                    "The device is already provisioned. "
+                                    "To re-provision the device, set both 'provisioning' and 'force_provisioning' to 'true', "
+                                    "or unprovision the device and try again.")
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                    continue
+
+                self.log("Device '{0}' requires reprovisioning.".format(device_ip), "INFO")
+                reprovision_needed.append(device_ip)
+                reprovision_params.append({
+                    "id": provision_id,
+                    "siteId": site_id,
+                    "networkDeviceId": network_device_id
+                })
+
+            else:
+                if to_provisioning:
+                    self.log("Device '{0}' requires provisioning.".format(device_ip), "INFO")
+                    provision_needed.append(device_ip)
+                    provision_params.append({
+                        "siteId": site_id,
+                        "networkDeviceId": network_device_id
+                    })
+
+        self.log("Provisioning/Reprovisioning evaluation:", "INFO")
+        self.log("Provision Needed: {0}".format(provision_needed), "INFO")
+        self.log("Reprovision Needed: {0}".format(reprovision_needed), "INFO")
+
+        if set(already_provisioned_devices) == set(self.device_ips):
+            self.msg = "All devices are already provisioned: {0}".format(already_provisioned_devices)
+            self.set_operation_result("success", False, self.msg, "INFO")
+            return self
+
+        if reprovision_params:
+            self.reprovision_wired_device(reprovision_params, device_ips=reprovision_needed)
+            re_prov_success_msg = "re-provisioning of the device(s) '{0}' completed successfully.".format(reprovision_needed)
+            success_msg.append(re_prov_success_msg)
+
+        if provision_params:
+            for i in range(0, len(provision_params), 100):
+                batch_params = provision_params[i:i + 100]
+                batch_devices = provision_needed[i:i + 100]
+                self.log("Provisioning of the device(s) - {0} with the param - {1}".format(batch_devices, batch_params), "INFO")
+                self.initialize_wired_provisioning(batch_params, device_ips=batch_devices)
+                success_msg.append("Provisioning of the device(s) '{0}' completed successfully.".format(batch_devices))
+
+        if success_msg:
+            self.msg = success_msg
+            self.set_operation_result("success", True, self.msg, "INFO")
+
+        self.log("Bulk wired device provisioning process completed.", "INFO")
+        return self
+
+    def get_device_type(self):
+        """
+        Classifies devices as 'wired' or 'wireless' based on their family type from the Cisco DNA Center API.
+
+        This function queries each device in `validated_config` to determine whether it is a wired or wireless device.
+        The classification is stored in `self.device_dict`.
+
+        Returns:
+            dict: A dictionary with classified devices: {'wired': [list of wired device IPs], 'wireless': [list of wireless device IPs]}.
+        """
+
+        device_dict = {"wired": [], "wireless": []}
+
+        for device in self.validated_config:
+            ip_address = device.get("management_ip_address")
+            if not ip_address:
+                self.log("Skipping device with missing management IP address.", "WARNING")
+                continue
+
+            self.log("Fetching device details for IP: {0}".format(ip_address), "INFO")
+
+            try:
+                dev_response = self.dnac_apply['exec'](
+                    family="devices",
+                    function='get_network_device_by_ip',
+                    params={"ip_address": ip_address}
+                )
+
+            except Exception as e:
+                error_message = (
+                    "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center."
+                    .format(device["management_ip_address"])
+                )
+                self.log(error_message, "WARNING")
+                continue
+
+            if not dev_response or "response" not in dev_response:
+                self.log("Invalid or empty response received for device '{0}': {1}".format(ip_address, str(dev_response)), "ERROR")
+                continue
+
+            self.log("Device response for '{0}': {1}".format(ip_address, str(dev_response)), "DEBUG")
+
+            self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
+            dev_dict = dev_response.get("response")
+            device_family = dev_dict.get("family", None)
+
+            if device_family == "Wireless Controller":
+                device_type = "wireless"
+            elif device_family in ["Switches and Hubs", "Routers"]:
+                device_type = "wired"
+            else:
+                device_type = None
+
+            self.log("The device type for IP {0} is {1}".format(device["management_ip_address"], device_type), "INFO")
+
+            if device_type:
+                device_dict[device_type].append(device["management_ip_address"])
+
+        self.device_dict = device_dict
+        self.log("Final device classification: {0}".format(device_dict), "INFO")
+
+        return device_dict
+
+    def get_device_provision_status(self, device_id, device_ip=None):
         """
         Retrieves the provisioning status and provision ID of a device based on its device ID.
 
@@ -1076,7 +1658,12 @@ class Provision(DnacBase):
         """
         provision_id = None
         status = "failed"
-        device_management_ip = self.validated_config.get("management_ip_address")
+
+        if isinstance(self.validated_config, list):
+            device_management_ip = device_ip
+        else:
+            device_management_ip = self.validated_config.get("management_ip_address")
+
         self.log("Checking provisioning status for device with management IP '{0}' and ID '{1}'".format(device_management_ip, device_id), "DEBUG")
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             self.log("Using 'get_provisioned_wired_device' API for Catalyst Center version <= 2.3.5.3", "DEBUG")
@@ -1197,10 +1784,18 @@ class Provision(DnacBase):
                 self.initialize_wired_provisioning(provision_params)
             else:
                 self.log("Catalyst Center Version is later than 2.3.5.3; checking if device '{0}' is assigned to site.".format(device_id), "INFO")
-                is_device_assigned = self.is_device_assigned_to_site(device_id)
-                if is_device_assigned:
-                    self.log("Device '{0}' is already assigned to site. Proceeding with provisioning.".format(device_id), "DEBUG")
-                    self.initialize_wired_provisioning(provision_params)
+
+                is_device_assigned_to_a_site, device_site_name = self.is_device_assigned_to_site_v1(device_id)
+                if is_device_assigned_to_a_site:
+                    if device_site_name != self.site_name:
+                        self.msg = (
+                            "Error in provisioning a wired device '{0}' - the device is already associated "
+                            "with a Site {1} and cannot be provisioned to Site {2}."
+                        ).format(self.device_ip, device_site_name, self.site_name)
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    else:
+                        self.log("Device '{0}' is already assigned to site. Proceeding with provisioning.".format(device_id), "DEBUG")
+                        self.initialize_wired_provisioning(provision_params)
                 else:
                     self.log("Device '{0}' is not assigned to site '{1}'. Assigning device and "
                              "initializing provisioning.".format(device_id, self.site_name), "DEBUG")
@@ -1209,7 +1804,7 @@ class Provision(DnacBase):
 
         return self
 
-    def reprovision_wired_device(self, reprovision_param):
+    def reprovision_wired_device(self, reprovision_param, device_ips=None):
         """
         Reprovision a wired device.
 
@@ -1274,21 +1869,18 @@ class Provision(DnacBase):
                 self.log("Task status after 're_provision_devices' execution: {0}".format(self.status), "DEBUG")
 
                 if self.status not in ["failed", "exited"]:
-                    self.msg = ("Wired Device '{0}' re-provisioning completed successfully.".format(self.device_ip))
-                    self.log(self.msg, "INFO")
-                    self.result["changed"] = True
-                    self.result['msg'] = "Re-Provision for device '{0}' done successfully".format(self.device_ip)
-                    self.result['response'] = self.msg
-                    self.log(self.result['msg'], "INFO")
+                    self.msg = ("Wired Device '{0}' re-provisioning completed successfully.".format(device_ips))
+                    self.set_operation_result("success", True, self.msg, "INFO")
+
+                if self.status in ["failed", "exited"]:
+                    self.msg = ("Wired Device '{0}' re-provisioning failed due to {1}.".format(device_ips, self.msg))
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             except Exception as e:
-                self.msg = "Error in re-provisioning device '{0}' due to {1}".format(self.device_ip, str(e))
-                self.log(self.msg, "ERROR")
-                self.result['response'] = self.msg
-                self.status = "failed"
-                self.check_return_status()
+                self.msg = "Error in re-provisioning device '{0}' due to {1}".format(device_ips, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-    def initialize_wired_provisioning(self, provision_params):
+    def initialize_wired_provisioning(self, provision_params, device_ips=None):
         """
         Provision a wired device.
 
@@ -1344,20 +1936,20 @@ class Provision(DnacBase):
                 if response:
                     self.log("Received API response from 'provision_devices': {0}".format(str(response)), "DEBUG")
                     self.check_tasks_response_status(response, api_name='provision_device')
+
                     if self.status not in ["failed", "exited"]:
-                        success_msg = "Provisioning of the device '{0}' completed successfully.".format(self.device_ip)
-                        self.log(success_msg, "INFO")
-                        self.result["changed"] = True
-                        self.result['msg'] = success_msg
-                        self.result['response'] = success_msg
-                        return self
+                        success_msg = "Provisioning of the device(s) '{0}' completed successfully.".format(device_ips)
+                        self.set_operation_result("success", True, self.msg, "INFO")
+
+                    if self.status in ['failed', 'exited']:
+                        fail_reason = self.msg
+                        self.log("Exception occurred during 'provisioned_devices': {0}".format(str(fail_reason)), "ERROR")
+                        self.msg = "Error in provisioned device '{0}' due to {1}".format(device_ips, str(fail_reason))
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             except Exception as e:
-                self.msg = "Exception occurred during provisioning: {0}".format(str(e))
-                self.log(self.msg, "ERROR")
-                self.status = "failed"
-                self.result['response'] = "Error in provisioning device '{0}' due to {1}".format(self.device_ip, str(e))
-                self.check_return_status()
+                self.msg = "Error in provisioning device '{0}' due to {1}".format(device_ips, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def provision_wireless_device(self):
         """
@@ -1399,7 +1991,7 @@ class Provision(DnacBase):
         self.log("Primary AP location: {0}".format(primary_ap_location), "DEBUG")
         self.log("Secondary AP location: {0}".format(secondary_ap_location), "DEBUG")
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             primary_ap_location_site_id_list = []
             secondary_ap_location_site_id_list = []
 
@@ -1465,7 +2057,6 @@ class Provision(DnacBase):
             device_id = self.get_device_id()
             self.log("Retrieved device ID: {0}".format(device_id), "DEBUG")
 
-            # is_device_assigned_to_given_site, device_site_name = self.is_device_assigned_to_site_v1(device_uid, site_id)
             is_device_assigned_to_a_site, device_site_name = self.is_device_assigned_to_site_v1(device_uid)
 
             if is_device_assigned_to_a_site is True:
@@ -1596,13 +2187,21 @@ class Provision(DnacBase):
             This function is responsible for removing devices from the Cisco Catalyst Center PnP GUI and
             raise Exception if any error occured.
         """
-
+        device_ip = self.validated_config["management_ip_address"]
         device_type = self.want.get("device_type")
+        if device_type is None:
+            self.msg = (
+                "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center."
+                .format(self.validated_config.get("management_ip_address"))
+            )
+            self.set_operation_result("success", False, self.msg, "INFO")
+            return self
 
         if device_type != "wired":
             self.result['msg'] = "APIs are not supported for the device"
             self.log(self.result['msg'], "CRITICAL")
             return self
+
         device_id = self.get_device_id()
         provision_id , status = self.get_device_provision_status(device_id)
 
@@ -1636,12 +2235,9 @@ class Provision(DnacBase):
 
             except Exception as e:
                 self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(e))
-                self.log(self.msg, "ERROR")
-                self.status = "failed"
-                self.result['response'] = self.msg
-                self.check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        else:
+        elif self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
             try:
                 response = self.dnac._exec(
                     family="sda",
@@ -1653,28 +2249,56 @@ class Provision(DnacBase):
                 self.check_tasks_response_status(response, api_name='delete_provisioned_devices')
 
                 if self.status not in ["failed", "exited"]:
-                    self.result["changed"] = True
-                    self.result['msg'] = "Deletion done Successfully for the device '{0}' ".format(self.validated_config["management_ip_address"])
-                    self.result['diff'] = self.validated_config
-                    self.result['response'] = self.result['msg']
-                    self.log(self.result['msg'], "INFO")
+                    self.msg = "Deletion completed successfully for the device '{0}'.".format(self.validated_config["management_ip_address"])
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    return self
+
+                if self.status in ['failed', 'exited']:
+                    fail_reason = self.msg
+                    self.log("Exception occurred during 'delete_provisioned_devices': {0}".format(str(fail_reason)), "ERROR")
+                    self.msg = "Error in deleting provisioned device '{0}' due to: {1}".format(self.validated_config["management_ip_address"], fail_reason)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            except Exception as e:
+                self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        else:
+            try:
+                clean_up = self.config[0].get("clean_config", False)
+
+                if clean_up:
+                    api_function = "delete_network_device_with_configuration_cleanup"
+                else:
+                    api_function = "delete_a_network_device_without_configuration_cleanup"
+
+                delete_param = {"id": device_id}
+
+                self.log("Initiating API call '{0}' for device ID: {1}".format(api_function, device_id), "INFO")
+
+                response = self.dnac._exec(
+                    family="devices",
+                    function=api_function,
+                    op_modifies=True,
+                    params=delete_param,
+                )
+                self.log("Received API response from '{0}': {1}".format(api_function, str(response)), "DEBUG")
+                self.check_tasks_response_status(response, api_name=device_id)
+
+                if self.status not in ["failed", "exited"]:
+                    self.msg = "Deletion done Successfully for the device '{0}' ".format(self.validated_config["management_ip_address"])
+                    self.set_operation_result("success", True, self.msg, "INFO")
                     return self
 
                 if self.status in ['failed', 'exited']:
                     fail_reason = self.msg
                     self.log("Exception occurred during 'delete_provisioned_devices': {0}".format(str(fail_reason)), "ERROR")
                     self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(fail_reason))
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
-                    self.result['response'] = self.msg
-                    self.check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             except Exception as e:
-                self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(e))
-                self.log(self.msg, "ERROR")
-                self.status = "failed"
-                self.result['response'] = self.msg
-                self.check_return_status()
+                self.msg = "Failed to delete the device - ({0}) from Cisco Catalyst Center due to - {1}".format(device_ip, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def verify_diff_merged(self):
         """
@@ -1690,44 +2314,78 @@ class Provision(DnacBase):
             logs the states, and validates whether the specified device(s) exists in the DNA
             Center configuration's Inventory Database in the provisioned state.
         """
-        self.log("validate Cisco Catalyst Center config for merged state", "INFO")
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        if (
+            self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0
+            or (
+                self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0
+                and self.device_type == 'wireless'
+            )
+        ):
+            self.log("validate Cisco Catalyst Center config for merged state", "INFO")
+            self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        device_type = self.want.get("device_type")
-        provisioning = self.validated_config.get("provisioning")
-        site_name_hierarchy = self.validated_config.get("site_name_hierarchy")
-        uuid = self.get_device_id()
-        if provisioning is False:
-            if self.is_device_assigned_to_site(uuid) is True:
-                self.log("Requested device is already added to the site {0}".format(site_name_hierarchy), "INFO")
+            device_type = self.want.get("device_type")
+            provisioning = self.validated_config.get("provisioning")
+            site_name_hierarchy = self.validated_config.get("site_name_hierarchy")
+            uuid = self.get_device_id()
+            if provisioning is False:
+                if self.is_device_assigned_to_site(uuid) is True:
+                    self.log("Requested device is already added to the site {0}".format(site_name_hierarchy), "INFO")
+                else:
+                    self.log("Requested device is not added to the site {0}".format(site_name_hierarchy), "INFO")
+                return self
+
+            if device_type == "wired":
+                try:
+                    status_response = self.dnac_apply['exec'](
+                        family="sda",
+                        function="get_provisioned_wired_device",
+                        params={
+                            "device_management_ip_address": self.validated_config["management_ip_address"]
+                        },
+                    )
+                except Exception:
+                    status_response = {}
+                self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
+                status = status_response.get("status")
+                self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
+
+                if status == "success":
+                    self.log("Requested wired device is alread provisioned", "INFO")
+
+                else:
+                    self.log("Requested wired device is not provisioned", "INFO")
+
             else:
-                self.log("Requested device is not added to the site {0}".format(site_name_hierarchy), "INFO")
-            return self
-
-        if device_type == "wired":
-            try:
-                status_response = self.dnac_apply['exec'](
-                    family="sda",
-                    function="get_provisioned_wired_device",
-                    params={
-                        "device_management_ip_address": self.validated_config["management_ip_address"]
-                    },
-                )
-            except Exception:
-                status_response = {}
-            self.log("Wired device's status Response collected from 'get_provisioned_wired_device' API is:{0}".format(str(status_response)), "DEBUG")
-            status = status_response.get("status")
-            self.log("The provisioned status of the wired device is {0}".format(status), "INFO")
-
-            if status == "success":
-                self.log("Requested wired device is alread provisioned", "INFO")
-
-            else:
-                self.log("Requested wired device is not provisioned", "INFO")
+                self.log("Currently we don't have any API in the Cisco Catalyst Center to fetch the provisioning details of wireless devices", "INFO")
 
         else:
-            self.log("Currently we don't have any API in the Cisco Catalyst Center to fetch the provisioning details of wireless devices")
-        self.status = "success"
+            for config in self.config:
+                app_telemetry = config.get("application_telemetry")
+                if app_telemetry:
+                    self.log("Since the application telemetry lacks a GET API, verification is not possible.", "INFO")
+                device_ip = config.get("management_ip_address")
+                device_id = self.get_device_ids_from_device_ips([device_ip])
+
+                # Ensure device_id exists before proceeding
+                network_device_id = device_id.get(device_ip)
+                if not network_device_id:
+                    self.log("Device ID not found for IP {}".format(device_ip), "ERROR")
+                    continue
+
+                provision_id, status = self.get_device_provision_status(network_device_id, device_ip)
+                self.log(
+                    "Provision ID and status for device '{0}': provision_id='{1}', status='{2}'".format(
+                        device_ip, provision_id, status
+                    ),
+                    "DEBUG",
+                )
+
+                if status == "success":
+                    self.log("Requested wired device is alread provisioned", "INFO")
+
+                else:
+                    self.log("Requested wired device is not provisioned", "INFO")
 
         return self
 
@@ -1805,6 +2463,14 @@ def main():
     ccc_provision = Provision(module)
     config_verify = ccc_provision.params.get("config_verify")
 
+    if ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_provision.msg = (
+            "The specified version '{0}' does not support the 'provision_workflow_manager' feature. Supported versions start from '2.3.5.3' onwards. "
+            .format(ccc_provision.get_ccc_version())
+        )
+        ccc_provision.status = "failed"
+        ccc_provision.check_return_status()
+
     state = ccc_provision.params.get("state")
     if state not in ccc_provision.supported_states:
         ccc_provision.status = "invalid"
@@ -1813,12 +2479,71 @@ def main():
 
     ccc_provision.validate_input(state=state).check_return_status()
 
-    for config in ccc_provision.validated_config:
-        ccc_provision.reset_values()
-        ccc_provision.get_want(config).check_return_status()
-        ccc_provision.get_diff_state_apply[state]().check_return_status()
-        if config_verify:
-            ccc_provision.verify_diff_state_apply[state]().check_return_status()
+    is_version_valid = ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.7.6") >= 0
+
+    if is_version_valid:
+        ccc_provision.log("Fetching device types from Cisco Catalyst Center.", "INFO")
+        device_dict = ccc_provision.get_device_type()
+        ccc_provision.log("Device classification result: {0}".format(device_dict), "DEBUG")
+
+    if is_version_valid and state == "merged":
+        for device_type, devices in device_dict.items():
+            if not devices:
+                ccc_provision.log("No devices found for type '{0}', skipping.".format(device_type), "INFO")
+                continue
+
+            ccc_provision.log("Processing {0} devices: {1}".format(device_type, devices), "INFO")
+            ccc_provision.reset_values()
+
+            if device_type == "wired":
+                ccc_provision.device_type = "wired"
+                ccc_provision.log("Applying configuration for wired devices.", "INFO")
+                ccc_provision.get_diff_state_apply[state]().check_return_status()
+                if config_verify:
+                    ccc_provision.log("Verifying configuration for wired devices.", "INFO")
+                    ccc_provision.verify_diff_state_apply[state]().check_return_status()
+
+            elif device_type == "wireless":
+                ccc_provision.device_type = "wireless"
+                for config in ccc_provision.validated_config:
+                    device_ip = config.get("management_ip_address")
+                    if device_ip in ccc_provision.device_dict['wireless']:
+                        ccc_provision.log("Applying configuration for wireless device: {0}".format(device_ip), "INFO")
+                        ccc_provision.reset_values()
+                        ccc_provision.get_want(config).check_return_status()
+                        ccc_provision.get_diff_state_apply[state]().check_return_status()
+                        if config_verify:
+                            ccc_provision.log("Verifying configuration for wireless device: {0}".format(device_ip), "INFO")
+                            ccc_provision.verify_diff_state_apply[state]().check_return_status()
+
+        ccc_provision.device_type = None
+        ccc_provision.validate_input(state=state).check_return_status()
+        ccc_provision.log("Checking for telemetry configurations in the validated configuration.", "DEBUG")
+
+        for config in ccc_provision.validated_config:
+            ccc_provision.log("Inspecting configuration: {0}".format(config), "DEBUG")
+
+            application_telemetry = config.get("application_telemetry", None)
+
+            if application_telemetry:
+                ccc_provision.log("Telemetry configuration found. Applying telemetry settings for device.", "INFO")
+                ccc_provision.reset_values()
+                ccc_provision.get_want(config).check_return_status()
+                ccc_provision.get_diff_state_apply[state]().check_return_status()
+
+                if config_verify:
+                    ccc_provision.log("Verifying telemetry configuration", "INFO")
+                    ccc_provision.verify_diff_state_apply[state]().check_return_status()
+
+    else:
+        for config in ccc_provision.validated_config:
+            ccc_provision.log("Processing device with management IP: {0}".format(config.get("management_ip_address")), "INFO")
+            ccc_provision.reset_values()
+            ccc_provision.get_want(config).check_return_status()
+            ccc_provision.get_diff_state_apply[state]().check_return_status()
+            if config_verify:
+                ccc_provision.log("Verifying configuration for device with management IP: {0}".format(config.get("management_ip_address")), "INFO")
+                ccc_provision.verify_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**ccc_provision.result)
 

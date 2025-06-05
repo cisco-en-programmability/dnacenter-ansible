@@ -1,0 +1,7 @@
+---
+warn_list: []
+skip_list: []
+exclude_paths:
+  - playbooks/image_details.yml
+  - playbooks/input_events_and_notification.yml
+  - playbooks/sda_fabric.yml

@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_border_device
 short_description: Resource module for Sda Fabric Border Device
 description:
-- This module represents an alias of the module sda_fabric_border_device_v1
+  - This module represents an alias of the module sda_fabric_border_device_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -25,17 +22,18 @@ options:
     elements: dict
     suboptions:
       borderPriority:
-        description: Border priority associated with a given device. Allowed range for
-          Border Priority is 1-9. A lower value indicates higher priority. E.g., a priority
-          of 1 takes precedence over 5. Default priority would be set to 10.
+        description: Border priority associated with a given device. Allowed range
+          for Border Priority is 1-9. A lower value indicates higher priority. E.g.,
+          a priority of 1 takes precedence over 5. Default priority would be set to
+          10.
         type: str
       borderSessionType:
         description: Border Session Type.
         type: str
         version_added: 4.0.0
       borderWithExternalConnectivity:
-        description: Border With External Connectivity (Note True for transit and False
-          for non-transit border).
+        description: Border With External Connectivity (Note True for transit and
+          False for non-transit border).
         type: bool
       connectedToInternet:
         description: Connected to Internet.
@@ -46,9 +44,9 @@ options:
         type: str
         version_added: 4.0.0
       deviceRole:
-        description: Supported Device Roles in SD-Access fabric. Allowed roles are "Border_Node","Control_Plane_Nod...
-          E.g. "Border_Node" or "Border_Node", "Control_Plane_Node" or "Border_Node",
-          "Control_Plane_Node","Edge_Node".
+        description: Supported Device Roles in SD-Access fabric. Allowed roles are
+          "Border_Node","Control_Plane_Nod... E.g. "Border_Node" or "Border_Node",
+          "Control_Plane_Node" or "Border_Node", "Control_Plane_Node","Edge_Node".
         elements: str
         type: list
       externalConnectivityIpPoolName:
@@ -112,39 +110,33 @@ options:
         description: Internal Autonomous System Number.
         type: str
       routeDistributionProtocol:
-        description: Route Distribution Protocol for Control Plane Device. Allowed values
-          are "LISP_BGP" or "LISP_PUB_SUB". Default value is "LISP_BGP".
+        description: Route Distribution Protocol for Control Plane Device. Allowed
+          values are "LISP_BGP" or "LISP_PUB_SUB". Default value is "LISP_BGP".
         type: str
       sdaTransitNetworkName:
         description: SD-Access Transit Network Name.
         type: str
       siteNameHierarchy:
-        description: Site Name Hierarchy of provisioned Device(site should be part of
-          Fabric Site).
+        description: Site Name Hierarchy of provisioned Device(site should be part
+          of Fabric Site).
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddBorderDeviceInSDAFabricV1
-  description: Complete reference of the AddBorderDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-border-device-in-sda-fabric
-- name: Cisco DNA Center documentation for SDA DeleteBorderDeviceFromSDAFabricV1
-  description: Complete reference of the DeleteBorderDeviceFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-border-device-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA AddBorderDeviceInSDAFabricV1
+    description: Complete reference of the AddBorderDeviceInSDAFabricV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-border-device-in-sda-fabric
+  - name: Cisco DNA Center documentation for SDA DeleteBorderDeviceFromSDAFabricV1
+    description: Complete reference of the DeleteBorderDeviceFromSDAFabricV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-border-device-from-sda-fabric
 notes:
-  - SDK Method used are
-    sda.Sda.adds_border_device,
-    sda.Sda.deletes_border_device,
-
-  - Paths used are
-    post /dna/intent/api/v1/business/sda/border-device,
-    delete /dna/intent/api/v1/business/sda/border-device,
+  - SDK Method used are sda.Sda.adds_border_device, sda.Sda.deletes_border_device,
+  - Paths used are post /dna/intent/api/v1/business/sda/border-device, delete /dna/intent/api/v1/business/sda/border-device,
   - It should be noted that this module is an alias of sda_fabric_border_device_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.sda_fabric_border_device:
@@ -157,31 +149,30 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - borderPriority: string
-      borderSessionType: string
-      borderWithExternalConnectivity: true
-      connectedToInternet: true
-      deviceManagementIpAddress: string
-      deviceRole:
-      - string
-      externalConnectivityIpPoolName: string
-      externalConnectivitySettings:
-      - externalAutonomouSystemNumber: string
-        interfaceDescription: string
-        interfaceName: string
-        l2Handoff:
-        - virtualNetworkName: string
-          vlanName: string
-        l3Handoff:
-        - virtualNetwork:
-            virtualNetworkName: string
-            vlanId: string
-      externalDomainRoutingProtocolName: string
-      internalAutonomouSystemNumber: string
-      routeDistributionProtocol: string
-      sdaTransitNetworkName: string
-      siteNameHierarchy: string
-
+      - borderPriority: string
+        borderSessionType: string
+        borderWithExternalConnectivity: true
+        connectedToInternet: true
+        deviceManagementIpAddress: string
+        deviceRole:
+          - string
+        externalConnectivityIpPoolName: string
+        externalConnectivitySettings:
+          - externalAutonomouSystemNumber: string
+            interfaceDescription: string
+            interfaceName: string
+            l2Handoff:
+              - virtualNetworkName: string
+                vlanName: string
+            l3Handoff:
+              - virtualNetwork:
+                  virtualNetworkName: string
+                  vlanId: string
+        externalDomainRoutingProtocolName: string
+        internalAutonomouSystemNumber: string
+        routeDistributionProtocol: string
+        sdaTransitNetworkName: string
+        siteNameHierarchy: string
 - name: Delete all
   cisco.dnac.sda_fabric_border_device:
     dnac_host: "{{dnac_host}}"
@@ -193,7 +184,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     deviceManagementIpAddress: string
-
 """
 RETURN = r"""
 dnac_response:

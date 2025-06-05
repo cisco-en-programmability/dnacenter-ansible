@@ -1,16 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_access_point_positions_bulk_change_v2
-short_description: Resource module for Floors Floor Id Access Point Positions Bulk Change V2
+short_description: Resource module for Floors Floor Id Access Point Positions Bulk
+  Change V2
 description:
-- Manage operation create of the resource Floors Floor Id Access Point Positions Bulk Change V2.
-- Position or reposition the Access Points on the map.
+  - Manage operation create of the resource Floors Floor Id Access Point Positions
+    Bulk Change V2.
+  - Position or reposition the Access Points on the map.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -51,8 +51,8 @@ options:
                   clockwise. The azimuth range is from 0 through 360.
                 type: int
               elevation:
-                description: Elevation of the antenna. The elevation range is from -90
-                  through 90.
+                description: Elevation of the antenna. The elevation range is from
+                  -90 through 90.
                 type: int
               name:
                 description: Antenna type for this Access Point. Use `/dna/intent/api/v1/maps/supported-access-points`
@@ -65,21 +65,16 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design EditTheAccessPointsPositionsV2
-  description: Complete reference of the EditTheAccessPointsPositionsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!edit-the-access-points-positions
+  - name: Cisco DNA Center documentation for Site Design EditTheAccessPointsPositionsV2
+    description: Complete reference of the EditTheAccessPointsPositionsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!edit-the-access-points-positions
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.edit_the_access_points_positions_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/floors/{floorId}/accessPointPositions/bulkChange,
-
+  - SDK Method used are site_design.SiteDesign.edit_the_access_points_positions_v2,
+  - Paths used are post /dna/intent/api/v2/floors/{floorId}/accessPointPositions/bulkChange,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.floors_floor_id_access_point_positions_bulk_change_v2:
@@ -92,18 +87,17 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     floorId: string
     payload:
-    - id: string
-      position:
-        x: 0
-        y: 0
-        z: 0
-      radios:
-      - antenna:
-          azimuth: 0
-          elevation: 0
-          name: string
-        id: string
-
+      - id: string
+        position:
+          x: 0
+          y: 0
+          z: 0
+        radios:
+          - antenna:
+              azimuth: 0
+              elevation: 0
+              name: string
+            id: string
 """
 RETURN = r"""
 dnac_response:

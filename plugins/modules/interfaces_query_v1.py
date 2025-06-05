@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: interfaces_query_v1
 short_description: Resource module for Interfaces Query V1
 description:
-- Manage operation create of the resource Interfaces Query V1.
-- >
-   Gets the list of interfaces across the Network Devices based on the provided complex filters and aggregation
-   functions.
+  - Manage operation create of the resource Interfaces Query V1.
+  - >
+    Gets the list of interfaces across the Network Devices based on the provided complex
+    filters and aggregation
+    functions.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -103,21 +102,21 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 # noqa: E501
-  description: Complete reference of the GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 API.   # noqa: E501
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions  # noqa: E501
+  - name: Cisco DNA Center documentation for Devices
+      GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1                                              # noqa: E501
+    description: Complete reference of the
+      GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1
+      API.                                                                                                                                              # noqa: E501
+    link:
+      https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions    # noqa: E501
 notes:
   - SDK Method used are
     devices.Devices.gets_the_list_of_interfaces_across_the_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions_v1,  # noqa: E501
-
-  - Paths used are
-    post /dna/data/api/v1/interfaces/query,
-
+  - Paths used are post /dna/data/api/v1/interfaces/query,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.interfaces_query_v1:
@@ -129,33 +128,32 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - filters:
       - filters:
-        - string
+          - filters:
+              - string
+            key: string
+            logicalOperator: string
+            operator: string
+            value: {}
         key: string
         logicalOperator: string
         operator: string
         value: {}
-      key: string
-      logicalOperator: string
-      operator: string
-      value: {}
     page:
       limit: 0
       offset: 0
       sortBy:
-      - name: string
-        order: string
+        - name: string
+          order: string
     startTime: 0
     views:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

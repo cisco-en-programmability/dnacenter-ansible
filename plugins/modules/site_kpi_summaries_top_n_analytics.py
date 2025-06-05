@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: site_kpi_summaries_top_n_analytics
 short_description: Resource module for Site Kpi Summaries Top N Analytics
 description:
-- This module represents an alias of the module site_kpi_summaries_top_n_analytics_v1
+  - This module represents an alias of the module site_kpi_summaries_top_n_analytics_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -44,22 +41,19 @@ options:
     description: Top N.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites SubmitRequestForTopNEntitiesRelatedToSiteAnalyticsV1
-  description: Complete reference of the SubmitRequestForTopNEntitiesRelatedToSiteAnalyticsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!submit-request-for-top-n-entities-related-to-site-analytics
+  - name: Cisco DNA Center documentation for Sites SubmitRequestForTopNEntitiesRelatedToSiteAnalyticsV1
+    description: Complete reference of the SubmitRequestForTopNEntitiesRelatedToSiteAnalyticsV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!submit-request-for-top-n-entities-related-to-site-analytics
 notes:
-  - SDK Method used are
-    sites.Sites.submit_request_for_top_n_entities_related_to_site_analytics_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/siteKpiSummaries/topNAnalytics,
+  - SDK Method used are sites.Sites.submit_request_for_top_n_entities_related_to_site_analytics_v1,
+  - Paths used are post /dna/data/api/v1/siteKpiSummaries/topNAnalytics,
   - It should be noted that this module is an alias of site_kpi_summaries_top_n_analytics_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.site_kpi_summaries_top_n_analytics:
@@ -73,14 +67,13 @@ EXAMPLES = r"""
     state: present
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: string
+      - key: string
+        operator: string
+        value: string
     groupBy:
-    - string
+      - string
     startTime: 0
     topN: 0
-
 """
 RETURN = r"""
 dnac_response:

@@ -1,20 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: network_devices_query_v1
 short_description: Resource module for Network Devices Query V1
 description:
-- Manage operation create of the resource Network Devices Query V1.
-- >
-   Gets the list of Network Devices based on the provided complex filters and aggregation functions. For detailed
-   information about the usage of the API, please refer to the Open API specification document - https
-   //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Manage operation create of the resource Network Devices Query V1.
+  - >
+    Gets the list of Network Devices based on the provided complex filters and aggregation
+    functions. For detailed
+    information about the usage of the API, please refer to the Open API specification
+    document - https
+    //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -76,21 +76,21 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1   # noqa: E501
-  description: Complete reference of the GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 API.   # noqa: E501
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions  # noqa: E501
+  - name: Cisco DNA Center documentation for Devices
+      GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1                                                # noqa: E501
+    description: Complete reference of the
+      GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1
+      API.                                                                                                                           # noqa: E501
+    link:
+      https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions    # noqa: E501
 notes:
   - SDK Method used are
     devices.Devices.gets_the_list_of_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions_v1,  # noqa: E501
-
-  - Paths used are
-    post /dna/data/api/v1/networkDevices/query,
-
+  - Paths used are post /dna/data/api/v1/networkDevices/query,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.network_devices_query_v1:
@@ -102,15 +102,15 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: string
+      - key: string
+        operator: string
+        value: string
     page:
       count: 0
       limit: 0
@@ -118,8 +118,7 @@ EXAMPLES = r"""
       sortBy: string
     startTime: 0
     views:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

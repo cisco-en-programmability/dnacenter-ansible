@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: network_applications_count_info
 short_description: Information module for Network Applications Count Info
 description:
-- This module represents an alias of the module network_applications_count_v1_info
+  - This module represents an alias of the module network_applications_count_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,63 +18,72 @@ options:
     type: dict
   startTime:
     description:
-    - >
-      StartTime query parameter. Start time from which API queries the data set related to the resource. It must
-      be specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        StartTime query parameter. Start time from which API queries the data set
+        related to the resource. It must
+        be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
-    - >
-      EndTime query parameter. End time to which API queries the data set related to the resource. It must be
-      specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        EndTime query parameter. End time to which API queries the data set related
+        to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   siteId:
     description:
-    - >
-      SiteId query parameter. The site UUID without the top level hierarchy. `siteId` is mandatory. `siteId` must
-      be a site UUID of a building. (Ex."buildingUuid") Examples `siteId=buildingUuid` (single siteId requested)
-      `siteId=buildingUuid1&siteId=buildingUuid2` (multiple siteId requested).
+      - >
+        SiteId query parameter. The site UUID without the top level hierarchy. `siteId`
+        is mandatory. `siteId` must
+        be a site UUID of a building. (Ex."buildingUuid") Examples `siteId=buildingUuid`
+        (single siteId requested)
+        `siteId=buildingUuid1&siteId=buildingUuid2` (multiple siteId requested).
     type: str
   ssid:
     description:
-    - >
-      Ssid query parameter. In the context of a network application, SSID refers to the name of the wireless
-      network to which the client connects. Examples `ssid=Alpha` (single ssid requested) `ssid=Alpha&ssid=Guest`
-      (multiple ssid requested).
+      - >
+        Ssid query parameter. In the context of a network application, SSID refers
+        to the name of the wireless
+        network to which the client connects. Examples `ssid=Alpha` (single ssid requested)
+        `ssid=Alpha&ssid=Guest`
+        (multiple ssid requested).
     type: str
   applicationName:
     description:
-    - >
-      ApplicationName query parameter. Name of the application for which the experience data is intended. Examples
-      `applicationName=webex` (single applicationName requested) `applicationName=webex&applicationName=teams`
-      (multiple applicationName requested).
+      - >
+        ApplicationName query parameter. Name of the application for which the experience
+        data is intended. Examples
+        `applicationName=webex` (single applicationName requested) `applicationName=webex&applicationName=teams`
+        (multiple applicationName requested).
     type: str
   businessRelevance:
     description:
-    - >
-      BusinessRelevance query parameter. The application can be chosen to be categorized as business-relevant,
-      irrelevant, or default (neutral). By doing so, the assurance application prioritizes the monitoring and
-      analysis of business-relevant data, ensuring critical insights are captured. Applications marked as
-      irrelevant or default are selectively excluded from certain data sets, streamlining focus on what's most
-      important for business outcomes.
+      - >
+        BusinessRelevance query parameter. The application can be chosen to be categorized
+        as business-relevant,
+        irrelevant, or default (neutral). By doing so, the assurance application prioritizes
+        the monitoring and
+        analysis of business-relevant data, ensuring critical insights are captured.
+        Applications marked as
+        irrelevant or default are selectively excluded from certain data sets, streamlining
+        focus on what's most
+        important for business outcomes.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Applications RetrievesTheTotalCountOfNetworkApplicationsByApplyingBasicFilteringV1
-  description: Complete reference of the RetrievesTheTotalCountOfNetworkApplicationsByApplyingBasicFilteringV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-count-of-network-applications-by-applying-basic-filtering
+  - name: Cisco DNA Center documentation for Applications RetrievesTheTotalCountOfNetworkApplicationsByApplyingBasicFilteringV1
+    description: Complete reference of the RetrievesTheTotalCountOfNetworkApplicationsByApplyingBasicFilteringV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-count-of-network-applications-by-applying-basic-filtering
 notes:
   - SDK Method used are
     applications.Applications.retrieves_the_total_count_of_network_applications_by_applying_basic_filtering_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/networkApplications/count,
+  - Paths used are get /dna/data/api/v1/networkApplications/count,
   - It should be noted that this module is an alias of network_applications_count_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Network Applications Count Info
   cisco.dnac.network_applications_count_info:
@@ -96,7 +102,6 @@ EXAMPLES = r"""
     applicationName: string
     businessRelevance: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

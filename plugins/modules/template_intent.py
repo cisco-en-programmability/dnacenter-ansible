@@ -3,45 +3,41 @@
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on project and templates in DNAC."""
-
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh']
-
 DOCUMENTATION = r"""
 ---
 module: template_intent
 short_description: Resource module for Template functions
 description:
-- Manage operations create, update and delete of the resource Configuration Template.
-- API to create a template by project name and template name.
-- API to update a template by template name and project name.
-- API to delete a template by template name and project name.
-- API to export the projects for given projectNames.
-- API to export the templates for given templateIds.
-- API to manage operation create of the resource Configuration Template Import Project.
-- API to manage operation create of the resource Configuration Template Import Template.
+  - Manage operations create, update and delete of the resource Configuration Template.
+  - API to create a template by project name and template name.
+  - API to update a template by template name and project name.
+  - API to delete a template by template name and project name.
+  - API to export the projects for given projectNames.
+  - API to export the templates for given templateIds.
+  - API to manage operation create of the resource Configuration Template Import Project.
+  - API to manage operation create of the resource Configuration Template Import Template.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Madhan Sankaranarayanan (@madhansansel)
-        Rishita Chowdhary (@rishitachowdhary)
-        Akash Bhaskaran (@akabhask)
-        Muthu Rakesh (@MUTHU-RAKESH-27)
+author: Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
+  Akash Bhaskaran (@akabhask) Muthu Rakesh (@MUTHU-RAKESH-27)
 options:
   config_verify:
-    description: Set to True to verify the Cisco DNA Center after applying the playbook config.
+    description: Set to True to verify the Cisco DNA Center after applying the playbook
+      config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of DNAC after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - List of details of templates being managed.
+      - List of details of templates being managed.
     type: list
     elements: dict
     required: true
@@ -294,7 +290,8 @@ options:
             description: Description of template.
             type: str
           device_types:
-            description: Configuration Template Create's deviceTypes. This field is mandatory to create a new template.
+            description: Configuration Template Create's deviceTypes. This field is
+              mandatory to create a new template.
             suboptions:
               product_family:
                 description: Device family.
@@ -326,7 +323,8 @@ options:
             description: Latest versioned template time.
             type: int
           template_name:
-            description: Name of template. This field is mandatory to create a new template.
+            description: Name of template. This field is mandatory to create a new
+              template.
             type: str
           parent_template_id:
             description: Parent templateID.
@@ -428,7 +426,8 @@ options:
             type: list
             elements: dict
           software_type:
-            description: Applicable device software type. This field is mandatory to create a new template.
+            description: Applicable device software type. This field is mandatory
+              to create a new template.
             type: str
           software_variant:
             description: Applicable device software variant.
@@ -586,20 +585,20 @@ options:
             type: dict
             suboptions:
               do_version:
-                description: DoVersion query parameter. If this flag is true, creates a new
-                  version of the template with the imported contents, if the templates already
-                  exists. " If false and if template already exists, then operation
-                  fails with 'Template already exists' error.
+                description: DoVersion query parameter. If this flag is true, creates
+                  a new version of the template with the imported contents, if the
+                  templates already exists. " If false and if template already exists,
+                  then operation fails with 'Template already exists' error.
                 type: bool
           template:
             description: Import the template details.
             type: dict
             suboptions:
               do_version:
-                description: DoVersion query parameter. If this flag is true, creates a new
-                  version of the template with the imported contents, if the templates already
-                  exists. " If false and if template already exists, then operation
-                  fails with 'Template already exists' error.
+                description: DoVersion query parameter. If this flag is true, creates
+                  a new version of the template with the imported contents, if the
+                  templates already exists. " If false and if template already exists,
+                  then operation fails with 'Template already exists' error.
                 type: bool
               payload:
                 description: Configuration Template Import Template's payload.
@@ -697,7 +696,8 @@ options:
                             description: Provider.
                             type: str
                           range:
-                            description: Configuration Template Import Template's range.
+                            description: Configuration Template Import Template's
+                              range.
                             elements: dict
                             suboptions:
                               id:
@@ -714,7 +714,8 @@ options:
                             description: Is param required.
                             type: bool
                           selection:
-                            description: Configuration Template Import Template's selection.
+                            description: Configuration Template Import Template's
+                              selection.
                             suboptions:
                               default_selected_values:
                                 description: Default selection values.
@@ -795,7 +796,8 @@ options:
                             description: Provider.
                             type: str
                           range:
-                            description: Configuration Template Import Template's range.
+                            description: Configuration Template Import Template's
+                              range.
                             elements: dict
                             suboptions:
                               id:
@@ -812,7 +814,8 @@ options:
                             description: Is param required.
                             type: bool
                           selection:
-                            description: Configuration Template Import Template's selection.
+                            description: Configuration Template Import Template's
+                              selection.
                             suboptions:
                               default_selected_values:
                                 description: Default selection values.
@@ -1081,7 +1084,8 @@ options:
                     description: Configuration Template Import Template's validationErrors.
                     suboptions:
                       rollback_template_errors:
-                        description: Validation or design conflicts errors of rollback template.
+                        description: Validation or design conflicts errors of rollback
+                          template.
                         type: dict
                       template_errors:
                         description: Validation or design conflicts errors.
@@ -1098,34 +1102,25 @@ options:
                     type: str
                 type: list
               project_name:
-                description: ProjectName path parameter. Project name to create template under the
-                  project.
+                description: ProjectName path parameter. Project name to create template
+                  under the project.
                 type: str
-
 requirements:
-- dnacentersdk == 2.4.5
-- python >= 3.9
+  - dnacentersdk == 2.4.5
+  - python >= 3.9
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.create_template,
-    configuration_templates.ConfigurationTemplates.deletes_the_template,
-    configuration_templates.ConfigurationTemplates.update_template,
-    configuration_templates.ConfigurationTemplates.export_projects,
-    configuration_templates.ConfigurationTemplates.export_templates,
+  - SDK Method used are configuration_templates.ConfigurationTemplates.create_template,
+    configuration_templates.ConfigurationTemplates.deletes_the_template, configuration_templates.ConfigurationTemplates.update_template,
+    configuration_templates.ConfigurationTemplates.export_projects, configuration_templates.ConfigurationTemplates.export_templates,
     configuration_templates.ConfigurationTemplates.imports_the_projects_provided,
     configuration_templates.ConfigurationTemplates.imports_the_templates_provided,
-
-  - Paths used are
-    post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
-    delete /dna/intent/api/v1/template-programmer/template/{templateId},
-    put /dna/intent/api/v1/template-programmer/template,
-    post /dna/intent/api/v1/template-programmer/project/name/exportprojects,
-    post /dna/intent/api/v1/template-programmer/template/exporttemplates,
-    post /dna/intent/api/v1/template-programmer/project/importprojects,
-    post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
-
+  - Paths used are post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
+    delete /dna/intent/api/v1/template-programmer/template/{templateId}, put /dna/intent/api/v1/template-programmer/template,
+    post /dna/intent/api/v1/template-programmer/project/name/exportprojects, post
+    /dna/intent/api/v1/template-programmer/template/exporttemplates, post /dna/intent/api/v1/template-programmer/project/importprojects,
+    post
+    /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
 """
-
 EXAMPLES = r"""
 - name: Create a new template, export and import the project and template.
   cisco.dnac.template_intent:
@@ -1136,95 +1131,92 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - configuration_templates:
-        author: string
-        composite: true
-        create_time: 0
-        custom_params_order: true
-        description: string
-        device_types:
-        - product_family: string
-          product_series: string
-          product_type: string
-        failure_policy: string
-        id: string
-        language: string
-        last_update_time: 0
-        latest_version_time: 0
-        name: string
-        parent_template_id: string
-        project_id: string
-        project_name: string
-        project_description: string
-        rollback_template_content: string
-        software_type: string
-        software_variant: string
-        software_version: string
-        tags:
-        - id: string
+      - configuration_templates:
+          author: string
+          composite: true
+          create_time: 0
+          custom_params_order: true
+          description: string
+          device_types:
+            - product_family: string
+              product_series: string
+              product_type: string
+          failure_policy: string
+          id: string
+          language: string
+          last_update_time: 0
+          latest_version_time: 0
           name: string
-        template_content: string
-        validation_errors:
+          parent_template_id: string
+          project_id: string
+          project_name: string
+          project_description: string
+          rollback_template_content: string
+          software_type: string
+          software_variant: string
+          software_version: string
+          tags:
+            - id: string
+              name: string
+          template_content: string
+          validation_errors:
             rollback_template_errors:
-            - {}
+              - {}
             template_errors:
-            - {}
+              - {}
             template_id: string
             template_version: string
-        version: string
-      export:
-        project:
-          - string
-        template:
-          - project_name : string
-            template_name: string
-      import:
-        project:
-          do_version: true
+          version: string
         export:
-          do_version: true
-          payload:
-          - author: string
-            composite: true
-            containing_templates:
-            - composite: true
-              description: string
-              device_types:
-              - product_family: string
-                product_series: string
-                product_type: string
-              id: string
-              language: string
-              name: string
-              project_name: string
-              rollback_template_params:
-              - binding: string
-                custom_order: 0
-                data_type: string
-                default_value: string
-                description: string
-                display_name: string
-                group: string
-                id: string
-                instruction_text: string
-                key: string
-                not_param: true
-                order: 0
-                param_array: true
-                parameter_name: string
-                provider: string
-                range:
-                - id: string
-            project_name: string
-
-
+          project:
+            - string
+          template:
+            - project_name: string
+              template_name: string
+        import:
+          project:
+            do_version: true
+          export:
+            do_version: true
+            payload:
+              - author: string
+                composite: true
+                containing_templates:
+                  - composite: true
+                    description: string
+                    device_types:
+                      - product_family: string
+                        product_series: string
+                        product_type: string
+                    id: string
+                    language: string
+                    name: string
+                    project_name: string
+                    rollback_template_params:
+                      - binding: string
+                        custom_order: 0
+                        data_type: string
+                        default_value: string
+                        description: string
+                        display_name: string
+                        group: string
+                        id: string
+                        instruction_text: string
+                        key: string
+                        not_param: true
+                        order: 0
+                        param_array: true
+                        parameter_name: string
+                        provider: string
+                        range:
+                          - id: string
+                project_name: string
 """
-
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of template/project
 response_1:
@@ -1248,7 +1240,6 @@ response_1:
                   },
       "msg": String
     }
-
 # Case_2: Error while deleting a template or when given project is not found
 response_2:
   description: A list with the response returned by the Cisco DNAC Python SDK
@@ -1259,7 +1250,6 @@ response_2:
       "response": [],
       "msg": String
     }
-
 # Case_3: Given template already exists and requires no update
 response_3:
   description: A dictionary with the exisiting template deatails as returned by the Cisco DNAC Python SDK
@@ -1270,7 +1260,6 @@ response_3:
       "response": {},
       "msg": String
     }
-
 # Case_4: Given template list that needs to be exported
 response_4:
   description: Details of the templates in the list as returned by the Cisco DNAC Python SDK
@@ -1281,7 +1270,6 @@ response_4:
       "response": {},
       "msg": String
     }
-
 # Case_5: Given project list that needs to be exported
 response_5:
   description: Details of the projects in the list as returned by the Cisco DNAC Python SDK
@@ -1292,7 +1280,6 @@ response_5:
       "response": {},
       "msg": String
     }
-
 """
 
 import copy

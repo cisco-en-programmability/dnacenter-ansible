@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: connection_modesetting_v1
 short_description: Resource module for Connection Modesetting V1
 description:
-- Manage operation update of the resource Connection Modesetting V1.
-- Update Cisco Smart Software Manager CSSM connection mode for the system.
+  - Manage operation update of the resource Connection Modesetting V1.
+  - Update Cisco Smart Software Manager CSSM connection mode for the system.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -37,21 +35,16 @@ options:
         type: str
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses UpdateCSSMConnectionModeV1
-  description: Complete reference of the UpdateCSSMConnectionModeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-cssm-connection-mode
+  - name: Cisco DNA Center documentation for Licenses UpdateCSSMConnectionModeV1
+    description: Complete reference of the UpdateCSSMConnectionModeV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-cssm-connection-mode
 notes:
-  - SDK Method used are
-    licenses.Licenses.update_c_s_s_m_connection_mode_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/connectionModeSetting,
-
+  - SDK Method used are licenses.Licenses.update_c_s_s_m_connection_mode_v1,
+  - Paths used are put /dna/intent/api/v1/connectionModeSetting,
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.dnac.connection_modesetting_v1:
@@ -69,7 +62,6 @@ EXAMPLES = r"""
       clientSecret: string
       onPremiseHost: string
       smartAccountName: string
-
 """
 RETURN = r"""
 dnac_response:

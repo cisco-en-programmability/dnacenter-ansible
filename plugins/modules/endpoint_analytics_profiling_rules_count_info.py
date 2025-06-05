@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_profiling_rules_count_info
-short_description: Information module for Endpoint Analytics Profiling Rules Count Info
+short_description: Information module for Endpoint Analytics Profiling Rules Count
+  Info
 description:
-- This module represents an alias of the module endpoint_analytics_profiling_rules_count_v1_info
+  - This module represents an alias of the module endpoint_analytics_profiling_rules_count_v1_info
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,25 +19,22 @@ options:
     type: dict
   ruleType:
     description:
-    - RuleType query parameter. Use comma-separated list of rule types to filter the data. Defaults to 'Custom Rule'.
+      - RuleType query parameter. Use comma-separated list of rule types to filter
+        the data. Defaults to 'Custom Rule'.
     type: str
   includeDeleted:
     description:
-    - IncludeDeleted query parameter. Flag to indicate whether deleted rules should be part of the records fetched.
+      - IncludeDeleted query parameter. Flag to indicate whether deleted rules should
+        be part of the records fetched.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 notes:
-  - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.get_count_of_profiling_rules_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/endpoint-analytics/profiling-rules/count,
+  - SDK Method used are a_i_endpoint_analytics.AIEndpointAnalytics.get_count_of_profiling_rules_v1,
+  - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules/count,
   - It should be noted that this module is an alias of endpoint_analytics_profiling_rules_count_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Endpoint Analytics Profiling Rules Count Info
   cisco.dnac.endpoint_analytics_profiling_rules_count_info:
@@ -52,9 +47,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     ruleType: string
-    includeDeleted: True
+    includeDeleted: true
   register: result
-
 """
 RETURN = r"""
 dnac_response:
