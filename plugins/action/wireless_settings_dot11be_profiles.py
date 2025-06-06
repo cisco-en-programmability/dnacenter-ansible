@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -66,26 +66,28 @@ class WirelessSettingsDot11BeProfiles(object):
         new_object_params = {}
         new_object_params['limit'] = self.new_object.get('limit')
         new_object_params['offset'] = self.new_object.get('offset')
-        new_object_params['profile_name'] = self.new_object.get('profileName') or \
-            self.new_object.get('profile_name')
-        new_object_params['is_of_dma_down_link'] = self.new_object.get('isOfDmaDownLink') or \
-            self.new_object.get('is_of_dma_down_link')
-        new_object_params['is_of_dma_up_link'] = self.new_object.get('isOfDmaUpLink') or \
-            self.new_object.get('is_of_dma_up_link')
-        new_object_params['is_mu_mimo_up_link'] = self.new_object.get('isMuMimoUpLink') or \
-            self.new_object.get('is_mu_mimo_up_link')
-        new_object_params['is_mu_mimo_down_link'] = self.new_object.get('isMuMimoDownLink') or \
-            self.new_object.get('is_mu_mimo_down_link')
-        new_object_params['is_of_dma_multi_ru'] = self.new_object.get('isOfDmaMultiRu') or \
-            self.new_object.get('is_of_dma_multi_ru')
+        new_object_params['profile_name'] = self.new_object.get(
+            'profileName') or self.new_object.get('profile_name')
+        new_object_params['is_of_dma_down_link'] = self.new_object.get(
+            'isOfDmaDownLink') or self.new_object.get('is_of_dma_down_link')
+        new_object_params['is_of_dma_up_link'] = self.new_object.get(
+            'isOfDmaUpLink') or self.new_object.get('is_of_dma_up_link')
+        new_object_params['is_mu_mimo_up_link'] = self.new_object.get(
+            'isMuMimoUpLink') or self.new_object.get('is_mu_mimo_up_link')
+        new_object_params['is_mu_mimo_down_link'] = self.new_object.get(
+            'isMuMimoDownLink') or self.new_object.get('is_mu_mimo_down_link')
+        new_object_params['is_of_dma_multi_ru'] = self.new_object.get(
+            'isOfDmaMultiRu') or self.new_object.get('is_of_dma_multi_ru')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
         new_object_params['profileName'] = self.new_object.get('profileName')
-        new_object_params['ofdmaDownLink'] = self.new_object.get('ofdmaDownLink')
+        new_object_params['ofdmaDownLink'] = self.new_object.get(
+            'ofdmaDownLink')
         new_object_params['ofdmaUpLink'] = self.new_object.get('ofdmaUpLink')
-        new_object_params['muMimoDownLink'] = self.new_object.get('muMimoDownLink')
+        new_object_params['muMimoDownLink'] = self.new_object.get(
+            'muMimoDownLink')
         new_object_params['muMimoUpLink'] = self.new_object.get('muMimoUpLink')
         new_object_params['ofdmaMultiRu'] = self.new_object.get('ofdmaMultiRu')
         return new_object_params
@@ -98,9 +100,11 @@ class WirelessSettingsDot11BeProfiles(object):
     def update_by_id_params(self):
         new_object_params = {}
         new_object_params['profileName'] = self.new_object.get('profileName')
-        new_object_params['ofdmaDownLink'] = self.new_object.get('ofdmaDownLink')
+        new_object_params['ofdmaDownLink'] = self.new_object.get(
+            'ofdmaDownLink')
         new_object_params['ofdmaUpLink'] = self.new_object.get('ofdmaUpLink')
-        new_object_params['muMimoDownLink'] = self.new_object.get('muMimoDownLink')
+        new_object_params['muMimoDownLink'] = self.new_object.get(
+            'muMimoDownLink')
         new_object_params['muMimoUpLink'] = self.new_object.get('muMimoUpLink')
         new_object_params['ofdmaMultiRu'] = self.new_object.get('ofdmaMultiRu')
         new_object_params['id'] = self.new_object.get('id')
@@ -154,7 +158,8 @@ class WirelessSettingsDot11BeProfiles(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -230,7 +235,8 @@ class WirelessSettingsDot11BeProfiles(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

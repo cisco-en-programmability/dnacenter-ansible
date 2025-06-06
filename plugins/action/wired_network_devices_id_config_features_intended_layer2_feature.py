@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -92,25 +92,43 @@ class WiredNetworkDevicesIdConfigFeaturesIntendedLayer2Feature(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['cdpGlobalConfig'] = self.new_object.get('cdpGlobalConfig')
-        new_object_params['cdpInterfaceConfig'] = self.new_object.get('cdpInterfaceConfig')
-        new_object_params['dhcpSnoopingInterfaceConfig'] = self.new_object.get('dhcpSnoopingInterfaceConfig')
-        new_object_params['dhcpSnoopingGlobalConfig'] = self.new_object.get('dhcpSnoopingGlobalConfig')
-        new_object_params['dot1xInterfaceConfig'] = self.new_object.get('dot1xInterfaceConfig')
-        new_object_params['dot1xGlobalConfig'] = self.new_object.get('dot1xGlobalConfig')
-        new_object_params['lldpGlobalConfig'] = self.new_object.get('lldpGlobalConfig')
-        new_object_params['lldpInterfaceConfig'] = self.new_object.get('lldpInterfaceConfig')
-        new_object_params['mabInterfaceConfig'] = self.new_object.get('mabInterfaceConfig')
-        new_object_params['mldSnoopingGlobalConfig'] = self.new_object.get('mldSnoopingGlobalConfig')
-        new_object_params['igmpSnoopingGlobalConfig'] = self.new_object.get('igmpSnoopingGlobalConfig')
-        new_object_params['stpGlobalConfig'] = self.new_object.get('stpGlobalConfig')
-        new_object_params['stpInterfaceConfig'] = self.new_object.get('stpInterfaceConfig')
-        new_object_params['trunkInterfaceConfig'] = self.new_object.get('trunkInterfaceConfig')
-        new_object_params['vtpGlobalConfig'] = self.new_object.get('vtpGlobalConfig')
-        new_object_params['vtpInterfaceConfig'] = self.new_object.get('vtpInterfaceConfig')
+        new_object_params['cdpGlobalConfig'] = self.new_object.get(
+            'cdpGlobalConfig')
+        new_object_params['cdpInterfaceConfig'] = self.new_object.get(
+            'cdpInterfaceConfig')
+        new_object_params['dhcpSnoopingInterfaceConfig'] = self.new_object.get(
+            'dhcpSnoopingInterfaceConfig')
+        new_object_params['dhcpSnoopingGlobalConfig'] = self.new_object.get(
+            'dhcpSnoopingGlobalConfig')
+        new_object_params['dot1xInterfaceConfig'] = self.new_object.get(
+            'dot1xInterfaceConfig')
+        new_object_params['dot1xGlobalConfig'] = self.new_object.get(
+            'dot1xGlobalConfig')
+        new_object_params['lldpGlobalConfig'] = self.new_object.get(
+            'lldpGlobalConfig')
+        new_object_params['lldpInterfaceConfig'] = self.new_object.get(
+            'lldpInterfaceConfig')
+        new_object_params['mabInterfaceConfig'] = self.new_object.get(
+            'mabInterfaceConfig')
+        new_object_params['mldSnoopingGlobalConfig'] = self.new_object.get(
+            'mldSnoopingGlobalConfig')
+        new_object_params['igmpSnoopingGlobalConfig'] = self.new_object.get(
+            'igmpSnoopingGlobalConfig')
+        new_object_params['stpGlobalConfig'] = self.new_object.get(
+            'stpGlobalConfig')
+        new_object_params['stpInterfaceConfig'] = self.new_object.get(
+            'stpInterfaceConfig')
+        new_object_params['trunkInterfaceConfig'] = self.new_object.get(
+            'trunkInterfaceConfig')
+        new_object_params['vtpGlobalConfig'] = self.new_object.get(
+            'vtpGlobalConfig')
+        new_object_params['vtpInterfaceConfig'] = self.new_object.get(
+            'vtpInterfaceConfig')
         new_object_params['vlanConfig'] = self.new_object.get('vlanConfig')
-        new_object_params['portChannelConfig'] = self.new_object.get('portChannelConfig')
-        new_object_params['switchportInterfaceConfig'] = self.new_object.get('switchportInterfaceConfig')
+        new_object_params['portChannelConfig'] = self.new_object.get(
+            'portChannelConfig')
+        new_object_params['switchportInterfaceConfig'] = self.new_object.get(
+            'switchportInterfaceConfig')
         new_object_params['id'] = self.new_object.get('id')
         new_object_params['feature'] = self.new_object.get('feature')
         return new_object_params
@@ -123,25 +141,43 @@ class WiredNetworkDevicesIdConfigFeaturesIntendedLayer2Feature(object):
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params['cdpGlobalConfig'] = self.new_object.get('cdpGlobalConfig')
-        new_object_params['cdpInterfaceConfig'] = self.new_object.get('cdpInterfaceConfig')
-        new_object_params['dhcpSnoopingInterfaceConfig'] = self.new_object.get('dhcpSnoopingInterfaceConfig')
-        new_object_params['dhcpSnoopingGlobalConfig'] = self.new_object.get('dhcpSnoopingGlobalConfig')
-        new_object_params['dot1xInterfaceConfig'] = self.new_object.get('dot1xInterfaceConfig')
-        new_object_params['dot1xGlobalConfig'] = self.new_object.get('dot1xGlobalConfig')
-        new_object_params['lldpGlobalConfig'] = self.new_object.get('lldpGlobalConfig')
-        new_object_params['lldpInterfaceConfig'] = self.new_object.get('lldpInterfaceConfig')
-        new_object_params['mabInterfaceConfig'] = self.new_object.get('mabInterfaceConfig')
-        new_object_params['mldSnoopingGlobalConfig'] = self.new_object.get('mldSnoopingGlobalConfig')
-        new_object_params['igmpSnoopingGlobalConfig'] = self.new_object.get('igmpSnoopingGlobalConfig')
-        new_object_params['stpGlobalConfig'] = self.new_object.get('stpGlobalConfig')
-        new_object_params['stpInterfaceConfig'] = self.new_object.get('stpInterfaceConfig')
-        new_object_params['trunkInterfaceConfig'] = self.new_object.get('trunkInterfaceConfig')
-        new_object_params['vtpGlobalConfig'] = self.new_object.get('vtpGlobalConfig')
-        new_object_params['vtpInterfaceConfig'] = self.new_object.get('vtpInterfaceConfig')
+        new_object_params['cdpGlobalConfig'] = self.new_object.get(
+            'cdpGlobalConfig')
+        new_object_params['cdpInterfaceConfig'] = self.new_object.get(
+            'cdpInterfaceConfig')
+        new_object_params['dhcpSnoopingInterfaceConfig'] = self.new_object.get(
+            'dhcpSnoopingInterfaceConfig')
+        new_object_params['dhcpSnoopingGlobalConfig'] = self.new_object.get(
+            'dhcpSnoopingGlobalConfig')
+        new_object_params['dot1xInterfaceConfig'] = self.new_object.get(
+            'dot1xInterfaceConfig')
+        new_object_params['dot1xGlobalConfig'] = self.new_object.get(
+            'dot1xGlobalConfig')
+        new_object_params['lldpGlobalConfig'] = self.new_object.get(
+            'lldpGlobalConfig')
+        new_object_params['lldpInterfaceConfig'] = self.new_object.get(
+            'lldpInterfaceConfig')
+        new_object_params['mabInterfaceConfig'] = self.new_object.get(
+            'mabInterfaceConfig')
+        new_object_params['mldSnoopingGlobalConfig'] = self.new_object.get(
+            'mldSnoopingGlobalConfig')
+        new_object_params['igmpSnoopingGlobalConfig'] = self.new_object.get(
+            'igmpSnoopingGlobalConfig')
+        new_object_params['stpGlobalConfig'] = self.new_object.get(
+            'stpGlobalConfig')
+        new_object_params['stpInterfaceConfig'] = self.new_object.get(
+            'stpInterfaceConfig')
+        new_object_params['trunkInterfaceConfig'] = self.new_object.get(
+            'trunkInterfaceConfig')
+        new_object_params['vtpGlobalConfig'] = self.new_object.get(
+            'vtpGlobalConfig')
+        new_object_params['vtpInterfaceConfig'] = self.new_object.get(
+            'vtpInterfaceConfig')
         new_object_params['vlanConfig'] = self.new_object.get('vlanConfig')
-        new_object_params['portChannelConfig'] = self.new_object.get('portChannelConfig')
-        new_object_params['switchportInterfaceConfig'] = self.new_object.get('switchportInterfaceConfig')
+        new_object_params['portChannelConfig'] = self.new_object.get(
+            'portChannelConfig')
+        new_object_params['switchportInterfaceConfig'] = self.new_object.get(
+            'switchportInterfaceConfig')
         new_object_params['id'] = self.new_object.get('id')
         new_object_params['feature'] = self.new_object.get('feature')
         return new_object_params
@@ -158,8 +194,8 @@ class WiredNetworkDevicesIdConfigFeaturesIntendedLayer2Feature(object):
             items = self.dnac.exec(
                 family="wired",
                 function="get_configurations_for_an_intended_layer2_feature_on_a_wired_device",
-                params={"feature": id}
-            )
+                params={
+                    "feature": id})
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
@@ -185,7 +221,8 @@ class WiredNetworkDevicesIdConfigFeaturesIntendedLayer2Feature(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("feature")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(feature=_id))
@@ -280,7 +317,8 @@ class WiredNetworkDevicesIdConfigFeaturesIntendedLayer2Feature(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -311,7 +349,8 @@ class ActionModule(ActionBase):
         self._check_argspec()
 
         dnac = DNACSDK(self._task.args)
-        obj = WiredNetworkDevicesIdConfigFeaturesIntendedLayer2Feature(self._task.args, dnac)
+        obj = WiredNetworkDevicesIdConfigFeaturesIntendedLayer2Feature(
+            self._task.args, dnac)
 
         state = self._task.args.get("state")
 

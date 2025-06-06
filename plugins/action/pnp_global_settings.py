@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -65,10 +65,13 @@ class PnpGlobalSettings(object):
     def update_all_params(self):
         new_object_params = {}
         new_object_params['_id'] = self.new_object.get('_id')
-        new_object_params['aaaCredentials'] = self.new_object.get('aaaCredentials')
+        new_object_params['aaaCredentials'] = self.new_object.get(
+            'aaaCredentials')
         new_object_params['acceptEula'] = self.new_object.get('acceptEula')
-        new_object_params['defaultProfile'] = self.new_object.get('defaultProfile')
-        new_object_params['savaMappingList'] = self.new_object.get('savaMappingList')
+        new_object_params['defaultProfile'] = self.new_object.get(
+            'defaultProfile')
+        new_object_params['savaMappingList'] = self.new_object.get(
+            'savaMappingList')
         new_object_params['taskTimeOuts'] = self.new_object.get('taskTimeOuts')
         new_object_params['tenantId'] = self.new_object.get('tenantId')
         new_object_params['version'] = self.new_object.get('version')
@@ -129,7 +132,8 @@ class PnpGlobalSettings(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -175,7 +179,8 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                dnac.fail_json("Object does not exists, plugin only has update")
+                dnac.fail_json(
+                    "Object does not exists, plugin only has update")
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())
