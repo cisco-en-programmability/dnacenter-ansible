@@ -2395,6 +2395,7 @@ class Template(DnacBase):
 
         config["templateId"] = template_details.get("id")
         have_template["id"] = template_details.get("id")
+        project_name = config.get("configuration_templates").get("project_name")
         # Get available templates which are committed under the project
         template_list = self.dnac_apply['exec'](
             family="configuration_templates",
@@ -2406,7 +2407,7 @@ class Template(DnacBase):
             },
         )
         self.log("Received response from 'gets_the_templates_available' for project_name: '{0}' is {1}".format(
-            config.get("projectName"), template_list), "DEBUG")
+            project_name, template_list), "DEBUG")
         have_template["isCommitPending"] = True
         # This check will fail if specified template is there not committed in Cisco Catalyst Center
         if template_list and isinstance(template_list, list):
@@ -3033,12 +3034,24 @@ class Template(DnacBase):
             template_params.update({"id": template_id})
             self.log("Current State (have): {0}".format(self.have_template), "INFO")
             self.log("Desired State (want): {0}".format(self.want), "INFO")
-            response = self.dnac_apply['exec'](
-                family="configuration_templates",
-                function="update_template",
-                op_modifies=True,
-                params=template_params,
-            )
+
+            task_name = "update_template"
+            parameters = template_params
+            current_response = copy.deepcopy(self.result['response'])
+            task_id = self.get_taskid_post_api_call("configuration_templates", task_name, parameters)
+            template_name = self.want.get("template_params").get("name")
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}' for the template: '{1}'.".format(
+                    task_name, template_name
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
+
+            success_msg = "Successfully updated the configuration template '{0}' in Cisco Catalyst Center".format(template_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.result['response'] = copy.deepcopy(current_response)
             self.log("Updating existing template '{0}'."
                      .format(self.have_template.get("template").get("name")), "INFO")
 
@@ -4480,6 +4493,18 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
     ccc_template = Template(module)
+
+    ccc_version = ccc_template.get_ccc_version()
+    if ccc_template.compare_dnac_versions(ccc_version, "2.3.7.6") < 0:
+        ccc_template.msg = (
+            "Template module is not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
+            "from '2.3.7.6' onwards."
+            .format(ccc_version)
+        )
+        ccc_template.set_operation_result(
+            "failed", False, ccc_template.msg, "ERROR"
+        ).check_return_status()
+
     ccc_template.validate_input().check_return_status()
     state = ccc_template.params.get("state")
     config_verify = ccc_template.params.get("config_verify")
