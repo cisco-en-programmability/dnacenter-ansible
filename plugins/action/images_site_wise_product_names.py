@@ -140,7 +140,6 @@ class ImagesSiteWiseProductNames(object):
             _name = prev_obj.get("name")
             _name = _name or prev_obj.get("productNameOrdinal")
             if _name:
-                        _payload_first.update(dict(productNameOrdinal=_name))
                 self.new_object.update(dict(product_name_ordinal=_name))
         if name_exists:
             _id = prev_obj.get("id")
