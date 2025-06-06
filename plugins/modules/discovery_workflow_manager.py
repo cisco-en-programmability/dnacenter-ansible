@@ -1319,7 +1319,7 @@ class Discovery(DnacBase):
             if not (snmp_v2_read_credential.get('community')) and isinstance(snmp_v2_read_credential.get('community'), str):
                 msg = "The community string must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
-            new_object_params['snmpROCommunityDesc'] = snmp_v2_read_credential.get('description')
+            new_object_params['snmpRoCommunityDesc'] = snmp_v2_read_credential.get('description')
             new_object_params['snmpROCommunity'] = snmp_v2_read_credential.get('community')
             new_object_params['snmpVersion'] = "v2"
 
@@ -1330,8 +1330,8 @@ class Discovery(DnacBase):
             if not (snmp_v2_write_credential.get('community')) and isinstance(snmp_v2_write_credential.get('community'), str):
                 msg = "The community string must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
-            new_object_params['snmpRWCommunityDesc'] = snmp_v2_write_credential.get('description')
-            new_object_params['snmpRWCommunity'] = snmp_v2_write_credential.get('community')
+            new_object_params['snmpRwCommunityDesc'] = snmp_v2_write_credential.get('description')
+            new_object_params['snmpRwCommunity'] = snmp_v2_write_credential.get('community')
             new_object_params['snmpVersion'] = "v2"
 
         if snmp_v3_credential:
@@ -1412,7 +1412,7 @@ class Discovery(DnacBase):
 
         self.log("All the global credentials used for the discovery task are {0}".format(str(global_credentials_all)), "DEBUG")
 
-        if not (new_object_params.get('snmpUserName') or new_object_params.get('snmpROCommunityDesc') or new_object_params.get('snmpRWCommunityDesc')
+        if not (new_object_params.get('snmpUserName') or new_object_params.get('snmpRoCommunityDesc') or new_object_params.get('snmpRwCommunityDesc')
                 or global_credentials_all.get('snmpV2cRead') or global_credentials_all.get('snmpV2cWrite') or global_credentials_all.get('snmpV3')):
             msg = "Please provide atleast one valid SNMP credential to perform Discovery"
             self.discovery_specific_cred_failure(msg=msg)

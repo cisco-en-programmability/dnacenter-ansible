@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: iot_network_devices__network_device_id_mrp_rings_id_members_info
+module: iot_network_devices_network_device_id_mrp_rings_id_members_info
 short_description: Information module for Iot Network
   Devices  Network Device Id Mrp Rings Id Members
 description:

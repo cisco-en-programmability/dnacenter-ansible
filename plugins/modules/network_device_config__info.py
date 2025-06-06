@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: network_device_config__info
+module: network_device_config_info
 short_description: Information module for Network Device
   Config
 description:

@@ -50,7 +50,7 @@ argument_spec.update(dict(
     snmpPrivPassphrase=dict(type="str"),
     snmpPrivProtocol=dict(type="str"),
     snmpROCommunity=dict(type="str"),
-    snmpRWCommunity=dict(type="str"),
+    snmpRwCommunity=dict(type="str"),
     snmpRetry=dict(type="int"),
     snmpTimeout=dict(type="int"),
     snmpUserName=dict(type="str"),
@@ -94,7 +94,7 @@ class NetworkDevice(object):
             snmpPrivPassphrase=params.get("snmpPrivPassphrase"),
             snmpPrivProtocol=params.get("snmpPrivProtocol"),
             snmpROCommunity=params.get("snmpROCommunity"),
-            snmpRWCommunity=params.get("snmpRWCommunity"),
+            snmpRwCommunity=params.get("snmpRwCommunity"),
             snmpRetry=params.get("snmpRetry"),
             snmpTimeout=params.get("snmpTimeout"),
             snmpUserName=params.get("snmpUserName"),
@@ -196,8 +196,8 @@ class NetworkDevice(object):
             'snmpPrivProtocol')
         new_object_params['snmpROCommunity'] = self.new_object.get(
             'snmpROCommunity')
-        new_object_params['snmpRWCommunity'] = self.new_object.get(
-            'snmpRWCommunity')
+        new_object_params['snmpRwCommunity'] = self.new_object.get(
+            'snmpRwCommunity')
         new_object_params['snmpRetry'] = self.new_object.get('snmpRetry')
         new_object_params['snmpTimeout'] = self.new_object.get('snmpTimeout')
         new_object_params['snmpUserName'] = self.new_object.get('snmpUserName')
@@ -241,8 +241,8 @@ class NetworkDevice(object):
             'snmpPrivProtocol')
         new_object_params['snmpROCommunity'] = self.new_object.get(
             'snmpROCommunity')
-        new_object_params['snmpRWCommunity'] = self.new_object.get(
-            'snmpRWCommunity')
+        new_object_params['snmpRwCommunity'] = self.new_object.get(
+            'snmpRwCommunity')
         new_object_params['snmpRetry'] = self.new_object.get('snmpRetry')
         new_object_params['snmpTimeout'] = self.new_object.get('snmpTimeout')
         new_object_params['snmpUserName'] = self.new_object.get('snmpUserName')
@@ -335,7 +335,7 @@ class NetworkDevice(object):
             ("snmpPrivPassphrase", "snmpPrivPassphrase"),
             ("snmpPrivProtocol", "snmpPrivProtocol"),
             ("snmpROCommunity", "snmpROCommunity"),
-            ("snmpRWCommunity", "snmpRWCommunity"),
+            ("snmpRwCommunity", "snmpRwCommunity"),
             ("snmpRetry", "snmpRetry"),
             ("snmpTimeout", "snmpTimeout"),
             ("snmpUserName", "snmpUserName"),

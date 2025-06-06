@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: connection_mode_setting
+module: connection_modesetting
 short_description: Resource module for Connection Mode
   Setting
 description:

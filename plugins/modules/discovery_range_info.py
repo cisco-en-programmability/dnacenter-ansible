@@ -128,7 +128,7 @@ dnac_response:
           "snmpRwCommunity": "string",
           "snmpRwCommunityDesc": "string",
           "snmpUserName": "string",
-          "timeOut": 0,
+          "timeout": 0,
           "updateMgmtIp": true,
           "userNameList": "string"
         }

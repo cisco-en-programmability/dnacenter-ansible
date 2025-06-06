@@ -3011,7 +3011,7 @@ class Inventory(DnacBase):
             "snmpPrivPassphrase": params.get("snmp_priv_passphrase"),
             "snmpPrivProtocol": params.get("snmp_priv_protocol"),
             "snmpROCommunity": params.get("snmp_ro_community"),
-            "snmpRWCommunity": params.get("snmp_rw_community"),
+            "snmpRwCommunity": params.get("snmp_rw_community"),
             "snmpRetry": params.get("snmp_retry"),
             "snmpTimeout": params.get("snmp_timeout"),
             "snmpUserName": params.get("snmp_username"),
@@ -4982,8 +4982,8 @@ class Inventory(DnacBase):
 
                     if not playbook_params['snmpROCommunity']:
                         playbook_params['snmpROCommunity'] = device_data.get('snmp_community', None)
-                    if not playbook_params['snmpRWCommunity']:
-                        playbook_params['snmpRWCommunity'] = device_data.get('snmp_write_community', None)
+                    if not playbook_params['snmpRwCommunity']:
+                        playbook_params['snmpRwCommunity'] = device_data.get('snmp_write_community', None)
 
                 if not playbook_params['httpUserName']:
                     playbook_params['httpUserName'] = device_data.get('http_config_username', None)

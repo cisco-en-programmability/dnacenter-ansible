@@ -41,26 +41,19 @@ options:
       items.
     elements: list
     suboptions:
-      - description: Wireless Profiles Id Site Tags
-          Bulk's items.
-        elements: dict
-        suboptions:
-          apProfileName:
-            description: Ap Profile Name.
-            type: str
-          flexProfileName:
-            description: Flex Profile Name.
-            type: str
-          siteIds:
-            description: Site Ids.
-            elements: str
-            type: list
-          siteTagName:
-            description: Use English letters, numbers,
-              special characters except <, /, '.*',
-              ? and leading/trailing space.
-            type: str
+      apProfileName:
+        description: Ap Profile Name.
+        type: str
+      flexProfileName:
+        description: Flex Profile Name.
+        type: str
+      siteIds:
+        description: Site Ids.
+        elements: str
         type: list
+      siteTagName:
+        description: Use English letters, numbers, special characters except <, /, '.*', ? and leading/trailing space.
+        type: str
     type: list
 requirements:
   - dnacentersdk >= 2.4.9
