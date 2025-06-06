@@ -1062,8 +1062,7 @@ EXAMPLES = r"""
           sites: ["Global/India", "Global/USA"]
           events: ["AP Flap", "AP Reboot Crash"]
           sender_email: "catalyst@cisco.com"
-          recipient_emails: ["test@cisco.com", "demo@cisco.com",
-            "update@cisco.com"]
+          recipient_emails: ["test@cisco.com", "demo@cisco.com", "update@cisco.com"]
           subject: "Mail test for updation"
           instance: Email Instance test
 - name: Creating Syslog Notification with the list of

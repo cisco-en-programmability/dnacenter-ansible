@@ -997,8 +997,7 @@ EXAMPLES = r"""
                 network_identity_setting:
                   protocol: "UDP"
                   port: "2000"
-                  ip_subnet: ["1.1.1.1", "2.2.2.2",
-                    "3.3.3.3"]
+                  ip_subnet: ["1.1.1.1", "2.2.2.2", "3.3.3.3"]
                   lower_port: 10
                   upper_port: 100
                 dscp: 2
@@ -1112,10 +1111,10 @@ EXAMPLES = r"""
                         application_set_name: ["collaboration-apps"]
                       - relevance: "BUSINESS_IRRELEVANT"
                         application_set_name: ["email",
-                          "tunneling"]
+                        "tunneling"]
                       - relevance: "DEFAULT"
                         application_set_name: ["backup-and-storage",
-                          "general-media", "file-sharing"]
+                        "general-media", "file-sharing"]
 # Playbook - create application policy – wireless
 - name: Create Wireless Application Policy in Cisco
     Catalyst Center
@@ -1155,10 +1154,10 @@ EXAMPLES = r"""
                         application_set_name: ["file-sharing"]
                       - relevance: "BUSINESS_IRRELEVANT"
                         application_set_name: ["email",
-                          "backup-and-storage"]
+                        "backup-and-storage"]
                       - relevance: "DEFAULT"
                         application_set_name: ["collaboration-apps",
-                          "tunneling", "general-media"]
+                        "tunneling", "general-media"]
 # Playbook - delete application policy
 - name: Delete Application Policy from Cisco Catalyst
     Center

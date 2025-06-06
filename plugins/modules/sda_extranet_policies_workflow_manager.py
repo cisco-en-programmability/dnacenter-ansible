@@ -151,8 +151,7 @@ EXAMPLES = r"""
       - extranet_policy_name: "test_extranet_policy_1"
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_3"]
-        fabric_sites: ["Global/Test_Extranet_Polcies/USA",
-          "Global/Test_Extranet_Polcies/India"]
+        fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
 - name: Update existing Extranet Policy
   cisco.dnac.sda_extranet_policies_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -184,8 +183,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - extranet_policy_name: "test_extranet_policy_1"
-        fabric_sites: ["Global/Test_Extranet_Polcies/USA",
-          "Global/Test_Extranet_Polcies/India"]
+        fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_4"]
 - name: Delete Extranet Policy

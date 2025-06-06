@@ -212,8 +212,7 @@ options:
                     ensure better performance for latency-sensitive
                     applications.
                 type: str
-                choices: ["PLATINUM", "GOLD", "SILVER",
-                  "BRONZE"]
+                choices: ["PLATINUM", "GOLD", "SILVER", "BRONZE"]
               ingress:
                 description:
                   - Specifies the Quality of Service
@@ -224,8 +223,7 @@ options:
                   - The "-UP" suffix denotes user priority
                     levels for upstream traffic classification.
                 type: str
-                choices: ["PLATINUM-UP", "GOLD-UP",
-                  "SILVER-UP", "BRONZE-UP"]
+                choices: ["PLATINUM-UP", "GOLD-UP", "SILVER-UP", "BRONZE-UP"]
           ssid_state:
             description:
               - Configure the SSID state settings, which
@@ -335,9 +333,9 @@ options:
                     with WPA3 enabled.
                 type: str
                 choices: ["WPA2_ENTERPRISE", "WPA3_ENTERPRISE",
-                  "WPA2_WPA3_ENTERPRISE", "WPA2_PERSONAL",
-                  "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL",
-                  "OPEN-SECURED", "OPEN"]
+                "WPA2_WPA3_ENTERPRISE", "WPA2_PERSONAL",
+                "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL",
+                "OPEN-SECURED", "OPEN"]
               ap_beacon_protection:
                 description:
                   - AP Beacon Protection enhances network
@@ -515,8 +513,7 @@ options:
                 with CCMP128 encryption.
             type: list
             elements: str
-            choices: ["GCMP256", "CCMP256", "GCMP128",
-              "CCMP128"]
+            choices: ["GCMP256", "CCMP256", "GCMP128", "CCMP128"]
           auth_key_management:
             description:
               - Defines the Authentication Key Management
@@ -620,10 +617,10 @@ options:
             type: list
             elements: str
             choices: ["802.1X-SHA1", "802.1X-SHA2",
-              "FT+802.1x", "SUITE-B-1X", "SUITE-B-192X",
-              "CCKM", "PSK", "FT+PSK", "Easy-PSK", "PSK-SHA2",
-              "SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY",
-              "OWE"]
+            "FT+802.1x", "SUITE-B-1X", "SUITE-B-192X",
+            "CCKM", "PSK", "FT+PSK", "Easy-PSK", "PSK-SHA2",
+            "SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY",
+            "OWE"]
           cckm_timestamp_tolerance:
             description:
               - Specifies the value of the CCKM Timestamp
@@ -686,8 +683,8 @@ options:
                     a captive portal page hosted externally.
                 type: str
                 choices: ["central_web_authentication",
-                  "web_authentication_internal", "web_authentication_external",
-                  "web_passthrough_internal", "web_passthrough_external"]
+                "web_authentication_internal", "web_authentication_external",
+                "web_passthrough_internal", "web_passthrough_external"]
                 default: "web_authentication_external"
               web_auth_url:
                 description:
@@ -1394,8 +1391,7 @@ options:
                     - STATE - DISABLE - RADIO - 6GHZ/5GHZ/SECONDARY_5GHZ/2_4GHZ
                     - SPATIALSTREAM - FOUR_BY_FOUR/THREE_BY_THREE/TWO_BY_TWO/ONE_BY_ONE
                     - USB - USB - USB0 - STATE - DISABLE
-                choices: ["SPEED", "SPATIALSTREAM",
-                  "STATE"]
+                choices: ["SPEED", "SPATIALSTREAM", "STATE"]
                 type: str
               parameter_value:
                 description:
@@ -1491,8 +1487,7 @@ options:
                     is true.
                 type: str
                 default: "NO-AUTH"
-                choices: ["NO-AUTH", "EAP-TLS", "EAP-PEAP",
-                  "EAP-FAST"]
+                choices: ["NO-AUTH", "EAP-TLS", "EAP-PEAP", "EAP-FAST"]
               dot1x_username:
                 description:
                   - Username for 802.1X authentication.
@@ -1770,8 +1765,7 @@ options:
                     between mesh access points over
                     the 5 GHz frequency band.
                 type: str
-                choices: ["auto", "802.11abg", "802.12ac",
-                  "802.11ax", "802.11n"]
+                choices: ["auto", "802.11abg", "802.12ac", "802.11ax", "802.11n"]
                 default: "auto"
               ghz_2_4_backhaul_data_rates:
                 description:
@@ -1781,8 +1775,7 @@ options:
                     between mesh access points over
                     the 2.4 GHz frequency band.
                 type: str
-                choices: ["auto", "802.11abg", "802.11ax",
-                  "802.11n"]
+                choices: ["auto", "802.11abg", "802.11ax", "802.11n"]
                 default: "auto"
               bridge_group_name:
                 description:
@@ -1959,8 +1952,7 @@ options:
                 or "CONTROLLER", make sure to set "time_zone_offset_hour"
                 and "time_zone_offset_minutes" to 0.
             type: str
-            choices: ["NOT CONFIGURED", "CONTROLLER",
-              "DELTA FROM CONTROLLER"]
+            choices: ["NOT CONFIGURED", "CONTROLLER", "DELTA FROM CONTROLLER"]
             default: "NOT CONFIGURED"
           time_zone_offset_hour:
             description:
@@ -2052,8 +2044,7 @@ options:
                   - Defines baseline configurations
                     for the 2.4 GHz radio band.
                 type: str
-                choices: ["HIGH", "TYPICAL", "LOW",
-                  "CUSTOM"]
+                choices: ["HIGH", "TYPICAL", "LOW", "CUSTOM"]
                 default: "CUSTOM"
               dca_channels_list:
                 description:
@@ -2095,7 +2086,7 @@ options:
                 type: list
                 elements: float
                 choices: [1, 2, 5.5, 6, 9, 11, 12, 18,
-                  24, 36, 48, 54]
+                24, 36, 48, 54]
                 default: [9, 11, 12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list:
                 description:
@@ -2160,8 +2151,7 @@ options:
                     particularly in environments with
                     varying signal conditions.
                 type: str
-                choices: ["HIGH", "MEDIUM", "LOW", "AUTO",
-                  "CUSTOM"]
+                choices: ["HIGH", "MEDIUM", "LOW", "AUTO", "CUSTOM"]
                 default: "MEDIUM"
               custom_rx_sop_threshold:
                 description:
@@ -2379,8 +2369,7 @@ options:
                     settings inherited by this profile.
                 type: str
                 default: "CUSTOM"
-                choices: ["HIGH", "TYPICAL", "LOW",
-                  "CUSTOM"]
+                choices: ["HIGH", "TYPICAL", "LOW", "CUSTOM"]
               channel_width:
                 description:
                   - Defines the channel width for the
@@ -2499,8 +2488,7 @@ options:
                   - Defines sensitivity to interference.
                 type: str
                 default: "LOW"
-                choices: ["HIGH", "MEDIUM", "LOW", "AUTO",
-                  "CUSTOM"]
+                choices: ["HIGH", "MEDIUM", "LOW", "AUTO", "CUSTOM"]
               custom_rx_sop_threshold:
                 description:
                   - RX-SOP threshold custom configuration.
@@ -2742,8 +2730,7 @@ options:
                   radio band.
                 type: str
                 default: "AUTO"
-                choices: ["HIGH", "MEDIUM", "LOW", "AUTO",
-                  "CUSTOM"]
+                choices: ["HIGH", "MEDIUM", "LOW", "AUTO", "CUSTOM"]
               custom_rx_sop_threshold:
                 description:
                   - RX-SOP threshold custom configuration.
@@ -2829,8 +2816,7 @@ options:
                   radio band.
                 type: str
                 default: "None"
-                choices: ["None", "Broadcast Probe Response",
-                  "FILS Discovery"]
+                choices: ["None", "Broadcast Probe Response", "FILS Discovery"]
               broadcast_probe_response_interval:
                 description:
                   - Specifies the Broadcast Probe Response
@@ -3179,8 +3165,7 @@ EXAMPLES = r"""
             fast_transition: "ADAPTIVE"
             fast_transition_over_the_ds: true
             wpa_encryption: ["CCMP128"]
-            auth_key_management: ["CCKM", "802.1X-SHA1",
-              "802.1X-SHA2"]
+            auth_key_management: ["CCKM", "802.1X-SHA1", "802.1X-SHA2"]
             cckm_timestamp_tolerance: 1000
           - ssid_name: "secure_psk"
             ssid_type: "Enterprise"
@@ -3204,8 +3189,7 @@ EXAMPLES = r"""
             fast_transition: "ENABLE"
             fast_transition_over_the_ds: true
             wpa_encryption: ["CCMP128"]
-            auth_key_management: ["CCKM", "802.1X-SHA1",
-              "802.1X-SHA2", "FT+802.1x"]
+            auth_key_management: ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"]
             cckm_timestamp_tolerance: 3000
           - ssid_name: "enterprise_secure"
             ssid_type: "Enterprise"
@@ -3214,8 +3198,7 @@ EXAMPLES = r"""
             fast_transition: "ENABLE"
             fast_transition_over_the_ds: true
             wpa_encryption: ["CCMP128"]
-            auth_key_management: ["802.1X-SHA1", "802.1X-SHA2",
-              "FT+802.1x"]
+            auth_key_management: ["802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"]
           - ssid_name: "branch_office_wifi"
             ssid_type: "Enterprise"
             l2_security:
@@ -3300,8 +3283,7 @@ EXAMPLES = r"""
             fast_transition: "ENABLE"
             fast_transition_over_the_ds: true
             wpa_encryption: ["CCMP128"]
-            auth_key_management: ["CCKM", "802.1X-SHA1",
-              "802.1X-SHA2", "FT+802.1x"]
+            auth_key_management: ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"]
             cckm_timestamp_tolerance: 3000
             protected_management_frame: "REQUIRED"
           - ssid_name: "branch_office_wifi"
@@ -4320,7 +4302,7 @@ EXAMPLES = r"""
               parent_profile: "HIGH"
               dca_channels_list: [1, 6, 11]
               supported_data_rates_list: [11, 12, 18,
-                2, 24, 36, 48, 5.5, 54, 6, 9]
+              2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [2, 11]
           - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
             default_rf_profile: false
@@ -4461,7 +4443,7 @@ EXAMPLES = r"""
               parent_profile: "LOW"
               dca_channels_list: [1, 6, 11]
               supported_data_rates_list: [1, 11, 12,
-                18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+              18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [1, 2]
               minimum_power_level: 3
               maximum_power_level: 20
@@ -4597,7 +4579,7 @@ EXAMPLES = r"""
               parent_profile: "TYPICAL"
               dca_channels_list: [1, 6]
               supported_data_rates_list: [1, 11, 12,
-                18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+              18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [12]
           - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
             default_rf_profile: false

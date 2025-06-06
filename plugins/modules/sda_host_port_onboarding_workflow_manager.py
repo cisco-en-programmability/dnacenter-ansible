@@ -205,8 +205,7 @@ options:
                 be updated from "TRUNK" to "EXTENDED_NODE"
                 unless the protocol configured is PAGP.
             type: str
-            choices: ["TRUNKING_DEVICE", "ACCESS_POINT",
-              "USER_DEVICE"]
+            choices: ["TRUNKING_DEVICE", "ACCESS_POINT", "USER_DEVICE"]
           data_vlan_name:
             description:
               - Specifies the Data VLAN name or IP address
@@ -249,8 +248,7 @@ options:
                 with the "No Authentication" profile.
             type: str
             required: true
-            choices: ["No Authentication", "Open Authentication",
-              "Closed Authentication", "Low Impact"]
+            choices: ["No Authentication", "Open Authentication", "Closed Authentication", "Low Impact"]
           interface_description:
             description:
               - A description of the port assignment
@@ -478,28 +476,28 @@ EXAMPLES = r"""
         port_channels:
           # Default protocol is ON for TRUNK
           - interface_names: ["TenGigabitEthernet1/0/37",
-              "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
+            "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
             connected_device_type: "TRUNK"
           - interface_names: ["TenGigabitEthernet1/0/43",
-              "TenGigabitEthernet1/0/44"]
+            "TenGigabitEthernet1/0/44"]
             connected_device_type: "TRUNK"
             protocol: "ON"
           - interface_names: ["TenGigabitEthernet1/0/45",
-              "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47",
-              "TenGigabitEthernet1/0/48"]
+            "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47",
+            "TenGigabitEthernet1/0/48"]
             connected_device_type: "TRUNK"
             protocol: "LACP"
           - interface_names: ["TenGigabitEthernet1/1/2",
-              "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
+            "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
             connected_device_type: "TRUNK"
             protocol: "PAGP"
             port_channel_description: "Trunk port channel"
           # Default protocol for EXTENDED_NODE is PAGP
           - interface_names: ["TenGigabitEthernet1/1/5",
-              "TenGigabitEthernet1/1/6"]
+            "TenGigabitEthernet1/1/6"]
             connected_device_type: "EXTENDED_NODE"
           - interface_names: ["TenGigabitEthernet1/1/7",
-              "TenGigabitEthernet1/1/8"]
+            "TenGigabitEthernet1/1/8"]
             connected_device_type: "EXTENDED_NODE"
             protocol: "PAGP"
             port_channel_description: "extended node
@@ -557,27 +555,27 @@ EXAMPLES = r"""
         port_channels:
           # update - add interfaces in the port channel
           - interface_names: ["TenGigabitEthernet1/0/43",
-              "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]
+            "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]
             connected_device_type: "TRUNK"
             protocol: "ON"
           # update - add interface and description
           - interface_names: ["TenGigabitEthernet1/0/37",
-              "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39",
-              "TenGigabitEthernet1/0/41"]
+            "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39",
+            "TenGigabitEthernet1/0/41"]
             connected_device_type: "TRUNK"
             port_channel_description: "Trunk port channel"
           # update - remove interface from the port channel
           - interface_names: ["TenGigabitEthernet1/0/45",
-              "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47"]
+            "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47"]
             connected_device_type: "TRUNK"
             protocol: "LACP"
           # update - change device type from extended_node to trunk
           - interface_names: ["TenGigabitEthernet1/1/5",
-              "TenGigabitEthernet1/1/6"]
+            "TenGigabitEthernet1/1/6"]
             connected_device_type: "TRUNK"
           # update - change device type from trunk to extended node when protocol is pagp
           - interface_names: ["TenGigabitEthernet1/1/2",
-              "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
+            "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
             connected_device_type: "EXTENDED_NODE"
             protocol: "PAGP"
             port_channel_description: "Trunk port channel"
@@ -692,10 +690,10 @@ EXAMPLES = r"""
               at 212"
         port_channels:
           - interface_names: ["TenGigabitEthernet1/0/37",
-              "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
+            "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
             connected_device_type: "TRUNK"
           - interface_names: ["TenGigabitEthernet1/0/43",
-              "TenGigabitEthernet1/0/44"]
+            "TenGigabitEthernet1/0/44"]
             connected_device_type: "TRUNK"
             protocol: "ON"
         wireless_ssids:
@@ -729,10 +727,10 @@ EXAMPLES = r"""
           - interface_name: "TenGigabitEthernet1/0/39"
         port_channels:
           - interface_names: ["TenGigabitEthernet1/0/45",
-              "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47",
-              "TenGigabitEthernet1/0/48"]
+            "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47",
+            "TenGigabitEthernet1/0/48"]
           - interface_names: ["TenGigabitEthernet1/1/2",
-              "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
+            "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
         wireless_ssids:
           - vlan_name: "IAC-VLAN-1"
           - vlan_name: "IAC-VLAN-3"
