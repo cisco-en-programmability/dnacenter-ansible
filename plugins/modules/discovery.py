@@ -194,18 +194,18 @@ options:
   snmpPrivProtocol:
     description: SNMP privacy protocol. 'AES128'.
     type: str
-  snmpROCommunity:
+  snmpRoCommunity:
     description: SNMP RO community of the devices to
       be discovered.
     type: str
-  snmpROCommunityDesc:
+  snmpRoCommunityDesc:
     description: Description for SNMP RO community.
     type: str
-  snmpRWCommunity:
+  snmpRwCommunity:
     description: SNMP RW community of the devices to
       be discovered.
     type: str
-  snmpRWCommunityDesc:
+  snmpRwCommunityDesc:
     description: Description for SNMP RW community.
     type: str
   snmpRoCommunity:
@@ -228,7 +228,7 @@ options:
   snmpVersion:
     description: Version of SNMP. V2 or v3.
     type: str
-  timeOut:
+  timeout:
     description: Time to wait for device response.
     type: int
   timeout:
@@ -357,7 +357,7 @@ EXAMPLES = r"""
     snmpRwCommunity: string
     snmpRwCommunityDesc: string
     snmpUserName: string
-    timeOut: 0
+    timeout: 0
     updateMgmtIp: true
     userNameList: string
 - name: Create
@@ -402,10 +402,10 @@ EXAMPLES = r"""
     snmpMode: string
     snmpPrivPassphrase: string
     snmpPrivProtocol: string
-    snmpROCommunity: string
-    snmpROCommunityDesc: string
-    snmpRWCommunity: string
-    snmpRWCommunityDesc: string
+    snmpRoCommunity: string
+    snmpRoCommunityDesc: string
+    snmpRwCommunity: string
+    snmpRwCommunityDesc: string
     snmpUserName: string
     snmpVersion: string
     timeout: 0

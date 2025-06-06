@@ -25,15 +25,10 @@ options:
       For Sites Bulk Create's items.
     elements: list
     suboptions:
-      - description: Templates Template Id Network Profiles
-          For Sites Bulk Create's items.
-        elements: dict
-        suboptions:
-          profileId:
-            description: The id of the network profile,
-              retrievable from `/intent/api/v1/networkProfilesForSites`.
-            type: str
-        type: list
+      profileId:
+        description: The id of the network profile,
+          retrievable from `/intent/api/v1/networkProfilesForSites`.
+        type: str
     type: list
   templateId:
     description: TemplateId path parameter. The `id`

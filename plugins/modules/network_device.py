@@ -124,12 +124,12 @@ options:
   snmpROCommunity:
     description: SNMP Read Community of the device.
       If snmpVersion is v2, at least one of snmpROCommunity
-      and snmpRWCommunity is required.
+      and snmpRwCommunity is required.
     type: str
-  snmpRWCommunity:
+  snmpRwCommunity:
     description: SNMP Write Community of the device.
       If snmpVersion is v2, at least one of snmpROCommunity
-      and snmpRWCommunity is required.
+      and snmpRwCommunity is required.
     type: str
   snmpRetry:
     description: SNMP retry count. Max value supported
@@ -236,7 +236,7 @@ EXAMPLES = r"""
     snmpPrivPassphrase: string
     snmpPrivProtocol: string
     snmpROCommunity: string
-    snmpRWCommunity: string
+    snmpRwCommunity: string
     snmpRetry: 0
     snmpTimeout: 0
     snmpUserName: string
@@ -274,7 +274,7 @@ EXAMPLES = r"""
     snmpPrivPassphrase: string
     snmpPrivProtocol: string
     snmpROCommunity: string
-    snmpRWCommunity: string
+    snmpRwCommunity: string
     snmpRetry: 0
     snmpTimeout: 0
     snmpUserName: string
