@@ -78,7 +78,6 @@ class SdaVirtualNetworkIpPool(object):
             isCommonPool=params.get("isCommonPool"),
             isBridgeModeVm=params.get("isBridgeModeVm"),
             poolType=params.get("poolType"),
-            site_name_hierarchy=params.get("siteNameHierarchy"),
             virtual_network_name=params.get("virtualNetworkName"),
             ip_pool_name=params.get("ipPoolName"),
         )
