@@ -1397,7 +1397,8 @@ def main():
     ccc_version = ccc_assurance.get_ccc_version()
 
     if ccc_assurance.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
-        ccc_assurance.msg = "The specified version '{0}' does not support the Assurance Intelligent Capture Settings feature. Supported versions start from '2.3.7.9' onwards.".format(
+        ccc_assurance.msg = """The specified version '{0}' does not support the Assurance Intelligent Capture
+        Settings feature. Supported versions start from '2.3.7.9' onwards.""".format(
             ccc_assurance.get_ccc_version()
         )
         ccc_assurance.status = "failed"

@@ -143,7 +143,7 @@ seealso:
       TimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
     description:
       - >
-        Complete reference of the 
+        Complete reference of the
         GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecified
         TimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
         API.

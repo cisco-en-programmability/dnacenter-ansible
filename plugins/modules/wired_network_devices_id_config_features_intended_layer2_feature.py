@@ -15,7 +15,7 @@ description:
     Intended Layer2 Feature. - > This API creates configurations
     for an intended feature on a wired device. Once
     all the updates to intended features are complete,
-    they can be deployed to a device using the API 
+    they can be deployed to a device using the API
     /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy.
     When the intended features are deployed, they are
     applied on top of the existing configurations on
@@ -35,7 +35,7 @@ description:
     wired device. Updates to other intended features
     can be done over several iterations. Once all the
     updates to intended features are complete, they
-    can be deployed to a device using the API 
+    can be deployed to a device using the API
     /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy.
     When the intended features are deployed, they are
     applied on top of the existing configurations on
