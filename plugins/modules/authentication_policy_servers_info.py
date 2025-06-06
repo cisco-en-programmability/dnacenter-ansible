@@ -64,7 +64,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    isIseEnabled: True
+    isIseEnabled: true
     state_: string
     role: string
   register: result

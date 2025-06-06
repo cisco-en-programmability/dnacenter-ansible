@@ -81,7 +81,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    summary: True
+    summary: true
     domain: string
     subdomain: string
     limit: 0

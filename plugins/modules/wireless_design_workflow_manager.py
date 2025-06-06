@@ -5580,7 +5580,7 @@ class WirelessDesign(DnacBase):
                         "GCMP256": ["SUITE-B-192X"]
                     }
                 },
-                "ap_beacon_protection_allowed": True
+                "ap_beacon_protection_allowed": true
             },
             "WPA2_WPA3_ENTERPRISE": {
                 "required": ["wpa_encryption", "auth_key_management"],
@@ -5604,7 +5604,7 @@ class WirelessDesign(DnacBase):
                         "GCMP256": ["SUITE-B-192X"]
                     }
                 },
-                "ap_beacon_protection_allowed": True
+                "ap_beacon_protection_allowed": true
             },
             "WPA2_PERSONAL": {
                 "required": ["passphrase", "wpa_encryption", "auth_key_management"],
@@ -5633,7 +5633,7 @@ class WirelessDesign(DnacBase):
                         "GCMP256": ["SAE-EXT-KEY"]
                     }
                 },
-                "ap_beacon_protection_allowed": True
+                "ap_beacon_protection_allowed": true
             },
             "WPA2_WPA3_PERSONAL": {
                 "required": ["passphrase", "wpa_encryption", "auth_key_management"],
@@ -5647,7 +5647,7 @@ class WirelessDesign(DnacBase):
                         "GCMP256": ["SAE-EXT-KEY"]
                     }
                 },
-                "ap_beacon_protection_allowed": True
+                "ap_beacon_protection_allowed": true
             },
             "OPEN-SECURED": {
                 "required": ["wpa_encryption", "auth_key_management"],
@@ -8445,7 +8445,7 @@ class WirelessDesign(DnacBase):
                             "delete_ssid_params": {
                                 "site_id": global_site_id,
                                 "id": ssid_to_delete.get("id"),
-                                "remove_override_in_hierarchy": True
+                                "remove_override_in_hierarchy": true
                             }
                         }
                     }

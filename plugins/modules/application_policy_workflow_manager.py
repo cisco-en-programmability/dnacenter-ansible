@@ -35,7 +35,7 @@ options:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
-    default: True
+    default: true
   state:
     description: The desired state of the configuration
       after module execution.

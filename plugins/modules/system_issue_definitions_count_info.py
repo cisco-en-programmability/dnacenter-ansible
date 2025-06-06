@@ -109,7 +109,7 @@ EXAMPLES = r"""
     id: string
     name: string
     priority: string
-    issueEnabled: True
+    issueEnabled: true
   register: result
 """
 RETURN = r"""

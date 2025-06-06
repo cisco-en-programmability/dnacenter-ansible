@@ -61,7 +61,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    _inherited: True
+    _inherited: true
     siteId: string
   register: result
 """

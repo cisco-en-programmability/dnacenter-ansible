@@ -137,9 +137,9 @@ EXAMPLES = r"""
     version: string
     imageSeries: string
     imageName: string
-    isTaggedGolden: True
-    isCCORecommended: True
-    isCCOLatest: True
+    isTaggedGolden: true
+    isCCORecommended: true
+    isCCOLatest: true
     createdTime: 0
     imageSizeGreaterThan: 0
     imageSizeLesserThan: 0

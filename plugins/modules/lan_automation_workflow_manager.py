@@ -636,11 +636,11 @@ class LanAutomation(DnacBase):
                 "options": {
                     "discovered_device_site_name_hierarchy": {
                         "type": "str",
-                        "required": True
+                        "required": true
                     },
                     "primary_device_management_ip_address": {
                         "type": "str",
-                        "required": True
+                        "required": true
                     },
                     "primary_device_interface_names": {
                         "type": "list",
@@ -658,7 +658,7 @@ class LanAutomation(DnacBase):
                         "options": {
                             "ip_pool_name": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "ip_pool_role": {
                                 "type": "str",
@@ -701,7 +701,7 @@ class LanAutomation(DnacBase):
                         "options": {
                             "device_serial_number": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "device_host_name": {
                                 "type": "str",
@@ -746,11 +746,11 @@ class LanAutomation(DnacBase):
                         "options": {
                             "device_management_ip_address": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "new_loopback0_ip_address": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             }
                         }
                     },
@@ -761,11 +761,11 @@ class LanAutomation(DnacBase):
                         "options": {
                             "device_management_ip_address": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "new_host_name": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             }
                         }
                     },
@@ -775,23 +775,23 @@ class LanAutomation(DnacBase):
                         "options": {
                             "source_device_management_ip_address": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "source_device_interface_name": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "destination_device_management_ip_address": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "destination_device_interface_name": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "ip_pool_name": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             }
                         }
                     },
@@ -801,19 +801,19 @@ class LanAutomation(DnacBase):
                         "options": {
                             "source_device_management_ip_address": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "source_device_interface_name": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "destination_device_management_ip_address": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             },
                             "destination_device_interface_name": {
                                 "type": "str",
-                                "required": True
+                                "required": true
                             }
                         }
                     }

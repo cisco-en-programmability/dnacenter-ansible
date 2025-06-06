@@ -130,10 +130,10 @@ EXAMPLES = r"""
     productFamily: string
     productSeries: string
     productType: string
-    filterConflictingTemplates: True
+    filterConflictingTemplates: true
     tags: []
     projectNames: []
-    unCommitted: True
+    unCommitted: true
     sortOrder: string
   register: result
 - name: Get Configuration Template by id
@@ -146,7 +146,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    latestVersion: True
+    latestVersion: true
     templateId: string
   register: result
 """

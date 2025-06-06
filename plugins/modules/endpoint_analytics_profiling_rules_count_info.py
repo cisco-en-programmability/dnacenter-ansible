@@ -59,7 +59,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     ruleType: string
-    includeDeleted: True
+    includeDeleted: true
   register: result
 """
 RETURN = r"""

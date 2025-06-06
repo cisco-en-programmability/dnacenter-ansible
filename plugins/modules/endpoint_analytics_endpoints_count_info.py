@@ -180,8 +180,8 @@ EXAMPLES = r"""
     hardwareManufacturer: string
     hardwareModel: string
     operatingSystem: string
-    registered: True
-    randomMac: True
+    registered: true
+    randomMac: true
     trustScore: string
     authMethod: string
     postureStatus: string
@@ -189,9 +189,9 @@ EXAMPLES = r"""
     changedProfileTrustLevel: string
     natTrustLevel: string
     concurrentMacTrustLevel: string
-    ipBlocklistDetected: True
-    unauthPortDetected: True
-    weakCredDetected: True
+    ipBlocklistDetected: true
+    unauthPortDetected: true
+    weakCredDetected: true
     ancPolicy: string
   register: result
 """
