@@ -169,20 +169,20 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-          - source_ip: "204.1.2.3" # required field
-            dest_ip: "204.1.2.4" # required field
-            source_port: 4020 # optional field
-            dest_port: 4021 # optional field
-            protocol: "TCP" # optional field
-            include_stats: # optional field
+          - source_ip: "204.1.2.3"  # required field
+            dest_ip: "204.1.2.4"  # required field
+            source_port: 4020  # optional field
+            dest_port: 4021  # optional field
+            protocol: "TCP"  # optional field
+            include_stats:  # optional field
               - DEVICE_STATS
               - INTERFACE_STATS
               - QOS_STATS
               - PERFORMANCE_STATS
               - ACL_TRACE
-            periodic_refresh: false # optional field
-            control_path: false # optional field
-            delete_on_completion: true # optional field
+            periodic_refresh: false  # optional field
+            control_path: false  # optional field
+            delete_on_completion: true  # optional field
     - name: Delete path trace based on source and destination
         IP
       cisco.dnac.path_trace_workflow_manager:
@@ -198,8 +198,8 @@ EXAMPLES = r"""
         state: deleted
         config_verify: true
         config:
-          - source_ip: "204.1.2.3" # required field
-            dest_ip: "204.1.2.4" # required field
+          - source_ip: "204.1.2.3"  # required field
+            dest_ip: "204.1.2.4"  # required field
     - name: Retrieve last path trace
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -214,8 +214,8 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-          - source_ip: "204.1.2.3" # required field
-            dest_ip: "204.1.2.4" # required field
+          - source_ip: "204.1.2.3"  # required field
+            dest_ip: "204.1.2.4"  # required field
             get_last_pathtrace_result: true
     - name: Retrieve path trace based on the flow analysis
         id
@@ -236,7 +236,7 @@ EXAMPLES = r"""
           # (the "id" from the "request" section), which should be
           # shown in a register.
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
-            delete_on_completion: false # optional field
+            delete_on_completion: false  # optional field
       register: output_list
     - name: Retrieve and Delete path trace based on
         the required field
@@ -253,8 +253,8 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-          - source_ip: "204.1.2.3" # required field
-            dest_ip: "204.1.2.4" # required field
+          - source_ip: "204.1.2.3"  # required field
+            dest_ip: "204.1.2.4"  # required field
       register: output_list
     - name: Delete path trace based on registered flow
         analysis id
@@ -306,25 +306,25 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-          - source_ip: "204.1.2.3" # required field
-            dest_ip: "204.1.2.4" # required field
-            source_port: 4020 # optional field
-            dest_port: 4021 # optional field
-            protocol: "TCP" # optional field
-            include_stats: # optional field
+          - source_ip: "204.1.2.3"  # required field
+            dest_ip: "204.1.2.4"  # required field
+            source_port: 4020  # optional field
+            dest_port: 4021  # optional field
+            protocol: "TCP"  # optional field
+            include_stats:  # optional field
               - DEVICE_STATS
               - INTERFACE_STATS
               - QOS_STATS
               - PERFORMANCE_STATS
               - ACL_TRACE
-            periodic_refresh: false # optional field
-            control_path: false # optional field
-            delete_on_completion: true # optional field
-          - source_ip: "204.1.1.2" # required field
-            dest_ip: "204.1.2.4" # required field
-            control_path: false # optional field
-            get_last_pathtrace_result: true # optional field
-            delete_on_completion: true # optional field
+            periodic_refresh: false  # optional field
+            control_path: false  # optional field
+            delete_on_completion: true  # optional field
+          - source_ip: "204.1.1.2"  # required field
+            dest_ip: "204.1.2.4"  # required field
+            control_path: false  # optional field
+            get_last_pathtrace_result: true  # optional field
+            delete_on_completion: true  # optional field
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
 """
 
