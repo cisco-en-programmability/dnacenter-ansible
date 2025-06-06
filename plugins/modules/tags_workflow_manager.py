@@ -360,8 +360,19 @@ notes:
   - Each device or interface can have a maximum of 500
     tags assigned.
   - |-
-    SDK Methods used are tags.Tag.add_members_to_the_tag tags.Tag.create_tag tags.Tag.delete_tag devices.Devices.get_device_list devices.Devices.get_interface_details site_design.SiteDesign.get_sites site_design.SiteDesign.get_site_assigned_network_devices tags.Tag.get_tag tags.Tag.get_tag_members_by_id tags.Tag.query_the_tags_associated_with_network_devices tags.Tag.query_the_tags_associated_with_interfaces tags.Tag.update_tag tags.Tag.update_tags_associated_with_the_interfaces tags.Tag.update_tags_associated_with_the_network_devices
-    - SDK Paths used are /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tag /dna/intent/api/v1/tag/${id} /dna/intent/api/v1/network-device /dna/intent/api/v1/interface/network-device/${deviceId}/interface-name /dna/intent/api/v1/sites /dna/intent/api/v1/networkDevices/assignedToSite /dna/intent/api/v1/tag /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tags/networkDevices/membersAssociations/query /dna/intent/api/v1/tags/interfaces/membersAssociations/query /dna/intent/api/v1/tag /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk /dna/intent/api/v1/tags/interfaces/membersAssociations/bulk
+    SDK Methods used are tags.Tag.add_members_to_the_tag tags.Tag.create_tag tags.Tag.delete_tag
+    devices.Devices.get_device_list devices.Devices.get_interface_details site_design.SiteDesign.get_sites
+    site_design.SiteDesign.get_site_assigned_network_devices tags.Tag.get_tag tags.Tag.get_tag_members_by_id
+    tags.Tag.query_the_tags_associated_with_network_devices tags.Tag.query_the_tags_associated_with_interfaces
+    tags.Tag.update_tag tags.Tag.update_tags_associated_with_the_interfaces
+    tags.Tag.update_tags_associated_with_the_network_devices
+    - SDK Paths used are /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tag /dna/intent/api/v1/tag/${id}
+    /dna/intent/api/v1/network-device /dna/intent/api/v1/interface/network-device/${deviceId}/interface-name
+    /dna/intent/api/v1/sites /dna/intent/api/v1/networkDevices/assignedToSite /dna/intent/api/v1/tag
+    /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tags/networkDevices/membersAssociations/query
+    /dna/intent/api/v1/tags/interfaces/membersAssociations/query /dna/intent/api/v1/tag
+    /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk
+    /dna/intent/api/v1/tags/interfaces/membersAssociations/bulk
 """
 
 EXAMPLES = r"""

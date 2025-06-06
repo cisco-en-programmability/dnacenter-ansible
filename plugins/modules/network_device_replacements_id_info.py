@@ -35,9 +35,12 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Device
       Replacement RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
-    description: Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-device
+    description: 
+      - >
+        Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
+        API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-
+          of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-device
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.retrieve_the_status_of_device_replacement_workflow_that_replaces_a_faulty_device_with_a_replacement_device,
