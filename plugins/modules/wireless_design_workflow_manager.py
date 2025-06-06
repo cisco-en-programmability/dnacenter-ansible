@@ -4301,8 +4301,7 @@ EXAMPLES = r"""
             radio_bands_2_4ghz_settings:
               parent_profile: "HIGH"
               dca_channels_list: [1, 6, 11]
-              supported_data_rates_list: [11, 12, 18,
-              2, 24, 36, 48, 5.5, 54, 6, 9]
+              supported_data_rates_list: [11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [2, 11]
           - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
             default_rf_profile: false
@@ -4311,19 +4310,16 @@ EXAMPLES = r"""
               parent_profile: "TYPICAL"
               channel_width: "160"
               dca_channels_list: [36, 40, 44, 48, 52,
-              56, 60, 64, 100, 104, 108, 112, 116,
-              120, 124, 128]
-              supported_data_rates_list: [12, 18, 24,
-              36, 48, 54]
+                                  56, 60, 64, 100, 104, 108, 112, 116,
+                                  120, 124, 128]
+              supported_data_rates_list: [12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list: [24]
           - radio_frequency_profile_name: "rf_profile_6ghz_custom"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
-              dca_channels_list: [13, 17, 21, 25, 29,
-              33, 37, 41]
-              supported_data_rates_list: [6, 9, 12,
-              18, 24, 36, 48, 54]
+              dca_channels_list: [13, 17, 21, 25, 29, 33, 37, 41]
+              supported_data_rates_list: [6, 9, 12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list: [6, 9]
               parent_profile: "CUSTOM"
               minimum_dbs_channel_width: 20
@@ -4443,7 +4439,7 @@ EXAMPLES = r"""
               parent_profile: "LOW"
               dca_channels_list: [1, 6, 11]
               supported_data_rates_list: [1, 11, 12,
-              18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+                                          18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [1, 2]
               minimum_power_level: 3
               maximum_power_level: 20
@@ -4468,7 +4464,7 @@ EXAMPLES = r"""
               zero_wait_dfs: true
               dca_channels_list: [36, 40, 44, 48]
               supported_data_rates_list: [6, 9, 12,
-              18, 24, 36, 48, 54]
+                                          18, 24, 36, 48, 54]
               mandatory_data_rates_list: [6]
               minimum_power_level: 5
               maximum_power_level: 30
@@ -4498,7 +4494,7 @@ EXAMPLES = r"""
               psc_enforcing_enabled: true
               dca_channels_list: [37, 53, 69, 85]
               supported_data_rates_list: [12, 18, 24,
-              36, 48, 54, 6, 9]
+                                          36, 48, 54, 6, 9]
               mandatory_data_rates_list: [6, 12]
               minimum_power_level: 10
               maximum_power_level: 30
@@ -4579,7 +4575,7 @@ EXAMPLES = r"""
               parent_profile: "TYPICAL"
               dca_channels_list: [1, 6]
               supported_data_rates_list: [1, 11, 12,
-              18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+                                          18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [12]
           - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
             default_rf_profile: false

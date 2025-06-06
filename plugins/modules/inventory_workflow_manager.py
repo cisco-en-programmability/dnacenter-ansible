@@ -997,8 +997,7 @@ EXAMPLES = r"""
           vlan_id: 23
           voice_vlan_id: 45
           deployment_mode: "Deploy"
-          interface_name: ["GigabitEthernet1/0/11",
-            FortyGigabitEthernet1/1/1]
+          interface_name: ["GigabitEthernet1/0/11", FortyGigabitEthernet1/1/1]
           clear_mac_address_table: true
 - name: Export Device Details in a CSV file Interface
     details with IP Address

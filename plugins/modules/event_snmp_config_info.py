@@ -26,7 +26,6 @@ notes:
 """
 
 EXAMPLES = r"""
-
 """
 RETURN = r"""
 dnac_response:
