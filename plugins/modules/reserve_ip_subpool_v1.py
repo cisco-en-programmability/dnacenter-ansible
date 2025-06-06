@@ -88,6 +88,13 @@ options:
   siteId:
     description: SiteId path parameter. Site id to reserve the ip sub pool.
     type: str
+  ignoreInheritedGroups:
+    description:
+      - >
+        IgnoreInheritedGroups query parameter. Ignores pools inherited from parent
+        site. Either siteId or
+        ignoreInheritedGroups must be passed. They can also be used together.
+    type: bool
   slaacSupport:
     description: Slaac Support.
     type: bool
@@ -135,6 +142,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    ignoreInheritedGroups: true
     ipv4DhcpServers:
       - string
     ipv4DnsServers:

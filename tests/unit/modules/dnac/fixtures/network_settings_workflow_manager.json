@@ -125,6 +125,16 @@
     }
 ],
 
+"playbook_config_device_controlability": [
+      {
+        "device_controllability_details": 
+          {
+            "device_controllability": true,
+            "autocorrect_telemetry_config": true
+            }
+    }
+],
+
     "get_sites_network": {
         "response": [
         {
@@ -137,8 +147,7 @@
         ],
         "version": "1.0"
     },
-      
-    
+
     "get_network_v2": {
             "response": [
               {
@@ -2360,10 +2369,39 @@
         ],
         "version": "1.0"
       },
+
       "global_pool_exist_deletion2":
       {
         "response": [],
         "message": "There is no global ip pools present in the system for the given input."
+      },
+
+      "get_device_controlability":
+      {
+        "response": {
+            "autocorrectTelemetryConfig": true,
+            "deviceControllability": false
+        },
+        "version": "v1"
+      },
+
+      "update_device_controlability":
+      {
+        "response": {
+          "taskId": "0196abcb-889e-7770-9be2-6675afb1fc8d",
+          "url": "/api/v1/task/0196abcb-889e-7770-9be2-6675afb1fc8d"
+        },
+        "version": "1.0"
+      },
+
+      "get_tasks_by_id_device_controlability":{
+      "response": {
+        "endTime": 1746638964917,
+        "lastUpdate": 1746638964916,
+        "status": "SUCCESS",
+        "startTime": 1746638964894,
+        "resultLocation": "/dna/intent/api/v1/tasks/0196abcb-889e-7770-9be2-6675afb1fc8d/detail",
+        "id": "0196abcb-889e-7770-9be2-6675afb1fc8d"
       }
-  
+    }
 }

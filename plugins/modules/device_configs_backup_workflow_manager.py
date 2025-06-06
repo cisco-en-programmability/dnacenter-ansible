@@ -521,6 +521,8 @@ class DeviceConfigsBackup(DnacBase):
         mgmt_ip_to_instance_id_map = {}
         processed_device_count = 0
         skipped_device_count = 0
+        # Define device families to skip
+        skipped_device_families = {"Unified AP", "Wireless Sensor", "Third Party Device"}
 
         try:
             offset = 1
@@ -553,30 +555,31 @@ class DeviceConfigsBackup(DnacBase):
                     device_ip = device_info.get("managementIpAddress", "Unknown IP")
 
                     # Check if the device is reachable and managed
-                    if device_info.get("reachabilityStatus") == "Reachable" and device_info.get("collectionStatus") == "Managed":
+                    reachability = device_info.get("reachabilityStatus")
+                    collection_status = device_info.get("collectionStatus")
+                    device_family = device_info.get("family")
+
+                    if reachability == "Reachable" and collection_status in ["Managed", "In Progress"]:
                         # Skip Unified AP devices
-                        if device_info.get("family") != "Unified AP" :
+                        if device_family not in skipped_device_families:
                             device_id = device_info["id"]
                             mgmt_ip_to_instance_id_map[device_ip] = device_id
                         else:
                             skipped_device_count += 1
                             self.skipped_devices_list.append(device_ip)
-                            msg = (
-                                "Skipping device {0} as its family is: {1}.".format(
-                                    device_ip, device_info.get("family")
-                                )
+                            self.log(
+                                "Skipping device {0} as its family is: {1}.".format(device_ip, device_family),
+                                "INFO"
                             )
-                            self.log(msg, "INFO")
-
                     else:
                         skipped_device_count += 1
                         self.skipped_devices_list.append(device_ip)
-                        msg = (
-                            "Skipping device {0} as its status is {1} or its collectionStatus is {2}.".format(
-                                device_ip, device_info.get("reachabilityStatus"), device_info.get("collectionStatus")
-                            )
+                        self.log(
+                            "Skipping device {0} as its reachabilityStatus is '{1}' or collectionStatus is '{2}'.".format(
+                                device_ip, reachability, collection_status
+                            ),
+                            "INFO"
                         )
-                        self.log(msg, "INFO")
 
                 # Check if the response size is less than the limit
                 if len(response) < limit:

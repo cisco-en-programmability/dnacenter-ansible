@@ -249,7 +249,6 @@ class NetworkProfileFunctions(DnacBase):
             self.msg = "Error on retrieving {0} profile list: Unable to get the profile list. ".format(
                 profile_type)
             self.log(self.msg + str(e), "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
     def get_templates_for_profile(self, profile_id):
@@ -536,14 +535,12 @@ class NetworkProfileFunctions(DnacBase):
                         self.pprint(un_match_site_ids)), "DEBUG")
                     return False, un_match_site_ids
 
-                if len(matched_site_ids) == len(data_list):
+                if len(matched_site_ids) <= len(data_list) and not un_match_site_ids:
                     self.log("Site IDs are matched: {0}.".format(
                         self.pprint(matched_site_ids)), "DEBUG")
                     return True, None
-
-                self.log("Partialy Site IDs are matched: {0}.".format(
-                    self.pprint(matched_site_ids)), "DEBUG")
-                return False, matched_site_ids
+                else:
+                    return True, None
 
             except Exception as e:
                 msg = "Error on site name comparison: Unable to compare config {0} with existing {1}".format(
