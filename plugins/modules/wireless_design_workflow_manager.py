@@ -11544,7 +11544,7 @@ class WirelessDesign(DnacBase):
 
         if failed_interfaces:
             self.log(
-                """The UPDATE operation may not have been successful for the following interfaces: {0}. 
+                """The UPDATE operation may not have been successful for the following interfaces: {0}.
                 They were not found with the specified parameters.""".format(
                     failed_interfaces
                 ),

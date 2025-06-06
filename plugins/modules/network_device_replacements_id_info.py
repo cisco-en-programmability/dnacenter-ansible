@@ -35,7 +35,7 @@ requirements:
 seealso:
   - name: Cisco DNA Center documentation for Device
       Replacement RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
-    description: 
+    description:
       - >
         Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
         API.

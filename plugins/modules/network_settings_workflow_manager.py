@@ -5719,7 +5719,7 @@ def main():
     state = ccc_network.params.get("state")
 
     if ccc_network.compare_dnac_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
-        ccc_network.msg = """The specified version '{0}' does not support the Network_settings_workflow features. 
+        ccc_network.msg = """The specified version '{0}' does not support the Network_settings_workflow features.
         Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_network.get_ccc_version()
         )
