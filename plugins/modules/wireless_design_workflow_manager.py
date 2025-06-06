@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan")
+__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
 
 
 DOCUMENTATION = r"""
@@ -4861,7 +4861,7 @@ response_2:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts
+    validate_list_of_dicts,
 )
 import re
 
@@ -4870,6 +4870,7 @@ class WirelessDesign(DnacBase):
     """
     A class for managing Wireless Design operations within the Cisco DNA Center using the SDA API.
     """
+
     def __init__(self, module):
         """
         Initialize an instance of the class.
@@ -4940,8 +4941,8 @@ class WirelessDesign(DnacBase):
                                 "mpsk_priority": {"type": "int"},
                                 "mpsk_passphrase_type": {"type": "str"},
                                 "mpsk_passphrase": {"type": "str"},
-                            }
-                        }
+                            },
+                        },
                     },
                     "fast_transition": {"type": "str"},
                     "fast_transition_over_the_ds": {"type": "bool"},
@@ -5005,7 +5006,7 @@ class WirelessDesign(DnacBase):
                                         "mpsk_priority": {"type": "int"},
                                         "mpsk_passphrase_type": {"type": "str"},
                                         "mpsk_passphrase": {"type": "str"},
-                                    }
+                                    },
                                 },
                             },
                             "fast_transition": {"type": "str"},
@@ -5017,15 +5018,15 @@ class WirelessDesign(DnacBase):
                                 "auth_servers_ip_address_list": {"type": "list"},
                                 "accounting_servers_ip_address_list": {"type": "list"},
                                 "aaa_override": {"type": "bool"},
-                                "mac_filtering": {"type": "bool"}
+                                "mac_filtering": {"type": "bool"},
                             },
                             "protected_management_frame": {"type": "str"},
                             "nas_id": {"type": "list"},
                             "client_rate_limit": {"type": "int"},
-                            "remove_override_in_hierarchy": {"type": "bool"}
-                        }
-                    }
-                }
+                            "remove_override_in_hierarchy": {"type": "bool"},
+                        },
+                    },
+                },
             },
             "interfaces": {
                 "type": "list",
@@ -5033,8 +5034,8 @@ class WirelessDesign(DnacBase):
                 "required": False,
                 "options": {
                     "interface_name": {"type": "str"},
-                    "vlan_id": {"type": "int"}
-                }
+                    "vlan_id": {"type": "int"},
+                },
             },
             "power_profiles": {
                 "type": "list",
@@ -5051,10 +5052,10 @@ class WirelessDesign(DnacBase):
                             "interface_type": {"type": "str"},
                             "interface_id": {"type": "str"},
                             "parameter_type": {"type": "str"},
-                            "parameter_value": {"type": "str"}
-                        }
-                    }
-                }
+                            "parameter_value": {"type": "str"},
+                        },
+                    },
+                },
             },
             "access_point_profiles": {
                 "type": "list",
@@ -5111,15 +5112,15 @@ class WirelessDesign(DnacBase):
                                 "scheduler_end_time": {"type": "str"},
                                 "scheduler_days_list": {"type": "list"},
                                 "scheduler_dates_list": {"type": "list"},
-                            }
-                        }
+                            },
+                        },
                     },
                     "country_code": {"type": "str"},
                     "time_zone": {"type": "str"},
                     "time_zone_offset_hour": {"type": "int"},
                     "time_zone_offset_minutes": {"type": "int"},
-                    "maximum_client_limit": {"type": "int"}
-                }
+                    "maximum_client_limit": {"type": "int"},
+                },
             },
             "radio_frequency_profiles": {
                 "type": "list",
@@ -5155,7 +5156,7 @@ class WirelessDesign(DnacBase):
                             "srg_obss_pd": {"type": "bool"},
                             "srg_obss_pd_min_threshold": {"type": "int"},
                             "srg_obss_pd_max_threshold": {"type": "int"},
-                        }
+                        },
                     },
                     "radio_bands_5ghz_settings": {
                         "type": "dict",
@@ -5192,7 +5193,7 @@ class WirelessDesign(DnacBase):
                             "srg_obss_pd": {"type": "bool"},
                             "srg_obss_pd_min_threshold": {"type": "int"},
                             "srg_obss_pd_max_threshold": {"type": "int"},
-                        }
+                        },
                     },
                     "radio_bands_6ghz_settings": {
                         "type": "dict",
@@ -5251,9 +5252,9 @@ class WirelessDesign(DnacBase):
                             "srg_obss_pd": {"type": "bool"},
                             "srg_obss_pd_min_threshold": {"type": "int"},
                             "srg_obss_pd_max_threshold": {"type": "int"},
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             },
             "anchor_groups": {
                 "type": "list",
@@ -5274,16 +5275,14 @@ class WirelessDesign(DnacBase):
                             "device_nat_ip_address": {"type": "str"},
                             "mobility_group_name": {"type": "str"},
                             "managed_device": {"type": "bool"},
-                        }
-                    }
-                }
-            }
+                        },
+                    },
+                },
+            },
         }
 
         # Validate params against the expected schema
-        valid_temp, invalid_params = validate_list_of_dicts(
-            self.config, self.temp_spec
-        )
+        valid_temp, invalid_params = validate_list_of_dicts(self.config, self.temp_spec)
 
         # Check if any invalid parameters were found
         if invalid_params:
@@ -5293,7 +5292,9 @@ class WirelessDesign(DnacBase):
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(str(valid_temp))
+        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
+            str(valid_temp)
+        )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
@@ -5306,7 +5307,12 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
-        self.log("Starting validation for required SSID parameters with state: {0}.".format(state), "DEBUG")
+        self.log(
+            "Starting validation for required SSID parameters with state: {0}.".format(
+                state
+            ),
+            "DEBUG",
+        )
 
         # Determine required parameters based on state
         if state == "merged":
@@ -5327,10 +5333,17 @@ class WirelessDesign(DnacBase):
         if ssid_name and len(ssid_name) > 32:
             self.fail_and_exit(
                 "The 'ssid_name' exceeds the maximum length of 32 characters. "
-                "Provided 'ssid_name': {} (length: {})".format(ssid_name, len(ssid_name))
+                "Provided 'ssid_name': {} (length: {})".format(
+                    ssid_name, len(ssid_name)
+                )
             )
 
-        self.log("Required SSID parameters validated successfully for state: {0}.".format(state), "DEBUG")
+        self.log(
+            "Required SSID parameters validated successfully for state: {0}.".format(
+                state
+            ),
+            "DEBUG",
+        )
 
     def validate_ssid_type_params(self, ssid_type, l2_security, l3_security):
         """
@@ -5348,17 +5361,29 @@ class WirelessDesign(DnacBase):
         # Define required parameters based on normalized ssid_type
         required_params = {
             "enterprise": [("l2_security", l2_security)],
-            "guest": [("l2_security", l2_security), ("l3_security", l3_security)]
+            "guest": [("l2_security", l2_security), ("l3_security", l3_security)],
         }
 
-        self.log("Starting validation for SSID type parameters for SSID type: {0}.".format(ssid_type_normalized), "DEBUG")
+        self.log(
+            "Starting validation for SSID type parameters for SSID type: {0}.".format(
+                ssid_type_normalized
+            ),
+            "DEBUG",
+        )
 
         # Validate normalized ssid_type
         if ssid_type_normalized not in required_params:
-            self.msg = "Invalid ssid_type: {}. Allowed types are 'Enterprise' and 'Guest'.".format(ssid_type)
+            self.msg = "Invalid ssid_type: {}. Allowed types are 'Enterprise' and 'Guest'.".format(
+                ssid_type
+            )
             self.fail_and_exit(self.msg)
 
-        self.log("SSID type parameters validated successfully for SSID type: {0}.".format(ssid_type_normalized), "INFO")
+        self.log(
+            "SSID type parameters validated successfully for SSID type: {0}.".format(
+                ssid_type_normalized
+            ),
+            "INFO",
+        )
 
     def validate_site_name_hierarchy(self, site_exists, site_id, site_name_hierarchy):
         """
@@ -5373,13 +5398,23 @@ class WirelessDesign(DnacBase):
         # Check if the site exists
         if not site_exists:
             self.msg = (
-                "Error: Site '{0}' does not exist in Cisco Catalyst Center.".format(site_name_hierarchy)
+                "Error: Site '{0}' does not exist in Cisco Catalyst Center.".format(
+                    site_name_hierarchy
+                )
             )
             self.fail_and_exit(self.msg)
         else:
-            self.log("Site '{0}' exists with ID: {1}.".format(site_name_hierarchy, site_id), "DEBUG")
+            self.log(
+                "Site '{0}' exists with ID: {1}.".format(site_name_hierarchy, site_id),
+                "DEBUG",
+            )
 
-        self.log("Successfully validated site_name_hierarchy for Site: '{0}'.".format(site_name_hierarchy), "DEBUG")
+        self.log(
+            "Successfully validated site_name_hierarchy for Site: '{0}'.".format(
+                site_name_hierarchy
+            ),
+            "DEBUG",
+        )
 
     def validate_ssid_radio_policy_params(self, ssid_name, radio_policy):
         """
@@ -5396,39 +5431,61 @@ class WirelessDesign(DnacBase):
         # Validate radio_bands if present in radio_policy
         if "radio_bands" in radio_policy:
             # Convert float to int for comparison
-            radio_bands_set = set(map(float, radio_policy['radio_bands']))
+            radio_bands_set = set(map(float, radio_policy["radio_bands"]))
 
             # Check if radio_bands_set is a subset of valid_radio_bands
             if not radio_bands_set.issubset(valid_radio_bands):
-                self.msg = "Invalid elements in 'radio_bands' for SSID: '{0}'. Allowed values are [2.4, 5, 6].".format(ssid_name)
+                self.msg = "Invalid elements in 'radio_bands' for SSID: '{0}'. Allowed values are [2.4, 5, 6].".format(
+                    ssid_name
+                )
                 self.fail_and_exit(self.msg)
 
             # Validate 2_dot_4_ghz_band_policy
             if "2_dot_4_ghz_band_policy" in radio_policy:
                 if 2.4 not in radio_bands_set:
-                    self.msg = "For SSID: {0} 2_dot_4_ghz_band_policy is specified but 2.4 GHz is not enabled in 'radio_bands'.".format(ssid_name)
+                    self.msg = "For SSID: {0} 2_dot_4_ghz_band_policy is specified but 2.4 GHz is not enabled in 'radio_bands'.".format(
+                        ssid_name
+                    )
                     self.fail_and_exit(self.msg)
 
             # Validate band_select
             if "band_select" in radio_policy and radio_policy["band_select"]:
                 if not (radio_bands_set == {2.4, 5} or radio_bands_set == {2.4, 5, 6}):
-                    self.msg = ("Error enabling 'band_select' for SSID: '{0}'. 'band_select' can only be enabled when 'radio_bands' are atleast"
-                                " 2.4GHz and 5GHz or Triple band operation [2.4, 5, 6].".format(ssid_name))
+                    self.msg = (
+                        "Error enabling 'band_select' for SSID: '{0}'. 'band_select' can only be enabled when 'radio_bands' are atleast"
+                        " 2.4GHz and 5GHz or Triple band operation [2.4, 5, 6].".format(
+                            ssid_name
+                        )
+                    )
                     self.fail_and_exit(self.msg)
 
             # Validate 6_ghz_client_steering
-            if "6_ghz_client_steering" in radio_policy and radio_policy["6_ghz_client_steering"]:
+            if (
+                "6_ghz_client_steering" in radio_policy
+                and radio_policy["6_ghz_client_steering"]
+            ):
                 if 6 not in radio_bands_set:
-                    self.msg = ("Error enabling '6_ghz_client_steering' for SSID: '{0}', it can only be enabled if 'radio_bands' "
-                                "includes 6 GHz.".format(ssid_name))
+                    self.msg = (
+                        "Error enabling '6_ghz_client_steering' for SSID: '{0}', it can only be enabled if 'radio_bands' "
+                        "includes 6 GHz.".format(ssid_name)
+                    )
                     self.fail_and_exit(self.msg)
 
         # Validate 2_dot_4_ghz_band_policy
-        if "2_dot_4_ghz_band_policy" in radio_policy and radio_policy['2_dot_4_ghz_band_policy'] not in ["802.11-bg", "802.11-g"]:
-            self.msg = "Invalid '2_dot_4_ghz_band_policy' provided for SSID: '{0}'. Allowed values are ['802.11-bg',  '802.11-g'].".format(ssid_name)
+        if "2_dot_4_ghz_band_policy" in radio_policy and radio_policy[
+            "2_dot_4_ghz_band_policy"
+        ] not in ["802.11-bg", "802.11-g"]:
+            self.msg = "Invalid '2_dot_4_ghz_band_policy' provided for SSID: '{0}'. Allowed values are ['802.11-bg',  '802.11-g'].".format(
+                ssid_name
+            )
             self.fail_and_exit(self.msg)
 
-        self.log("Radio policy parameters validated successfully for SSID: {0}.".format(ssid_name), "INFO")
+        self.log(
+            "Radio policy parameters validated successfully for SSID: {0}.".format(
+                ssid_name
+            ),
+            "INFO",
+        )
 
     def validate_qos_params(self, ssid_name, qos, fast_lane_enabled):
         """
@@ -5440,13 +5497,20 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
-        self.log("Starting validation for Quality of Service parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+        self.log(
+            "Starting validation for Quality of Service parameters for SSID: {0}.".format(
+                ssid_name
+            ),
+            "DEBUG",
+        )
 
         # Validate Quality of Service parameters
         if fast_lane_enabled:
             if qos:
-                self.msg = ("The Quality of Service selection will not be applicable when Fast Lane is enabled for SSID: '{0}'. "
-                            "QoS settings should be empty when 'fast_lane' is enabled.").format(ssid_name)
+                self.msg = (
+                    "The Quality of Service selection will not be applicable when Fast Lane is enabled for SSID: '{0}'. "
+                    "QoS settings should be empty when 'fast_lane' is enabled."
+                ).format(ssid_name)
                 self.fail_and_exit(self.msg)
 
         # Validate egress QoS
@@ -5454,23 +5518,42 @@ class WirelessDesign(DnacBase):
             egress = qos["egress"]
             if egress:
                 if egress.upper() not in ["PLATINUM", "SILVER", "GOLD", "BRONZE"]:
-                    self.msg = ("Invalid 'egress' QoS for SSID: '{0}'. Allowed values are ['PLATINUM', 'SILVER', 'GOLD', 'BRONZE'].".format(ssid_name))
+                    self.msg = "Invalid 'egress' QoS for SSID: '{0}'. Allowed values are ['PLATINUM', 'SILVER', 'GOLD', 'BRONZE'].".format(
+                        ssid_name
+                    )
                     self.fail_and_exit(self.msg)
 
         # Validate ingress QoS
         if "ingress" in qos:
             ingress = qos["ingress"]
             if ingress:
-                if ingress.upper() not in ["PLATINUM-UP", "SILVER-UP", "GOLD-UP", "BRONZE-UP"]:
-                    self.msg = ("Invalid 'ingress' QoS for SSID: '{0}'. Allowed values are ['PLATINUM-UP', 'SILVER-UP', 'GOLD-UP', 'BRONZE-UP']."
-                                .format(ssid_name))
+                if ingress.upper() not in [
+                    "PLATINUM-UP",
+                    "SILVER-UP",
+                    "GOLD-UP",
+                    "BRONZE-UP",
+                ]:
+                    self.msg = "Invalid 'ingress' QoS for SSID: '{0}'. Allowed values are ['PLATINUM-UP', 'SILVER-UP', 'GOLD-UP', 'BRONZE-UP'].".format(
+                        ssid_name
+                    )
                     self.fail_and_exit(self.msg)
 
-        self.log("Quality of Service parameters validated successfully for SSID: {0}.".format(ssid_name), "INFO")
+        self.log(
+            "Quality of Service parameters validated successfully for SSID: {0}.".format(
+                ssid_name
+            ),
+            "INFO",
+        )
 
     def validate_l2_security_params(
-        self, ssid_name, l2_security, fast_transition, fast_transition_over_the_ds,
-        wpa_encryption, auth_key_management, cckm_timestamp_tolerance=None
+        self,
+        ssid_name,
+        l2_security,
+        fast_transition,
+        fast_transition_over_the_ds,
+        wpa_encryption,
+        auth_key_management,
+        cckm_timestamp_tolerance=None,
     ):
         """
         Validates the Layer 2 security parameters for an SSID.
@@ -5491,7 +5574,14 @@ class WirelessDesign(DnacBase):
         valid_configurations = self.get_valid_l2_security_configurations()
 
         self.validate_l2_auth_type(ssid_name, l2_auth_type, valid_configurations)
-        self.validate_required_params(ssid_name, l2_auth_type, wpa_encryption, auth_key_management, fast_transition, valid_configurations)
+        self.validate_required_params(
+            ssid_name,
+            l2_auth_type,
+            wpa_encryption,
+            auth_key_management,
+            fast_transition,
+            valid_configurations,
+        )
         self.validate_mpsk_settings(ssid_name, mpsk_settings)
         self.validate_cckm_timestamp_tolerance(ssid_name, cckm_timestamp_tolerance)
 
@@ -5509,42 +5599,42 @@ class WirelessDesign(DnacBase):
                         "CCMP128": ["CCKM", "802.1X-SHA1", "802.1X-SHA2"],
                         "GCMP128": ["SUITE-B-1X"],
                         "CCMP256": ["SUITE-B-192X"],
-                        "GCMP256": ["SUITE-B-192X"]
+                        "GCMP256": ["SUITE-B-192X"],
                     },
                     "DISABLE": {
                         "CCMP128": ["CCKM", "802.1X-SHA1", "802.1X-SHA2"],
                         "GCMP128": ["SUITE-B-1X"],
                         "CCMP256": ["SUITE-B-192X"],
-                        "GCMP256": ["SUITE-B-192X"]
+                        "GCMP256": ["SUITE-B-192X"],
                     },
                     "ENABLE": {
                         "CCMP128": ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1X"],
                         "GCMP128": ["SUITE-B-1X"],
                         "CCMP256": ["SUITE-B-192X"],
-                        "GCMP256": ["SUITE-B-192X"]
-                    }
+                        "GCMP256": ["SUITE-B-192X"],
+                    },
                 },
-                "ap_beacon_protection_allowed": False
+                "ap_beacon_protection_allowed": False,
             },
             "WPA3_ENTERPRISE": {
                 "fast_transition_options": {
                     "ADAPTIVE": {
                         "CCMP128": ["802.1X-SHA1", "802.1X-SHA2"],
                         "GCMP128": ["SUITE-B-1X"],
-                        "GCMP256": ["SUITE-B-192X"]
+                        "GCMP256": ["SUITE-B-192X"],
                     },
                     "DISABLE": {
                         "CCMP128": ["802.1X-SHA1", "802.1X-SHA2"],
                         "GCMP128": ["SUITE-B-1X"],
-                        "GCMP256": ["SUITE-B-192X"]
+                        "GCMP256": ["SUITE-B-192X"],
                     },
                     "ENABLE": {
                         "CCMP128": ["802.1X-SHA1", "802.1X-SHA2", "FT+802.1X"],
                         "GCMP128": ["SUITE-B-1X"],
-                        "GCMP256": ["SUITE-B-192X"]
-                    }
+                        "GCMP256": ["SUITE-B-192X"],
+                    },
                 },
-                "ap_beacon_protection_allowed": true
+                "ap_beacon_protection_allowed": true,
             },
             "WPA2_WPA3_ENTERPRISE": {
                 "required": ["wpa_encryption", "auth_key_management"],
@@ -5553,85 +5643,84 @@ class WirelessDesign(DnacBase):
                         "CCMP128": ["CCKM", "802.1X-SHA1", "802.1X-SHA2"],
                         "GCMP128": ["SUITE-B-1X"],
                         "CCMP256": ["SUITE-B-192X"],
-                        "GCMP256": ["SUITE-B-192X"]
+                        "GCMP256": ["SUITE-B-192X"],
                     },
                     "DISABLE": {
                         "CCMP128": ["CCKM", "802.1X-SHA1", "802.1X-SHA2"],
                         "GCMP128": ["SUITE-B-1X"],
                         "CCMP256": ["SUITE-B-192X"],
-                        "GCMP256": ["SUITE-B-192X"]
+                        "GCMP256": ["SUITE-B-192X"],
                     },
                     "ENABLE": {
                         "CCMP128": ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1X"],
                         "GCMP128": ["SUITE-B-1X"],
                         "CCMP256": ["SUITE-B-192X"],
-                        "GCMP256": ["SUITE-B-192X"]
-                    }
+                        "GCMP256": ["SUITE-B-192X"],
+                    },
                 },
-                "ap_beacon_protection_allowed": true
+                "ap_beacon_protection_allowed": true,
             },
             "WPA2_PERSONAL": {
                 "required": ["passphrase", "wpa_encryption", "auth_key_management"],
                 "fast_transition_options": {
-                    "ADAPTIVE": {
-                        "CCMP128": ["PSK", "PSK-SHA2", "EASY-PSK"]
-                    },
-                    "DISABLE": {
-                        "CCMP128": ["PSK", "PSK-SHA2", "EASY-PSK"]
-                    },
-                    "ENABLE": {
-                        "CCMP128": ["PSK", "PSK-SHA2", "EASY-PSK", "FT+PSK"]
-                    }
+                    "ADAPTIVE": {"CCMP128": ["PSK", "PSK-SHA2", "EASY-PSK"]},
+                    "DISABLE": {"CCMP128": ["PSK", "PSK-SHA2", "EASY-PSK"]},
+                    "ENABLE": {"CCMP128": ["PSK", "PSK-SHA2", "EASY-PSK", "FT+PSK"]},
                 },
-                "ap_beacon_protection_allowed": False
+                "ap_beacon_protection_allowed": False,
             },
             "WPA3_PERSONAL": {
                 "required": ["passphrase", "wpa_encryption", "auth_key_management"],
                 "fast_transition_options": {
                     "ENABLE": {
                         "CCMP128": ["SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY"],
-                        "GCMP256": ["SAE-EXT-KEY", "FT+SAE-EXT-KEY"]
+                        "GCMP256": ["SAE-EXT-KEY", "FT+SAE-EXT-KEY"],
                     },
                     "DISABLE": {
                         "CCMP128": ["SAE", "SAE-EXT-KEY"],
-                        "GCMP256": ["SAE-EXT-KEY"]
-                    }
+                        "GCMP256": ["SAE-EXT-KEY"],
+                    },
                 },
-                "ap_beacon_protection_allowed": true
+                "ap_beacon_protection_allowed": true,
             },
             "WPA2_WPA3_PERSONAL": {
                 "required": ["passphrase", "wpa_encryption", "auth_key_management"],
                 "fast_transition_options": {
                     "ENABLE": {
-                        "CCMP128": ["SAE", "SAE-EXT-KEY", "PSK", "PSK-SHA2", "FT+SAE", "FT+PSK", "FT+SAE-EXT-KEY"],
-                        "GCMP256": ["SAE-EXT-KEY", "FT+SAE-EXT-KEY"]
+                        "CCMP128": [
+                            "SAE",
+                            "SAE-EXT-KEY",
+                            "PSK",
+                            "PSK-SHA2",
+                            "FT+SAE",
+                            "FT+PSK",
+                            "FT+SAE-EXT-KEY",
+                        ],
+                        "GCMP256": ["SAE-EXT-KEY", "FT+SAE-EXT-KEY"],
                     },
                     "DISABLE": {
                         "CCMP128": ["SAE", "SAE-EXT-KEY", "PSK", "PSK-SHA2"],
-                        "GCMP256": ["SAE-EXT-KEY"]
-                    }
+                        "GCMP256": ["SAE-EXT-KEY"],
+                    },
                 },
-                "ap_beacon_protection_allowed": true
+                "ap_beacon_protection_allowed": true,
             },
             "OPEN-SECURED": {
                 "required": ["wpa_encryption", "auth_key_management"],
                 "fast_transition_options": {
-                    "DISABLE": {
-                        "CCMP128": ["OWE"],
-                        "GCMP256": ["OWE"]
-                    }
+                    "DISABLE": {"CCMP128": ["OWE"], "GCMP256": ["OWE"]}
                 },
-                "ap_beacon_protection_allowed": False
+                "ap_beacon_protection_allowed": False,
             },
             "OPEN": {
                 "required": [],
                 "fast_transition_options": {
                     "ADAPTIVE": {},
                     "DISABLE": {},
-                    "ENABLE": {}
+                    "ENABLE": {},
                 },
-                "ap_beacon_protection_allowed": False
-            }
+                "ap_beacon_protection_allowed": False,
+            },
         }
 
     def validate_l2_auth_type(self, ssid_name, l2_auth_type, valid_configurations):
@@ -5654,7 +5743,15 @@ class WirelessDesign(DnacBase):
             self.fail_and_exit(self.msg)
         self.log("'l2_auth_type' for SSID: {0} is valid.".format(ssid_name), "INFO")
 
-    def validate_required_params(self, ssid_name, l2_auth_type, wpa_encryption, auth_key_management, fast_transition, valid_configurations):
+    def validate_required_params(
+        self,
+        ssid_name,
+        l2_auth_type,
+        wpa_encryption,
+        auth_key_management,
+        fast_transition,
+        valid_configurations,
+    ):
         """
         Validates the required parameters for a given Layer 2 authentication type.
         Args:
@@ -5667,27 +5764,42 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
-        self.log("Validating required parameters for SSID: {0}".format(ssid_name), "DEBUG")
+        self.log(
+            "Validating required parameters for SSID: {0}".format(ssid_name), "DEBUG"
+        )
 
         auth_config = valid_configurations.get(l2_auth_type, {})
         required_l2_auth_params = auth_config.get("required", [])
         fast_transition = fast_transition.upper()
-        fast_transition_options = auth_config.get("fast_transition_options", {}).get(fast_transition, {})
+        fast_transition_options = auth_config.get("fast_transition_options", {}).get(
+            fast_transition, {}
+        )
 
         # Validate WPA encryption settings
         if "wpa_encryption" in required_l2_auth_params:
-            if wpa_encryption and not all(encryption.upper() in fast_transition_options for encryption in wpa_encryption):
+            if wpa_encryption and not all(
+                encryption.upper() in fast_transition_options
+                for encryption in wpa_encryption
+            ):
                 allowed_options = ", ".join(fast_transition_options.keys())
                 self.msg = (
                     "For SSID: '{0}', invalid 'wpa_encryption' provided for L2 Authentication type: '{1}'. "
                     "Provided: {2}. Allowed options for fast transition '{3}': {4}.".format(
-                        ssid_name, l2_auth_type, wpa_encryption, fast_transition, allowed_options
+                        ssid_name,
+                        l2_auth_type,
+                        wpa_encryption,
+                        fast_transition,
+                        allowed_options,
                     )
                 )
                 self.fail_and_exit(self.msg)
 
         # Validate authentication key management settings
-        if "auth_key_management" in required_l2_auth_params and auth_key_management and wpa_encryption:
+        if (
+            "auth_key_management" in required_l2_auth_params
+            and auth_key_management
+            and wpa_encryption
+        ):
             for akm in auth_key_management:
                 akm = akm.upper()
                 is_valid_akm = any(
@@ -5696,18 +5808,27 @@ class WirelessDesign(DnacBase):
                 )
                 if not is_valid_akm:
                     allowed_options = ", ".join(
-                        "{0}: {1}".format(encryption, ", ".join(fast_transition_options.get(encryption, [])))
+                        "{0}: {1}".format(
+                            encryption,
+                            ", ".join(fast_transition_options.get(encryption, [])),
+                        )
                         for encryption in wpa_encryption
                     )
                     self.msg = (
                         "For SSID: '{0}', invalid 'auth_key_management' provided for L2 Authentication type: '{1}'. "
                         "Provided: {2}. Allowed options for fast transition '{3}': {4}.".format(
-                            ssid_name, l2_auth_type, auth_key_management, fast_transition, allowed_options
+                            ssid_name,
+                            l2_auth_type,
+                            auth_key_management,
+                            fast_transition,
+                            allowed_options,
                         )
                     )
                     self.fail_and_exit(self.msg)
 
-        self.log("Required parameters for SSID: {0} are valid.".format(ssid_name), "INFO")
+        self.log(
+            "Required parameters for SSID: {0} are valid.".format(ssid_name), "INFO"
+        )
 
     def validate_mpsk_settings(self, ssid_name, mpsk_settings):
         """
@@ -5721,16 +5842,16 @@ class WirelessDesign(DnacBase):
         self.log("Validating MPSK settings for SSID: {0}".format(ssid_name), "DEBUG")
         if mpsk_settings:
             if not isinstance(mpsk_settings, list) or len(mpsk_settings) >= 5:
-                self.msg = (
-                    "For SSID: '{0}', MPSK settings must be a list with less than 5 entries.".format(ssid_name)
+                self.msg = "For SSID: '{0}', MPSK settings must be a list with less than 5 entries.".format(
+                    ssid_name
                 )
                 self.fail_and_exit(self.msg)
 
             for idx, mpsk_setting in enumerate(mpsk_settings):
                 mpsk_passphrase = mpsk_setting.get("mpsk_passphrase")
                 if not mpsk_passphrase:
-                    self.msg = (
-                        "For SSID: '{0}', MPSK settings entry {1} requires a 'passphrase' to be provided.".format(ssid_name, idx + 1)
+                    self.msg = "For SSID: '{0}', MPSK settings entry {1} requires a 'passphrase' to be provided.".format(
+                        ssid_name, idx + 1
                     )
                     self.fail_and_exit(self.msg)
 
@@ -5738,7 +5859,9 @@ class WirelessDesign(DnacBase):
                 if mpsk_priority is not None and not (0 <= mpsk_priority <= 4):
                     self.msg = (
                         "For SSID: '{0}', entry {1}, Invalid 'mpsk_priority' in MPSK settings: {2}. "
-                        "Allowed values are 0 to 4.".format(ssid_name, idx + 1, mpsk_priority)
+                        "Allowed values are 0 to 4.".format(
+                            ssid_name, idx + 1, mpsk_priority
+                        )
                     )
                     self.fail_and_exit(self.msg)
 
@@ -5748,7 +5871,9 @@ class WirelessDesign(DnacBase):
                     if mpsk_passphrase_type not in ["HEX", "ASCII"]:
                         self.msg = (
                             "For SSID: '{0}', entry {1}, invalid passphrase_type in MPSK settings: {2}. "
-                            "Allowed values are 'HEX' or 'ASCII'.".format(ssid_name, idx + 1, mpsk_passphrase_type)
+                            "Allowed values are 'HEX' or 'ASCII'.".format(
+                                ssid_name, idx + 1, mpsk_passphrase_type
+                            )
                         )
                         self.fail_and_exit(self.msg)
 
@@ -5756,14 +5881,18 @@ class WirelessDesign(DnacBase):
                         if not (8 <= len(mpsk_passphrase) <= 63):
                             self.msg = (
                                 "For SSID: '{0}', entry {1}, invalid ASCII passphrase length in MPSK settings. "
-                                "Must be between 8 and 63 characters.".format(ssid_name, idx + 1)
+                                "Must be between 8 and 63 characters.".format(
+                                    ssid_name, idx + 1
+                                )
                             )
                             self.fail_and_exit(self.msg)
                     elif mpsk_passphrase_type == "HEX":
                         if len(mpsk_passphrase) != 64:
                             self.msg = (
                                 "For SSID: '{0}', entry {1}, invalid HEX passphrase length in MPSK settings. "
-                                "Must be exactly 64 characters.".format(ssid_name, idx + 1)
+                                "Must be exactly 64 characters.".format(
+                                    ssid_name, idx + 1
+                                )
                             )
                             self.fail_and_exit(self.msg)
         self.log("MPSK settings for SSID: {0} are valid.".format(ssid_name), "INFO")
@@ -5777,16 +5906,23 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
-        self.log("Validating CCKM timestamp tolerance for SSID: {0}".format(ssid_name), "DEBUG")
+        self.log(
+            "Validating CCKM timestamp tolerance for SSID: {0}".format(ssid_name),
+            "DEBUG",
+        )
 
         if cckm_timestamp_tolerance:
             if not (1000 <= cckm_timestamp_tolerance <= 5000):
                 self.msg = (
                     "For SSID: {0}, invalid 'cckm_timestamp_tolerance': {1}. "
-                    "Allowed range is 1000 to 5000.".format(ssid_name, cckm_timestamp_tolerance)
+                    "Allowed range is 1000 to 5000.".format(
+                        ssid_name, cckm_timestamp_tolerance
+                    )
                 )
                 self.fail_and_exit(self.msg)
-        self.log("CCKM timestamp tolerance for SSID: {0} is valid.".format(ssid_name), "INFO")
+        self.log(
+            "CCKM timestamp tolerance for SSID: {0} is valid.".format(ssid_name), "INFO"
+        )
 
     def validate_l3_security_aaa_params(self, ssid_name, ssid_type, l3_security, aaa):
         """
@@ -5819,7 +5955,9 @@ class WirelessDesign(DnacBase):
             if l3_auth_type not in ["OPEN", "WEB_AUTH"]:
                 self.msg = (
                     "For SSID: '{0}', invalid 'l3_auth_type': '{1}'. "
-                    "Allowed values are 'OPEN' or 'WEB_AUTH'.".format(ssid_name, l3_auth_type)
+                    "Allowed values are 'OPEN' or 'WEB_AUTH'.".format(
+                        ssid_name, l3_auth_type
+                    )
                 )
                 self.fail_and_exit(self.msg)
 
@@ -5831,27 +5969,38 @@ class WirelessDesign(DnacBase):
                         "web_authentication_internal",
                         "web_authentication_external",
                         "web_passthrough_internal",
-                        "web_passthrough_external"
+                        "web_passthrough_external",
                     ]:
                         self.msg = (
                             "For SSID: '{0}', invalid 'auth_server': '{1}' with 'l3_auth_type' as 'WEB_AUTH'. "
                             "Allowed values are 'central_web_authentication', 'web_authentication_internal', "
-                            "'web_authentication_external', 'web_passthrough_internal', 'web_passthrough_external'.".format(ssid_name, auth_server)
+                            "'web_authentication_external', 'web_passthrough_internal', 'web_passthrough_external'.".format(
+                                ssid_name, auth_server
+                            )
                         )
                         self.fail_and_exit(self.msg)
 
                     # Validate web_auth_url for specific auth_server types
-                    if auth_server in ["web_authentication_external", "web_passthrough_external"] and not web_auth_url:
-                        self.msg = (
-                            "For SSID: '{0}', 'web_auth_url' is required when 'auth_server' is '{1}'.".format(ssid_name, auth_server)
+                    if (
+                        auth_server
+                        in ["web_authentication_external", "web_passthrough_external"]
+                        and not web_auth_url
+                    ):
+                        self.msg = "For SSID: '{0}', 'web_auth_url' is required when 'auth_server' is '{1}'.".format(
+                            ssid_name, auth_server
                         )
                         self.fail_and_exit(self.msg)
 
             # Validate sleeping_client_timeout
-            if enable_sleeping_client and (not isinstance(sleeping_client_timeout, int) or sleeping_client_timeout <= 0):
+            if enable_sleeping_client and (
+                not isinstance(sleeping_client_timeout, int)
+                or sleeping_client_timeout <= 0
+            ):
                 self.msg = (
                     "For SSID: '{0}', invalid 'sleeping_client_timeout': '{1}'. "
-                    "Must be a positive integer.".format(ssid_name, sleeping_client_timeout)
+                    "Must be a positive integer.".format(
+                        ssid_name, sleeping_client_timeout
+                    )
                 )
                 self.fail_and_exit(self.msg)
 
@@ -5865,11 +6014,17 @@ class WirelessDesign(DnacBase):
             pre_auth_acl_name = aaa.get("pre_auth_acl_name", None)
 
             # Validate AAA for Guest SSID with Central Web Authentication
-            if ssid_type == "Guest" and l3_auth_type and l3_auth_type == "central_web_authentication":
+            if (
+                ssid_type == "Guest"
+                and l3_auth_type
+                and l3_auth_type == "central_web_authentication"
+            ):
                 if not auth_servers_ip_list:
                     self.msg = (
                         "For SSID: '{0}', at least one server IP is required in 'auth_servers_ip_address_list' "
-                        "when 'l3_auth_type' is 'central_web_authentication'.".format(ssid_name)
+                        "when 'l3_auth_type' is 'central_web_authentication'.".format(
+                            ssid_name
+                        )
                     )
                     self.fail_and_exit(self.msg)
 
@@ -5882,9 +6037,16 @@ class WirelessDesign(DnacBase):
                     )
                     self.fail_and_exit(self.msg)
 
-        self.log("All L3 Security and AAA parameters are valid for SSID: '{0}'.".format(ssid_name), "DEBUG")
+        self.log(
+            "All L3 Security and AAA parameters are valid for SSID: '{0}'.".format(
+                ssid_name
+            ),
+            "DEBUG",
+        )
 
-    def validate_mfp_client_protection_params(self, ssid_name, mfp_client_protection, radio_bands):
+    def validate_mfp_client_protection_params(
+        self, ssid_name, mfp_client_protection, radio_bands
+    ):
         """
         Validates the MFP (Management Frame Protection) client protection parameters for an SSID.
         Args:
@@ -5897,8 +6059,8 @@ class WirelessDesign(DnacBase):
         # Validate mfp_client_protection value against allowed options
         mfp_client_protection = mfp_client_protection.upper()
         if mfp_client_protection not in ["OPTIONAL", "DISABLED", "REQUIRED"]:
-            self.msg = (
-                "For SSID: '{0}', invalid 'mfp_client_protection' provided. Valid values are 'OPTIONAL', 'DISABLED', and 'REQUIRED'.".format(ssid_name)
+            self.msg = "For SSID: '{0}', invalid 'mfp_client_protection' provided. Valid values are 'OPTIONAL', 'DISABLED', and 'REQUIRED'.".format(
+                ssid_name
             )
             self.fail_and_exit(self.msg)
 
@@ -5910,9 +6072,13 @@ class WirelessDesign(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
-        self.log("MFP client protection is valid for SSID: '{0}'.".format(ssid_name), "DEBUG")
+        self.log(
+            "MFP client protection is valid for SSID: '{0}'.".format(ssid_name), "DEBUG"
+        )
 
-    def validate_protected_management_frame_params(self, ssid_name, protected_management_frame):
+    def validate_protected_management_frame_params(
+        self, ssid_name, protected_management_frame
+    ):
         """
         Validates the Protected Management Frame (PMF) parameters for an SSID.
         Args:
@@ -5922,14 +6088,25 @@ class WirelessDesign(DnacBase):
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
         # Validate if the value is one of the valid options
-        if protected_management_frame.upper() not in ["OPTIONAL", "DISABLED", "REQUIRED"]:
+        if protected_management_frame.upper() not in [
+            "OPTIONAL",
+            "DISABLED",
+            "REQUIRED",
+        ]:
             self.msg = (
                 "For SSID: '{0}', invalid 'protected_management_frame': '{1}'. "
-                "Allowed values are 'OPTIONAL', 'DISABLED', or 'REQUIRED'.".format(ssid_name, protected_management_frame)
+                "Allowed values are 'OPTIONAL', 'DISABLED', or 'REQUIRED'.".format(
+                    ssid_name, protected_management_frame
+                )
             )
             self.fail_and_exit(self.msg)
 
-        self.log("Protected management frame settings are valid for SSID: '{0}'.".format(ssid_name), "DEBUG")
+        self.log(
+            "Protected management frame settings are valid for SSID: '{0}'.".format(
+                ssid_name
+            ),
+            "DEBUG",
+        )
 
     def validate_wlan_timeouts_params(self, ssid_name, wlan_timeouts):
         """
@@ -5943,7 +6120,9 @@ class WirelessDesign(DnacBase):
         # Extract relevant information from wlan_timeouts
         enable_session_timeout = wlan_timeouts.get("enable_session_timeout", True)
         session_timeout = wlan_timeouts.get("session_timeout")
-        enable_client_exclusion_timeout = wlan_timeouts.get("enable_client_exclusion_timeout", True)
+        enable_client_exclusion_timeout = wlan_timeouts.get(
+            "enable_client_exclusion_timeout", True
+        )
         client_exclusion_timeout = wlan_timeouts.get("client_exclusion_timeout")
 
         # Validate session_timeout if session timeout is enabled
@@ -5958,25 +6137,29 @@ class WirelessDesign(DnacBase):
         else:
             # Ensure session_timeout is not provided when session timeout is disabled
             if session_timeout is not None:
-                self.msg = (
-                    "For SSID: '{0}', 'session_timeout' should not be provided when 'enable_session_timeout' is False.".format(ssid_name)
+                self.msg = "For SSID: '{0}', 'session_timeout' should not be provided when 'enable_session_timeout' is False.".format(
+                    ssid_name
                 )
                 self.fail_and_exit(self.msg)
 
         # Validate client_exclusion_timeout if client exclusion is enabled
         if enable_client_exclusion_timeout:
             # Ensure client_exclusion_timeout is within the valid range
-            if client_exclusion_timeout and not (0 <= client_exclusion_timeout <= 2147483647):
+            if client_exclusion_timeout and not (
+                0 <= client_exclusion_timeout <= 2147483647
+            ):
                 self.msg = (
                     "For SSID: '{0}', 'client_exclusion_timeout' must be between 0 and 2147483647 seconds. "
-                    "Current value is '{1}'.".format(ssid_name, client_exclusion_timeout)
+                    "Current value is '{1}'.".format(
+                        ssid_name, client_exclusion_timeout
+                    )
                 )
                 self.fail_and_exit(self.msg)
         else:
             # Ensure client_exclusion_timeout is not provided when client exclusion is disabled
             if client_exclusion_timeout is not None:
-                self.msg = (
-                    "For SSID: '{0}', 'client_exclusion_timeout' should not be provided when 'enable_client_exclusion_timeout' is False.".format(ssid_name)
+                self.msg = "For SSID: '{0}', 'client_exclusion_timeout' should not be provided when 'enable_client_exclusion_timeout' is False.".format(
+                    ssid_name
                 )
                 self.fail_and_exit(self.msg)
 
@@ -6001,7 +6184,9 @@ class WirelessDesign(DnacBase):
             if not bss_max_idle_service:
                 self.msg = (
                     "For SSID: '{0}', 'bss_idle_client_timeout' is provided but 'bss_max_idle_service' is not enabled. "
-                    "'bss_max_idle_service' must be True to set 'bss_idle_client_timeout'.".format(ssid_name)
+                    "'bss_max_idle_service' must be True to set 'bss_idle_client_timeout'.".format(
+                        ssid_name
+                    )
                 )
                 self.fail_and_exit(self.msg)
 
@@ -6013,7 +6198,12 @@ class WirelessDesign(DnacBase):
                 )
                 self.fail_and_exit(self.msg)
 
-        self.log("11v BSS Transition Support parameters are valid for SSID: '{0}'.".format(ssid_name), "DEBUG")
+        self.log(
+            "11v BSS Transition Support parameters are valid for SSID: '{0}'.".format(
+                ssid_name
+            ),
+            "DEBUG",
+        )
 
     def validate_nas_id_param(self, ssid_name, nas_id):
         """
@@ -6053,7 +6243,9 @@ class WirelessDesign(DnacBase):
             if not (min_rate <= client_rate_limit <= max_rate):
                 self.msg = (
                     "For SSID: '{0}', 'client_rate_limit' must be between {1} and {2}. "
-                    "Current value is '{3}'.".format(ssid_name, min_rate, max_rate, client_rate_limit)
+                    "Current value is '{3}'.".format(
+                        ssid_name, min_rate, max_rate, client_rate_limit
+                    )
                 )
                 self.fail_and_exit(self.msg)
 
@@ -6065,9 +6257,18 @@ class WirelessDesign(DnacBase):
                 )
                 self.fail_and_exit(self.msg)
 
-        self.log("Client rate limit is valid for SSID: '{0}'.".format(ssid_name), "DEBUG")
+        self.log(
+            "Client rate limit is valid for SSID: '{0}'.".format(ssid_name), "DEBUG"
+        )
 
-    def validate_sites_specific_override_settings_params(self, ssid_name, ssid_type, sites_specific_override_settings, global_l3_security, global_l2_security):
+    def validate_sites_specific_override_settings_params(
+        self,
+        ssid_name,
+        ssid_type,
+        sites_specific_override_settings,
+        global_l3_security,
+        global_l2_security,
+    ):
         """
         Validates the site-specific override settings for SSIDs.
         Args:
@@ -6091,72 +6292,105 @@ class WirelessDesign(DnacBase):
             "aaa",
             "protected_management_frame",
             "nas_id",
-            "client_rate_limit"
+            "client_rate_limit",
         ]
 
         allowed_l2_security_parameters = [
             "l2_auth_type",
             "open_ssid",
             "passphrase",
-            "mpsk_settings"
+            "mpsk_settings",
         ]
 
         allowed_aaa_parameters = [
             "auth_servers_ip_address_list",
             "accounting_servers_ip_address_list",
             "aaa_override",
-            "mac_filtering"
+            "mac_filtering",
         ]
 
         # Iterate over each site-specific override
         for idx, site_override in enumerate(sites_specific_override_settings):
-            self.log("Validating site-specific override {0} for SSID: '{1}'".format(idx + 1, ssid_name), "DEBUG")
+            self.log(
+                "Validating site-specific override {0} for SSID: '{1}'".format(
+                    idx + 1, ssid_name
+                ),
+                "DEBUG",
+            )
 
-            site_name_hierarchy = site_override.get('site_name_hierarchy')
+            site_name_hierarchy = site_override.get("site_name_hierarchy")
             if not site_name_hierarchy:
-                self.msg = "For SSID: '{0}', Entry {1}: 'site_name_hierarchy' is required.".format(ssid_name, idx + 1)
+                self.msg = "For SSID: '{0}', Entry {1}: 'site_name_hierarchy' is required.".format(
+                    ssid_name, idx + 1
+                )
                 self.fail_and_exit(self.msg)
 
             if site_name_hierarchy == "Global":
-                self.msg = ("For SSID: '{0}', Entry {1}: 'site_name_hierarchy' is set to 'Global', which is invalid. "
-                            "Site-specific overrides require a site name other than 'Global'.").format(ssid_name, idx + 1)
+                self.msg = (
+                    "For SSID: '{0}', Entry {1}: 'site_name_hierarchy' is set to 'Global', which is invalid. "
+                    "Site-specific overrides require a site name other than 'Global'."
+                ).format(ssid_name, idx + 1)
                 self.fail_and_exit(self.msg)
 
             # Validate parameters in the site override
             for key, value in site_override.items():
-                self.log("Validating parameter '{0}' for site-specific override {1} in SSID: '{2}'".format(key, idx + 1, ssid_name), "DEBUG")
+                self.log(
+                    "Validating parameter '{0}' for site-specific override {1} in SSID: '{2}'".format(
+                        key, idx + 1, ssid_name
+                    ),
+                    "DEBUG",
+                )
 
                 # Handle nested l2_security validation
                 if key == "l2_security" and isinstance(value, dict):
                     for l2_key, l2_value in value.items():
                         if l2_key not in allowed_l2_security_parameters:
-                            self.msg = ("For SSID: '{0}', Entry {1}, Site '{2}': 'l2_security.{3}' is not an override eligible parameter."
-                                        ).format(ssid_name, idx + 1, site_name_hierarchy, l2_key)
+                            self.msg = (
+                                "For SSID: '{0}', Entry {1}, Site '{2}': 'l2_security.{3}' is not an override eligible parameter."
+                            ).format(ssid_name, idx + 1, site_name_hierarchy, l2_key)
                             self.fail_and_exit(self.msg)
 
                         if l2_key == "mpsk_settings" and isinstance(l2_value, list):
                             for mpsk_idx, mpsk_setting in enumerate(l2_value):
                                 if isinstance(mpsk_setting, dict):
                                     for mpsk_key in mpsk_setting:
-                                        if mpsk_key not in ["mpsk_priority", "mpsk_passphrase_type", "mpsk_passphrase"]:
-                                            self.msg = ("For SSID: '{0}', Entry {1}, Site '{2}': MPSK setting {3}, '{4}' is not an allowed parameter."
-                                                        ).format(ssid_name, idx + 1, site_name_hierarchy, mpsk_idx + 1, mpsk_key)
+                                        if mpsk_key not in [
+                                            "mpsk_priority",
+                                            "mpsk_passphrase_type",
+                                            "mpsk_passphrase",
+                                        ]:
+                                            self.msg = (
+                                                "For SSID: '{0}', Entry {1}, Site '{2}': MPSK setting {3}, '{4}' is not an allowed parameter."
+                                            ).format(
+                                                ssid_name,
+                                                idx + 1,
+                                                site_name_hierarchy,
+                                                mpsk_idx + 1,
+                                                mpsk_key,
+                                            )
                                             self.fail_and_exit(self.msg)
 
                 # Handle nested aaa validation
                 if key == "aaa" and isinstance(value, dict):
                     for aaa_key in value:
                         if aaa_key not in allowed_aaa_parameters:
-                            self.msg = ("For SSID: '{0}', Entry {1}, Site '{2}': 'aaa.{3}' is not an override eligible parameter."
-                                        ).format(ssid_name, idx + 1, site_name_hierarchy, aaa_key)
+                            self.msg = (
+                                "For SSID: '{0}', Entry {1}, Site '{2}': 'aaa.{3}' is not an override eligible parameter."
+                            ).format(ssid_name, idx + 1, site_name_hierarchy, aaa_key)
                             self.fail_and_exit(self.msg)
 
                 if key not in allowed_parameters:
-                    self.msg = ("For SSID: '{0}', Entry {1}, Site '{2}': '{3}' is not an override eligible parameter."
-                                ).format(ssid_name, idx + 1, site_name_hierarchy, key)
+                    self.msg = (
+                        "For SSID: '{0}', Entry {1}, Site '{2}': '{3}' is not an override eligible parameter."
+                    ).format(ssid_name, idx + 1, site_name_hierarchy, key)
                     self.fail_and_exit(self.msg)
 
-        self.log("Validation of site-specific override settings for SSID: {0} completed successfully.".format(ssid_name), "DEBUG")
+        self.log(
+            "Validation of site-specific override settings for SSID: {0} completed successfully.".format(
+                ssid_name
+            ),
+            "DEBUG",
+        )
 
     def validate_ssids_params(self, ssids, state):
         """
@@ -6171,142 +6405,370 @@ class WirelessDesign(DnacBase):
                 self.log("Validating SSID(s) parameters in 'deleted' state.", "DEBUG")
                 for ssid in ssids:
                     ssid_name = ssid.get("ssid_name")
-                    self.log("Starting validation of required parameters for SSID: {0}".format(ssid_name), "DEBUG")
+                    self.log(
+                        "Starting validation of required parameters for SSID: {0}".format(
+                            ssid_name
+                        ),
+                        "DEBUG",
+                    )
                     self.validate_required_ssid_params(ssid, state="deleted")
-                    self.log("Completed validation of required parameters for SSID: {0}".format(ssid_name), "DEBUG")
+                    self.log(
+                        "Completed validation of required parameters for SSID: {0}".format(
+                            ssid_name
+                        ),
+                        "DEBUG",
+                    )
                 # Exit after handling the 'deleted' state
                 return
 
         # Iterate through each SSID for validation
         for ssid in ssids:
-            self.log("Starting validation of parameters for SSID: '{0}' .".format(ssid), "DEBUG")
+            self.log(
+                "Starting validation of parameters for SSID: '{0}' .".format(ssid),
+                "DEBUG",
+            )
             ssid_name = ssid.get("ssid_name")
             ssid_type = ssid.get("ssid_type")
 
             # Validate required parameters for the SSID
-            self.log("Starting validation of required parameters for SSID: {0}".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of required parameters for SSID: {0}".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             self.validate_required_ssid_params(ssid)
-            self.log("Completed validation of required parameters for SSID: {0}".format(ssid_name), "DEBUG")
+            self.log(
+                "Completed validation of required parameters for SSID: {0}".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate SSID type parameters
             l2_security = ssid.get("l2_security")
             l3_security = ssid.get("l3_security")
-            self.log("Starting validation of SSID type parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of SSID type parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             self.validate_ssid_type_params(ssid_type, l2_security, l3_security)
-            self.log("Completed validation of SSID type parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Completed validation of SSID type parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate radio policy parameters
-            self.log("Starting validation of radio policy parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of radio policy parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             radio_policy = ssid.get("radio_policy")
-            self.log("'radio_policy' for SSID: {0} - {1}".format(ssid_name, radio_policy), "DEBUG")
+            self.log(
+                "'radio_policy' for SSID: {0} - {1}".format(ssid_name, radio_policy),
+                "DEBUG",
+            )
             if radio_policy:
                 self.validate_ssid_radio_policy_params(ssid_name, radio_policy)
             else:
-                self.log("Radio policy parameters not provided hence validation is not required.", "INFO")
-            self.log("Completed validation of radio policy parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+                self.log(
+                    "Radio policy parameters not provided hence validation is not required.",
+                    "INFO",
+                )
+            self.log(
+                "Completed validation of radio policy parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate quality of service parameters
-            self.log("Starting validation of quality of service parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of quality of service parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             quality_of_service = ssid.get("quality_of_service")
-            self.log("'quality_of_service' for SSID: {0} - {1}".format(ssid_name, quality_of_service), "DEBUG")
+            self.log(
+                "'quality_of_service' for SSID: {0} - {1}".format(
+                    ssid_name, quality_of_service
+                ),
+                "DEBUG",
+            )
             if quality_of_service:
                 fast_lane_enabled = ssid.get("fast_lane", False)
-                self.log("'fast_lane_enabled' for SSID: {0} - {1}".format(ssid_name, quality_of_service), "DEBUG")
-                self.validate_qos_params(ssid_name, quality_of_service, fast_lane_enabled)
+                self.log(
+                    "'fast_lane_enabled' for SSID: {0} - {1}".format(
+                        ssid_name, quality_of_service
+                    ),
+                    "DEBUG",
+                )
+                self.validate_qos_params(
+                    ssid_name, quality_of_service, fast_lane_enabled
+                )
             else:
-                self.log("Quality of Service parameters not provided hence validation is not required.", "INFO")
-            self.log("Completed validation of quality of service parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+                self.log(
+                    "Quality of Service parameters not provided hence validation is not required.",
+                    "INFO",
+                )
+            self.log(
+                "Completed validation of quality of service parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate L2 security and related parameters
-            self.log("Starting validation of L2 security, fast transition, fast transition over the DS, WPA encryption and AKM parameters for SSID: {0}."
-                     .format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of L2 security, fast transition, fast transition over the DS, WPA encryption and AKM parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             if l2_security:
                 fast_transition = ssid.get("fast_transition", "DISABLE")
-                self.log("'fast_transition' for SSID: {0} - {1}".format(ssid_name, fast_transition), "DEBUG")
+                self.log(
+                    "'fast_transition' for SSID: {0} - {1}".format(
+                        ssid_name, fast_transition
+                    ),
+                    "DEBUG",
+                )
                 fast_transition_over_the_ds = ssid.get("fast_transition_over_the_ds")
-                self.log("'fast_transition_over_the_ds' for SSID: {0} - {1}".format(ssid_name, fast_transition_over_the_ds), "DEBUG")
+                self.log(
+                    "'fast_transition_over_the_ds' for SSID: {0} - {1}".format(
+                        ssid_name, fast_transition_over_the_ds
+                    ),
+                    "DEBUG",
+                )
                 wpa_encryption = ssid.get("wpa_encryption")
-                self.log("'wpa_encryption' for SSID: {0} - {1}".format(ssid_name, wpa_encryption), "DEBUG")
+                self.log(
+                    "'wpa_encryption' for SSID: {0} - {1}".format(
+                        ssid_name, wpa_encryption
+                    ),
+                    "DEBUG",
+                )
                 auth_key_management = ssid.get("auth_key_management")
-                self.log("'auth_key_management' for SSID: {0} - {1}".format(ssid_name, auth_key_management), "DEBUG")
+                self.log(
+                    "'auth_key_management' for SSID: {0} - {1}".format(
+                        ssid_name, auth_key_management
+                    ),
+                    "DEBUG",
+                )
                 cckm_timestamp_tolerance = ssid.get("cckm_timestamp_tolerance")
-                self.log("'cckm_timestamp_tolerance' for SSID: {0} - {1}".format(ssid_name, cckm_timestamp_tolerance), "DEBUG")
-                self.validate_l2_security_params(ssid_name, l2_security, fast_transition, fast_transition_over_the_ds, wpa_encryption,
-                                                 auth_key_management, cckm_timestamp_tolerance)
+                self.log(
+                    "'cckm_timestamp_tolerance' for SSID: {0} - {1}".format(
+                        ssid_name, cckm_timestamp_tolerance
+                    ),
+                    "DEBUG",
+                )
+                self.validate_l2_security_params(
+                    ssid_name,
+                    l2_security,
+                    fast_transition,
+                    fast_transition_over_the_ds,
+                    wpa_encryption,
+                    auth_key_management,
+                    cckm_timestamp_tolerance,
+                )
             else:
-                self.log("Global L2 security configuration parameters not provided for SSID: '{0}'.".format(ssid_name))
-            self.log("Completed validation of L2 security and related parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+                self.log(
+                    "Global L2 security configuration parameters not provided for SSID: '{0}'.".format(
+                        ssid_name
+                    )
+                )
+            self.log(
+                "Completed validation of L2 security and related parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate L3 security and AAA configuration parameters
-            self.log("Starting validation of L3 security and AAA parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of L3 security and AAA parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             aaa = ssid.get("aaa")
             self.validate_l3_security_aaa_params(ssid_name, ssid_type, l3_security, aaa)
-            self.log("Completed validation of L3 security and AAA parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Completed validation of L3 security and AAA parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate MFP Client Protection parameters
-            self.log("Starting validation of MFP client protection parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of MFP client protection parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             mfp_client_protection = ssid.get("mfp_client_protection")
             if mfp_client_protection:
                 radio_bands = radio_policy.get("radio_bands") if radio_policy else []
-                self.validate_mfp_client_protection_params(ssid_name, mfp_client_protection, radio_bands)
+                self.validate_mfp_client_protection_params(
+                    ssid_name, mfp_client_protection, radio_bands
+                )
             else:
-                self.log("MFP Client Protection not provided hence validation is not required.", "INFO")
-            self.log("Completed validation of MFP client protection for SSID: {0}.".format(ssid_name), "DEBUG")
+                self.log(
+                    "MFP Client Protection not provided hence validation is not required.",
+                    "INFO",
+                )
+            self.log(
+                "Completed validation of MFP client protection for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate Protected Management Frame (802.11w) parameters
-            self.log("Starting validation of Protected Management Frame parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of Protected Management Frame parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             protected_management_frame = ssid.get("protected_management_frame")
             if protected_management_frame:
-                self.validate_protected_management_frame_params(ssid_name, protected_management_frame)
+                self.validate_protected_management_frame_params(
+                    ssid_name, protected_management_frame
+                )
             else:
-                self.log("Protected Management Frame params not provided hence validation is not required.", "INFO")
-            self.log("Completed validation of Protected Management Frame parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+                self.log(
+                    "Protected Management Frame params not provided hence validation is not required.",
+                    "INFO",
+                )
+            self.log(
+                "Completed validation of Protected Management Frame parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate WLAN timeouts parameters
-            self.log("Starting validation of WLAN timeouts for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of WLAN timeouts for SSID: {0}.".format(ssid_name),
+                "DEBUG",
+            )
             wlan_timeouts = ssid.get("wlan_timeouts", {})
             if wlan_timeouts:
                 self.validate_wlan_timeouts_params(ssid_name, wlan_timeouts)
             else:
-                self.log("WLAN timeouts params not provided hence validation is not required.", "INFO")
-            self.log("Completed validation of WLAN timeouts for SSID: {0}.".format(ssid_name), "DEBUG")
+                self.log(
+                    "WLAN timeouts params not provided hence validation is not required.",
+                    "INFO",
+                )
+            self.log(
+                "Completed validation of WLAN timeouts for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate 11v BSS Transition Support parameters
-            self.log("Starting validation of 11v BSS Transition Support parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of 11v BSS Transition Support parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             bss_transition_support = ssid.get("11v_bss_transition_support", {})
             if bss_transition_support:
-                self.validate_11v_bss_transition_support_params(self, ssid_name, bss_transition_support)
+                self.validate_11v_bss_transition_support_params(
+                    self, ssid_name, bss_transition_support
+                )
             else:
-                self.log("11v BSS Transition Support parameters not provided hence validation is not required.", "INFO")
-            self.log("Completed validation of 11v BSS Transition Support parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+                self.log(
+                    "11v BSS Transition Support parameters not provided hence validation is not required.",
+                    "INFO",
+                )
+            self.log(
+                "Completed validation of 11v BSS Transition Support parameters for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate NAS ID
-            self.log("Starting validation of NAS ID parameter for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of NAS ID parameter for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             nas_id = ssid.get("nas_id", [])
             if nas_id:
                 self.validate_nas_id_param(ssid_name, nas_id)
             else:
-                self.log("NAS ID parameters not provided hence validation is not required.", "INFO")
-            self.log("Completed validation of NAS ID parameter for SSID: {0}.".format(ssid_name), "DEBUG")
+                self.log(
+                    "NAS ID parameters not provided hence validation is not required.",
+                    "INFO",
+                )
+            self.log(
+                "Completed validation of NAS ID parameter for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate Client Rate Limit
-            self.log("Starting validation of Client Rate Limit for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Starting validation of Client Rate Limit for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
             client_rate_limit = ssid.get("client_rate_limit")
             if client_rate_limit:
                 self.validate_client_rate_limit_param(ssid_name, client_rate_limit)
-            self.log("Completed validation of Client Rate Limit for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log(
+                "Completed validation of Client Rate Limit for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
             # Validate site-specific override settings parameters
-            self.log("Starting validation of site-specific override settings for SSID: {0}.".format(ssid_name), "DEBUG")
-            sites_specific_override_settings = ssid.get("sites_specific_override_settings")
+            self.log(
+                "Starting validation of site-specific override settings for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
+            sites_specific_override_settings = ssid.get(
+                "sites_specific_override_settings"
+            )
             if sites_specific_override_settings:
                 global_l2_security = l2_security
                 global_l3_security = l3_security
                 self.validate_sites_specific_override_settings_params(
-                    ssid_name, ssid_type, sites_specific_override_settings, global_l3_security, global_l2_security)
+                    ssid_name,
+                    ssid_type,
+                    sites_specific_override_settings,
+                    global_l3_security,
+                    global_l2_security,
+                )
             else:
-                self.log("Site-specific override settings parameters not provided hence validation is not required.", "INFO")
-            self.log("Completed validation of site-specific override settings for SSID: {0}.".format(ssid_name), "DEBUG")
+                self.log(
+                    "Site-specific override settings parameters not provided hence validation is not required.",
+                    "INFO",
+                )
+            self.log(
+                "Completed validation of site-specific override settings for SSID: {0}.".format(
+                    ssid_name
+                ),
+                "DEBUG",
+            )
 
     def validate_interfaces_params(self, interfaces, state):
         """
@@ -6315,7 +6777,9 @@ class WirelessDesign(DnacBase):
             interfaces (list): A list of dictionaries, each containing parameters for an interface.
             state (str): The state of the operation, either "merged" or "deleted".
         """
-        self.log("Starting validation for interfaces with state: {0}".format(state), "INFO")
+        self.log(
+            "Starting validation for interfaces with state: {0}".format(state), "INFO"
+        )
 
         # Determine required parameters based on state
         if state == "merged":
@@ -6326,32 +6790,49 @@ class WirelessDesign(DnacBase):
         # Iterate over each interface dictionary
         for interface in interfaces:
             # Check for missing required parameters
-            missing_params = [param for param in required_params if param not in interface]
+            missing_params = [
+                param for param in required_params if param not in interface
+            ]
             if missing_params:
-                self.msg = ("The following required parameters for interface configuration are missing: {}. "
-                            "Provided parameters: {}").format(", ".join(missing_params), interface)
+                self.msg = (
+                    "The following required parameters for interface configuration are missing: {}. "
+                    "Provided parameters: {}"
+                ).format(", ".join(missing_params), interface)
                 self.fail_and_exit(self.msg)
 
             # Validate interface_name
             interface_name = interface.get("interface_name")
-            self.log("Validating 'interface_name' for interface: {0}".format(interface_name), "DEBUG")
+            self.log(
+                "Validating 'interface_name' for interface: {0}".format(interface_name),
+                "DEBUG",
+            )
             if interface_name:
                 if not (1 <= len(interface_name) <= 31):
-                    self.msg = ("The 'interface_name' length must be between 1 and 31 characters. "
-                                "Provided 'interface_name': {} (length: {})").format(interface_name, len(interface_name))
+                    self.msg = (
+                        "The 'interface_name' length must be between 1 and 31 characters. "
+                        "Provided 'interface_name': {} (length: {})"
+                    ).format(interface_name, len(interface_name))
                     self.fail_and_exit(self.msg)
 
             # Validate vlan_id if state is "merged"
             if state == "merged":
                 vlan_id = interface.get("vlan_id")
-                self.log("Validating 'vlan_id' for interface: {0}".format(interface_name), "DEBUG")
+                self.log(
+                    "Validating 'vlan_id' for interface: {0}".format(interface_name),
+                    "DEBUG",
+                )
                 if vlan_id is not None:
                     if not (1 <= vlan_id <= 4094):
-                        self.msg = ("The 'vlan_id' must be between 1 and 4094. "
-                                    "Provided 'vlan_id': {}").format(vlan_id)
+                        self.msg = (
+                            "The 'vlan_id' must be between 1 and 4094. "
+                            "Provided 'vlan_id': {}"
+                        ).format(vlan_id)
                         self.fail_and_exit(self.msg)
 
-        self.log("Required interface parameters validated successfully for all interfaces.", "DEBUG")
+        self.log(
+            "Required interface parameters validated successfully for all interfaces.",
+            "DEBUG",
+        )
 
     def validate_power_profiles_params(self, power_profiles, state):
         """
@@ -6368,22 +6849,52 @@ class WirelessDesign(DnacBase):
         elif state == "deleted":
             required_params = ["power_profile_name"]
         else:
-            self.msg = "Invalid state provided: {}. Allowed states are 'merged' or 'deleted'.".format(state)
+            self.msg = "Invalid state provided: {}. Allowed states are 'merged' or 'deleted'.".format(
+                state
+            )
             self.fail_and_exit(self.msg)
 
         # Define valid choices for various parameters
         valid_interface_types = ["ETHERNET", "RADIO", "USB"]
-        valid_interface_ids = ["GIGABITETHERNET0", "GIGABITETHERNET1", "LAN1", "LAN2", "LAN3", "6GHZ", "5GHZ", "SECONDARY_5GHZ", "2_4GHZ", "USB0"]
+        valid_interface_ids = [
+            "GIGABITETHERNET0",
+            "GIGABITETHERNET1",
+            "LAN1",
+            "LAN2",
+            "LAN3",
+            "6GHZ",
+            "5GHZ",
+            "SECONDARY_5GHZ",
+            "2_4GHZ",
+            "USB0",
+        ]
         valid_parameter_types = ["SPEED", "SPATIALSTREAM", "STATE"]
-        valid_parameter_values = ["5000MBPS", "2500MBPS", "1000MBPS", "100MBPS", "EIGHT_BY_EIGHT", "FOUR_BY_FOUR", "THREE_BY_THREE",
-                                  "TWO_BY_TWO", "ONE_BY_ONE", "DISABLE"]
+        valid_parameter_values = [
+            "5000MBPS",
+            "2500MBPS",
+            "1000MBPS",
+            "100MBPS",
+            "EIGHT_BY_EIGHT",
+            "FOUR_BY_FOUR",
+            "THREE_BY_THREE",
+            "TWO_BY_TWO",
+            "ONE_BY_ONE",
+            "DISABLE",
+        ]
 
         # Iterate through each power profile for validation
         for profile in power_profiles:
             self.validate_power_profile_required_params(profile, required_params)
             self.validate_power_profile_name(profile)
             self.validate_power_profile_description(profile)
-            self.validate_power_profile_rules(profile, state, valid_interface_types, valid_interface_ids, valid_parameter_types, valid_parameter_values)
+            self.validate_power_profile_rules(
+                profile,
+                state,
+                valid_interface_types,
+                valid_interface_ids,
+                valid_parameter_types,
+                valid_parameter_values,
+            )
 
         self.log("Power Profile parameters validated successfully.", "INFO")
 
@@ -6396,15 +6907,25 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If any required parameter is missing.
         """
-        self.log("Validating missing parameters for power profile: {0}".format(profile), "DEBUG")
+        self.log(
+            "Validating missing parameters for power profile: {0}".format(profile),
+            "DEBUG",
+        )
 
         missing_params = [param for param in required_params if param not in profile]
         if missing_params:
-            self.msg = ("The following required parameters for Power Profile are missing: {}. "
-                        "Provided parameters: {}").format(", ".join(missing_params), profile)
+            self.msg = (
+                "The following required parameters for Power Profile are missing: {}. "
+                "Provided parameters: {}"
+            ).format(", ".join(missing_params), profile)
             self.fail_and_exit(self.msg)
 
-        self.log("All required parameters are present for power profile: {0}".format(profile), "INFO")
+        self.log(
+            "All required parameters are present for power profile: {0}".format(
+                profile
+            ),
+            "INFO",
+        )
 
     def validate_power_profile_name(self, profile):
         """
@@ -6414,15 +6935,23 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the name is invalid.
         """
-        self.log("Validating 'power_profile_name' for power profile: {0}".format(profile), "DEBUG")
+        self.log(
+            "Validating 'power_profile_name' for power profile: {0}".format(profile),
+            "DEBUG",
+        )
 
         power_profile_name = profile.get("power_profile_name")
         if power_profile_name and len(power_profile_name) > 128:
-            self.msg = ("The 'power_profile_name' exceeds the maximum length of 128 characters. "
-                        "Provided 'power_profile_name': {} (length: {})").format(power_profile_name, len(power_profile_name))
+            self.msg = (
+                "The 'power_profile_name' exceeds the maximum length of 128 characters. "
+                "Provided 'power_profile_name': {} (length: {})"
+            ).format(power_profile_name, len(power_profile_name))
             self.fail_and_exit(self.msg)
 
-        self.log("'power_profile_name' is valid for power profile: {0}".format(profile), "INFO")
+        self.log(
+            "'power_profile_name' is valid for power profile: {0}".format(profile),
+            "INFO",
+        )
 
     def validate_power_profile_description(self, profile):
         """
@@ -6432,17 +6961,37 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the description is invalid.
         """
-        self.log("Validating 'power_profile_description' for power profile: {0}".format(profile), "DEBUG")
+        self.log(
+            "Validating 'power_profile_description' for power profile: {0}".format(
+                profile
+            ),
+            "DEBUG",
+        )
 
         power_profile_description = profile.get("power_profile_description")
         if power_profile_description and len(power_profile_description) > 128:
-            self.msg = ("The 'power_profile_description' exceeds the maximum length of 128 characters. "
-                        "Provided 'power_profile_description': {} (length: {})").format(power_profile_description, len(power_profile_description))
+            self.msg = (
+                "The 'power_profile_description' exceeds the maximum length of 128 characters. "
+                "Provided 'power_profile_description': {} (length: {})"
+            ).format(power_profile_description, len(power_profile_description))
             self.fail_and_exit(self.msg)
 
-        self.log("'power_profile_description' is valid for power profile: {0}".format(profile), "INFO")
+        self.log(
+            "'power_profile_description' is valid for power profile: {0}".format(
+                profile
+            ),
+            "INFO",
+        )
 
-    def validate_power_profile_rules(self, profile, state, valid_interface_types, valid_interface_ids, valid_parameter_types, valid_parameter_values):
+    def validate_power_profile_rules(
+        self,
+        profile,
+        state,
+        valid_interface_types,
+        valid_interface_ids,
+        valid_parameter_types,
+        valid_parameter_values,
+    ):
         """
         Validates the rules of the power profile.
         Args:
@@ -6463,51 +7012,72 @@ class WirelessDesign(DnacBase):
 
         for rule in rules:
             if "interface_type" not in rule:
-                self.msg = ("'interface_type' is required in each rule. Provided rule: {}").format(rule)
+                self.msg = (
+                    "'interface_type' is required in each rule. Provided rule: {}"
+                ).format(rule)
                 self.fail_and_exit(self.msg)
 
             interface_type = rule.get("interface_type")
             if interface_type not in valid_interface_types:
-                self.msg = ("Invalid 'interface_type': {}. Must be one of {}.").format(interface_type, valid_interface_types)
+                self.msg = ("Invalid 'interface_type': {}. Must be one of {}.").format(
+                    interface_type, valid_interface_types
+                )
                 self.fail_and_exit(self.msg)
 
             # Additional validation for USB interface
             if interface_type == "USB":
-                if 'interface_id' in rule and rule['interface_id'] != "USB0":
-                    self.msg = ("For 'USB' interface_type, if provided, 'interface_id' must be 'USB0'. Provided rule: {}").format(rule)
+                if "interface_id" in rule and rule["interface_id"] != "USB0":
+                    self.msg = (
+                        "For 'USB' interface_type, if provided, 'interface_id' must be 'USB0'. Provided rule: {}"
+                    ).format(rule)
                     self.fail_and_exit(self.msg)
-                if 'parameter_type' in rule and rule['parameter_type'] != "STATE":
-                    self.msg = ("For 'USB' interface_type, if provided, 'parameter_type' must be 'STATE'. Provided rule: {}").format(rule)
+                if "parameter_type" in rule and rule["parameter_type"] != "STATE":
+                    self.msg = (
+                        "For 'USB' interface_type, if provided, 'parameter_type' must be 'STATE'. Provided rule: {}"
+                    ).format(rule)
                     self.fail_and_exit(self.msg)
-                if 'parameter_value' in rule and rule['parameter_value'] != "DISABLE":
-                    self.msg = ("For 'USB' interface_type, if provided, 'parameter_value' must be 'DISABLE'. Provided rule: {}").format(rule)
+                if "parameter_value" in rule and rule["parameter_value"] != "DISABLE":
+                    self.msg = (
+                        "For 'USB' interface_type, if provided, 'parameter_value' must be 'DISABLE'. Provided rule: {}"
+                    ).format(rule)
                     self.fail_and_exit(self.msg)
 
             # Additional validation for ETHERNET interface
             if interface_type == "ETHERNET":
-                if 'parameter_type' in rule and rule['parameter_type'] not in ["SPEED", "STATE"]:
-                    self.msg = ("For 'ETHERNET' interface_type, if provided, 'parameter_type' must be 'SPEED'. Provided rule: {}").format(rule)
+                if "parameter_type" in rule and rule["parameter_type"] not in [
+                    "SPEED",
+                    "STATE",
+                ]:
+                    self.msg = (
+                        "For 'ETHERNET' interface_type, if provided, 'parameter_type' must be 'SPEED'. Provided rule: {}"
+                    ).format(rule)
                     self.fail_and_exit(self.msg)
 
             # Validate interface_id
             interface_id = rule.get("interface_id")
 
             if interface_id and interface_id not in valid_interface_ids:
-                self.msg = ("Invalid 'interface_id': {}. Must be one of {}.").format(interface_id, valid_interface_ids)
+                self.msg = ("Invalid 'interface_id': {}. Must be one of {}.").format(
+                    interface_id, valid_interface_ids
+                )
                 self.fail_and_exit(self.msg)
 
             # Validate parameter_type
             parameter_type = rule.get("parameter_type")
 
             if parameter_type and parameter_type not in valid_parameter_types:
-                self.msg = ("Invalid 'parameter_type': {}. Must be one of {}.").format(parameter_type, valid_parameter_types)
+                self.msg = ("Invalid 'parameter_type': {}. Must be one of {}.").format(
+                    parameter_type, valid_parameter_types
+                )
                 self.fail_and_exit(self.msg)
 
             # Validate parameter_value
             parameter_value = rule.get("parameter_value")
 
             if parameter_value and parameter_value not in valid_parameter_values:
-                self.msg = ("Invalid 'parameter_value': {}. Must be one of {}.").format(parameter_value, valid_parameter_values)
+                self.msg = ("Invalid 'parameter_value': {}. Must be one of {}.").format(
+                    parameter_value, valid_parameter_values
+                )
                 self.fail_and_exit(self.msg)
 
         self.log("Rules are valid for power profile: {0}".format(profile), "INFO")
@@ -6525,23 +7095,35 @@ class WirelessDesign(DnacBase):
 
         # Check if the password matches any default or weak passwords
         if password in default_passwords:
-            self.log("Password matches a default or weak password: {0}".format(password), "DEBUG")
+            self.log(
+                "Password matches a default or weak password: {0}".format(password),
+                "DEBUG",
+            )
             return False
 
         # Check if the password contains repeated characters
-        if any(password[i] == password[i + 1] == password[i + 2] for i in range(len(password) - 2)):
-            self.log("Password contains repeated characters: {0}".format(password), "DEBUG")
+        if any(
+            password[i] == password[i + 1] == password[i + 2]
+            for i in range(len(password) - 2)
+        ):
+            self.log(
+                "Password contains repeated characters: {0}".format(password), "DEBUG"
+            )
             return False
 
         # Check if the password contains simple sequences
         if "abc" in password or "123" in password:
-            self.log("Password contains simple sequences: {0}".format(password), "DEBUG")
+            self.log(
+                "Password contains simple sequences: {0}".format(password), "DEBUG"
+            )
             return False
 
         # If all checks pass, the password is considered valid
         return True
 
-    def validate_ap_profile_management_settings(self, management_settings, access_point_profile_name):
+    def validate_ap_profile_management_settings(
+        self, management_settings, access_point_profile_name
+    ):
         """
         Validates the management settings of an access point profile.
         Args:
@@ -6550,22 +7132,45 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If any validation fails, an exception is raised with a descriptive message.
         """
-        self.log("Validating management settings for AP Profile: {0}".format(access_point_profile_name), "INFO")
+        self.log(
+            "Validating management settings for AP Profile: {0}".format(
+                access_point_profile_name
+            ),
+            "INFO",
+        )
 
         # Validate access_point_authentication choice
         valid_auth_choices = ["NO-AUTH", "EAP-TLS", "EAP-PEAP", "EAP-FAST"]
-        access_point_authentication = management_settings.get("access_point_authentication")
-        self.log("Checking 'access_point_authentication' for AP Profile: {0} - Provided value: {1}"
-                 .format(access_point_profile_name, access_point_authentication), "DEBUG")
+        access_point_authentication = management_settings.get(
+            "access_point_authentication"
+        )
+        self.log(
+            "Checking 'access_point_authentication' for AP Profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, access_point_authentication
+            ),
+            "DEBUG",
+        )
 
-        if access_point_authentication and access_point_authentication not in valid_auth_choices:
+        if (
+            access_point_authentication
+            and access_point_authentication not in valid_auth_choices
+        ):
             self.msg = (
                 "For AP Profile: {0}, the 'access_point_authentication' is invalid: {1}. "
                 "Valid choices are: {2}."
-            ).format(access_point_profile_name, access_point_authentication, ", ".join(valid_auth_choices))
+            ).format(
+                access_point_profile_name,
+                access_point_authentication,
+                ", ".join(valid_auth_choices),
+            )
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'access_point_authentication' value for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
+            self.log(
+                "The 'access_point_authentication' value for AP Profile: {0} is valid.".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
 
         # Define security policy guidelines
         security_policy = (
@@ -6584,7 +7189,12 @@ class WirelessDesign(DnacBase):
 
         # Validate management_password
         management_password = management_settings.get("management_password")
-        self.log("Checking 'management_password' for AP Profile: {0}".format(access_point_profile_name), "DEBUG")
+        self.log(
+            "Checking 'management_password' for AP Profile: {0}".format(
+                access_point_profile_name
+            ),
+            "DEBUG",
+        )
 
         if management_password and not self.is_valid_password(management_password):
             self.msg = (
@@ -6592,21 +7202,42 @@ class WirelessDesign(DnacBase):
             ).format(access_point_profile_name, security_policy)
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'management_password' for AP Profile: {0} meets the security criteria.".format(access_point_profile_name), "INFO")
+            self.log(
+                "The 'management_password' for AP Profile: {0} meets the security criteria.".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
 
         # Validate management_enable_password
-        management_enable_password = management_settings.get("management_enable_password")
-        self.log("Checking 'management_enable_password' for AP Profile: {0}".format(access_point_profile_name), "DEBUG")
+        management_enable_password = management_settings.get(
+            "management_enable_password"
+        )
+        self.log(
+            "Checking 'management_enable_password' for AP Profile: {0}".format(
+                access_point_profile_name
+            ),
+            "DEBUG",
+        )
 
-        if management_enable_password and not self.is_valid_password(management_enable_password):
+        if management_enable_password and not self.is_valid_password(
+            management_enable_password
+        ):
             self.msg = (
                 "For AP Profile: {0}, the 'management_enable_password' does not meet the security criteria.{1}"
             ).format(access_point_profile_name, security_policy)
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'management_enable_password' for AP Profile: {0} meets the security criteria.".format(access_point_profile_name), "INFO")
+            self.log(
+                "The 'management_enable_password' for AP Profile: {0} meets the security criteria.".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
 
-    def validate_ap_profile_security_settings(self, security_settings, access_point_profile_name):
+    def validate_ap_profile_security_settings(
+        self, security_settings, access_point_profile_name
+    ):
         """
         Validates the security settings of an access point profile.
         Args:
@@ -6615,11 +7246,21 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If any validation fails, an exception is raised with a descriptive message.
         """
-        self.log("Validating security settings for AP Profile: {0}".format(access_point_profile_name), "INFO")
+        self.log(
+            "Validating security settings for AP Profile: {0}".format(
+                access_point_profile_name
+            ),
+            "INFO",
+        )
 
         # Validate minimum_rssi
         minimum_rssi = security_settings.get("minimum_rssi")
-        self.log("Checking 'minimum_rssi' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, minimum_rssi), "DEBUG")
+        self.log(
+            "Checking 'minimum_rssi' for AP Profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, minimum_rssi
+            ),
+            "DEBUG",
+        )
         if minimum_rssi is not None:
             # Check if the minimum_rssi value is within the valid range
             if not (-128 <= minimum_rssi <= -70):
@@ -6629,11 +7270,21 @@ class WirelessDesign(DnacBase):
                 ).format(access_point_profile_name, minimum_rssi)
                 self.fail_and_exit(self.msg)
             else:
-                self.log("The 'minimum_rssi' value for AP Profile: {0} is within the valid range.".format(access_point_profile_name), "INFO")
+                self.log(
+                    "The 'minimum_rssi' value for AP Profile: {0} is within the valid range.".format(
+                        access_point_profile_name
+                    ),
+                    "INFO",
+                )
 
         # Validate transient_interval
         transient_interval = security_settings.get("transient_interval")
-        self.log("Checking 'transient_interval' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, transient_interval), "DEBUG")
+        self.log(
+            "Checking 'transient_interval' for AP Profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, transient_interval
+            ),
+            "DEBUG",
+        )
         if transient_interval is not None:
             # Check if the transient_interval value is within the valid range
             if not (transient_interval == 0 or 120 <= transient_interval <= 1800):
@@ -6643,11 +7294,21 @@ class WirelessDesign(DnacBase):
                 ).format(access_point_profile_name, transient_interval)
                 self.fail_and_exit(self.msg)
             else:
-                self.log("The 'transient_interval' value for AP Profile: {0} is within the valid range.".format(access_point_profile_name), "INFO")
+                self.log(
+                    "The 'transient_interval' value for AP Profile: {0} is within the valid range.".format(
+                        access_point_profile_name
+                    ),
+                    "INFO",
+                )
 
         # Validate report_interval
         report_interval = security_settings.get("report_interval")
-        self.log("Checking 'report_interval' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, report_interval), "DEBUG")
+        self.log(
+            "Checking 'report_interval' for AP Profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, report_interval
+            ),
+            "DEBUG",
+        )
         if report_interval is not None:
             # Check if the report_interval value is within the valid range
             if not (10 <= report_interval <= 300):
@@ -6657,9 +7318,16 @@ class WirelessDesign(DnacBase):
                 ).format(access_point_profile_name, report_interval)
                 self.fail_and_exit(self.msg)
             else:
-                self.log("The 'report_interval' value for AP Profile: {0} is within the valid range.".format(access_point_profile_name), "INFO")
+                self.log(
+                    "The 'report_interval' value for AP Profile: {0} is within the valid range.".format(
+                        access_point_profile_name
+                    ),
+                    "INFO",
+                )
 
-    def validate_ap_profile_mesh_settings(self, mesh_settings, access_point_profile_name):
+    def validate_ap_profile_mesh_settings(
+        self, mesh_settings, access_point_profile_name
+    ):
         """
         Validates the mesh settings of an access point profile.
         Args:
@@ -6668,16 +7336,32 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If any validation fails, an exception is raised with a descriptive message.
         """
-        self.log("Validating mesh settings for AP Profile: {0}".format(access_point_profile_name), "INFO")
+        self.log(
+            "Validating mesh settings for AP Profile: {0}".format(
+                access_point_profile_name
+            ),
+            "INFO",
+        )
 
         # Define valid choices for parameters
         valid_rap_downlink_backhaul_choices = ["5 GHz", "2.4 GHz"]
-        valid_radio_band_types_5ghz = ["auto", "802.11abg", "802.12ac", "802.11ax", "802.11n"]
+        valid_radio_band_types_5ghz = [
+            "auto",
+            "802.11abg",
+            "802.12ac",
+            "802.11ax",
+            "802.11n",
+        ]
         valid_radio_band_types_2_4ghz = ["auto", "802.11abg", "802.11ax", "802.11n"]
 
         # Validate range
         mesh_range = mesh_settings.get("range")
-        self.log("Checking 'range' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, mesh_range), "DEBUG")
+        self.log(
+            "Checking 'range' for AP Profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, mesh_range
+            ),
+            "DEBUG",
+        )
         if mesh_range is not None:
             if not (150 <= mesh_range <= 132000):
                 self.msg = (
@@ -6686,60 +7370,128 @@ class WirelessDesign(DnacBase):
                 ).format(access_point_profile_name, mesh_range)
                 self.fail_and_exit(self.msg)
             else:
-                self.log("The 'range' value for AP Profile: {0} is within the valid range.".format(access_point_profile_name), "INFO")
+                self.log(
+                    "The 'range' value for AP Profile: {0} is within the valid range.".format(
+                        access_point_profile_name
+                    ),
+                    "INFO",
+                )
 
         # Validate rap_downlink_backhaul
         rap_downlink_backhaul = mesh_settings.get("rap_downlink_backhaul")
-        self.log("Checking 'rap_downlink_backhaul' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, rap_downlink_backhaul), "DEBUG")
-        if rap_downlink_backhaul and rap_downlink_backhaul not in valid_rap_downlink_backhaul_choices:
+        self.log(
+            "Checking 'rap_downlink_backhaul' for AP Profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, rap_downlink_backhaul
+            ),
+            "DEBUG",
+        )
+        if (
+            rap_downlink_backhaul
+            and rap_downlink_backhaul not in valid_rap_downlink_backhaul_choices
+        ):
             self.msg = (
                 "For Profile: {0}, the 'rap_downlink_backhaul' is invalid: {1}. "
                 "Valid choices are: {2}."
-            ).format(access_point_profile_name, rap_downlink_backhaul, ", ".join(valid_rap_downlink_backhaul_choices))
+            ).format(
+                access_point_profile_name,
+                rap_downlink_backhaul,
+                ", ".join(valid_rap_downlink_backhaul_choices),
+            )
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'rap_downlink_backhaul' value for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
+            self.log(
+                "The 'rap_downlink_backhaul' value for AP Profile: {0} is valid.".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
 
         # Validate ghz_5_backhaul_data_rates
         ghz_5_backhaul_data_rates = mesh_settings.get("ghz_5_backhaul_data_rates")
-        self.log("Checking 'ghz_5_backhaul_data_rates' for AP Profile: {0} - Provided value: {1}".format(
-            access_point_profile_name, ghz_5_backhaul_data_rates), "DEBUG")
-        if ghz_5_backhaul_data_rates and ghz_5_backhaul_data_rates not in valid_radio_band_types_5ghz:
+        self.log(
+            "Checking 'ghz_5_backhaul_data_rates' for AP Profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, ghz_5_backhaul_data_rates
+            ),
+            "DEBUG",
+        )
+        if (
+            ghz_5_backhaul_data_rates
+            and ghz_5_backhaul_data_rates not in valid_radio_band_types_5ghz
+        ):
             self.msg = (
                 "For Profile: {0}, the 'ghz_5_backhaul_data_rates' is invalid: {1}. "
                 "Valid choices are: {2}."
-            ).format(access_point_profile_name, ghz_5_backhaul_data_rates, ", ".join(valid_radio_band_types_5ghz))
+            ).format(
+                access_point_profile_name,
+                ghz_5_backhaul_data_rates,
+                ", ".join(valid_radio_band_types_5ghz),
+            )
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'ghz_5_backhaul_data_rates' value for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
+            self.log(
+                "The 'ghz_5_backhaul_data_rates' value for AP Profile: {0} is valid.".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
 
         # Validate ghz_2_4_backhaul_data_rates
         ghz_2_4_backhaul_data_rates = mesh_settings.get("ghz_2_4_backhaul_data_rates")
-        self.log("Checking 'ghz_2_4_backhaul_data_rates' for AP Profile: {0} - Provided value: {1}"
-                 .format(access_point_profile_name, ghz_2_4_backhaul_data_rates), "DEBUG")
-        if ghz_2_4_backhaul_data_rates and ghz_2_4_backhaul_data_rates not in valid_radio_band_types_2_4ghz:
+        self.log(
+            "Checking 'ghz_2_4_backhaul_data_rates' for AP Profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, ghz_2_4_backhaul_data_rates
+            ),
+            "DEBUG",
+        )
+        if (
+            ghz_2_4_backhaul_data_rates
+            and ghz_2_4_backhaul_data_rates not in valid_radio_band_types_2_4ghz
+        ):
             self.msg = (
                 "For Profile: {0}, the 'ghz_2_4_backhaul_data_rates' is invalid: {1}. "
                 "Valid choices are: {2}."
-            ).format(access_point_profile_name, ghz_2_4_backhaul_data_rates, ", ".join(valid_radio_band_types_2_4ghz))
+            ).format(
+                access_point_profile_name,
+                ghz_2_4_backhaul_data_rates,
+                ", ".join(valid_radio_band_types_2_4ghz),
+            )
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'ghz_2_4_backhaul_data_rates' value for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
+            self.log(
+                "The 'ghz_2_4_backhaul_data_rates' value for AP Profile: {0} is valid.".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
 
         # Validate the bridge_group_name length
         bridge_group_name = mesh_settings.get("bridge_group_name")
-        self.log("Checking 'bridge_group_name' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, bridge_group_name), "DEBUG")
+        self.log(
+            "Checking 'bridge_group_name' for AP Profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, bridge_group_name
+            ),
+            "DEBUG",
+        )
         if bridge_group_name is not None:
             if not (0 <= len(bridge_group_name) <= 10):
                 self.msg = (
                     "For Profile: {0}, the 'bridge_group_name' length in mesh settings is out of range. Provided value: '{1}' "
                     "with length {2}. Valid length range is 0 to 10 characters."
-                ).format(access_point_profile_name, bridge_group_name, len(bridge_group_name))
+                ).format(
+                    access_point_profile_name, bridge_group_name, len(bridge_group_name)
+                )
                 self.fail_and_exit(self.msg)
             else:
-                self.log("The 'bridge_group_name' for AP Profile: {0} is within the valid length range.".format(access_point_profile_name), "INFO")
+                self.log(
+                    "The 'bridge_group_name' for AP Profile: {0} is within the valid length range.".format(
+                        access_point_profile_name
+                    ),
+                    "INFO",
+                )
 
-    def validate_ap_profile_power_settings(self, power_settings, access_point_profile_name):
+    def validate_ap_profile_power_settings(
+        self, power_settings, access_point_profile_name
+    ):
         """
         Validates the power settings of an access point profile.
         Args:
@@ -6748,26 +7500,48 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If any validation fails, an exception is raised with a descriptive message.
         """
-        self.log("Validating power settings for AP Profile: {0}".format(access_point_profile_name), "INFO")
+        self.log(
+            "Validating power settings for AP Profile: {0}".format(
+                access_point_profile_name
+            ),
+            "INFO",
+        )
 
         # Check if power settings are provided
         if not power_settings:
-            self.log("No power settings provided for AP Profile: {0}".format(access_point_profile_name), "INFO")
+            self.log(
+                "No power settings provided for AP Profile: {0}".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
             return
 
         # Check if calendar power profiles are provided
         calendar_power_profiles = power_settings.get("calendar_power_profiles")
         if not calendar_power_profiles:
-            self.log("No calendar power profiles provided for AP Profile: {0}".format(access_point_profile_name), "DEBUG")
+            self.log(
+                "No calendar power profiles provided for AP Profile: {0}".format(
+                    access_point_profile_name
+                ),
+                "DEBUG",
+            )
             return
 
         # Iterate over each calendar power profile
         for profile in calendar_power_profiles:
-            self.log("Validating calendar power profile for AP Profile: {0}".format(access_point_profile_name), "DEBUG")
+            self.log(
+                "Validating calendar power profile for AP Profile: {0}".format(
+                    access_point_profile_name
+                ),
+                "DEBUG",
+            )
 
             # Check if 'ap_power_profile_name' is provided
-            if 'ap_power_profile_name' not in profile:
-                self.msg = "For AP Profile: {0}, 'ap_power_profile_name' is required in calendar power profiles.".format(access_point_profile_name)
+            if "ap_power_profile_name" not in profile:
+                self.msg = "For AP Profile: {0}, 'ap_power_profile_name' is required in calendar power profiles.".format(
+                    access_point_profile_name
+                )
                 self.fail_and_exit(self.msg)
 
             # Check if 'scheduler_type' is provided and valid
@@ -6780,25 +7554,40 @@ class WirelessDesign(DnacBase):
                 ).format(access_point_profile_name, ", ".join(valid_scheduler_types))
                 self.fail_and_exit(self.msg)
 
-            self.log("The 'scheduler_type' for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
+            self.log(
+                "The 'scheduler_type' for AP Profile: {0} is valid.".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
 
             # Validate fields based on scheduler_type
             if scheduler_type == "DAILY":
-                if not profile.get("scheduler_start_time") or not profile.get("scheduler_end_time"):
+                if not profile.get("scheduler_start_time") or not profile.get(
+                    "scheduler_end_time"
+                ):
                     self.msg = (
                         "For AP Profile: {0}, 'scheduler_start_time' and 'scheduler_end_time' are required for DAILY scheduler."
                     ).format(access_point_profile_name)
                     self.fail_and_exit(self.msg)
 
             elif scheduler_type == "WEEKLY":
-                if not profile.get("scheduler_start_time") or not profile.get("scheduler_end_time") or not profile.get("scheduler_days_list"):
+                if (
+                    not profile.get("scheduler_start_time")
+                    or not profile.get("scheduler_end_time")
+                    or not profile.get("scheduler_days_list")
+                ):
                     self.msg = (
                         "For AP Profile: {0}, 'scheduler_start_time', 'scheduler_end_time', and 'scheduler_days' are required for WEEKLY scheduler."
                     ).format(access_point_profile_name)
                     self.fail_and_exit(self.msg)
 
             elif scheduler_type == "MONTHLY":
-                if not profile.get("scheduler_dates_list") or not profile.get("scheduler_start_time") or not profile.get("scheduler_end_time"):
+                if (
+                    not profile.get("scheduler_dates_list")
+                    or not profile.get("scheduler_start_time")
+                    or not profile.get("scheduler_end_time")
+                ):
                     self.msg = (
                         "For AP Profile: {0}, 'scheduler_start_date', 'scheduler_end_date', 'scheduler_start_time', and "
                         "'scheduler_end_time' are required for MONTHLY scheduler."
@@ -6806,7 +7595,7 @@ class WirelessDesign(DnacBase):
                     self.fail_and_exit(self.msg)
 
             # Validate the format of scheduler_start_time and scheduler_end_time
-            time_pattern = re.compile(r'^(1[0-2]|0?[1-9]):([0-5][0-9])\s?(AM|PM)$')
+            time_pattern = re.compile(r"^(1[0-2]|0?[1-9]):([0-5][0-9])\s?(AM|PM)$")
             start_time = profile.get("scheduler_start_time")
             end_time = profile.get("scheduler_end_time")
             if start_time and not time_pattern.match(start_time):
@@ -6830,10 +7619,20 @@ class WirelessDesign(DnacBase):
             access_point_profiles (list): A list of dictionaries containing access point profile parameters.
             state (str): The state of the operation, either "merged" or "deleted".
         """
-        self.log("Starting validation for Access Point Profiles with state: {0}".format(state), "INFO")
+        self.log(
+            "Starting validation for Access Point Profiles with state: {0}".format(
+                state
+            ),
+            "INFO",
+        )
 
         for profile in access_point_profiles:
-            self.log("Validating profile: {0}".format(profile.get('access_point_profile_name', 'Unknown')), "DEBUG")
+            self.log(
+                "Validating profile: {0}".format(
+                    profile.get("access_point_profile_name", "Unknown")
+                ),
+                "DEBUG",
+            )
             self.validate_ap_profiles_name(profile)
             if state == "merged":
                 self.validate_ap_profiles_merged_state(profile)
@@ -6849,11 +7648,13 @@ class WirelessDesign(DnacBase):
         self.log("Validating 'access_point_profile_name' for profile.", "DEBUG")
 
         # Check if 'access_point_profile_name' is provided
-        if 'access_point_profile_name' not in profile:
-            self.msg = "Required parameter 'access_point_profile_name' not provided for the Access Point Profile: {0}.".format(profile)
+        if "access_point_profile_name" not in profile:
+            self.msg = "Required parameter 'access_point_profile_name' not provided for the Access Point Profile: {0}.".format(
+                profile
+            )
             self.fail_and_exit(self.msg)
 
-        access_point_profile_name = profile['access_point_profile_name']
+        access_point_profile_name = profile["access_point_profile_name"]
 
         # Check if the length of 'access_point_profile_name' is within the valid range
         if len(access_point_profile_name) > 32:
@@ -6863,7 +7664,12 @@ class WirelessDesign(DnacBase):
             ).format(access_point_profile_name, len(access_point_profile_name))
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'access_point_profile_name' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+            self.log(
+                "The 'access_point_profile_name' for profile {0} is valid.".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
 
     def validate_ap_profiles_merged_state(self, profile):
         """
@@ -6873,20 +7679,33 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
-        access_point_profile_name = profile['access_point_profile_name']
-        self.log("Performing 'merged' state validation for profile: {0}".format(access_point_profile_name), "INFO")
+        access_point_profile_name = profile["access_point_profile_name"]
+        self.log(
+            "Performing 'merged' state validation for profile: {0}".format(
+                access_point_profile_name
+            ),
+            "INFO",
+        )
 
         # Validate various aspects of the access point profile
         self.validate_ap_profiles_description(profile, access_point_profile_name)
-        self.validate_ap_profiles_management_settings(profile, access_point_profile_name)
+        self.validate_ap_profiles_management_settings(
+            profile, access_point_profile_name
+        )
         self.validate_ap_profiles_security_settings(profile, access_point_profile_name)
         self.validate_ap_profiles_mesh_settings(profile, access_point_profile_name)
         self.validate_ap_profiles_power_settings(profile, access_point_profile_name)
         self.validate_ap_profiles_country_code(profile, access_point_profile_name)
         self.validate_ap_profiles_time_zone(profile, access_point_profile_name)
-        self.validate_ap_profiles_time_zone_offset_hour(profile, access_point_profile_name)
-        self.validate_ap_profiles_time_zone_offset_minutes(profile, access_point_profile_name)
-        self.validate_ap_profiles_maximum_client_limit(profile, access_point_profile_name)
+        self.validate_ap_profiles_time_zone_offset_hour(
+            profile, access_point_profile_name
+        )
+        self.validate_ap_profiles_time_zone_offset_minutes(
+            profile, access_point_profile_name
+        )
+        self.validate_ap_profiles_maximum_client_limit(
+            profile, access_point_profile_name
+        )
 
     def validate_ap_profiles_description(self, profile, access_point_profile_name):
         """
@@ -6897,21 +7716,39 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
-        access_point_profile_description = profile.get("access_point_profile_description")
+        access_point_profile_description = profile.get(
+            "access_point_profile_description"
+        )
         if access_point_profile_description:
-            self.log("Validating 'access_point_profile_description' for profile: {0}".format(access_point_profile_name), "DEBUG")
+            self.log(
+                "Validating 'access_point_profile_description' for profile: {0}".format(
+                    access_point_profile_name
+                ),
+                "DEBUG",
+            )
 
             # Check if the length of 'access_point_profile_description' is within the valid range
             if len(access_point_profile_description) > 241:
                 self.msg = (
                     "For AP Profile: {0} the 'access_point_profile_description' exceeds the maximum length of 241 characters. "
                     "Provided 'access_point_profile_description': {1} (length: {2})"
-                ).format(access_point_profile_name, access_point_profile_description, len(access_point_profile_description))
+                ).format(
+                    access_point_profile_name,
+                    access_point_profile_description,
+                    len(access_point_profile_description),
+                )
                 self.fail_and_exit(self.msg)
             else:
-                self.log("The 'access_point_profile_description' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+                self.log(
+                    "The 'access_point_profile_description' for profile {0} is valid.".format(
+                        access_point_profile_name
+                    ),
+                    "INFO",
+                )
 
-    def validate_ap_profiles_management_settings(self, profile, access_point_profile_name):
+    def validate_ap_profiles_management_settings(
+        self, profile, access_point_profile_name
+    ):
         """
         Validates the management settings of the access point profile.
         Args:
@@ -6922,10 +7759,19 @@ class WirelessDesign(DnacBase):
         """
         management_settings = profile.get("management_settings")
         if management_settings:
-            self.log("Validating 'management_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
-            self.validate_ap_profile_management_settings(management_settings, access_point_profile_name)
+            self.log(
+                "Validating 'management_settings' for profile: {0}".format(
+                    access_point_profile_name
+                ),
+                "DEBUG",
+            )
+            self.validate_ap_profile_management_settings(
+                management_settings, access_point_profile_name
+            )
 
-    def validate_ap_profiles_security_settings(self, profile, access_point_profile_name):
+    def validate_ap_profiles_security_settings(
+        self, profile, access_point_profile_name
+    ):
         """
         Validates the security settings of the access point profile.
         Args:
@@ -6936,8 +7782,15 @@ class WirelessDesign(DnacBase):
         """
         security_settings = profile.get("security_settings")
         if security_settings:
-            self.log("Validating 'security_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
-            self.validate_ap_profile_security_settings(security_settings, access_point_profile_name)
+            self.log(
+                "Validating 'security_settings' for profile: {0}".format(
+                    access_point_profile_name
+                ),
+                "DEBUG",
+            )
+            self.validate_ap_profile_security_settings(
+                security_settings, access_point_profile_name
+            )
 
     def validate_ap_profiles_mesh_settings(self, profile, access_point_profile_name):
         """
@@ -6950,8 +7803,15 @@ class WirelessDesign(DnacBase):
         """
         mesh_settings = profile.get("mesh_settings")
         if mesh_settings:
-            self.log("Validating 'mesh_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
-            self.validate_ap_profile_mesh_settings(mesh_settings, access_point_profile_name)
+            self.log(
+                "Validating 'mesh_settings' for profile: {0}".format(
+                    access_point_profile_name
+                ),
+                "DEBUG",
+            )
+            self.validate_ap_profile_mesh_settings(
+                mesh_settings, access_point_profile_name
+            )
 
     def validate_ap_profiles_power_settings(self, profile, access_point_profile_name):
         """
@@ -6964,8 +7824,15 @@ class WirelessDesign(DnacBase):
         """
         power_settings = profile.get("power_settings")
         if power_settings:
-            self.log("Validating 'power_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
-            self.validate_ap_profile_power_settings(power_settings, access_point_profile_name)
+            self.log(
+                "Validating 'power_settings' for profile: {0}".format(
+                    access_point_profile_name
+                ),
+                "DEBUG",
+            )
+            self.validate_ap_profile_power_settings(
+                power_settings, access_point_profile_name
+            )
 
     def validate_ap_profiles_country_code(self, profile, access_point_profile_name):
         """
@@ -6978,35 +7845,173 @@ class WirelessDesign(DnacBase):
         """
         country_code = profile.get("country_code")
         valid_country_codes = [
-            "Afghanistan", "Albania", "Algeria", "Angola", "Argentina", "Australia", "Austria", "Bahamas", "Bahrain",
-            "Bangladesh", "Barbados", "Belarus", "Belgium", "Bhutan", "Bolivia", "Bosnia", "Botswana", "Brazil", "Brunei",
-            "Bulgaria", "Burundi", "Cambodia", "Cameroon", "Canada", "Chile", "China", "Colombia", "Costa Rica", "Croatia",
-            "Cuba", "Cyprus", "Czech Republic", "Democratic Republic of the Congo", "Denmark", "Dominican Republic",
-            "Ecuador", "Egypt", "El Salvador", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Georgia", "Germany",
-            "Ghana", "Gibraltar", "Greece", "Guatemala", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia",
-            "Iraq", "Ireland", "Isle of Man", "Israel", "Israel (Outdoor)", "Italy", "Ivory Coast (Cote dIvoire)",
-            "Jamaica", "Japan 2(P)", "Japan 4(Q)", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Korea Extended (CK)",
-            "Kosovo", "Kuwait", "Laos", "Latvia", "Lebanon", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao",
-            "Macedonia", "Malaysia", "Malta", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco",
-            "Myanmar", "Namibia", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Nigeria", "Norway", "Oman", "Pakistan",
-            "Panama", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Romania", "Russian Federation",
-            "San Marino", "Saudi Arabia", "Serbia", "Singapore", "Slovak Republic", "Slovenia", "South Africa", "Spain", "Sri Lanka",
-            "Sudan", "Sweden", "Switzerland", "Taiwan", "Thailand", "Trinidad", "Tunisia", "Turkey", "Uganda", "Ukraine", "United Arab Emirates",
-            "United Kingdom", "United Republic of Tanzania", "United States", "Uruguay", "Uzbekistan", "Vatican City State",
-            "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+            "Afghanistan",
+            "Albania",
+            "Algeria",
+            "Angola",
+            "Argentina",
+            "Australia",
+            "Austria",
+            "Bahamas",
+            "Bahrain",
+            "Bangladesh",
+            "Barbados",
+            "Belarus",
+            "Belgium",
+            "Bhutan",
+            "Bolivia",
+            "Bosnia",
+            "Botswana",
+            "Brazil",
+            "Brunei",
+            "Bulgaria",
+            "Burundi",
+            "Cambodia",
+            "Cameroon",
+            "Canada",
+            "Chile",
+            "China",
+            "Colombia",
+            "Costa Rica",
+            "Croatia",
+            "Cuba",
+            "Cyprus",
+            "Czech Republic",
+            "Democratic Republic of the Congo",
+            "Denmark",
+            "Dominican Republic",
+            "Ecuador",
+            "Egypt",
+            "El Salvador",
+            "Estonia",
+            "Ethiopia",
+            "Fiji",
+            "Finland",
+            "France",
+            "Gabon",
+            "Georgia",
+            "Germany",
+            "Ghana",
+            "Gibraltar",
+            "Greece",
+            "Guatemala",
+            "Honduras",
+            "Hong Kong",
+            "Hungary",
+            "Iceland",
+            "India",
+            "Indonesia",
+            "Iraq",
+            "Ireland",
+            "Isle of Man",
+            "Israel",
+            "Israel (Outdoor)",
+            "Italy",
+            "Ivory Coast (Cote dIvoire)",
+            "Jamaica",
+            "Japan 2(P)",
+            "Japan 4(Q)",
+            "Jersey",
+            "Jordan",
+            "Kazakhstan",
+            "Kenya",
+            "Korea Extended (CK)",
+            "Kosovo",
+            "Kuwait",
+            "Laos",
+            "Latvia",
+            "Lebanon",
+            "Libya",
+            "Liechtenstein",
+            "Lithuania",
+            "Luxembourg",
+            "Macao",
+            "Macedonia",
+            "Malaysia",
+            "Malta",
+            "Mauritius",
+            "Mexico",
+            "Moldova",
+            "Monaco",
+            "Mongolia",
+            "Montenegro",
+            "Morocco",
+            "Myanmar",
+            "Namibia",
+            "Nepal",
+            "Netherlands",
+            "New Zealand",
+            "Nicaragua",
+            "Nigeria",
+            "Norway",
+            "Oman",
+            "Pakistan",
+            "Panama",
+            "Paraguay",
+            "Peru",
+            "Philippines",
+            "Poland",
+            "Portugal",
+            "Puerto Rico",
+            "Qatar",
+            "Romania",
+            "Russian Federation",
+            "San Marino",
+            "Saudi Arabia",
+            "Serbia",
+            "Singapore",
+            "Slovak Republic",
+            "Slovenia",
+            "South Africa",
+            "Spain",
+            "Sri Lanka",
+            "Sudan",
+            "Sweden",
+            "Switzerland",
+            "Taiwan",
+            "Thailand",
+            "Trinidad",
+            "Tunisia",
+            "Turkey",
+            "Uganda",
+            "Ukraine",
+            "United Arab Emirates",
+            "United Kingdom",
+            "United Republic of Tanzania",
+            "United States",
+            "Uruguay",
+            "Uzbekistan",
+            "Vatican City State",
+            "Venezuela",
+            "Vietnam",
+            "Yemen",
+            "Zambia",
+            "Zimbabwe",
         ]
 
-        self.log("Validating 'country_code' for profile: {0} - Provided value: {1}".format(access_point_profile_name, country_code), "DEBUG")
+        self.log(
+            "Validating 'country_code' for profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, country_code
+            ),
+            "DEBUG",
+        )
 
         # Check if the provided 'country_code' is valid
         if country_code and country_code not in valid_country_codes:
             self.msg = (
                 "For Profile: {0}, the 'country_code' is invalid: {1}. "
                 "Valid choices are: {2}."
-            ).format(access_point_profile_name, country_code, ", ".join(valid_country_codes))
+            ).format(
+                access_point_profile_name, country_code, ", ".join(valid_country_codes)
+            )
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'country_code' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+            self.log(
+                "The 'country_code' for profile {0} is valid.".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
 
     def validate_ap_profiles_time_zone(self, profile, access_point_profile_name):
         """
@@ -7019,7 +8024,12 @@ class WirelessDesign(DnacBase):
         """
         time_zone = profile.get("time_zone")
         valid_time_zones = ["NOT CONFIGURED", "CONTROLLER", "DELTA FROM CONTROLLER"]
-        self.log("Validating 'time_zone' for profile: {0} - Provided value: {1}".format(access_point_profile_name, time_zone), "DEBUG")
+        self.log(
+            "Validating 'time_zone' for profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, time_zone
+            ),
+            "DEBUG",
+        )
 
         # Check if the provided 'time_zone' is valid
         if time_zone and time_zone not in valid_time_zones:
@@ -7029,9 +8039,16 @@ class WirelessDesign(DnacBase):
             ).format(access_point_profile_name, time_zone, ", ".join(valid_time_zones))
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'time_zone' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+            self.log(
+                "The 'time_zone' for profile {0} is valid.".format(
+                    access_point_profile_name
+                ),
+                "INFO",
+            )
 
-    def validate_ap_profiles_time_zone_offset_hour(self, profile, access_point_profile_name):
+    def validate_ap_profiles_time_zone_offset_hour(
+        self, profile, access_point_profile_name
+    ):
         """
         Validates the time zone offset hour of the access point profile.
         Args:
@@ -7041,8 +8058,12 @@ class WirelessDesign(DnacBase):
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
         time_zone_offset_hour = profile.get("time_zone_offset_hour")
-        self.log("Validating 'time_zone_offset_hour' for profile: {0} - Provided value: {1}".format(
-            access_point_profile_name, time_zone_offset_hour), "DEBUG")
+        self.log(
+            "Validating 'time_zone_offset_hour' for profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, time_zone_offset_hour
+            ),
+            "DEBUG",
+        )
 
         # Check if the provided 'time_zone_offset_hour' is within the valid range
         if time_zone_offset_hour is not None:
@@ -7053,9 +8074,16 @@ class WirelessDesign(DnacBase):
                 ).format(access_point_profile_name, time_zone_offset_hour)
                 self.fail_and_exit(self.msg)
             else:
-                self.log("The 'time_zone_offset_hour' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+                self.log(
+                    "The 'time_zone_offset_hour' for profile {0} is valid.".format(
+                        access_point_profile_name
+                    ),
+                    "INFO",
+                )
 
-    def validate_ap_profiles_time_zone_offset_minutes(self, profile, access_point_profile_name):
+    def validate_ap_profiles_time_zone_offset_minutes(
+        self, profile, access_point_profile_name
+    ):
         """
         Validates the time zone offset minutes of the access point profile.
         Args:
@@ -7065,8 +8093,12 @@ class WirelessDesign(DnacBase):
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
         time_zone_offset_minutes = profile.get("time_zone_offset_minutes")
-        self.log("Validating 'time_zone_offset_minutes' for profile: {0} - Provided value: {1}".format(
-            access_point_profile_name, time_zone_offset_minutes), "DEBUG")
+        self.log(
+            "Validating 'time_zone_offset_minutes' for profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, time_zone_offset_minutes
+            ),
+            "DEBUG",
+        )
 
         # Check if the provided 'time_zone_offset_minutes' is within the valid range
         if time_zone_offset_minutes is not None:
@@ -7077,9 +8109,16 @@ class WirelessDesign(DnacBase):
                 ).format(access_point_profile_name, time_zone_offset_minutes)
                 self.fail_and_exit(self.msg)
             else:
-                self.log("The 'time_zone_offset_minutes' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+                self.log(
+                    "The 'time_zone_offset_minutes' for profile {0} is valid.".format(
+                        access_point_profile_name
+                    ),
+                    "INFO",
+                )
 
-    def validate_ap_profiles_maximum_client_limit(self, profile, access_point_profile_name):
+    def validate_ap_profiles_maximum_client_limit(
+        self, profile, access_point_profile_name
+    ):
         """
         Validates the maximum client limit of the access point profile.
         Args:
@@ -7089,8 +8128,12 @@ class WirelessDesign(DnacBase):
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
         maximum_client_limit = profile.get("maximum_client_limit")
-        self.log("Validating 'maximum_client_limit' for profile: {0} - Provided value: {1}".format(
-            access_point_profile_name, maximum_client_limit), "DEBUG")
+        self.log(
+            "Validating 'maximum_client_limit' for profile: {0} - Provided value: {1}".format(
+                access_point_profile_name, maximum_client_limit
+            ),
+            "DEBUG",
+        )
 
         # Check if the provided 'maximum_client_limit' is within the valid range
         if maximum_client_limit is not None:
@@ -7101,7 +8144,12 @@ class WirelessDesign(DnacBase):
                 ).format(access_point_profile_name, maximum_client_limit)
                 self.fail_and_exit(self.msg)
             else:
-                self.log("The 'maximum_client_limit' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+                self.log(
+                    "The 'maximum_client_limit' for profile {0} is valid.".format(
+                        access_point_profile_name
+                    ),
+                    "INFO",
+                )
 
     def validate_list_values(self, values, allowed_values, param_name, profile_name):
         """
@@ -7114,14 +8162,28 @@ class WirelessDesign(DnacBase):
         Raises:
             Calls self.fail_and_exit with an error message if validation fails.
         """
-        self.log("Validating {0} in profile {1} against allowed values: {2}".format(param_name, profile_name, allowed_values), "DEBUG")
+        self.log(
+            "Validating {0} in profile {1} against allowed values: {2}".format(
+                param_name, profile_name, allowed_values
+            ),
+            "DEBUG",
+        )
 
         # Check if all values are within the set of allowed values
         if not set(values).issubset(allowed_values):
-            self.msg = "Invalid values in {0} for profile {1}. Allowed values: {2}".format(param_name, profile_name, allowed_values)
+            self.msg = (
+                "Invalid values in {0} for profile {1}. Allowed values: {2}".format(
+                    param_name, profile_name, allowed_values
+                )
+            )
             self.fail_and_exit(self.msg)
 
-        self.log("Validation successful for {0} in profile {1}".format(param_name, profile_name), "INFO")
+        self.log(
+            "Validation successful for {0} in profile {1}".format(
+                param_name, profile_name
+            ),
+            "INFO",
+        )
 
     def validate_range(self, value, min_val, max_val, param_name, profile_name):
         """
@@ -7133,7 +8195,12 @@ class WirelessDesign(DnacBase):
             param_name (str): The parameter name being validated.
             profile_name (str): The profile name associated with the validation.
         """
-        self.log("Validating {0} in profile {1}. Expected range: {2} to {3}".format(param_name, profile_name, min_val, max_val), "DEBUG")
+        self.log(
+            "Validating {0} in profile {1}. Expected range: {2} to {3}".format(
+                param_name, profile_name, min_val, max_val
+            ),
+            "DEBUG",
+        )
 
         # Ensure the correct interpretation of the range
         if min_val > max_val:
@@ -7141,12 +8208,21 @@ class WirelessDesign(DnacBase):
 
         # Check if the value is within the specified range
         if not (min_val <= value <= max_val):
-            self.msg = "{0} in profile {1} must be between {2} and {3}".format(param_name, profile_name, min_val, max_val)
+            self.msg = "{0} in profile {1} must be between {2} and {3}".format(
+                param_name, profile_name, min_val, max_val
+            )
             self.fail_and_exit(self.msg)
 
-        self.log("Validation successful for {0} in profile {1}".format(param_name, profile_name), "INFO")
+        self.log(
+            "Validation successful for {0} in profile {1}".format(
+                param_name, profile_name
+            ),
+            "INFO",
+        )
 
-    def validate_rf_profile_mandatory_data_rates(self, mandatory_list, supported_list, param_name, profile_name):
+    def validate_rf_profile_mandatory_data_rates(
+        self, mandatory_list, supported_list, param_name, profile_name
+    ):
         """
         Validate that mandatory data rates are a subset of supported data rates
         and do not exceed the maximum allowed length.
@@ -7158,19 +8234,33 @@ class WirelessDesign(DnacBase):
         Raises:
             Calls self.fail_and_exit with an error message if validation fails.
         """
-        self.log("Validating {0} in profile {1}. Checking subset and max length constraints.".format(param_name, profile_name), "DEBUG")
+        self.log(
+            "Validating {0} in profile {1}. Checking subset and max length constraints.".format(
+                param_name, profile_name
+            ),
+            "DEBUG",
+        )
 
         # Check if the number of mandatory data rates exceeds the allowed limit
         if len(mandatory_list) > 2:
-            self.msg = "{0} in profile {1} should not exceed 2 values. Current count: {2}".format(param_name, profile_name, len(mandatory_list))
+            self.msg = "{0} in profile {1} should not exceed 2 values. Current count: {2}".format(
+                param_name, profile_name, len(mandatory_list)
+            )
             self.fail_and_exit(self.msg)
 
         # Check if all mandatory data rates are a subset of the supported data rates
         if not set(mandatory_list).issubset(supported_list):
-            self.msg = "Values in {0} must be a subset of supported data rates in profile {1}".format(param_name, profile_name)
+            self.msg = "Values in {0} must be a subset of supported data rates in profile {1}".format(
+                param_name, profile_name
+            )
             self.fail_and_exit(self.msg)
 
-        self.log("Validation successful for {0} in profile {1}".format(param_name, profile_name), "INFO")
+        self.log(
+            "Validation successful for {0} in profile {1}".format(
+                param_name, profile_name
+            ),
+            "INFO",
+        )
 
     def validate_radio_frequency_profiles_params(self, radio_frequency_profiles, state):
         """
@@ -7181,7 +8271,12 @@ class WirelessDesign(DnacBase):
         Raises:
             ValueError: If any validation fails.
         """
-        self.log("Starting validation for Radio Frequency Profiles with state: {0}".format(state), "INFO")
+        self.log(
+            "Starting validation for Radio Frequency Profiles with state: {0}".format(
+                state
+            ),
+            "INFO",
+        )
         # Define validation rules for different radio frequency profile parameters
         VALIDATION_RULES = {
             "common": {
@@ -7206,7 +8301,20 @@ class WirelessDesign(DnacBase):
             },
             "radio_bands_2_4ghz_settings": {
                 "dca_channels_list": {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
-                "supported_data_rates_list": {1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54},
+                "supported_data_rates_list": {
+                    1,
+                    2,
+                    5.5,
+                    6,
+                    9,
+                    11,
+                    12,
+                    18,
+                    24,
+                    36,
+                    48,
+                    54,
+                },
                 "mandatory_data_rates_list": {
                     "max_length": 2,
                     "subset_of": "supported_data_rates_list",
@@ -7215,8 +8323,34 @@ class WirelessDesign(DnacBase):
             "radio_bands_5ghz_settings": {
                 "channel_width": ["20", "40", "80", "160", "best"],
                 "dca_channels_list": {
-                    36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
-                    132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173, 177
+                    36,
+                    40,
+                    44,
+                    48,
+                    52,
+                    56,
+                    60,
+                    64,
+                    100,
+                    104,
+                    108,
+                    112,
+                    116,
+                    120,
+                    124,
+                    128,
+                    132,
+                    136,
+                    140,
+                    144,
+                    149,
+                    153,
+                    157,
+                    161,
+                    165,
+                    169,
+                    173,
+                    177,
                 },
                 "supported_data_rates_list": {6, 9, 12, 18, 24, 36, 48, 54},
                 "mandatory_data_rates_list": {
@@ -7233,16 +8367,76 @@ class WirelessDesign(DnacBase):
                 "minimum_dbs_channel_width": {20, 40, 80, 160, 320},
                 "maximum_dbs_channel_width": {20, 40, 80, 160, 320},
                 "dca_channels_list": {
-                    1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93,
-                    97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169,
-                    173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233
+                    1,
+                    5,
+                    9,
+                    13,
+                    17,
+                    21,
+                    25,
+                    29,
+                    33,
+                    37,
+                    41,
+                    45,
+                    49,
+                    53,
+                    57,
+                    61,
+                    65,
+                    69,
+                    73,
+                    77,
+                    81,
+                    85,
+                    89,
+                    93,
+                    97,
+                    101,
+                    105,
+                    109,
+                    113,
+                    117,
+                    121,
+                    125,
+                    129,
+                    133,
+                    137,
+                    141,
+                    145,
+                    149,
+                    153,
+                    157,
+                    161,
+                    165,
+                    169,
+                    173,
+                    177,
+                    181,
+                    185,
+                    189,
+                    193,
+                    197,
+                    201,
+                    205,
+                    209,
+                    213,
+                    217,
+                    221,
+                    225,
+                    229,
+                    233,
                 },
                 "supported_data_rates_list": {6, 9, 12, 18, 24, 36, 48, 54},
                 "mandatory_data_rates_list": {
                     "max_length": 2,
                     "subset_of": "supported_data_rates_list",
                 },
-                "discovery_frames_6ghz": ["None", "Broadcast Probe Response", "FILS Discovery"],
+                "discovery_frames_6ghz": [
+                    "None",
+                    "Broadcast Probe Response",
+                    "FILS Discovery",
+                ],
                 "flexible_radio_assignment": {
                     "client_reset_count": (1, 10),
                     "client_utilization_threshold": (1, 100),
@@ -7252,7 +8446,7 @@ class WirelessDesign(DnacBase):
 
         # Iterate over each profile in the list
         for profile in radio_frequency_profiles:
-            profile_name = profile.get('radio_frequency_profile_name', 'Unknown')
+            profile_name = profile.get("radio_frequency_profile_name", "Unknown")
             self.log("Validating profile: {0}".format(profile_name), "DEBUG")
 
             # Check if the profile name exceeds the maximum allowed length
@@ -7262,15 +8456,19 @@ class WirelessDesign(DnacBase):
 
             if state == "merged":
                 # Ensure required parameters are present
-                if 'default_rf_profile' not in profile or 'radio_bands' not in profile:
-                    self.msg = "Required parameters missing for profile: {0}. Required parameters are 'default_rf_profile', 'radio_bands'.".format(profile_name)
+                if "default_rf_profile" not in profile or "radio_bands" not in profile:
+                    self.msg = "Required parameters missing for profile: {0}. Required parameters are 'default_rf_profile', 'radio_bands'.".format(
+                        profile_name
+                    )
                     self.fail_and_exit(self.msg)
 
                 # Validate radio_bands
                 valid_radio_bands = {2.4, 5, 6}
-                radio_bands = profile['radio_bands']
+                radio_bands = profile["radio_bands"]
                 if not set(radio_bands).issubset(valid_radio_bands):
-                    self.msg = "Invalid values in 'radio_bands' for profile {0}. Allowed values: {1}".format(profile_name, valid_radio_bands)
+                    self.msg = "Invalid values in 'radio_bands' for profile {0}. Allowed values: {1}".format(
+                        profile_name, valid_radio_bands
+                    )
                     self.fail_and_exit(self.msg)
 
                 for band_key, band_rules in VALIDATION_RULES.items():
@@ -7279,17 +8477,30 @@ class WirelessDesign(DnacBase):
                         # Validate common parameters
                         for param, rule in VALIDATION_RULES["common"].items():
                             if param in band_settings:
-                                self.validate_profile_params(profile_name, band_settings, band_key, rule, param)
+                                self.validate_profile_params(
+                                    profile_name, band_settings, band_key, rule, param
+                                )
                         # Validate band-specific parameters
                         for param, rule in band_rules.items():
                             if param in band_settings:
-                                self.validate_profile_params(profile_name, band_settings, band_key, rule, param)
+                                self.validate_profile_params(
+                                    profile_name, band_settings, band_key, rule, param
+                                )
 
-            self.log("Completed validation for profile: {0}".format(profile_name), "INFO")
+            self.log(
+                "Completed validation for profile: {0}".format(profile_name), "INFO"
+            )
 
-        self.log("Completed validation for Radio Frequency Profiles with state: {0}".format(state), "INFO")
+        self.log(
+            "Completed validation for Radio Frequency Profiles with state: {0}".format(
+                state
+            ),
+            "INFO",
+        )
 
-    def validate_profile_params(self, profile_name, band_settings, band_key, rule, param):
+    def validate_profile_params(
+        self, profile_name, band_settings, band_key, rule, param
+    ):
         """
         Helper function to validate the parameters based on the defined rules.
         """
@@ -7297,12 +8508,19 @@ class WirelessDesign(DnacBase):
 
         # Check if the value is missing or invalid
         if not value:
-            self.log("No value provided for {0} in profile {1}. Skipping validation.".format(param, profile_name), "INFO")
+            self.log(
+                "No value provided for {0} in profile {1}. Skipping validation.".format(
+                    param, profile_name
+                ),
+                "INFO",
+            )
             return
 
         # Check if the parameter value is within the allowed list
         if isinstance(rule, list) and value not in rule:
-            self.msg = "Invalid {0} in profile {1}. Allowed: {2}".format(param, profile_name, rule)
+            self.msg = "Invalid {0} in profile {1}. Allowed: {2}".format(
+                param, profile_name, rule
+            )
             self.fail_and_exit(self.msg)
 
         # Validate set constraints
@@ -7317,7 +8535,9 @@ class WirelessDesign(DnacBase):
 
         # Validate mandatory data rates
         elif isinstance(rule, dict) and "subset_of" in rule:
-            self.validate_rf_profile_mandatory_data_rates(value, band_settings[rule["subset_of"]], param, profile_name)
+            self.validate_rf_profile_mandatory_data_rates(
+                value, band_settings[rule["subset_of"]], param, profile_name
+            )
 
         # Validate dict constraints
         elif isinstance(rule, dict) and isinstance(value, dict):
@@ -7325,7 +8545,9 @@ class WirelessDesign(DnacBase):
                 if sub_param in value:
                     sub_value = value[sub_param]
                     min_val, max_val = sub_rule
-                    self.validate_range(sub_value, min_val, max_val, sub_param, profile_name)
+                    self.validate_range(
+                        sub_value, min_val, max_val, sub_param, profile_name
+                    )
 
     def validate_anchor_groups_params(self, anchor_groups, state):
         """
@@ -7343,7 +8565,10 @@ class WirelessDesign(DnacBase):
             if state == "merged":
                 self.validate_anchor_groups_mobility_anchors(anchor_group)
 
-        self.log("Required anchor group parameters validated successfully for all anchor groups.", "DEBUG")
+        self.log(
+            "Required anchor group parameters validated successfully for all anchor groups.",
+            "DEBUG",
+        )
 
     def get_anchor_groups_required_params(self, state):
         """
@@ -7353,7 +8578,12 @@ class WirelessDesign(DnacBase):
         Returns:
             list: A list of required parameters.
         """
-        self.log("Getting required parameters for anchor groups with state: {0}".format(state), "DEBUG")
+        self.log(
+            "Getting required parameters for anchor groups with state: {0}".format(
+                state
+            ),
+            "DEBUG",
+        )
 
         required_params = []
         if state == "merged":
@@ -7361,7 +8591,12 @@ class WirelessDesign(DnacBase):
         elif state == "deleted":
             required_params = ["anchor_group_name"]
 
-        self.log("Required parameters for anchor groups with state '{0}': {1}".format(state, required_params), "INFO")
+        self.log(
+            "Required parameters for anchor groups with state '{0}': {1}".format(
+                state, required_params
+            ),
+            "INFO",
+        )
         return required_params
 
     def validate_anchor_groups_missing_params(self, anchor_group, required_params):
@@ -7373,15 +8608,27 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If any required parameter is missing.
         """
-        self.log("Validating missing parameters for anchor group: {0}".format(anchor_group), "DEBUG")
+        self.log(
+            "Validating missing parameters for anchor group: {0}".format(anchor_group),
+            "DEBUG",
+        )
 
-        missing_params = [param for param in required_params if param not in anchor_group]
+        missing_params = [
+            param for param in required_params if param not in anchor_group
+        ]
         if missing_params:
-            self.msg = ("The following required parameters for anchor group configuration are missing: {0}. "
-                        "Provided parameters: {1}").format(", ".join(missing_params), anchor_group)
+            self.msg = (
+                "The following required parameters for anchor group configuration are missing: {0}. "
+                "Provided parameters: {1}"
+            ).format(", ".join(missing_params), anchor_group)
             self.fail_and_exit(self.msg)
 
-        self.log("All required parameters are present for anchor group: {0}".format(anchor_group), "INFO")
+        self.log(
+            "All required parameters are present for anchor group: {0}".format(
+                anchor_group
+            ),
+            "INFO",
+        )
 
     def validate_anchor_groups_name(self, anchor_group):
         """
@@ -7391,15 +8638,23 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the name is invalid.
         """
-        self.log("Validating 'anchor_group_name' for anchor group: {0}".format(anchor_group), "DEBUG")
+        self.log(
+            "Validating 'anchor_group_name' for anchor group: {0}".format(anchor_group),
+            "DEBUG",
+        )
 
         anchor_group_name = anchor_group.get("anchor_group_name")
         if anchor_group_name and not (1 <= len(anchor_group_name) <= 32):
-            self.msg = ("The 'anchor_group_name' length must be between 1 and 32 characters. "
-                        "Provided 'anchor_group_name': {0} (length: {1})").format(anchor_group_name, len(anchor_group_name))
+            self.msg = (
+                "The 'anchor_group_name' length must be between 1 and 32 characters. "
+                "Provided 'anchor_group_name': {0} (length: {1})"
+            ).format(anchor_group_name, len(anchor_group_name))
             self.fail_and_exit(self.msg)
 
-        self.log("'anchor_group_name' is valid for anchor group: {0}".format(anchor_group), "INFO")
+        self.log(
+            "'anchor_group_name' is valid for anchor group: {0}".format(anchor_group),
+            "INFO",
+        )
 
     def validate_anchor_groups_mobility_anchors(self, anchor_group):
         """
@@ -7409,13 +8664,18 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the mobility anchors are invalid.
         """
-        self.log("Validating 'mobility_anchors' for anchor group: {0}".format(anchor_group), "DEBUG")
+        self.log(
+            "Validating 'mobility_anchors' for anchor group: {0}".format(anchor_group),
+            "DEBUG",
+        )
 
         mobility_anchors = anchor_group.get("mobility_anchors")
         if mobility_anchors is not None:
             if not isinstance(mobility_anchors, list) or len(mobility_anchors) > 3:
-                self.msg = ("The 'mobility_anchors' list must not exceed 3 entries. "
-                            "Provided 'mobility_anchors': {0}").format(mobility_anchors)
+                self.msg = (
+                    "The 'mobility_anchors' list must not exceed 3 entries. "
+                    "Provided 'mobility_anchors': {0}"
+                ).format(mobility_anchors)
                 self.fail_and_exit(self.msg)
             for anchor in mobility_anchors:
                 self.validate_anchor_groups_device_name_or_ip(anchor)
@@ -7427,7 +8687,10 @@ class WirelessDesign(DnacBase):
                 self.validate_anchor_groups_device_type(anchor)
                 self.validate_anchor_groups_required_fields(anchor)
 
-        self.log("'mobility_anchors' are valid for anchor group: {0}".format(anchor_group), "INFO")
+        self.log(
+            "'mobility_anchors' are valid for anchor group: {0}".format(anchor_group),
+            "INFO",
+        )
 
     def validate_anchor_groups_device_name_or_ip(self, anchor):
         """
@@ -7437,14 +8700,26 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If neither device name nor IP address is provided.
         """
-        self.log("Validating 'device_name' or 'device_ip_address' for mobility anchor: {0}".format(anchor), "DEBUG")
+        self.log(
+            "Validating 'device_name' or 'device_ip_address' for mobility anchor: {0}".format(
+                anchor
+            ),
+            "DEBUG",
+        )
 
         if not anchor.get("device_name") and not anchor.get("device_ip_address"):
-            self.msg = ("Either 'device_name' or 'device_ip_address' is required for each mobility anchor. "
-                        "Provided anchor: {0}").format(anchor)
+            self.msg = (
+                "Either 'device_name' or 'device_ip_address' is required for each mobility anchor. "
+                "Provided anchor: {0}"
+            ).format(anchor)
             self.fail_and_exit(self.msg)
 
-        self.log("'device_name' or 'device_ip_address' is valid for mobility anchor: {0}".format(anchor), "INFO")
+        self.log(
+            "'device_name' or 'device_ip_address' is valid for mobility anchor: {0}".format(
+                anchor
+            ),
+            "INFO",
+        )
 
     def validate_anchor_groups_device_ip_address(self, anchor):
         """
@@ -7454,14 +8729,22 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the device IP address is invalid.
         """
-        self.log("Validating 'device_ip_address' for mobility anchor: {0}".format(anchor), "DEBUG")
+        self.log(
+            "Validating 'device_ip_address' for mobility anchor: {0}".format(anchor),
+            "DEBUG",
+        )
 
         device_ip_address = anchor.get("device_ip_address")
         if device_ip_address and not self.is_valid_ipv4(device_ip_address):
-            self.msg = ("Device IP Address '{0}' is not in a valid IPv4 format.").format(device_ip_address)
+            self.msg = (
+                "Device IP Address '{0}' is not in a valid IPv4 format."
+            ).format(device_ip_address)
             self.fail_and_exit(self.msg)
 
-        self.log("'device_ip_address' is valid for mobility anchor: {0}".format(anchor), "INFO")
+        self.log(
+            "'device_ip_address' is valid for mobility anchor: {0}".format(anchor),
+            "INFO",
+        )
 
     def validate_anchor_groups_device_mac_address(self, anchor):
         """
@@ -7471,27 +8754,39 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the device MAC address is invalid.
         """
-        self.log("Validating 'device_mac_address' for mobility anchor: {0}".format(anchor), "DEBUG")
+        self.log(
+            "Validating 'device_mac_address' for mobility anchor: {0}".format(anchor),
+            "DEBUG",
+        )
 
         device_mac_address = anchor.get("device_mac_address")
-        self.log("Validating device MAC address: {0}".format(device_mac_address), "DEBUG")
+        self.log(
+            "Validating device MAC address: {0}".format(device_mac_address), "DEBUG"
+        )
         if device_mac_address:
             # Define regex patterns for valid MAC address formats
             valid_mac_patterns = [
                 # Format: 00:11:22:33:44:55 or 00-11-22-33-44-55
-                r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$',
+                r"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$",
                 # Format: 0a0b.0c01.0211
-                r'^([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}$',
+                r"^([0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}$",
                 # Format: 0a0b0c010211
-                r'^[0-9A-Fa-f]{12}$'
+                r"^[0-9A-Fa-f]{12}$",
             ]
 
             # Check if the MAC address matches any of the valid patterns
-            if not any(re.match(pattern, device_mac_address) for pattern in valid_mac_patterns):
-                self.msg = ("Device MAC Address '{0}' is not in a valid format.").format(device_mac_address)
+            if not any(
+                re.match(pattern, device_mac_address) for pattern in valid_mac_patterns
+            ):
+                self.msg = (
+                    "Device MAC Address '{0}' is not in a valid format."
+                ).format(device_mac_address)
                 self.fail_and_exit(self.msg)
 
-        self.log("'device_mac_address' is valid for mobility anchor: {0}".format(anchor), "INFO")
+        self.log(
+            "'device_mac_address' is valid for mobility anchor: {0}".format(anchor),
+            "INFO",
+        )
 
     def validate_anchor_groups_device_priority(self, anchor):
         """
@@ -7501,14 +8796,21 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the device priority is invalid.
         """
-        self.log("Validating 'device_priority' for mobility anchor: {0}".format(anchor), "DEBUG")
+        self.log(
+            "Validating 'device_priority' for mobility anchor: {0}".format(anchor),
+            "DEBUG",
+        )
 
         device_priority = anchor.get("device_priority")
         if device_priority is not None and not (1 <= device_priority <= 3):
-            self.msg = ("Device priority '{0}' must be between 1 and 3.").format(device_priority)
+            self.msg = ("Device priority '{0}' must be between 1 and 3.").format(
+                device_priority
+            )
             self.fail_and_exit(self.msg)
 
-        self.log("'device_priority' is valid for mobility anchor: {0}".format(anchor), "INFO")
+        self.log(
+            "'device_priority' is valid for mobility anchor: {0}".format(anchor), "INFO"
+        )
 
     def validate_anchor_groups_device_nat_ip_address(self, anchor):
         """
@@ -7518,14 +8820,24 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the device NAT IP address is invalid.
         """
-        self.log("Validating 'device_nat_ip_address' for mobility anchor: {0}".format(anchor), "DEBUG")
+        self.log(
+            "Validating 'device_nat_ip_address' for mobility anchor: {0}".format(
+                anchor
+            ),
+            "DEBUG",
+        )
 
         device_nat_ip_address = anchor.get("device_nat_ip_address")
         if device_nat_ip_address and not self.is_valid_ipv4(device_nat_ip_address):
-            self.msg = ("Device NAT IP Address '{0}' is not in a valid IPv4 format.").format(device_nat_ip_address)
+            self.msg = (
+                "Device NAT IP Address '{0}' is not in a valid IPv4 format."
+            ).format(device_nat_ip_address)
             self.fail_and_exit(self.msg)
 
-        self.log("'device_nat_ip_address' is valid for mobility anchor: {0}".format(anchor), "INFO")
+        self.log(
+            "'device_nat_ip_address' is valid for mobility anchor: {0}".format(anchor),
+            "INFO",
+        )
 
     def validate_anchor_groups_mobility_group_name(self, anchor):
         """
@@ -7535,15 +8847,25 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the mobility group name is invalid.
         """
-        self.log("Validating 'mobility_group_name' for mobility anchor: {0}".format(anchor), "DEBUG")
+        self.log(
+            "Validating 'mobility_group_name' for mobility anchor: {0}".format(anchor),
+            "DEBUG",
+        )
 
         mobility_group_name = anchor.get("mobility_group_name")
-        if mobility_group_name and not re.match(r'^[a-zA-Z0-9_]{1,31}$', mobility_group_name):
-            self.msg = ("Mobility Group Name must be alphanumeric without {{!,<,space,?/}} and maximum of 31 characters. "
-                        "Provided: {0}").format(mobility_group_name)
+        if mobility_group_name and not re.match(
+            r"^[a-zA-Z0-9_]{1,31}$", mobility_group_name
+        ):
+            self.msg = (
+                "Mobility Group Name must be alphanumeric without {{!,<,space,?/}} and maximum of 31 characters. "
+                "Provided: {0}"
+            ).format(mobility_group_name)
             self.fail_and_exit(self.msg)
 
-        self.log("'mobility_group_name' is valid for mobility anchor: {0}".format(anchor), "INFO")
+        self.log(
+            "'mobility_group_name' is valid for mobility anchor: {0}".format(anchor),
+            "INFO",
+        )
 
     def validate_anchor_groups_device_type(self, anchor):
         """
@@ -7553,14 +8875,20 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the device type is invalid.
         """
-        self.log("Validating 'device_type' for mobility anchor: {0}".format(anchor), "DEBUG")
+        self.log(
+            "Validating 'device_type' for mobility anchor: {0}".format(anchor), "DEBUG"
+        )
 
         device_type = anchor.get("device_type")
         if device_type and device_type not in ["IOS-XE", "AIREOS"]:
-            self.msg = ("Device Type '{0}' is not valid. Must be 'IOS-XE' or 'AIREOS'.").format(device_type)
+            self.msg = (
+                "Device Type '{0}' is not valid. Must be 'IOS-XE' or 'AIREOS'."
+            ).format(device_type)
             self.fail_and_exit(self.msg)
 
-        self.log("'device_type' is valid for mobility anchor: {0}".format(anchor), "INFO")
+        self.log(
+            "'device_type' is valid for mobility anchor: {0}".format(anchor), "INFO"
+        )
 
     def validate_anchor_groups_required_fields(self, anchor):
         """
@@ -7570,19 +8898,30 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If any required field is missing.
         """
-        self.log("Validating required fields for mobility anchor: {0}".format(anchor), "DEBUG")
+        self.log(
+            "Validating required fields for mobility anchor: {0}".format(anchor),
+            "DEBUG",
+        )
 
         managed_device = anchor.get("managed_device")
         if managed_device is None:
-            self.msg = ("The 'managed_device' is a required parameter for each mobility anchor. Provided anchor: {0}").format(anchor)
+            self.msg = (
+                "The 'managed_device' is a required parameter for each mobility anchor. Provided anchor: {0}"
+            ).format(anchor)
             self.fail_and_exit(self.msg)
-        self.log("'managed_device' is valid for mobility anchor: {0}".format(anchor), "INFO")
+        self.log(
+            "'managed_device' is valid for mobility anchor: {0}".format(anchor), "INFO"
+        )
 
         device_priority = anchor.get("device_priority")
         if device_priority is None:
-            self.msg = ("The 'device_priority' is a required parameter for each mobility anchor. Provided anchor: {0}").format(anchor)
+            self.msg = (
+                "The 'device_priority' is a required parameter for each mobility anchor. Provided anchor: {0}"
+            ).format(anchor)
             self.fail_and_exit(self.msg)
-        self.log("'device_priority' is valid for mobility anchor: {0}".format(anchor), "INFO")
+        self.log(
+            "'device_priority' is valid for mobility anchor: {0}".format(anchor), "INFO"
+        )
 
     def validate_params(self, config, state):
         """
@@ -7600,22 +8939,34 @@ class WirelessDesign(DnacBase):
             "power_profiles": self.validate_power_profiles_params,
             "access_point_profiles": self.validate_access_point_profiles_params,
             "radio_frequency_profiles": self.validate_radio_frequency_profiles_params,
-            "anchor_groups": self.validate_anchor_groups_params
+            "anchor_groups": self.validate_anchor_groups_params,
         }
 
         # Iterate over each configuration component and validate if present
         for config_key, validation_function in validation_mapping.items():
             config_value = config.get(config_key)
             if config_value:
-                self.log("Config Key: {0}, Validation Function: {1}, Config Value: {2}".format(
-                    config_key, validation_function.__name__, config_value), "DEBUG")
+                self.log(
+                    "Config Key: {0}, Validation Function: {1}, Config Value: {2}".format(
+                        config_key, validation_function.__name__, config_value
+                    ),
+                    "DEBUG",
+                )
 
                 # Perform validation and log the process
-                self.log("Validating {0} parameters in '{1}' state.".format(
-                    config_key, state), "DEBUG")
+                self.log(
+                    "Validating {0} parameters in '{1}' state.".format(
+                        config_key, state
+                    ),
+                    "DEBUG",
+                )
                 validation_function(config_value, state)
-                self.log("Completed validation of {0} parameters in '{1}' state.".format(
-                    config_key, state), "DEBUG")
+                self.log(
+                    "Completed validation of {0} parameters in '{1}' state.".format(
+                        config_key, state
+                    ),
+                    "DEBUG",
+                )
 
         self.log("Completed validation of all input parameters.", "INFO")
 
@@ -7641,23 +8992,21 @@ class WirelessDesign(DnacBase):
                     # Handle get_ap_profiles specifically
                     if api_function == "get_ap_profiles":
                         # First attempt with string type
-                        params.update({
-                            "offset": str(offset),
-                            "limit": str(limit)
-                        })
+                        params.update({"offset": str(offset), "limit": str(limit)})
                         self.log(
-                            "Attempting API call with string offset and limit for family '{0}', function '{1}': {2}".format(api_family, api_function, params),
-                            "INFO"
+                            "Attempting API call with string offset and limit for family '{0}', function '{1}': {2}".format(
+                                api_family, api_function, params
+                            ),
+                            "INFO",
                         )
                     else:
                         # For all other API calls, use integers
-                        params.update({
-                            "offset": offset,
-                            "limit": limit
-                        })
+                        params.update({"offset": offset, "limit": limit})
                         self.log(
-                            "Attempting API call with integer offset and limit for family '{0}', function '{1}': {2}".format(api_family, api_function, params),
-                            "INFO"
+                            "Attempting API call with integer offset and limit for family '{0}', function '{1}': {2}".format(
+                                api_family, api_function, params
+                            ),
+                            "INFO",
                         )
 
                     # Execute the API call
@@ -7672,16 +9021,17 @@ class WirelessDesign(DnacBase):
                     # Retry with integer type for get_ap_profiles if the first attempt fails
                     if api_function == "get_ap_profiles":
                         self.log(
-                            "API call failed with string offset and limit. Retrying with integer values. Error: {0}".format(str(e)),
-                            "WARNING"
+                            "API call failed with string offset and limit. Retrying with integer values. Error: {0}".format(
+                                str(e)
+                            ),
+                            "WARNING",
                         )
-                        params.update({
-                            "offset": offset,
-                            "limit": limit
-                        })
+                        params.update({"offset": offset, "limit": limit})
                         self.log(
-                            "Retrying API call with integer offset and limit for family '{0}', function '{1}': {2}".format(api_family, api_function, params),
-                            "INFO"
+                            "Retrying API call with integer offset and limit for family '{0}', function '{1}': {2}".format(
+                                api_family, api_function, params
+                            ),
+                            "INFO",
                         )
                         # Execute the API call again
                         response = self.dnac._exec(
@@ -7695,8 +9045,10 @@ class WirelessDesign(DnacBase):
                         raise
 
                 self.log(
-                    "Response received from API call for family '{0}', function '{1}': {2}".format(api_family, api_function, response),
-                    "INFO"
+                    "Response received from API call for family '{0}', function '{1}': {2}".format(
+                        api_family, api_function, response
+                    ),
+                    "INFO",
                 )
 
                 # Process the response if available
@@ -7705,7 +9057,7 @@ class WirelessDesign(DnacBase):
                     self.log(
                         "Exiting the loop because no data was returned after increasing the offset. "
                         "Current offset: {0}".format(offset),
-                        "INFO"
+                        "INFO",
                     )
                     break
 
@@ -7714,16 +9066,31 @@ class WirelessDesign(DnacBase):
 
                 # Check if the response size is less than the limit
                 if len(response) < limit:
-                    self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
+                    self.log(
+                        "Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(
+                            limit
+                        ),
+                        "DEBUG",
+                    )
                     break
 
                 # Increment the offset for the next iteration
                 offset += limit
 
             if results:
-                self.log("Data retrieved for family '{0}', function '{1}': {2}".format(api_family, api_function, results), "DEBUG")
+                self.log(
+                    "Data retrieved for family '{0}', function '{1}': {2}".format(
+                        api_family, api_function, results
+                    ),
+                    "DEBUG",
+                )
             else:
-                self.log("No data found for family '{0}', function '{1}'.".format(api_family, api_function), "DEBUG")
+                self.log(
+                    "No data found for family '{0}', function '{1}'.".format(
+                        api_family, api_function
+                    ),
+                    "DEBUG",
+                )
 
             # Return the list of retrieved data
             return results
@@ -7731,11 +9098,20 @@ class WirelessDesign(DnacBase):
         except Exception as e:
             self.msg = (
                 "An error occurred while retrieving data using family '{0}', function '{1}'. "
-                "Details using API call. Error: {2}".format(api_family, api_function, str(e))
+                "Details using API call. Error: {2}".format(
+                    api_family, api_function, str(e)
+                )
             )
             self.fail_and_exit(self.msg)
 
-    def get_ssids_params(self, site_id, ssid_name=None, ssid_type=None, l2_auth_type=None, l3_auth_type=None):
+    def get_ssids_params(
+        self,
+        site_id,
+        ssid_name=None,
+        ssid_type=None,
+        l2_auth_type=None,
+        l3_auth_type=None,
+    ):
         """
         Generates the parameters for retrieving SSIDs, mapping optional user parameters
         to the API's expected parameter names.
@@ -7794,8 +9170,15 @@ class WirelessDesign(DnacBase):
         # self.log("Added 'site_id' to parameters: {0}".format(site_id), "DEBUG")
 
         # Execute the paginated API call to retrieve SSIDs
-        self.log("Executing paginated API call to retrieve ssids for site ID: {}.".format(site_id), "DEBUG")
-        return self.execute_get_with_pagination("wireless", "get_ssid_by_site", get_ssids_params)
+        self.log(
+            "Executing paginated API call to retrieve ssids for site ID: {}.".format(
+                site_id
+            ),
+            "DEBUG",
+        )
+        return self.execute_get_with_pagination(
+            "wireless", "get_ssid_by_site", get_ssids_params
+        )
 
     def update_ssid_parameter_mappings(self, ssid_name, ssid_type, ssid_settings):
         """
@@ -7808,10 +9191,7 @@ class WirelessDesign(DnacBase):
             dict: A dictionary of the SSID parameters mapped to the required format.
         """
         # Initialize modified SSID dictionary
-        modified_ssid = {
-            "ssid": ssid_name,
-            "wlanType": ssid_type
-        }
+        modified_ssid = {"ssid": ssid_name, "wlanType": ssid_type}
 
         # Mapping of user-facing WLAN config keys to corresponding API payload field names
         mappings = {
@@ -7826,37 +9206,34 @@ class WirelessDesign(DnacBase):
                 "11k_neighbor_list": "neighborListEnable",
                 "coverage_hole_detection": "coverageHoleDetectionEnable",
                 "nas_id": "nasOptions",
-                "client_rate_limit": "clientRateLimit"
+                "client_rate_limit": "clientRateLimit",
             },
-            "quality_of_service": {
-                "egress": "egressQos",
-                "ingress": "ingressQos"
-            },
+            "quality_of_service": {"egress": "egressQos", "ingress": "ingressQos"},
             "ssid_state": {
                 "admin_status": "isEnabled",
-                "broadcast_ssid": "isBroadcastSSID"
+                "broadcast_ssid": "isBroadcastSSID",
             },
             "l2_security": {
                 "l2_auth_type": "authType",
                 "ap_beacon_protection": "isApBeaconProtectionEnabled",
                 "passphrase_type": "isHex",
                 "passphrase": "passphrase",
-                "open_ssid": "openSsid"
+                "open_ssid": "openSsid",
             },
             "radio_policy": {
                 "band_select": "wlanBandSelectEnable",
-                "6_ghz_client_steering": "ghz6PolicyClientSteering"
+                "6_ghz_client_steering": "ghz6PolicyClientSteering",
             },
             "wlan_timeouts": {
                 "enable_session_timeout": "sessionTimeOutEnable",
                 "session_timeout": "sessionTimeOut",
                 "enable_client_exclusion_timeout": "clientExclusionEnable",
-                "client_exclusion_timeout": "clientExclusionTimeout"
+                "client_exclusion_timeout": "clientExclusionTimeout",
             },
             "bss_transition_support": {
                 "bss_max_idle_service": "basicServiceSetMaxIdleEnable",
                 "bss_idle_client_timeout": "basicServiceSetClientIdleTimeout",
-                "directed_multicast_service": "directedMulticastServiceEnable"
+                "directed_multicast_service": "directedMulticastServiceEnable",
             },
             "aaa": {
                 "auth_servers_ip_address_list": "authServers",
@@ -7865,8 +9242,8 @@ class WirelessDesign(DnacBase):
                 "mac_filtering": "isMacFilteringEnabled",
                 "deny_rcm_clients": "isRandomMacFilterEnabled",
                 "enable_posture": "isPosturingEnabled",
-                "pre_auth_acl_name": "aclName"
-            }
+                "pre_auth_acl_name": "aclName",
+            },
         }
 
         # Apply basic mappings directly from ssid_settings
@@ -7884,17 +9261,27 @@ class WirelessDesign(DnacBase):
 
             settings = ssid_settings.get(category, {})
             if not settings:
-                self.log("No settings found for category '{0}'. Skipping.".format(category.replace('_', ' ').title()), "DEBUG")
+                self.log(
+                    "No settings found for category '{0}'. Skipping.".format(
+                        category.replace("_", " ").title()
+                    ),
+                    "DEBUG",
+                )
 
             if settings:
-                self.log("Applying {0} settings.".format(category.replace('_', ' ').title()), "DEBUG")
+                self.log(
+                    "Applying {0} settings.".format(category.replace("_", " ").title()),
+                    "DEBUG",
+                )
                 for key, ssid_key in mapping.items():
                     if key in settings:
                         value = settings[key]
                         if key == "passphrase_type":
-                            value = (value == "HEX")
+                            value = value == "HEX"
                         modified_ssid[ssid_key] = value
-                        self.log("Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG")
+                        self.log(
+                            "Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG"
+                        )
 
         # mpsk_settings keys and entry keys
         mpsk_key_mappings = [
@@ -7910,12 +9297,16 @@ class WirelessDesign(DnacBase):
             modified_ssid["multiPSKSettings"] = []
             for setting in mpsk_settings:
                 entry = {}
-                self.log("Creating entry for MPSK setting: {0}".format(setting), "DEBUG")
+                self.log(
+                    "Creating entry for MPSK setting: {0}".format(setting), "DEBUG"
+                )
                 for mpsk_key, entry_key in mpsk_key_mappings:
                     value = setting.get(mpsk_key)
                     if value is not None:
                         entry[entry_key] = value
-                        self.log("Mapped '{0}' to '{1}'.".format(entry_key, value), "DEBUG")
+                        self.log(
+                            "Mapped '{0}' to '{1}'.".format(entry_key, value), "DEBUG"
+                        )
 
                 modified_ssid["multiPSKSettings"].append(entry)
                 self.log("Added MPSK entry: {0}".format(entry), "DEBUG")
@@ -7941,14 +9332,19 @@ class WirelessDesign(DnacBase):
                 "FT+802.1X": "isAuthKey8021xPlusFT",
                 "SUITE-B-1X": "isAuthKeySuiteB1x",
                 "SUITE-B-192X": "isAuthKeySuiteB1921x",
-                "CCKM": "isCckmEnabled"
+                "CCKM": "isCckmEnabled",
             }
 
             for key in auth_key_management:
                 key_upper = key.upper()
                 if key_upper in key_management_mapping:
                     modified_ssid[key_management_mapping[key_upper]] = True
-                    self.log("Mapped '{0}' to True.".format(key_management_mapping[key_upper]), "DEBUG")
+                    self.log(
+                        "Mapped '{0}' to True.".format(
+                            key_management_mapping[key_upper]
+                        ),
+                        "DEBUG",
+                    )
 
         # Radio Bands and Policies
         radio_policy = ssid_settings.get("radio_policy", {})
@@ -7961,7 +9357,7 @@ class WirelessDesign(DnacBase):
                 frozenset({6}): "6GHz only",
                 frozenset({2.4, 5}): "2.4 and 5 GHz",
                 frozenset({2.4, 6}): "2.4 and 6 GHz",
-                frozenset({5, 6}): "5 and 6 GHz"
+                frozenset({5, 6}): "5 and 6 GHz",
             }
 
             radio_type = radio_band_mapping.get(frozenset(radio_bands))
@@ -7971,12 +9367,17 @@ class WirelessDesign(DnacBase):
 
             ghz24_policy_mapping = {
                 "802.11-bg": "dot11-bg-only",
-                "802.11-g": "dot11-g-only"
+                "802.11-g": "dot11-g-only",
             }
             ghz24_policy = radio_policy.get("2_dot_4_ghz_band_policy")
             if ghz24_policy in ghz24_policy_mapping:
                 modified_ssid["ghz24Policy"] = ghz24_policy_mapping[ghz24_policy]
-                self.log("Mapped 'ghz24Policy' to '{0}'.".format(ghz24_policy_mapping[ghz24_policy]), "DEBUG")
+                self.log(
+                    "Mapped 'ghz24Policy' to '{0}'.".format(
+                        ghz24_policy_mapping[ghz24_policy]
+                    ),
+                    "DEBUG",
+                )
 
         # Encryption settings
         self.log("Applying Encryption settings.", "DEBUG")
@@ -7986,14 +9387,19 @@ class WirelessDesign(DnacBase):
                 "GCMP256": "rsnCipherSuiteGcmp256",
                 "CCMP256": "rsnCipherSuiteCcmp256",
                 "GCMP128": "rsnCipherSuiteGcmp128",
-                "CCMP128": "rsnCipherSuiteCcmp128"
+                "CCMP128": "rsnCipherSuiteCcmp128",
             }
 
             for enc_type in wpa_encryption:
                 enc_type_upper = enc_type.upper()
                 if enc_type_upper in encryption_mapping:
                     modified_ssid[encryption_mapping[enc_type_upper]] = True
-                    self.log("Enabled encryption type '{}'.".format(encryption_mapping[enc_type_upper]), "DEBUG")
+                    self.log(
+                        "Enabled encryption type '{}'.".format(
+                            encryption_mapping[enc_type_upper]
+                        ),
+                        "DEBUG",
+                    )
 
         # L3 Security settings
         self.log("Applying L3 Security settings.", "DEBUG")
@@ -8003,33 +9409,49 @@ class WirelessDesign(DnacBase):
             if l3_auth_type:
                 modified_ssid["l3AuthType"] = {
                     "WEB_AUTH": "web_auth",
-                    "OPEN": "open"
+                    "OPEN": "open",
                 }.get(l3_auth_type, l3_auth_type)
-                self.log("Mapped 'l3AuthType' to '{}'.".format(modified_ssid['l3AuthType']), "DEBUG")
+                self.log(
+                    "Mapped 'l3AuthType' to '{}'.".format(modified_ssid["l3AuthType"]),
+                    "DEBUG",
+                )
 
             auth_server_mapping = {
                 "central_web_authentication": "auth_ise",
                 "web_authentication_internal": "auth_internal",
                 "web_authentication_external": "auth_external",
                 "web_passthrough_internal": "auth_internal",
-                "web_passthrough_external": "auth_external"
+                "web_passthrough_external": "auth_external",
             }
             auth_server = l3_security.get("auth_server")
             if auth_server:
                 modified_ssid["authServer"] = auth_server_mapping.get(auth_server)
-                modified_ssid["webPassthrough"] = auth_server in ["web_passthrough_internal", "web_passthrough_external"]
-                self.log("Mapped 'authServer' to '{0}', 'webPassthrough': {1}.".format(modified_ssid['authServer'], modified_ssid['webPassthrough']), "DEBUG")
+                modified_ssid["webPassthrough"] = auth_server in [
+                    "web_passthrough_internal",
+                    "web_passthrough_external",
+                ]
+                self.log(
+                    "Mapped 'authServer' to '{0}', 'webPassthrough': {1}.".format(
+                        modified_ssid["authServer"], modified_ssid["webPassthrough"]
+                    ),
+                    "DEBUG",
+                )
 
             l3_security_mapping = {
                 "web_auth_url": "externalAuthIpAddress",
                 "enable_sleeping_client": "sleepingClientEnable",
-                "sleeping_client_timeout": "sleepingClientTimeout"
+                "sleeping_client_timeout": "sleepingClientTimeout",
             }
 
             for key, value in l3_security.items():
                 if key in l3_security_mapping:
                     modified_ssid[l3_security_mapping[key]] = value
-                    self.log("Mapped '{0}' to '{1}'.".format(l3_security_mapping[key], value), "DEBUG")
+                    self.log(
+                        "Mapped '{0}' to '{1}'.".format(
+                            l3_security_mapping[key], value
+                        ),
+                        "DEBUG",
+                    )
 
         self.log("Final modified SSID: {}".format(modified_ssid), "INFO")
         return modified_ssid
@@ -8057,15 +9479,33 @@ class WirelessDesign(DnacBase):
         requested_ssid_name = requested_ssid.get("ssid")
         requested_ssid_type = requested_ssid.get("wlanType")
 
-        self.log("Starting comparison for requested SSID: '{0}' of type '{1}'.".format(requested_ssid_name, requested_ssid_type), "INFO")
+        self.log(
+            "Starting comparison for requested SSID: '{0}' of type '{1}'.".format(
+                requested_ssid_name, requested_ssid_type
+            ),
+            "INFO",
+        )
 
         # Iterate over the list of existing SSIDs
         for existing in existing_ssids:
-            self.log("Checking existing SSID: '{0}' of type '{1}'.".format(existing.get("ssid"), existing.get("wlanType")), "DEBUG")
+            self.log(
+                "Checking existing SSID: '{0}' of type '{1}'.".format(
+                    existing.get("ssid"), existing.get("wlanType")
+                ),
+                "DEBUG",
+            )
 
             # Check if there is an SSID with the same name and type
-            if existing.get("ssid") == requested_ssid_name and existing.get("wlanType") == requested_ssid_type:
-                self.log("Matching SSID found: '{0}'. Proceeding with parameter comparison.".format(requested_ssid_name), "INFO")
+            if (
+                existing.get("ssid") == requested_ssid_name
+                and existing.get("wlanType") == requested_ssid_type
+            ):
+                self.log(
+                    "Matching SSID found: '{0}'. Proceeding with parameter comparison.".format(
+                        requested_ssid_name
+                    ),
+                    "INFO",
+                )
                 ssid_exists = True
                 ssid_id = existing.get("id")
 
@@ -8080,13 +9520,19 @@ class WirelessDesign(DnacBase):
 
                     # Check if the parameter differs in the existing SSID
                     existing_value = existing.get(key)
-                    self.log("Comparing parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(key, existing_value, requested_value), "DEBUG")
+                    self.log(
+                        "Comparing parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(
+                            key, existing_value, requested_value
+                        ),
+                        "DEBUG",
+                    )
 
                     if existing_value != requested_value:
                         self.log(
-                            "Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'."
-                            .format(key, existing_value, requested_value),
-                            "DEBUG"
+                            "Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(
+                                key, existing_value, requested_value
+                            ),
+                            "DEBUG",
                         )
                         # Update the parameter in the updated SSID
                         updated_ssid[key] = requested_value
@@ -8098,23 +9544,43 @@ class WirelessDesign(DnacBase):
                     updated_ssid["site_id"] = requested_ssid["site_id"]
 
                 if update_required:
-                    self.log("Update required for SSID '{0}'. Updated parameters: {1}".format(requested_ssid_name, updated_ssid), "INFO")
+                    self.log(
+                        "Update required for SSID '{0}'. Updated parameters: {1}".format(
+                            requested_ssid_name, updated_ssid
+                        ),
+                        "INFO",
+                    )
 
                 # Exit the loop after handling the match
                 break
 
         if ssid_exists:
             if update_required:
-                self.log("Update required for SSID '{0}'.".format(requested_ssid_name), "INFO")
+                self.log(
+                    "Update required for SSID '{0}'.".format(requested_ssid_name),
+                    "INFO",
+                )
             else:
-                self.log("No update required for SSID '{0}'.".format(requested_ssid_name), "INFO")
+                self.log(
+                    "No update required for SSID '{0}'.".format(requested_ssid_name),
+                    "INFO",
+                )
         else:
-            self.log("No matching SSID found for '{0}'.".format(requested_ssid_name), "INFO")
+            self.log(
+                "No matching SSID found for '{0}'.".format(requested_ssid_name), "INFO"
+            )
 
         # Return whether the SSID exists, if an update is required, the updated SSID parameters, and the SSID ID
         return ssid_exists, update_required, updated_ssid, ssid_id
 
-    def compare_site_specific_ssids(self, site_id, requested_ssid_name, requested_ssid_type, existing_ssids, requested_ssid):
+    def compare_site_specific_ssids(
+        self,
+        site_id,
+        requested_ssid_name,
+        requested_ssid_type,
+        existing_ssids,
+        requested_ssid,
+    ):
         """
         Compares site-specific SSIDs to determine if they exist and whether updates are required.
         Args:
@@ -8134,43 +9600,81 @@ class WirelessDesign(DnacBase):
         update_required = False
         updated_ssid = None
 
-        self.log("Starting comparison for SSID: '{0}' of type '{1}'.".format(requested_ssid_name, requested_ssid_type), "INFO")
+        self.log(
+            "Starting comparison for SSID: '{0}' of type '{1}'.".format(
+                requested_ssid_name, requested_ssid_type
+            ),
+            "INFO",
+        )
 
         # Iterate over the list of existing SSIDs
         for existing_ssid in existing_ssids:
-            self.log("Checking existing SSID: '{0}' of type '{1}'.".format(existing_ssid.get("ssid"), existing_ssid.get("wlanType")), "DEBUG")
+            self.log(
+                "Checking existing SSID: '{0}' of type '{1}'.".format(
+                    existing_ssid.get("ssid"), existing_ssid.get("wlanType")
+                ),
+                "DEBUG",
+            )
 
             # Check if there is an SSID with the same name and type
-            if existing_ssid.get("ssid") == requested_ssid_name and existing_ssid.get("wlanType") == requested_ssid_type:
-                self.log("Matching SSID found: '{0}'.".format(requested_ssid_name), "INFO")
+            if (
+                existing_ssid.get("ssid") == requested_ssid_name
+                and existing_ssid.get("wlanType") == requested_ssid_type
+            ):
+                self.log(
+                    "Matching SSID found: '{0}'.".format(requested_ssid_name), "INFO"
+                )
                 ssid_exists = True
 
                 # Compare each parameter in the requested SSID with the existing SSID
                 for key, value in requested_ssid.items():
                     if existing_ssid.get(key) != value:
-                        self.log("Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'."
-                                 .format(key, existing_ssid.get(key), value), "DEBUG")
+                        self.log(
+                            "Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(
+                                key, existing_ssid.get(key), value
+                            ),
+                            "DEBUG",
+                        )
                         update_required = True
                         break  # Exit loop on first mismatch
 
                 # If an update is required, prepare the updated SSID
                 if update_required:
-                    self.log("Update required for site specific SSID: '{0}'. Preparing updated SSID.".format(requested_ssid_name), "INFO")
+                    self.log(
+                        "Update required for site specific SSID: '{0}'. Preparing updated SSID.".format(
+                            requested_ssid_name
+                        ),
+                        "INFO",
+                    )
                     updated_ssid = requested_ssid.copy()  # Copy the requested SSID
-                    updated_ssid["id"] = existing_ssid.get("id")  # Copy the ID from the existing SSID
+                    updated_ssid["id"] = existing_ssid.get(
+                        "id"
+                    )  # Copy the ID from the existing SSID
                     updated_ssid["site_id"] = site_id  # Add site_id
                 else:
-                    self.log("No update required for SSID: '{0}'.".format(requested_ssid_name), "INFO")
+                    self.log(
+                        "No update required for SSID: '{0}'.".format(
+                            requested_ssid_name
+                        ),
+                        "INFO",
+                    )
 
                 break  # Exit the loop once the matching SSID is found
 
         if not ssid_exists:
-            self.log("SSID: '{0}' of type '{1}' does not exist in the provided list.".format(requested_ssid_name, requested_ssid_type), "INFO")
+            self.log(
+                "SSID: '{0}' of type '{1}' does not exist in the provided list.".format(
+                    requested_ssid_name, requested_ssid_type
+                ),
+                "INFO",
+            )
 
         # Return whether the SSID exists, if an update is required, and the updated SSID parameters
         return ssid_exists, update_required, updated_ssid
 
-    def process_ssid_entry(self, ssid_entry, ssid_params, site_id, ssid_id, operation_list):
+    def process_ssid_entry(
+        self, ssid_entry, ssid_params, site_id, ssid_id, operation_list
+    ):
         """
         Process the SSID entry by updating its parameters and appending it to the appropriate list.
         Args:
@@ -8180,7 +9684,10 @@ class WirelessDesign(DnacBase):
             ssid_id (str): The SSID ID to be added.
             operation_list (list): The list to which the processed SSID entry should be appended.
         """
-        self.log("Processing SSID entry with initial parameters: {0}".format(ssid_entry), "DEBUG")
+        self.log(
+            "Processing SSID entry with initial parameters: {0}".format(ssid_entry),
+            "DEBUG",
+        )
 
         # Assign parameters to ssid_entry
         ssid_entry["ssid_params"] = ssid_params
@@ -8225,7 +9732,12 @@ class WirelessDesign(DnacBase):
         # Get Global Site ID and name
         global_site_name = global_site_details["site_name"]
         global_site_id = global_site_details["site_id"]
-        self.log("Global site details retrieved: Name={0}, ID={1}".format(global_site_name, global_site_id), "DEBUG")
+        self.log(
+            "Global site details retrieved: Name={0}, ID={1}".format(
+                global_site_name, global_site_id
+            ),
+            "DEBUG",
+        )
 
         # Retrieve all existing SSIDs in the Global site
         get_ssids_params = self.get_ssids_params(global_site_id)
@@ -8238,30 +9750,38 @@ class WirelessDesign(DnacBase):
             requested_ssid_type = ssid.get("ssid_type")
             site_specific_overrides = ssid.get("sites_specific_override_settings", [])
 
-            self.log("Processing SSID: '{0}' of type '{1}'.".format(requested_ssid_name, requested_ssid_type), "INFO")
+            self.log(
+                "Processing SSID: '{0}' of type '{1}'.".format(
+                    requested_ssid_name, requested_ssid_type
+                ),
+                "INFO",
+            )
 
             # Prepare structures for create, update, and no-update operations
-            self.log("Preparing structures for create, update, and no-update operations.", "DEBUG")
+            self.log(
+                "Preparing structures for create, update, and no-update operations.",
+                "DEBUG",
+            )
             create_ssid = {
                 "global_ssid": {
                     "site_details": {"site_name": "Global", "site_id": global_site_id},
-                    "ssid_params": {}
+                    "ssid_params": {},
                 },
-                "site_specific_ssid": []
+                "site_specific_ssid": [],
             }
             update_ssid = {
                 "global_ssid": {
                     "site_details": {"site_name": "Global", "site_id": global_site_id},
-                    "ssid_params": {}
+                    "ssid_params": {},
                 },
-                "site_specific_ssid": []
+                "site_specific_ssid": [],
             }
             no_update_ssid = {
                 "global_ssid": {
                     "site_details": {"site_name": "Global", "site_id": global_site_id},
-                    "ssid_params": {}
+                    "ssid_params": {},
                 },
-                "site_specific_ssid": []
+                "site_specific_ssid": [],
             }
 
             # Retrieve and log SSID parameters
@@ -8269,94 +9789,239 @@ class WirelessDesign(DnacBase):
             l3_security = ssid.get("l3_security")
 
             # Update request and log modified parameters
-            modified_requested_ssid = self.update_ssid_parameter_mappings(requested_ssid_name, requested_ssid_type, ssid)
+            modified_requested_ssid = self.update_ssid_parameter_mappings(
+                requested_ssid_name, requested_ssid_type, ssid
+            )
             modified_requested_ssid["site_id"] = global_site_id
-            self.log("Modified parameters of the requested SSID: {0}".format(modified_requested_ssid), "DEBUG")
+            self.log(
+                "Modified parameters of the requested SSID: {0}".format(
+                    modified_requested_ssid
+                ),
+                "DEBUG",
+            )
 
             # Verify existence and need for update
-            self.log("Verifying if SSID: '{0}' exists in the Catalyst Center and if it needs an UPDATE.".format(requested_ssid_name), "INFO")
-            ssid_exists, update_required, update_ssid_settings, ssid_id = self.compare_global_ssids(existing_ssids, modified_requested_ssid)
+            self.log(
+                "Verifying if SSID: '{0}' exists in the Catalyst Center and if it needs an UPDATE.".format(
+                    requested_ssid_name
+                ),
+                "INFO",
+            )
+            ssid_exists, update_required, update_ssid_settings, ssid_id = (
+                self.compare_global_ssids(existing_ssids, modified_requested_ssid)
+            )
 
             # Determine operation based on existence and update requirement
             if ssid_exists:
                 if update_required:
-                    self.log("SSID '{0}' exists globally and UPDATE operation is required.".format(requested_ssid_name), "INFO")
+                    self.log(
+                        "SSID '{0}' exists globally and UPDATE operation is required.".format(
+                            requested_ssid_name
+                        ),
+                        "INFO",
+                    )
                     update_ssid["global_ssid"]["ssid_params"] = update_ssid_settings
                 else:
-                    self.log("SSID '{0}' exists globally but doesn't require an UPDATE.".format(requested_ssid_name), "INFO")
-                    no_update_ssid["global_ssid"]["ssid_params"] = modified_requested_ssid
+                    self.log(
+                        "SSID '{0}' exists globally but doesn't require an UPDATE.".format(
+                            requested_ssid_name
+                        ),
+                        "INFO",
+                    )
+                    no_update_ssid["global_ssid"][
+                        "ssid_params"
+                    ] = modified_requested_ssid
 
                 # Handle site-specific overrides
                 if site_specific_overrides:
                     for site_override_settings in site_specific_overrides:
-                        self.log("Processing Site Override Settings: {0}".format(site_override_settings), "DEBUG")
-                        site_name_hierarchy = site_override_settings.get("site_name_hierarchy")
+                        self.log(
+                            "Processing Site Override Settings: {0}".format(
+                                site_override_settings
+                            ),
+                            "DEBUG",
+                        )
+                        site_name_hierarchy = site_override_settings.get(
+                            "site_name_hierarchy"
+                        )
                         site_exists, site_id = self.get_site_id(site_name_hierarchy)
-                        self.validate_site_name_hierarchy(site_exists, site_id, site_name_hierarchy)
+                        self.validate_site_name_hierarchy(
+                            site_exists, site_id, site_name_hierarchy
+                        )
 
-                        site_details = {"site_name": site_name_hierarchy, "site_id": site_id}
-                        modified_requested_site_specific_ssid = self.update_ssid_parameter_mappings(
-                            requested_ssid_name, requested_ssid_type, site_override_settings)
-                        self.log("Modified parameters of the requested SSID: {0}".format(modified_requested_site_specific_ssid), "DEBUG")
+                        site_details = {
+                            "site_name": site_name_hierarchy,
+                            "site_id": site_id,
+                        }
+                        modified_requested_site_specific_ssid = (
+                            self.update_ssid_parameter_mappings(
+                                requested_ssid_name,
+                                requested_ssid_type,
+                                site_override_settings,
+                            )
+                        )
+                        self.log(
+                            "Modified parameters of the requested SSID: {0}".format(
+                                modified_requested_site_specific_ssid
+                            ),
+                            "DEBUG",
+                        )
 
                         ssid_entry = {"site_details": site_details}
 
-                        site_override_l2_security = site_override_settings.get("l2_security", {})
+                        site_override_l2_security = site_override_settings.get(
+                            "l2_security", {}
+                        )
                         get_ssids_params = self.get_ssids_params(
-                            site_id, requested_ssid_name, requested_ssid_type, site_override_l2_security.get("l2_auth_type"))
+                            site_id,
+                            requested_ssid_name,
+                            requested_ssid_type,
+                            site_override_l2_security.get("l2_auth_type"),
+                        )
                         existing_site_ssids = self.get_ssids(site_id, get_ssids_params)
 
-                        ssid_exists, update_required, update_ssid_settings = self.compare_site_specific_ssids(
-                            site_id, requested_ssid_name, requested_ssid_type, existing_site_ssids, modified_requested_site_specific_ssid)
+                        ssid_exists, update_required, update_ssid_settings = (
+                            self.compare_site_specific_ssids(
+                                site_id,
+                                requested_ssid_name,
+                                requested_ssid_type,
+                                existing_site_ssids,
+                                modified_requested_site_specific_ssid,
+                            )
+                        )
 
                         # Determine site-specific operation
                         if ssid_exists:
                             if update_required:
-                                self.log("Site Specific SSID '{0}' exists for site '{1}' and UPDATE operation is required."
-                                         .format(requested_ssid_name, site_name_hierarchy), "INFO")
-                                self.process_ssid_entry(ssid_entry, update_ssid_settings, site_id, ssid_id, update_ssid["site_specific_ssid"])
+                                self.log(
+                                    "Site Specific SSID '{0}' exists for site '{1}' and UPDATE operation is required.".format(
+                                        requested_ssid_name, site_name_hierarchy
+                                    ),
+                                    "INFO",
+                                )
+                                self.process_ssid_entry(
+                                    ssid_entry,
+                                    update_ssid_settings,
+                                    site_id,
+                                    ssid_id,
+                                    update_ssid["site_specific_ssid"],
+                                )
                             else:
-                                self.log("Site Specific SSID '{0}' exists for site '{1}' but doesn't require an UPDATE."
-                                         .format(requested_ssid_name, site_name_hierarchy), "INFO")
-                                ssid_entry["ssid_params"] = modified_requested_site_specific_ssid
+                                self.log(
+                                    "Site Specific SSID '{0}' exists for site '{1}' but doesn't require an UPDATE.".format(
+                                        requested_ssid_name, site_name_hierarchy
+                                    ),
+                                    "INFO",
+                                )
+                                ssid_entry["ssid_params"] = (
+                                    modified_requested_site_specific_ssid
+                                )
                                 no_update_ssid["site_specific_ssid"].append(ssid_entry)
                         else:
-                            self.log("Site Specific SSID '{0}' does not exist for site '{1}' and CREATE operation is required."
-                                     .format(requested_ssid_name, site_name_hierarchy), "INFO")
-                            self.process_ssid_entry(ssid_entry, modified_requested_site_specific_ssid, site_id, ssid_id, update_ssid["site_specific_ssid"])
+                            self.log(
+                                "Site Specific SSID '{0}' does not exist for site '{1}' and CREATE operation is required.".format(
+                                    requested_ssid_name, site_name_hierarchy
+                                ),
+                                "INFO",
+                            )
+                            self.process_ssid_entry(
+                                ssid_entry,
+                                modified_requested_site_specific_ssid,
+                                site_id,
+                                ssid_id,
+                                update_ssid["site_specific_ssid"],
+                            )
 
-                        self.log("Site specific SSID entry for SSID: {0} is {1}".format(requested_ssid_name, ssid_entry), "INFO")
+                        self.log(
+                            "Site specific SSID entry for SSID: {0} is {1}".format(
+                                requested_ssid_name, ssid_entry
+                            ),
+                            "INFO",
+                        )
 
             else:
-                self.log("SSID '{0}' does not exist globally. A create operation is required.".format(requested_ssid_name), "INFO")
+                self.log(
+                    "SSID '{0}' does not exist globally. A create operation is required.".format(
+                        requested_ssid_name
+                    ),
+                    "INFO",
+                )
                 create_ssid["global_ssid"]["ssid_params"] = modified_requested_ssid
 
                 # Handle site-specific overrides for creation
                 if site_specific_overrides:
                     for site_override_settings in site_specific_overrides:
-                        site_name_hierarchy = site_override_settings.get("site_name_hierarchy")
+                        site_name_hierarchy = site_override_settings.get(
+                            "site_name_hierarchy"
+                        )
 
                         site_exists, site_id = self.get_site_id(site_name_hierarchy)
-                        self.validate_site_name_hierarchy(site_exists, site_id, site_name_hierarchy)
+                        self.validate_site_name_hierarchy(
+                            site_exists, site_id, site_name_hierarchy
+                        )
 
-                        modified_requested_site_specific_ssid = self.update_ssid_parameter_mappings(
-                            requested_ssid_name, requested_ssid_type, site_override_settings)
-                        self.log("Modified parameters of the requested SSID: {0}".format(modified_requested_site_specific_ssid), "DEBUG")
-                        site_details = {"site_name": site_name_hierarchy, "site_id": site_id}
+                        modified_requested_site_specific_ssid = (
+                            self.update_ssid_parameter_mappings(
+                                requested_ssid_name,
+                                requested_ssid_type,
+                                site_override_settings,
+                            )
+                        )
+                        self.log(
+                            "Modified parameters of the requested SSID: {0}".format(
+                                modified_requested_site_specific_ssid
+                            ),
+                            "DEBUG",
+                        )
+                        site_details = {
+                            "site_name": site_name_hierarchy,
+                            "site_id": site_id,
+                        }
                         ssid_entry = {"site_details": site_details}
 
-                        self.log("SSID '{0}' for site '{1}'. A create operation is required.".format(requested_ssid_name, site_name_hierarchy), "INFO")
-                        self.process_ssid_entry(ssid_entry, modified_requested_site_specific_ssid, site_id, "", create_ssid["site_specific_ssid"])
+                        self.log(
+                            "SSID '{0}' for site '{1}'. A create operation is required.".format(
+                                requested_ssid_name, site_name_hierarchy
+                            ),
+                            "INFO",
+                        )
+                        self.process_ssid_entry(
+                            ssid_entry,
+                            modified_requested_site_specific_ssid,
+                            site_id,
+                            "",
+                            create_ssid["site_specific_ssid"],
+                        )
 
             # Append the results to the respective lists
-            if create_ssid["global_ssid"]["ssid_params"] or create_ssid["site_specific_ssid"]:
-                self.log("SSID '{0}' added to the create list.".format(requested_ssid_name), "DEBUG")
+            if (
+                create_ssid["global_ssid"]["ssid_params"]
+                or create_ssid["site_specific_ssid"]
+            ):
+                self.log(
+                    "SSID '{0}' added to the create list.".format(requested_ssid_name),
+                    "DEBUG",
+                )
                 create_ssids_list.append(create_ssid)
-            if update_ssid["global_ssid"]["ssid_params"] or update_ssid["site_specific_ssid"]:
-                self.log("SSID '{0}' added to the update list.".format(requested_ssid_name), "DEBUG")
+            if (
+                update_ssid["global_ssid"]["ssid_params"]
+                or update_ssid["site_specific_ssid"]
+            ):
+                self.log(
+                    "SSID '{0}' added to the update list.".format(requested_ssid_name),
+                    "DEBUG",
+                )
                 update_ssids_list.append(update_ssid)
-            if no_update_ssid["global_ssid"]["ssid_params"] or no_update_ssid["site_specific_ssid"]:
-                self.log("SSID '{0}' added to the no-update list.".format(requested_ssid_name), "DEBUG")
+            if (
+                no_update_ssid["global_ssid"]["ssid_params"]
+                or no_update_ssid["site_specific_ssid"]
+            ):
+                self.log(
+                    "SSID '{0}' added to the no-update list.".format(
+                        requested_ssid_name
+                    ),
+                    "DEBUG",
+                )
                 no_update_ssids_list.append(no_update_ssid)
 
         self.log("Create SSIDs List: {0}".format(create_ssids_list), "INFO")
@@ -8383,7 +10048,12 @@ class WirelessDesign(DnacBase):
         # Get Global Site ID and name
         global_site_name = global_site_details["site_name"]
         global_site_id = global_site_details["site_id"]
-        self.log("Global site details retrieved: Name={0}, ID={1}".format(global_site_name, global_site_id), "DEBUG")
+        self.log(
+            "Global site details retrieved: Name={0}, ID={1}".format(
+                global_site_name, global_site_id
+            ),
+            "DEBUG",
+        )
 
         # Retrieve all existing SSIDs in the Global site
         get_ssids_params = self.get_ssids_params(global_site_id)
@@ -8393,14 +10063,26 @@ class WirelessDesign(DnacBase):
         # Iterate over each SSID to verify deletion requirements
         for index, ssid in enumerate(ssids):
             ssid_name = ssid.get("ssid_name")
-            sites_specific_override_settings = ssid.get("sites_specific_override_settings", [])
+            sites_specific_override_settings = ssid.get(
+                "sites_specific_override_settings", []
+            )
 
             # Check for global SSID deletion
             if not sites_specific_override_settings:
-                self.log("Checking global SSID deletion for '{0}'.".format(ssid_name), "DEBUG")
+                self.log(
+                    "Checking global SSID deletion for '{0}'.".format(ssid_name),
+                    "DEBUG",
+                )
 
                 # Find the SSID to delete from the global SSIDs
-                ssid_to_delete = next((existing for existing in existing_global_ssids if existing.get("ssid") == ssid_name), None)
+                ssid_to_delete = next(
+                    (
+                        existing
+                        for existing in existing_global_ssids
+                        if existing.get("ssid") == ssid_name
+                    ),
+                    None,
+                )
                 if ssid_to_delete:
                     delete_entry = {
                         index: {
@@ -8409,30 +10091,54 @@ class WirelessDesign(DnacBase):
                             "delete_ssid_params": {
                                 "site_id": global_site_id,
                                 "id": ssid_to_delete.get("id"),
-                                "remove_override_in_hierarchy": true
-                            }
+                                "remove_override_in_hierarchy": true,
+                            },
                         }
                     }
                     delete_ssids_list.append(delete_entry)
-                    self.log("Global SSID '{0}' marked for deletion.".format(ssid_name), "INFO")
+                    self.log(
+                        "Global SSID '{0}' marked for deletion.".format(ssid_name),
+                        "INFO",
+                    )
                 else:
-                    self.log("Global SSID '{0}' does not exist; deletion not required.".format(ssid_name), "INFO")
+                    self.log(
+                        "Global SSID '{0}' does not exist; deletion not required.".format(
+                            ssid_name
+                        ),
+                        "INFO",
+                    )
 
             # Check for site-specific SSID deletions
             for site_override in sites_specific_override_settings:
                 site_name_hierarchy = site_override.get("site_name_hierarchy")
-                remove_override_in_hierarchy = site_override.get("remove_override_in_hierarchy", False)
+                remove_override_in_hierarchy = site_override.get(
+                    "remove_override_in_hierarchy", False
+                )
 
                 # Validate the site existence and retrieve the site ID
                 site_exists, site_id = self.get_site_id(site_name_hierarchy)
-                self.validate_site_name_hierarchy(site_exists, site_id, site_name_hierarchy)
+                self.validate_site_name_hierarchy(
+                    site_exists, site_id, site_name_hierarchy
+                )
 
-                self.log("Checking site-specific SSID deletion for '{0}' in site '{1}'.".format(ssid_name, site_name_hierarchy), "DEBUG")
+                self.log(
+                    "Checking site-specific SSID deletion for '{0}' in site '{1}'.".format(
+                        ssid_name, site_name_hierarchy
+                    ),
+                    "DEBUG",
+                )
                 get_ssids_params = self.get_ssids_params(site_id, ssid_name)
                 existing_site_ssids = self.get_ssids(site_id, get_ssids_params)
 
                 # Find the SSID to delete from the site-specific SSIDs
-                ssid_to_delete = next((existing for existing in existing_site_ssids if existing.get("ssid") == ssid_name), None)
+                ssid_to_delete = next(
+                    (
+                        existing
+                        for existing in existing_site_ssids
+                        if existing.get("ssid") == ssid_name
+                    ),
+                    None,
+                )
                 if ssid_to_delete:
                     delete_entry = {
                         index: {
@@ -8441,14 +10147,24 @@ class WirelessDesign(DnacBase):
                             "delete_ssid_params": {
                                 "site_id": site_id,
                                 "id": ssid_to_delete.get("id"),
-                                "remove_override_in_hierarchy": remove_override_in_hierarchy
-                            }
+                                "remove_override_in_hierarchy": remove_override_in_hierarchy,
+                            },
                         }
                     }
                     delete_ssids_list.append(delete_entry)
-                    self.log("Site-specific SSID '{0}' in site '{1}' marked for deletion.".format(ssid_name, site_name_hierarchy), "INFO")
+                    self.log(
+                        "Site-specific SSID '{0}' in site '{1}' marked for deletion.".format(
+                            ssid_name, site_name_hierarchy
+                        ),
+                        "INFO",
+                    )
                 else:
-                    self.log("Site-specific SSID '{0}' does not exist in site '{1}'; deletion not required.".format(ssid_name, site_name_hierarchy), "INFO")
+                    self.log(
+                        "Site-specific SSID '{0}' does not exist in site '{1}'; deletion not required.".format(
+                            ssid_name, site_name_hierarchy
+                        ),
+                        "INFO",
+                    )
 
         # Return the list of SSIDs that need to be deleted
         return delete_ssids_list
@@ -8461,10 +10177,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the create operation.
         """
-        self.log("Initiating addition of SSID with parameters: {0}".format(create_ssid_params), "INFO")
+        self.log(
+            "Initiating addition of SSID with parameters: {0}".format(
+                create_ssid_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to create the SSID and return the task ID
-        return self.get_taskid_post_api_call("wireless", "create_ssid", create_ssid_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "create_ssid", create_ssid_params
+        )
 
     def update_ssid(self, update_ssid_params):
         """
@@ -8474,10 +10197,15 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the update operation.
         """
-        self.log("Initiating update SSID with parameters: {0}".format(update_ssid_params), "INFO")
+        self.log(
+            "Initiating update SSID with parameters: {0}".format(update_ssid_params),
+            "INFO",
+        )
 
         # Execute the API call to update the SSID and return the task ID
-        return self.get_taskid_post_api_call("wireless", "update_ssid", update_ssid_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "update_ssid", update_ssid_params
+        )
 
     def update_or_override_ssid(self, update_or_override_ssid_params):
         """
@@ -8487,10 +10215,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the update or override operation.
         """
-        self.log("Initiating update/override site-specific SSID with parameters: {0}".format(update_or_override_ssid_params), "INFO")
+        self.log(
+            "Initiating update/override site-specific SSID with parameters: {0}".format(
+                update_or_override_ssid_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to update or override the SSID and return the task ID
-        return self.get_taskid_post_api_call("wireless", "update_or_overridessid", update_or_override_ssid_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "update_or_overridessid", update_or_override_ssid_params
+        )
 
     def delete_ssid(self, delete_ssid_params):
         """
@@ -8500,10 +10235,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the delete operation.
         """
-        self.log("Initiating delete site-specific SSID with parameters: {0}".format(delete_ssid_params), "INFO")
+        self.log(
+            "Initiating delete site-specific SSID with parameters: {0}".format(
+                delete_ssid_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to delete the SSID and return the task ID
-        return self.get_taskid_post_api_call("wireless", "delete_ssid", delete_ssid_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "delete_ssid", delete_ssid_params
+        )
 
     def get_create_ssid_task_status(self, task_id, task_name, ssid_name):
         """
@@ -8516,10 +10258,14 @@ class WirelessDesign(DnacBase):
             str: The status of the task.
         """
         # Construct the message for successful task completion
-        msg = "{0} operation has completed successfully for Global SSID: {1}.".format(task_name, ssid_name)
+        msg = "{0} operation has completed successfully for Global SSID: {1}.".format(
+            task_name, ssid_name
+        )
 
         # Retrieve and return the task status using the provided task ID
-        self.get_task_status_from_tasks_by_id(task_id, task_name, msg).check_return_status()
+        self.get_task_status_from_tasks_by_id(
+            task_id, task_name, msg
+        ).check_return_status()
         return self.status
 
     def get_update_ssid_task_status(self, task_id, task_name, ssid_name):
@@ -8533,10 +10279,14 @@ class WirelessDesign(DnacBase):
             str: The status of the task.
         """
         # Construct the message for successful task completion
-        msg = "{0} operation has completed successfully for Global SSID: {1}.".format(task_name, ssid_name)
+        msg = "{0} operation has completed successfully for Global SSID: {1}.".format(
+            task_name, ssid_name
+        )
 
         # Retrieve and return the task status using the provided task ID
-        self.get_task_status_from_tasks_by_id(task_id, task_name, msg).check_return_status()
+        self.get_task_status_from_tasks_by_id(
+            task_id, task_name, msg
+        ).check_return_status()
         return self.status
 
     def get_update_or_override_ssid_task_status(self, task_id, task_name, ssid_name):
@@ -8550,10 +10300,14 @@ class WirelessDesign(DnacBase):
             str: The status of the task.
         """
         # Construct the message for successful task completion
-        msg = "{0} operation has completed successfully for site-specific SSID: {1}.".format(task_name, ssid_name)
+        msg = "{0} operation has completed successfully for site-specific SSID: {1}.".format(
+            task_name, ssid_name
+        )
 
         # Retrieve and return the task status using the provided task ID
-        self.get_task_status_from_tasks_by_id(task_id, task_name, msg).check_return_status()
+        self.get_task_status_from_tasks_by_id(
+            task_id, task_name, msg
+        ).check_return_status()
         return self.status
 
     def get_delete_ssid_task_status(self, task_id, task_name, ssid_name):
@@ -8567,13 +10321,19 @@ class WirelessDesign(DnacBase):
             str: The status of the task.
         """
         # Construct the message for successful task completion
-        msg = "{0} operation has completed successfully for SSID: {1}.".format(task_name, ssid_name)
+        msg = "{0} operation has completed successfully for SSID: {1}.".format(
+            task_name, ssid_name
+        )
 
         # Retrieve and return the task status using the provided task ID
-        self.get_task_status_from_tasks_by_id(task_id, task_name, msg).check_return_status()
+        self.get_task_status_from_tasks_by_id(
+            task_id, task_name, msg
+        ).check_return_status()
         return self.status
 
-    def process_ssids_common(self, ssids_params, create_or_update_ssid, get_ssid_task_status, task_name):
+    def process_ssids_common(
+        self, ssids_params, create_or_update_ssid, get_ssid_task_status, task_name
+    ):
         """
         Processes SSIDs for the specified operation (create or update).
         Args:
@@ -8607,7 +10367,9 @@ class WirelessDesign(DnacBase):
 
                 # Execute SSID operation (create or update) and get task status
                 task_id = create_or_update_ssid(ssid_params)
-                self.log("SSID Task ID for '{0}': {1}".format(ssid_name, task_id), "DEBUG")
+                self.log(
+                    "SSID Task ID for '{0}': {1}".format(ssid_name, task_id), "DEBUG"
+                )
                 status = get_ssid_task_status(task_id, task_name, ssid_name)
 
                 if status != "success":
@@ -8619,12 +10381,19 @@ class WirelessDesign(DnacBase):
                     update_params = site_specific_ssid["ssid_params"]
                     if update_params:
                         ssid_name = site_specific_ssid["ssid_name"] or ssid_name
-                        self.log("Processing site-specific SSID for '{0}'.".format(ssid_name), "INFO")
+                        self.log(
+                            "Processing site-specific SSID for '{0}'.".format(
+                                ssid_name
+                            ),
+                            "INFO",
+                        )
 
                         # Check if SSID ID needs to be retrieved
                         if not update_params["id"]:
                             site_id = global_ssid["site_details"]["site_id"]
-                            get_ssids_params = self.get_ssids_params(site_id, ssid_name, ssid_params.get("wlanType"))
+                            get_ssids_params = self.get_ssids_params(
+                                site_id, ssid_name, ssid_params.get("wlanType")
+                            )
                             existing_ssids = self.get_ssids(site_id, get_ssids_params)
                             for existing_ssid in existing_ssids:
                                 if existing_ssid.get("ssid") == ssid_name:
@@ -8634,8 +10403,15 @@ class WirelessDesign(DnacBase):
 
                         # Execute SSID operation (update or override) and get task status
                         task_id = self.update_or_override_ssid(update_params)
-                        self.log("Update SSID Task ID for '{0}': {1}".format(ssid_name, task_id), "DEBUG")
-                        status = self.get_update_or_override_ssid_task_status(task_id, task_name, ssid_name)
+                        self.log(
+                            "Update SSID Task ID for '{0}': {1}".format(
+                                ssid_name, task_id
+                            ),
+                            "DEBUG",
+                        )
+                        status = self.get_update_or_override_ssid_task_status(
+                            task_id, task_name, ssid_name
+                        )
 
                         if status != "success":
                             ssid_successful = False
@@ -8647,17 +10423,27 @@ class WirelessDesign(DnacBase):
                 failed_ssids.append(ssid_name)
 
         if success_ssids:
-            self.log("{0} succeeded for the following SSID(s): {1}".format(task_name, success_ssids), "INFO")
+            self.log(
+                "{0} succeeded for the following SSID(s): {1}".format(
+                    task_name, success_ssids
+                ),
+                "INFO",
+            )
             msg["{0} succeeded for the following SSID(s)".format(task_name)] = {
                 "success_count": len(success_ssids),
-                "successful_ssids": success_ssids
+                "successful_ssids": success_ssids,
             }
 
         if failed_ssids:
-            self.log("{0} failed for the following SSID(s): {1}".format(task_name, failed_ssids), "ERROR")
+            self.log(
+                "{0} failed for the following SSID(s): {1}".format(
+                    task_name, failed_ssids
+                ),
+                "ERROR",
+            )
             msg["{0} failed for the following SSID(s)".format(task_name)] = {
                 "failed_count": len(failed_ssids),
-                "failed_ssids": failed_ssids
+                "failed_ssids": failed_ssids,
             }
 
         # Store the message dictionary in the class
@@ -8686,14 +10472,19 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for creating SSIDs
         task_name_create = "Create SSID(s) Task"
-        self.log("Starting the creation process for SSIDs with task name: {0}".format(task_name_create), "INFO")
+        self.log(
+            "Starting the creation process for SSIDs with task name: {0}".format(
+                task_name_create
+            ),
+            "INFO",
+        )
 
         # Call the common processing function to add SSIDs
         return self.process_ssids_common(
             add_ssids_params,
             self.create_ssid,
             self.get_create_ssid_task_status,
-            task_name_create
+            task_name_create,
         )
 
     def process_update_ssids(self, update_ssids_params):
@@ -8706,14 +10497,19 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for updating SSIDs
         task_name_update = "Update SSID(s) Task"
-        self.log("Starting the update process for SSIDs with task name: {0}".format(task_name_update), "INFO")
+        self.log(
+            "Starting the update process for SSIDs with task name: {0}".format(
+                task_name_update
+            ),
+            "INFO",
+        )
 
         # Call the common processing function to update SSIDs
         return self.process_ssids_common(
             update_ssids_params,
             self.update_ssid,
             self.get_update_ssid_task_status,
-            task_name_update
+            task_name_update,
         )
 
     def process_delete_ssids(self, delete_ssids_params):
@@ -8740,22 +10536,33 @@ class WirelessDesign(DnacBase):
                 site_name = ssid_data.get("site_name")
                 delete_params = ssid_data.get("delete_ssid_params")
 
-                self.log("Processing - index: {0}, SSID: {1}, site: {2}".format(index, ssid_name, site_name), "DEBUG")
+                self.log(
+                    "Processing - index: {0}, SSID: {1}, site: {2}".format(
+                        index, ssid_name, site_name
+                    ),
+                    "DEBUG",
+                )
 
                 # Perform the deletion operation and retrieve the task ID
                 task_id = self.delete_ssid(delete_params)
-                self.log("Task ID for SSID '{0}': {1}".format(ssid_name, task_id), "DEBUG")
+                self.log(
+                    "Task ID for SSID '{0}': {1}".format(ssid_name, task_id), "DEBUG"
+                )
 
                 # Check the status of the deletion task
                 status = self.get_delete_ssid_task_status(task_id, task_name, ssid_name)
 
                 # Categorize the SSID based on the task status
                 if status == "success":
-                    success_ssids.append({
-                        "ssid_name": ssid_name,
-                        "site_name": site_name,
-                        "remove_override_in_hierarchy": delete_params.get("remove_override_in_hierarchy")
-                    })
+                    success_ssids.append(
+                        {
+                            "ssid_name": ssid_name,
+                            "site_name": site_name,
+                            "remove_override_in_hierarchy": delete_params.get(
+                                "remove_override_in_hierarchy"
+                            ),
+                        }
+                    )
                     self.log("SSID '{0}' deletion succeeded.".format(ssid_name), "INFO")
                 else:
                     failed_ssids.append(ssid_name)
@@ -8763,18 +10570,28 @@ class WirelessDesign(DnacBase):
 
         # Set the final message for successful operations
         if success_ssids:
-            self.log("{0} succeeded for the following SSID(s): {1}".format(task_name, ", ".join(ssid["ssid_name"] for ssid in success_ssids)), "INFO")
+            self.log(
+                "{0} succeeded for the following SSID(s): {1}".format(
+                    task_name, ", ".join(ssid["ssid_name"] for ssid in success_ssids)
+                ),
+                "INFO",
+            )
             msg["{0} succeeded for the following SSID(s)".format(task_name)] = {
                 "success_count": len(success_ssids),
-                "successful_ssids": success_ssids
+                "successful_ssids": success_ssids,
             }
 
         # Set the final message for failed operations
         if failed_ssids:
-            self.log("{0} failed for the following SSID(s): {1}".format(task_name, ", ".join(failed_ssids)), "ERROR")
+            self.log(
+                "{0} failed for the following SSID(s): {1}".format(
+                    task_name, ", ".join(failed_ssids)
+                ),
+                "ERROR",
+            )
             msg["{0} failed for the following SSID(s)".format(task_name)] = {
                 "failed_count": len(failed_ssids),
-                "failed_ssids": failed_ssids
+                "failed_ssids": failed_ssids,
             }
 
         # Store the message dictionary in the class
@@ -8809,7 +10626,9 @@ class WirelessDesign(DnacBase):
         # Retrieve all existing SSIDs in the Global site
         get_ssids_params = self.get_ssids_params(global_site_id)
         existing_ssids = self.get_ssids(global_site_id, get_ssids_params)
-        self.log("Existing SSIDs in the Global site: {0}".format(existing_ssids), "INFO")
+        self.log(
+            "Existing SSIDs in the Global site: {0}".format(existing_ssids), "INFO"
+        )
 
         # Extract existing SSID names for comparison
         existing_ssid_names = {ssid.get("ssid") for ssid in existing_ssids}
@@ -8826,17 +10645,33 @@ class WirelessDesign(DnacBase):
 
             # Check if the SSID was successfully created
             if ssid_name in existing_ssid_names:
-                self.log("SSID '{0}' was successfully created.".format(ssid_name), "INFO")
+                self.log(
+                    "SSID '{0}' was successfully created.".format(ssid_name), "INFO"
+                )
                 created_ssids.append(ssid_name)
             else:
-                self.log("SSID '{0}' was not found in the Global site; creation may have failed.".format(ssid_name), "WARNING")
+                self.log(
+                    "SSID '{0}' was not found in the Global site; creation may have failed.".format(
+                        ssid_name
+                    ),
+                    "WARNING",
+                )
                 failed_ssids.append(ssid_name)
 
         if failed_ssids:
-            self.log("The ADD SSID(s) operation may not have been successful since some SSIDs were not successfully created: {0}"
-                     .format(", ".join(failed_ssids)), "ERROR")
+            self.log(
+                "The ADD SSID(s) operation may not have been successful since some SSIDs were not successfully created: {0}".format(
+                    ", ".join(failed_ssids)
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Verified the success of ADD SSID(s) operation for parameters: {0}.".format(add_ssids_params), "INFO")
+            self.log(
+                "Verified the success of ADD SSID(s) operation for parameters: {0}.".format(
+                    add_ssids_params
+                ),
+                "INFO",
+            )
 
         # Return lists of created and failed SSIDs
         return created_ssids, failed_ssids
@@ -8853,8 +10688,13 @@ class WirelessDesign(DnacBase):
         self.log("Retrieved global site ID: {0}".format(global_site_id), "DEBUG")
 
         # Retrieve all existing SSIDs in the global site
-        existing_global_ssids = self.get_ssids(global_site_id, self.get_ssids_params(global_site_id))
-        self.log("Existing SSIDs in the Global site: {0}".format(existing_global_ssids), "INFO")
+        existing_global_ssids = self.get_ssids(
+            global_site_id, self.get_ssids_params(global_site_id)
+        )
+        self.log(
+            "Existing SSIDs in the Global site: {0}".format(existing_global_ssids),
+            "INFO",
+        )
 
         # Function to compare SSID parameters
         def compare_ssid_params(existing_params, requested_params):
@@ -8870,23 +10710,44 @@ class WirelessDesign(DnacBase):
                     if not compare_multipsk_settings(existing_value, requested_value):
                         return False
                 elif existing_value != requested_value:
-                    self.log("Mismatch for key '{0}': existing value '{1}' vs requested value '{2}'.".format(key, existing_value, requested_value), "WARNING")
+                    self.log(
+                        "Mismatch for key '{0}': existing value '{1}' vs requested value '{2}'.".format(
+                            key, existing_value, requested_value
+                        ),
+                        "WARNING",
+                    )
                     return False
 
             return True
 
         def compare_multipsk_settings(existing_settings, requested_settings):
-            if not isinstance(existing_settings, list) or not isinstance(requested_settings, list):
+            if not isinstance(existing_settings, list) or not isinstance(
+                requested_settings, list
+            ):
                 return False
 
             for req_setting in requested_settings:
                 # Find matching setting by keys other than passphrase
-                match = next((ex_setting for ex_setting in existing_settings if all(
-                    k in ex_setting and ex_setting[k] == v for k, v in req_setting.items() if k != "passphrase"
-                )), None)
+                match = next(
+                    (
+                        ex_setting
+                        for ex_setting in existing_settings
+                        if all(
+                            k in ex_setting and ex_setting[k] == v
+                            for k, v in req_setting.items()
+                            if k != "passphrase"
+                        )
+                    ),
+                    None,
+                )
 
                 if not match:
-                    self.log("Mismatch in multiPSKSettings: no matching entry found for '{0}'.".format(req_setting), "WARNING")
+                    self.log(
+                        "Mismatch in multiPSKSettings: no matching entry found for '{0}'.".format(
+                            req_setting
+                        ),
+                        "WARNING",
+                    )
                     return False
 
             return True
@@ -8906,11 +10767,22 @@ class WirelessDesign(DnacBase):
                 if global_ssid_params:
                     # Check if SSID is in the existing global SSIDs
                     existing_global_ssid = next(
-                        (ssid for ssid in existing_global_ssids if ssid.get("ssid") == ssid_name and ssid.get("wlanType") == ssid_type), None)
+                        (
+                            ssid
+                            for ssid in existing_global_ssids
+                            if ssid.get("ssid") == ssid_name
+                            and ssid.get("wlanType") == ssid_type
+                        ),
+                        None,
+                    )
                     if existing_global_ssid:
-                        if not compare_ssid_params(existing_global_ssid, global_ssid_params):
+                        if not compare_ssid_params(
+                            existing_global_ssid, global_ssid_params
+                        ):
                             all_updates_verified = False
-                            failed_verifications.append({"ssid_name": ssid_name, "site": "Global"})
+                            failed_verifications.append(
+                                {"ssid_name": ssid_name, "site": "Global"}
+                            )
                             continue
 
             # Verify site-specific SSID updates
@@ -8921,24 +10793,54 @@ class WirelessDesign(DnacBase):
                 site_details = site_specific.get("site_details", {})
                 site_id = site_details.get("site_id")
                 site_name = site_details.get("site_name")
-                self.log("Verifying site-specific SSID: {0}, Type: {1} for site: {2}".format(ssid_name, ssid_type, site_name), "DEBUG")
+                self.log(
+                    "Verifying site-specific SSID: {0}, Type: {1} for site: {2}".format(
+                        ssid_name, ssid_type, site_name
+                    ),
+                    "DEBUG",
+                )
 
                 if site_specific_params and site_id:
                     # Retrieve existing SSIDs for the site
-                    existing_site_ssids = self.get_ssids(site_id, self.get_ssids_params(site_id))
+                    existing_site_ssids = self.get_ssids(
+                        site_id, self.get_ssids_params(site_id)
+                    )
                     existing_site_ssid = next(
-                        (ssid for ssid in existing_site_ssids if ssid.get("ssid") == ssid_name and ssid.get("wlanType") == ssid_type), None)
+                        (
+                            ssid
+                            for ssid in existing_site_ssids
+                            if ssid.get("ssid") == ssid_name
+                            and ssid.get("wlanType") == ssid_type
+                        ),
+                        None,
+                    )
 
                     if existing_site_ssid:
-                        if not compare_ssid_params(existing_site_ssid, site_specific_params):
+                        if not compare_ssid_params(
+                            existing_site_ssid, site_specific_params
+                        ):
                             all_updates_verified = False
-                            failed_verifications.append({"ssid_name": ssid_name, "site": site_name})
+                            failed_verifications.append(
+                                {"ssid_name": ssid_name, "site": site_name}
+                            )
 
         if all_updates_verified:
-            self.log("Successfully verified the update SSID(s) operation for the following SSID(s): {0}.".format(update_ssids_params), "INFO")
+            self.log(
+                "Successfully verified the update SSID(s) operation for the following SSID(s): {0}.".format(
+                    update_ssids_params
+                ),
+                "INFO",
+            )
         else:
-            self.log("The UPDATE SSID(s) operation may not have been successful. The following SSIDs failed verification: {0}.".format(
-                ", ".join("{0} at {1}".format(failure["ssid_name"], failure["site"]) for failure in failed_verifications)), "ERROR")
+            self.log(
+                "The UPDATE SSID(s) operation may not have been successful. The following SSIDs failed verification: {0}.".format(
+                    ", ".join(
+                        "{0} at {1}".format(failure["ssid_name"], failure["site"])
+                        for failure in failed_verifications
+                    )
+                ),
+                "ERROR",
+            )
 
     def verify_delete_ssids_operation(self, delete_ssids_params):
         """
@@ -8952,9 +10854,16 @@ class WirelessDesign(DnacBase):
         self.log("Retrieved global site ID: {0}".format(global_site_id), "DEBUG")
 
         # Retrieve all existing SSIDs in the global site
-        existing_global_ssids = self.get_ssids(global_site_id, self.get_ssids_params(global_site_id))
-        existing_global_ssid_names = {ssid.get("ssid") for ssid in existing_global_ssids}
-        self.log("Existing SSIDs in global site: {0}".format(existing_global_ssid_names), "DEBUG")
+        existing_global_ssids = self.get_ssids(
+            global_site_id, self.get_ssids_params(global_site_id)
+        )
+        existing_global_ssid_names = {
+            ssid.get("ssid") for ssid in existing_global_ssids
+        }
+        self.log(
+            "Existing SSIDs in global site: {0}".format(existing_global_ssid_names),
+            "DEBUG",
+        )
 
         # Initialize lists to track results of deletions
         successful_deletions = []
@@ -8965,22 +10874,46 @@ class WirelessDesign(DnacBase):
             for key, details in ssid_param.items():
                 ssid_name = details.get("ssid_name")
                 site_name = details.get("site_name")
-                self.log("Verifying deletion for SSID: {0} in site: {1}".format(ssid_name, site_name), "DEBUG")
+                self.log(
+                    "Verifying deletion for SSID: {0} in site: {1}".format(
+                        ssid_name, site_name
+                    ),
+                    "DEBUG",
+                )
 
                 # Only verify deletion for global site SSIDs
                 if site_name == "Global":
                     if ssid_name not in existing_global_ssid_names:
-                        self.log("SSID '{0}' successfully deleted from global site.".format(ssid_name), "INFO")
+                        self.log(
+                            "SSID '{0}' successfully deleted from global site.".format(
+                                ssid_name
+                            ),
+                            "INFO",
+                        )
                         successful_deletions.append(ssid_name)
                     else:
-                        self.log("SSID '{0}' still exists in global site; deletion failed.".format(ssid_name), "WARNING")
+                        self.log(
+                            "SSID '{0}' still exists in global site; deletion failed.".format(
+                                ssid_name
+                            ),
+                            "WARNING",
+                        )
                         failed_deletions.append(ssid_name)
 
         if not failed_deletions:
-            self.log("Verified the success of DELETE SSID(s) operation for parameters: {0}.".format(delete_ssids_params), "INFO")
+            self.log(
+                "Verified the success of DELETE SSID(s) operation for parameters: {0}.".format(
+                    delete_ssids_params
+                ),
+                "INFO",
+            )
         else:
-            self.log("The DELETE SSID(s) operation may not have been successful since some SSIDs failed to be deleted from the global site: {0}"
-                     .format(", ".join(failed_deletions)), "ERROR")
+            self.log(
+                "The DELETE SSID(s) operation may not have been successful since some SSIDs failed to be deleted from the global site: {0}".format(
+                    ", ".join(failed_deletions)
+                ),
+                "ERROR",
+            )
 
     def get_interfaces_params(self, interface_name=None, vlan_id=None):
         """
@@ -8999,15 +10932,25 @@ class WirelessDesign(DnacBase):
         # Map the user-provided interface name to the expected API parameter
         if interface_name:
             get_interfaces_params["interfaceName"] = interface_name
-            self.log("Mapped 'interface_name' to 'interfaceName' with value: {0}".format(interface_name), "DEBUG")
+            self.log(
+                "Mapped 'interface_name' to 'interfaceName' with value: {0}".format(
+                    interface_name
+                ),
+                "DEBUG",
+            )
 
         # Map the user-provided VLAN ID to the expected API parameter
         if vlan_id:
             get_interfaces_params["vlanId"] = vlan_id
-            self.log("Mapped 'vlan_id' to 'vlanId' with value: {0}".format(vlan_id), "DEBUG")
+            self.log(
+                "Mapped 'vlan_id' to 'vlanId' with value: {0}".format(vlan_id), "DEBUG"
+            )
 
         # Return the constructed parameters dictionary
-        self.log("Constructed get_interfaces_params: {0}".format(get_interfaces_params), "DEBUG")
+        self.log(
+            "Constructed get_interfaces_params: {0}".format(get_interfaces_params),
+            "DEBUG",
+        )
         return get_interfaces_params
 
     def get_interfaces(self, get_interfaces_params):
@@ -9018,10 +10961,15 @@ class WirelessDesign(DnacBase):
         Returns:
             list: A list of dictionaries containing details of interfaces based on the filtering parameters.
         """
-        self.log("Retrieving interfaces with parameters: {0}".format(get_interfaces_params), "INFO")
+        self.log(
+            "Retrieving interfaces with parameters: {0}".format(get_interfaces_params),
+            "INFO",
+        )
 
         # Execute the paginated API call to retrieve interfaces
-        return self.execute_get_with_pagination("wireless", "get_interfaces", get_interfaces_params)
+        return self.execute_get_with_pagination(
+            "wireless", "get_interfaces", get_interfaces_params
+        )
 
     def create_interface(self, create_interface_params):
         """
@@ -9031,10 +10979,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the create operation.
         """
-        self.log("Initiating addition of interface with parameters: {0}".format(create_interface_params), "INFO")
+        self.log(
+            "Initiating addition of interface with parameters: {0}".format(
+                create_interface_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to create the interface and return the task ID
-        return self.get_taskid_post_api_call("wireless", "create_interface", create_interface_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "create_interface", create_interface_params
+        )
 
     def update_interface(self, update_interface_params):
         """
@@ -9044,10 +10999,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the update operation.
         """
-        self.log("Initiating update of interface with parameters: {0}".format(update_interface_params), "INFO")
+        self.log(
+            "Initiating update of interface with parameters: {0}".format(
+                update_interface_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to update the interface and return the task ID
-        return self.get_taskid_post_api_call("wireless", "update_interface", update_interface_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "update_interface", update_interface_params
+        )
 
     def delete_interface(self, delete_interface_params):
         """
@@ -9057,10 +11019,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the delete operation.
         """
-        self.log("Initiating deletion of interface with parameters: {0}".format(delete_interface_params), "INFO")
+        self.log(
+            "Initiating deletion of interface with parameters: {0}".format(
+                delete_interface_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to delete the interface and return the task ID
-        return self.get_taskid_post_api_call("wireless", "delete_interface", delete_interface_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "delete_interface", delete_interface_params
+        )
 
     def verify_create_update_interfaces_requirement(self, interfaces):
         """
@@ -9083,20 +11052,34 @@ class WirelessDesign(DnacBase):
         no_update_interfaces = []
 
         # Convert the requested interfaces to a dictionary for quick lookup by interface name
-        requested_interfaces_dict = {interface["interface_name"]: interface for interface in interfaces}
-        self.log("Converted requested interfaces to a dictionary for quick lookup.", "DEBUG")
+        requested_interfaces_dict = {
+            interface["interface_name"]: interface for interface in interfaces
+        }
+        self.log(
+            "Converted requested interfaces to a dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over existing interfaces to find matches and differences
         for existing_interface in existing_interfaces:
             interface_name = existing_interface["interfaceName"]
             vlan_id = existing_interface["vlanId"]
-            self.log("Evaluating existing interface: {0}, VLAN ID: {1}".format(interface_name, vlan_id), "DEBUG")
+            self.log(
+                "Evaluating existing interface: {0}, VLAN ID: {1}".format(
+                    interface_name, vlan_id
+                ),
+                "DEBUG",
+            )
 
             # If the interface exists in both, compare fields
             if interface_name in requested_interfaces_dict:
                 requested_interface = requested_interfaces_dict[interface_name]
                 requested_vlan_id = requested_interface.get("vlan_id")
-                self.log("Comparing requested interface '{0}' with existing interface.".format(interface_name), "DEBUG")
+                self.log(
+                    "Comparing requested interface '{0}' with existing interface.".format(
+                        interface_name
+                    ),
+                    "DEBUG",
+                )
 
                 # Check for differences
                 if vlan_id != requested_vlan_id:
@@ -9104,11 +11087,17 @@ class WirelessDesign(DnacBase):
                     updated_interface = requested_interface.copy()
                     updated_interface["id"] = existing_interface.get("id")
                     update_interfaces.append(updated_interface)
-                    self.log("Interface '{0}' marked for update.".format(interface_name), "DEBUG")
+                    self.log(
+                        "Interface '{0}' marked for update.".format(interface_name),
+                        "DEBUG",
+                    )
                 else:
                     # If there's no difference, add to no_update_interfaces
                     no_update_interfaces.append(existing_interface)
-                    self.log("Interface '{0}' requires no updates.".format(interface_name), "DEBUG")
+                    self.log(
+                        "Interface '{0}' requires no updates.".format(interface_name),
+                        "DEBUG",
+                    )
 
                 # Remove the processed interface from the dictionary
                 del requested_interfaces_dict[interface_name]
@@ -9117,17 +11106,44 @@ class WirelessDesign(DnacBase):
         create_interfaces.extend(requested_interfaces_dict.values())
         self.log("Identified new interfaces to be created.", "DEBUG")
 
-        self.log("Interfaces that need to be CREATED: {0} - {1}".format(len(create_interfaces), create_interfaces), "DEBUG")
-        self.log("Interfaces that need to be UPDATED: {0} - {1}".format(len(update_interfaces), update_interfaces), "DEBUG")
-        self.log("Interfaces that DON'T NEED UPDATES: {0} - {1}".format(len(no_update_interfaces), no_update_interfaces), "DEBUG")
+        self.log(
+            "Interfaces that need to be CREATED: {0} - {1}".format(
+                len(create_interfaces), create_interfaces
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Interfaces that need to be UPDATED: {0} - {1}".format(
+                len(update_interfaces), update_interfaces
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Interfaces that DON'T NEED UPDATES: {0} - {1}".format(
+                len(no_update_interfaces), no_update_interfaces
+            ),
+            "DEBUG",
+        )
 
         # Calculate total interfaces processed and check against requested interfaces
-        total_interfaces_processed = len(create_interfaces) + len(update_interfaces) + len(no_update_interfaces)
+        total_interfaces_processed = (
+            len(create_interfaces) + len(update_interfaces) + len(no_update_interfaces)
+        )
 
         if total_interfaces_processed == len(interfaces):
-            self.log("Match in total counts: Processed={0}, Requested={1}.".format(total_interfaces_processed, len(interfaces)), "DEBUG")
+            self.log(
+                "Match in total counts: Processed={0}, Requested={1}.".format(
+                    total_interfaces_processed, len(interfaces)
+                ),
+                "DEBUG",
+            )
         else:
-            self.log("Mismatch in total counts: Processed={0}, Requested={1}.".format(total_interfaces_processed, len(interfaces)), "ERROR")
+            self.log(
+                "Mismatch in total counts: Processed={0}, Requested={1}.".format(
+                    total_interfaces_processed, len(interfaces)
+                ),
+                "ERROR",
+            )
 
         # Return the categorized interfaces
         return create_interfaces, update_interfaces, no_update_interfaces
@@ -9150,13 +11166,22 @@ class WirelessDesign(DnacBase):
         self.log("Existing Interfaces: {0}".format(existing_interfaces), "DEBUG")
 
         # Convert existing interfaces to a dictionary for quick lookup by interface name
-        existing_interfaces_dict = {interface["interfaceName"]: interface for interface in existing_interfaces}
-        self.log("Converted existing interfaces to a dictionary for quick lookup.", "DEBUG")
+        existing_interfaces_dict = {
+            interface["interfaceName"]: interface for interface in existing_interfaces
+        }
+        self.log(
+            "Converted existing interfaces to a dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over the requested interfaces
         for requested_interface in interfaces:
             interface_name = requested_interface.get("interface_name")
-            self.log("Checking deletion requirement for interface: {0}".format(interface_name), "DEBUG")
+            self.log(
+                "Checking deletion requirement for interface: {0}".format(
+                    interface_name
+                ),
+                "DEBUG",
+            )
 
             # Check if the interface exists in the existing interfaces
             if interface_name in existing_interfaces_dict:
@@ -9165,11 +11190,24 @@ class WirelessDesign(DnacBase):
                 interface_to_delete = requested_interface.copy()
                 interface_to_delete["id"] = existing_interface.get("id")
                 delete_interfaces_list.append(interface_to_delete)
-                self.log("Interface '{0}' scheduled for deletion.".format(interface_name), "INFO")
+                self.log(
+                    "Interface '{0}' scheduled for deletion.".format(interface_name),
+                    "INFO",
+                )
             else:
-                self.log("Deletion not required for interface '{0}'. It does not exist.".format(interface_name), "INFO")
+                self.log(
+                    "Deletion not required for interface '{0}'. It does not exist.".format(
+                        interface_name
+                    ),
+                    "INFO",
+                )
 
-        self.log("Interfaces scheduled for deletion: {0} - {1}".format(len(delete_interfaces_list), delete_interfaces_list), "DEBUG")
+        self.log(
+            "Interfaces scheduled for deletion: {0} - {1}".format(
+                len(delete_interfaces_list), delete_interfaces_list
+            ),
+            "DEBUG",
+        )
 
         # Return the list of interfaces that need to be deleted
         return delete_interfaces_list
@@ -9198,11 +11236,19 @@ class WirelessDesign(DnacBase):
             # Map each parameter to the required format
             if "interface_name" in interface:
                 mapped_interface["interfaceName"] = interface["interface_name"]
-                self.log("Mapped 'interface_name' to 'interfaceName': {0}".format(interface["interface_name"]), "DEBUG")
+                self.log(
+                    "Mapped 'interface_name' to 'interfaceName': {0}".format(
+                        interface["interface_name"]
+                    ),
+                    "DEBUG",
+                )
 
             if "vlan_id" in interface:
                 mapped_interface["vlanId"] = interface["vlan_id"]
-                self.log("Mapped 'vlan_id' to 'vlanId': {0}".format(interface["vlan_id"]), "DEBUG")
+                self.log(
+                    "Mapped 'vlan_id' to 'vlanId': {0}".format(interface["vlan_id"]),
+                    "DEBUG",
+                )
 
             # Retain the id if it exists in the interface
             if "id" in interface:
@@ -9218,7 +11264,9 @@ class WirelessDesign(DnacBase):
         # Return the list of mapped interfaces
         return mapped_interfaces
 
-    def process_interfaces_common(self, interfaces_params, create_or_update_or_delete_interface, task_name):
+    def process_interfaces_common(
+        self, interfaces_params, create_or_update_or_delete_interface, task_name
+    ):
         """
         Processes the interfaces for the specified operation (create, update, delete).
         Args:
@@ -9250,32 +11298,54 @@ class WirelessDesign(DnacBase):
 
             # Execute the operation and retrieve the task ID
             task_id = create_or_update_or_delete_interface(operation_params)
-            self.log("Task ID for interface '{0}': {1}".format(interface_name, task_id), "DEBUG")
+            self.log(
+                "Task ID for interface '{0}': {1}".format(interface_name, task_id),
+                "DEBUG",
+            )
 
             # Check the status of the operation
-            operation_msg = "{0} operation has completed successfully for interface_name: {1}.".format(task_name, interface_name)
-            self.get_task_status_from_tasks_by_id(task_id, task_name, operation_msg).check_return_status()
+            operation_msg = "{0} operation has completed successfully for interface_name: {1}.".format(
+                task_name, interface_name
+            )
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, operation_msg
+            ).check_return_status()
 
             # Determine if the operation was successful and categorize accordingly
             if self.status == "success":
                 success_interfaces.append(interface_name)
-                self.log("Interface '{0}' processed successfully.".format(interface_name), "INFO")
+                self.log(
+                    "Interface '{0}' processed successfully.".format(interface_name),
+                    "INFO",
+                )
             else:
                 failed_interfaces.append(interface_name)
-                self.log("Interface '{0}' failed to process.".format(interface_name), "ERROR")
+                self.log(
+                    "Interface '{0}' failed to process.".format(interface_name), "ERROR"
+                )
 
         if success_interfaces:
-            self.log("{0} succeeded for the following interface(s): {1}".format(task_name, ", ".join(success_interfaces)), "INFO")
+            self.log(
+                "{0} succeeded for the following interface(s): {1}".format(
+                    task_name, ", ".join(success_interfaces)
+                ),
+                "INFO",
+            )
             msg["{0} succeeded for the following interface(s)".format(task_name)] = {
                 "success_count": len(success_interfaces),
-                "successful_interfaces": success_interfaces
+                "successful_interfaces": success_interfaces,
             }
 
         if failed_interfaces:
-            self.log("{0} failed for the following interface(s): {1}".format(task_name, ", ".join(failed_interfaces)), "ERROR")
+            self.log(
+                "{0} failed for the following interface(s): {1}".format(
+                    task_name, ", ".join(failed_interfaces)
+                ),
+                "ERROR",
+            )
             msg["{0} failed for the following interface(s)".format(task_name)] = {
                 "failed_count": len(failed_interfaces),
-                "failed_interfaces": failed_interfaces
+                "failed_interfaces": failed_interfaces,
             }
 
         # Store the message dictionary in the class
@@ -9304,13 +11374,16 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for creating interfaces
         task_name_create = "Create Interface(s) Task"
-        self.log("Starting the creation process for interfaces with task name: {0}".format(task_name_create), "INFO")
+        self.log(
+            "Starting the creation process for interfaces with task name: {0}".format(
+                task_name_create
+            ),
+            "INFO",
+        )
 
         # Call the common processing function to add interfaces
         return self.process_interfaces_common(
-            add_interfaces_params,
-            self.create_interface,
-            task_name_create
+            add_interfaces_params, self.create_interface, task_name_create
         )
 
     def process_update_interfaces(self, update_interfaces_params):
@@ -9323,13 +11396,16 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for updating interfaces
         task_name_update = "Update Interface(s) Task"
-        self.log("Starting the update process for interfaces with task name: {0}".format(task_name_update), "INFO")
+        self.log(
+            "Starting the update process for interfaces with task name: {0}".format(
+                task_name_update
+            ),
+            "INFO",
+        )
 
         # Call the common processing function to update interfaces
         return self.process_interfaces_common(
-            update_interfaces_params,
-            self.update_interface,
-            task_name_update
+            update_interfaces_params, self.update_interface, task_name_update
         )
 
     def process_delete_interfaces(self, delete_interfaces_params):
@@ -9342,13 +11418,16 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for deleting interfaces
         task_name_delete = "Delete Interface(s) Task"
-        self.log("Starting the deletion process for interfaces with task name: {0}".format(task_name_delete), "INFO")
+        self.log(
+            "Starting the deletion process for interfaces with task name: {0}".format(
+                task_name_delete
+            ),
+            "INFO",
+        )
 
         # Call the common processing function to delete interfaces
         return self.process_interfaces_common(
-            delete_interfaces_params,
-            self.delete_interface,
-            task_name_delete
+            delete_interfaces_params, self.delete_interface, task_name_delete
         )
 
     def verify_add_interfaces_operation(self, add_interfaces_params):
@@ -9360,11 +11439,21 @@ class WirelessDesign(DnacBase):
         # Retrieve all existing interfaces
         existing_interfaces = self.get_interfaces(get_interfaces_params={})
         # Create a set of existing interface names for quick lookup
-        existing_interface_names = {interface["interfaceName"] for interface in existing_interfaces}
+        existing_interface_names = {
+            interface["interfaceName"] for interface in existing_interfaces
+        }
         self.log("Retrieved existing interfaces.", "DEBUG")
 
-        self.log("State after performing ADD Interface operation: {0}".format(existing_interface_names), "INFO")
-        self.log("Interfaces requested to be added: {0}".format(add_interfaces_params), "INFO")
+        self.log(
+            "State after performing ADD Interface operation: {0}".format(
+                existing_interface_names
+            ),
+            "INFO",
+        )
+        self.log(
+            "Interfaces requested to be added: {0}".format(add_interfaces_params),
+            "INFO",
+        )
 
         # Initialize a list to track interfaces that failed to add
         failed_interfaces = []
@@ -9372,18 +11461,34 @@ class WirelessDesign(DnacBase):
         # Iterate over the requested interfaces to verify addition
         for interface in add_interfaces_params:
             interface_name = interface.get("interfaceName")
-            self.log("Verifying addition for interface: {0}".format(interface_name), "DEBUG")
+            self.log(
+                "Verifying addition for interface: {0}".format(interface_name), "DEBUG"
+            )
 
             # Check if the interface exists in the current state
             if interface_name not in existing_interface_names:
                 failed_interfaces.append(interface_name)
-                self.log("Add operation failed for interface '{0}'. It does not exist in the current state.".format(interface_name), "WARNING")
+                self.log(
+                    "Add operation failed for interface '{0}'. It does not exist in the current state.".format(
+                        interface_name
+                    ),
+                    "WARNING",
+                )
 
         if failed_interfaces:
-            self.log("The ADD operation may not have been successful since some interfaces were not successfully created: {0}".format(
-                failed_interfaces), "ERROR")
+            self.log(
+                "The ADD operation may not have been successful since some interfaces were not successfully created: {0}".format(
+                    failed_interfaces
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Verified the success of ADD interface(s) operation for parameters: {0}.".format(add_interfaces_params), "INFO")
+            self.log(
+                "Verified the success of ADD interface(s) operation for parameters: {0}.".format(
+                    add_interfaces_params
+                ),
+                "INFO",
+            )
 
     def verify_update_interfaces_operation(self, update_interfaces_params):
         """
@@ -9394,11 +11499,24 @@ class WirelessDesign(DnacBase):
         # Retrieve all existing interfaces
         existing_interfaces = self.get_interfaces(get_interfaces_params={})
         # Create a dictionary of existing interfaces for quick lookup by interface name and VLAN ID
-        existing_interfaces_dict = {(interface["interfaceName"], interface["vlanId"]): interface for interface in existing_interfaces}
-        self.log("Retrieved existing interfaces and created lookup dictionary.", "DEBUG")
+        existing_interfaces_dict = {
+            (interface["interfaceName"], interface["vlanId"]): interface
+            for interface in existing_interfaces
+        }
+        self.log(
+            "Retrieved existing interfaces and created lookup dictionary.", "DEBUG"
+        )
 
-        self.log("State after performing UPDATE Interface operation: {0}".format(existing_interfaces_dict), "INFO")
-        self.log("Interfaces requested to be updated: {0}".format(update_interfaces_params), "INFO")
+        self.log(
+            "State after performing UPDATE Interface operation: {0}".format(
+                existing_interfaces_dict
+            ),
+            "INFO",
+        )
+        self.log(
+            "Interfaces requested to be updated: {0}".format(update_interfaces_params),
+            "INFO",
+        )
 
         # Initialize a list to track interfaces that failed to update
         failed_interfaces = []
@@ -9407,18 +11525,37 @@ class WirelessDesign(DnacBase):
         for interface in update_interfaces_params:
             interface_name = interface.get("interfaceName")
             vlan_id = interface.get("vlanId")
-            self.log("Verifying update for interface: {0}, VLAN ID: {1}".format(interface_name, vlan_id), "DEBUG")
+            self.log(
+                "Verifying update for interface: {0}, VLAN ID: {1}".format(
+                    interface_name, vlan_id
+                ),
+                "DEBUG",
+            )
 
             # Check if the interface with the specified VLAN ID exists in the current state
             if (interface_name, vlan_id) not in existing_interfaces_dict:
                 failed_interfaces.append(interface_name)
-                self.log("Update operation failed for interface '{0}'. It was not found with the specified VLAN ID.".format(interface_name), "WARNING")
+                self.log(
+                    "Update operation failed for interface '{0}'. It was not found with the specified VLAN ID.".format(
+                        interface_name
+                    ),
+                    "WARNING",
+                )
 
         if failed_interfaces:
-            self.log("The UPDATE operation may not have been successful for the following interfaces: {0}. They were not found with the specified parameters."
-                     .format(failed_interfaces), "ERROR")
+            self.log(
+                "The UPDATE operation may not have been successful for the following interfaces: {0}. They were not found with the specified parameters.".format(
+                    failed_interfaces
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Verified the success of UPDATE interfaces operation for parameters: {0}.".format(update_interfaces_params), "INFO")
+            self.log(
+                "Verified the success of UPDATE interfaces operation for parameters: {0}.".format(
+                    update_interfaces_params
+                ),
+                "INFO",
+            )
 
     def verify_delete_interfaces_operation(self, delete_interfaces_params):
         """
@@ -9429,11 +11566,21 @@ class WirelessDesign(DnacBase):
         # Retrieve all existing interfaces
         existing_interfaces = self.get_interfaces(get_interfaces_params={})
         # Create a set of existing interface names for quick lookup
-        existing_interface_names = {interface["interfaceName"] for interface in existing_interfaces}
+        existing_interface_names = {
+            interface["interfaceName"] for interface in existing_interfaces
+        }
         self.log("Retrieved existing interfaces.", "DEBUG")
 
-        self.log("State after performing DELETE Interface operation: {0}".format(existing_interface_names), "INFO")
-        self.log("Interfaces requested to be deleted: {0}".format(delete_interfaces_params), "INFO")
+        self.log(
+            "State after performing DELETE Interface operation: {0}".format(
+                existing_interface_names
+            ),
+            "INFO",
+        )
+        self.log(
+            "Interfaces requested to be deleted: {0}".format(delete_interfaces_params),
+            "INFO",
+        )
 
         # Initialize a list to track interfaces that failed deletion
         failed_interfaces = []
@@ -9441,18 +11588,34 @@ class WirelessDesign(DnacBase):
         # Iterate over the requested interfaces to verify deletion
         for interface in delete_interfaces_params:
             interface_name = interface.get("interfaceName")
-            self.log("Verifying deletion for interface: {0}".format(interface_name), "DEBUG")
+            self.log(
+                "Verifying deletion for interface: {0}".format(interface_name), "DEBUG"
+            )
 
             # Check if the interface still exists in the current state
             if interface_name in existing_interface_names:
                 failed_interfaces.append(interface_name)
-                self.log("Delete operation failed for interface '{0}'. It still exists in the current state.".format(interface_name), "WARNING")
+                self.log(
+                    "Delete operation failed for interface '{0}'. It still exists in the current state.".format(
+                        interface_name
+                    ),
+                    "WARNING",
+                )
 
         if failed_interfaces:
-            self.log("The DELETE Interface(s) operation may not have been successful since some interfaces still exist: {0}."
-                     .format(failed_interfaces), "ERROR")
+            self.log(
+                "The DELETE Interface(s) operation may not have been successful since some interfaces still exist: {0}.".format(
+                    failed_interfaces
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Verified the success of DELETE Interface(s) operation for all requested parameters: {0}.".format(delete_interfaces_params), "INFO")
+            self.log(
+                "Verified the success of DELETE Interface(s) operation for all requested parameters: {0}.".format(
+                    delete_interfaces_params
+                ),
+                "INFO",
+            )
 
     def get_power_profiles_params(self, power_profile_name=None):
         """
@@ -9470,12 +11633,25 @@ class WirelessDesign(DnacBase):
         # Map the user-provided power profile name to the expected API parameter
         if power_profile_name:
             get_power_profiles_params["profile_name"] = power_profile_name
-            self.log("Mapped 'power_profile_name' to 'profile_name' with value: {0}".format(power_profile_name), "DEBUG")
+            self.log(
+                "Mapped 'power_profile_name' to 'profile_name' with value: {0}".format(
+                    power_profile_name
+                ),
+                "DEBUG",
+            )
         else:
-            self.log("No specific power profile name provided. Returning empty parameters.", "DEBUG")
+            self.log(
+                "No specific power profile name provided. Returning empty parameters.",
+                "DEBUG",
+            )
 
         # Return the constructed parameters dictionary
-        self.log("Constructed get_power_profiles_params: {0}".format(get_power_profiles_params), "DEBUG")
+        self.log(
+            "Constructed get_power_profiles_params: {0}".format(
+                get_power_profiles_params
+            ),
+            "DEBUG",
+        )
         return get_power_profiles_params
 
     def get_power_profiles(self, get_power_profiles_params):
@@ -9488,7 +11664,9 @@ class WirelessDesign(DnacBase):
         """
         # Execute the paginated API call to retrieve power profiles
         self.log("Executing paginated API call to retrieve power profiles.", "DEBUG")
-        return self.execute_get_with_pagination("wireless", "get_power_profiles", get_power_profiles_params)
+        return self.execute_get_with_pagination(
+            "wireless", "get_power_profiles", get_power_profiles_params
+        )
 
     def update_power_profiles_with_defaults(self, power_profiles):
         """
@@ -9501,29 +11679,46 @@ class WirelessDesign(DnacBase):
         # Iterate over each power profile to update rules with defaults
         for profile in power_profiles:
             rules = profile.get("rules", [])
-            self.log("Processing power profile: {0}".format(profile.get("profileName", "Unnamed")), "DEBUG")
+            self.log(
+                "Processing power profile: {0}".format(
+                    profile.get("profileName", "Unnamed")
+                ),
+                "DEBUG",
+            )
 
             # Iterate over each rule in the power profile
             for rule in rules:
                 interface_type = rule.get("interface_type")
-                self.log("Processing rule for interface type: {0}".format(interface_type), "DEBUG")
+                self.log(
+                    "Processing rule for interface type: {0}".format(interface_type),
+                    "DEBUG",
+                )
 
                 # Assign default values based on the interface type if only one parameter is present
                 if interface_type == "USB" and len(rule) == 1:
                     rule["interface_id"] = "USB0"
                     rule["parameter_type"] = "STATE"
                     rule["parameter_value"] = "DISABLE"
-                    self.log("Assigned defaults for USB interface: interface_id=USB0, parameter_type=STATE, parameter_value=DISABLE", "DEBUG")
+                    self.log(
+                        "Assigned defaults for USB interface: interface_id=USB0, parameter_type=STATE, parameter_value=DISABLE",
+                        "DEBUG",
+                    )
                 elif interface_type == "RADIO" and len(rule) == 1:
                     rule["interface_id"] = "6GHZ"
                     rule["parameter_type"] = "SPATIALSTREAM"
                     rule["parameter_value"] = "FOUR_BY_FOUR"
-                    self.log("Assigned defaults for RADIO interface: interface_id=6GHZ, parameter_type=SPATIALSTREAM, parameter_value=FOUR_BY_FOUR", "DEBUG")
+                    self.log(
+                        "Assigned defaults for RADIO interface: interface_id=6GHZ, parameter_type=SPATIALSTREAM, parameter_value=FOUR_BY_FOUR",
+                        "DEBUG",
+                    )
                 elif interface_type == "ETHERNET" and len(rule) == 1:
                     rule["interface_id"] = "GIGABITETHERNET0"
                     rule["parameter_type"] = "SPEED"
                     rule["parameter_value"] = "5000MBPS"
-                    self.log("Assigned defaults for ETHERNET interface: interface_id=GIGABITETHERNET0, parameter_type=SPEED, parameter_value=5000MBPS", "DEBUG")
+                    self.log(
+                        "Assigned defaults for ETHERNET interface: interface_id=GIGABITETHERNET0, parameter_type=SPEED, parameter_value=5000MBPS",
+                        "DEBUG",
+                    )
 
         # Return the updated power profiles with default values applied
         self.log("Completed updating power profiles with default values.", "DEBUG")
@@ -9538,15 +11733,21 @@ class WirelessDesign(DnacBase):
             tuple: Three lists containing power profiles to be created, updated, and not updated.
         """
         # Update requested profiles with default values where needed
-        updated_power_profiles = self.update_power_profiles_with_defaults(power_profiles)
+        updated_power_profiles = self.update_power_profiles_with_defaults(
+            power_profiles
+        )
         self.log("Updated requested power profiles with defaults.", "DEBUG")
 
         # Retrieve all existing power profiles from the system
         existing_power_profiles = self.get_power_profiles(get_power_profiles_params={})
         self.log("Retrieved existing power profiles.", "DEBUG")
 
-        self.log("Existing Power Profiles: {0}".format(existing_power_profiles), "DEBUG")
-        self.log("Requested Power Profiles: {0}".format(updated_power_profiles), "DEBUG")
+        self.log(
+            "Existing Power Profiles: {0}".format(existing_power_profiles), "DEBUG"
+        )
+        self.log(
+            "Requested Power Profiles: {0}".format(updated_power_profiles), "DEBUG"
+        )
 
         # Initialize lists to store profiles that need to be created, updated, or not changed
         create_profiles = []
@@ -9554,13 +11755,19 @@ class WirelessDesign(DnacBase):
         no_update_profiles = []
 
         # Create a dictionary of existing profiles for quick lookup using the profile name
-        existing_profiles_dict = {profile["profileName"]: profile for profile in existing_power_profiles}
-        self.log("Converted existing profiles to a dictionary for quick lookup.", "DEBUG")
+        existing_profiles_dict = {
+            profile["profileName"]: profile for profile in existing_power_profiles
+        }
+        self.log(
+            "Converted existing profiles to a dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over the updated requested power profiles
         for requested_profile in updated_power_profiles:
             profile_name = requested_profile["power_profile_name"]
-            requested_description = requested_profile.get("power_profile_description", "")
+            requested_description = requested_profile.get(
+                "power_profile_description", ""
+            )
             requested_rules = requested_profile.get("rules", [])
             self.log("Evaluating profile: {0}".format(profile_name), "DEBUG")
 
@@ -9576,22 +11783,37 @@ class WirelessDesign(DnacBase):
                 # Compare description
                 if requested_description != (existing_description or ""):
                     update_needed = True
-                    self.log("Description differs for profile '{0}'.".format(profile_name), "DEBUG")
+                    self.log(
+                        "Description differs for profile '{0}'.".format(profile_name),
+                        "DEBUG",
+                    )
 
                 # Compare rules, considering both parameter changes and order changes
                 if len(requested_rules) != len(existing_rules):
                     update_needed = True
-                    self.log("Number of rules differs for profile '{0}'.".format(profile_name), "DEBUG")
+                    self.log(
+                        "Number of rules differs for profile '{0}'.".format(
+                            profile_name
+                        ),
+                        "DEBUG",
+                    )
                 else:
                     for req_rule, exist_rule in zip(requested_rules, existing_rules):
                         if (
-                            req_rule.get("interface_type") != exist_rule.get("interfaceType") or
-                            req_rule.get("interface_id") != exist_rule.get("interfaceId") or
-                            req_rule.get("parameter_type") != exist_rule.get("parameterType") or
-                            req_rule.get("parameter_value") != exist_rule.get("parameterValue")
+                            req_rule.get("interface_type")
+                            != exist_rule.get("interfaceType")
+                            or req_rule.get("interface_id")
+                            != exist_rule.get("interfaceId")
+                            or req_rule.get("parameter_type")
+                            != exist_rule.get("parameterType")
+                            or req_rule.get("parameter_value")
+                            != exist_rule.get("parameterValue")
                         ):
                             update_needed = True
-                            self.log("Rule differs for profile '{0}'.".format(profile_name), "DEBUG")
+                            self.log(
+                                "Rule differs for profile '{0}'.".format(profile_name),
+                                "DEBUG",
+                            )
                             break
 
                 if update_needed:
@@ -9599,27 +11821,61 @@ class WirelessDesign(DnacBase):
                     updated_profile = requested_profile.copy()
                     updated_profile["id"] = existing_profile.get("id")
                     update_profiles.append(updated_profile)
-                    self.log("Profile '{0}' marked for update.".format(profile_name), "DEBUG")
+                    self.log(
+                        "Profile '{0}' marked for update.".format(profile_name), "DEBUG"
+                    )
                 else:
                     # If there's no difference, add to no_update_profiles
                     no_update_profiles.append(existing_profile)
-                    self.log("Profile '{0}' requires no updates.".format(profile_name), "DEBUG")
+                    self.log(
+                        "Profile '{0}' requires no updates.".format(profile_name),
+                        "DEBUG",
+                    )
             else:
                 # If the profile does not exist, mark it for creation
                 create_profiles.append(requested_profile)
-                self.log("Profile '{0}' marked for creation.".format(profile_name), "DEBUG")
+                self.log(
+                    "Profile '{0}' marked for creation.".format(profile_name), "DEBUG"
+                )
 
-        self.log("Power Profiles that need to be CREATED: {0} - {1}".format(len(create_profiles), create_profiles), "DEBUG")
-        self.log("Power Profiles that need to be UPDATED: {0} - {1}".format(len(update_profiles), update_profiles), "DEBUG")
-        self.log("Power Profiles that DON'T NEED UPDATES: {0} - {1}".format(len(no_update_profiles), no_update_profiles), "DEBUG")
+        self.log(
+            "Power Profiles that need to be CREATED: {0} - {1}".format(
+                len(create_profiles), create_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Power Profiles that need to be UPDATED: {0} - {1}".format(
+                len(update_profiles), update_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Power Profiles that DON'T NEED UPDATES: {0} - {1}".format(
+                len(no_update_profiles), no_update_profiles
+            ),
+            "DEBUG",
+        )
 
         # Calculate total profiles processed and check against requested profiles
-        total_profiles_processed = len(create_profiles) + len(update_profiles) + len(no_update_profiles)
+        total_profiles_processed = (
+            len(create_profiles) + len(update_profiles) + len(no_update_profiles)
+        )
 
         if total_profiles_processed == len(updated_power_profiles):
-            self.log("Match in total counts: Processed={0}, Requested={1}.".format(total_profiles_processed, len(updated_power_profiles)), "DEBUG")
+            self.log(
+                "Match in total counts: Processed={0}, Requested={1}.".format(
+                    total_profiles_processed, len(updated_power_profiles)
+                ),
+                "DEBUG",
+            )
         else:
-            self.log("Mismatch in total counts: Processed={0}, Requested={1}.".format(total_profiles_processed, len(updated_power_profiles)), "ERROR")
+            self.log(
+                "Mismatch in total counts: Processed={0}, Requested={1}.".format(
+                    total_profiles_processed, len(updated_power_profiles)
+                ),
+                "ERROR",
+            )
 
         # Return the categorized profiles
         return create_profiles, update_profiles, no_update_profiles
@@ -9639,16 +11895,25 @@ class WirelessDesign(DnacBase):
 
         # Retrieve all existing power profiles
         existing_power_profiles = self.get_power_profiles(get_power_profiles_params={})
-        self.log("Existing Power Profiles: {0}".format(existing_power_profiles), "DEBUG")
+        self.log(
+            "Existing Power Profiles: {0}".format(existing_power_profiles), "DEBUG"
+        )
 
         # Convert existing power profiles to a dictionary for quick lookup by power profile name
-        existing_power_profiles_dict = {profile["profileName"]: profile for profile in existing_power_profiles}
-        self.log("Converted existing profiles to a dictionary for quick lookup.", "DEBUG")
+        existing_power_profiles_dict = {
+            profile["profileName"]: profile for profile in existing_power_profiles
+        }
+        self.log(
+            "Converted existing profiles to a dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over the requested power profiles
         for requested_profile in power_profiles:
             profile_name = requested_profile.get("power_profile_name")
-            self.log("Checking deletion requirement for profile: {0}".format(profile_name), "DEBUG")
+            self.log(
+                "Checking deletion requirement for profile: {0}".format(profile_name),
+                "DEBUG",
+            )
 
             # Check if the power profile exists in the existing power profiles
             if profile_name in existing_power_profiles_dict:
@@ -9657,11 +11922,24 @@ class WirelessDesign(DnacBase):
                 profile_to_delete = requested_profile.copy()
                 profile_to_delete["id"] = existing_profile.get("id")
                 delete_power_profiles_list.append(profile_to_delete)
-                self.log("Power Profile '{0}' scheduled for deletion.".format(profile_name), "INFO")
+                self.log(
+                    "Power Profile '{0}' scheduled for deletion.".format(profile_name),
+                    "INFO",
+                )
             else:
-                self.log("Deletion not required for power profile '{0}'. It does not exist.".format(profile_name), "INFO")
+                self.log(
+                    "Deletion not required for power profile '{0}'. It does not exist.".format(
+                        profile_name
+                    ),
+                    "INFO",
+                )
 
-        self.log("Power Profiles scheduled for deletion: {0} - {1}".format(len(delete_power_profiles_list), delete_power_profiles_list), "DEBUG")
+        self.log(
+            "Power Profiles scheduled for deletion: {0} - {1}".format(
+                len(delete_power_profiles_list), delete_power_profiles_list
+            ),
+            "DEBUG",
+        )
 
         # Return the list of profiles that need to be deleted
         return delete_power_profiles_list
@@ -9690,11 +11968,21 @@ class WirelessDesign(DnacBase):
             # Map each parameter to the required format
             if "power_profile_name" in profile:
                 mapped_profile["profileName"] = profile["power_profile_name"]
-                self.log("Mapped 'power_profile_name' to 'profileName': {0}".format(profile["power_profile_name"]), "DEBUG")
+                self.log(
+                    "Mapped 'power_profile_name' to 'profileName': {0}".format(
+                        profile["power_profile_name"]
+                    ),
+                    "DEBUG",
+                )
 
             if "power_profile_description" in profile:
                 mapped_profile["description"] = profile["power_profile_description"]
-                self.log("Mapped 'power_profile_description' to 'description': {0}".format(profile["power_profile_description"]), "DEBUG")
+                self.log(
+                    "Mapped 'power_profile_description' to 'description': {0}".format(
+                        profile["power_profile_description"]
+                    ),
+                    "DEBUG",
+                )
 
             if "id" in profile:
                 mapped_profile["id"] = profile["id"]
@@ -9703,22 +11991,47 @@ class WirelessDesign(DnacBase):
             # Map the rules if they exist in the profile
             if "rules" in profile:
                 mapped_rules = []
-                self.log("Mapping rules for profile: {0}".format(profile.get("power_profile_name", "Unnamed")), "DEBUG")
+                self.log(
+                    "Mapping rules for profile: {0}".format(
+                        profile.get("power_profile_name", "Unnamed")
+                    ),
+                    "DEBUG",
+                )
 
                 for rule in profile["rules"]:
                     mapped_rule = {}
                     if "interface_type" in rule:
                         mapped_rule["interfaceType"] = rule["interface_type"]
-                        self.log("Mapped 'interface_type' to 'interfaceType': {0}".format(rule["interface_type"]), "DEBUG")
+                        self.log(
+                            "Mapped 'interface_type' to 'interfaceType': {0}".format(
+                                rule["interface_type"]
+                            ),
+                            "DEBUG",
+                        )
                     if "interface_id" in rule:
                         mapped_rule["interfaceId"] = rule["interface_id"]
-                        self.log("Mapped 'interface_id' to 'interfaceId': {0}".format(rule["interface_id"]), "DEBUG")
+                        self.log(
+                            "Mapped 'interface_id' to 'interfaceId': {0}".format(
+                                rule["interface_id"]
+                            ),
+                            "DEBUG",
+                        )
                     if "parameter_type" in rule:
                         mapped_rule["parameterType"] = rule["parameter_type"]
-                        self.log("Mapped 'parameter_type' to 'parameterType': {0}".format(rule["parameter_type"]), "DEBUG")
+                        self.log(
+                            "Mapped 'parameter_type' to 'parameterType': {0}".format(
+                                rule["parameter_type"]
+                            ),
+                            "DEBUG",
+                        )
                     if "parameter_value" in rule:
                         mapped_rule["parameterValue"] = rule["parameter_value"]
-                        self.log("Mapped 'parameter_value' to 'parameterValue': {0}".format(rule["parameter_value"]), "DEBUG")
+                        self.log(
+                            "Mapped 'parameter_value' to 'parameterValue': {0}".format(
+                                rule["parameter_value"]
+                            ),
+                            "DEBUG",
+                        )
 
                     # Add the mapped rule to the list of mapped rules
                     mapped_rules.append(mapped_rule)
@@ -9743,10 +12056,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the create operation.
         """
-        self.log("Initiating addition of power profile with parameters: {0}".format(create_power_profile_params), "INFO")
+        self.log(
+            "Initiating addition of power profile with parameters: {0}".format(
+                create_power_profile_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to create the power profile and return the task ID
-        return self.get_taskid_post_api_call("wireless", "create_power_profile", create_power_profile_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "create_power_profile", create_power_profile_params
+        )
 
     def update_power_profile(self, update_power_profile_params):
         """
@@ -9756,10 +12076,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the update operation.
         """
-        self.log("Initiating update power profile parameters: {0}".format(update_power_profile_params), "INFO")
+        self.log(
+            "Initiating update power profile parameters: {0}".format(
+                update_power_profile_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to update the power profile and return the task ID
-        return self.get_taskid_post_api_call("wireless", "update_power_profile_by_id", update_power_profile_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "update_power_profile_by_id", update_power_profile_params
+        )
 
     def delete_power_profile(self, delete_power_profile_params):
         """
@@ -9769,12 +12096,21 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the delete operation.
         """
-        self.log("Initiating deletion power profile parameters: {0}".format(delete_power_profile_params), "INFO")
+        self.log(
+            "Initiating deletion power profile parameters: {0}".format(
+                delete_power_profile_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to delete the power profile and return the task ID
-        return self.get_taskid_post_api_call("wireless", "delete_power_profile_by_id", delete_power_profile_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "delete_power_profile_by_id", delete_power_profile_params
+        )
 
-    def process_power_profiles_common(self, profiles_params, operation_function, task_name):
+    def process_power_profiles_common(
+        self, profiles_params, operation_function, task_name
+    ):
         """
         Processes the power profiles for the specified operation (create, update, delete).
         Args:
@@ -9804,34 +12140,59 @@ class WirelessDesign(DnacBase):
 
             # Execute the operation and retrieve the task ID
             task_id = operation_function(operation_params)
-            self.log("Task ID for power profile '{0}': {1}".format(profile_name, task_id), "DEBUG")
+            self.log(
+                "Task ID for power profile '{0}': {1}".format(profile_name, task_id),
+                "DEBUG",
+            )
 
             # Check the status of the operation
-            operation_msg = "{0} operation has completed successfully for power profile: {1}.".format(task_name, profile_name)
-            self.get_task_status_from_tasks_by_id(task_id, task_name, operation_msg).check_return_status()
+            operation_msg = "{0} operation has completed successfully for power profile: {1}.".format(
+                task_name, profile_name
+            )
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, operation_msg
+            ).check_return_status()
 
             # Determine if the operation was successful
             if self.status == "success":
                 success_profiles.append(profile_name)
-                self.log("Power Profile '{0}' processed successfully.".format(profile_name), "INFO")
+                self.log(
+                    "Power Profile '{0}' processed successfully.".format(profile_name),
+                    "INFO",
+                )
             else:
                 failed_profiles.append(profile_name)
-                self.log("Power Profile '{0}' failed to process.".format(profile_name), "ERROR")
+                self.log(
+                    "Power Profile '{0}' failed to process.".format(profile_name),
+                    "ERROR",
+                )
 
         # Set the final message for successful operations
         if success_profiles:
-            self.log("{0} succeeded for the following power profile(s): {1}".format(task_name, ", ".join(success_profiles)), "INFO")
-            msg["{0} succeeded for the following power profile(s)".format(task_name)] = {
+            self.log(
+                "{0} succeeded for the following power profile(s): {1}".format(
+                    task_name, ", ".join(success_profiles)
+                ),
+                "INFO",
+            )
+            msg[
+                "{0} succeeded for the following power profile(s)".format(task_name)
+            ] = {
                 "success_count": len(success_profiles),
-                "successful_power_profiles": success_profiles
+                "successful_power_profiles": success_profiles,
             }
 
         # Set the final message for failed operations
         if failed_profiles:
-            self.log("{0} failed for the following power profile(s): {1}".format(task_name, ", ".join(failed_profiles)), "ERROR")
+            self.log(
+                "{0} failed for the following power profile(s): {1}".format(
+                    task_name, ", ".join(failed_profiles)
+                ),
+                "ERROR",
+            )
             msg["{0} failed for the following power profile(s)".format(task_name)] = {
                 "failed_count": len(failed_profiles),
-                "failed_power_profiles": failed_profiles
+                "failed_power_profiles": failed_profiles,
             }
 
         # Store the message dictionary in the class
@@ -9860,13 +12221,16 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for creating power profiles
         task_name_create = "Create Power Profile(s) Task"
-        self.log("Starting the creation process for power profiles with task name: {0}".format(task_name_create), "INFO")
+        self.log(
+            "Starting the creation process for power profiles with task name: {0}".format(
+                task_name_create
+            ),
+            "INFO",
+        )
 
         # Call the common processing function to add power profiles
         return self.process_power_profiles_common(
-            add_power_profiles_params,
-            self.create_power_profile,
-            task_name_create
+            add_power_profiles_params, self.create_power_profile, task_name_create
         )
 
     def process_update_power_profiles(self, update_power_profiles_params):
@@ -9879,13 +12243,16 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for updating power profiles
         task_name_update = "Update Power Profile(s) Task"
-        self.log("Starting the update process for power profiles with task name: {0}".format(task_name_update), "INFO")
+        self.log(
+            "Starting the update process for power profiles with task name: {0}".format(
+                task_name_update
+            ),
+            "INFO",
+        )
 
         # Call the common processing function to update power profiles
         return self.process_power_profiles_common(
-            update_power_profiles_params,
-            self.update_power_profile,
-            task_name_update
+            update_power_profiles_params, self.update_power_profile, task_name_update
         )
 
     def process_delete_power_profiles(self, delete_power_profiles_params):
@@ -9898,13 +12265,16 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for deleting power profiles
         task_name_delete = "Delete Power Profile(s) Task"
-        self.log("Starting the deletion process for power profiles with task name: {0}".format(task_name_delete), "INFO")
+        self.log(
+            "Starting the deletion process for power profiles with task name: {0}".format(
+                task_name_delete
+            ),
+            "INFO",
+        )
 
         # Call the common processing function to delete power profiles
         return self.process_power_profiles_common(
-            delete_power_profiles_params,
-            self.delete_power_profile,
-            task_name_delete
+            delete_power_profiles_params, self.delete_power_profile, task_name_delete
         )
 
     def verify_add_power_profiles_operation(self, add_power_profiles_params):
@@ -9919,35 +12289,61 @@ class WirelessDesign(DnacBase):
         existing_power_profiles = self.get_power_profiles(get_power_profiles_params={})
         self.log("Retrieved existing power profiles.", "DEBUG")
 
-        self.log("Existing Power Profiles: {0}".format(existing_power_profiles), "DEBUG")
-        self.log("Requested Power Profiles to Add: {0}".format(add_power_profiles_params), "DEBUG")
+        self.log(
+            "Existing Power Profiles: {0}".format(existing_power_profiles), "DEBUG"
+        )
+        self.log(
+            "Requested Power Profiles to Add: {0}".format(add_power_profiles_params),
+            "DEBUG",
+        )
 
         # Initialize lists to track successful and failed profile additions
         successful_profiles = []
         failed_profiles = []
 
         # Convert existing power profiles to a set for quick lookup by profile name
-        existing_profiles_set = {profile["profileName"] for profile in existing_power_profiles}
+        existing_profiles_set = {
+            profile["profileName"] for profile in existing_power_profiles
+        }
         self.log("Converted existing profiles to a set for quick lookup.", "DEBUG")
 
         # Iterate over the requested power profiles to verify creation
         for requested_profile in add_power_profiles_params:
             profile_name = requested_profile["profileName"]
-            self.log("Verifying creation for profile: {0}".format(profile_name), "DEBUG")
+            self.log(
+                "Verifying creation for profile: {0}".format(profile_name), "DEBUG"
+            )
 
             # Check if the profile exists in the existing profiles
             if profile_name in existing_profiles_set:
                 successful_profiles.append(profile_name)
-                self.log("Power Profile '{0}' has been successfully created.".format(profile_name), "INFO")
+                self.log(
+                    "Power Profile '{0}' has been successfully created.".format(
+                        profile_name
+                    ),
+                    "INFO",
+                )
             else:
                 failed_profiles.append(profile_name)
-                self.log("Power Profile '{0}' failed to create.".format(profile_name), "ERROR")
+                self.log(
+                    "Power Profile '{0}' failed to create.".format(profile_name),
+                    "ERROR",
+                )
 
         if failed_profiles:
-            self.log("The ADD Power Profile(s) operation may not have been successful since some power profiles were not successfully created: {0}"
-                     .format(failed_profiles), "WARNING")
+            self.log(
+                "The ADD Power Profile(s) operation may not have been successful since some power profiles were not successfully created: {0}".format(
+                    failed_profiles
+                ),
+                "WARNING",
+            )
         else:
-            self.log("Verified the success of ADD Power Profile(s) operation for the following profiles: {0}.".format(successful_profiles), "INFO")
+            self.log(
+                "Verified the success of ADD Power Profile(s) operation for the following profiles: {0}.".format(
+                    successful_profiles
+                ),
+                "INFO",
+            )
 
     def verify_update_power_profiles_operation(self, update_power_profiles_params):
         """
@@ -9961,16 +12357,27 @@ class WirelessDesign(DnacBase):
         existing_power_profiles = self.get_power_profiles(get_power_profiles_params={})
         self.log("Retrieved existing power profiles.", "DEBUG")
 
-        self.log("Existing Power Profiles: {0}".format(existing_power_profiles), "DEBUG")
-        self.log("Requested Power Profiles to Update: {0}".format(update_power_profiles_params), "DEBUG")
+        self.log(
+            "Existing Power Profiles: {0}".format(existing_power_profiles), "DEBUG"
+        )
+        self.log(
+            "Requested Power Profiles to Update: {0}".format(
+                update_power_profiles_params
+            ),
+            "DEBUG",
+        )
 
         # Initialize lists to track successful and failed profile updates
         successful_updates = []
         failed_updates = []
 
         # Convert existing power profiles to a dictionary for quick lookup by profile name
-        existing_profiles_dict = {profile["profileName"]: profile for profile in existing_power_profiles}
-        self.log("Converted existing profiles to a dictionary for quick lookup.", "DEBUG")
+        existing_profiles_dict = {
+            profile["profileName"]: profile for profile in existing_power_profiles
+        }
+        self.log(
+            "Converted existing profiles to a dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over the requested power profiles to verify updates
         for requested_profile in update_power_profiles_params:
@@ -9991,41 +12398,78 @@ class WirelessDesign(DnacBase):
                 # Compare description
                 if requested_description != (existing_description or ""):
                     update_successful = False
-                    self.log("Description mismatch for profile '{0}'. Requested: {1}, Existing: {2}".format(
-                        profile_name, requested_description, existing_description), "DEBUG")
+                    self.log(
+                        "Description mismatch for profile '{0}'. Requested: {1}, Existing: {2}".format(
+                            profile_name, requested_description, existing_description
+                        ),
+                        "DEBUG",
+                    )
 
                 # Compare rules, ignoring the sequence parameter
                 if len(requested_rules) != len(existing_rules):
                     update_successful = False
-                    self.log("Rule count mismatch for profile '{0}'. Requested: {1}, Existing: {2}".format(
-                        profile_name, len(requested_rules), len(existing_rules)), "DEBUG")
+                    self.log(
+                        "Rule count mismatch for profile '{0}'. Requested: {1}, Existing: {2}".format(
+                            profile_name, len(requested_rules), len(existing_rules)
+                        ),
+                        "DEBUG",
+                    )
                 else:
                     for req_rule, exist_rule in zip(requested_rules, existing_rules):
                         if (
-                            req_rule.get("interfaceType") != exist_rule.get("interfaceType") or
-                            req_rule.get("interfaceId") != exist_rule.get("interfaceId") or
-                            req_rule.get("parameterType") != exist_rule.get("parameterType")
+                            req_rule.get("interfaceType")
+                            != exist_rule.get("interfaceType")
+                            or req_rule.get("interfaceId")
+                            != exist_rule.get("interfaceId")
+                            or req_rule.get("parameterType")
+                            != exist_rule.get("parameterType")
                         ):
                             update_successful = False
-                            self.log("Rule mismatch in profile '{0}'. Requested rule: {1}, Existing rule: {2}".format(
-                                profile_name, req_rule, exist_rule), "DEBUG")
+                            self.log(
+                                "Rule mismatch in profile '{0}'. Requested rule: {1}, Existing rule: {2}".format(
+                                    profile_name, req_rule, exist_rule
+                                ),
+                                "DEBUG",
+                            )
                             break
 
                 if update_successful:
                     successful_updates.append(profile_name)
-                    self.log("Power Profile '{0}' has been successfully updated.".format(profile_name), "INFO")
+                    self.log(
+                        "Power Profile '{0}' has been successfully updated.".format(
+                            profile_name
+                        ),
+                        "INFO",
+                    )
                 else:
                     failed_updates.append(profile_name)
-                    self.log("Power Profile '{0}' failed to update.".format(profile_name), "ERROR")
+                    self.log(
+                        "Power Profile '{0}' failed to update.".format(profile_name),
+                        "ERROR",
+                    )
             else:
                 failed_updates.append(profile_name)
-                self.log("Power Profile '{0}' does not exist and cannot be updated.".format(profile_name), "ERROR")
+                self.log(
+                    "Power Profile '{0}' does not exist and cannot be updated.".format(
+                        profile_name
+                    ),
+                    "ERROR",
+                )
 
         if failed_updates:
-            self.log("The UPDATE Power Profiles operation may not have been successful. The following power profiles failed verification: {0}.".format(
-                failed_updates), "ERROR")
+            self.log(
+                "The UPDATE Power Profiles operation may not have been successful. The following power profiles failed verification: {0}.".format(
+                    failed_updates
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Successfully verified the UPDATE Power Profiles operation for the following profiles: {0}.".format(successful_updates), "INFO")
+            self.log(
+                "Successfully verified the UPDATE Power Profiles operation for the following profiles: {0}.".format(
+                    successful_updates
+                ),
+                "INFO",
+            )
 
     def verify_delete_power_profiles_operation(self, delete_power_profiles_params):
         """
@@ -10038,11 +12482,23 @@ class WirelessDesign(DnacBase):
         # Retrieve all existing power profiles
         existing_power_profiles = self.get_power_profiles(get_power_profiles_params={})
         # Convert existing profiles to a set for quick lookup
-        existing_profiles_set = {profile["profileName"] for profile in existing_power_profiles}
+        existing_profiles_set = {
+            profile["profileName"] for profile in existing_power_profiles
+        }
         self.log("Retrieved current power profiles.", "DEBUG")
 
-        self.log("Current Power Profiles after DELETE operation: {0}".format(existing_profiles_set), "INFO")
-        self.log("Requested Power Profiles to Delete: {0}".format(delete_power_profiles_params), "INFO")
+        self.log(
+            "Current Power Profiles after DELETE operation: {0}".format(
+                existing_profiles_set
+            ),
+            "INFO",
+        )
+        self.log(
+            "Requested Power Profiles to Delete: {0}".format(
+                delete_power_profiles_params
+            ),
+            "INFO",
+        )
 
         # Initialize a list to track profiles that failed deletion
         failed_deletions = []
@@ -10050,19 +12506,35 @@ class WirelessDesign(DnacBase):
         # Iterate over the requested power profiles to verify deletion
         for requested_profile in delete_power_profiles_params:
             profile_name = requested_profile["profileName"]
-            self.log("Verifying deletion for profile: {0}".format(profile_name), "DEBUG")
+            self.log(
+                "Verifying deletion for profile: {0}".format(profile_name), "DEBUG"
+            )
 
             # Check if the profile still exists in the existing profiles
             if profile_name in existing_profiles_set:
                 # If it exists, the deletion failed
                 failed_deletions.append(profile_name)
-                self.log("Delete operation failed for Power Profile '{0}'. It still exists.".format(profile_name), "ERROR")
+                self.log(
+                    "Delete operation failed for Power Profile '{0}'. It still exists.".format(
+                        profile_name
+                    ),
+                    "ERROR",
+                )
 
         if failed_deletions:
-            self.log("The DELETE Power Profile(s) operation may not have been successful since some Power Profiles still exist: {0}."
-                     .format(failed_deletions), "ERROR")
+            self.log(
+                "The DELETE Power Profile(s) operation may not have been successful since some Power Profiles still exist: {0}.".format(
+                    failed_deletions
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Verified the success of DELETE Power Profile(s) operation for following parameters: {0}.".format(delete_power_profiles_params), "INFO")
+            self.log(
+                "Verified the success of DELETE Power Profile(s) operation for following parameters: {0}.".format(
+                    delete_power_profiles_params
+                ),
+                "INFO",
+            )
 
     def get_access_point_profiles_params(self, access_point_profile_name=None):
         """
@@ -10077,13 +12549,25 @@ class WirelessDesign(DnacBase):
 
         # Map the user-provided access point profile name to the expected API parameter
         if access_point_profile_name:
-            get_access_point_profiles_params["ap_profile_name"] = access_point_profile_name
-            self.log("Added 'ap_profile_name' to parameters: {0}".format(access_point_profile_name), "DEBUG")
+            get_access_point_profiles_params["ap_profile_name"] = (
+                access_point_profile_name
+            )
+            self.log(
+                "Added 'ap_profile_name' to parameters: {0}".format(
+                    access_point_profile_name
+                ),
+                "DEBUG",
+            )
         else:
             self.log("No specific access point profile name provided.", "DEBUG")
 
         # Return the constructed parameters dictionary
-        self.log("Constructed get_access_point_profiles_params: {0}".format(get_access_point_profiles_params), "DEBUG")
+        self.log(
+            "Constructed get_access_point_profiles_params: {0}".format(
+                get_access_point_profiles_params
+            ),
+            "DEBUG",
+        )
         return get_access_point_profiles_params
 
     def get_access_point_profiles(self, get_access_point_profiles_params):
@@ -10095,8 +12579,12 @@ class WirelessDesign(DnacBase):
             list: A list of dictionaries containing details of access point profiles based on the filtering parameters.
         """
         # Execute the paginated API call to retrieve access point profiles
-        self.log("Executing paginated API call to retrieve access point profiles.", "DEBUG")
-        return self.execute_get_with_pagination("wireless", "get_ap_profiles", get_access_point_profiles_params)
+        self.log(
+            "Executing paginated API call to retrieve access point profiles.", "DEBUG"
+        )
+        return self.execute_get_with_pagination(
+            "wireless", "get_ap_profiles", get_access_point_profiles_params
+        )
 
     def map_access_point_profiles_params(self, access_point_profiles):
         """
@@ -10117,30 +12605,147 @@ class WirelessDesign(DnacBase):
         # Define a mapping from country names to country codes
         country_code_map = {
             # Country name to code mappings
-            "Afghanistan": "AF", "Albania": "AL", "Algeria": "DZ", "Angola": "AO", "Argentina": "AR", "Australia": "AU",
-            "Austria": "AT", "Bahamas": "BS", "Bahrain": "BH", "Bangladesh": "BD", "Barbados": "BB", "Belarus": "BY",
-            "Belgium": "BE", "Bhutan": "BT", "Bolivia": "BO", "Bosnia": "BA", "Botswana": "BW", "Brazil": "BR",
-            "Brunei": "BN", "Bulgaria": "BG", "Burundi": "BI", "Cambodia": "KH", "Cameroon": "CM", "Canada": "CA",
-            "Chile": "CL", "China": "CN", "Colombia": "CO", "Costa Rica": "CR", "Croatia": "HR", "Cuba": "CU",
-            "Cyprus": "CY", "Czech Republic": "CZ", "Democratic Republic of the Congo": "CD", "Denmark": "DK", "Dominican Republic": "DO",
-            "Ecuador": "EC", "Egypt": "EG", "El Salvador": "SV", "Estonia": "EE", "Ethiopia": "ET", "Fiji": "FJ",
-            "Finland": "FI", "France": "FR", "Gabon": "GA", "Georgia": "GE", "Germany": "DE", "Ghana": "GH",
-            "Gibraltar": "GI", "Greece": "GR", "Guatemala": "GT", "Honduras": "HN", "Hong Kong": "HK", "Hungary": "HU",
-            "Iceland": "IS", "India": "IN", "Indonesia": "ID", "Iraq": "IQ", "Ireland": "IE", "Isle of Man": "IM",
-            "Israel": "IL", "Italy": "IT", "Ivory Coast (Cote dIvoire)": "CI", "Jamaica": "JM", "Japan 2(P)": "J2", "Japan 4(Q)": "J4",
-            "Jersey": "JE", "Jordan": "JO", "Kazakhstan": "KZ", "Kenya": "KE", "Korea Extended (CK)": "KR", "Kosovo": "XK",
-            "Kuwait": "KW", "Laos": "LA", "Latvia": "LV", "Lebanon": "LB", "Libya": "LY", "Liechtenstein": "LI",
-            "Lithuania": "LT", "Luxembourg": "LU", "Macao": "MO", "Macedonia": "MK", "Malaysia": "MY", "Malta": "MT",
-            "Mauritius": "MU", "Mexico": "MX", "Moldova": "MD", "Monaco": "MC", "Mongolia": "MN", "Montenegro": "ME",
-            "Morocco": "MA", "Myanmar": "MM", "Namibia": "NA", "Nepal": "NP", "Netherlands": "NL", "New Zealand": "NZ",
-            "Nicaragua": "NI", "Nigeria": "NG", "Norway": "NO", "Oman": "OM", "Pakistan": "PK", "Panama": "PA",
-            "Paraguay": "PY", "Peru": "PE", "Philippines": "PH", "Poland": "PL", "Portugal": "PT", "Puerto Rico": "PR",
-            "Qatar": "QA", "Romania": "RO", "Russian Federation": "RU", "San Marino": "SM", "Saudi Arabia": "SA",
-            "Serbia": "RS", "Singapore": "SG", "Slovak Republic": "SK", "Slovenia": "SI", "South Africa": "ZA", "Spain": "ES",
-            "Sri Lanka": "LK", "Sudan": "SD", "Sweden": "SE", "Switzerland": "CH", "Taiwan": "TW", "Thailand": "TH",
-            "Trinidad": "TT", "Tunisia": "TN", "Turkey": "TR", "Uganda": "UG", "Ukraine": "UA", "United Arab Emirates": "AE",
-            "United Kingdom": "GB", "United Republic of Tanzania": "TZ", "United States": "US", "Uruguay": "UY", "Uzbekistan": "UZ",
-            "Vatican City State": "VA", "Venezuela": "VE", "Vietnam": "VN", "Yemen": "YE", "Zambia": "ZM", "Zimbabwe": "ZW"
+            "Afghanistan": "AF",
+            "Albania": "AL",
+            "Algeria": "DZ",
+            "Angola": "AO",
+            "Argentina": "AR",
+            "Australia": "AU",
+            "Austria": "AT",
+            "Bahamas": "BS",
+            "Bahrain": "BH",
+            "Bangladesh": "BD",
+            "Barbados": "BB",
+            "Belarus": "BY",
+            "Belgium": "BE",
+            "Bhutan": "BT",
+            "Bolivia": "BO",
+            "Bosnia": "BA",
+            "Botswana": "BW",
+            "Brazil": "BR",
+            "Brunei": "BN",
+            "Bulgaria": "BG",
+            "Burundi": "BI",
+            "Cambodia": "KH",
+            "Cameroon": "CM",
+            "Canada": "CA",
+            "Chile": "CL",
+            "China": "CN",
+            "Colombia": "CO",
+            "Costa Rica": "CR",
+            "Croatia": "HR",
+            "Cuba": "CU",
+            "Cyprus": "CY",
+            "Czech Republic": "CZ",
+            "Democratic Republic of the Congo": "CD",
+            "Denmark": "DK",
+            "Dominican Republic": "DO",
+            "Ecuador": "EC",
+            "Egypt": "EG",
+            "El Salvador": "SV",
+            "Estonia": "EE",
+            "Ethiopia": "ET",
+            "Fiji": "FJ",
+            "Finland": "FI",
+            "France": "FR",
+            "Gabon": "GA",
+            "Georgia": "GE",
+            "Germany": "DE",
+            "Ghana": "GH",
+            "Gibraltar": "GI",
+            "Greece": "GR",
+            "Guatemala": "GT",
+            "Honduras": "HN",
+            "Hong Kong": "HK",
+            "Hungary": "HU",
+            "Iceland": "IS",
+            "India": "IN",
+            "Indonesia": "ID",
+            "Iraq": "IQ",
+            "Ireland": "IE",
+            "Isle of Man": "IM",
+            "Israel": "IL",
+            "Italy": "IT",
+            "Ivory Coast (Cote dIvoire)": "CI",
+            "Jamaica": "JM",
+            "Japan 2(P)": "J2",
+            "Japan 4(Q)": "J4",
+            "Jersey": "JE",
+            "Jordan": "JO",
+            "Kazakhstan": "KZ",
+            "Kenya": "KE",
+            "Korea Extended (CK)": "KR",
+            "Kosovo": "XK",
+            "Kuwait": "KW",
+            "Laos": "LA",
+            "Latvia": "LV",
+            "Lebanon": "LB",
+            "Libya": "LY",
+            "Liechtenstein": "LI",
+            "Lithuania": "LT",
+            "Luxembourg": "LU",
+            "Macao": "MO",
+            "Macedonia": "MK",
+            "Malaysia": "MY",
+            "Malta": "MT",
+            "Mauritius": "MU",
+            "Mexico": "MX",
+            "Moldova": "MD",
+            "Monaco": "MC",
+            "Mongolia": "MN",
+            "Montenegro": "ME",
+            "Morocco": "MA",
+            "Myanmar": "MM",
+            "Namibia": "NA",
+            "Nepal": "NP",
+            "Netherlands": "NL",
+            "New Zealand": "NZ",
+            "Nicaragua": "NI",
+            "Nigeria": "NG",
+            "Norway": "NO",
+            "Oman": "OM",
+            "Pakistan": "PK",
+            "Panama": "PA",
+            "Paraguay": "PY",
+            "Peru": "PE",
+            "Philippines": "PH",
+            "Poland": "PL",
+            "Portugal": "PT",
+            "Puerto Rico": "PR",
+            "Qatar": "QA",
+            "Romania": "RO",
+            "Russian Federation": "RU",
+            "San Marino": "SM",
+            "Saudi Arabia": "SA",
+            "Serbia": "RS",
+            "Singapore": "SG",
+            "Slovak Republic": "SK",
+            "Slovenia": "SI",
+            "South Africa": "ZA",
+            "Spain": "ES",
+            "Sri Lanka": "LK",
+            "Sudan": "SD",
+            "Sweden": "SE",
+            "Switzerland": "CH",
+            "Taiwan": "TW",
+            "Thailand": "TH",
+            "Trinidad": "TT",
+            "Tunisia": "TN",
+            "Turkey": "TR",
+            "Uganda": "UG",
+            "Ukraine": "UA",
+            "United Arab Emirates": "AE",
+            "United Kingdom": "GB",
+            "United Republic of Tanzania": "TZ",
+            "United States": "US",
+            "Uruguay": "UY",
+            "Uzbekistan": "UZ",
+            "Vatican City State": "VA",
+            "Venezuela": "VE",
+            "Vietnam": "VN",
+            "Yemen": "YE",
+            "Zambia": "ZM",
+            "Zimbabwe": "ZW",
         }
 
         # Iterate over each access point profile
@@ -10158,10 +12763,16 @@ class WirelessDesign(DnacBase):
                 "description": profile.get("access_point_profile_description"),
                 "remoteWorkerEnabled": profile.get("remote_teleworker"),
                 "awipsEnabled": profile.get("security_settings", {}).get("awips"),
-                "awipsForensicEnabled": profile.get("security_settings", {}).get("awips_forensic"),
-                "pmfDenialEnabled": profile.get("security_settings", {}).get("pmf_denial"),
+                "awipsForensicEnabled": profile.get("security_settings", {}).get(
+                    "awips_forensic"
+                ),
+                "pmfDenialEnabled": profile.get("security_settings", {}).get(
+                    "pmf_denial"
+                ),
                 "meshEnabled": profile.get("mesh_enabled"),
-                "apPowerProfileName": profile.get("power_settings", {}).get("ap_power_profile_name"),
+                "apPowerProfileName": profile.get("power_settings", {}).get(
+                    "ap_power_profile_name"
+                ),
                 "countryCode": profile.get("country_code"),
                 "timeZone": profile.get("time_zone"),
                 "timeZoneOffsetHour": profile.get("time_zone_offset_hour"),
@@ -10178,8 +12789,15 @@ class WirelessDesign(DnacBase):
 
             # Map the country code if provided
             if "country_code" in profile:
-                mapped_profile["countryCode"] = country_code_map.get(profile["country_code"])
-                self.log("Mapped 'country_code' to '{0}'.".format(mapped_profile["countryCode"]), "DEBUG")
+                mapped_profile["countryCode"] = country_code_map.get(
+                    profile["country_code"]
+                )
+                self.log(
+                    "Mapped 'country_code' to '{0}'.".format(
+                        mapped_profile["countryCode"]
+                    ),
+                    "DEBUG",
+                )
 
             # Define mappings for management settings
             management_mapping = {
@@ -10191,7 +12809,7 @@ class WirelessDesign(DnacBase):
                 "management_username": "managementUserName",
                 "management_password": "managementPassword",
                 "management_enable_password": "managementEnablePassword",
-                "cdp_state": "cdpState"
+                "cdp_state": "cdpState",
             }
 
             # Map the management settings if they exist
@@ -10201,17 +12819,24 @@ class WirelessDesign(DnacBase):
 
                 for key, original_key in management_mapping.items():
                     if key in management_settings:
-                        mapped_profile["managementSetting"][original_key] = management_settings[key]
-                        self.log("Mapped '{0}' to '{1}'.".format(key, original_key), "DEBUG")
+                        mapped_profile["managementSetting"][original_key] = (
+                            management_settings[key]
+                        )
+                        self.log(
+                            "Mapped '{0}' to '{1}'.".format(key, original_key), "DEBUG"
+                        )
                     else:
-                        self.log("Key '{0}' not found in management_settings.".format(key), "WARNING")
+                        self.log(
+                            "Key '{0}' not found in management_settings.".format(key),
+                            "WARNING",
+                        )
 
             # Define mappings for rogue detection settings
             rogue_detection_mapping = {
                 "rogue_detection_enabled": "rogueDetection",
                 "minimum_rssi": "rogueDetectionMinRssi",
                 "transient_interval": "rogueDetectionTransientInterval",
-                "report_interval": "rogueDetectionReportInterval"
+                "report_interval": "rogueDetectionReportInterval",
             }
 
             # Map the rogue detection settings if they exist
@@ -10222,10 +12847,18 @@ class WirelessDesign(DnacBase):
 
                     for key, original_key in rogue_detection_mapping.items():
                         if key in security_settings:
-                            mapped_profile["rogueDetectionSetting"][original_key] = security_settings[key]
-                            self.log("Mapped '{0}' to '{1}'.".format(key, original_key), "DEBUG")
+                            mapped_profile["rogueDetectionSetting"][original_key] = (
+                                security_settings[key]
+                            )
+                            self.log(
+                                "Mapped '{0}' to '{1}'.".format(key, original_key),
+                                "DEBUG",
+                            )
                         else:
-                            self.log("Key '{0}' not found in security_settings.".format(key), "WARNING")
+                            self.log(
+                                "Key '{0}' not found in security_settings.".format(key),
+                                "WARNING",
+                            )
 
             # Define mappings for mesh settings
             mesh_mapping = {
@@ -10234,7 +12867,7 @@ class WirelessDesign(DnacBase):
                 "range": "range",
                 "ghz_5_backhaul_data_rates": "ghz5BackhaulDataRates",
                 "ghz_2_4_backhaul_data_rates": "ghz24BackhaulDataRates",
-                "rap_downlink_backhaul": "rapDownlinkBackhaul"
+                "rap_downlink_backhaul": "rapDownlinkBackhaul",
             }
 
             # Map the mesh settings if they exist
@@ -10245,9 +12878,14 @@ class WirelessDesign(DnacBase):
                 for key, original_key in mesh_mapping.items():
                     if key in mesh_settings:
                         mapped_profile["meshSetting"][original_key] = mesh_settings[key]
-                        self.log("Mapped '{0}' to '{1}'.".format(key, original_key), "DEBUG")
+                        self.log(
+                            "Mapped '{0}' to '{1}'.".format(key, original_key), "DEBUG"
+                        )
                     else:
-                        self.log("Key '{0}' not found in mesh_settings.".format(key), "WARNING")
+                        self.log(
+                            "Key '{0}' not found in mesh_settings.".format(key),
+                            "WARNING",
+                        )
 
             # Map calendar power profiles if they exist
             if "power_settings" in profile:
@@ -10255,46 +12893,71 @@ class WirelessDesign(DnacBase):
 
                 calendar_power_profiles_mapping = {
                     "ap_power_profile_name": "powerProfileName",
-                    "scheduler_type": "schedulerType"
+                    "scheduler_type": "schedulerType",
                 }
 
                 scheduler_mapping = {
                     "scheduler_start_time": "schedulerStartTime",
                     "scheduler_end_time": "schedulerEndTime",
                     "scheduler_days_list": "schedulerDay",
-                    "scheduler_dates_list": "schedulerDate"
+                    "scheduler_dates_list": "schedulerDate",
                 }
 
                 # Initialize the API-compatible structure for calendar power profiles
                 api_calendar_profiles = []
 
                 # Iterate over each calendar power profile in the provided settings
-                for calendar_profile in power_settings.get("calendar_power_profiles", []):
+                for calendar_profile in power_settings.get(
+                    "calendar_power_profiles", []
+                ):
                     # Map the main calendar power profile fields
                     api_calendar_profile = {}
-                    for provided_key, api_key in calendar_power_profiles_mapping.items():
+                    for (
+                        provided_key,
+                        api_key,
+                    ) in calendar_power_profiles_mapping.items():
                         if provided_key in calendar_profile:
-                            api_calendar_profile[api_key] = calendar_profile[provided_key]
-                            self.log("Mapped '{0}' to '{1}'.".format(provided_key, api_key), "DEBUG")
+                            api_calendar_profile[api_key] = calendar_profile[
+                                provided_key
+                            ]
+                            self.log(
+                                "Mapped '{0}' to '{1}'.".format(provided_key, api_key),
+                                "DEBUG",
+                            )
 
                     # Map the scheduler fields
                     api_calendar_profile["duration"] = {}
                     for provided_key, api_key in scheduler_mapping.items():
                         if provided_key in calendar_profile:
-                            api_calendar_profile["duration"][api_key] = calendar_profile[provided_key]
-                            self.log("Mapped '{0}' to '{1}'.".format(provided_key, api_key), "DEBUG")
+                            api_calendar_profile["duration"][api_key] = (
+                                calendar_profile[provided_key]
+                            )
+                            self.log(
+                                "Mapped '{0}' to '{1}'.".format(provided_key, api_key),
+                                "DEBUG",
+                            )
 
                     # Add the mapped calendar profile to the list
                     api_calendar_profiles.append(api_calendar_profile)
-                    self.log("Added mapped calendar power profile: {0}".format(api_calendar_profile), "DEBUG")
+                    self.log(
+                        "Added mapped calendar power profile: {0}".format(
+                            api_calendar_profile
+                        ),
+                        "DEBUG",
+                    )
 
                 mapped_profile["calendarPowerProfiles"] = api_calendar_profiles
 
             # Add the mapped profile to the list
             mapped_access_point_profiles.append(mapped_profile)
-            self.log("Added mapped access point profile: {0}".format(mapped_profile), "DEBUG")
+            self.log(
+                "Added mapped access point profile: {0}".format(mapped_profile), "DEBUG"
+            )
 
-        self.log("Mapped Access Point Profiles: {0}".format(mapped_access_point_profiles), "DEBUG")
+        self.log(
+            "Mapped Access Point Profiles: {0}".format(mapped_access_point_profiles),
+            "DEBUG",
+        )
 
         # Return the list of mapped access point profiles
         return mapped_access_point_profiles
@@ -10314,7 +12977,12 @@ class WirelessDesign(DnacBase):
         if match:
             # Extract hour, minute, and period from the matched groups
             hour, minute, period = match.groups()
-            self.log("Matched time components - Hour: {0}, Minute: {1}, Period: {2}".format(hour, minute, period), "DEBUG")
+            self.log(
+                "Matched time components - Hour: {0}, Minute: {1}, Period: {2}".format(
+                    hour, minute, period
+                ),
+                "DEBUG",
+            )
 
             # Ensure two digits for the hour
             hour = hour.zfill(2)
@@ -10323,7 +12991,10 @@ class WirelessDesign(DnacBase):
             return normalized_time
 
         # Return the original time string if no match is found
-        self.log("No match found for time string. Returning original: {0}".format(time_str), "DEBUG")
+        self.log(
+            "No match found for time string. Returning original: {0}".format(time_str),
+            "DEBUG",
+        )
         return time_str
 
     def compare_values(self, requested_value, existing_value):
@@ -10337,23 +13008,51 @@ class WirelessDesign(DnacBase):
         """
         # Compare dictionaries key by key
         if isinstance(requested_value, dict) and isinstance(existing_value, dict):
-            self.log("Comparing dictionaries. Requested: {0}, Existing: {1}".format(requested_value, existing_value), "DEBUG")
+            self.log(
+                "Comparing dictionaries. Requested: {0}, Existing: {1}".format(
+                    requested_value, existing_value
+                ),
+                "DEBUG",
+            )
             for sub_key in requested_value:
-                if not self.compare_values(requested_value[sub_key], existing_value.get(sub_key)):
-                    self.log("Mismatch found in dictionary comparison for key: {0}. Requested: {1}, Existing: {2}".format(
-                        sub_key, requested_value[sub_key], existing_value.get(sub_key)), "DEBUG")
+                if not self.compare_values(
+                    requested_value[sub_key], existing_value.get(sub_key)
+                ):
+                    self.log(
+                        "Mismatch found in dictionary comparison for key: {0}. Requested: {1}, Existing: {2}".format(
+                            sub_key,
+                            requested_value[sub_key],
+                            existing_value.get(sub_key),
+                        ),
+                        "DEBUG",
+                    )
                     return False
 
         # Compare lists by sorting and comparing elements
         elif isinstance(requested_value, list) and isinstance(existing_value, list):
-            self.log("Comparing lists. Requested: {0}, Existing: {1}".format(requested_value, existing_value), "DEBUG")
+            self.log(
+                "Comparing lists. Requested: {0}, Existing: {1}".format(
+                    requested_value, existing_value
+                ),
+                "DEBUG",
+            )
             # Check if one list is empty while the other is not
             if not requested_value and existing_value:
-                self.log("Mismatch: Requested value is an empty list, but existing value contains: {0}".format(existing_value), "DEBUG")
+                self.log(
+                    "Mismatch: Requested value is an empty list, but existing value contains: {0}".format(
+                        existing_value
+                    ),
+                    "DEBUG",
+                )
                 return False
 
             if requested_value and not existing_value:
-                self.log("Mismatch: Existing value is an empty list, but requested value contains: {0}".format(requested_value), "DEBUG")
+                self.log(
+                    "Mismatch: Existing value is an empty list, but requested value contains: {0}".format(
+                        requested_value
+                    ),
+                    "DEBUG",
+                )
                 return False
 
             # Compare lists element by element
@@ -10361,7 +13060,12 @@ class WirelessDesign(DnacBase):
             existing_sorted = sorted(existing_value, key=str)
             for r, e in zip(requested_sorted, existing_sorted):
                 if not self.compare_values(r, e):
-                    self.log("Mismatch found in list comparison. Requested element: {0}, Existing element: {1}".format(r, e), "DEBUG")
+                    self.log(
+                        "Mismatch found in list comparison. Requested element: {0}, Existing element: {1}".format(
+                            r, e
+                        ),
+                        "DEBUG",
+                    )
                     return False
 
             self.log("Lists match after comparison.", "DEBUG")
@@ -10369,17 +13073,31 @@ class WirelessDesign(DnacBase):
 
         # Normalize and compare time strings
         elif isinstance(requested_value, str) and isinstance(existing_value, str):
-            self.log("Comparing string values. Requested: {0}, Existing: {1}".format(requested_value, existing_value), "DEBUG")
+            self.log(
+                "Comparing string values. Requested: {0}, Existing: {1}".format(
+                    requested_value, existing_value
+                ),
+                "DEBUG",
+            )
             requested_value = self.normalize_time(requested_value)
             existing_value = self.normalize_time(existing_value)
             comparison_result = requested_value == existing_value
-            self.log("String comparison result: {0}. Normalized Requested: {1}, Normalized Existing: {2}".format(
-                comparison_result, requested_value, existing_value), "DEBUG")
+            self.log(
+                "String comparison result: {0}. Normalized Requested: {1}, Normalized Existing: {2}".format(
+                    comparison_result, requested_value, existing_value
+                ),
+                "DEBUG",
+            )
             return comparison_result
 
         # Direct comparison for other types
         else:
-            self.log("Directly comparing values. Requested: {0}, Existing: {1}".format(requested_value, existing_value), "DEBUG")
+            self.log(
+                "Directly comparing values. Requested: {0}, Existing: {1}".format(
+                    requested_value, existing_value
+                ),
+                "DEBUG",
+            )
             return requested_value == existing_value
 
         return True
@@ -10392,14 +13110,27 @@ class WirelessDesign(DnacBase):
             updates (dict or list): The updates to apply.
         """
         for key, value in updates.items():
-            if isinstance(value, dict) and key in existing and isinstance(existing[key], dict):
+            if (
+                isinstance(value, dict)
+                and key in existing
+                and isinstance(existing[key], dict)
+            ):
                 self.log(f"Recursively updating dictionary for key: {key}", "DEBUG")
                 self.recursive_update(existing[key], value)
-            elif isinstance(value, list) and key in existing and isinstance(existing[key], list):
+            elif (
+                isinstance(value, list)
+                and key in existing
+                and isinstance(existing[key], list)
+            ):
                 self.log("Handling list for key: '{0}'".format(key), "DEBUG")
                 # If the requested list is empty, replace the existing list
                 if not value:
-                    self.log("Requested list for key '{0}' is empty. Replacing existing list.".format(key), "DEBUG")
+                    self.log(
+                        "Requested list for key '{0}' is empty. Replacing existing list.".format(
+                            key
+                        ),
+                        "DEBUG",
+                    )
                     existing[key] = value
                 else:
                     # Handle list of dictionaries
@@ -10407,21 +13138,38 @@ class WirelessDesign(DnacBase):
                         if isinstance(update_dict, dict):
                             matched = False
                             for existing_dict in existing[key]:
-                                if all(existing_dict.get(id_key) == update_dict.get(id_key) for id_key in update_dict.keys() if id_key in existing_dict):
-                                    self.log("Match found for update in list for key '{0}'. Recursively updating.".format(key), "DEBUG")
+                                if all(
+                                    existing_dict.get(id_key) == update_dict.get(id_key)
+                                    for id_key in update_dict.keys()
+                                    if id_key in existing_dict
+                                ):
+                                    self.log(
+                                        "Match found for update in list for key '{0}'. Recursively updating.".format(
+                                            key
+                                        ),
+                                        "DEBUG",
+                                    )
                                     self.recursive_update(existing_dict, update_dict)
                                     matched = True
                                     break
 
                             if not matched:
-                                self.log(f"No match found. Appending new dictionary to list for key '{key}'.", "DEBUG")
+                                self.log(
+                                    f"No match found. Appending new dictionary to list for key '{key}'.",
+                                    "DEBUG",
+                                )
                                 existing[key].append(update_dict)
             else:
                 # Directly update the value
-                self.log(f"Updating value for key: {key}. Requested: {value}, Existing: {existing.get(key)}", "DEBUG")
+                self.log(
+                    f"Updating value for key: {key}. Requested: {value}, Existing: {existing.get(key)}",
+                    "DEBUG",
+                )
                 existing[key] = value
 
-    def verify_create_update_access_point_profiles_requirement(self, access_point_profiles):
+    def verify_create_update_access_point_profiles_requirement(
+        self, access_point_profiles
+    ):
         """
         Determines whether access point profiles need to be created, updated, or require no updates.
         Args:
@@ -10430,15 +13178,29 @@ class WirelessDesign(DnacBase):
             tuple: Three lists containing access point profiles to be created, updated, and not updated.
         """
         # Update requested profiles with default values where needed
-        updated_access_point_profiles = self.map_access_point_profiles_params(access_point_profiles)
+        updated_access_point_profiles = self.map_access_point_profiles_params(
+            access_point_profiles
+        )
         self.log("Mapped requested profiles to include default values.", "DEBUG")
 
         # Retrieve all existing access point profiles from the system
-        existing_access_point_profiles = self.get_access_point_profiles(get_access_point_profiles_params={})
+        existing_access_point_profiles = self.get_access_point_profiles(
+            get_access_point_profiles_params={}
+        )
         self.log("Retrieved existing access point profiles from the system.", "DEBUG")
 
-        self.log("Existing Access Point Profiles: {0}".format(existing_access_point_profiles), "DEBUG")
-        self.log("Requested Access Point Profiles: {0}".format(updated_access_point_profiles), "DEBUG")
+        self.log(
+            "Existing Access Point Profiles: {0}".format(
+                existing_access_point_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Requested Access Point Profiles: {0}".format(
+                updated_access_point_profiles
+            ),
+            "DEBUG",
+        )
 
         # Initialize lists to store profiles that need to be created, updated, or not changed
         create_profiles = []
@@ -10446,8 +13208,13 @@ class WirelessDesign(DnacBase):
         no_update_profiles = []
 
         # Create a dictionary of existing profiles for quick lookup using the profile name
-        existing_profiles_dict = {profile["apProfileName"]: profile for profile in existing_access_point_profiles}
-        self.log("Converted existing profiles to a dictionary for quick lookup.", "DEBUG")
+        existing_profiles_dict = {
+            profile["apProfileName"]: profile
+            for profile in existing_access_point_profiles
+        }
+        self.log(
+            "Converted existing profiles to a dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over the updated requested access point profiles
         for requested_profile in updated_access_point_profiles:
@@ -10458,7 +13225,9 @@ class WirelessDesign(DnacBase):
             # Check if the profile already exists
             if profile_name in existing_profiles_dict:
                 existing_profile = existing_profiles_dict[profile_name]
-                self.log("Profile '{0}' exists in the system.".format(profile_name), "DEBUG")
+                self.log(
+                    "Profile '{0}' exists in the system.".format(profile_name), "DEBUG"
+                )
 
                 # Iterate over each parameter in the requested profile
                 for key, requested_value in requested_profile.items():
@@ -10473,51 +13242,72 @@ class WirelessDesign(DnacBase):
                                 "Requested value: {2}, Existing value: {3}".format(
                                     key, profile_name, requested_value, existing_value
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                             # Handle the specific case for time_zone
-                            if key == "timeZone" and requested_value in ["NOT CONFIGURED", "CONTROLLER"]:
+                            if key == "timeZone" and requested_value in [
+                                "NOT CONFIGURED",
+                                "CONTROLLER",
+                            ]:
                                 # Ensure timeZoneOffsetHour and timeZoneOffsetMinutes are set to zero
                                 requested_profile["timeZoneOffsetHour"] = 0
                                 requested_profile["timeZoneOffsetMinutes"] = 0
                                 self.log(
                                     "For profile '{0}', 'timeZone' is set to '{1}'. Setting 'timeZoneOffsetHour' and 'timeZoneOffsetMinutes' to 0.".format(
-                                        profile_name, requested_value),
-                                    "DEBUG"
+                                        profile_name, requested_value
+                                    ),
+                                    "DEBUG",
                                 )
 
                             # Handle the specific case for calendarPowerProfiles
                             if key == "calendarPowerProfiles":
-                                self.log("Updating calendarPowerProfiles for profile '{0}'.".format(profile_name), "DEBUG")
+                                self.log(
+                                    "Updating calendarPowerProfiles for profile '{0}'.".format(
+                                        profile_name
+                                    ),
+                                    "DEBUG",
+                                )
                                 for calendar_profile in requested_value:
                                     # Ensure the 'duration' field exists
                                     if "duration" not in calendar_profile:
                                         calendar_profile["duration"] = {}
 
                                     # Update fields based on the schedulerType
-                                    scheduler_type = calendar_profile.get("schedulerType")
+                                    scheduler_type = calendar_profile.get(
+                                        "schedulerType"
+                                    )
                                     if scheduler_type == "DAILY":
-                                        calendar_profile["duration"]["schedulerDay"] = None
-                                        calendar_profile["duration"]["schedulerDate"] = None
+                                        calendar_profile["duration"][
+                                            "schedulerDay"
+                                        ] = None
+                                        calendar_profile["duration"][
+                                            "schedulerDate"
+                                        ] = None
                                         self.log(
                                             "Set 'schedulerDay' to None and 'schedulerDate' to None for schedulerType 'DAILY' "
                                             "in profile '{0}'.".format(profile_name),
-                                            "DEBUG"
+                                            "DEBUG",
                                         )
                                     elif scheduler_type == "WEEKLY":
-                                        calendar_profile["duration"]["schedulerDate"] = None
+                                        calendar_profile["duration"][
+                                            "schedulerDate"
+                                        ] = None
                                         self.log(
-                                            "Set 'schedulerDate' to None for schedulerType 'WEEKLY' in profile '{0}'.".format(profile_name),
-                                            "DEBUG"
+                                            "Set 'schedulerDate' to None for schedulerType 'WEEKLY' in profile '{0}'.".format(
+                                                profile_name
+                                            ),
+                                            "DEBUG",
                                         )
                                     elif scheduler_type == "MONTHLY":
-                                        calendar_profile["duration"]["schedulerDay"] = None
+                                        calendar_profile["duration"][
+                                            "schedulerDay"
+                                        ] = None
                                         self.log(
                                             "Unknown schedulerType '{0}' in calendarPowerProfiles for profile '{1}'.".format(
                                                 scheduler_type, profile_name
                                             ),
-                                            "DEBUG"
+                                            "DEBUG",
                                         )
                             break
 
@@ -10526,27 +13316,61 @@ class WirelessDesign(DnacBase):
                     updated_profile = existing_profile.copy()
                     self.recursive_update(updated_profile, requested_profile)
                     update_profiles.append(updated_profile)
-                    self.log("Profile '{0}' marked for update.".format(profile_name), "DEBUG")
+                    self.log(
+                        "Profile '{0}' marked for update.".format(profile_name), "DEBUG"
+                    )
                 else:
                     # No changes needed for this profile
                     no_update_profiles.append(existing_profile)
-                    self.log("Profile '{0}' requires no updates.".format(profile_name), "DEBUG")
+                    self.log(
+                        "Profile '{0}' requires no updates.".format(profile_name),
+                        "DEBUG",
+                    )
 
             else:
                 # The profile does not exist and needs to be created
                 create_profiles.append(requested_profile)
-                self.log("Profile '{0}' marked for creation.".format(profile_name), "DEBUG")
+                self.log(
+                    "Profile '{0}' marked for creation.".format(profile_name), "DEBUG"
+                )
 
-        self.log("Access Point Profiles that need to be CREATED: {0} - {1}".format(len(create_profiles), create_profiles), "DEBUG")
-        self.log("Access Point Profiles that need to be UPDATED: {0} - {1}".format(len(update_profiles), update_profiles), "DEBUG")
-        self.log("Access Point Profiles that DON'T NEED UPDATES: {0} - {1}".format(len(no_update_profiles), no_update_profiles), "DEBUG")
+        self.log(
+            "Access Point Profiles that need to be CREATED: {0} - {1}".format(
+                len(create_profiles), create_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Access Point Profiles that need to be UPDATED: {0} - {1}".format(
+                len(update_profiles), update_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Access Point Profiles that DON'T NEED UPDATES: {0} - {1}".format(
+                len(no_update_profiles), no_update_profiles
+            ),
+            "DEBUG",
+        )
 
         # Validate that the total number of processed profiles matches the number of requested profiles
-        total_profiles_processed = len(create_profiles) + len(update_profiles) + len(no_update_profiles)
+        total_profiles_processed = (
+            len(create_profiles) + len(update_profiles) + len(no_update_profiles)
+        )
         if total_profiles_processed == len(updated_access_point_profiles):
-            self.log("Match in total counts: Processed={0}, Requested={1}.".format(total_profiles_processed, len(updated_access_point_profiles)), "DEBUG")
+            self.log(
+                "Match in total counts: Processed={0}, Requested={1}.".format(
+                    total_profiles_processed, len(updated_access_point_profiles)
+                ),
+                "DEBUG",
+            )
         else:
-            self.log("Mismatch in total counts: Processed={0}, Requested={1}.".format(total_profiles_processed, len(updated_access_point_profiles)), "ERROR")
+            self.log(
+                "Mismatch in total counts: Processed={0}, Requested={1}.".format(
+                    total_profiles_processed, len(updated_access_point_profiles)
+                ),
+                "ERROR",
+            )
 
         # Return the categorized profiles
         return create_profiles, update_profiles, no_update_profiles
@@ -10565,17 +13389,32 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of access point profiles for deletion.", "INFO")
 
         # Retrieve all existing access point profiles
-        existing_access_point_profiles = self.get_access_point_profiles(get_access_point_profiles_params={})
-        self.log("Existing Access Point Profiles: {0}".format(existing_access_point_profiles), "DEBUG")
+        existing_access_point_profiles = self.get_access_point_profiles(
+            get_access_point_profiles_params={}
+        )
+        self.log(
+            "Existing Access Point Profiles: {0}".format(
+                existing_access_point_profiles
+            ),
+            "DEBUG",
+        )
 
         # Convert existing access point profiles to a dictionary for quick lookup by profile name
-        existing_profiles_dict = {profile["apProfileName"]: profile for profile in existing_access_point_profiles}
-        self.log("Converted existing profiles to a dictionary for quick lookup.", "DEBUG")
+        existing_profiles_dict = {
+            profile["apProfileName"]: profile
+            for profile in existing_access_point_profiles
+        }
+        self.log(
+            "Converted existing profiles to a dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over the requested access point profiles
         for requested_profile in access_point_profiles:
             profile_name = requested_profile.get("access_point_profile_name")
-            self.log("Checking deletion requirement for profile: {0}".format(profile_name), "DEBUG")
+            self.log(
+                "Checking deletion requirement for profile: {0}".format(profile_name),
+                "DEBUG",
+            )
 
             # Check if the access point profile exists in the existing access point profiles
             if profile_name in existing_profiles_dict:
@@ -10584,12 +13423,27 @@ class WirelessDesign(DnacBase):
                 profile_to_delete = requested_profile.copy()
                 profile_to_delete["id"] = existing_profile.get("id")
                 delete_access_point_profiles_list.append(profile_to_delete)
-                self.log("Access Point Profile '{0}' scheduled for deletion.".format(profile_name), "INFO")
+                self.log(
+                    "Access Point Profile '{0}' scheduled for deletion.".format(
+                        profile_name
+                    ),
+                    "INFO",
+                )
             else:
-                self.log("Deletion not required for access point profile '{0}'. It does not exist.".format(profile_name), "INFO")
+                self.log(
+                    "Deletion not required for access point profile '{0}'. It does not exist.".format(
+                        profile_name
+                    ),
+                    "INFO",
+                )
 
-        self.log("Access Point Profiles scheduled for deletion: {0} - {1}".format(
-            len(delete_access_point_profiles_list), delete_access_point_profiles_list), "DEBUG")
+        self.log(
+            "Access Point Profiles scheduled for deletion: {0} - {1}".format(
+                len(delete_access_point_profiles_list),
+                delete_access_point_profiles_list,
+            ),
+            "DEBUG",
+        )
 
         # Return the list of profiles that need to be deleted
         return delete_access_point_profiles_list
@@ -10602,10 +13456,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the create operation.
         """
-        self.log("Initiating addition of Access Point profiles with parameters: {0}".format(create_access_point_profile_params), "INFO")
+        self.log(
+            "Initiating addition of Access Point profiles with parameters: {0}".format(
+                create_access_point_profile_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to create the access point profile and return the task ID
-        return self.get_taskid_post_api_call("wireless", "create_ap_profile", create_access_point_profile_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "create_ap_profile", create_access_point_profile_params
+        )
 
     def update_access_point_profile(self, update_access_point_profile_params):
         """
@@ -10615,10 +13476,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the update operation.
         """
-        self.log("Initiating update Access Point profiles with parameters: {0}".format(update_access_point_profile_params), "INFO")
+        self.log(
+            "Initiating update Access Point profiles with parameters: {0}".format(
+                update_access_point_profile_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to update the access point profile and return the task ID
-        return self.get_taskid_post_api_call("wireless", "update_ap_profile_by_id", update_access_point_profile_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "update_ap_profile_by_id", update_access_point_profile_params
+        )
 
     def delete_access_point_profile(self, delete_access_point_profile_params):
         """
@@ -10628,12 +13496,24 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response containing the task ID for the delete operation.
         """
-        self.log("Initiating deletion of Access Point profiles with parameters: {0}".format(delete_access_point_profile_params), "INFO")
+        self.log(
+            "Initiating deletion of Access Point profiles with parameters: {0}".format(
+                delete_access_point_profile_params
+            ),
+            "INFO",
+        )
 
         # Execute the API call to delete the access point profile and return the task ID
-        return self.get_taskid_post_api_call("wireless", "delete_ap_profile_by_id", delete_access_point_profile_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "delete_ap_profile_by_id", delete_access_point_profile_params
+        )
 
-    def process_access_point_profiles_common(self, access_point_profiles_params, create_or_update_or_delete_access_point_profiles, task_name):
+    def process_access_point_profiles_common(
+        self,
+        access_point_profiles_params,
+        create_or_update_or_delete_access_point_profiles,
+        task_name,
+    ):
         """
         Processes the access point profiles for the specified operation (create, update, delete).
         Args:
@@ -10651,10 +13531,15 @@ class WirelessDesign(DnacBase):
         # Iterate over each profile parameter set for processing
         for profile in access_point_profiles_params:
             profile_name = profile.get("apProfileName")
-            self.log("Processing access point profile: {0}".format(profile_name), "DEBUG")
+            self.log(
+                "Processing access point profile: {0}".format(profile_name), "DEBUG"
+            )
 
             # Prepare parameters for the operation
-            if create_or_update_or_delete_access_point_profiles == self.delete_access_point_profile:
+            if (
+                create_or_update_or_delete_access_point_profiles
+                == self.delete_access_point_profile
+            ):
                 # For delete operations, only the ID is needed
                 operation_params = {"id": profile.get("id")}
             else:
@@ -10663,34 +13548,69 @@ class WirelessDesign(DnacBase):
 
             # Execute the operation and retrieve the task ID
             task_id = create_or_update_or_delete_access_point_profiles(operation_params)
-            self.log("Task ID for access point profile '{0}': {1}".format(profile_name, task_id), "DEBUG")
+            self.log(
+                "Task ID for access point profile '{0}': {1}".format(
+                    profile_name, task_id
+                ),
+                "DEBUG",
+            )
 
             # Construct operation message
-            operation_msg = "{0} operation has completed successfully for access point profile: {1}.".format(task_name, profile_name)
+            operation_msg = "{0} operation has completed successfully for access point profile: {1}.".format(
+                task_name, profile_name
+            )
 
             # Check the status of the operation using the task ID
-            self.get_task_status_from_tasks_by_id(task_id, task_name, operation_msg).check_return_status()
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, operation_msg
+            ).check_return_status()
 
             # Determine if the operation was successful and categorize accordingly
             if self.status == "success":
                 success_profiles.append(profile_name)
-                self.log("Access Point Profile '{0}' processed successfully.".format(profile_name), "INFO")
+                self.log(
+                    "Access Point Profile '{0}' processed successfully.".format(
+                        profile_name
+                    ),
+                    "INFO",
+                )
             else:
                 failed_profiles.append(profile_name)
-                self.log("Access Point Profile '{0}' failed to process.".format(profile_name), "ERROR")
+                self.log(
+                    "Access Point Profile '{0}' failed to process.".format(
+                        profile_name
+                    ),
+                    "ERROR",
+                )
 
         if success_profiles:
-            self.log("{0} succeeded for the following access point profile(s): {1}".format(task_name, ", ".join(success_profiles)), "INFO")
-            msg["{0} succeeded for the following access point profile(s)".format(task_name)] = {
+            self.log(
+                "{0} succeeded for the following access point profile(s): {1}".format(
+                    task_name, ", ".join(success_profiles)
+                ),
+                "INFO",
+            )
+            msg[
+                "{0} succeeded for the following access point profile(s)".format(
+                    task_name
+                )
+            ] = {
                 "success_count": len(success_profiles),
-                "successful_access_point_profiles": success_profiles
+                "successful_access_point_profiles": success_profiles,
             }
 
         if failed_profiles:
-            self.log("{0} failed for the following access point profile(s): {1}".format(task_name, ", ".join(failed_profiles)), "ERROR")
-            msg["{0} failed for the following access point profile(s)".format(task_name)] = {
+            self.log(
+                "{0} failed for the following access point profile(s): {1}".format(
+                    task_name, ", ".join(failed_profiles)
+                ),
+                "ERROR",
+            )
+            msg[
+                "{0} failed for the following access point profile(s)".format(task_name)
+            ] = {
                 "failed_count": len(failed_profiles),
-                "failed_access_point_profiles": failed_profiles
+                "failed_access_point_profiles": failed_profiles,
             }
 
         # Store the message dictionary in the class
@@ -10722,13 +13642,18 @@ class WirelessDesign(DnacBase):
         # Define the task name for logging and operation tracking
         task_name_create = "Create Access Point Profile(s) Task"
 
-        self.log("Starting the {0} with parameters: {1}".format(task_name_create, add_access_point_profiles_params), "INFO")
+        self.log(
+            "Starting the {0} with parameters: {1}".format(
+                task_name_create, add_access_point_profiles_params
+            ),
+            "INFO",
+        )
 
         # Call the common processing function with the create operation function
         return self.process_access_point_profiles_common(
             add_access_point_profiles_params,
             self.create_access_point_profile,
-            task_name_create
+            task_name_create,
         )
 
     def process_update_access_point_profiles(self, update_access_point_profiles_params):
@@ -10744,13 +13669,18 @@ class WirelessDesign(DnacBase):
         # Define the task name for logging and operation tracking
         task_name_update = "Update Access Point Profile(s) Task"
 
-        self.log("Starting the {0} with parameters: {1}".format(task_name_update, update_access_point_profiles_params), "INFO")
+        self.log(
+            "Starting the {0} with parameters: {1}".format(
+                task_name_update, update_access_point_profiles_params
+            ),
+            "INFO",
+        )
 
         # Call the common processing function with the update operation function
         return self.process_access_point_profiles_common(
             update_access_point_profiles_params,
             self.update_access_point_profile,
-            task_name_update
+            task_name_update,
         )
 
     def process_delete_access_point_profiles(self, delete_access_point_profiles_params):
@@ -10766,16 +13696,23 @@ class WirelessDesign(DnacBase):
         # Define the task name for logging and operation tracking
         task_name_delete = "Delete Access Point Profile(s) Task"
 
-        self.log("Starting the {0} with parameters: {1}".format(task_name_delete, delete_access_point_profiles_params), "INFO")
+        self.log(
+            "Starting the {0} with parameters: {1}".format(
+                task_name_delete, delete_access_point_profiles_params
+            ),
+            "INFO",
+        )
 
         # Call the common processing function with the delete operation function
         return self.process_access_point_profiles_common(
             delete_access_point_profiles_params,
             self.delete_access_point_profile,
-            task_name_delete
+            task_name_delete,
         )
 
-    def verify_add_access_point_profiles_operation(self, add_access_point_profiles_params):
+    def verify_add_access_point_profiles_operation(
+        self, add_access_point_profiles_params
+    ):
         """
         Verifies whether the access point profiles specified in add_access_point_profiles_params have been successfully created.
         Args:
@@ -10784,42 +13721,77 @@ class WirelessDesign(DnacBase):
             tuple: Two lists containing successfully created access point profiles and failed profiles.
         """
         # Retrieve all existing access point profiles to verify against
-        existing_access_point_profiles = self.get_access_point_profiles(get_access_point_profiles_params={})
+        existing_access_point_profiles = self.get_access_point_profiles(
+            get_access_point_profiles_params={}
+        )
         self.log("Retrieved existing access point profiles.", "DEBUG")
 
-        self.log("Existing Access Point Profiles: {0}".format(existing_access_point_profiles), "DEBUG")
-        self.log("Requested Access Point Profiles to Add: {0}".format(add_access_point_profiles_params), "DEBUG")
+        self.log(
+            "Existing Access Point Profiles: {0}".format(
+                existing_access_point_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Requested Access Point Profiles to Add: {0}".format(
+                add_access_point_profiles_params
+            ),
+            "DEBUG",
+        )
 
         # Initialize lists to track successful and failed profile additions
         successful_profiles = []
         failed_profiles = []
 
         # Convert existing access point profiles to a set for quick lookup by profile name
-        existing_profiles_set = {profile["apProfileName"] for profile in existing_access_point_profiles}
+        existing_profiles_set = {
+            profile["apProfileName"] for profile in existing_access_point_profiles
+        }
         self.log("Converted existing profiles to a set for quick lookup.", "DEBUG")
 
         # Iterate over the requested access point profiles to verify their creation
         for requested_profile in add_access_point_profiles_params:
             profile_name = requested_profile["apProfileName"]
-            self.log("Verifying creation for profile: {0}".format(profile_name), "DEBUG")
+            self.log(
+                "Verifying creation for profile: {0}".format(profile_name), "DEBUG"
+            )
 
             # Check if the profile now exists in the existing profiles
             if profile_name in existing_profiles_set:
                 # Profile exists, add to successful list
                 successful_profiles.append(profile_name)
-                self.log("Access Point Profile '{0}' has been successfully created.".format(profile_name), "INFO")
+                self.log(
+                    "Access Point Profile '{0}' has been successfully created.".format(
+                        profile_name
+                    ),
+                    "INFO",
+                )
             else:
                 # Profile does not exist, add to failed list
                 failed_profiles.append(profile_name)
-                self.log("Access Point Profile '{0}' failed to create.".format(profile_name), "ERROR")
+                self.log(
+                    "Access Point Profile '{0}' failed to create.".format(profile_name),
+                    "ERROR",
+                )
 
         if failed_profiles:
-            self.log("The ADD Access Point Profile(s) operation may not have been successful since some profiles were not successfully created: {0}"
-                     .format(failed_profiles), "WARNING")
+            self.log(
+                "The ADD Access Point Profile(s) operation may not have been successful since some profiles were not successfully created: {0}".format(
+                    failed_profiles
+                ),
+                "WARNING",
+            )
         else:
-            self.log("Verified the success of ADD Access Point Profile(s) operation for parameters: {0}".format(add_access_point_profiles_params), "INFO")
+            self.log(
+                "Verified the success of ADD Access Point Profile(s) operation for parameters: {0}".format(
+                    add_access_point_profiles_params
+                ),
+                "INFO",
+            )
 
-    def verify_update_access_point_profiles_operation(self, update_access_point_profiles_params):
+    def verify_update_access_point_profiles_operation(
+        self, update_access_point_profiles_params
+    ):
         """
         Verifies whether the access point profiles specified in update_access_point_profiles_params have been successfully updated.
         Args:
@@ -10828,19 +13800,36 @@ class WirelessDesign(DnacBase):
             tuple: Two lists containing successfully updated access point profiles and failed profiles.
         """
         # Retrieve all existing access point profiles
-        existing_access_point_profiles = self.get_access_point_profiles(get_access_point_profiles_params={})
+        existing_access_point_profiles = self.get_access_point_profiles(
+            get_access_point_profiles_params={}
+        )
         self.log("Retrieved existing access point profiles.", "DEBUG")
 
-        self.log("Existing Access Point Profiles: {0}".format(existing_access_point_profiles), "DEBUG")
-        self.log("Requested Access Point Profiles to Update: {0}".format(update_access_point_profiles_params), "DEBUG")
+        self.log(
+            "Existing Access Point Profiles: {0}".format(
+                existing_access_point_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Requested Access Point Profiles to Update: {0}".format(
+                update_access_point_profiles_params
+            ),
+            "DEBUG",
+        )
 
         # Initialize lists to track successful and failed profile updates
         successful_updates = []
         failed_updates = []
 
         # Convert existing access point profiles to a dictionary for quick lookup by profile name
-        existing_profiles_dict = {profile["apProfileName"]: profile for profile in existing_access_point_profiles}
-        self.log("Converted existing profiles to a dictionary for quick lookup.", "DEBUG")
+        existing_profiles_dict = {
+            profile["apProfileName"]: profile
+            for profile in existing_access_point_profiles
+        }
+        self.log(
+            "Converted existing profiles to a dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over the requested access point profiles to verify updates
         for requested_profile in update_access_point_profiles_params:
@@ -10862,40 +13851,83 @@ class WirelessDesign(DnacBase):
                         # Special handling for management_settings
                         if key == "managementSetting":
                             # Skip verification for sensitive keys within management_settings
-                            sensitive_keys = ["dot1xPassword", "managementPassword", "managementEnablePassword"]
+                            sensitive_keys = [
+                                "dot1xPassword",
+                                "managementPassword",
+                                "managementEnablePassword",
+                            ]
                             for sub_key, sub_value in requested_value.items():
                                 if sub_key in sensitive_keys:
                                     continue
-                                if not self.compare_values(sub_value, existing_value.get(sub_key)):
+                                if not self.compare_values(
+                                    sub_value, existing_value.get(sub_key)
+                                ):
                                     update_successful = False
-                                    self.log("Mismatch in management setting '{0}' for profile '{1}'. Requested value: {2}, Existing value: {3}".format(
-                                        sub_key, profile_name, sub_value, existing_value.get(sub_key)), "ERROR")
+                                    self.log(
+                                        "Mismatch in management setting '{0}' for profile '{1}'. Requested value: {2}, Existing value: {3}".format(
+                                            sub_key,
+                                            profile_name,
+                                            sub_value,
+                                            existing_value.get(sub_key),
+                                        ),
+                                        "ERROR",
+                                    )
                                     break
 
                         # Use the compare_values method to compare the requested and existing values for other keys
                         elif not self.compare_values(requested_value, existing_value):
                             update_successful = False
-                            self.log("Mismatch in parameter '{0}' for profile '{1}'. Requested value: {2}, Existing value: {3}".format(
-                                key, profile_name, requested_value, existing_value), "ERROR")
+                            self.log(
+                                "Mismatch in parameter '{0}' for profile '{1}'. Requested value: {2}, Existing value: {3}".format(
+                                    key, profile_name, requested_value, existing_value
+                                ),
+                                "ERROR",
+                            )
                             break
 
                 if update_successful:
                     successful_updates.append(profile_name)
-                    self.log("Access Point Profile '{0}' has been successfully updated.".format(profile_name), "INFO")
+                    self.log(
+                        "Access Point Profile '{0}' has been successfully updated.".format(
+                            profile_name
+                        ),
+                        "INFO",
+                    )
                 else:
                     failed_updates.append(profile_name)
-                    self.log("Access Point Profile '{0}' failed to update.".format(profile_name), "ERROR")
+                    self.log(
+                        "Access Point Profile '{0}' failed to update.".format(
+                            profile_name
+                        ),
+                        "ERROR",
+                    )
             else:
                 failed_updates.append(profile_name)
-                self.log("Access Point Profile '{0}' does not exist and cannot be updated.".format(profile_name), "ERROR")
+                self.log(
+                    "Access Point Profile '{0}' does not exist and cannot be updated.".format(
+                        profile_name
+                    ),
+                    "ERROR",
+                )
 
         if failed_updates:
-            self.log("The UPDATE Access Point Profiles operation may not have been successful. The following access point profiles failed verification: {0}."
-                     .format(failed_updates), "ERROR")
+            self.log(
+                "The UPDATE Access Point Profiles operation may not have been successful. The following access point profiles failed verification: {0}.".format(
+                    failed_updates
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Successfully verified the UPDATE Access Point Profiles operation for the following profiles: {0}.".format(successful_updates), "INFO")
+            self.log(
+                "Successfully verified the UPDATE Access Point Profiles operation for the following profiles: {0}.".format(
+                    successful_updates
+                ),
+                "INFO",
+            )
 
-    def verify_delete_access_point_profiles_operation(self, delete_access_point_profiles_params):
+    def verify_delete_access_point_profiles_operation(
+        self, delete_access_point_profiles_params
+    ):
         """
         Verifies whether the access point profiles specified in delete_access_point_profiles_params have been successfully deleted.
         Args:
@@ -10904,12 +13936,26 @@ class WirelessDesign(DnacBase):
             bool: True if all requested access point profiles were successfully deleted, False otherwise.
         """
         # Retrieve all existing access point profiles
-        existing_access_point_profiles = self.get_access_point_profiles(get_access_point_profiles_params={})
-        existing_profiles_set = {profile["apProfileName"] for profile in existing_access_point_profiles}
+        existing_access_point_profiles = self.get_access_point_profiles(
+            get_access_point_profiles_params={}
+        )
+        existing_profiles_set = {
+            profile["apProfileName"] for profile in existing_access_point_profiles
+        }
         self.log("Retrieved existing access point profiles.", "DEBUG")
 
-        self.log("Current Access Point Profiles after DELETE operation: {0}".format(existing_profiles_set), "INFO")
-        self.log("Requested Access Point Profiles to Delete: {0}".format(delete_access_point_profiles_params), "INFO")
+        self.log(
+            "Current Access Point Profiles after DELETE operation: {0}".format(
+                existing_profiles_set
+            ),
+            "INFO",
+        )
+        self.log(
+            "Requested Access Point Profiles to Delete: {0}".format(
+                delete_access_point_profiles_params
+            ),
+            "INFO",
+        )
 
         # Initialize a list to track profiles that failed deletion
         failed_deletions = []
@@ -10917,20 +13963,35 @@ class WirelessDesign(DnacBase):
         # Iterate over the requested access point profiles to verify deletion
         for requested_profile in delete_access_point_profiles_params:
             profile_name = requested_profile["apProfileName"]
-            self.log("Verifying deletion for profile: {0}".format(profile_name), "DEBUG")
+            self.log(
+                "Verifying deletion for profile: {0}".format(profile_name), "DEBUG"
+            )
 
             # Check if the profile still exists in the existing profiles
             if profile_name in existing_profiles_set:
                 # If it exists, the deletion failed
                 failed_deletions.append(profile_name)
-                self.log("Delete operation failed for Access Point Profile '{0}'. It still exists.".format(profile_name), "ERROR")
+                self.log(
+                    "Delete operation failed for Access Point Profile '{0}'. It still exists.".format(
+                        profile_name
+                    ),
+                    "ERROR",
+                )
 
         if failed_deletions:
-            self.log("The DELETE Access Point Profile(s) operation may not have been successful since some Access Point Profiles still exist: {0}."
-                     .format(failed_deletions), "ERROR")
+            self.log(
+                "The DELETE Access Point Profile(s) operation may not have been successful since some Access Point Profiles still exist: {0}.".format(
+                    failed_deletions
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Verified the success of DELETE Access Point Profile(s) operation for the following parameters: {0}."
-                     .format(delete_access_point_profiles_params), "INFO")
+            self.log(
+                "Verified the success of DELETE Access Point Profile(s) operation for the following parameters: {0}.".format(
+                    delete_access_point_profiles_params
+                ),
+                "INFO",
+            )
 
     def get_radio_frequency_profiles_params(self, radio_frequency_profile_name=None):
         """
@@ -10945,13 +14006,25 @@ class WirelessDesign(DnacBase):
 
         # Map the user-provided radio frequency profile name to the expected API parameter
         if radio_frequency_profile_name:
-            get_radio_frequency_profiles_params["rf_profile_name"] = radio_frequency_profile_name
-            self.log("Added 'rf_profile_name' to parameters: {0}".format(radio_frequency_profile_name), "DEBUG")
+            get_radio_frequency_profiles_params["rf_profile_name"] = (
+                radio_frequency_profile_name
+            )
+            self.log(
+                "Added 'rf_profile_name' to parameters: {0}".format(
+                    radio_frequency_profile_name
+                ),
+                "DEBUG",
+            )
         else:
             self.log("No specific radio frequency profile name provided.", "DEBUG")
 
         # Return the constructed parameters dictionary
-        self.log("Constructed get_radio_frequency_profiles_params: {0}".format(get_radio_frequency_profiles_params), "DEBUG")
+        self.log(
+            "Constructed get_radio_frequency_profiles_params: {0}".format(
+                get_radio_frequency_profiles_params
+            ),
+            "DEBUG",
+        )
         return get_radio_frequency_profiles_params
 
     def get_radio_frequency_profiles(self, get_radio_frequency_profiles_params):
@@ -10963,10 +14036,17 @@ class WirelessDesign(DnacBase):
             list: A list of dictionaries containing details of radio frequency profiles based on the filtering parameters.
         """
         # Execute the paginated API call to retrieve radio frequency profiles
-        self.log("Executing paginated API call to retrieve radio frequency profiles.", "DEBUG")
-        return self.execute_get_with_pagination("wireless", "get_rf_profiles", get_radio_frequency_profiles_params)
+        self.log(
+            "Executing paginated API call to retrieve radio frequency profiles.",
+            "DEBUG",
+        )
+        return self.execute_get_with_pagination(
+            "wireless", "get_rf_profiles", get_radio_frequency_profiles_params
+        )
 
-    def verify_create_update_radio_frequency_profiles_requirement(self, radio_frequency_profiles):
+    def verify_create_update_radio_frequency_profiles_requirement(
+        self, radio_frequency_profiles
+    ):
         """
         Determines whether radio frequency profiles need to be created, updated, or require no updates.
         Args:
@@ -10975,14 +14055,31 @@ class WirelessDesign(DnacBase):
             tuple: Three lists containing radio frequency profiles to be created, updated, and not updated.
         """
         # Update requested profiles with API-compatible values
-        updated_radio_frequency_profiles = self.map_radio_frequency_profiles_params(radio_frequency_profiles)
-        self.log("Updated radio frequency profiles: {0}".format(updated_radio_frequency_profiles), "DEBUG")
+        updated_radio_frequency_profiles = self.map_radio_frequency_profiles_params(
+            radio_frequency_profiles
+        )
+        self.log(
+            "Updated radio frequency profiles: {0}".format(
+                updated_radio_frequency_profiles
+            ),
+            "DEBUG",
+        )
 
         # Retrieve all existing radio frequency profiles from the system
-        existing_rf_profiles = self.get_radio_frequency_profiles(get_radio_frequency_profiles_params={})
+        existing_rf_profiles = self.get_radio_frequency_profiles(
+            get_radio_frequency_profiles_params={}
+        )
 
-        self.log("Existing Radio Frequency Profiles: {0}".format(existing_rf_profiles), "DEBUG")
-        self.log("Requested Radio Frequency Profiles: {0}".format(updated_radio_frequency_profiles), "DEBUG")
+        self.log(
+            "Existing Radio Frequency Profiles: {0}".format(existing_rf_profiles),
+            "DEBUG",
+        )
+        self.log(
+            "Requested Radio Frequency Profiles: {0}".format(
+                updated_radio_frequency_profiles
+            ),
+            "DEBUG",
+        )
 
         # Initialize lists to store profiles that need to be created, updated, or not changed
         create_profiles = []
@@ -10990,10 +14087,15 @@ class WirelessDesign(DnacBase):
         no_update_profiles = []
 
         # Create a dictionary of existing profiles for quick lookup using the profile name
-        existing_profiles_dict = {profile["rfProfileName"]: profile for profile in existing_rf_profiles}
+        existing_profiles_dict = {
+            profile["rfProfileName"]: profile for profile in existing_rf_profiles
+        }
 
         # Iterate over the updated requested radio frequency profiles
-        self.log("Starting to iterate over updated requested radio frequency profiles.", "DEBUG")
+        self.log(
+            "Starting to iterate over updated requested radio frequency profiles.",
+            "DEBUG",
+        )
         for requested_profile in updated_radio_frequency_profiles:
             profile_name = requested_profile["rfProfileName"]
             self.log("Processing profile: {0}".format(profile_name), "DEBUG")
@@ -11001,50 +14103,105 @@ class WirelessDesign(DnacBase):
 
             # Check if the profile already exists
             if profile_name in existing_profiles_dict:
-                self.log("Profile '{0}' exists in the existing profiles.".format(profile_name), "DEBUG")
+                self.log(
+                    "Profile '{0}' exists in the existing profiles.".format(
+                        profile_name
+                    ),
+                    "DEBUG",
+                )
                 existing_profile = existing_profiles_dict[profile_name]
 
                 # Iterate over each top-level parameter in the requested profile
                 for key, requested_value in requested_profile.items():
-                    self.log("Checking parameter '{0}' for profile '{1}'.".format(key, profile_name), "DEBUG")
+                    self.log(
+                        "Checking parameter '{0}' for profile '{1}'.".format(
+                            key, profile_name
+                        ),
+                        "DEBUG",
+                    )
                     if key in existing_profile:
                         existing_value = existing_profile[key]
-                        self.log("Found existing value for parameter '{0}' in profile '{1}': {2}".format(key, profile_name, existing_value), "DEBUG")
+                        self.log(
+                            "Found existing value for parameter '{0}' in profile '{1}': {2}".format(
+                                key, profile_name, existing_value
+                            ),
+                            "DEBUG",
+                        )
 
                         # Check if the value is a dictionary containing specific properties
-                        if isinstance(requested_value, dict) and isinstance(existing_value, dict):
-                            self.log("Parameter '{0}' is a dictionary. Checking all sub-keys.".format(key), "DEBUG")
+                        if isinstance(requested_value, dict) and isinstance(
+                            existing_value, dict
+                        ):
+                            self.log(
+                                "Parameter '{0}' is a dictionary. Checking all sub-keys.".format(
+                                    key
+                                ),
+                                "DEBUG",
+                            )
                             for sub_key, sub_requested_value in requested_value.items():
                                 if sub_key in existing_value:
                                     sub_existing_value = existing_value[sub_key]
-                                    self.log("Checking sub-key '{0}' in parameter '{1}'.".format(sub_key, key), "DEBUG")
+                                    self.log(
+                                        "Checking sub-key '{0}' in parameter '{1}'.".format(
+                                            sub_key, key
+                                        ),
+                                        "DEBUG",
+                                    )
 
                                     # Special handling for comma-separated string of numbers
-                                    if sub_key in ["radioChannels", "dataRates", "mandatoryDataRates"]:
-                                        requested_sorted = sorted(map(float, sub_requested_value.split(",")))
-                                        existing_sorted = sorted(map(float, sub_existing_value.split(",")))
-                                        self.log("Sorted requested values for '{0}.{1}': {2}".format(key, sub_key, requested_sorted), "DEBUG")
-                                        self.log("Sorted existing values for '{0}.{1}': {2}".format(key, sub_key, existing_sorted), "DEBUG")
+                                    if sub_key in [
+                                        "radioChannels",
+                                        "dataRates",
+                                        "mandatoryDataRates",
+                                    ]:
+                                        requested_sorted = sorted(
+                                            map(float, sub_requested_value.split(","))
+                                        )
+                                        existing_sorted = sorted(
+                                            map(float, sub_existing_value.split(","))
+                                        )
+                                        self.log(
+                                            "Sorted requested values for '{0}.{1}': {2}".format(
+                                                key, sub_key, requested_sorted
+                                            ),
+                                            "DEBUG",
+                                        )
+                                        self.log(
+                                            "Sorted existing values for '{0}.{1}': {2}".format(
+                                                key, sub_key, existing_sorted
+                                            ),
+                                            "DEBUG",
+                                        )
                                         if requested_sorted != existing_sorted:
                                             update_needed = True
                                             self.log(
                                                 "Mismatch found in parameter '{0}.{1}' for profile '{2}'. "
                                                 "Requested value: {3}, Existing value: {4}".format(
-                                                    key, sub_key, profile_name, requested_sorted, existing_sorted
+                                                    key,
+                                                    sub_key,
+                                                    profile_name,
+                                                    requested_sorted,
+                                                    existing_sorted,
                                                 ),
-                                                "DEBUG"
+                                                "DEBUG",
                                             )
                                             break
                                     else:
                                         # Standard comparison for other sub-keys
-                                        if not self.compare_values(sub_requested_value, sub_existing_value):
+                                        if not self.compare_values(
+                                            sub_requested_value, sub_existing_value
+                                        ):
                                             update_needed = True
                                             self.log(
                                                 "Mismatch found in parameter '{0}.{1}' for profile '{2}'. "
                                                 "Requested value: {3}, Existing value: {4}".format(
-                                                    key, sub_key, profile_name, sub_requested_value, sub_existing_value
+                                                    key,
+                                                    sub_key,
+                                                    profile_name,
+                                                    sub_requested_value,
+                                                    sub_existing_value,
                                                 ),
-                                                "DEBUG"
+                                                "DEBUG",
                                             )
                                             break
                         else:
@@ -11054,9 +14211,12 @@ class WirelessDesign(DnacBase):
                                 self.log(
                                     "Mismatch found in parameter '{0}' for profile '{1}'. "
                                     "Requested value: {2}, Existing value: {3}".format(
-                                        key, profile_name, requested_value, existing_value
+                                        key,
+                                        profile_name,
+                                        requested_value,
+                                        existing_value,
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                                 break
 
@@ -11065,26 +14225,60 @@ class WirelessDesign(DnacBase):
                     updated_profile = existing_profile.copy()
                     self.recursive_update(updated_profile, requested_profile)
                     update_profiles.append(updated_profile)
-                    self.log("Profile '{0}' marked for update.".format(profile_name), "DEBUG")
+                    self.log(
+                        "Profile '{0}' marked for update.".format(profile_name), "DEBUG"
+                    )
                 else:
                     # No changes needed for this profile
                     no_update_profiles.append(existing_profile)
-                    self.log("Profile '{0}' requires no updates.".format(profile_name), "DEBUG")
+                    self.log(
+                        "Profile '{0}' requires no updates.".format(profile_name),
+                        "DEBUG",
+                    )
             else:
                 # The profile does not exist and needs to be created
                 create_profiles.append(requested_profile)
-                self.log("Profile '{0}' marked for creation.".format(profile_name), "DEBUG")
+                self.log(
+                    "Profile '{0}' marked for creation.".format(profile_name), "DEBUG"
+                )
 
-        self.log("Radio Frequency Profiles that need to be CREATED: {0} - {1}".format(len(create_profiles), create_profiles), "DEBUG")
-        self.log("Radio Frequency Profiles that need to be UPDATED: {0} - {1}".format(len(update_profiles), update_profiles), "DEBUG")
-        self.log("Radio Frequency Profiles that DON'T NEED UPDATES: {0} - {1}".format(len(no_update_profiles), no_update_profiles), "DEBUG")
+        self.log(
+            "Radio Frequency Profiles that need to be CREATED: {0} - {1}".format(
+                len(create_profiles), create_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Radio Frequency Profiles that need to be UPDATED: {0} - {1}".format(
+                len(update_profiles), update_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Radio Frequency Profiles that DON'T NEED UPDATES: {0} - {1}".format(
+                len(no_update_profiles), no_update_profiles
+            ),
+            "DEBUG",
+        )
 
         # Validate that the total number of processed profiles matches the number of requested profiles
-        total_profiles_processed = len(create_profiles) + len(update_profiles) + len(no_update_profiles)
+        total_profiles_processed = (
+            len(create_profiles) + len(update_profiles) + len(no_update_profiles)
+        )
         if total_profiles_processed == len(updated_radio_frequency_profiles):
-            self.log("Match in total counts: Processed={0}, Requested={1}.".format(total_profiles_processed, len(updated_radio_frequency_profiles)), "DEBUG")
+            self.log(
+                "Match in total counts: Processed={0}, Requested={1}.".format(
+                    total_profiles_processed, len(updated_radio_frequency_profiles)
+                ),
+                "DEBUG",
+            )
         else:
-            self.log("Mismatch in total counts: Processed={0}, Requested={1}.".format(total_profiles_processed, len(updated_radio_frequency_profiles)), "ERROR")
+            self.log(
+                "Mismatch in total counts: Processed={0}, Requested={1}.".format(
+                    total_profiles_processed, len(updated_radio_frequency_profiles)
+                ),
+                "ERROR",
+            )
 
         # Return the categorized profiles
         return create_profiles, update_profiles, no_update_profiles
@@ -11100,38 +14294,73 @@ class WirelessDesign(DnacBase):
         # Initialize an empty list to store the profiles that need to be deleted
         delete_rf_profiles_list = []
 
-        self.log("Starting verification of radio frequency profiles for deletion.", "INFO")
+        self.log(
+            "Starting verification of radio frequency profiles for deletion.", "INFO"
+        )
 
         # Retrieve all existing radio frequency profiles
-        existing_rf_profiles = self.get_radio_frequency_profiles(get_radio_frequency_profiles_params={})
+        existing_rf_profiles = self.get_radio_frequency_profiles(
+            get_radio_frequency_profiles_params={}
+        )
         self.log("Retrieved existing radio frequency profiles.", "DEBUG")
-        self.log("Existing Radio Frequency Profiles: {0}".format(existing_rf_profiles), "DEBUG")
+        self.log(
+            "Existing Radio Frequency Profiles: {0}".format(existing_rf_profiles),
+            "DEBUG",
+        )
 
         # Convert existing radio frequency profiles to a dictionary for quick lookup by profile name
-        existing_profiles_dict = {profile["rfProfileName"]: profile for profile in existing_rf_profiles}
-        self.log("Converted existing profiles to a dictionary for quick lookup.", "DEBUG")
+        existing_profiles_dict = {
+            profile["rfProfileName"]: profile for profile in existing_rf_profiles
+        }
+        self.log(
+            "Converted existing profiles to a dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over the requested radio frequency profiles
-        self.log("Iterating over requested radio frequency profiles for deletion.", "DEBUG")
+        self.log(
+            "Iterating over requested radio frequency profiles for deletion.", "DEBUG"
+        )
         for requested_profile in access_point_profiles:
             profile_name = requested_profile.get("radio_frequency_profile_name")
             self.log("Processing requested profile: {0}".format(profile_name), "DEBUG")
 
             # Check if the radio frequency profile exists in the existing radio frequency profiles
             if profile_name in existing_profiles_dict:
-                self.log("Profile '{0}' found in existing profiles, scheduling for deletion.".format(profile_name), "DEBUG")
+                self.log(
+                    "Profile '{0}' found in existing profiles, scheduling for deletion.".format(
+                        profile_name
+                    ),
+                    "DEBUG",
+                )
                 # Add the requested radio frequency profile with the ID from the existing profile
                 existing_profile = existing_profiles_dict[profile_name]
                 profile_to_delete = requested_profile.copy()
                 profile_to_delete["id"] = existing_profile.get("id")
                 delete_rf_profiles_list.append(profile_to_delete)
-                self.log("Radio Frequency Profile '{0}' scheduled for deletion.".format(profile_name), "INFO")
+                self.log(
+                    "Radio Frequency Profile '{0}' scheduled for deletion.".format(
+                        profile_name
+                    ),
+                    "INFO",
+                )
             else:
-                self.log("Deletion not required for radio frequency profile '{0}'. It does not exist.".format(profile_name), "INFO")
+                self.log(
+                    "Deletion not required for radio frequency profile '{0}'. It does not exist.".format(
+                        profile_name
+                    ),
+                    "INFO",
+                )
 
-        self.log("Radio Frequency Profiles scheduled for deletion: {0} - {1}".format(len(delete_rf_profiles_list), delete_rf_profiles_list), "DEBUG")
+        self.log(
+            "Radio Frequency Profiles scheduled for deletion: {0} - {1}".format(
+                len(delete_rf_profiles_list), delete_rf_profiles_list
+            ),
+            "DEBUG",
+        )
 
-        self.log("Completed verification of radio frequency profiles for deletion.", "INFO")
+        self.log(
+            "Completed verification of radio frequency profiles for deletion.", "INFO"
+        )
 
         # Return the list of profiles that need to be deleted
         return delete_rf_profiles_list
@@ -11145,10 +14374,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: Response from the API call, including task ID for the create operation.
         """
-        self.log("Initiating addition of Radio Frequency profile with parameters: {0}".format(create_radio_frequency_profile_params), "INFO")
+        self.log(
+            "Initiating addition of Radio Frequency profile with parameters: {0}".format(
+                create_radio_frequency_profile_params
+            ),
+            "INFO",
+        )
 
         # Call the API to create an RF profile and return the task ID
-        return self.get_taskid_post_api_call("wireless", "create_rf_profile", create_radio_frequency_profile_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "create_rf_profile", create_radio_frequency_profile_params
+        )
 
     def update_radio_frequency_profile(self, update_radio_frequency_profile_params):
         """
@@ -11159,10 +14395,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: Response from the API call, including task ID for the update operation.
         """
-        self.log("Initiating update Radio Frequency profile with parameters: {0}".format(update_radio_frequency_profile_params), "INFO")
+        self.log(
+            "Initiating update Radio Frequency profile with parameters: {0}".format(
+                update_radio_frequency_profile_params
+            ),
+            "INFO",
+        )
 
         # Call the API to update the RF profile and return the task ID
-        return self.get_taskid_post_api_call("wireless", "update_rf_profile", update_radio_frequency_profile_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "update_rf_profile", update_radio_frequency_profile_params
+        )
 
     def delete_radio_frequency_profile(self, delete_radio_frequency_profile_params):
         """
@@ -11173,10 +14416,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: Response from the API call, including task ID for the delete operation.
         """
-        self.log("Initiating deletion of Radio Frequency profile with parameters: {0}".format(delete_radio_frequency_profile_params), "INFO")
+        self.log(
+            "Initiating deletion of Radio Frequency profile with parameters: {0}".format(
+                delete_radio_frequency_profile_params
+            ),
+            "INFO",
+        )
 
         # Call the API to delete the RF profile and return the task ID
-        return self.get_taskid_post_api_call("wireless", "delete_rf_profile", delete_radio_frequency_profile_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "delete_rf_profile", delete_radio_frequency_profile_params
+        )
 
     def map_radio_frequency_profiles_params(self, radio_frequency_profiles):
         """
@@ -11243,14 +14493,31 @@ class WirelessDesign(DnacBase):
                 for key, target_key in band_mapping.items():
                     if key in band_settings:
                         # Special handling for lists that need to be joined into strings
-                        if key in ["dca_channels_list", "supported_data_rates_list", "mandatory_data_rates_list"]:
+                        if key in [
+                            "dca_channels_list",
+                            "supported_data_rates_list",
+                            "mandatory_data_rates_list",
+                        ]:
                             mapped[target_key] = ",".join(map(str, band_settings[key]))
-                            self.log("Joined list for '{0}' and mapped to '{1}' with value: {2}.".format(key, target_key, mapped[target_key]), "DEBUG")
+                            self.log(
+                                "Joined list for '{0}' and mapped to '{1}' with value: {2}.".format(
+                                    key, target_key, mapped[target_key]
+                                ),
+                                "DEBUG",
+                            )
                         else:
                             mapped[target_key] = band_settings[key]
-                            self.log("Mapped '{0}' to '{1}' with value: {2}.".format(key, target_key, mapped[target_key]), "DEBUG")
+                            self.log(
+                                "Mapped '{0}' to '{1}' with value: {2}.".format(
+                                    key, target_key, mapped[target_key]
+                                ),
+                                "DEBUG",
+                            )
                     else:
-                        self.log("Key '{0}' not found in band_settings.".format(key), "WARNING")
+                        self.log(
+                            "Key '{0}' not found in band_settings.".format(key),
+                            "WARNING",
+                        )
 
                 # Define mappings for nested structures
                 self.log("Defining mappings for nested structures.", "DEBUG")
@@ -11260,7 +14527,7 @@ class WirelessDesign(DnacBase):
                     "non_srg_obss_pd_max_threshold": "dot11axNonSrgObssPacketDetectMaxThreshold",
                     "srg_obss_pd": "dot11axSrgObssPacketDetect",
                     "srg_obss_pd_min_threshold": "dot11axSrgObssPacketDetectMinThreshold",
-                    "srg_obss_pd_max_threshold": "dot11axSrgObssPacketDetectMaxThreshold"
+                    "srg_obss_pd_max_threshold": "dot11axSrgObssPacketDetectMaxThreshold",
                 }
                 self.log("Spatial reuse mapping defined.", "DEBUG")
 
@@ -11268,7 +14535,7 @@ class WirelessDesign(DnacBase):
                     "minimum_client_level": "chdClientLevel",
                     "data_rssi_threshold": "chdDataRssiThreshold",
                     "voice_rssi_threshold": "chdVoiceRssiThreshold",
-                    "exception_level": "chdExceptionLevel"
+                    "exception_level": "chdExceptionLevel",
                 }
                 self.log("Coverage hole detection mapping defined.", "DEBUG")
 
@@ -11276,7 +14543,7 @@ class WirelessDesign(DnacBase):
                     "mu_mimo_downlink": "muMimoDownLink",
                     "mu_mimo_uplink": "muMimoUpLink",
                     "ofdma_downlink": "ofdmaDownLink",
-                    "ofdma_uplink": "ofdmaUpLink"
+                    "ofdma_uplink": "ofdmaUpLink",
                 }
                 self.log("Dot 11ax parameters mapping defined.", "DEBUG")
 
@@ -11285,7 +14552,7 @@ class WirelessDesign(DnacBase):
                     "mu_mimo_uplink": "muMimoUpLink",
                     "ofdma_downlink": "ofdmaDownLink",
                     "ofdma_uplink": "ofdmaUpLink",
-                    "ofdma_multi_ru": "ofdmaMultiRu"
+                    "ofdma_multi_ru": "ofdmaMultiRu",
                 }
                 self.log("Dot 11be parameters mapping defined.", "DEBUG")
 
@@ -11295,9 +14562,17 @@ class WirelessDesign(DnacBase):
                     mapped["spatialReuseProperties"] = {}
                     for key, target_key in spatial_reuse_mapping.items():
                         if key in band_settings["spatial_reuse"]:
-                            mapped["spatialReuseProperties"][target_key] = band_settings["spatial_reuse"][key]
-                            self.log("Mapped spatial reuse '{0}' to '{1}' with value: {2}.".format(
-                                key, target_key, mapped["spatialReuseProperties"][target_key]), "DEBUG")
+                            mapped["spatialReuseProperties"][target_key] = (
+                                band_settings["spatial_reuse"][key]
+                            )
+                            self.log(
+                                "Mapped spatial reuse '{0}' to '{1}' with value: {2}.".format(
+                                    key,
+                                    target_key,
+                                    mapped["spatialReuseProperties"][target_key],
+                                ),
+                                "DEBUG",
+                            )
 
                 # Process coverage hole detection settings
                 if "coverage_hole_detection" in band_settings:
@@ -11305,9 +14580,19 @@ class WirelessDesign(DnacBase):
                     mapped["coverageHoleDetectionProperties"] = {}
                     for key, target_key in coverage_hole_detection_mapping.items():
                         if key in band_settings["coverage_hole_detection"]:
-                            mapped["coverageHoleDetectionProperties"][target_key] = band_settings["coverage_hole_detection"][key]
-                            self.log("Mapped coverage hole detection '{0}' to '{1}' with value: {2}.".format(
-                                key, target_key, mapped["coverageHoleDetectionProperties"][target_key]), "DEBUG")
+                            mapped["coverageHoleDetectionProperties"][target_key] = (
+                                band_settings["coverage_hole_detection"][key]
+                            )
+                            self.log(
+                                "Mapped coverage hole detection '{0}' to '{1}' with value: {2}.".format(
+                                    key,
+                                    target_key,
+                                    mapped["coverageHoleDetectionProperties"][
+                                        target_key
+                                    ],
+                                ),
+                                "DEBUG",
+                            )
 
                 # Process multi-bssid settings
                 if "multi_bssid" in band_settings:
@@ -11318,29 +14603,69 @@ class WirelessDesign(DnacBase):
                         self.log("Processing dot 11ax parameters.", "DEBUG")
                         mapped["multiBssidProperties"]["dot11axParameters"] = {}
                         for key, target_key in dot_11ax_parameters_mapping.items():
-                            if key in band_settings["multi_bssid"]["dot_11ax_parameters"]:
-                                mapped["multiBssidProperties"]["dot11axParameters"][target_key] = band_settings["multi_bssid"]["dot_11ax_parameters"][key]
-                                self.log("Mapped dot_11ax '{0}' to '{1}' with value: {2}.".format(
-                                    key, target_key, mapped["multiBssidProperties"]["dot11axParameters"][target_key]), "DEBUG")
+                            if (
+                                key
+                                in band_settings["multi_bssid"]["dot_11ax_parameters"]
+                            ):
+                                mapped["multiBssidProperties"]["dot11axParameters"][
+                                    target_key
+                                ] = band_settings["multi_bssid"]["dot_11ax_parameters"][
+                                    key
+                                ]
+                                self.log(
+                                    "Mapped dot_11ax '{0}' to '{1}' with value: {2}.".format(
+                                        key,
+                                        target_key,
+                                        mapped["multiBssidProperties"][
+                                            "dot11axParameters"
+                                        ][target_key],
+                                    ),
+                                    "DEBUG",
+                                )
 
                     if "dot_11be_parameters" in band_settings["multi_bssid"]:
                         self.log("Processing dot 11be parameters.", "DEBUG")
                         mapped["multiBssidProperties"]["dot11beParameters"] = {}
                         for key, target_key in dot_11be_parameters_mapping.items():
-                            if key in band_settings["multi_bssid"]["dot_11be_parameters"]:
-                                mapped["multiBssidProperties"]["dot11beParameters"][target_key] = band_settings["multi_bssid"]["dot_11be_parameters"][key]
-                                self.log("Mapped dot_11be '{0}' to '{1}' with value: {2}.".format(
-                                    key, target_key, mapped["multiBssidProperties"]["dot11beParameters"][target_key]), "DEBUG")
+                            if (
+                                key
+                                in band_settings["multi_bssid"]["dot_11be_parameters"]
+                            ):
+                                mapped["multiBssidProperties"]["dot11beParameters"][
+                                    target_key
+                                ] = band_settings["multi_bssid"]["dot_11be_parameters"][
+                                    key
+                                ]
+                                self.log(
+                                    "Mapped dot_11be '{0}' to '{1}' with value: {2}.".format(
+                                        key,
+                                        target_key,
+                                        mapped["multiBssidProperties"][
+                                            "dot11beParameters"
+                                        ][target_key],
+                                    ),
+                                    "DEBUG",
+                                )
 
                     # Additional mappings directly under multi_bssid
                     self.log("Processing additional multi-bssid settings.", "DEBUG")
                     additional_keys = ["twt_broadcast_support", "target_waketime"]
                     for key in additional_keys:
                         if key in band_settings["multi_bssid"]:
-                            target_key = key.replace("twt_broadcast_support", "twtBroadcastSupport").replace("target_waketime", "targetWakeTime")
-                            mapped["multiBssidProperties"][target_key] = band_settings["multi_bssid"][key]
-                            self.log("Mapped multi_bssid '{0}' to '{1}' with value: {2}.".format(
-                                key, target_key, mapped["multiBssidProperties"][target_key]), "DEBUG")
+                            target_key = key.replace(
+                                "twt_broadcast_support", "twtBroadcastSupport"
+                            ).replace("target_waketime", "targetWakeTime")
+                            mapped["multiBssidProperties"][target_key] = band_settings[
+                                "multi_bssid"
+                            ][key]
+                            self.log(
+                                "Mapped multi_bssid '{0}' to '{1}' with value: {2}.".format(
+                                    key,
+                                    target_key,
+                                    mapped["multiBssidProperties"][target_key],
+                                ),
+                                "DEBUG",
+                            )
 
                 self.log("Completed mapping of band settings.", "DEBUG")
                 return mapped
@@ -11348,42 +14673,65 @@ class WirelessDesign(DnacBase):
             def map_fra_settings(fra_settings, band_key, property_key, mapping):
                 for fra_key, mapped_key in mapping.items():
                     if fra_key in fra_settings:
-                        mapped_profile[band_key][property_key][mapped_key] = fra_settings[fra_key]
+                        mapped_profile[band_key][property_key][mapped_key] = (
+                            fra_settings[fra_key]
+                        )
 
             fra_mapping_5ghz = {
                 "client_aware": "clientAware",
                 "client_select": "clientSelect",
-                "client_reset": "clientReset"
+                "client_reset": "clientReset",
             }
 
             fra_mapping_6ghz = {
                 "client_reset_count": "clientResetCount",
-                "client_utilization_threshold": "clientUtilizationThreshold"
+                "client_utilization_threshold": "clientUtilizationThreshold",
             }
 
             # Map settings for 5GHz band if present
             if profile.get("radio_bands_5ghz_settings"):
-                mapped_profile["radioTypeAProperties"] = map_band_settings(profile.get("radio_bands_5ghz_settings"))
+                mapped_profile["radioTypeAProperties"] = map_band_settings(
+                    profile.get("radio_bands_5ghz_settings")
+                )
 
                 # Check and map flexible radio assignment settings for 5GHz band
-                if "flexible_radio_assignment" in profile.get("radio_bands_5ghz_settings", {}):
-                    fraA = profile["radio_bands_5ghz_settings"]["flexible_radio_assignment"]
+                if "flexible_radio_assignment" in profile.get(
+                    "radio_bands_5ghz_settings", {}
+                ):
+                    fraA = profile["radio_bands_5ghz_settings"][
+                        "flexible_radio_assignment"
+                    ]
                     mapped_profile["radioTypeAProperties"]["fraPropertiesA"] = {}
-                    map_fra_settings(fraA, "radioTypeAProperties", "fraPropertiesA", fra_mapping_5ghz)
+                    map_fra_settings(
+                        fraA, "radioTypeAProperties", "fraPropertiesA", fra_mapping_5ghz
+                    )
 
             # Map settings for 2.4GHz band if present
             if profile.get("radio_bands_2_4ghz_settings"):
-                mapped_profile["radioTypeBProperties"] = map_band_settings(profile.get("radio_bands_2_4ghz_settings"))
+                mapped_profile["radioTypeBProperties"] = map_band_settings(
+                    profile.get("radio_bands_2_4ghz_settings")
+                )
 
             # Map settings for 6GHz band if present
             if profile.get("radio_bands_6ghz_settings"):
-                mapped_profile["radioType6GHzProperties"] = map_band_settings(profile.get("radio_bands_6ghz_settings"))
+                mapped_profile["radioType6GHzProperties"] = map_band_settings(
+                    profile.get("radio_bands_6ghz_settings")
+                )
 
                 # Check and map flexible radio assignment settings for 6GHz band
-                if "flexible_radio_assignment" in profile.get("radio_bands_6ghz_settings", {}):
-                    fraC = profile["radio_bands_6ghz_settings"]["flexible_radio_assignment"]
+                if "flexible_radio_assignment" in profile.get(
+                    "radio_bands_6ghz_settings", {}
+                ):
+                    fraC = profile["radio_bands_6ghz_settings"][
+                        "flexible_radio_assignment"
+                    ]
                     mapped_profile["radioType6GHzProperties"]["fraPropertiesC"] = {}
-                    map_fra_settings(fraC, "radioType6GHzProperties", "fraPropertiesC", fra_mapping_6ghz)
+                    map_fra_settings(
+                        fraC,
+                        "radioType6GHzProperties",
+                        "fraPropertiesC",
+                        fra_mapping_6ghz,
+                    )
 
             # Append the mapped profile to the list of mapped profiles
             mapped_profiles.append(mapped_profile)
@@ -11391,7 +14739,12 @@ class WirelessDesign(DnacBase):
         # Return the final list of mapped profiles
         return mapped_profiles
 
-    def process_radio_frequency_profiles_common(self, radio_frequency_profiles_params, create_or_update_or_delete_radio_frequency_profiles, task_name):
+    def process_radio_frequency_profiles_common(
+        self,
+        radio_frequency_profiles_params,
+        create_or_update_or_delete_radio_frequency_profiles,
+        task_name,
+    ):
         """
         Processes the radio frequency profiles for the specified operation (create, update, delete).
         Args:
@@ -11409,13 +14762,26 @@ class WirelessDesign(DnacBase):
         # Iterate over each profile parameter set for processing
         for index, profile in enumerate(radio_frequency_profiles_params, start=1):
             # Determine the profile name based on the operation type
-            profile_name = profile.get("radio_frequency_profile_name") if (
-                create_or_update_or_delete_radio_frequency_profiles == self.delete_radio_frequency_profile
-            ) else profile.get("rfProfileName")
-            self.log("Processing radio frequency profile {0}: {1}".format(index, profile_name), "DEBUG")
+            profile_name = (
+                profile.get("radio_frequency_profile_name")
+                if (
+                    create_or_update_or_delete_radio_frequency_profiles
+                    == self.delete_radio_frequency_profile
+                )
+                else profile.get("rfProfileName")
+            )
+            self.log(
+                "Processing radio frequency profile {0}: {1}".format(
+                    index, profile_name
+                ),
+                "DEBUG",
+            )
 
             # Prepare parameters for the operation
-            if create_or_update_or_delete_radio_frequency_profiles == self.delete_radio_frequency_profile:
+            if (
+                create_or_update_or_delete_radio_frequency_profiles
+                == self.delete_radio_frequency_profile
+            ):
                 # For delete operations, only the ID is needed
                 operation_params = {"id": profile.get("id")}
             else:
@@ -11423,35 +14789,74 @@ class WirelessDesign(DnacBase):
                 operation_params = profile
 
             # Execute the operation and retrieve the task ID
-            task_id = create_or_update_or_delete_radio_frequency_profiles(operation_params)
-            self.log("Task ID for radio frequency profile '{0}': {1}".format(profile_name, task_id), "DEBUG")
+            task_id = create_or_update_or_delete_radio_frequency_profiles(
+                operation_params
+            )
+            self.log(
+                "Task ID for radio frequency profile '{0}': {1}".format(
+                    profile_name, task_id
+                ),
+                "DEBUG",
+            )
 
             # Construct operation message
-            operation_msg = "{0} operation has completed successfully for radio frequency profile: {1}.".format(task_name, profile_name)
+            operation_msg = "{0} operation has completed successfully for radio frequency profile: {1}.".format(
+                task_name, profile_name
+            )
 
             # Check the status of the operation using the task ID
-            self.get_task_status_from_tasks_by_id(task_id, task_name, operation_msg).check_return_status()
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, operation_msg
+            ).check_return_status()
 
             # Determine if the operation was successful and categorize accordingly
             if self.status == "success":
                 success_profiles.append(profile_name)
-                self.log("Radio Frequency Profile '{0}' processed successfully.".format(profile_name), "INFO")
+                self.log(
+                    "Radio Frequency Profile '{0}' processed successfully.".format(
+                        profile_name
+                    ),
+                    "INFO",
+                )
             else:
                 failed_profiles.append(profile_name)
-                self.log("Radio Frequency Profile '{0}' failed to process.".format(profile_name), "ERROR")
+                self.log(
+                    "Radio Frequency Profile '{0}' failed to process.".format(
+                        profile_name
+                    ),
+                    "ERROR",
+                )
 
         if success_profiles:
-            self.log("{0} succeeded for the following radio frequency profile(s): {1}".format(task_name, ", ".join(success_profiles)), "INFO")
-            msg["{0} succeeded for the following radio frequency profile(s)".format(task_name)] = {
+            self.log(
+                "{0} succeeded for the following radio frequency profile(s): {1}".format(
+                    task_name, ", ".join(success_profiles)
+                ),
+                "INFO",
+            )
+            msg[
+                "{0} succeeded for the following radio frequency profile(s)".format(
+                    task_name
+                )
+            ] = {
                 "success_count": len(success_profiles),
-                "successful_radio_frequency_profiles": success_profiles
+                "successful_radio_frequency_profiles": success_profiles,
             }
 
         if failed_profiles:
-            self.log("{0} failed for the following radio frequency profile(s): {1}".format(task_name, ", ".join(failed_profiles)), "ERROR")
-            msg["{0} failed for the following radio frequency profile(s)".format(task_name)] = {
+            self.log(
+                "{0} failed for the following radio frequency profile(s): {1}".format(
+                    task_name, ", ".join(failed_profiles)
+                ),
+                "ERROR",
+            )
+            msg[
+                "{0} failed for the following radio frequency profile(s)".format(
+                    task_name
+                )
+            ] = {
                 "failed_count": len(failed_profiles),
-                "failed_radio_frequency_profiles": failed_profiles
+                "failed_radio_frequency_profiles": failed_profiles,
             }
 
         # Store the message dictionary in the class
@@ -11480,19 +14885,26 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for creating radio frequency profiles
         task_name_create = "Create Radio Frequency Profile(s) Task"
-        self.log("Starting '{0}' with parameters: {1}".format(task_name_create, add_radio_frequency_profiles_params), "INFO")
+        self.log(
+            "Starting '{0}' with parameters: {1}".format(
+                task_name_create, add_radio_frequency_profiles_params
+            ),
+            "INFO",
+        )
 
         # Call the common processing function with the appropriate creation function and task name
         result = self.process_radio_frequency_profiles_common(
             add_radio_frequency_profiles_params,
             self.create_radio_frequency_profile,
-            task_name_create
+            task_name_create,
         )
 
         self.log("Completed '{0}'.".format(task_name_create), "INFO")
         return result
 
-    def process_update_radio_frequency_profiles(self, update_radio_frequency_profiles_params):
+    def process_update_radio_frequency_profiles(
+        self, update_radio_frequency_profiles_params
+    ):
         """
         Initiates the update of radio frequency profiles.
         Args:
@@ -11502,19 +14914,26 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for updating radio frequency profiles
         task_name_update = "Update Radio Frequency Profile(s) Task"
-        self.log("Starting '{0}' with parameters: {1}".format(task_name_update, update_radio_frequency_profiles_params), "INFO")
+        self.log(
+            "Starting '{0}' with parameters: {1}".format(
+                task_name_update, update_radio_frequency_profiles_params
+            ),
+            "INFO",
+        )
 
         # Call the common processing function with the appropriate update function and task name
         result = self.process_radio_frequency_profiles_common(
             update_radio_frequency_profiles_params,
             self.update_radio_frequency_profile,
-            task_name_update
+            task_name_update,
         )
 
         self.log("Completed '{0}'.".format(task_name_update), "INFO")
         return result
 
-    def process_delete_radio_frequency_profiles(self, delete_radio_frequency_profiles_params):
+    def process_delete_radio_frequency_profiles(
+        self, delete_radio_frequency_profiles_params
+    ):
         """
         Initiates the deletion of radio frequency profiles.
         Args:
@@ -11524,19 +14943,26 @@ class WirelessDesign(DnacBase):
         """
         # Define the task name for deleting radio frequency profiles
         task_name_delete = "Delete Radio Frequency Profile(s) Task"
-        self.log("Starting '{0}' with parameters: {1}".format(task_name_delete, delete_radio_frequency_profiles_params), "INFO")
+        self.log(
+            "Starting '{0}' with parameters: {1}".format(
+                task_name_delete, delete_radio_frequency_profiles_params
+            ),
+            "INFO",
+        )
 
         # Call the common processing function with the appropriate deletion function and task name
         result = self.process_radio_frequency_profiles_common(
             delete_radio_frequency_profiles_params,
             self.delete_radio_frequency_profile,
-            task_name_delete
+            task_name_delete,
         )
 
         self.log("Completed '{0}'.".format(task_name_delete), "INFO")
         return result
 
-    def verify_add_radio_frequency_profiles_operation(self, add_radio_frequency_profiles_params):
+    def verify_add_radio_frequency_profiles_operation(
+        self, add_radio_frequency_profiles_params
+    ):
         """
         Verifies whether the radio frequency profiles specified in add_radio_frequency_profiles_params have been successfully created.
         Args:
@@ -11547,41 +14973,82 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of radio frequency profile creation.", "INFO")
 
         # Retrieve all existing radio frequency profiles to verify against
-        existing_radio_frequency_profiles = self.get_radio_frequency_profiles(get_radio_frequency_profiles_params={})
-        self.log("Existing Radio Frequency Profiles: {0}".format(existing_radio_frequency_profiles), "DEBUG")
-        self.log("Requested Radio Frequency Profiles to Add: {0}".format(add_radio_frequency_profiles_params), "DEBUG")
+        existing_radio_frequency_profiles = self.get_radio_frequency_profiles(
+            get_radio_frequency_profiles_params={}
+        )
+        self.log(
+            "Existing Radio Frequency Profiles: {0}".format(
+                existing_radio_frequency_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Requested Radio Frequency Profiles to Add: {0}".format(
+                add_radio_frequency_profiles_params
+            ),
+            "DEBUG",
+        )
 
         # Initialize lists to track successful and failed profile additions
         successful_profiles = []
         failed_profiles = []
 
         # Convert existing radio frequency profiles to a set for quick lookup by profile name
-        existing_profiles_set = {profile['rfProfileName'] for profile in existing_radio_frequency_profiles}
+        existing_profiles_set = {
+            profile["rfProfileName"] for profile in existing_radio_frequency_profiles
+        }
         self.log("Converted existing profiles to a set for quick lookup.", "DEBUG")
 
         # Iterate over the requested radio frequency profiles to verify their creation
-        for index, requested_profile in enumerate(add_radio_frequency_profiles_params, start=1):
-            profile_name = requested_profile['rfProfileName']
-            self.log("Iteration {0}: Verifying creation for Radio Frequency Profile '{1}'.".format(index, profile_name), "DEBUG")
+        for index, requested_profile in enumerate(
+            add_radio_frequency_profiles_params, start=1
+        ):
+            profile_name = requested_profile["rfProfileName"]
+            self.log(
+                "Iteration {0}: Verifying creation for Radio Frequency Profile '{1}'.".format(
+                    index, profile_name
+                ),
+                "DEBUG",
+            )
 
             # Check if the profile now exists in the existing profiles
             if profile_name in existing_profiles_set:
                 # Profile exists, add to successful list
                 successful_profiles.append(profile_name)
-                self.log("Iteration {0}: Radio Frequency Profile '{1}' has been successfully created.".format(index, profile_name), "INFO")
+                self.log(
+                    "Iteration {0}: Radio Frequency Profile '{1}' has been successfully created.".format(
+                        index, profile_name
+                    ),
+                    "INFO",
+                )
             else:
                 # Profile does not exist, add to failed list
                 failed_profiles.append(profile_name)
-                self.log("Iteration {0}: Radio Frequency Profile '{1}' failed to create.".format(index, profile_name), "ERROR")
+                self.log(
+                    "Iteration {0}: Radio Frequency Profile '{1}' failed to create.".format(
+                        index, profile_name
+                    ),
+                    "ERROR",
+                )
 
         if failed_profiles:
-            self.log("The ADD Radio Frequency Profile(s) operation may not have been successful since some profiles were not successfully created: {0}"
-                     .format(failed_profiles), "WARNING")
+            self.log(
+                "The ADD Radio Frequency Profile(s) operation may not have been successful since some profiles were not successfully created: {0}".format(
+                    failed_profiles
+                ),
+                "WARNING",
+            )
         else:
-            self.log("Successfully verified the ADD Radio Frequency Profile(s) operation for parameters: {0}"
-                     .format(add_radio_frequency_profiles_params), "INFO")
+            self.log(
+                "Successfully verified the ADD Radio Frequency Profile(s) operation for parameters: {0}".format(
+                    add_radio_frequency_profiles_params
+                ),
+                "INFO",
+            )
 
-    def verify_update_radio_frequency_profiles_operation(self, update_radio_frequency_profiles_params):
+    def verify_update_radio_frequency_profiles_operation(
+        self, update_radio_frequency_profiles_params
+    ):
         """
         Verifies whether the radio frequency profiles specified in update_radio_frequency_profiles_params have been successfully updated.
         Args:
@@ -11592,22 +15059,46 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of radio frequency profile updates.", "INFO")
 
         # Retrieve all existing radio frequency profiles from the system
-        existing_radio_frequency_profiles = self.get_radio_frequency_profiles(get_radio_frequency_profiles_params={})
-        self.log("Existing Radio Frequency Profiles: {0}".format(existing_radio_frequency_profiles), "DEBUG")
-        self.log("Requested Radio Frequency Profiles to Update: {0}".format(update_radio_frequency_profiles_params), "DEBUG")
+        existing_radio_frequency_profiles = self.get_radio_frequency_profiles(
+            get_radio_frequency_profiles_params={}
+        )
+        self.log(
+            "Existing Radio Frequency Profiles: {0}".format(
+                existing_radio_frequency_profiles
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Requested Radio Frequency Profiles to Update: {0}".format(
+                update_radio_frequency_profiles_params
+            ),
+            "DEBUG",
+        )
 
         # Initialize lists to track successful and failed profile updates
         successful_updates = []
         failed_updates = []
 
         # Convert existing profiles to a dictionary for quick lookup by profile name
-        existing_profiles_dict = {profile['rfProfileName']: profile for profile in existing_radio_frequency_profiles}
-        self.log("Converted existing profiles to a dictionary for quick lookup.", "DEBUG")
+        existing_profiles_dict = {
+            profile["rfProfileName"]: profile
+            for profile in existing_radio_frequency_profiles
+        }
+        self.log(
+            "Converted existing profiles to a dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over the requested radio frequency profiles to verify updates
-        for index, requested_profile in enumerate(update_radio_frequency_profiles_params, start=1):
-            profile_name = requested_profile['rfProfileName']
-            self.log("Iteration {0}: Verifying update for Radio Frequency Profile '{1}'.".format(index, profile_name), "DEBUG")
+        for index, requested_profile in enumerate(
+            update_radio_frequency_profiles_params, start=1
+        ):
+            profile_name = requested_profile["rfProfileName"]
+            self.log(
+                "Iteration {0}: Verifying update for Radio Frequency Profile '{1}'.".format(
+                    index, profile_name
+                ),
+                "DEBUG",
+            )
 
             # Check if the profile exists in the existing profiles
             if profile_name in existing_profiles_dict:
@@ -11624,30 +15115,58 @@ class WirelessDesign(DnacBase):
                         # Compare the requested and existing values
                         if not self.compare_values(requested_value, existing_value):
                             update_successful = False
-                            self.log("Mismatch in parameter '{0}' for profile '{1}'. Requested value: {2}, Existing value: {3}".format(
-                                key, profile_name, requested_value, existing_value), "ERROR")
+                            self.log(
+                                "Mismatch in parameter '{0}' for profile '{1}'. Requested value: {2}, Existing value: {3}".format(
+                                    key, profile_name, requested_value, existing_value
+                                ),
+                                "ERROR",
+                            )
                             break
 
                 if update_successful:
                     successful_updates.append(profile_name)
-                    self.log("Iteration {0}: Radio Frequency Profile '{1}' has been successfully updated.".format(index, profile_name), "INFO")
+                    self.log(
+                        "Iteration {0}: Radio Frequency Profile '{1}' has been successfully updated.".format(
+                            index, profile_name
+                        ),
+                        "INFO",
+                    )
                 else:
                     failed_updates.append(profile_name)
-                    self.log("Iteration {0}: Radio Frequency Profile '{1}' failed to update.".format(index, profile_name), "ERROR")
+                    self.log(
+                        "Iteration {0}: Radio Frequency Profile '{1}' failed to update.".format(
+                            index, profile_name
+                        ),
+                        "ERROR",
+                    )
             else:
                 failed_updates.append(profile_name)
-                self.log("Iteration {0}: Radio Frequency Profile '{1}' does not exist and cannot be updated.".format(index, profile_name), "ERROR")
+                self.log(
+                    "Iteration {0}: Radio Frequency Profile '{1}' does not exist and cannot be updated.".format(
+                        index, profile_name
+                    ),
+                    "ERROR",
+                )
 
         if failed_updates:
             self.log(
                 "The UPDATE Radio Frequency Profiles operation may not have been successful. "
-                "The following radio frequency profiles failed verification: {0}.".format(failed_updates),
-                "ERROR"
+                "The following radio frequency profiles failed verification: {0}.".format(
+                    failed_updates
+                ),
+                "ERROR",
             )
         else:
-            self.log("Successfully verified the UPDATE Radio Frequency Profiles operation for the following profiles: {0}.".format(successful_updates), "INFO")
+            self.log(
+                "Successfully verified the UPDATE Radio Frequency Profiles operation for the following profiles: {0}.".format(
+                    successful_updates
+                ),
+                "INFO",
+            )
 
-    def verify_delete_radio_frequency_profiles_operation(self, delete_radio_frequency_profiles_params):
+    def verify_delete_radio_frequency_profiles_operation(
+        self, delete_radio_frequency_profiles_params
+    ):
         """
         Verifies whether the radio frequency profiles specified in delete_radio_frequency_profiles_params have been successfully deleted.
         Args:
@@ -11655,36 +15174,72 @@ class WirelessDesign(DnacBase):
         Returns:
             bool: True if all requested radio frequency profiles were successfully deleted, False otherwise.
         """
-        self.log("Starting verification of radio frequency profiles for deletion.", "INFO")
+        self.log(
+            "Starting verification of radio frequency profiles for deletion.", "INFO"
+        )
 
         # Retrieve all existing radio frequency profiles from the system
-        existing_radio_frequency_profiles = self.get_radio_frequency_profiles(get_radio_frequency_profiles_params={})
+        existing_radio_frequency_profiles = self.get_radio_frequency_profiles(
+            get_radio_frequency_profiles_params={}
+        )
         # Create a set of existing profile names for quick lookup
-        existing_profiles_set = {profile['rfProfileName'] for profile in existing_radio_frequency_profiles}
-        self.log("Current Radio Frequency Profiles after DELETE operation: {0}".format(existing_profiles_set), "DEBUG")
+        existing_profiles_set = {
+            profile["rfProfileName"] for profile in existing_radio_frequency_profiles
+        }
+        self.log(
+            "Current Radio Frequency Profiles after DELETE operation: {0}".format(
+                existing_profiles_set
+            ),
+            "DEBUG",
+        )
 
-        self.log("Requested Radio Frequency Profiles to Delete: {0}".format(delete_radio_frequency_profiles_params), "DEBUG")
+        self.log(
+            "Requested Radio Frequency Profiles to Delete: {0}".format(
+                delete_radio_frequency_profiles_params
+            ),
+            "DEBUG",
+        )
 
         # Initialize a list to track profiles that failed deletion
         failed_deletions = []
 
         # Iterate over the requested radio frequency profiles to verify their deletion
-        for index, requested_profile in enumerate(delete_radio_frequency_profiles_params, start=1):
-            profile_name = requested_profile['radio_frequency_profile_name']
-            self.log("Iteration {0}: Verifying deletion for Radio Frequency Profile '{1}'.".format(index, profile_name), "DEBUG")
+        for index, requested_profile in enumerate(
+            delete_radio_frequency_profiles_params, start=1
+        ):
+            profile_name = requested_profile["radio_frequency_profile_name"]
+            self.log(
+                "Iteration {0}: Verifying deletion for Radio Frequency Profile '{1}'.".format(
+                    index, profile_name
+                ),
+                "DEBUG",
+            )
 
             # Check if the profile still exists in the existing profiles
             if profile_name in existing_profiles_set:
                 # If it exists, the deletion failed
                 failed_deletions.append(profile_name)
-                self.log("Iteration {0}: Delete operation failed for Radio Frequency Profile '{1}'. It still exists.".format(index, profile_name), "ERROR")
+                self.log(
+                    "Iteration {0}: Delete operation failed for Radio Frequency Profile '{1}'. It still exists.".format(
+                        index, profile_name
+                    ),
+                    "ERROR",
+                )
 
         if failed_deletions:
-            self.log("The DELETE Radio Frequency Profile(s) operation may not have been successful since some Radio Frequency Profiles still exist: {0}."
-                     .format(failed_deletions), "ERROR")
+            self.log(
+                "The DELETE Radio Frequency Profile(s) operation may not have been successful since some Radio Frequency Profiles still exist: {0}.".format(
+                    failed_deletions
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Verified the success of DELETE Radio Frequency Profile(s) operation for the following parameters: {0}."
-                     .format(delete_radio_frequency_profiles_params), "INFO")
+            self.log(
+                "Verified the success of DELETE Radio Frequency Profile(s) operation for the following parameters: {0}.".format(
+                    delete_radio_frequency_profiles_params
+                ),
+                "INFO",
+            )
 
     def get_anchor_groups(self, get_anchor_groups_params):
         """
@@ -11694,23 +15249,37 @@ class WirelessDesign(DnacBase):
         Returns:
             list: A list of anchor group dictionaries if the request is successful.
         """
-        self.log("Initiating GET request for anchor groups with parameters: {0}".format(get_anchor_groups_params), "INFO")
+        self.log(
+            "Initiating GET request for anchor groups with parameters: {0}".format(
+                get_anchor_groups_params
+            ),
+            "INFO",
+        )
 
         # Execute the GET request to retrieve anchor groups
-        api_response = self.execute_get_request("wireless", "get_anchor_groups", get_anchor_groups_params)
+        api_response = self.execute_get_request(
+            "wireless", "get_anchor_groups", get_anchor_groups_params
+        )
         self.log("API response received: {0}".format(api_response), "DEBUG")
 
         # Extract the 'response' part of the API response
         if not api_response or not api_response.get("response"):
-            self.log("No response received from API call 'get_anchor_groups'. Returning an empty list.", "ERROR")
+            self.log(
+                "No response received from API call 'get_anchor_groups'. Returning an empty list.",
+                "ERROR",
+            )
             return []
 
         # Attempt to extract anchor groups from the response
         anchor_groups = api_response.get("response")
-        self.log("Anchor groups extracted from response: {0}".format(anchor_groups), "DEBUG")
+        self.log(
+            "Anchor groups extracted from response: {0}".format(anchor_groups), "DEBUG"
+        )
 
         # Return the list of anchor groups if successfully retrieved
-        self.log("Successfully retrieved anchor groups: {0}".format(anchor_groups), "INFO")
+        self.log(
+            "Successfully retrieved anchor groups: {0}".format(anchor_groups), "INFO"
+        )
         return anchor_groups
 
     def verify_create_update_anchor_groups_requirement(self, anchor_groups):
@@ -11721,11 +15290,18 @@ class WirelessDesign(DnacBase):
         Returns:
             tuple: Three lists containing anchor groups to be created, updated, and not updated.
         """
-        self.log("Starting verification for creating/updating anchor groups with requested parameters: {0}".format(anchor_groups), "INFO")
+        self.log(
+            "Starting verification for creating/updating anchor groups with requested parameters: {0}".format(
+                anchor_groups
+            ),
+            "INFO",
+        )
 
         # Map the parameters to the API-supported format
         updated_anchor_groups = self.map_anchor_groups_params(anchor_groups)
-        self.log("Mapped Requested Anchor Groups: {0}".format(updated_anchor_groups), "DEBUG")
+        self.log(
+            "Mapped Requested Anchor Groups: {0}".format(updated_anchor_groups), "DEBUG"
+        )
 
         # Retrieve all existing anchor groups
         existing_anchor_groups = self.get_anchor_groups(get_anchor_groups_params={})
@@ -11737,65 +15313,126 @@ class WirelessDesign(DnacBase):
         no_update_groups = []
 
         # Convert existing anchor groups to a dictionary for quick lookup by group name
-        existing_groups_dict = {group['anchorGroupName']: group for group in existing_anchor_groups}
-        self.log("Converted existing anchor groups to a dictionary for quick lookup.", "DEBUG")
+        existing_groups_dict = {
+            group["anchorGroupName"]: group for group in existing_anchor_groups
+        }
+        self.log(
+            "Converted existing anchor groups to a dictionary for quick lookup.",
+            "DEBUG",
+        )
 
         # Iterate over the mapped requested anchor groups
         for index, requested_group in enumerate(updated_anchor_groups, start=1):
-            group_name = requested_group['anchorGroupName']
-            requested_mobility_anchors = requested_group.get('mobilityAnchors', [])
-            self.log("Iteration {0}: Evaluating anchor group '{1}'.".format(index, group_name), "DEBUG")
+            group_name = requested_group["anchorGroupName"]
+            requested_mobility_anchors = requested_group.get("mobilityAnchors", [])
+            self.log(
+                "Iteration {0}: Evaluating anchor group '{1}'.".format(
+                    index, group_name
+                ),
+                "DEBUG",
+            )
 
             # Check if the group exists in the existing groups
             if group_name in existing_groups_dict:
                 existing_group = existing_groups_dict[group_name]
-                existing_mobility_anchors = existing_group.get('mobilityAnchors', [])
-                self.log("Iteration {0}: Anchor Group '{1}' exists. Checking for updates.".format(index, group_name), "DEBUG")
+                existing_mobility_anchors = existing_group.get("mobilityAnchors", [])
+                self.log(
+                    "Iteration {0}: Anchor Group '{1}' exists. Checking for updates.".format(
+                        index, group_name
+                    ),
+                    "DEBUG",
+                )
 
                 # Function to normalize and sort anchors for comparison
                 def normalize_anchors(anchors):
-                    return sorted([
-                        (
-                            anchor.get('deviceName'),
-                            anchor.get('ipAddress'),
-                            anchor.get('macAddress'),
-                            anchor.get('peerDeviceType'),
-                            anchor.get('anchorPriority'),
-                            anchor.get('privateIp'),
-                            anchor.get('mobilityGroupName'),
-                            anchor.get('managedAnchorWlc'),
-                        )
-                        for anchor in anchors
-                    ])
+                    return sorted(
+                        [
+                            (
+                                anchor.get("deviceName"),
+                                anchor.get("ipAddress"),
+                                anchor.get("macAddress"),
+                                anchor.get("peerDeviceType"),
+                                anchor.get("anchorPriority"),
+                                anchor.get("privateIp"),
+                                anchor.get("mobilityGroupName"),
+                                anchor.get("managedAnchorWlc"),
+                            )
+                            for anchor in anchors
+                        ]
+                    )
 
                 # Determine if an update is needed by comparing mobility anchors
-                update_needed = normalize_anchors(requested_mobility_anchors) != normalize_anchors(existing_mobility_anchors)
+                update_needed = normalize_anchors(
+                    requested_mobility_anchors
+                ) != normalize_anchors(existing_mobility_anchors)
 
                 if update_needed:
                     # Add the requested group with the ID from the existing group for update
                     updated_group = requested_group.copy()
                     updated_group["id"] = existing_group.get("id")
                     update_groups.append(updated_group)
-                    self.log("Iteration {0}: Anchor Group '{1}' scheduled for update.".format(index, group_name), "INFO")
+                    self.log(
+                        "Iteration {0}: Anchor Group '{1}' scheduled for update.".format(
+                            index, group_name
+                        ),
+                        "INFO",
+                    )
                 else:
                     # If there's no difference, add to no_update_groups
                     no_update_groups.append(existing_group)
-                    self.log("Iteration {0}: Anchor Group '{1}' requires no update.".format(index, group_name), "INFO")
+                    self.log(
+                        "Iteration {0}: Anchor Group '{1}' requires no update.".format(
+                            index, group_name
+                        ),
+                        "INFO",
+                    )
             else:
                 # If the group does not exist, mark it for creation
                 create_groups.append(requested_group)
-                self.log("Iteration {0}: Anchor Group '{1}' scheduled for creation.".format(index, group_name), "INFO")
+                self.log(
+                    "Iteration {0}: Anchor Group '{1}' scheduled for creation.".format(
+                        index, group_name
+                    ),
+                    "INFO",
+                )
 
-        self.log("Anchor Groups that need to be CREATED: {0} - {1}".format(len(create_groups), create_groups), "DEBUG")
-        self.log("Anchor Groups that need to be UPDATED: {0} - {1}".format(len(update_groups), update_groups), "DEBUG")
-        self.log("Anchor Groups that DON'T NEED UPDATES: {0} - {1}".format(len(no_update_groups), no_update_groups), "DEBUG")
+        self.log(
+            "Anchor Groups that need to be CREATED: {0} - {1}".format(
+                len(create_groups), create_groups
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Anchor Groups that need to be UPDATED: {0} - {1}".format(
+                len(update_groups), update_groups
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Anchor Groups that DON'T NEED UPDATES: {0} - {1}".format(
+                len(no_update_groups), no_update_groups
+            ),
+            "DEBUG",
+        )
 
         # Calculate total groups processed and check against requested groups
-        total_groups_processed = len(create_groups) + len(update_groups) + len(no_update_groups)
+        total_groups_processed = (
+            len(create_groups) + len(update_groups) + len(no_update_groups)
+        )
         if total_groups_processed == len(updated_anchor_groups):
-            self.log("Match in total counts: Processed={0}, Requested={1}.".format(total_groups_processed, len(updated_anchor_groups)), "DEBUG")
+            self.log(
+                "Match in total counts: Processed={0}, Requested={1}.".format(
+                    total_groups_processed, len(updated_anchor_groups)
+                ),
+                "DEBUG",
+            )
         else:
-            self.log("Mismatch in total counts: Processed={0}, Requested={1}.".format(total_groups_processed, len(updated_anchor_groups)), "ERROR")
+            self.log(
+                "Mismatch in total counts: Processed={0}, Requested={1}.".format(
+                    total_groups_processed, len(updated_anchor_groups)
+                ),
+                "ERROR",
+            )
 
         # Return the categorized groups
         return create_groups, update_groups, no_update_groups
@@ -11818,13 +15455,23 @@ class WirelessDesign(DnacBase):
         self.log("Existing Anchor Groups: {0}".format(existing_anchor_groups), "DEBUG")
 
         # Convert existing anchor groups to a dictionary for quick lookup by group name
-        existing_groups_dict = {group['anchorGroupName']: group for group in existing_anchor_groups}
-        self.log("Converted existing anchor groups to a dictionary for quick lookup.", "DEBUG")
+        existing_groups_dict = {
+            group["anchorGroupName"]: group for group in existing_anchor_groups
+        }
+        self.log(
+            "Converted existing anchor groups to a dictionary for quick lookup.",
+            "DEBUG",
+        )
 
         # Iterate over the requested anchor groups
         for index, requested_group in enumerate(anchor_groups, start=1):
-            group_name = requested_group.get('anchor_group_name')
-            self.log("Iteration {0}: Checking anchor group '{1}' for deletion requirement.".format(index, group_name), "DEBUG")
+            group_name = requested_group.get("anchor_group_name")
+            self.log(
+                "Iteration {0}: Checking anchor group '{1}' for deletion requirement.".format(
+                    index, group_name
+                ),
+                "DEBUG",
+            )
 
             # Check if the anchor group exists in the existing anchor groups
             if group_name in existing_groups_dict:
@@ -11833,11 +15480,26 @@ class WirelessDesign(DnacBase):
                 group_to_delete = requested_group.copy()
                 group_to_delete["id"] = existing_group.get("id")
                 delete_anchor_groups_list.append(group_to_delete)
-                self.log("Iteration {0}: Anchor Group '{1}' scheduled for deletion.".format(index, group_name), "INFO")
+                self.log(
+                    "Iteration {0}: Anchor Group '{1}' scheduled for deletion.".format(
+                        index, group_name
+                    ),
+                    "INFO",
+                )
             else:
-                self.log("Iteration {0}: Deletion not required for anchor group '{1}'. It does not exist.".format(index, group_name), "INFO")
+                self.log(
+                    "Iteration {0}: Deletion not required for anchor group '{1}'. It does not exist.".format(
+                        index, group_name
+                    ),
+                    "INFO",
+                )
 
-        self.log("Anchor Groups scheduled for deletion: {0} - {1}".format(len(delete_anchor_groups_list), delete_anchor_groups_list), "DEBUG")
+        self.log(
+            "Anchor Groups scheduled for deletion: {0} - {1}".format(
+                len(delete_anchor_groups_list), delete_anchor_groups_list
+            ),
+            "DEBUG",
+        )
 
         # Return the list of groups that need to be deleted
         return delete_anchor_groups_list
@@ -11850,10 +15512,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response from the API call containing the task ID for the operation.
         """
-        self.log("Initiating addition of Anchor group with parameters: {0}".format(create_anchor_group_params), "INFO")
+        self.log(
+            "Initiating addition of Anchor group with parameters: {0}".format(
+                create_anchor_group_params
+            ),
+            "INFO",
+        )
 
         # Perform the API call to create the anchor group and return the task ID
-        return self.get_taskid_post_api_call("wireless", "create_anchor_group", create_anchor_group_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "create_anchor_group", create_anchor_group_params
+        )
 
     def update_anchor_group(self, update_anchor_group_params):
         """
@@ -11863,10 +15532,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response from the API call containing the task ID for the operation.
         """
-        self.log("Initiating update Anchor group with parameters: {0}".format(update_anchor_group_params), "INFO")
+        self.log(
+            "Initiating update Anchor group with parameters: {0}".format(
+                update_anchor_group_params
+            ),
+            "INFO",
+        )
 
         # Perform the API call to update the anchor group and return the task ID
-        return self.get_taskid_post_api_call("wireless", "update_anchor_group", update_anchor_group_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "update_anchor_group", update_anchor_group_params
+        )
 
     def delete_anchor_group(self, delete_anchor_group_params):
         """
@@ -11876,10 +15552,17 @@ class WirelessDesign(DnacBase):
         Returns:
             dict: The response from the API call containing the task ID for the operation.
         """
-        self.log("Initiating deletion of Anchor group with parameters: {0}".format(delete_anchor_group_params), "INFO")
+        self.log(
+            "Initiating deletion of Anchor group with parameters: {0}".format(
+                delete_anchor_group_params
+            ),
+            "INFO",
+        )
 
         # Perform the API call to delete the anchor group and return the task ID
-        return self.get_taskid_post_api_call("wireless", "delete_anchor_group_by_id", delete_anchor_group_params)
+        return self.get_taskid_post_api_call(
+            "wireless", "delete_anchor_group_by_id", delete_anchor_group_params
+        )
 
     def map_anchor_groups_params(self, anchor_groups):
         """
@@ -11889,31 +15572,43 @@ class WirelessDesign(DnacBase):
         Returns:
             list: A list of dictionaries with mapped parameters suitable for API calls.
         """
-        self.log("Starting 'map_anchor_groups_params' with anchor groups: {0}".format(anchor_groups), "INFO")
+        self.log(
+            "Starting 'map_anchor_groups_params' with anchor groups: {0}".format(
+                anchor_groups
+            ),
+            "INFO",
+        )
         mapped_anchor_groups = []
 
         # Check if the anchor_groups list is empty
         if not anchor_groups:
-            self.log("No anchor groups provided for mapping. Returning an empty list.", "DEBUG")
+            self.log(
+                "No anchor groups provided for mapping. Returning an empty list.",
+                "DEBUG",
+            )
             return mapped_anchor_groups
 
         # Define priority mapping from integer to string representation
-        priority_mapping = {
-            1: "PRIMARY",
-            2: "SECONDARY",
-            3: "TERTIARY"
-        }
+        priority_mapping = {1: "PRIMARY", 2: "SECONDARY", 3: "TERTIARY"}
         self.log("Priority mapping defined: {0}".format(priority_mapping), "DEBUG")
 
         # Iterate over each anchor group to map its parameters
         for index, group in enumerate(anchor_groups, start=1):
-            self.log("Mapping parameters for anchor group {0}: {1}".format(index, group), "DEBUG")
+            self.log(
+                "Mapping parameters for anchor group {0}: {1}".format(index, group),
+                "DEBUG",
+            )
             mapped_group = {}
 
             # Map top-level parameters for the anchor group
             if "anchor_group_name" in group:
                 mapped_group["anchorGroupName"] = group["anchor_group_name"]
-                self.log("Mapped 'anchor_group_name' to 'anchorGroupName' with value '{0}'.".format(group["anchor_group_name"]), "DEBUG")
+                self.log(
+                    "Mapped 'anchor_group_name' to 'anchorGroupName' with value '{0}'.".format(
+                        group["anchor_group_name"]
+                    ),
+                    "DEBUG",
+                )
 
             # Initialize the list for mobility anchors in the mapped group
             if "mobility_anchors" in group:
@@ -11921,8 +15616,13 @@ class WirelessDesign(DnacBase):
                 self.log("Initialized 'mobilityAnchors' for mapped group.", "DEBUG")
 
                 # Iterate over each mobility anchor to map its parameters
-                for anchor_index, anchor in enumerate(group["mobility_anchors"], start=1):
-                    self.log("Mapping mobility anchor {0}: {1}".format(anchor_index, anchor), "DEBUG")
+                for anchor_index, anchor in enumerate(
+                    group["mobility_anchors"], start=1
+                ):
+                    self.log(
+                        "Mapping mobility anchor {0}: {1}".format(anchor_index, anchor),
+                        "DEBUG",
+                    )
                     mapped_anchor = {}
 
                     # Define the mapping of anchor parameters to API parameters
@@ -11933,14 +15633,19 @@ class WirelessDesign(DnacBase):
                         "device_type": "peerDeviceType",
                         "device_nat_ip_address": "privateIp",
                         "mobility_group_name": "mobilityGroupName",
-                        "managed_device": "managedAnchorWlc"
+                        "managed_device": "managedAnchorWlc",
                     }
 
                     # Apply mappings for each parameter in the anchor
                     for param, api_param in mappings.items():
                         if param in anchor:
                             mapped_anchor[api_param] = anchor[param]
-                            self.log("Mapped '{0}' to '{1}' with value '{2}'.".format(param, api_param, anchor[param]), "DEBUG")
+                            self.log(
+                                "Mapped '{0}' to '{1}' with value '{2}'.".format(
+                                    param, api_param, anchor[param]
+                                ),
+                                "DEBUG",
+                            )
 
                     # Map device_priority to anchorPriority using the defined priority mapping
                     if "device_priority" in anchor:
@@ -11948,19 +15653,32 @@ class WirelessDesign(DnacBase):
                         anchor_priority = priority_mapping.get(device_priority, None)
                         if anchor_priority:
                             mapped_anchor["anchorPriority"] = anchor_priority
-                            self.log("Mapped 'device_priority' {0} to 'anchorPriority' '{1}'.".format(device_priority, anchor_priority), "DEBUG")
+                            self.log(
+                                "Mapped 'device_priority' {0} to 'anchorPriority' '{1}'.".format(
+                                    device_priority, anchor_priority
+                                ),
+                                "DEBUG",
+                            )
 
                     # Add the mapped anchor to the mobility anchors list
                     mapped_group["mobilityAnchors"].append(mapped_anchor)
 
             # Append the fully mapped group to the list of mapped anchor groups
             mapped_anchor_groups.append(mapped_group)
-            self.log("Mapped anchor group {0} completed: {1}".format(index, mapped_group), "DEBUG")
+            self.log(
+                "Mapped anchor group {0} completed: {1}".format(index, mapped_group),
+                "DEBUG",
+            )
 
-        self.log("Finished mapping anchor groups. Result: {0}".format(mapped_anchor_groups), "DEBUG")
+        self.log(
+            "Finished mapping anchor groups. Result: {0}".format(mapped_anchor_groups),
+            "DEBUG",
+        )
         return mapped_anchor_groups
 
-    def process_anchor_groups_common(self, anchor_groups_params, create_or_update_or_delete_anchor_groups, task_name):
+    def process_anchor_groups_common(
+        self, anchor_groups_params, create_or_update_or_delete_anchor_groups, task_name
+    ):
         """
         Processes the anchor groups for the specified operation (create, update, delete).
 
@@ -11992,13 +15710,20 @@ class WirelessDesign(DnacBase):
 
             # Execute the operation and retrieve the task ID
             task_id = create_or_update_or_delete_anchor_groups(operation_params)
-            self.log("Task ID for anchor group '{0}': {1}".format(group_name, task_id), "DEBUG")
+            self.log(
+                "Task ID for anchor group '{0}': {1}".format(group_name, task_id),
+                "DEBUG",
+            )
 
             # Construct operation message
-            operation_msg = "{0} operation has completed successfully for anchor group: {1}.".format(task_name, group_name)
+            operation_msg = "{0} operation has completed successfully for anchor group: {1}.".format(
+                task_name, group_name
+            )
 
             # Check the status of the operation using the task ID
-            self.get_task_status_from_tasks_by_id(task_id, task_name, operation_msg).check_return_status()
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, operation_msg
+            ).check_return_status()
 
             # Determine if the operation was successful and categorize accordingly
             if self.status == "success":
@@ -12007,17 +15732,27 @@ class WirelessDesign(DnacBase):
                 failed_groups.append(group_name)
 
         if success_groups:
-            self.log("{0} succeeded for the following anchor group(s): {1}".format(task_name, ", ".join(success_groups)), "INFO")
+            self.log(
+                "{0} succeeded for the following anchor group(s): {1}".format(
+                    task_name, ", ".join(success_groups)
+                ),
+                "INFO",
+            )
             msg["{0} succeeded for the following anchor group(s)".format(task_name)] = {
                 "success_count": len(success_groups),
-                "successful_anchor_groups": success_groups
+                "successful_anchor_groups": success_groups,
             }
 
         if failed_groups:
-            self.log("{0} failed for the following anchor group(s): {1}".format(task_name, ", ".join(failed_groups)), "ERROR")
+            self.log(
+                "{0} failed for the following anchor group(s): {1}".format(
+                    task_name, ", ".join(failed_groups)
+                ),
+                "ERROR",
+            )
             msg["{0} failed for the following anchor group(s)".format(task_name)] = {
                 "failed_count": len(failed_groups),
-                "failed_anchor_groups": failed_groups
+                "failed_anchor_groups": failed_groups,
             }
 
         # Store the message dictionary in the class
@@ -12047,11 +15782,14 @@ class WirelessDesign(DnacBase):
             tuple: A tuple containing the results of the add operation, typically indicating success or failure for each group.
         """
         task_name_create = "Create Anchor Group(s) Task"
-        self.log("Starting '{0}' with parameters: {1}".format(task_name_create, add_anchor_groups_params), "INFO")
+        self.log(
+            "Starting '{0}' with parameters: {1}".format(
+                task_name_create, add_anchor_groups_params
+            ),
+            "INFO",
+        )
         result = self.process_anchor_groups_common(
-            add_anchor_groups_params,
-            self.create_anchor_group,
-            task_name_create
+            add_anchor_groups_params, self.create_anchor_group, task_name_create
         )
         self.log("Completed '{0}'.".format(task_name_create), "INFO")
         return result
@@ -12067,11 +15805,14 @@ class WirelessDesign(DnacBase):
             tuple: A tuple containing the results of the update operation, typically indicating success or failure for each group.
         """
         task_name_update = "Update Anchor Group(s) Task"
-        self.log("Starting '{0}' with parameters: {1}".format(task_name_update, update_anchor_groups_params), "INFO")
+        self.log(
+            "Starting '{0}' with parameters: {1}".format(
+                task_name_update, update_anchor_groups_params
+            ),
+            "INFO",
+        )
         result = self.process_anchor_groups_common(
-            update_anchor_groups_params,
-            self.update_anchor_group,
-            task_name_update
+            update_anchor_groups_params, self.update_anchor_group, task_name_update
         )
         self.log("Completed '{0}'.".format(task_name_update), "INFO")
         return result
@@ -12087,11 +15828,14 @@ class WirelessDesign(DnacBase):
             tuple: A tuple containing the results of the delete operation, typically indicating success or failure for each group.
         """
         task_name_delete = "Delete Anchor Group(s) Task"
-        self.log("Starting '{0}' with parameters: {1}".format(task_name_delete, delete_anchor_groups_params), "INFO")
+        self.log(
+            "Starting '{0}' with parameters: {1}".format(
+                task_name_delete, delete_anchor_groups_params
+            ),
+            "INFO",
+        )
         result = self.process_anchor_groups_common(
-            delete_anchor_groups_params,
-            self.delete_anchor_group,
-            task_name_delete
+            delete_anchor_groups_params, self.delete_anchor_group, task_name_delete
         )
         self.log("Completed '{0}'.".format(task_name_delete), "INFO")
         return result
@@ -12104,41 +15848,78 @@ class WirelessDesign(DnacBase):
         Returns:
             tuple: Two lists containing successfully created anchor groups and failed groups.
         """
-        self.log("Starting 'verify_add_anchor_groups_operation' with parameters: {0}".format(add_anchor_groups_params), "INFO")
+        self.log(
+            "Starting 'verify_add_anchor_groups_operation' with parameters: {0}".format(
+                add_anchor_groups_params
+            ),
+            "INFO",
+        )
 
         # Retrieve all existing anchor groups to verify against
         self.log("Retrieving existing anchor groups for verification.", "DEBUG")
         existing_anchor_groups = self.get_anchor_groups(get_anchor_groups_params={})
         self.log("Existing Anchor Groups: {0}".format(existing_anchor_groups), "DEBUG")
-        self.log("Requested Anchor Groups to Add: {0}".format(add_anchor_groups_params), "DEBUG")
+        self.log(
+            "Requested Anchor Groups to Add: {0}".format(add_anchor_groups_params),
+            "DEBUG",
+        )
 
         # Initialize lists to track successful and failed group additions
         successful_groups = []
         failed_groups = []
-        self.log("Initialized lists to track successful and failed anchor group additions.", "DEBUG")
+        self.log(
+            "Initialized lists to track successful and failed anchor group additions.",
+            "DEBUG",
+        )
 
         # Convert existing anchor groups to a set for quick lookup by group name
-        existing_groups_set = {group['anchorGroupName'] for group in existing_anchor_groups}
+        existing_groups_set = {
+            group["anchorGroupName"] for group in existing_anchor_groups
+        }
         self.log("Converted existing anchor groups to a set for quick lookup.", "DEBUG")
 
         # Iterate over the requested anchor groups to verify their creation
         for index, requested_group in enumerate(add_anchor_groups_params, start=1):
-            group_name = requested_group['anchorGroupName']
-            self.log("Iteration {0}: Verifying creation for Anchor Group '{1}'.".format(index, group_name), "DEBUG")
+            group_name = requested_group["anchorGroupName"]
+            self.log(
+                "Iteration {0}: Verifying creation for Anchor Group '{1}'.".format(
+                    index, group_name
+                ),
+                "DEBUG",
+            )
 
             # Check if the group now exists in the existing groups
             if group_name in existing_groups_set:
                 successful_groups.append(group_name)
-                self.log("Iteration {0}: Anchor Group '{1}' has been successfully created.".format(index, group_name), "INFO")
+                self.log(
+                    "Iteration {0}: Anchor Group '{1}' has been successfully created.".format(
+                        index, group_name
+                    ),
+                    "INFO",
+                )
             else:
                 failed_groups.append(group_name)
-                self.log("Iteration {0}: Anchor Group '{1}' failed to create.".format(index, group_name), "ERROR")
+                self.log(
+                    "Iteration {0}: Anchor Group '{1}' failed to create.".format(
+                        index, group_name
+                    ),
+                    "ERROR",
+                )
 
         if failed_groups:
-            self.log("The ADD Anchor Group(s) operation may not have been successful since some groups were not successfully created: {0}"
-                     .format(failed_groups), "WARNING")
+            self.log(
+                "The ADD Anchor Group(s) operation may not have been successful since some groups were not successfully created: {0}".format(
+                    failed_groups
+                ),
+                "WARNING",
+            )
         else:
-            self.log("Verified the success of ADD Anchor Group(s) operation for parameters: {0}".format(add_anchor_groups_params), "INFO")
+            self.log(
+                "Verified the success of ADD Anchor Group(s) operation for parameters: {0}".format(
+                    add_anchor_groups_params
+                ),
+                "INFO",
+            )
 
     def verify_update_anchor_groups_operation(self, update_anchor_groups_params):
         """
@@ -12148,65 +15929,117 @@ class WirelessDesign(DnacBase):
         Returns:
             tuple: Two lists containing successfully updated anchor groups and failed updates.
         """
-        self.log("Starting 'verify_update_anchor_groups_operation' with parameters: {0}".format(update_anchor_groups_params), "INFO")
+        self.log(
+            "Starting 'verify_update_anchor_groups_operation' with parameters: {0}".format(
+                update_anchor_groups_params
+            ),
+            "INFO",
+        )
 
         # Retrieve all existing anchor groups
         self.log("Retrieving existing anchor groups.", "DEBUG")
         existing_anchor_groups = self.get_anchor_groups(get_anchor_groups_params={})
         self.log("Existing Anchor Groups: {0}".format(existing_anchor_groups), "DEBUG")
-        self.log("Requested Anchor Groups to Update: {0}".format(update_anchor_groups_params), "DEBUG")
+        self.log(
+            "Requested Anchor Groups to Update: {0}".format(
+                update_anchor_groups_params
+            ),
+            "DEBUG",
+        )
 
         successful_updates = []
         failed_updates = []
 
         # Convert existing anchor groups to a dictionary for quick lookup by group name
-        existing_groups_dict = {group['anchorGroupName']: group for group in existing_anchor_groups}
-        self.log("Converted existing anchor groups to dictionary for quick lookup.", "DEBUG")
+        existing_groups_dict = {
+            group["anchorGroupName"]: group for group in existing_anchor_groups
+        }
+        self.log(
+            "Converted existing anchor groups to dictionary for quick lookup.", "DEBUG"
+        )
 
         # Iterate over the requested anchor groups to verify updates
         for index, requested_group in enumerate(update_anchor_groups_params, start=1):
-            group_name = requested_group['anchorGroupName']
-            requested_mobility_anchors = requested_group.get('mobilityAnchors', [])
-            self.log("Iteration {0}: Verifying update for Anchor Group '{1}'.".format(index, group_name), "DEBUG")
+            group_name = requested_group["anchorGroupName"]
+            requested_mobility_anchors = requested_group.get("mobilityAnchors", [])
+            self.log(
+                "Iteration {0}: Verifying update for Anchor Group '{1}'.".format(
+                    index, group_name
+                ),
+                "DEBUG",
+            )
 
             # Check if the group exists in the existing groups
             if group_name in existing_groups_dict:
                 existing_group = existing_groups_dict[group_name]
-                existing_mobility_anchors = existing_group.get('mobilityAnchors', [])
-                self.log("Iteration {0}: Found existing Anchor Group '{1}'.".format(index, group_name), "DEBUG")
+                existing_mobility_anchors = existing_group.get("mobilityAnchors", [])
+                self.log(
+                    "Iteration {0}: Found existing Anchor Group '{1}'.".format(
+                        index, group_name
+                    ),
+                    "DEBUG",
+                )
 
                 # Function to normalize and sort anchors for comparison
                 def normalize_anchors(anchors):
-                    return sorted([
-                        (
-                            anchor.get('deviceName'),
-                            anchor.get('ipAddress'),
-                            anchor.get('macAddress'),
-                            anchor.get('peerDeviceType'),
-                            anchor.get('anchorPriority'),
-                            anchor.get('privateIp'),
-                            anchor.get('mobilityGroupName'),
-                            anchor.get('managedAnchorWlc'),
-                        )
-                        for anchor in anchors
-                    ])
+                    return sorted(
+                        [
+                            (
+                                anchor.get("deviceName"),
+                                anchor.get("ipAddress"),
+                                anchor.get("macAddress"),
+                                anchor.get("peerDeviceType"),
+                                anchor.get("anchorPriority"),
+                                anchor.get("privateIp"),
+                                anchor.get("mobilityGroupName"),
+                                anchor.get("managedAnchorWlc"),
+                            )
+                            for anchor in anchors
+                        ]
+                    )
 
                 # Compare mobility anchors, ignoring the order
-                if normalize_anchors(requested_mobility_anchors) == normalize_anchors(existing_mobility_anchors):
+                if normalize_anchors(requested_mobility_anchors) == normalize_anchors(
+                    existing_mobility_anchors
+                ):
                     successful_updates.append(group_name)
-                    self.log("Iteration {0}: Anchor Group '{1}' has been successfully updated.".format(index, group_name), "INFO")
+                    self.log(
+                        "Iteration {0}: Anchor Group '{1}' has been successfully updated.".format(
+                            index, group_name
+                        ),
+                        "INFO",
+                    )
                 else:
                     failed_updates.append(group_name)
-                    self.log("Iteration {0}: Anchor Group '{1}' failed to update.".format(index, group_name), "ERROR")
+                    self.log(
+                        "Iteration {0}: Anchor Group '{1}' failed to update.".format(
+                            index, group_name
+                        ),
+                        "ERROR",
+                    )
             else:
                 failed_updates.append(group_name)
-                self.log("Iteration {0}: Anchor Group '{1}' does not exist and cannot be updated.".format(index, group_name), "ERROR")
+                self.log(
+                    "Iteration {0}: Anchor Group '{1}' does not exist and cannot be updated.".format(
+                        index, group_name
+                    ),
+                    "ERROR",
+                )
 
         if failed_updates:
-            self.log("The UPDATE Anchor Groups operation may not have been successful. The following anchor groups failed verification: {0}."
-                     .format(failed_updates), "ERROR")
+            self.log(
+                "The UPDATE Anchor Groups operation may not have been successful. The following anchor groups failed verification: {0}.".format(
+                    failed_updates
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Successfully verified the UPDATE Anchor Groups operation for the following anchor groups: {0}.".format(successful_updates), "INFO")
+            self.log(
+                "Successfully verified the UPDATE Anchor Groups operation for the following anchor groups: {0}.".format(
+                    successful_updates
+                ),
+                "INFO",
+            )
 
     def verify_delete_anchor_groups_operation(self, delete_anchor_groups_params):
         """
@@ -12216,15 +16049,32 @@ class WirelessDesign(DnacBase):
         Returns:
             bool: True if all requested anchor groups were successfully deleted, False otherwise.
         """
-        self.log("Starting 'verify_delete_anchor_groups_operation' with parameters: {0}".format(delete_anchor_groups_params), "INFO")
+        self.log(
+            "Starting 'verify_delete_anchor_groups_operation' with parameters: {0}".format(
+                delete_anchor_groups_params
+            ),
+            "INFO",
+        )
 
         # Retrieve all existing anchor groups
         self.log("Retrieving existing anchor groups.", "DEBUG")
         existing_anchor_groups = self.get_anchor_groups(get_anchor_groups_params={})
-        existing_groups_set = {group['anchorGroupName'] for group in existing_anchor_groups}
-        self.log("Current Anchor Groups after DELETE operation: {0}".format(existing_groups_set), "INFO")
+        existing_groups_set = {
+            group["anchorGroupName"] for group in existing_anchor_groups
+        }
+        self.log(
+            "Current Anchor Groups after DELETE operation: {0}".format(
+                existing_groups_set
+            ),
+            "INFO",
+        )
 
-        self.log("Requested Anchor Groups to Delete: {0}".format(delete_anchor_groups_params), "INFO")
+        self.log(
+            "Requested Anchor Groups to Delete: {0}".format(
+                delete_anchor_groups_params
+            ),
+            "INFO",
+        )
 
         # Initialize a list to track groups that failed deletion
         failed_deletions = []
@@ -12232,20 +16082,39 @@ class WirelessDesign(DnacBase):
 
         # Iterate over the requested anchor groups to verify deletion
         for index, requested_group in enumerate(delete_anchor_groups_params, start=1):
-            group_name = requested_group['anchor_group_name']
-            self.log("Iteration {0}: Verifying deletion for Anchor Group '{1}'.".format(index, group_name), "DEBUG")
+            group_name = requested_group["anchor_group_name"]
+            self.log(
+                "Iteration {0}: Verifying deletion for Anchor Group '{1}'.".format(
+                    index, group_name
+                ),
+                "DEBUG",
+            )
 
             # Check if the group still exists in the existing groups
             if group_name in existing_groups_set:
                 # If it exists, the deletion failed
                 failed_deletions.append(group_name)
-                self.log("Iteration {0}: Delete operation failed for Anchor Group '{1}'. It still exists.".format(index, group_name), "ERROR")
+                self.log(
+                    "Iteration {0}: Delete operation failed for Anchor Group '{1}'. It still exists.".format(
+                        index, group_name
+                    ),
+                    "ERROR",
+                )
 
         if failed_deletions:
-            self.log("The DELETE Anchor Group(s) operation may not have been successful since some Anchor Groups still exist: {0}."
-                     .format(failed_deletions), "ERROR")
+            self.log(
+                "The DELETE Anchor Group(s) operation may not have been successful since some Anchor Groups still exist: {0}.".format(
+                    failed_deletions
+                ),
+                "ERROR",
+            )
         else:
-            self.log("Verified the success of DELETE Anchor Group(s) operation for the following parameters: {0}.".format(delete_anchor_groups_params), "INFO")
+            self.log(
+                "Verified the success of DELETE Anchor Group(s) operation for the following parameters: {0}.".format(
+                    delete_anchor_groups_params
+                ),
+                "INFO",
+            )
 
     def process_final_result(self, final_status_list):
         """
@@ -12256,7 +16125,12 @@ class WirelessDesign(DnacBase):
             tuple: A tuple containing a status string ("ok" or "success") and a boolean flag
                    (False if all statuses are "ok", True otherwise).
         """
-        self.log("Starting 'process_final_result' with final_status_list: {0}".format(final_status_list), "INFO")
+        self.log(
+            "Starting 'process_final_result' with final_status_list: {0}".format(
+                final_status_list
+            ),
+            "INFO",
+        )
 
         # Convert the list of statuses to a set to identify unique statuses
         status_set = set(final_status_list)
@@ -12267,7 +16141,9 @@ class WirelessDesign(DnacBase):
             self.log("All statuses are 'ok'. Returning ('ok', False).", "INFO")
             return "ok", False
         else:
-            self.log("Statuses include non-'ok' values. Returning ('success', True).", "INFO")
+            self.log(
+                "Statuses include non-'ok' values. Returning ('success', True).", "INFO"
+            )
             return "success", True
 
     def get_have(self, config, state):
@@ -12289,36 +16165,83 @@ class WirelessDesign(DnacBase):
             global_site_name = "Global"
             self.log("Processing SSIDs for state: {0}".format(state), "DEBUG")
             global_site_exists, global_site_id = self.get_site_id(global_site_name)
-            self.validate_site_name_hierarchy(global_site_exists, global_site_id, global_site_name)
-            have["global_site_details"] = {"site_name": global_site_name, "site_id": global_site_id}
+            self.validate_site_name_hierarchy(
+                global_site_exists, global_site_id, global_site_name
+            )
+            have["global_site_details"] = {
+                "site_name": global_site_name,
+                "site_id": global_site_id,
+            }
 
             if state == "merged":
-                add_ssids, update_ssids, no_update_ssids = self.verify_create_update_ssids_requirement(ssids, have["global_site_details"])
-                have.update({"add_ssids": add_ssids, "update_ssids": update_ssids, "no_update_ssids": no_update_ssids})
+                add_ssids, update_ssids, no_update_ssids = (
+                    self.verify_create_update_ssids_requirement(
+                        ssids, have["global_site_details"]
+                    )
+                )
+                have.update(
+                    {
+                        "add_ssids": add_ssids,
+                        "update_ssids": update_ssids,
+                        "no_update_ssids": no_update_ssids,
+                    }
+                )
             elif state == "deleted":
-                have["delete_ssids"] = self.verify_delete_ssids_requirement(ssids, have["global_site_details"])
+                have["delete_ssids"] = self.verify_delete_ssids_requirement(
+                    ssids, have["global_site_details"]
+                )
 
         element_mappings = [
-            ("interfaces", "interface", self.verify_create_update_interfaces_requirement, self.verify_delete_interfaces_requirement),
-            ("power_profiles", "power profile", self.verify_create_update_power_profiles_requirement, self.verify_delete_power_profiles_requirement),
-            ("access_point_profiles", "access point profile",
-             self.verify_create_update_access_point_profiles_requirement, self.verify_delete_access_point_profiles_requirement),
-            ("radio_frequency_profiles", "radio frequency profile",
-             self.verify_create_update_radio_frequency_profiles_requirement, self.verify_delete_radio_frequency_profiles_requirement),
-            ("anchor_groups", "anchor group", self.verify_create_update_anchor_groups_requirement, self.verify_delete_anchor_groups_requirement),
+            (
+                "interfaces",
+                "interface",
+                self.verify_create_update_interfaces_requirement,
+                self.verify_delete_interfaces_requirement,
+            ),
+            (
+                "power_profiles",
+                "power profile",
+                self.verify_create_update_power_profiles_requirement,
+                self.verify_delete_power_profiles_requirement,
+            ),
+            (
+                "access_point_profiles",
+                "access point profile",
+                self.verify_create_update_access_point_profiles_requirement,
+                self.verify_delete_access_point_profiles_requirement,
+            ),
+            (
+                "radio_frequency_profiles",
+                "radio frequency profile",
+                self.verify_create_update_radio_frequency_profiles_requirement,
+                self.verify_delete_radio_frequency_profiles_requirement,
+            ),
+            (
+                "anchor_groups",
+                "anchor group",
+                self.verify_create_update_anchor_groups_requirement,
+                self.verify_delete_anchor_groups_requirement,
+            ),
         ]
 
         for config_key, log_name, merged_func, deleted_func in element_mappings:
             elements = config.get(config_key)
             if elements:
-                self.log("Processing {0}s for state: {1}".format(log_name.capitalize(), state), "DEBUG")
+                self.log(
+                    "Processing {0}s for state: {1}".format(
+                        log_name.capitalize(), state
+                    ),
+                    "DEBUG",
+                )
                 if state == "merged":
                     add, update, no_update = merged_func(elements)
-                    have.update({
-                        "add_{0}".format(config_key): add,
-                        "update_{0}".format(config_key): update,
-                        "no_update_{0}".format(config_key): no_update,
-                    })
+                    have.update(
+                        {
+                            "add_{0}".format(config_key): add,
+                            "update_{0}".format(config_key): update,
+                            "no_update_{0}".format(config_key): no_update,
+                        }
+                    )
                 elif state == "deleted":
                     have["delete_{0}".format(config_key)] = deleted_func(elements)
 
@@ -12336,7 +16259,9 @@ class WirelessDesign(DnacBase):
             config (dict): The configuration data for the network elements.
             state (str): The desired state of the network elements ('merged' or 'deleted').
         """
-        self.log("Creating Parameters for API Calls with state: {0}".format(state), "INFO")
+        self.log(
+            "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
+        )
 
         want = {}
 
@@ -12346,40 +16271,113 @@ class WirelessDesign(DnacBase):
             "merged": [
                 ("add_ssids", "add_ssids_params", self.have.get("add_ssids")),
                 ("update_ssids", "update_ssids_params", self.have.get("update_ssids")),
-                ("add_interfaces", "add_interfaces_params", self.map_interface_params(self.have.get("add_interfaces"))),
-                ("update_interfaces", "update_interfaces_params", self.map_interface_params(self.have.get("update_interfaces"))),
-                ("add_power_profiles", "add_power_profiles_params", self.map_power_profiles_params(self.have.get("add_power_profiles"))),
-                ("update_power_profiles", "update_power_profiles_params", self.map_power_profiles_params(self.have.get("update_power_profiles"))),
-                ("add_access_point_profiles", "add_access_point_profiles_params", self.have.get("add_access_point_profiles")),
-                ("update_access_point_profiles", "update_access_point_profiles_params", self.have.get("update_access_point_profiles")),
-                ("add_radio_frequency_profiles", "add_radio_frequency_profiles_params", self.have.get("add_radio_frequency_profiles")),
-                ("update_radio_frequency_profiles", "update_radio_frequency_profiles_params", self.have.get("update_radio_frequency_profiles")),
-                ("add_anchor_groups", "add_anchor_groups_params", self.have.get("add_anchor_groups")),
-                ("update_anchor_groups", "update_anchor_groups_params", self.have.get("update_anchor_groups")),
+                (
+                    "add_interfaces",
+                    "add_interfaces_params",
+                    self.map_interface_params(self.have.get("add_interfaces")),
+                ),
+                (
+                    "update_interfaces",
+                    "update_interfaces_params",
+                    self.map_interface_params(self.have.get("update_interfaces")),
+                ),
+                (
+                    "add_power_profiles",
+                    "add_power_profiles_params",
+                    self.map_power_profiles_params(self.have.get("add_power_profiles")),
+                ),
+                (
+                    "update_power_profiles",
+                    "update_power_profiles_params",
+                    self.map_power_profiles_params(
+                        self.have.get("update_power_profiles")
+                    ),
+                ),
+                (
+                    "add_access_point_profiles",
+                    "add_access_point_profiles_params",
+                    self.have.get("add_access_point_profiles"),
+                ),
+                (
+                    "update_access_point_profiles",
+                    "update_access_point_profiles_params",
+                    self.have.get("update_access_point_profiles"),
+                ),
+                (
+                    "add_radio_frequency_profiles",
+                    "add_radio_frequency_profiles_params",
+                    self.have.get("add_radio_frequency_profiles"),
+                ),
+                (
+                    "update_radio_frequency_profiles",
+                    "update_radio_frequency_profiles_params",
+                    self.have.get("update_radio_frequency_profiles"),
+                ),
+                (
+                    "add_anchor_groups",
+                    "add_anchor_groups_params",
+                    self.have.get("add_anchor_groups"),
+                ),
+                (
+                    "update_anchor_groups",
+                    "update_anchor_groups_params",
+                    self.have.get("update_anchor_groups"),
+                ),
             ],
             "deleted": [
                 ("delete_ssids", "delete_ssids_params", self.have.get("delete_ssids")),
-                ("delete_interfaces", "delete_interfaces_params", self.map_interface_params(self.have.get("delete_interfaces"))),
-                ("delete_power_profiles", "delete_power_profiles_params", self.map_power_profiles_params(self.have.get("delete_power_profiles"))),
-                ("delete_access_point_profiles", "delete_access_point_profiles_params",
-                 self.map_access_point_profiles_params(self.have.get("delete_access_point_profiles"))),
-                ("delete_radio_frequency_profiles", "delete_radio_frequency_profiles_params", self.have.get("delete_radio_frequency_profiles")),
-                ("delete_anchor_groups", "delete_anchor_groups_params", self.have.get("delete_anchor_groups")),
-            ]
+                (
+                    "delete_interfaces",
+                    "delete_interfaces_params",
+                    self.map_interface_params(self.have.get("delete_interfaces")),
+                ),
+                (
+                    "delete_power_profiles",
+                    "delete_power_profiles_params",
+                    self.map_power_profiles_params(
+                        self.have.get("delete_power_profiles")
+                    ),
+                ),
+                (
+                    "delete_access_point_profiles",
+                    "delete_access_point_profiles_params",
+                    self.map_access_point_profiles_params(
+                        self.have.get("delete_access_point_profiles")
+                    ),
+                ),
+                (
+                    "delete_radio_frequency_profiles",
+                    "delete_radio_frequency_profiles_params",
+                    self.have.get("delete_radio_frequency_profiles"),
+                ),
+                (
+                    "delete_anchor_groups",
+                    "delete_anchor_groups_params",
+                    self.have.get("delete_anchor_groups"),
+                ),
+            ],
         }
 
         # Process operations based on the state
         if state in operations:
             self.log("Processing operations for state: {0}".format(state), "DEBUG")
-            for index, (op_name, param_key, value) in enumerate(operations[state], start=1):
-                self.log("Iteration {0}: State '{1}', Operation '{2}', Parameter Key '{3}', Value '{4}'.".format(
-                    index, state, op_name, param_key, value), "DEBUG")
+            for index, (op_name, param_key, value) in enumerate(
+                operations[state], start=1
+            ):
+                self.log(
+                    "Iteration {0}: State '{1}', Operation '{2}', Parameter Key '{3}', Value '{4}'.".format(
+                        index, state, op_name, param_key, value
+                    ),
+                    "DEBUG",
+                )
                 if value:
                     want[param_key] = value
                     self.log(
                         "Iteration {0}: State is '{1}' and '{2}' need to be processed in the Cisco Catalyst Center, "
-                        "therefore setting '{3}' - {4}.".format(index, state, op_name, param_key, want.get(param_key)),
-                        "DEBUG"
+                        "therefore setting '{3}' - {4}.".format(
+                            index, state, op_name, param_key, want.get(param_key)
+                        ),
+                        "DEBUG",
                     )
 
         self.want = want
@@ -12406,31 +16404,89 @@ class WirelessDesign(DnacBase):
             ("add_ssids_params", "ADD SSIDs", self.process_add_ssids),
             ("update_ssids_params", "UPDATE SSIDs", self.process_update_ssids),
             ("add_interfaces_params", "ADD Interfaces", self.process_add_interfaces),
-            ("update_interfaces_params", "UPDATE Interfaces", self.process_update_interfaces),
-            ("add_power_profiles_params", "ADD Power Profiles", self.process_add_power_profiles),
-            ("update_power_profiles_params", "UPDATE Power Profiles", self.process_update_power_profiles),
-            ("add_access_point_profiles_params", "ADD Access Point Profiles", self.process_add_access_point_profiles),
-            ("update_access_point_profiles_params", "UPDATE Access Point Profiles", self.process_update_access_point_profiles),
-            ("add_radio_frequency_profiles_params", "ADD Radio Frequency Profiles", self.process_add_radio_frequency_profiles),
-            ("update_radio_frequency_profiles_params", "UPDATE Radio Frequency Profiles", self.process_update_radio_frequency_profiles),
-            ("add_anchor_groups_params", "ADD Anchor Groups", self.process_add_anchor_groups),
-            ("update_anchor_groups_params", "UPDATE Anchor Groups", self.process_update_anchor_groups),
+            (
+                "update_interfaces_params",
+                "UPDATE Interfaces",
+                self.process_update_interfaces,
+            ),
+            (
+                "add_power_profiles_params",
+                "ADD Power Profiles",
+                self.process_add_power_profiles,
+            ),
+            (
+                "update_power_profiles_params",
+                "UPDATE Power Profiles",
+                self.process_update_power_profiles,
+            ),
+            (
+                "add_access_point_profiles_params",
+                "ADD Access Point Profiles",
+                self.process_add_access_point_profiles,
+            ),
+            (
+                "update_access_point_profiles_params",
+                "UPDATE Access Point Profiles",
+                self.process_update_access_point_profiles,
+            ),
+            (
+                "add_radio_frequency_profiles_params",
+                "ADD Radio Frequency Profiles",
+                self.process_add_radio_frequency_profiles,
+            ),
+            (
+                "update_radio_frequency_profiles_params",
+                "UPDATE Radio Frequency Profiles",
+                self.process_update_radio_frequency_profiles,
+            ),
+            (
+                "add_anchor_groups_params",
+                "ADD Anchor Groups",
+                self.process_add_anchor_groups,
+            ),
+            (
+                "update_anchor_groups_params",
+                "UPDATE Anchor Groups",
+                self.process_update_anchor_groups,
+            ),
         ]
 
         # Iterate over operations and process them
         self.log("Beginning iteration over defined operations for processing.", "DEBUG")
-        for index, (param_key, operation_name, operation_func) in enumerate(operations, start=1):
-            self.log("Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(index, operation_name, param_key), "DEBUG")
+        for index, (param_key, operation_name, operation_func) in enumerate(
+            operations, start=1
+        ):
+            self.log(
+                "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
+                    index, operation_name, param_key
+                ),
+                "DEBUG",
+            )
             params = self.want.get(param_key)
             if params:
-                self.log("Iteration {0}: Parameters found for {1}. Starting processing.".format(index, operation_name), "INFO")
+                self.log(
+                    "Iteration {0}: Parameters found for {1}. Starting processing.".format(
+                        index, operation_name
+                    ),
+                    "INFO",
+                )
                 operation_func(params).check_return_status()
-                self.log("Iteration {0}: Completed processing of {1}.".format(index, operation_name), "INFO")
+                self.log(
+                    "Iteration {0}: Completed processing of {1}.".format(
+                        index, operation_name
+                    ),
+                    "INFO",
+                )
                 result = self.msg
                 result_details.update(result)
                 final_status_list.append(self.status)
             else:
-                self.log("Iteration {0}: No parameters found for {1}. Skipping operation.".format(index, operation_name), "WARNING")
+                self.log(
+                    "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
+                        index, operation_name
+                    ),
+                    "WARNING",
+                )
 
         self.log("Final Statuses = {0}".format(final_status_list), "DEBUG")
 
@@ -12444,7 +16500,12 @@ class WirelessDesign(DnacBase):
         # Process the final result
         final_status, is_changed = self.process_final_result(final_status_list)
         self.msg = result_details
-        self.log("Completed 'get_diff_merged' operation with final status: {0}, is_changed: {1}".format(final_status, is_changed), "INFO")
+        self.log(
+            "Completed 'get_diff_merged' operation with final status: {0}, is_changed: {1}".format(
+                final_status, is_changed
+            ),
+            "INFO",
+        )
         self.set_operation_result(final_status, is_changed, self.msg, "INFO")
         return self
 
@@ -12464,27 +16525,69 @@ class WirelessDesign(DnacBase):
         self.log("Defining operations for deletion.", "DEBUG")
         operations = [
             ("delete_ssids_params", "DELETE SSIDs", self.process_delete_ssids),
-            ("delete_interfaces_params", "DELETE Interfaces", self.process_delete_interfaces),
-            ("delete_power_profiles_params", "DELETE Power Profiles", self.process_delete_power_profiles),
-            ("delete_access_point_profiles_params", "DELETE Access Point Profiles", self.process_delete_access_point_profiles),
-            ("delete_radio_frequency_profiles_params", "DELETE Radio Frequency Profiles", self.process_delete_radio_frequency_profiles),
-            ("delete_anchor_groups_params", "DELETE Anchor Groups", self.process_delete_anchor_groups),
+            (
+                "delete_interfaces_params",
+                "DELETE Interfaces",
+                self.process_delete_interfaces,
+            ),
+            (
+                "delete_power_profiles_params",
+                "DELETE Power Profiles",
+                self.process_delete_power_profiles,
+            ),
+            (
+                "delete_access_point_profiles_params",
+                "DELETE Access Point Profiles",
+                self.process_delete_access_point_profiles,
+            ),
+            (
+                "delete_radio_frequency_profiles_params",
+                "DELETE Radio Frequency Profiles",
+                self.process_delete_radio_frequency_profiles,
+            ),
+            (
+                "delete_anchor_groups_params",
+                "DELETE Anchor Groups",
+                self.process_delete_anchor_groups,
+            ),
         ]
 
         # Iterate over operations and process deletions
         self.log("Beginning iteration over defined operations for deletion.", "DEBUG")
-        for index, (param_key, operation_name, operation_func) in enumerate(operations, start=1):
-            self.log("Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(index, operation_name, param_key), "DEBUG")
+        for index, (param_key, operation_name, operation_func) in enumerate(
+            operations, start=1
+        ):
+            self.log(
+                "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
+                    index, operation_name, param_key
+                ),
+                "DEBUG",
+            )
             params = self.want.get(param_key)
             if params:
-                self.log("Iteration {0}: Parameters found for {1}. Starting processing.".format(index, operation_name), "INFO")
+                self.log(
+                    "Iteration {0}: Parameters found for {1}. Starting processing.".format(
+                        index, operation_name
+                    ),
+                    "INFO",
+                )
                 operation_func(params).check_return_status()
-                self.log("Iteration {0}: Completed processing of {1}.".format(index, operation_name), "INFO")
+                self.log(
+                    "Iteration {0}: Completed processing of {1}.".format(
+                        index, operation_name
+                    ),
+                    "INFO",
+                )
                 result = self.msg
                 result_details.update(result)
                 final_status_list.append(self.status)
             else:
-                self.log("Iteration {0}: No parameters found for {1}. Skipping operation.".format(index, operation_name), "WARNING")
+                self.log(
+                    "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
+                        index, operation_name
+                    ),
+                    "WARNING",
+                )
 
         self.log("Final Statuses = {0}".format(final_status_list), "DEBUG")
 
@@ -12498,7 +16601,12 @@ class WirelessDesign(DnacBase):
         # Process the final result
         final_status, is_changed = self.process_final_result(final_status_list)
         self.msg = result_details
-        self.log("Completed 'get_diff_deleted' operation with final status: {0}, is_changed: {1}".format(final_status, is_changed), "INFO")
+        self.log(
+            "Completed 'get_diff_deleted' operation with final status: {0}, is_changed: {1}".format(
+                final_status, is_changed
+            ),
+            "INFO",
+        )
         self.set_operation_result(final_status, is_changed, self.msg, "INFO")
         return self
 
@@ -12513,35 +16621,101 @@ class WirelessDesign(DnacBase):
         self.log("Starting 'verify_diff_merged' operation.", "INFO")
 
         # Define a list of operations with their parameter keys, descriptive names, and corresponding functions
-        self.log("Defining operations and their corresponding verification functions.", "DEBUG")
+        self.log(
+            "Defining operations and their corresponding verification functions.",
+            "DEBUG",
+        )
         operations = [
             ("add_ssids_params", "ADD SSIDs", self.verify_add_ssids_operation),
             ("update_ssids_params", "UPDATE SSIDs", self.verify_update_ssids_operation),
-            ("add_interfaces_params", "ADD Interfaces", self.verify_add_interfaces_operation),
-            ("update_interfaces_params", "UPDATE Interfaces", self.verify_update_interfaces_operation),
-            ("add_power_profiles_params", "ADD Power Profiles", self.verify_add_power_profiles_operation),
-            ("update_power_profiles_params", "UPDATE Power Profiles", self.verify_update_power_profiles_operation),
-            ("add_access_point_profiles_params", "ADD Access Point Profiles", self.verify_add_access_point_profiles_operation),
-            ("update_access_point_profiles_params", "UPDATE Access Point Profiles", self.verify_update_access_point_profiles_operation),
-            ("add_radio_frequency_profiles_params", "ADD Radio Frequency Profiles", self.verify_add_radio_frequency_profiles_operation),
-            ("update_radio_frequency_profiles_params", "UPDATE Radio Frequency Profiles", self.verify_update_radio_frequency_profiles_operation),
-            ("add_anchor_groups_params", "ADD Anchor Groups", self.verify_add_anchor_groups_operation),
-            ("update_anchor_groups_params", "UPDATE Anchor Groups", self.verify_update_anchor_groups_operation)
+            (
+                "add_interfaces_params",
+                "ADD Interfaces",
+                self.verify_add_interfaces_operation,
+            ),
+            (
+                "update_interfaces_params",
+                "UPDATE Interfaces",
+                self.verify_update_interfaces_operation,
+            ),
+            (
+                "add_power_profiles_params",
+                "ADD Power Profiles",
+                self.verify_add_power_profiles_operation,
+            ),
+            (
+                "update_power_profiles_params",
+                "UPDATE Power Profiles",
+                self.verify_update_power_profiles_operation,
+            ),
+            (
+                "add_access_point_profiles_params",
+                "ADD Access Point Profiles",
+                self.verify_add_access_point_profiles_operation,
+            ),
+            (
+                "update_access_point_profiles_params",
+                "UPDATE Access Point Profiles",
+                self.verify_update_access_point_profiles_operation,
+            ),
+            (
+                "add_radio_frequency_profiles_params",
+                "ADD Radio Frequency Profiles",
+                self.verify_add_radio_frequency_profiles_operation,
+            ),
+            (
+                "update_radio_frequency_profiles_params",
+                "UPDATE Radio Frequency Profiles",
+                self.verify_update_radio_frequency_profiles_operation,
+            ),
+            (
+                "add_anchor_groups_params",
+                "ADD Anchor Groups",
+                self.verify_add_anchor_groups_operation,
+            ),
+            (
+                "update_anchor_groups_params",
+                "UPDATE Anchor Groups",
+                self.verify_update_anchor_groups_operation,
+            ),
         ]
 
         # Iterate over operations and perform verification
-        self.log("Beginning iteration over defined operations for verification.", "DEBUG")
-        for index, (param_key, operation_name, operation_func) in enumerate(operations, start=1):
+        self.log(
+            "Beginning iteration over defined operations for verification.", "DEBUG"
+        )
+        for index, (param_key, operation_name, operation_func) in enumerate(
+            operations, start=1
+        ):
             # Retrieve the parameters for the current operation
-            self.log("Checking parameters for operation {0}: '{1}' with param_key '{2}'.".format(index, operation_name, param_key), "DEBUG")
+            self.log(
+                "Checking parameters for operation {0}: '{1}' with param_key '{2}'.".format(
+                    index, operation_name, param_key
+                ),
+                "DEBUG",
+            )
             params = self.want.get(param_key)
             if params:
-                self.log("Iteration {0}: Parameters found for {1} operation. Starting verification.".format(index, operation_name), "INFO")
+                self.log(
+                    "Iteration {0}: Parameters found for {1} operation. Starting verification.".format(
+                        index, operation_name
+                    ),
+                    "INFO",
+                )
                 operation_func(params)
-                self.log("Iteration {0}: Successfully completed verification of {1} operation with param_key '{2}'.".format(
-                    index, operation_name, param_key), "INFO")
+                self.log(
+                    "Iteration {0}: Successfully completed verification of {1} operation with param_key '{2}'.".format(
+                        index, operation_name, param_key
+                    ),
+                    "INFO",
+                )
             else:
-                self.log("Iteration {0}: No parameters found for {1} operation. Skipping verification.".format(index, operation_name), "WARNING")
+                self.log(
+                    "Iteration {0}: No parameters found for {1} operation. Skipping verification.".format(
+                        index, operation_name
+                    ),
+                    "WARNING",
+                )
 
         self.log("Completed 'verify_diff_merged' operation.", "INFO")
         return self
@@ -12557,36 +16731,85 @@ class WirelessDesign(DnacBase):
         self.log("Starting 'verify_diff_deleted' operation.", "INFO")
 
         # Define a list of operations to verify
-        self.log("Defining operations and their corresponding verification functions.", "DEBUG")
+        self.log(
+            "Defining operations and their corresponding verification functions.",
+            "DEBUG",
+        )
         operations = [
-            ("delete_ssids_params", "DELETE Port SSIDs", self.verify_delete_ssids_operation),
-            ("delete_interfaces_params", "DELETE Interfaces", self.verify_delete_interfaces_operation),
-            ("delete_power_profiles_params", "DELETE Power Profiles", self.verify_delete_power_profiles_operation),
-            ("delete_access_point_profiles_params", "DELETE Access Point Profiles", self.verify_delete_access_point_profiles_operation),
-            ("delete_radio_frequency_profiles_params", "DELETE Radio Frequency Profiles", self.verify_delete_radio_frequency_profiles_operation),
-            ("delete_anchor_groups_params", "DELETE Anchor Groups", self.verify_delete_anchor_groups_operation)
+            (
+                "delete_ssids_params",
+                "DELETE Port SSIDs",
+                self.verify_delete_ssids_operation,
+            ),
+            (
+                "delete_interfaces_params",
+                "DELETE Interfaces",
+                self.verify_delete_interfaces_operation,
+            ),
+            (
+                "delete_power_profiles_params",
+                "DELETE Power Profiles",
+                self.verify_delete_power_profiles_operation,
+            ),
+            (
+                "delete_access_point_profiles_params",
+                "DELETE Access Point Profiles",
+                self.verify_delete_access_point_profiles_operation,
+            ),
+            (
+                "delete_radio_frequency_profiles_params",
+                "DELETE Radio Frequency Profiles",
+                self.verify_delete_radio_frequency_profiles_operation,
+            ),
+            (
+                "delete_anchor_groups_params",
+                "DELETE Anchor Groups",
+                self.verify_delete_anchor_groups_operation,
+            ),
         ]
 
         # Iterate over operations and perform verification
-        self.log("Beginning iteration over defined operations for verification.", "DEBUG")
-        for index, (param_key, operation_name, operation_func) in enumerate(operations, start=1):
-            self.log("Checking parameters for operation {0}: '{1}' with param_key '{2}'.".format(index, operation_name, param_key), "DEBUG")
+        self.log(
+            "Beginning iteration over defined operations for verification.", "DEBUG"
+        )
+        for index, (param_key, operation_name, operation_func) in enumerate(
+            operations, start=1
+        ):
+            self.log(
+                "Checking parameters for operation {0}: '{1}' with param_key '{2}'.".format(
+                    index, operation_name, param_key
+                ),
+                "DEBUG",
+            )
             params = self.want.get(param_key)
             if params:
-                self.log("Iteration {0}: Found parameters for {1} operation. Starting verification.".format(index, operation_name), "INFO")
+                self.log(
+                    "Iteration {0}: Found parameters for {1} operation. Starting verification.".format(
+                        index, operation_name
+                    ),
+                    "INFO",
+                )
                 operation_func(params)
-                self.log("Iteration {0}: Successfully completed verification of {1} operation with param_key '{2}'.".format(
-                    index, operation_name, param_key), "INFO")
+                self.log(
+                    "Iteration {0}: Successfully completed verification of {1} operation with param_key '{2}'.".format(
+                        index, operation_name, param_key
+                    ),
+                    "INFO",
+                )
             else:
-                self.log("Iteration {0}: No parameters found for {1} operation. Skipping verification.".format(index, operation_name), "WARNING")
+                self.log(
+                    "Iteration {0}: No parameters found for {1} operation. Skipping verification.".format(
+                        index, operation_name
+                    ),
+                    "WARNING",
+                )
 
         self.log("Completed 'verify_diff_deleted' operation.", "INFO")
         return self
 
 
 def main():
-    """ main entry point for module execution
-    """
+    """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
         "dnac_host": {"required": True, "type": "str"},
@@ -12605,23 +16828,30 @@ def main():
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged", "deleted"]}
+        "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications
-    module = AnsibleModule(argument_spec=element_spec,
-                           supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 
     # Initialize the NetworkCompliance object with the module
     ccc_wireless_design = WirelessDesign(module)
-    if ccc_wireless_design.compare_dnac_versions(ccc_wireless_design.get_ccc_version(), "2.3.7.9") < 0:
+    if (
+        ccc_wireless_design.compare_dnac_versions(
+            ccc_wireless_design.get_ccc_version(), "2.3.7.9"
+        )
+        < 0
+    ):
         ccc_wireless_design.msg = (
             "The specified version '{0}' does not support the Wireless Design Operations. Supported versions start "
             "  from '2.3.7.9' onwards. Version '2.3.7.9' introduces APIs for creating, updating and deleting the "
-            "SSID(s), Interface(s), Power Profile(s), Access Point Profile(s), Radio Frequency Profile(s), Anchor Group(s)"
-            .format(ccc_wireless_design.get_ccc_version())
+            "SSID(s), Interface(s), Power Profile(s), Access Point Profile(s), Radio Frequency Profile(s), Anchor Group(s)".format(
+                ccc_wireless_design.get_ccc_version()
+            )
         )
-        ccc_wireless_design.set_operation_result("failed", False, ccc_wireless_design.msg, "ERROR").check_return_status()
+        ccc_wireless_design.set_operation_result(
+            "failed", False, ccc_wireless_design.msg, "ERROR"
+        ).check_return_status()
 
     # Get the state parameter from the provided parameters
     state = ccc_wireless_design.params.get("state")

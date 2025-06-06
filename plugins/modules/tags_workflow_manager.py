@@ -4856,7 +4856,8 @@ class Tags(DnacBase):
 
         tag_name = tag.get("name")
         self.log(
-            "Starting Tag Create/Update Operation for the Tag: {0}".format(tag_name), "DEBUG"
+            "Starting Tag Create/Update Operation for the Tag: {0}".format(tag_name),
+            "DEBUG",
         )
         self.initialize_batch_size_values(tag)
 
