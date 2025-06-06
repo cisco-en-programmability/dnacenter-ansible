@@ -12,6 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Authors:
+#   Archit Soni <soni.archit03@gmail.com>
+#
+# Description:
+#   Unit tests for the Ansible module `template_workflow_manager`.
+#   These tests cover various template operations such as creation,
+#   update, deletion, import, export, deploy and validation logic using mocked Catalyst Center responses.
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -82,6 +90,7 @@ class TestDnacTemplateWorkflow(TestDnacModule):
                 self.test_data.get("get_task_details_by_id_case_1_call_2"),
                 self.test_data.get("get_task_id_case_1_call_2"),
                 self.test_data.get("get_task_details_by_id_case_1_call_3"),
+                self.test_data.get("get_task_details_by_id_case_1_call_4"),
                 self.test_data.get("get_projects_response_case_1_call_2"),
                 self.test_data.get("gets_the_templates_available_case_1_call_1"),
                 self.test_data.get("get_template_details_case_1_call_1"),
@@ -90,10 +99,12 @@ class TestDnacTemplateWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_projects_response_case_2_call_1"),
                 self.test_data.get("gets_the_templates_available_case_2_call_1"),
-                self.test_data.get("get_template_details_case_2_call_1"),
                 self.test_data.get("get_task_id_case_2_call_1"),
                 self.test_data.get("get_task_id_case_2_call_1"),
                 self.test_data.get("get_task_details_by_id_case_2_call_1"),
+                self.test_data.get("get_task_id_case_2_call_2"),
+                self.test_data.get("get_task_details_by_id_case_2_call_2"),
+                self.test_data.get("get_task_details_by_id_case_2_call_3"),
                 self.test_data.get("get_projects_response_case_2_call_2"),
                 self.test_data.get("gets_the_templates_available_case_2_call_2"),
                 self.test_data.get("get_template_details_case_2_call_2"),
@@ -149,7 +160,7 @@ class TestDnacTemplateWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get("response")[0].get("configurationTemplate").get("msg"),
-            "Going to version template with id dae36aa9-d235-4df3-8d73-e443826330ba",
+            "Successfully committed template test_template to version 1",
         )
 
     def test_update_template_playbook_case_2(self):
@@ -169,7 +180,7 @@ class TestDnacTemplateWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get("response")[0].get("configurationTemplate").get("msg"),
-            "Going to version template with id dae36aa9-d235-4df3-8d73-e443826330ba",
+            "Successfully committed template test_template to version 3",
         )
 
     def test_delete_template_playbook_case_3(self):
@@ -179,7 +190,7 @@ class TestDnacTemplateWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="deleted",
                 config_verify=True,
@@ -188,7 +199,7 @@ class TestDnacTemplateWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get("msg"), "Successfully deleted templateName: test_template "
+            result.get("msg"), "Task: deletes_the_template is successful for parameters: {'template_id': '4023de96-169b-427c-a5eb-2daafc623d87'}"
         )
 
     def test_export_project_playbook_case_4(self):
@@ -198,7 +209,7 @@ class TestDnacTemplateWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
@@ -221,7 +232,7 @@ class TestDnacTemplateWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
