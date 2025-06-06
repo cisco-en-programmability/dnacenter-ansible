@@ -4163,7 +4163,8 @@ def main():
     current_version = ccc_credential.get_ccc_version()
 
     if ccc_credential.compare_dnac_versions(current_version, MIN_SUPPORTED_VERSION) < 0:
-        ccc_credential.msg = "The specified version '{0}' does not support the device_credential_workflow features. Supported versions start from '2.3.5.3' onwards. ".format(
+        ccc_credential.msg = """The specified version '{0}' does not support the device_credential_workflow features. 
+        Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_credential.get_ccc_version()
         )
         ccc_credential.status = "failed"
