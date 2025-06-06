@@ -263,8 +263,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - ip_address_list: ["204.1.2.5", "204.1.2.4",
-        "204.1.2.2"]
+      - ip_address_list: ["204.1.2.5", "204.1.2.4", "204.1.2.2"]
         file_path: backup
 - name: Take backup of device(s) using MAC Address List
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -279,8 +278,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - mac_address_list: ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00",
-        "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
+      - mac_address_list: ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00", "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
         file_path: backup
         unzip_backup: false
 - name: Take backup of device(s) using Serial Number
@@ -297,8 +295,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - serial_number_list: ["FCW2225C020", "FJB2334D06N",
-        "FJC2327U0S2", "FJC2721271T"]
+      - serial_number_list: ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
         file_path: backup
 - name: Take backup of device(s) using Family List
   cisco.dnac.device_configs_backup_workflow_manager:

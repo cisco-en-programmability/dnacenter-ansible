@@ -163,8 +163,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
-      - ip_address_list: ["204.1.2.2", "204.1.2.5",
-        "204.1.2.4"]
+      - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
 - name: Run Compliance check on device(s) using IP address
     list
   cisco.dnac.network_compliance_workflow_manager:
@@ -178,8 +177,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
-      - ip_address_list: ["204.1.2.2", "204.1.2.5",
-        "204.1.2.4"]
+      - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         run_compliance: true
 - name: Run Compliance check on device(s) using Site
   cisco.dnac.network_compliance_workflow_manager:
@@ -208,8 +206,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
-      - ip_address_list: ["204.1.2.2", "204.1.2.5",
-        "204.1.2.4"]
+      - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
 - name: Run Compliance check with specific categories
@@ -225,8 +222,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
-      - ip_address_list: ["204.1.2.2", "204.1.2.5",
-        "204.1.2.4"]
+      - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         run_compliance: true
         run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
 - name: Run Compliance check with specific categories

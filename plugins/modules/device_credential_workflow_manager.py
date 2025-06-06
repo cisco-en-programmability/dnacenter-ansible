@@ -853,9 +853,9 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
         snmp_v2c_read:
-          - description: SNMPv2c Read1 # use this for deletion
+          - description: SNMPv2c Read1  # use this for deletion
         snmp_v2c_write:
-          - description: SNMPv2c Write1 # use this for deletion
+          - description: SNMPv2c Write1  # use this for deletion
         snmp_v3:
           - description: snmpV31
         https_read:

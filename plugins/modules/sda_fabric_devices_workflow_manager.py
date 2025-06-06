@@ -631,8 +631,7 @@ EXAMPLES = r"""
           fabric_name: Global/USA/SAN-JOSE
           device_config:
             - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE,
-                BORDER_NODE]
+              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE]
               borders_settings:
                 layer3_settings:
                   local_autonomous_system_number: 1234

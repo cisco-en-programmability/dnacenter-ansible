@@ -862,8 +862,8 @@ EXAMPLES = r"""
         state: merged
         config:
           - queuing_profile:
-              - profile_name: "Enterprise_Traffic_Profile" # Existing profile to be updated
-                new_profile_name: "Enterprise_Traffic_Profile_v2" # New profile name after update
+              - profile_name: "Enterprise_Traffic_Profile"  # Existing profile to be updated
+                new_profile_name: "Enterprise_Traffic_Profile_v2"  # New profile name after update
                 profile_description: "Traffic queuing
                   profile for enterprise applications."
                 new_profile_description: "Updated queuing
@@ -924,7 +924,7 @@ EXAMPLES = r"""
         state: deleted
         config:
           - queuing_profile:
-              - profile_name: "Enterprise_Traffic_Profile" # Profile to be deleted
+              - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
 # Playbook - create application - type server_name
 - name: Create application on Cisco Catalyst Center
   hosts: localhost
@@ -1110,11 +1110,9 @@ EXAMPLES = r"""
                       - relevance: "BUSINESS_RELEVANT"
                         application_set_name: ["collaboration-apps"]
                       - relevance: "BUSINESS_IRRELEVANT"
-                        application_set_name: ["email",
-                        "tunneling"]
+                        application_set_name: ["email", "tunneling"]
                       - relevance: "DEFAULT"
-                        application_set_name: ["backup-and-storage",
-                        "general-media", "file-sharing"]
+                        application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
 # Playbook - create application policy – wireless
 - name: Create Wireless Application Policy in Cisco
     Catalyst Center
@@ -1153,11 +1151,9 @@ EXAMPLES = r"""
                       - relevance: "BUSINESS_RELEVANT"
                         application_set_name: ["file-sharing"]
                       - relevance: "BUSINESS_IRRELEVANT"
-                        application_set_name: ["email",
-                        "backup-and-storage"]
+                        application_set_name: ["email", "backup-and-storage"]
                       - relevance: "DEFAULT"
-                        application_set_name: ["collaboration-apps",
-                        "tunneling", "general-media"]
+                        application_set_name: ["collaboration-apps", "tunneling", "general-media"]
 # Playbook - delete application policy
 - name: Delete Application Policy from Cisco Catalyst
     Center
