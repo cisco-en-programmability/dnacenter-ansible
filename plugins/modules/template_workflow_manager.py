@@ -3034,7 +3034,6 @@ class Template(DnacBase):
             template_params.update({"id": template_id})
             self.log("Current State (have): {0}".format(self.have_template), "INFO")
             self.log("Desired State (want): {0}".format(self.want), "INFO")
-
             task_name = "update_template"
             parameters = template_params
             current_response = copy.deepcopy(self.result['response'])
