@@ -44,7 +44,11 @@ options:
     required: true
     suboptions:
       queuing_profile:
-        description: Defines queuing profile settings for applications.
+        description:
+            - Defines queuing profile settings for application traffic shaping and bandwidth allocation.
+            - Each profile specifies whether bandwidth allocation is uniform across all interface speeds or customized per speed.
+            - Changing the value of 'is_common_between_all_interface_speeds' (from 'true' to 'false' or vice versa) is not supported during updates.
+            - To switch between common and per-speed bandwidth settings, create a new queuing profile instead of updating the existing one.
         type: list
         elements: dict
         suboptions:
@@ -272,10 +276,10 @@ options:
             type: bool
           rank:
             description: Specifies the priority ranking of the application.
-            type: str
+            type: int
           engine_id:
             description: Identifier for the engine managing the application.
-            type: str
+            type: int
           application_set_name:
             description: Specifies the application set under which this application is created.
             type: str
@@ -286,12 +290,6 @@ options:
         suboptions:
           name:
             description: Name of the application policy
-            type: str
-          application_set_name:
-            description:
-              - The application sets to be removed from the application policy.
-              - Only the specified sets will be removed.
-              - Applicable only when the policy is in the deleted state.
             type: str
           policy_status:
             description: |
@@ -1484,6 +1482,12 @@ class ApplicationPolicy(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
+        self.created_application, self.updated_application, self.no_update_application = [], [], []
+        self.deleted_application, self.no_deleted_application = [], []
+        self.created_application_policy, self.updated_application_policy, self.no_update_application_policy = [], [], []
+        self.deleted_application_policy, self.no_deleted_application_policy = [], []
+        self.created_queuing_profile, self.updated_queuing_profile, self.no_update_queuing_profile = [], [], []
+        self.deleted_queuing_profile, self.no_deleted_queuing_profile = [], []
 
     def validate_input(self):
         """
@@ -2748,6 +2752,7 @@ class ApplicationPolicy(DnacBase):
                     or is_update_required_for_queuing_profile
                 ):
                     self.msg = "Application policy '{0}' does not need any update. ".format(application_policy_name)
+                    self.no_update_application_policy.append(application_policy_name)
                     self.set_operation_result("success", False, self.msg, "INFO")
                     continue
 
@@ -2894,7 +2899,7 @@ class ApplicationPolicy(DnacBase):
             )
 
             self.log("Received API response from 'application_policy_intent' for Update: {0}".format(response), "DEBUG")
-
+            self.updated_application_policy.append(application_policy_name)
             # Check the task response status
             self.check_tasks_response_status(response, "application_policy_intent")
 
@@ -3161,6 +3166,7 @@ class ApplicationPolicy(DnacBase):
             )
 
             self.log("Received API response from 'application_policy_intent' for creation: {0}".format(response), "DEBUG")
+            self.created_application_policy.append(application_policy_name)
             self.check_tasks_response_status(response, "application_policy_intent")
 
             if self.status not in ["failed", "exited"]:
@@ -3304,7 +3310,9 @@ class ApplicationPolicy(DnacBase):
                 "traffic_class": "trafficClass",
                 "server_name": "serverName",
                 "url": "url",
-                "dscp": "dscp"
+                "dscp": "dscp",
+                "rank": "rank",
+                "engine_id": "engineId"
             }
 
             update_required_keys = []
@@ -3313,7 +3321,7 @@ class ApplicationPolicy(DnacBase):
                 required_value = required_application_details.get(required_key)
                 current_value = current_application_details.get("networkApplications")[0].get(current_key)
 
-                if required_key == "dscp":
+                if required_key == "dscp" or required_key == "engine_id":
                     if required_value is not None:
                         required_value = int(required_value)
                     if current_value is not None:
@@ -3343,6 +3351,7 @@ class ApplicationPolicy(DnacBase):
 
             if not update_required_keys:
                 self.msg = "Application '{0}' does not need any update. ".format(application_name)
+                self.no_update_application.append(application_name)
                 self.set_operation_result("success", False, self.msg, "INFO")
                 continue
 
@@ -3386,7 +3395,9 @@ class ApplicationPolicy(DnacBase):
                 ),
             }
 
-            # Conditionally add the helpString and longDescription fields if they exist
+            if "engine_id" in update_required_keys:
+                network_application_payload["engineId"] = required_application_details.get("engine_id")
+
             if help_string:
                 network_application_payload["helpString"] = help_string
 
@@ -3445,20 +3456,23 @@ class ApplicationPolicy(DnacBase):
                     "parentScalableGroup": {
                         "idRef": application_set_id
                     },
-                    **(
-                        {"networkIdentity": [network_identity_setting]}
-                        if "network_identity_setting" in required_application_details
-                        else {}
-                    ),
                     "qualifier": current_application_details.get("qualifier"),
                     "scalableGroupExternalHandle": current_application_details.get("scalableGroupExternalHandle"),
                     "scalableGroupType": current_application_details.get("scalableGroupType"),
                     "type": current_application_details.get("type"),
+                    **(
+                        {"networkIdentity": current_application_details["networkIdentity"]}
+                        if isinstance(current_application_details.get("networkIdentity"), list) and current_application_details["networkIdentity"]
+                        else (
+                            {"networkIdentity": [network_identity_setting]}
+                            if "network_identity_setting" in required_application_details
+                            else {}
+                        )
+                    )
                 }
             ]
 
             self.log("Payload for update application: {0}".format(json.dumps(param, indent=4)), "INFO")
-
             self.update_application(param, application_name)
 
         return self
@@ -3501,6 +3515,7 @@ class ApplicationPolicy(DnacBase):
             )
 
             self.log("Received API response from 'edit_applications': {0}".format(response), "DEBUG")
+            self.updated_application.append(application_name)
             self.check_tasks_response_status(response, "edit_applications")
 
             if self.status not in ["failed", "exited"]:
@@ -3692,6 +3707,7 @@ class ApplicationPolicy(DnacBase):
             )
 
             self.log("Received API response from 'create_applications': {0}".format(response), "DEBUG")
+            self.created_application.append(application_name)
             self.check_tasks_response_status(response, "create_applications")
 
             if self.status not in ["failed", "exited"]:
@@ -4035,6 +4051,7 @@ class ApplicationPolicy(DnacBase):
 
                     if not update_required:
                         self.msg = "Application queuing profile '{0}' does not need any update".format(profile_name)
+                        self.no_update_queuing_profile.append(profile_name)
                         self.set_operation_result("success", False, self.msg, "INFO")
                         continue
 
@@ -4381,9 +4398,10 @@ class ApplicationPolicy(DnacBase):
                         profile_desc = queuing_profile['current_queuing_profile'][0].get("description")
 
                     if not dscp_update_required and not bandwidth_update_required and not update_required:
-                        self.msg = "application queuing profile '{0}' does not need any update".format(profile_name)
+                        self.msg = "Application queuing profile '{0}' does not need any update".format(profile_name)
+                        self.no_update_queuing_profile.append(profile_name)
                         self.set_operation_result("success", False, self.msg, "INFO")
-                        return self
+                        continue
 
                     # Construct the payload for DSCP customization
                     instance_ids = {}
@@ -4605,8 +4623,9 @@ class ApplicationPolicy(DnacBase):
 
                 if not update_required and not dscp_update_required:
                     self.msg = "Application queuing profile '{0}' does not need any update".format(profile_name)
+                    self.no_update_queuing_profile.append(profile_name)
                     self.set_operation_result("success", False, self.msg, "INFO")
-                    return self
+                    continue
 
                 self.log("Update required. Proceeding with profile update for '{0}'. Current description: '{1}', New description: '{2}'.".format(
                     profile_name, queuing_profile['current_queuing_profile'][0].get("description", "N/A"), profile_desc
@@ -4695,6 +4714,7 @@ class ApplicationPolicy(DnacBase):
             )
 
             self.log("Received API response from 'update_application_policy_queuing_profile' for update: {0}".format(response), "DEBUG")
+            self.updated_queuing_profile.append(profile_name)
             self.check_tasks_response_status(response, "update_application_policy_queuing_profile")
 
             if self.status not in ["failed", "exited"]:
@@ -4946,6 +4966,7 @@ class ApplicationPolicy(DnacBase):
             )
 
             self.log("Received API response from 'create_application_policy_queuing_profile': {0}".format(response), "DEBUG")
+            self.created_queuing_profile.append(profile_name)
             self.check_tasks_response_status(response, "create_application_policy_queuing_profile")
 
             if self.status not in ["failed", "exited"]:
@@ -5078,6 +5099,7 @@ class ApplicationPolicy(DnacBase):
                 )
 
                 self.log("Received API response for deleting '{0}': {1}".format(policy_name, response), "DEBUG")
+                self.deleted_application_policy.append(policy_name)
                 self.check_tasks_response_status(response, "application_policy_intent")
 
                 # Proceed only if the status is successful
@@ -5132,6 +5154,7 @@ class ApplicationPolicy(DnacBase):
                     ", ".join(failed_msg)
                 )
             )
+            self.no_deleted_application_policy.append(policy_name)
 
         # Join all the messages together
         self.msg = final_msg
@@ -5184,6 +5207,7 @@ class ApplicationPolicy(DnacBase):
                     "The following application queuing profiles do not exist in the Cisco Catalyst Center "
                     "or have already been deleted: {0}".format(", ".join(exists_false))
                 )
+                self.no_deleted_queuing_profile.append(application_queuing_name)
                 self.set_operation_result("success", False, self.msg, "INFO")
                 continue
 
@@ -5202,6 +5226,7 @@ class ApplicationPolicy(DnacBase):
                         )
 
                         self.log("Received API response from 'delete_application_policy_queuing_profile': {0}".format(response), "DEBUG")
+                        self.deleted_queuing_profile.append(application_queuing_name)
                         self.check_tasks_response_status(response, "delete_application_policy_queuing_profile")
 
                         if self.status not in ["failed", "exited"]:
@@ -5341,6 +5366,7 @@ class ApplicationPolicy(DnacBase):
                     "The following applications do not exist in the Cisco Catalyst Center "
                     "or have already been deleted: {0}".format(", ".join(exists_false))
                 )
+                self.no_deleted_application.append(application)
                 self.set_operation_result("success", False, self.msg, "INFO")
                 continue
 
@@ -5359,6 +5385,7 @@ class ApplicationPolicy(DnacBase):
                         )
 
                         self.log("Received API response from 'delete_application_v2': {0}".format(response), "DEBUG")
+                        self.deleted_application.append(application)
                         self.check_tasks_response_status(response, "delete_application_v2")
 
                         if self.status not in ["failed", "exited"]:
@@ -5397,6 +5424,102 @@ class ApplicationPolicy(DnacBase):
         else:
             self.set_operation_result("success", True, self.msg, "INFO")
             self.complete_successful_distribution = True
+
+        return self
+
+    def update_all_messages(self):
+        """
+        Consolidates and logs messages for applications, application policies,
+        and queuing profiles. Ensures no duplicates and builds a clean response.
+
+        Returns:
+            self (object): The updated instance with populated result and msg.
+        """
+        self.result["changed"] = False
+        result_msg_list = []
+        no_update_list = []
+
+        # === APPLICATIONS ===
+        if self.created_application:
+            msg = "Application(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_application))
+            result_msg_list.append(msg)
+
+        if self.updated_application:
+            msg = "Application(s) '{0}' updated successfully in Cisco Catalyst Center.".format("', '".join(self.updated_application))
+            result_msg_list.append(msg)
+
+        if self.no_update_application:
+            msg = "Application(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_application))
+            no_update_list.append(msg)
+
+        if self.deleted_application:
+            msg = "Application(s) '{0}' deleted successfully from Cisco Catalyst Center.".format("', '".join(self.deleted_application))
+            result_msg_list.append(msg)
+
+        if self.no_deleted_application:
+            msg = (
+                "Application(s) '{0}' do not exist or are already deleted in Cisco Catalyst Center."
+                .format("', '".join(self.no_deleted_application))
+            )
+            no_update_list.append(msg)
+
+        # === APPLICATION POLICIES ===
+        if self.created_application_policy:
+            msg = "Application Policy(ies) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_application_policy))
+            result_msg_list.append(msg)
+
+        if self.updated_application_policy:
+            msg = "Application Policy(ies) '{0}' updated successfully in Cisco Catalyst Center.".format("', '".join(self.updated_application_policy))
+            result_msg_list.append(msg)
+
+        if self.no_update_application_policy:
+            msg = "Application Policy(ies) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_application_policy))
+            no_update_list.append(msg)
+
+        if self.deleted_application_policy:
+            msg = "Application Policy(ies) '{0}' deleted successfully from Cisco Catalyst Center.".format("', '".join(self.deleted_application_policy))
+            result_msg_list.append(msg)
+
+        if self.no_deleted_application_policy:
+            msg = (
+                "Application Policy(ies) '{0}' do not exist or are already deleted in Cisco Catalyst Center."
+                .format("', '".join(self.no_deleted_application_policy))
+            )
+            no_update_list.append(msg)
+
+        # === QUEUING PROFILES ===
+        if self.created_queuing_profile:
+            msg = "Queuing Profile(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_queuing_profile))
+            result_msg_list.append(msg)
+
+        if self.updated_queuing_profile:
+            msg = "Queuing Profile(s) '{0}' updated successfully in Cisco Catalyst Center.".format("', '".join(self.updated_queuing_profile))
+            result_msg_list.append(msg)
+
+        if self.no_update_queuing_profile:
+            msg = "Queuing Profile(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_queuing_profile))
+            no_update_list.append(msg)
+
+        if self.deleted_queuing_profile:
+            msg = "Queuing Profile(s) '{0}' deleted successfully from Cisco Catalyst Center.".format("', '".join(self.deleted_queuing_profile))
+            result_msg_list.append(msg)
+
+        if self.no_deleted_queuing_profile:
+            msg = "Queuing Profile(s) '{0}' do not exist or are already deleted in Cisco Catalyst Center.".format("', '".join(self.no_deleted_queuing_profile))
+            no_update_list.append(msg)
+
+        if result_msg_list and no_update_list:
+            self.result["changed"] = True
+            self.msg = "{0} {1}".format(" ".join(result_msg_list), " ".join(no_update_list))
+        elif result_msg_list:
+            self.result["changed"] = True
+            self.msg = " ".join(result_msg_list)
+        elif no_update_list:
+            self.msg = " ".join(no_update_list)
+
+        self.log(self.msg, "INFO")
+        self.result["response"] = self.msg
+        self.result["msg"] = self.msg
 
         return self
 
@@ -5642,6 +5765,7 @@ def main():
         if config_verify:
             ccc_application.verify_diff_state_apply[state](config).check_return_status()
 
+    ccc_application.update_all_messages()
     module.exit_json(**ccc_application.result)
 
 

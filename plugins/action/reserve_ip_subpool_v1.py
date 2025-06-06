@@ -53,6 +53,7 @@ argument_spec.update(dict(
     slaacSupport=dict(type="bool"),
     siteId=dict(type="str"),
     id=dict(type="str"),
+    ignoreInheritedGroups=dict(type="bool", default=False),
 ))
 
 required_if = [
@@ -90,6 +91,7 @@ class ReserveIpSubpoolV1(object):
             slaacSupport=params.get("slaacSupport"),
             site_id=params.get("siteId"),
             id=params.get("id"),
+            ignoreInheritedGroups=params.get("ignoreInheritedGroups"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -128,7 +130,7 @@ class ReserveIpSubpoolV1(object):
         new_object_params['ipv4TotalHost'] = self.new_object.get('ipv4TotalHost')
         new_object_params['ipv6TotalHost'] = self.new_object.get('ipv6TotalHost')
         new_object_params['slaacSupport'] = self.new_object.get('slaacSupport')
-        new_object_params['siteId'] = self.new_object.get('siteId')
+        new_object_params['site_id'] = self.new_object.get('site_id')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -152,7 +154,7 @@ class ReserveIpSubpoolV1(object):
         new_object_params['ipv6DnsServers'] = self.new_object.get('ipv6DnsServers')
         new_object_params['slaacSupport'] = self.new_object.get('slaacSupport')
         new_object_params['ipv4GateWay'] = self.new_object.get('ipv4GateWay')
-        new_object_params['siteId'] = self.new_object.get('siteId')
+        new_object_params['site_id'] = self.new_object.get('site_id')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -172,18 +174,21 @@ class ReserveIpSubpoolV1(object):
             result = None
         return result
 
-    def get_object_by_id(self, id):
+    def get_object_by_id(self, id, ignoreInheritedGroups):
         result = None
         # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.dnac.exec(
                 family="network_settings",
                 function="get_reserve_ip_subpool_v1",
-                params=self.get_all_params(id=id),
+                params=self.get_all_params(site_id=id, ignoreInheritedGroups=ignoreInheritedGroups),
             )
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
+                    if items == []:
+                        result = None
+                        return result
             result = get_dict_result(items, 'id', id)
         except Exception:
             result = None
@@ -193,11 +198,11 @@ class ReserveIpSubpoolV1(object):
         id_exists = False
         name_exists = False
         prev_obj = None
-        o_id = self.new_object.get("id")
-        o_id = o_id or self.new_object.get("site_id")
+        o_id = self.new_object.get("site_id")
         name = self.new_object.get("name")
+        ignoreInheritedGroups = self.new_object.get("ignoreInheritedGroups")
         if o_id:
-            prev_obj = self.get_object_by_id(o_id)
+            prev_obj = self.get_object_by_id(o_id, ignoreInheritedGroups)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
         if not id_exists and name:
             prev_obj = self.get_object_by_name(name)
@@ -237,7 +242,7 @@ class ReserveIpSubpoolV1(object):
             ("ipv4TotalHost", "ipv4TotalHost"),
             ("ipv6TotalHost", "ipv6TotalHost"),
             ("slaacSupport", "slaacSupport"),
-            ("siteId", "site_id"),
+            ("site_id", "site_id"),
             ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

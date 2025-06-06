@@ -1009,7 +1009,7 @@ class Swim(DnacBase):
         device_uuid_list = []
         device_id_list, site_response_list = [], []
         if not site_name:
-            site_name = "Global"
+            site_names = "Global/.*"
             self.log("Site name not specified; defaulting to 'Global' to fetch all devices under this category", "INFO")
 
         (site_exists, site_id) = self.site_exists(site_name)
@@ -1050,11 +1050,30 @@ class Swim(DnacBase):
                     for item_dict in item['response']:
                         site_response_list.append(item_dict)
         else:
-            site_names = site_name + ".*"
+            site_type = self.get_sites_type(site_name)
+            site_info = {}
+
+            if site_type == "building":
+                self.log("Processing site as a building: {site_name}".format(site_name=site_name), "DEBUG")
+                get_site_names = self.get_site(site_name)
+                for item in get_site_names['response']:
+                    if 'nameHierarchy' in item and 'id' in item:
+                        site_info[item['nameHierarchy']] = item['id']
+                site_names = site_name + "/.*"
+
+            elif site_type == "area":
+                self.log("Processing site as an area: {site_name}".format(site_name=site_name), "DEBUG")
+                site_names = site_name + "/.*"
+
+            elif site_type == "floor":
+                self.log("Processing site as a floor: {site_name}".format(site_name=site_name), "DEBUG")
+                site_names = site_name
+
+            else:
+                self.log("Unknown site type '{site_type}' for site '{site_name}'.".format(site_type=site_type, site_name=site_name), "ERROR")
+
             get_site_names = self.get_site(site_names)
             self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
-
-            site_info = {}
 
             for item in get_site_names['response']:
                 if 'nameHierarchy' in item and 'id' in item:
@@ -1507,14 +1526,39 @@ class Swim(DnacBase):
                 else:
                     images_to_import.append(image_name)
             else:
-                for image_name in image_names:
+                seen = set()
+                unique_image_names = []
+                duplicate_image_names = set()
+
+                for index, image_name in enumerate(image_names):
+                    if image_name not in seen:
+                        seen.add(image_name)
+                        unique_image_names.append(image_name)
+                    else:
+                        duplicate_image_names.add(image_name)
+                        self.log(
+                            "Duplicate image '{0}' detected at index {1}, skipping repeated check."
+                            .format(image_name, index),
+                            "WARNING"
+                        )
+
+                for image_name in unique_image_names:
                     name = image_name.split('/')[-1]
                     if self.is_image_exist(name):
                         existing_images.append(name)
                         self.existing_images.append(name)
                         self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
-                    else:
-                        images_to_import.append(name)
+                        continue
+
+                    self.log("Image '{0}' is ready to be imported into Cisco Catalyst Center.".format(name), "INFO")
+                    images_to_import.append(name)
+
+            self.log("Image import summary:", "INFO")
+            self.log("- Total input images         : {}".format(len(image_names)), "INFO")
+            self.log("- Unique images              : {}".format(len(unique_image_names)), "INFO")
+            self.log("- Duplicate images skipped   : {}".format(len(duplicate_image_names)), "INFO")
+            self.log("- Images already existing    : {}".format(len(existing_images)), "INFO")
+            self.log("- Images ready to import     : {}".format(len(images_to_import)), "INFO")
 
             if existing_images:
                 self.log("Skipping import for existing images: {0}".format(", ".join(existing_images)), "INFO")

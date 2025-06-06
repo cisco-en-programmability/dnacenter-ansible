@@ -56,7 +56,6 @@ class TestDnacSwitchWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_network_profile_not_exist"),
                 self.test_data.get("get_templates_details"),
-                self.test_data.get("get_templates_details"),
                 self.test_data.get("get_site_response1"),
                 self.test_data.get("get_site_response1"),
                 self.test_data.get("get_site_response2"),
@@ -64,7 +63,6 @@ class TestDnacSwitchWorkflow(TestDnacModule):
         elif "deletion_switch_fail" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_network_profile"),
-                self.test_data.get("get_templates_details"),
                 self.test_data.get("get_templates_details"),
                 self.test_data.get("get_site_response1"),
                 self.test_data.get("get_site_response1"),
@@ -126,5 +124,5 @@ class TestDnacSwitchWorkflow(TestDnacModule):
             result.get('msg'),
             "Unable to delete the profile '[{'profile_name': 'sd_sw_1', 'site_names': " +
             "['Global/Chennai/LTTS/FLOOR11', 'Global/Madurai/LTTS/FLOOR1'], 'onboarding_templates': " +
-            "['Ansible_PNP_Switch'], 'day_n_templates': ['Template Provisioning To Device']}]'."
+            "None, 'day_n_templates': ['Template Provisioning To Device']}]'."
         )

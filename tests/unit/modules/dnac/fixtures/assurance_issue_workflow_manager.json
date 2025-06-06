@@ -153,6 +153,63 @@
       "version": "1.0"
     },
 
+    "playbook_config_idempotency":[
+    {
+  "assurance_user_defined_issue_settings": [
+    {
+      "name": "testing item_idempotency issue_1",
+      "description": "testing ignore",
+      "rules": [
+        {
+          "severity": "Notice",
+          "facility": "DOT1X",
+          "mnemonic": "FAIL",
+          "pattern": "issue test",
+          "occurrences": 1,
+          "duration_in_minutes": 3
+        }
+      ],
+      "is_enabled": true,
+      "priority": "P1",
+      "is_notification_enabled": false
+    },
+    {
+      "name": "Warning - C6KENV",
+      "description": "Triggers an Warning due to C6KENV",
+      "rules": [
+        {
+          "severity": "Warning",
+          "facility": "C6KENV",
+          "mnemonic": "TERMINATOR_PS_TEMP_MAJORALARM",
+          "pattern": "issue test",
+          "occurrences": 1,
+          "duration_in_minutes": 2
+        }
+      ],
+      "is_enabled": true,
+      "priority": "P2",
+      "is_notification_enabled": true
+    },
+    {
+      "name": "testing item_idempotency issue_1",
+      "description": "testing ignore",
+      "rules": [
+        {
+          "severity": "Notice",
+          "facility": "DOT1X",
+          "mnemonic": "FAIL",
+          "pattern": "issue test",
+          "occurrences": 1,
+          "duration_in_minutes": 3
+        }
+      ],
+      "is_enabled": true,
+      "priority": "P4",
+      "is_notification_enabled": false
+    }
+  ]
+}],
+
     "playbook_config_creation": [
       {
           "assurance_user_defined_issue_settings": [
@@ -263,16 +320,6 @@
       },
       "version": "1.0"
     },
-
-
-
-
-
-
-
-
-
-    
 
     "playbook_config_deletion": [
     {
@@ -43251,6 +43298,194 @@
             }
         ]
         }
+    ],
+
+    "idempotency_have_response":
+    {
+  "response": [],
+  "page": {
+    "limit": 50,
+    "offset": 1,
+    "count": 0,
+    "sortBy": [
+      {
+        "name": "name",
+        "order": "asc"
+      }
     ]
+  },
+  "version": "1.0"
+}
+,
+
+    "create_1":
+    {
+  "response": {
+    "id": "cb388254-a882-4716-a0eb-8f37ddecfcc4",
+    "name": "testing item_idempotency issue_1",
+    "description": "testing ignore",
+    "profileId": "global",
+    "triggerId": "2adef2fc-37cc-483d-a5da-46e2f302eeb5",
+    "rules": [
+      {
+        "type": "syslog",
+        "severity": "5",
+        "facility": "DOT1X",
+        "mnemonic": "FAIL",
+        "pattern": "issue test",
+        "occurrences": 1,
+        "durationInMinutes": 3
+      }
+    ],
+    "isEnabled": true,
+    "priority": "P1",
+    "isDeletable": true,
+    "isNotificationEnabled": false,
+    "createdTime": 1747635187728,
+    "lastUpdatedTime": 1747635187728
+  },
+  "version": "1.0"
+},
+
+    "create_2":
+    {
+  "response": {
+    "id": "03a72762-9d48-4ccb-a3ec-85ae67bfb2e2",
+    "name": "Warning - C6KENV",
+    "description": "Triggers an Warning due to C6KENV",
+    "profileId": "global",
+    "triggerId": "43863112-d1df-42ab-9fa9-8bf61ffb6d95",
+    "rules": [
+      {
+        "type": "syslog",
+        "severity": "4",
+        "facility": "C6KENV",
+        "mnemonic": "TERMINATOR_PS_TEMP_MAJORALARM",
+        "pattern": "issue test",
+        "occurrences": 1,
+        "durationInMinutes": 2
+      }
+    ],
+    "isEnabled": true,
+    "priority": "P2",
+    "isDeletable": true,
+    "isNotificationEnabled": true,
+    "createdTime": 1747635188000,
+    "lastUpdatedTime": 1747635188000
+  },
+  "version": "1.0"
+},
+"create_1_exist":
+{
+  "response": [
+    {
+      "id": "cb388254-a882-4716-a0eb-8f37ddecfcc4",
+      "name": "testing item_idempotency issue_1",
+      "description": "testing ignore",
+      "profileId": "global",
+      "triggerId": "2adef2fc-37cc-483d-a5da-46e2f302eeb5",
+      "rules": [
+        {
+          "type": "syslog",
+          "severity": "5",
+          "facility": "DOT1X",
+          "mnemonic": "FAIL",
+          "pattern": "issue test",
+          "occurrences": 1,
+          "durationInMinutes": 3
+        }
+      ],
+      "isEnabled": true,
+      "priority": "P1",
+      "isDeletable": true,
+      "isNotificationEnabled": false,
+      "createdTime": 1747635187728,
+      "lastUpdatedTime": 1747635187728
+    }
+  ],
+  "page": {
+    "limit": 50,
+    "offset": 1,
+    "count": 1,
+    "sortBy": [
+      {
+        "name": "name",
+        "order": "asc"
+      }
+    ]
+  },
+  "version": "1.0"
+},
+
+"create_2_exist":
+{
+  "response": [
+    {
+      "id": "03a72762-9d48-4ccb-a3ec-85ae67bfb2e2",
+      "name": "Warning - C6KENV",
+      "description": "Triggers an Warning due to C6KENV",
+      "profileId": "global",
+      "triggerId": "43863112-d1df-42ab-9fa9-8bf61ffb6d95",
+      "rules": [
+        {
+          "type": "syslog",
+          "severity": "4",
+          "facility": "C6KENV",
+          "mnemonic": "TERMINATOR_PS_TEMP_MAJORALARM",
+          "pattern": "issue test",
+          "occurrences": 1,
+          "durationInMinutes": 2
+        }
+      ],
+      "isEnabled": true,
+      "priority": "P2",
+      "isDeletable": true,
+      "isNotificationEnabled": true,
+      "createdTime": 1747635188000,
+      "lastUpdatedTime": 1747635188000
+    }
+  ],
+  "page": {
+    "limit": 50,
+    "offset": 1,
+    "count": 1,
+    "sortBy": [
+      {
+        "name": "name",
+        "order": "asc"
+      }
+    ]
+  },
+  "version": "1.0"
+},
+
+"idempotency_update":
+{
+  "response": {
+    "id": "cb388254-a882-4716-a0eb-8f37ddecfcc4",
+    "name": "testing item_idempotency issue_1",
+    "description": "testing ignore",
+    "profileId": "global",
+    "triggerId": "2adef2fc-37cc-483d-a5da-46e2f302eeb5",
+    "rules": [
+      {
+        "type": "syslog",
+        "severity": "5",
+        "facility": "DOT1X",
+        "mnemonic": "FAIL",
+        "pattern": "issue test",
+        "occurrences": 1,
+        "durationInMinutes": 3
+      }
+    ],
+    "isEnabled": true,
+    "priority": "P4",
+    "isDeletable": true,
+    "isNotificationEnabled": false,
+    "createdTime": 1747635187728,
+    "lastUpdatedTime": 1747635189187
+  },
+  "version": "1.0"
+}
 
 }

@@ -856,7 +856,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -886,7 +886,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -931,7 +931,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -1020,7 +1020,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -1063,7 +1063,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -1109,7 +1109,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -1178,7 +1178,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -1223,7 +1223,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -1271,7 +1271,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -1322,7 +1322,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -1379,7 +1379,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,
@@ -1439,7 +1439,7 @@
                     "security_settings":{
                         "awips":true,
                         "awips_forensic":false,
-                        "rogue_detection":true,
+                        "rogue_detection_enabled":true,
                         "minimum_rssi":-71,
                         "transient_interval":300,
                         "report_interval":60,

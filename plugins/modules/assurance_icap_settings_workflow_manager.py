@@ -170,7 +170,7 @@ EXAMPLES = r"""
   gather_facts: false
   connection: local
   tasks:
-    - name: Configure icap on Cisco Catalyst Center
+    - name: Configure ICAP on Cisco Catalyst Center
       cisco.dnac.assurance_icap_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -203,7 +203,7 @@ EXAMPLES = r"""
   gather_facts: false
   connection: local
   tasks:
-    - name: Download icap on Cisco Catalyst Center
+    - name: Download ICAP on Cisco Catalyst Center
       cisco.dnac.assurance_icap_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -305,8 +305,8 @@ class Icap(DnacBase):
                 'ap_name': {'type': 'str', 'required': False},
                 'slot': {'type': list, 'required': False},
                 'ota_band': {'type': 'str', 'required': False, 'choices': ["2.4GHz", "5GHz", "6GHz"]},
-                'ota_channel': {'type': int, 'required': True},
-                'ota_channel_width': {'type': int, 'required': True},
+                'ota_channel': {'type': int, 'required': False},
+                'ota_channel_width': {'type': int, 'required': False},
 
             },
             'assurance_icap_download': {
@@ -343,7 +343,7 @@ class Icap(DnacBase):
 
     def get_want(self, config):
         """
-        Retrieve and store assurance icap details from playbook configuration.
+        Retrieve and store Assurance ICAP details from playbook configuration.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): The configuration dictionary containing image import and other details.
@@ -396,7 +396,7 @@ class Icap(DnacBase):
                     self.log("Retrieved WLC ID: {0} for WLC Name: {1}".format(wlc_id, wlc_name), "INFO")
                     assurance_icap_settings["wlc_id"] = wlc_id
                 else:
-                    error_msg = "WLC ID retrieval failed for '{0}'".format(wlc_name)
+                    error_msg = "WLC device {0} is not found in catalyst Center or id could not be retrieved.".format(wlc_name)
                     self.log(error_msg, "ERROR")
                     errors.append(error_msg)
 
@@ -801,7 +801,7 @@ class Icap(DnacBase):
             )
             response = response.get("response")
             task_id = response.get("taskId")
-            self.log("Received response for deploy icap congif as: {0}".format(response), "INFO")
+            self.log("Received response for deploy icap config as: {0}".format(response), "INFO")
             if not task_id:
                 self.msg = "Failed to retrieve task ID for ICAP deployment."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -821,7 +821,7 @@ class Icap(DnacBase):
             return self
 
         except Exception as e:
-            self.msg = "An exception occured while deploying ICAP config '{0}' in Cisco Catalyst Center: {1}".format(preview_description, str(e))
+            self.msg = "An exception occurred while deploying ICAP config '{0}' in Cisco Catalyst Center: {1}".format(preview_description, str(e))
             self.log("Attempting to delete ICAP config due to deployment failure.", "WARNING")
             try:
                 self.delete_icap_config(preview_activity_id, preview_description).check_return_status()
@@ -906,7 +906,7 @@ class Icap(DnacBase):
                 op_modifies=True,
                 params=param,
             )
-            self.log("Received response for create icap congif as: {0}".format(response), "INFO")
+            self.log("Received response for create icap config as: {0}".format(response), "INFO")
             response = response.get("response")
             task_id = response.get("taskId")
             if not task_id:
@@ -947,7 +947,7 @@ class Icap(DnacBase):
 
         Args:
             task_id (str): The unique identifier of the task associated with the Intelligent Capture Configuration intent.
-            preview_description (str):  SRepresents the ICAP intent's preview-deploy description string.
+            preview_description (str):  Represents the ICAP intent's preview-deploy description string.
 
         Returns:
             self (object): Returns the current instance of the class with updated status and message attributes.
@@ -967,7 +967,7 @@ class Icap(DnacBase):
                 op_modifies=True,
                 params={"preview_activity_id": preview_activity_id}
             )
-            self.log("Received response for dicard icap congif as: {0}".format(response.get("response")), "INFO")
+            self.log("Received response for discard icap config as: {0}".format(response.get("response")), "INFO")
             self.msg = "Successfully discarded ICAP config."
             return self
 
