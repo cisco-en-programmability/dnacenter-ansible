@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: dnsServices_topNAnalytics
+module: dns_services_top_n_analytics
 short_description: Resource module for Dnsservices Topnanalytics
 description:
   - Manage operation create of the resource Dnsservices

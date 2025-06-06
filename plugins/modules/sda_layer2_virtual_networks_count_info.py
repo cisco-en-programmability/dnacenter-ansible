@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_layer2VirtualNetworks_count_info
+module: sda_layer2_virtual_networks_count_info
 short_description: Information module for Sda Layer2virtualnetworks
   Count
 description:

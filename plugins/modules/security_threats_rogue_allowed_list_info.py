@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_threats_rogue_allowed-list_info
+module: security_threats_rogue_allowed_list_info
 short_description: Information module for Security Threats
   Rogue Allowed-List
 description:

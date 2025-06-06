@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: aaaServices_topNAnalytics
+module: aaa_services_top_n_analytics
 short_description: Resource module for Aaaservices Topnanalytics
 description:
   - Manage operation create of the resource Aaaservices

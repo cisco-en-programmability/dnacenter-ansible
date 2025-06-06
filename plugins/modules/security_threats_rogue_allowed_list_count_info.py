@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_threats_rogue_allowed-list_count_info
+module: security_threats_rogue_allowed_list_count_info
 short_description: Information module for Security Threats
   Rogue Allowed-List Count
 description:
