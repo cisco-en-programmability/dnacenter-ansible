@@ -157,7 +157,7 @@ class WiredNetworkDevicesIdConfigFeaturesIntendedLayer2FeatureV1(object):
         try:
             items = self.dnac.exec(
                 family="wired",
-                function="get_configurations_for_an_intended_layer2_feature_on_a_wired_device_v1",
+                function="get_configurations_for_an_intended_layer2_feature_on_a_wired_device",
                 params={"feature": id}
             )
             if isinstance(items, dict):
@@ -229,7 +229,7 @@ class WiredNetworkDevicesIdConfigFeaturesIntendedLayer2FeatureV1(object):
     def create(self):
         result = self.dnac.exec(
             family="wired",
-            function="create_configurations_for_an_intended_layer2_feature_on_a_wired_device_v1",
+            function="create_configurations_for_an_intended_layer2_feature_on_a_wired_device",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -250,7 +250,7 @@ class WiredNetworkDevicesIdConfigFeaturesIntendedLayer2FeatureV1(object):
                 self.new_object.update(dict(feature=id_))
         result = self.dnac.exec(
             family="wired",
-            function="update_configurations_for_an_intended_layer2_feature_on_a_wired_device_v1",
+            function="update_configurations_for_an_intended_layer2_feature_on_a_wired_device",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -271,7 +271,7 @@ class WiredNetworkDevicesIdConfigFeaturesIntendedLayer2FeatureV1(object):
                 self.new_object.update(dict(feature=id_))
         result = self.dnac.exec(
             family="wired",
-            function="delete_configurations_for_an_intended_layer2_feature_on_a_wired_device_v1",
+            function="delete_configurations_for_an_intended_layer2_feature_on_a_wired_device",
             params=self.delete_by_id_params(),
         )
         return result

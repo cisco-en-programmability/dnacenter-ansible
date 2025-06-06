@@ -1152,7 +1152,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         try:
             response = self.dnac._exec(
                 family="wireless",
-                function="get_wireless_profiles_v1",
+                function="get_wireless_profiles",
                 params={"wireless_profile_name": profile_name}
             )
             self.log("Response from 'get_wireless_profiles_v1' API: {0}".
@@ -1392,11 +1392,11 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         profile = self.have.get("wireless_profile", {})
 
         profile_exist = self.value_exists(profile, "name", profile_name)
-        function_name = "create_wireless_profile_connectivity_v1"
+        function_name = "create_wireless_profile_connectivity"
         profile_payload = payload_data  # Default case for creation
 
         if profile_exist:
-            function_name = "update_wireless_profile_connectivity_v1"
+            function_name = "update_wireless_profile_connectivity"
             profile = self.have.get("wireless_profile")
             if profile and isinstance(profile, dict):
                 if profile.get("profile_info", {}).get("wirelessProfileName") == \
@@ -1406,7 +1406,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     self.log("Updating wireless profile with parameters: {0}".format(
                         self.pprint(payload_data)), "INFO")
         elif profile_id:
-            function_name = "update_wireless_profile_connectivity_v1"
+            function_name = "update_wireless_profile_connectivity"
             profile_payload = {"id": profile_id, "payload": payload_data}
             self.log("Updating wireless profile for template with parameters: {0}".format(
                 self.pprint(payload_data)), "INFO")

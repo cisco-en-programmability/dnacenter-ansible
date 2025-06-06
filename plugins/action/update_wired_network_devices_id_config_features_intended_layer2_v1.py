@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="wired",
-            function='update_configurations_for_intended_layer2_features_on_a_wired_device_v1',
+            function='update_configurations_for_intended_layer2_features_on_a_wired_device',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

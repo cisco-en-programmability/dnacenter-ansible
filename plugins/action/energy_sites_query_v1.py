@@ -87,7 +87,7 @@ class EnergySitesQueryV1(object):
         try:
             items = self.dnac.exec(
                 family="sites",
-                function="query_sites_energy_for_the_given_task_id_v1",
+                function="query_sites_energy_for_the_given_task_id",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -146,7 +146,7 @@ class EnergySitesQueryV1(object):
     def create(self):
         result = self.dnac.exec(
             family="sites",
-            function="submit_request_to_query_sites_energy_v1",
+            function="submit_request_to_query_sites_energy",
             params=self.create_params(),
             op_modifies=True,
         )

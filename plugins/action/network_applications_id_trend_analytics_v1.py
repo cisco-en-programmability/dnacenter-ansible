@@ -95,7 +95,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="applications",
-            function='retrieves_the_trend_analytics_related_to_specific_network_application_v1',
+            function='retrieves_the_trend_analytics_related_to_specific_network_application',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

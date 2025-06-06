@@ -80,7 +80,7 @@ class SitesSiteIdWirelessSettingsFlexConnectAaaOverrideV1(object):
         try:
             items = self.dnac.exec(
                 family="wireless",
-                function="get_aaa_override_vlan_settings_by_site_v1",
+                function="get_aaa_override_vlan_settings_by_site",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -146,7 +146,7 @@ class SitesSiteIdWirelessSettingsFlexConnectAaaOverrideV1(object):
         result = None
         result = self.dnac.exec(
             family="wireless",
-            function="update_aaa_override_vlan_settings_by_site_v1",
+            function="update_aaa_override_vlan_settings_by_site",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -161,7 +161,7 @@ class SitesSiteIdWirelessSettingsFlexConnectAaaOverrideV1(object):
         result = None
         result = self.dnac.exec(
             family="wireless",
-            function="delete_aaa_override_vlan_settings_by_site_v1",
+            function="delete_aaa_override_vlan_settings_by_site",
             params=self.delete_all_params(),
         )
         return result

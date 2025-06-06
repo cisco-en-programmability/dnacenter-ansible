@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="industrial_configuration",
-            function="delete_r_e_p_ring_configured_in_the_n_o_n_f_a_b_r_i_c_deployment_v1",
+            function="delete_r_e_p_ring_configured_in_the_n_o_n_f_a_b_r_i_c_deployment",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

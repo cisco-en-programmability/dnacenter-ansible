@@ -76,7 +76,7 @@ class SecurityServiceInsertionsIdV1(object):
         try:
             items = self.dnac.exec(
                 family="sda",
-                function="security_service_insertion_by_id_v1",
+                function="security_service_insertion_by_id",
                 params={"id": id}
             )
             if isinstance(items, dict):
@@ -137,7 +137,7 @@ class SecurityServiceInsertionsIdV1(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="sda",
-            function="update_the_security_service_insertion_v1",
+            function="update_the_security_service_insertion",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -156,7 +156,7 @@ class SecurityServiceInsertionsIdV1(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="sda",
-            function="delete_security_service_insertion_v1",
+            function="delete_security_service_insertion",
             params=self.delete_by_id_params(),
         )
         return result

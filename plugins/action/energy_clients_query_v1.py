@@ -91,7 +91,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="clients",
-            function='query_clients_energy_v1',
+            function='query_clients_energy',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

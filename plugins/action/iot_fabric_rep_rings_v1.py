@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="industrial_configuration",
-            function='configure_a_r_e_p_ring_on_f_a_b_r_i_c_deployment_v1',
+            function='configure_a_r_e_p_ring_on_f_a_b_r_i_c_deployment',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

@@ -65,7 +65,7 @@ class BackupsIdV1(object):
         try:
             items = self.dnac.exec(
                 family="backup",
-                function="get_backup_by_id_v1",
+                function="get_backup_by_id",
                 params={"id": id}
             )
             if isinstance(items, dict):
@@ -124,7 +124,7 @@ class BackupsIdV1(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="backup",
-            function="delete_backup_v1",
+            function="delete_backup",
             params=self.delete_by_id_params(),
         )
         return result

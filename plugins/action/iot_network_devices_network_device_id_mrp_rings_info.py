@@ -87,10 +87,9 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="industrial_configuration",
-            function='retrieves_the_list_of_mrp_rings',
+            function='retrieves_the_list_of_m_r_p_rings',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())
         return self._result
-

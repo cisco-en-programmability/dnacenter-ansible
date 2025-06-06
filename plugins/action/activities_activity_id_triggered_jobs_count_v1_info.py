@@ -81,7 +81,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="task",
-            function='retrieves_the_count_of_triggered_jobs_by_activity_id_v1',
+            function='retrieves_the_count_of_triggered_jobs_by_activity_id',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

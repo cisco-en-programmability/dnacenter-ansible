@@ -1168,7 +1168,7 @@ class FabricMulticast(DnacBase):
         try:
             fabric_multicast_details = self.dnac._exec(
                 family="sda",
-                function="get_multicast_virtual_networks_v1",
+                function="get_multicast_virtual_networks",
                 params=multicast_get_params
             )
             self.log(
@@ -1217,7 +1217,7 @@ class FabricMulticast(DnacBase):
         try:
             replication_mode_details = self.dnac._exec(
                 family="sda",
-                function="get_multicast_v1",
+                function="get_multicast",
                 params={
                     "fabric_id": fabric_id
                 }

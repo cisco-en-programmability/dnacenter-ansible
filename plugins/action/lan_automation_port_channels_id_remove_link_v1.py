@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="lan_automation",
-            function='remove_a_link_from_port_channel_v1',
+            function='remove_a_link_from_port_channel',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

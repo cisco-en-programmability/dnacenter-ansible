@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="software_image_management_swim",
-            function='update_images_on_the_network_device_v1',
+            function='update_images_on_the_network_device',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

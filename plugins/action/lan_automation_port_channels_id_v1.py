@@ -65,7 +65,7 @@ class LanAutomationPortChannelsIdV1(object):
         try:
             items = self.dnac.exec(
                 family="lan_automation",
-                function="get_port_channel_information_by_id_v1",
+                function="get_port_channel_information_by_id",
                 params={"id": id}
             )
             if isinstance(items, dict):
@@ -124,7 +124,7 @@ class LanAutomationPortChannelsIdV1(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="lan_automation",
-            function="delete_port_channel_v1",
+            function="delete_port_channel",
             params=self.delete_by_id_params(),
         )
         return result

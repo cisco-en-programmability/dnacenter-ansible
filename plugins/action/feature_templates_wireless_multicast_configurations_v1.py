@@ -81,7 +81,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="wireless",
-            function='create_multicast_configuration_feature_template_v1',
+            function='create_multicast_configuration_feature_template',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

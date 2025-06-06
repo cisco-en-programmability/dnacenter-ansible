@@ -79,7 +79,7 @@ class NetworkDeviceImagesValidationsIdV1(object):
         try:
             items = self.dnac.exec(
                 family="software_image_management_swim",
-                function="get_custom_network_device_validation_details_v1",
+                function="get_custom_network_device_validation_details",
                 params={"id": id}
             )
             if isinstance(items, dict):
@@ -141,7 +141,7 @@ class NetworkDeviceImagesValidationsIdV1(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="software_image_management_swim",
-            function="update_custom_network_device_validation_v1",
+            function="update_custom_network_device_validation",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -160,7 +160,7 @@ class NetworkDeviceImagesValidationsIdV1(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="software_image_management_swim",
-            function="delete_custom_network_device_validation_v1",
+            function="delete_custom_network_device_validation",
             params=self.delete_by_id_params(),
         )
         return result

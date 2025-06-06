@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="wired",
-            function='create_a_configuration_model_for_the_intended_configs_for_a_wired_device_v1',
+            function='create_a_configuration_model_for_the_intended_configs_for_a_wired_device',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

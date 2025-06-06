@@ -79,7 +79,7 @@ class FeatureTemplatesWirelessRrmFraConfigurationsIdV1(object):
         try:
             items = self.dnac.exec(
                 family="wireless",
-                function="get_r_r_m_f_r_a_configuration_feature_template_v1",
+                function="get_r_r_m_f_r_a_configuration_feature_template",
                 params={"id": id}
             )
             if isinstance(items, dict):
@@ -141,7 +141,7 @@ class FeatureTemplatesWirelessRrmFraConfigurationsIdV1(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="wireless",
-            function="update_r_r_m_f_r_a_configuration_feature_template_v1",
+            function="update_r_r_m_f_r_a_configuration_feature_template",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -160,7 +160,7 @@ class FeatureTemplatesWirelessRrmFraConfigurationsIdV1(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="wireless",
-            function="delete_r_r_m_f_r_a_configuration_feature_template_v1",
+            function="delete_r_r_m_f_r_a_configuration_feature_template",
             params=self.delete_by_id_params(),
         )
         return result

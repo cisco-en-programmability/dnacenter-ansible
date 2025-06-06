@@ -63,7 +63,7 @@ class SystemSettingsApPnpLocationV1(object):
         try:
             items = self.dnac.exec(
                 family="wireless",
-                function="get_ap_pnp_location_setting_v1",
+                function="get_ap_pnp_location_setting",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -118,7 +118,7 @@ class SystemSettingsApPnpLocationV1(object):
         result = None
         result = self.dnac.exec(
             family="wireless",
-            function="update_ap_pnp_location_setting_v1",
+            function="update_ap_pnp_location_setting",
             params=self.update_all_params(),
             op_modifies=True,
         )

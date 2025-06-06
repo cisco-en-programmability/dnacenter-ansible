@@ -91,7 +91,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="know_your_network",
-            function='get_energy_summary_analytics_v1',
+            function='get_energy_summary_analytics',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

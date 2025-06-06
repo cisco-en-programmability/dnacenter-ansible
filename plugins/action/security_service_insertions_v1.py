@@ -71,7 +71,7 @@ class SecurityServiceInsertionsV1(object):
         try:
             items = self.dnac.exec(
                 family="sda",
-                function="security_service_insertions_v1",
+                function="security_service_insertions",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -124,7 +124,7 @@ class SecurityServiceInsertionsV1(object):
     def create(self):
         result = self.dnac.exec(
             family="sda",
-            function="create_security_service_insertion_on_a_specific_fabric_site_v1",
+            function="create_security_service_insertion_on_a_specific_fabric_site",
             params=self.create_params(),
             op_modifies=True,
         )

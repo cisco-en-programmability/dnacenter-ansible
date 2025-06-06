@@ -85,7 +85,7 @@ class LanAutomationPortChannelsV1(object):
         try:
             items = self.dnac.exec(
                 family="lan_automation",
-                function="get_port_channels_v1",
+                function="get_port_channels",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -141,7 +141,7 @@ class LanAutomationPortChannelsV1(object):
     def create(self):
         result = self.dnac.exec(
             family="lan_automation",
-            function="create_a_new_port_channel_between_devices_v1",
+            function="create_a_new_port_channel_between_devices",
             params=self.create_params(),
             op_modifies=True,
         )
