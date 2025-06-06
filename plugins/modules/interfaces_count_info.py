@@ -145,7 +145,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!gets-the-total-network-device-interface-counts-in-the-specified-time-range-when-there-is-no-start-and-end-time-specified-returns-the-latest-interfaces-total-count
 notes:
   - SDK Method used are
-    devices.Devices.gets_the_total_network_device_interface_counts_in_the_specified_time_range_when_there_is_no_start_and_end_time_specified_returns_the_latest_interfaces_total_count,
+    devices.Devices.gets_the_total_network_device_interface_counts,
   - Paths used are
     get /dna/data/api/v1/interfaces/count,
 """

@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -54,10 +54,10 @@ class SdaFabricAuthenticationProfile(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['site_name_hierarchy'] = self.new_object.get('siteNameHierarchy') or \
-            self.new_object.get('site_name_hierarchy')
-        new_object_params['authenticate_template_name'] = self.new_object.get('authenticateTemplateName') or \
-            self.new_object.get('authenticate_template_name')
+        new_object_params['site_name_hierarchy'] = self.new_object.get(
+            'siteNameHierarchy') or self.new_object.get('site_name_hierarchy')
+        new_object_params['authenticate_template_name'] = self.new_object.get(
+            'authenticateTemplateName') or self.new_object.get('authenticate_template_name')
         return new_object_params
 
     def create_params(self):
@@ -67,7 +67,8 @@ class SdaFabricAuthenticationProfile(object):
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['site_name_hierarchy'] = self.new_object.get('site_name_hierarchy')
+        new_object_params['site_name_hierarchy'] = self.new_object.get(
+            'site_name_hierarchy')
         return new_object_params
 
     def update_all_params(self):
@@ -107,7 +108,8 @@ class SdaFabricAuthenticationProfile(object):
     def exists(self, is_absent=False):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict) and 'siteNameHierarchy' in prev_obj
+        it_exists = prev_obj is not None and isinstance(
+            prev_obj, dict) and 'siteNameHierarchy' in prev_obj
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
@@ -177,7 +179,8 @@ class SdaFabricAuthenticationProfile(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -228,7 +231,9 @@ class ActionModule(ActionBase):
                     response = obj.create()
                     dnac.object_created()
                 except AnsibleSDAException as e:
-                    dnac.fail_json("Could not create object {e}".format(e=e._response))
+                    dnac.fail_json(
+                        "Could not create object {e}".format(
+                            e=e._response))
 
         elif state == "absent":
             try:
@@ -239,7 +244,9 @@ class ActionModule(ActionBase):
                 else:
                     dnac.object_already_absent()
             except AnsibleSDAException as e:
-                dnac.fail_json("Could not get object to be delete {e}".format(e=e._response))
+                dnac.fail_json(
+                    "Could not get object to be delete {e}".format(
+                        e=e._response))
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())
