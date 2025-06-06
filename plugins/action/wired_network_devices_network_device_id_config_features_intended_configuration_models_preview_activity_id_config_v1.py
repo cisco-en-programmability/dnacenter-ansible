@@ -65,7 +65,7 @@ class WiredNetworkDevicesNetworkDeviceIdConfigFeaturesIntendedConfigurationModel
         try:
             items = self.dnac.exec(
                 family="wired",
-                function="gets_the_device_config_for_the_configuration_model_v1",
+                function="gets_the_device_config_for_the_configuration_model",
                 params={"preview_activity_id": id}
             )
             if isinstance(items, dict):
@@ -118,7 +118,7 @@ class WiredNetworkDevicesNetworkDeviceIdConfigFeaturesIntendedConfigurationModel
     def create(self):
         result = self.dnac.exec(
             family="wired",
-            function="generate_the_device_config_for_the_configuration_model_v1",
+            function="generate_the_device_config_for_the_configuration_model",
             params=self.create_params(),
             op_modifies=True,
         )

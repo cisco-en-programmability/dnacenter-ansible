@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="backup",
-            function='restore_backup_v1',
+            function='restore_backup',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

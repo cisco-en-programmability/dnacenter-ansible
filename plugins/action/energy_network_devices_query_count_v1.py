@@ -91,7 +91,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="devices",
-            function='count_devices_energy_from_query_v1',
+            function='count_devices_energy_from_query',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

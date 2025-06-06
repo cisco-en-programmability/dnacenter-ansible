@@ -91,7 +91,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="applications",
-            function='retrieves_summary_analytics_data_related_to_network_applications_along_with_health_metrics_v1',
+            function='retrieves_summary_analytics_data_related_to_network_applications_along_with_health_metrics',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

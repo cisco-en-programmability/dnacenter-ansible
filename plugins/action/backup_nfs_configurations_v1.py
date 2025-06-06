@@ -75,7 +75,7 @@ class BackupNfsConfigurationsV1(object):
         try:
             items = self.dnac.exec(
                 family="backup",
-                function="get_all_n_f_s_configurations_v1",
+                function="get_all_n_f_s_configurations",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -131,7 +131,7 @@ class BackupNfsConfigurationsV1(object):
     def create(self):
         result = self.dnac.exec(
             family="backup",
-            function="create_n_f_s_configuration_v1",
+            function="create_n_f_s_configuration",
             params=self.create_params(),
             op_modifies=True,
         )

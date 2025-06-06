@@ -3273,7 +3273,7 @@ class Template(DnacBase):
                 function_name = "export_projects"
             else:
                 self.log("Exporting project details when catalyst version is greater than or equal to 2.3.7.9", "DEBUG")
-                function_name = "exports_the_projects_for_a_given_criteria_v1"
+                function_name = "exports_the_projects_for_a_given_criteria"
 
             response = self.dnac._exec(
                 family="configuration_templates",

@@ -25,7 +25,9 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    siteNameHierarchy=dict(type="str"),
+    fabricId=dict(type="str"),
+    offset=dict(type="float"),
+    limit=dict(type="float"),
     headers=dict(type="dict"),
 ))
 
@@ -64,7 +66,9 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            site_name_hierarchy=params.get("siteNameHierarchy"),
+            fabric_id=params.get("fabricId"),
+            offset=params.get("offset"),
+            limit=params.get("limit"),
             headers=params.get("headers"),
         )
         return new_object
@@ -81,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="sda",
-            function='get_multicast_details_from_sda_fabric',
+            function='get_multicast',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

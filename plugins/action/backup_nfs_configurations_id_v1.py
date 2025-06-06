@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="backup",
-            function="delete_n_f_s_configuration_v1",
+            function="delete_n_f_s_configuration",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

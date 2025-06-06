@@ -26,6 +26,9 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     networkDeviceId=dict(type="str"),
+    id=dict(type="float"),
+    offset=dict(type="float"),
+    limit=dict(type="float"),
     headers=dict(type="dict"),
 ))
 
@@ -65,6 +68,9 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             network_device_id=params.get("networkDeviceId"),
+            id=params.get("id"),
+            offset=params.get("offset"),
+            limit=params.get("limit"),
             headers=params.get("headers"),
         )
         return new_object
@@ -81,8 +87,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="industrial_configuration",
-            function='retrieves_the_count_of_mrp_rings',
-
+            function='retrieves_the_list_of_network_devices_part_of_m_r_p_ring',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

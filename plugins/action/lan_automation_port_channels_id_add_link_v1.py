@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="lan_automation",
-            function='add_a_lan_automated_link_to_a_port_channel_v1',
+            function='add_a_lan_automated_link_to_a_port_channel',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

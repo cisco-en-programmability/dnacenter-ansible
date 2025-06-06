@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="wired",
-            function="delete_the_configuration_model_v1",
+            function="delete_the_configuration_model",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

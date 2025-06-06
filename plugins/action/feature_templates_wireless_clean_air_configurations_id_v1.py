@@ -79,7 +79,7 @@ class FeatureTemplatesWirelessCleanAirConfigurationsIdV1(object):
         try:
             items = self.dnac.exec(
                 family="wireless",
-                function="get_clean_air_configuration_feature_template_v1",
+                function="get_clean_air_configuration_feature_template",
                 params={"id": id}
             )
             if isinstance(items, dict):
@@ -141,7 +141,7 @@ class FeatureTemplatesWirelessCleanAirConfigurationsIdV1(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="wireless",
-            function="update_clean_air_configuration_feature_template_v1",
+            function="update_clean_air_configuration_feature_template",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -160,7 +160,7 @@ class FeatureTemplatesWirelessCleanAirConfigurationsIdV1(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="wireless",
-            function="delete_clean_air_configuration_feature_template_v1",
+            function="delete_clean_air_configuration_feature_template",
             params=self.delete_by_id_params(),
         )
         return result

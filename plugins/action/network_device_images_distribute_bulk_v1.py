@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="software_image_management_swim",
-            function='bulk_distribute_images_on_network_devices_v1',
+            function='bulk_distribute_images_on_network_devices',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

@@ -577,7 +577,7 @@ class Icap(DnacBase):
             # Execute API call
             response = self.dnac._exec(
                 family="sensors",
-                function="lists_i_cap_packet_capture_files_matching_specified_criteria_v1",
+                function="lists_i_cap_packet_capture_files_matching_specified_criteria",
                 params=param
             )
             self.log("ICAP Packet Capture API Response: {}".format(response), "DEBUG")
@@ -726,7 +726,7 @@ class Icap(DnacBase):
                 self.log("Fetching ICAP packet capture for ID: {}".format(download_id))
                 response = self.dnac._exec(
                     family="sensors",
-                    function="downloads_a_specific_i_cap_packet_capture_file_v1",
+                    function="downloads_a_specific_i_cap_packet_capture_file",
                     op_modifies=True,
                     params={"id": download_id}
                 )
@@ -833,7 +833,7 @@ class Icap(DnacBase):
             task_name = "deploys_the_i_cap_configuration_intent_by_activity_id"
             response = self.dnac._exec(
                 family="sensors",
-                function="deploys_the_i_cap_configuration_intent_by_activity_id_v1",
+                function="deploys_the_i_cap_configuration_intent_by_activity_id",
                 op_modifies=True,
                 params={"preview_activity_id": preview_activity_id, "object": {}}
             )
@@ -940,7 +940,7 @@ class Icap(DnacBase):
 
             response = self.dnac._exec(
                 family="sensors",
-                function='creates_an_i_cap_configuration_intent_for_preview_approve_v1',
+                function='creates_an_i_cap_configuration_intent_for_preview_approve',
                 op_modifies=True,
                 params=param,
             )
@@ -1001,7 +1001,7 @@ class Icap(DnacBase):
         try:
             response = self.dnac._exec(
                 family="sensors",
-                function='discards_the_i_cap_configuration_intent_by_activity_id_v1',
+                function='discards_the_i_cap_configuration_intent_by_activity_id',
                 op_modifies=True,
                 params={"preview_activity_id": preview_activity_id}
             )
@@ -1034,7 +1034,7 @@ class Icap(DnacBase):
             try:
                 response = self.dnac._exec(
                     family="sensors",
-                    function="get_device_deployment_status_v1",
+                    function="get_device_deployment_status",
                     params={"deploy_activity_id": deployment_task_id}
                 )
                 self.log("Received deployment status response: {}".format(response), "INFO")

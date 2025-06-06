@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="industrial_configuration",
-            function='retrieves_the_count_of_r_e_p_rings_v1',
+            function='retrieves_the_count_of_r_e_p_rings',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
