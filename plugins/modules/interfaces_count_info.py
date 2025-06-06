@@ -139,10 +139,16 @@ requirements:
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Devices
-      GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecifiedTimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
-    description: Complete reference of the GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecifiedTimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!gets-the-total-network-device-interface-counts-in-the-specified-time-range-when-there-is-no-start-and-end-time-specified-returns-the-latest-interfaces-total-count
+      GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecified
+      TimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
+    description:
+      - >
+        Complete reference of the 
+        GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecified
+        TimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
+        API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-the-total-network-device-interface-counts-in-the-specified-time-range-
+          when-there-is-no-start-and-end-time-specified-returns-the-latest-interfaces-total-count
 notes:
   - SDK Method used are
     devices.Devices.gets_the_total_network_device_interface_counts,
