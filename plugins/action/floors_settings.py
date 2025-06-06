@@ -46,10 +46,28 @@ class FloorsSettings(object):
         self.dnac = dnac
         self.new_object = dict(
             unitsOfMeasure=params.get("unitsOfMeasure"),
+            floorNumber=params.get("floorNumber"),
+            height=params.get("height"),
+            length=params.get("length"),
+            name=params.get("name"),
+            parentId=params.get("parentId"),
+            rfModel=params.get("rfModel"),
+            width=params.get("width"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
+        return new_object_params
+
+    def create_params(self):
+        new_object_params = {}
+        new_object_params['floorNumber'] = self.new_object.get('floorNumber')
+        new_object_params['height'] = self.new_object.get('height')
+        new_object_params['length'] = self.new_object.get('length')
+        new_object_params['name'] = self.new_object.get('name')
+        new_object_params['parentId'] = self.new_object.get('parentId')
+        new_object_params['rfModel'] = self.new_object.get('rfModel')
+        new_object_params['unitsOfMeasure'] = self.new_object.get('unitsOfMeasure')
         return new_object_params
 
     def update_all_params(self):
@@ -63,7 +81,7 @@ class FloorsSettings(object):
         try:
             items = self.dnac.exec(
                 family="site_design",
-                function="get_floor_settings_v2",
+                function="get_floor_settings",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -80,7 +98,7 @@ class FloorsSettings(object):
         try:
             items = self.dnac.exec(
                 family="site_design",
-                function="get_floor_settings_v2",
+                function="get_floor_settings",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
@@ -127,7 +145,7 @@ class FloorsSettings(object):
     def create(self):
         result = self.dnac.exec(
             family="site_design",
-            function="",
+            function="creates_a_floor",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -139,7 +157,7 @@ class FloorsSettings(object):
         result = None
         result = self.dnac.exec(
             family="site_design",
-            function="updates_floor_settings_v2",
+            function="updates_floor_settings",
             params=self.update_all_params(),
             op_modifies=True,
         )
