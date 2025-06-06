@@ -228,14 +228,14 @@ EXAMPLES = r"""
                 preview_description: "ICAP onboarding
                   capture"
                 duration_in_mins: 30
-                client_mac: 50:91:E3:47:AC:9E # required field
-                wlc_name: NY-IAC-EWLC.cisco.local # required field
+                client_mac: 50:91:E3:47:AC:9E  # required field
+                wlc_name: NY-IAC-EWLC.cisco.local  # required field
               - capture_type: FULL
                 preview_description: "Full ICAP capture
                   for troubleshooting"
                 duration_in_mins: 30
-                client_mac: 50:91:E3:47:AC:9E # required field
-                wlc_name: NY-IAC-EWLC.cisco.local # required field
+                client_mac: 50:91:E3:47:AC:9E  # required field
+                wlc_name: NY-IAC-EWLC.cisco.local  # required field
 - hosts: dnac_servers
   vars_files:
     - credentials.yml

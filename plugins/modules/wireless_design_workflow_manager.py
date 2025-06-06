@@ -2074,8 +2074,7 @@ options:
                     channels based on the wireless environment.
                 type: list
                 elements: int
-                choices: [1, 2, 3, 4, 5, 6, 7, 8, 9,
-                  10, 11, 12, 13, 14]
+                choices: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                 default: [1, 6, 11]
               supported_data_rates_list:
                 description:
@@ -2097,8 +2096,7 @@ options:
                 elements: float
                 choices: [1, 2, 5.5, 6, 9, 11, 12, 18,
                   24, 36, 48, 54]
-                default: [9, 11, 12, 18, 24, 36, 48,
-                  54]
+                default: [9, 11, 12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list:
                 description:
                   - List of mandatory data rates for
@@ -2451,12 +2449,10 @@ options:
                     works.
                 type: list
                 elements: int
-                default: [36, 40, 44, 48, 52, 56, 60,
-                  64, 149, 153, 157, 161]
-                choices: [36, 40, 44, 48, 52, 56, 60,
-                  64, 100, 104, 108, 112, 116, 120,
-                  124, 128, 132, 136, 140, 144, 149,
-                  153, 157, 161, 165, 169, 173]
+                default: [36, 40, 44, 48, 52, 56, 60, 64, 149, 153, 157, 161]
+                choices: [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
+                124, 128, 132, 136, 140, 144, 149,
+                153, 157, 161, 165, 169, 173]
               supported_data_rates_list:
                 description:
                   - List of supported data rates for
@@ -2464,10 +2460,8 @@ options:
                   - Rates are specified in Mbps.
                 type: list
                 elements: int
-                default: [6, 9, 12, 18, 24, 36, 48,
-                  54]
-                choices: [6, 9, 12, 18, 24, 36, 48,
-                  54]
+                default: [6, 9, 12, 18, 24, 36, 48, 54]
+                choices: [6, 9, 12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list:
                 description:
                   - List of mandatory data rates for
@@ -2702,9 +2696,8 @@ options:
                     229, 233]
                 type: list
                 elements: int
-                default: [5, 21, 37, 53, 69, 85, 101,
-                  117, 133, 149, 165, 181, 197, 213,
-                  229]
+                default: [5, 21, 37, 53, 69, 85, 101, 117, 133, 149, 165, 181, 197, 213,
+                229]
               supported_data_rates_list:
                 description:
                   - Data rates of 6 GHz radio band.
@@ -2712,8 +2705,7 @@ options:
                     36, 48, 54]
                 type: list
                 elements: int
-                default: [6, 9, 12, 18, 24, 36, 48,
-                  54]
+                default: [6, 9, 12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list:
                 description:
                   - Mandatory data rates of 6 GHz radio
@@ -4337,19 +4329,19 @@ EXAMPLES = r"""
               parent_profile: "TYPICAL"
               channel_width: "160"
               dca_channels_list: [36, 40, 44, 48, 52,
-                56, 60, 64, 100, 104, 108, 112, 116,
-                120, 124, 128]
+              56, 60, 64, 100, 104, 108, 112, 116,
+              120, 124, 128]
               supported_data_rates_list: [12, 18, 24,
-                36, 48, 54]
+              36, 48, 54]
               mandatory_data_rates_list: [24]
           - radio_frequency_profile_name: "rf_profile_6ghz_custom"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
               dca_channels_list: [13, 17, 21, 25, 29,
-                33, 37, 41]
+              33, 37, 41]
               supported_data_rates_list: [6, 9, 12,
-                18, 24, 36, 48, 54]
+              18, 24, 36, 48, 54]
               mandatory_data_rates_list: [6, 9]
               parent_profile: "CUSTOM"
               minimum_dbs_channel_width: 20
@@ -4494,7 +4486,7 @@ EXAMPLES = r"""
               zero_wait_dfs: true
               dca_channels_list: [36, 40, 44, 48]
               supported_data_rates_list: [6, 9, 12,
-                18, 24, 36, 48, 54]
+              18, 24, 36, 48, 54]
               mandatory_data_rates_list: [6]
               minimum_power_level: 5
               maximum_power_level: 30
@@ -4524,7 +4516,7 @@ EXAMPLES = r"""
               psc_enforcing_enabled: true
               dca_channels_list: [37, 53, 69, 85]
               supported_data_rates_list: [12, 18, 24,
-                36, 48, 54, 6, 9]
+              36, 48, 54, 6, 9]
               mandatory_data_rates_list: [6, 12]
               minimum_power_level: 10
               maximum_power_level: 30
@@ -4614,8 +4606,7 @@ EXAMPLES = r"""
               parent_profile: "HIGH"
               channel_width: "80"
               dca_channels_list: [52, 56, 60, 64]
-              supported_data_rates_list: [18, 24, 36,
-                48, 54]
+              supported_data_rates_list: [18, 24, 36, 48, 54]
               mandatory_data_rates_list: [24]
           - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power"
             default_rf_profile: false
@@ -4644,20 +4635,16 @@ EXAMPLES = r"""
             radio_bands_5ghz_settings:
               parent_profile: "TYPICAL"
               channel_width: "160"
-              dca_channels_list: [36, 40, 44, 48, 52,
-                56, 60, 64]
-              supported_data_rates_list: [12, 24, 36,
-                48, 6, 18, 9, 54]
+              dca_channels_list: [36, 40, 44, 48, 52, 56, 60, 64]
+              supported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
               mandatory_data_rates_list: [24]
           - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
               parent_profile: "CUSTOM"
-              dca_channels_list: [1, 129, 5, 133, 9,
-                137, 13, 141, 17, 145]
-              supported_data_rates_list: [12, 18, 24,
-                36, 48, 54, 6, 9]
+              dca_channels_list: [1, 129, 5, 133, 9, 137, 13, 141, 17, 145]
+              supported_data_rates_list: [12, 18, 24, 36, 48, 54, 6, 9]
               mandatory_data_rates_list: [6, 12]
               minimum_dbs_channel_width: 40
               maximum_dbs_channel_width: 80
@@ -4682,8 +4669,7 @@ EXAMPLES = r"""
               parent_profile: "LOW"
               channel_width: "20"
               dca_channels_list: [36, 44, 48]
-              supported_data_rates_list: [12, 24, 36,
-                48, 6, 18, 9, 54]
+              supported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
               mandatory_data_rates_list: [24]
 - name: Delete Radio Frequency Profiles
   cisco.dnac.wireless_design_workflow_manager:
