@@ -110,7 +110,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceType: string
     id: string
-    includeForOverallHealth: True
+    includeForOverallHealth: true
     attribute: string
     offset: 0
     limit: 0

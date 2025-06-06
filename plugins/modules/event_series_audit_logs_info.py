@@ -191,7 +191,7 @@ EXAMPLES = r"""
     eventHierarchy: string
     siteId: string
     deviceId: string
-    isSystemEvents: True
+    isSystemEvents: true
     description: string
     offset: 0
     limit: 0

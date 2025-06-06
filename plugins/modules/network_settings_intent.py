@@ -1127,7 +1127,7 @@ class NetworkSettings(DnacBase):
             "exists": False,
             "details": None,
             "id": None,
-            "success": True
+            "success": true
         }
         site_id = self.get_site_id(site_name)
         self.log("Site ID for the site name {0}: {1}".format(site_name, site_id), "DEBUG")

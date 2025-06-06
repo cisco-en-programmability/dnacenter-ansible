@@ -2080,7 +2080,7 @@ class NetworkSettings(DnacBase):
             "exists": False,
             "details": None,
             "id": None,
-            "success": True
+            "success": true
         }
         site_exist, site_id = self.get_site_id(site_name)
         self.log("Site ID for the site name {0}: {1}".format(site_name, site_id), "DEBUG")
@@ -2129,7 +2129,7 @@ class NetworkSettings(DnacBase):
                     "exists": True,
                     "id": each_pool.get("id"),
                     "details": self.get_reserve_pool_params(each_pool),
-                    "success": True
+                    "success": true
                 }
                 all_reserve_pool.append(reserve_del_pool)
 

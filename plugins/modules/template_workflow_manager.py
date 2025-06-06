@@ -2493,7 +2493,7 @@ class Template(DnacBase):
                 op_modifies=False,
                 params={
                     "projectNames": project_name,
-                    "un_committed": True
+                    "un_committed": true
                 },
             )
             self.log("Received Response from 'gets_the_templates_available' for 'project_name': '{0}' is {1}".format(project_name, template_list), "DEBUG")
