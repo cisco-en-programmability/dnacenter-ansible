@@ -113,7 +113,7 @@ seealso:
         Complete reference of the GetsTheListOfInterfacesAcrossThe
         NetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
         API.
-    link: 
+    link:
       ->
         https://developer.cisco.com/docs/dna-center/#!gets-the-list-
         of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions

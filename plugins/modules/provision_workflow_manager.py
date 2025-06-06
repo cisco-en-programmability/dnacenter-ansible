@@ -3335,7 +3335,7 @@ def main():
         ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.5.3")
         < 0
     ):
-        ccc_provision.msg = """The specified version '{0}' does not support the 'provision_workflow_manager' feature. 
+        ccc_provision.msg = """The specified version '{0}' does not support the 'provision_workflow_manager' feature.
         Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_provision.get_ccc_version()
         )
