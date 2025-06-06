@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: interface_network_device_range_info
-short_description: Information module for Interface Network Device Range Info
+short_description: Information module for Interface
+  Network Device Range
 description:
-  - This module represents an alias of the module interface_network_device_range_v1_info
+  - Get all Interface Network Device Range.
+  - Returns the list of interfaces for the device for
+    the specified range.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,24 +31,28 @@ options:
     type: int
   recordsToReturn:
     description:
-      - RecordsToReturn path parameter. Number of records to return.
+      - RecordsToReturn path parameter. Number of records
+        to return.
     type: int
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetDeviceInterfacesBySpecifiedRangeV1
-    description: Complete reference of the GetDeviceInterfacesBySpecifiedRangeV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-device-interfaces-by-specified-range
+  - name: Cisco DNA Center documentation for Devices
+      GetDeviceInterfacesBySpecifiedRange
+    description: Complete reference of the GetDeviceInterfacesBySpecifiedRange
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-interfaces-by-specified-range
 notes:
-  - SDK Method used are devices.Devices.get_device_interfaces_by_specified_range_v1,
-  - Paths used are get
-    /dna/intent/api/v1/interface/network-device/{deviceId}/{startIndex}/{recordsToReturn},
-  - It should be noted that this module is an alias of interface_network_device_range_v1_info
+  - SDK Method used are
+    devices.Devices.get_device_interfaces_by_specified_range,
+  - Paths used are
+    get /dna/intent/api/v1/interface/network-device/{deviceId}/{startIndex}/{recordsToReturn},
 """
+
 EXAMPLES = r"""
-- name: Get all Interface Network Device Range Info
+---
+- name: Get all Interface Network Device Range
   cisco.dnac.interface_network_device_range_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

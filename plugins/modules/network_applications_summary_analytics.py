@@ -1,20 +1,35 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_applications_summary_analytics
-short_description: Resource module for Network Applications Summary Analytics
+short_description: Resource module for Network Applications
+  Summary Analytics
 description:
-  - This module represents an alias of the module network_applications_summary_analytics_v1
+  - Manage operation create of the resource Network
+    Applications Summary Analytics. - > Retrieves summary
+    analytics data related to network applications while
+    applying complex filtering, aggregate functions,
+    and grouping. This API facilitates obtaining consolidated
+    insights into the performance and status of the
+    network applications. If startTime and endTime are
+    not provided, the API defaults to the last 24 hours.
+    For detailed information about the usage of the
+    API, please refer to the Open API specification
+    document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    NetworkApplications-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Network Applications Summary Analytics's aggregateAttributes.
+    description: Network Applications Summary Analytics's
+      aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -32,7 +47,8 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Network Applications Summary Analytics's filters.
+    description: Network Applications Summary Analytics's
+      filters.
     elements: dict
     suboptions:
       key:
@@ -49,7 +65,8 @@ options:
     description: Additional headers.
     type: dict
   page:
-    description: Network Applications Summary Analytics's page.
+    description: Network Applications Summary Analytics's
+      page.
     suboptions:
       cursor:
         description: Cursor.
@@ -61,7 +78,8 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Network Applications Summary Analytics's sortBy.
+        description: Network Applications Summary Analytics's
+          sortBy.
         elements: dict
         suboptions:
           function:
@@ -87,19 +105,19 @@ requirements:
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Applications
-      RetrievesSummaryAnalyticsDataRelatedToNetworkApplicationsAlongWithHealthMetricsV1
-    description: Complete reference of the
-      RetrievesSummaryAnalyticsDataRelatedToNetworkApplicationsAlongWithHealthMetricsV1
+      RetrievesSummaryAnalyticsDataRelatedToNetworkApplicationsAlongWithHealthMetrics
+    description: Complete reference of the RetrievesSummaryAnalyticsDataRelatedToNetworkApplicationsAlongWithHealthMetrics
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-summary-analytics-data-related-to-network-applications-along-with-health-metrics
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-analytics-data-related-to-network-applications-along-with-health-metrics
 notes:
   - SDK Method used are
-    applications.Applications.retrieves_summary_analytics_data_related_to_network_applications_along_with_health_metrics_v1,
-  - Paths used are post /dna/data/api/v1/networkApplications/summaryAnalytics,
-  - It should be noted that this module is an alias of network_applications_summary_analytics_v1
+    applications.Applications.retrieves_summary_analytics_data_related_to_network_applications_along_with_health_metrics,
+  - Paths used are
+    post /dna/data/api/v1/networkApplications/summaryAnalytics,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.network_applications_summary_analytics:
     dnac_host: "{{dnac_host}}"

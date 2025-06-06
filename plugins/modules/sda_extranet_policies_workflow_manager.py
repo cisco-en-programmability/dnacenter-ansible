@@ -9,32 +9,38 @@ __author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: sda_extranet_policies_workflow_manager
-short_description: SDA Extranet Policies Module provides functionality for managing
-  SD-Access Extranet Policies in Cisco Catalyst Center.
+short_description: SDA Extranet Policies Module provides
+  functionality for managing SD-Access Extranet Policies
+  in Cisco Catalyst Center.
 description:
-  - Manage SD-Access Extranet Policy operations such as create, update, or delete
-    extranet policies in Cisco Catalyst Center.
+  - Manage SD-Access Extranet Policy operations such
+    as create, update, or delete extranet policies in
+    Cisco Catalyst Center.
   - API to create a new extranet policy.
-  - API to update an existing or edit an existing extranet policy.
-  - API for deletion of an existing extranet policy using the policy name.
+  - API to update an existing or edit an existing extranet
+    policy.
+  - API for deletion of an existing extranet policy
+    using the policy name.
 version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan (@madhansansel)
+author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan
+  (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying
-      the playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center config after applying the playbook config.
     type: bool
     default: false
   state:
-    description: State of Cisco Catalyst Center after module completion.
+    description: State of Cisco Catalyst Center after
+      module completion.
     type: str
     choices: [merged, deleted]
     default: merged
   config:
-    description: List of Extranet Policy Details for Creating, Updating, or Deleting
-      Operations.
+    description: List of Extranet Policy Details for
+      Creating, Updating, or Deleting Operations.
     type: list
     elements: dict
     required: true
@@ -43,28 +49,35 @@ options:
         description:
           - Name of the SDA Extranet Policy.
           - Used to create, update, or delete the policy.
-          - Required for all operations (create, update, delete).
+          - Required for all operations (create, update,
+            delete).
           - Cannot be modified once set.
         type: str
       provider_virtual_network:
         description:
-          - Specifies the Provider Virtual Network containing shared services resources
-            that subscribers need to access.
-          - If a virtual network is already defined as a Provider, it cannot be assigned
-            as a provider again.
-          - Ensure the default route is present in the Global Routing Table if INFRA_VN
-            is defined as the Provider.
-          - For Subscriber Virtual Networks with multiple Providers having overlapping
-            routes, traffic will be load-balanced across those Provider Virtual Networks.
+          - Specifies the Provider Virtual Network containing
+            shared services resources that subscribers
+            need to access.
+          - If a virtual network is already defined
+            as a Provider, it cannot be assigned as
+            a provider again.
+          - Ensure the default route is present in the
+            Global Routing Table if INFRA_VN is defined
+            as the Provider.
+          - For Subscriber Virtual Networks with multiple
+            Providers having overlapping routes, traffic
+            will be load-balanced across those Provider
+            Virtual Networks.
           - Required for creating or updating the policy.
           - Updating this field is not allowed.
         type: str
       subscriber_virtual_networks:
         description:
-          - Specifies a list of Subscriber Virtual Networks that require access to
-            the Provider Virtual Network containing shared services resources.
-          - A Virtual Network previously defined as a Provider cannot be selected
-            as a subscriber.
+          - Specifies a list of Subscriber Virtual Networks
+            that require access to the Provider Virtual
+            Network containing shared services resources.
+          - A Virtual Network previously defined as
+            a Provider cannot be selected as a subscriber.
           - Required for creating or updating the policy.
           - Can be modified.
           - Example - ["VN_2", "VN_4"]
@@ -72,31 +85,40 @@ options:
         elements: str
       fabric_sites:
         description:
-          - Specifies the Fabric Site(s) where this Extranet Policy will be applied.
-          - The Provider Virtual Network must already be added to a Fabric Site before
-            applying the policy.
-          - Updating this field is allowed, but once an extranet policy is applied
-            to a site, it cannot be removed.
-          - Fabric Site(s) connected to the same SD-Access Transit must have consistent
-            Extranet Policies.
-          - Selecting a Fabric Site connected to an SD-Access Transit will automatically
-            select all other Sites connected to that Transit.
-          - Example - ["Global/USA/San Jose/Building23", "Global/India/Bangalore/Building18"]
+          - Specifies the Fabric Site(s) where this
+            Extranet Policy will be applied.
+          - The Provider Virtual Network must already
+            be added to a Fabric Site before applying
+            the policy.
+          - Updating this field is allowed, but once
+            an extranet policy is applied to a site,
+            it cannot be removed.
+          - Fabric Site(s) connected to the same SD-Access
+            Transit must have consistent Extranet Policies.
+          - Selecting a Fabric Site connected to an
+            SD-Access Transit will automatically select
+            all other Sites connected to that Transit.
+          - Example - ["Global/USA/San Jose/Building23",
+            "Global/India/Bangalore/Building18"]
         type: list
         elements: str
 requirements:
   - dnacentersdk == 2.7.0
   - python >= 3.9
 notes:
-  - SDK Methods used are sites.Sites.get_site sda.SDA.get_fabric_sites sda.SDA.get_extranet_policies
-    sda.SDA.add_extranet_policy sda.SDA.update_extranet_policy sda.SDA.delete_extranet_policy_by_id
+  - SDK Methods used are sites.Sites.get_site sda.SDA.get_fabric_sites
+    sda.SDA.get_extranet_policies sda.SDA.add_extranet_policy
+    sda.SDA.update_extranet_policy sda.SDA.delete_extranet_policy_by_id
     task.Task.get_task_by_id
-  - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/sda/fabricSites
-    get /dna/intent/api/v1/sda/extranetPolicies post /dna/intent/api/v1/sda/extranetPolicies
-    put /dna/intent/api/v1/sda/extranetPolicies delete dna/intent/api/v1/sda/extranetPolicies/${id}
+  - Paths used are
+    get /dna/intent/api/v1/site get /dna/intent/api/v1/sda/fabricSites
+    get /dna/intent/api/v1/sda/extranetPolicies post
+    /dna/intent/api/v1/sda/extranetPolicies put /dna/intent/api/v1/sda/extranetPolicies
+    delete dna/intent/api/v1/sda/extranetPolicies/${id}
     get /dna/intent/api/v1/task/{taskId}
 """
 EXAMPLES = r"""
+---
 - name: Create Extranet Policy
   cisco.dnac.sda_extranet_policies_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -129,7 +151,8 @@ EXAMPLES = r"""
       - extranet_policy_name: "test_extranet_policy_1"
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_3"]
-        fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
+        fabric_sites: ["Global/Test_Extranet_Polcies/USA",
+          "Global/Test_Extranet_Polcies/India"]
 - name: Update existing Extranet Policy
   cisco.dnac.sda_extranet_policies_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -146,7 +169,8 @@ EXAMPLES = r"""
       - extranet_policy_name: "test_extranet_policy_1"
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_4"]
-- name: Update existing Extranet Policy with Fabric Site(s) specified
+- name: Update existing Extranet Policy with Fabric
+    Site(s) specified
   cisco.dnac.sda_extranet_policies_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -160,7 +184,8 @@ EXAMPLES = r"""
     state: merged
     config:
       - extranet_policy_name: "test_extranet_policy_1"
-        fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
+        fabric_sites: ["Global/Test_Extranet_Polcies/USA",
+          "Global/Test_Extranet_Polcies/India"]
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_4"]
 - name: Delete Extranet Policy

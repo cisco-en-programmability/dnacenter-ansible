@@ -13,78 +13,83 @@ __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 DOCUMENTATION = r"""
 ---
 module: network_profile_switching_workflow_manager
-short_description: Resource module for managing switch profiles in Cisco Catalyst Center
+short_description: Resource module for managing switch
+  profiles in Cisco Catalyst Center
 description: >
-  This module allows the creation and deletion of network switch profiles in Cisco Catalyst Center.
-  - Supports creating and deleting switch profiles.
-  - Allows assignment of profiles to sites, onboarding templates, and Day-N templates.
+  This module allows the creation and deletion of network
+  switch profiles in Cisco Catalyst Center. - Supports
+  creating and deleting switch profiles. - Allows assignment
+  of profiles to sites, onboarding templates, and Day-N
+  templates.
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
-
 options:
   config_verify:
     description: >
-      Set to `True` to enable configuration verification on Cisco Catalyst Center after
-      applying the playbook configuration. This ensures that the system validates
+      Set to `True` to enable configuration verification
+      on Cisco Catalyst Center after applying the playbook
+      configuration. This ensures that the system validates
       the configuration state after the change is applied.
     type: bool
     default: false
   state:
     description: >
-      Specifies the desired state for the configuration. If `merged`,
-      the module will create or update the configuration, adding new settings or
-      modifying existing ones. If `deleted`, it will remove the specified settings.
+      Specifies the desired state for the configuration.
+      If `merged`, the module will create or update
+      the configuration, adding new settings or modifying
+      existing ones. If `deleted`, it will remove the
+      specified settings.
     type: str
     choices: ["merged", "deleted"]
     default: merged
   config:
-    description: A list containing the details for network switch profile creation.
+    description: A list containing the details for network
+      switch profile creation.
     type: list
     elements: dict
     required: true
     suboptions:
       profile_name:
-        description: Name of the switch profile to be created.
+        description: Name of the switch profile to be
+          created.
         type: str
         required: true
       site_names:
         description: >
-          Site names must be specified in the full site hierarchy format for
-          example 'Global/Country/City/Building'.
+          Site names must be specified in the full site
+          hierarchy format for example 'Global/Country/City/Building'.
         type: list
         elements: str
         required: false
       onboarding_templates:
         description: >
-          List of onboarding template names assigned to the profile.
-          Note: Onboarding templates are currently unavailable due to SDK/API constraints.
+          List of onboarding template names assigned
+          to the profile. Note: Onboarding templates
+          are currently unavailable due to SDK/API constraints.
         type: list
         elements: str
         required: false
       day_n_templates:
-        description: List of Day-N template names assigned to the profile.
+        description: List of Day-N template names assigned
+          to the profile.
         type: list
         elements: str
         required: false
-
 requirements:
-- dnacentersdk >= 2.8.6
-- python >= 3.9
+  - dnacentersdk >= 2.8.6
+  - python >= 3.9
 notes:
-  - This module uses the following SDK methods
-    site_design.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1
-    site_design.assign_sites
-    site_design.retrieves_the_list_of_network_profiles_for_sites_v1
+  - This module uses the following SDK methods site_design.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1
+    site_design.assign_sites site_design.retrieves_the_list_of_network_profiles_for_sites_v1
     site_design.assign_a_network_profile_for_sites_to_the_given_site_v1
     site_design.unassigns_a_network_profile_for_sites_from_multiple_sites_v1
     site_design.deletes_a_network_profile_for_sites_v1
     configuration_templates.gets_the_templates_available_v1
     network_settings.retrieve_cli_templates_attached_to_a_network_profile_v1
-
   - Paths used are
     GET /dna/intent/api/v1/networkProfilesForSites
     GET /dna/intent/api/v1/template-programmer/template
@@ -92,7 +97,6 @@ notes:
     POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments
     POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk
     POST /api/v1/siteprofile
-
 """
 
 EXAMPLES = r"""
@@ -125,7 +129,6 @@ EXAMPLES = r"""
             site_names:
               - "Global/Chennai"
               - "Global/Abc"
-
     - name: Update network profile for switch
       cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -149,8 +152,8 @@ EXAMPLES = r"""
               - "Global/India/Chennai/Main_Office"
               - "Global/India/Madurai/Branch_Office"
               - "Global/USA/San Francisco/Regional_HQ"
-
-    - name: Delete switching profile for devices from specified sites
+    - name: Delete switching profile for devices from
+        specified sites
       cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -174,7 +177,6 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-
 #Case 1: Successful creation of Switch profile
 response_create:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -191,7 +193,6 @@ response_create:
         ],
         "status": "success"
     }
-
 #Case 2: Successful updatation of Switch profile
 response_update:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -208,7 +209,6 @@ response_update:
             ],
         "status": "success"
     }
-
 #Case 3: Successful deletion of Switch profile
 response_delete:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -224,7 +224,6 @@ response_delete:
             }],
         "status": "success"
     }
-
 """
 
 

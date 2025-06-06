@@ -1,14 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_mesh_ap_neighbours_info
-short_description: Information module for Wireless Controllers Mesh Ap Neighbours
-  Info
+short_description: Information module for Wireless Controllers
+  Mesh Ap Neighbours
 description:
-  - This module represents an alias of the module wireless_controllers_mesh_ap_neighbours_v1_info
+  - Get all Wireless Controllers Mesh Ap Neighbours.
+  - Retrieves all Mesh accesspoint Neighbours details
+    whether child, parent, etc.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,38 +24,45 @@ options:
   wlcIpAddress:
     description:
       - >
-        WlcIpAddress query parameter. Employ this query parameter to obtain the details
-        of the Access points
-        corresponding to the provided WLC IP address.
+        WlcIpAddress query parameter. Employ this query
+        parameter to obtain the details of the Access
+        points corresponding to the provided WLC IP
+        address.
     type: str
   apName:
     description:
       - >
-        ApName query parameter. Employ this query parameter to obtain the details
-        of the Access points corresponding
+        ApName query parameter. Employ this query parameter
+        to obtain the details of the Access points corresponding
         to the provided ap name.
     type: str
   ethernetMacAddress:
     description:
       - >
-        EthernetMacAddress query parameter. Employ this query parameter to obtain
-        the details of the Access points
-        corresponding to the provided EthernetMacAddress.
+        EthernetMacAddress query parameter. Employ this
+        query parameter to obtain the details of the
+        Access points corresponding to the provided
+        EthernetMacAddress.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetMeshApNeighboursV1
-    description: Complete reference of the GetMeshApNeighboursV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      GetMeshApNeighbours
+    description: Complete reference of the GetMeshApNeighbours
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-mesh-ap-neighbours
 notes:
-  - SDK Method used are wireless.Wireless.get_mesh_ap_neighbours_v1,
-  - Paths used are get /dna/intent/api/v1/wirelessControllers/meshApNeighbours,
-  - It should be noted that this module is an alias of wireless_controllers_mesh_ap_neighbours_v1_info
+  - SDK Method used are
+    wireless.Wireless.get_mesh_ap_neighbours,
+  - Paths used are
+    get /dna/intent/api/v1/wirelessControllers/meshApNeighbours,
 """
+
 EXAMPLES = r"""
-- name: Get all Wireless Controllers Mesh Ap Neighbours Info
+---
+- name: Get all Wireless Controllers Mesh Ap Neighbours
   cisco.dnac.wireless_controllers_mesh_ap_neighbours_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

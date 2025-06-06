@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: lan_automation_port_channels_id
-short_description: Resource module for Lan Automation Port Channels Id
+short_description: Resource module for Lan Automation
+  Port Channels Id
 description:
-  - This module represents an alias of the module lan_automation_port_channels_id_v1
+  - Manage operation delete of the resource Lan Automation
+    Port Channels Id.
+  - This API deletes a Port Channel between LAN Automation
+    associated devices using a valid Port Channel ID.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,15 +26,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation DeletePortChannelV1
-    description: Complete reference of the DeletePortChannelV1 API.
+  - name: Cisco DNA Center documentation for LAN Automation
+      DeletePortChannel
+    description: Complete reference of the DeletePortChannel
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-channel
 notes:
-  - SDK Method used are lan_automation.LanAutomation.delete_port_channel_v1,
-  - Paths used are delete /dna/intent/api/v1/lanAutomation/portChannels/{id},
-  - It should be noted that this module is an alias of lan_automation_port_channels_id_v1
+  - SDK Method used are
+    lan_automation.LanAutomation.delete_port_channel,
+  - Paths used are
+    delete /dna/intent/api/v1/lanAutomation/portChannels/{id},
 """
+
 EXAMPLES = r"""
+---
 - name: Delete by id
   cisco.dnac.lan_automation_port_channels_id:
     dnac_host: "{{dnac_host}}"

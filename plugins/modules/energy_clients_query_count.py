@@ -1,13 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: energy_clients_query_count
-short_description: Resource module for Energy Clients Query Count
+short_description: Resource module for Energy Clients
+  Query Count
 description:
-  - This module represents an alias of the module energy_clients_query_count_v1
+  - Manage operation create of the resource Energy Clients
+    Query Count. - > Retrieves the total count of client
+    devices based on the specified complex filters.
+    For detailed information about the usage of the
+    API, please refer to the Open API specification
+    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    deviceEnergy_1.0-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -92,16 +101,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Clients CountClientsEnergyFromQueryV1
-    description: Complete reference of the CountClientsEnergyFromQueryV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!count-clients-energy-from-query
+  - name: Cisco DNA Center documentation for Clients
+      CountClientsEnergyFromQuery
+    description: Complete reference of the CountClientsEnergyFromQuery
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!count-clients-energy-from-query
 notes:
-  - SDK Method used are clients.Clients.count_clients_energy_from_query_v1,
-  - Paths used are post /dna/data/api/v1/energy/clients/query/count,
-  - It should be noted that this module is an alias of energy_clients_query_count_v1
+  - SDK Method used are
+    clients.Clients.count_clients_energy_from_query,
+  - Paths used are
+    post /dna/data/api/v1/energy/clients/query/count,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.energy_clients_query_count:
     dnac_host: "{{dnac_host}}"

@@ -11,185 +11,325 @@ __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan, Archit Soni']
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_multicast_workflow_manager
-short_description: Manage SDA fabric multicast in Cisco Catalyst Center.
+short_description: Manage SDA fabric multicast in Cisco
+  Catalyst Center.
 description:
-  - Perform operations on SDA fabric multicast configurations and the replication mode.
-  - Manages the multicast configurations like Source Specific Multicast (SSM) and Any Source Multicast(ASM).
-  - Manages the replication mode of the multicast configuration associated with the L3 Virtual Network.
+  - Perform operations on SDA fabric multicast configurations
+    and the replication mode.
+  - Manages the multicast configurations like Source
+    Specific Multicast (SSM) and Any Source Multicast(ASM).
+  - Manages the replication mode of the multicast configuration
+    associated with the L3 Virtual Network.
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27)
-        Madhan Sankaranarayanan (@madhansansel)
-        Archit Soni (@koderchit)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
+  (@madhansansel) Archit Soni (@koderchit)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center after applying the playbook config.
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: The state of Cisco Catalyst Center
+      after module completion.
     type: str
     choices: [merged, deleted]
     default: merged
   config:
     description:
-      - A list of SDA fabric multicast configurations associated with fabric sites.
-      - Each entry in the list represents multicast settings for a specific fabric site.
+      - A list of SDA fabric multicast configurations
+        associated with fabric sites.
+      - Each entry in the list represents multicast
+        settings for a specific fabric site.
     type: list
     elements: dict
     required: true
     suboptions:
       fabric_multicast:
-        description: Configuration details for SDA fabric multicast configurations associated with a fabric site.
+        description: Configuration details for SDA fabric
+          multicast configurations associated with a
+          fabric site.
         type: list
         elements: dict
         suboptions:
           fabric_name:
             description:
               - Name of the SDA fabric site.
-              - Mandatory parameter for all operations under fabric_multicast.
-              - The fabric site must already exist before configuring multicast settings.
-              - A Fabric Site is composed of networking devices operating in SD-Access Fabric roles.
-              - A fabric site consists of networking devices operating in SD-Access Fabric roles, including Border Nodes,
-                Control Plane Nodes, Edge Nodes, Fabric Wireless LAN Controllers, and Fabric Wireless Access Points.
-              - A Fabric sites may also include Fabric Wireless LAN Controllers and Fabric Wireless Access Points.
+              - Mandatory parameter for all operations
+                under fabric_multicast.
+              - The fabric site must already exist before
+                configuring multicast settings.
+              - A Fabric Site is composed of networking
+                devices operating in SD-Access Fabric
+                roles.
+              - A fabric site consists of networking
+                devices operating in SD-Access Fabric
+                roles, including Border Nodes, Control
+                Plane Nodes, Edge Nodes, Fabric Wireless
+                LAN Controllers, and Fabric Wireless
+                Access Points.
+              - A Fabric sites may also include Fabric
+                Wireless LAN Controllers and Fabric
+                Wireless Access Points.
               - Updating this field is not allowed.
-              - To delete the entire multicast configuration, provide only the 'fabric_name' and 'layer3_virtual_network'.
-              - To delete only SSM or ASM configurations, provide the corresponding 'ssm' and/or 'asm' fields.
+              - To delete the entire multicast configuration,
+                provide only the 'fabric_name' and 'layer3_virtual_network'.
+              - To delete only SSM or ASM configurations,
+                provide the corresponding 'ssm' and/or
+                'asm' fields.
             type: str
             required: true
           layer3_virtual_network:
             description:
-              - Name of the Layer 3 Virtual Network (L3VN) associated with the multicast configuration.
-              - A L3VN is a logically isolated network that enables IP routing between different subnets
-                while maintaining separation from other virtual networks.
-              - Mandatory parameter for all operations under fabric_multicast.
-              - The Layer 3 Virtual Network must be created and associated with the fabric site and
-                its fabric zones before configuring multicast.
-              - The created L3 Virtual Network should be associated with the fabric site and its fabric zones.
-              - Updating this field is not allowed after creation.
-              - To delete the entire multicast configuration, provide only the 'fabric_name' and 'layer3_virtual_network'.
-              - To delete only the SSM or ASM configurations, provide the corresponding 'ssm' and/or 'asm' fields.
+              - Name of the Layer 3 Virtual Network
+                (L3VN) associated with the multicast
+                configuration.
+              - A L3VN is a logically isolated network
+                that enables IP routing between different
+                subnets while maintaining separation
+                from other virtual networks.
+              - Mandatory parameter for all operations
+                under fabric_multicast.
+              - The Layer 3 Virtual Network must be
+                created and associated with the fabric
+                site and its fabric zones before configuring
+                multicast.
+              - The created L3 Virtual Network should
+                be associated with the fabric site and
+                its fabric zones.
+              - Updating this field is not allowed after
+                creation.
+              - To delete the entire multicast configuration,
+                provide only the 'fabric_name' and 'layer3_virtual_network'.
+              - To delete only the SSM or ASM configurations,
+                provide the corresponding 'ssm' and/or
+                'asm' fields.
             type: str
             required: true
           replication_mode:
             description: >
-              Specifies how multicast traffic is replicated within the fabric site.
-              Two replication modes are supported: Native Multicast and Headend Replication.
-              Native Multicast forwards multicast traffic using traditional multicast routing protocols such as PIM,
-                building distribution trees to efficiently deliver traffic to multiple receivers.
-              Headend Replication replicates multicast packets at the source node without using multicast routing protocols.
-              Mandatory parameter while adding the multicast configuration to the fabric site.
+              Specifies how multicast traffic is replicated
+              within the fabric site. Two replication
+              modes are supported: Native Multicast
+              and Headend Replication. Native Multicast
+              forwards multicast traffic using traditional
+              multicast routing protocols such as PIM,
+                building
+              distribution trees to efficiently deliver
+              traffic to multiple receivers. Headend
+              Replication replicates multicast packets
+              at the source node without using multicast
+              routing protocols. Mandatory parameter
+              while adding the multicast configuration
+              to the fabric site.
             type: str
             choices: [NATIVE_MULTICAST, HEADEND_REPLICATION]
           ip_pool_name:
             description:
-            - Name of the IP address pool allocated for communication between the SDA fabric and external networks.
-            - Denotes the IP address range allocated for communication between the SDA fabric and external networks.
-            - Mandatory parameter while adding the multicast configuration to the fabric site.
-            - When multicast is enabled in the fabric site, each device operating as a Border Node or Edge Node is
-              provisioned with an IP address per Virtual Network, used for multicast signaling.
-            - The IP pool must be reserved in the fabric site before multicast configuration.
-            - Updating this field is not allowed.
+              - Name of the IP address pool allocated
+                for communication between the SDA fabric
+                and external networks.
+              - Denotes the IP address range allocated
+                for communication between the SDA fabric
+                and external networks.
+              - Mandatory parameter while adding the
+                multicast configuration to the fabric
+                site.
+              - When multicast is enabled in the fabric
+                site, each device operating as a Border
+                Node or Edge Node is provisioned with
+                an IP address per Virtual Network, used
+                for multicast signaling.
+              - The IP pool must be reserved in the
+                fabric site before multicast configuration.
+              - Updating this field is not allowed.
             type: str
           ssm:
             description:
-            - PIM Source-Specific Multicast (PIM-SSM) configures the multicast tree with the source as the root.
-            - Either SSM or ASM is mandatory when adding multicast configurations to the fabric site.
-            - When the state is set to 'deleted' and SSM is provided, only the SSM ranges will be removed.
-            - When removing SSM ranges, ASM configurations must be present.
-            - To delete the entire multicast configuration, provide only the 'fabric_name' and 'layer3_virtual_network'.
-            - To delete only the SSM or ASM configurations, provide the respective 'ssm' or 'asm' parameter.
+              - PIM Source-Specific Multicast (PIM-SSM)
+                configures the multicast tree with the
+                source as the root.
+              - Either SSM or ASM is mandatory when
+                adding multicast configurations to the
+                fabric site.
+              - When the state is set to 'deleted' and
+                SSM is provided, only the SSM ranges
+                will be removed.
+              - When removing SSM ranges, ASM configurations
+                must be present.
+              - To delete the entire multicast configuration,
+                provide only the 'fabric_name' and 'layer3_virtual_network'.
+              - To delete only the SSM or ASM configurations,
+                provide the respective 'ssm' or 'asm'
+                parameter.
             type: str
             suboptions:
               ipv4_ssm_ranges:
                 description:
-                - The IPv4 range for Source-Specific Multicast (SSM), where receivers specify both the multicast group (G)
-                  and the source (S) for receiving traffic, enhancing security and efficiency.
-                - Mandatory parameter when the ssm is provided.
+                  - The IPv4 range for Source-Specific
+                    Multicast (SSM), where receivers
+                    specify both the multicast group
+                    (G) and the source (S) for receiving
+                    traffic, enhancing security and
+                    efficiency.
+                  - Mandatory parameter when the ssm
+                    is provided.
                 type: list
                 elements: str
                 required: true
           asm:
             description:
-            - PIM Any-Source Multicast (PIM-ASM) allows receivers to join a multicast group without specifying a particular source.
-            - The root of the multicast tree is the Rendezvous Point (RP), which forwards multicast traffic to receivers.
-            - Either SSM or ASM must be provided when configuring multicast for the fabric site.
-            - When the state is 'deleted' and if the asm is provided, only the asm ranges will be removed.
-            - If removing ASM ranges, ensure that SSM configurations are also present.
-            - To delete the entire multicast configuration, provide only the 'fabric_name' and 'layer3_virtual_network'.
-            - To delete only the SSM or ASM configurations, provide the respective 'ssm' or 'asm' parameter.
+              - PIM Any-Source Multicast (PIM-ASM) allows
+                receivers to join a multicast group
+                without specifying a particular source.
+              - The root of the multicast tree is the
+                Rendezvous Point (RP), which forwards
+                multicast traffic to receivers.
+              - Either SSM or ASM must be provided when
+                configuring multicast for the fabric
+                site.
+              - When the state is 'deleted' and if the
+                asm is provided, only the asm ranges
+                will be removed.
+              - If removing ASM ranges, ensure that
+                SSM configurations are also present.
+              - To delete the entire multicast configuration,
+                provide only the 'fabric_name' and 'layer3_virtual_network'.
+              - To delete only the SSM or ASM configurations,
+                provide the respective 'ssm' or 'asm'
+                parameter.
             type: str
             suboptions:
               rp_device_location:
                 description:
-                - Specifies the location of the Rendezvous Point (RP) in the multicast network.
-                - Mandatory parameter when configuring ASM.
-                - When the location is 'FABRIC', the RP is within the SD-Access fabric
-                  (typically on a Border, Control Plane, or Edge node).
-                - When the location is 'EXTERNAL', the RP is outside the SD-Access fabric,
-                  requiring interconnectivity between the fabric and external multicast networks.
+                  - Specifies the location of the Rendezvous
+                    Point (RP) in the multicast network.
+                  - Mandatory parameter when configuring
+                    ASM.
+                  - When the location is 'FABRIC', the
+                    RP is within the SD-Access fabric
+                    (typically on a Border, Control
+                    Plane, or Edge node).
+                  - When the location is 'EXTERNAL',
+                    the RP is outside the SD-Access
+                    fabric, requiring interconnectivity
+                    between the fabric and external
+                    multicast networks.
                 type: str
                 choices: [EXTERNAL, FABRIC]
                 required: true
               network_device_ips:
                 description:
-                - Specifies the IP addresses of devices within the SD-Access fabric to be used as the RP.
-                - A maximum of two device IPs can be provided.
-                - All the device IPs provided should be provisioned to the fabric site.
-                - For Edge node RPs, only one device should be provided.
-                - If using a Single Stack reserved pool, only one device should be provided.
+                  - Specifies the IP addresses of devices
+                    within the SD-Access fabric to be
+                    used as the RP.
+                  - A maximum of two device IPs can
+                    be provided.
+                  - All the device IPs provided should
+                    be provisioned to the fabric site.
+                  - For Edge node RPs, only one device
+                    should be provided.
+                  - If using a Single Stack reserved
+                    pool, only one device should be
+                    provided.
                 type: list
                 elements: str
               ex_rp_ipv4_address:
                 description:
-                - The IPv4 address of the external RP when the RP device location is set to 'EXTERNAL'.
-                - Either 'ex_rp_ipv4_address' or 'ex_rp_ipv6_address' is required when adding the multicast configuration.
-                - If both 'ex_rp_ipv4_address' and 'ex_rp_ipv6_address' are provided, 'ex_rp_ipv4_address'
-                  takes priority. The second address can be provided as the next element in the list if needed.
+                  - The IPv4 address of the external
+                    RP when the RP device location is
+                    set to 'EXTERNAL'.
+                  - Either 'ex_rp_ipv4_address' or 'ex_rp_ipv6_address'
+                    is required when adding the multicast
+                    configuration.
+                  - If both 'ex_rp_ipv4_address' and
+                    'ex_rp_ipv6_address' are provided,
+                    'ex_rp_ipv4_address' takes priority.
+                    The second address can be provided
+                    as the next element in the list
+                    if needed.
                 type: str
               is_default_v4_rp:
                 description:
-                - A flag that indicates whether the IPv4 RP is the default RP for the multicast domain.
-                - If set to 'true', this RP is used for all multicast groups that do not have a specific RP assigned.
-                - Either 'is_default_v4_rp' or 'ipv4_asm_ranges' must be provided when 'ex_rp_ipv4_address' is used.
-                - The 'ipv4_asm_ranges' will take priority over 'is_default_v4_rp' if both are specified.
+                  - A flag that indicates whether the
+                    IPv4 RP is the default RP for the
+                    multicast domain.
+                  - If set to 'true', this RP is used
+                    for all multicast groups that do
+                    not have a specific RP assigned.
+                  - Either 'is_default_v4_rp' or 'ipv4_asm_ranges'
+                    must be provided when 'ex_rp_ipv4_address'
+                    is used.
+                  - The 'ipv4_asm_ranges' will take
+                    priority over 'is_default_v4_rp'
+                    if both are specified.
                 type: bool
               ipv4_asm_ranges:
                 description:
-                - A range used exclusively for Any-Source Multicast (ASM), where receivers specify both
-                  the source (S) and the group (G) for receiving multicast traffic.
-                - Either 'is_default_v4_rp' or 'ipv4_asm_ranges' must be provided when 'ex_rp_ipv4_address' is used.
-                - The 'ipv4_asm_ranges' takes priority over 'is_default_v4_rp' if both are provided.
-                - The ranges provided for 'ipv4_asm_ranges' should not overlap with the ranges provided for
-                  'ipv4_ssm_ranges' or any other external IP ranges.
+                  - A range used exclusively for Any-Source
+                    Multicast (ASM), where receivers
+                    specify both the source (S) and
+                    the group (G) for receiving multicast
+                    traffic.
+                  - Either 'is_default_v4_rp' or 'ipv4_asm_ranges'
+                    must be provided when 'ex_rp_ipv4_address'
+                    is used.
+                  - The 'ipv4_asm_ranges' takes priority
+                    over 'is_default_v4_rp' if both
+                    are provided.
+                  - The ranges provided for 'ipv4_asm_ranges'
+                    should not overlap with the ranges
+                    provided for 'ipv4_ssm_ranges' or
+                    any other external IP ranges.
                 type: list
                 elements: str
               ex_rp_ipv6_address:
                 description:
-                - This refers to the IPv6 address of the External RP when the RP Device Location is set to EXTERNAL.
-                - Either 'ex_rp_ipv4_address' or 'ex_rp_ipv6_address' is mandatory while adding the
-                  multicast configurations to the fabric site.
-                - If both the 'ex_rp_ipv4_address' and 'ex_rp_ipv6_address' is passed, 'ex_rp_ipv4_address' will
-                  given priority. Provide either one in an element and carry over the other to the next element of the list.
+                  - This refers to the IPv6 address
+                    of the External RP when the RP Device
+                    Location is set to EXTERNAL.
+                  - Either 'ex_rp_ipv4_address' or 'ex_rp_ipv6_address'
+                    is mandatory while adding the multicast
+                    configurations to the fabric site.
+                  - If both the 'ex_rp_ipv4_address'
+                    and 'ex_rp_ipv6_address' is passed,
+                    'ex_rp_ipv4_address' will given
+                    priority. Provide either one in
+                    an element and carry over the other
+                    to the next element of the list.
                 type: str
               is_default_v6_rp:
                 description:
-                - A flag that indicates whether the IPv6 RP is the default RP for the multicast domain.
-                - If set to 'true', this RP is used for all multicast groups that do not have a specific RP assigned.
-                - Either 'is_default_v6_rp' or 'ipv6_asm_ranges' must be provided when 'ex_rp_ipv6_address' is used.
-                - The 'ipv6_asm_ranges' will take priority over 'is_default_v6_rp' if both are specified.
+                  - A flag that indicates whether the
+                    IPv6 RP is the default RP for the
+                    multicast domain.
+                  - If set to 'true', this RP is used
+                    for all multicast groups that do
+                    not have a specific RP assigned.
+                  - Either 'is_default_v6_rp' or 'ipv6_asm_ranges'
+                    must be provided when 'ex_rp_ipv6_address'
+                    is used.
+                  - The 'ipv6_asm_ranges' will take
+                    priority over 'is_default_v6_rp'
+                    if both are specified.
                 type: bool
               ipv6_asm_ranges:
                 description:
-                - A range used exclusively for Any-Source Multicast (ASM), where receivers specify both the
-                  source (S) and the group (G) for receiving multicast traffic.
-                - Either 'is_default_v6_rp' or 'ipv6_asm_ranges' must be provided when 'ex_rp_ipv6_address' is used.
-                - The 'ipv6_asm_ranges' takes priority over 'is_default_v6_rp' if both are provided.
+                  - A range used exclusively for Any-Source
+                    Multicast (ASM), where receivers
+                    specify both the source (S) and
+                    the group (G) for receiving multicast
+                    traffic.
+                  - Either 'is_default_v6_rp' or 'ipv6_asm_ranges'
+                    must be provided when 'ex_rp_ipv6_address'
+                    is used.
+                  - The 'ipv6_asm_ranges' takes priority
+                    over 'is_default_v6_rp' if both
+                    are provided.
                 type: list
                 elements: str
-
 requirements:
   - dnacentersdk >= 2.10.2
   - python >= 3.9
@@ -210,29 +350,23 @@ notes:
     sda.Sda.delete_multicast_virtual_network_by_id_v1,
     task.Task.get_tasks_by_id,
     task.Task.get_task_details_by_id,
-
   - Paths used are
-    get /dna/intent/api/v1/sites
-    get /dna/intent/api/v1/reserve-ip-subpool
-    get /dna/intent/api/v1/network-device
+    get /dna/intent/api/v1/sites get
+    /dna/intent/api/v1/reserve-ip-subpool get /dna/intent/api/v1/network-device
     get /dna/intent/api/v1/sda/layer3VirtualNetworks
-    get /dna/intent/api/v1/sda/fabricSites
-    get /dna/intent/api/v1/sda/fabricZones
-    get /dna/intent/api/v1/sda/provisionDevices
-    get /dna/intent/api/v1/sda/multicast/virtualNetworks
-    get /dna/intent/api/v1/sda/multicast
-    post /dna/intent/api/v1/sda/multicast/virtualNetworks
-    put /dna/intent/api/v1/sda/multicast
-    put /dna/intent/api/v1/sda/multicast/virtualNetworks
+    get /dna/intent/api/v1/sda/fabricSites get /dna/intent/api/v1/sda/fabricZones
+    get /dna/intent/api/v1/sda/provisionDevices get
+    /dna/intent/api/v1/sda/multicast/virtualNetworks
+    get /dna/intent/api/v1/sda/multicast post /dna/intent/api/v1/sda/multicast/virtualNetworks
+    put /dna/intent/api/v1/sda/multicast put /dna/intent/api/v1/sda/multicast/virtualNetworks
     delete /dna/intent/api/v1/sda/multicast/virtualNetworks/${id}
-    get /dna/intent/api/v1/tasks/${id}
-    get /dna/intent/api/v1/tasks/${id}/detail
-
+    get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail
 """
 
 EXAMPLES = r"""
 ---
-- name: Configure the SDA multicast on a L3 virtual network under a fabric site
+- name: Configure the SDA multicast on a L3 virtual
+    network under a fabric site
   cisco.dnac.sda_fabric_multicast_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -260,8 +394,8 @@ EXAMPLES = r"""
                 network_device_ips:
                   - "204.1.2.3"
                 is_default_v4_rp: true
-
-- name: Update the ssm configuration on a L3 virtual network under a fabric site
+- name: Update the ssm configuration on a L3 virtual
+    network under a fabric site
   cisco.dnac.sda_fabric_multicast_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -281,8 +415,8 @@ EXAMPLES = r"""
             ssm:
               ipv4_ssm_ranges:
                 - "227.0.0.0/8"
-
-- name: Update the asm configuration on a L3 virtual network under a fabric site
+- name: Update the asm configuration on a L3 virtual
+    network under a fabric site
   cisco.dnac.sda_fabric_multicast_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -318,8 +452,8 @@ EXAMPLES = r"""
                 ipv6_asm_ranges:
                   - "FF02::/64"
                   - "FF04::/64"
-
-- name: Update the replication mode of the SDA multicast configurations under a fabric site
+- name: Update the replication mode of the SDA multicast
+    configurations under a fabric site
   cisco.dnac.sda_fabric_multicast_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -337,8 +471,8 @@ EXAMPLES = r"""
           - fabric_name: "Global/USA/SAN JOSE"
             layer3_virtual_network: "L3_VN_MUL_1"
             replication_mode: "HEADEND_REPLICATION"
-
-- name: Delete the source '226.0.0.0/8' from the ssm multicast configuration
+- name: Delete the source '226.0.0.0/8' from the ssm
+    multicast configuration
   cisco.dnac.sda_fabric_multicast_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -358,8 +492,8 @@ EXAMPLES = r"""
             ssm:
               ipv4_ssm_ranges:
                 - "226.0.0.0/8"
-
-- name: Delete the RP '10.0.0.1' from the asm multicast configuration
+- name: Delete the RP '10.0.0.1' from the asm multicast
+    configuration
   cisco.dnac.sda_fabric_multicast_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -379,8 +513,8 @@ EXAMPLES = r"""
             asm:
               - rp_device_location: "EXTERNAL"
                 ex_rp_ipv4_address: "10.0.0.1"
-
-- name: Delete the SDA multicast configurations of the L3 virtual network from the fabric site.
+- name: Delete the SDA multicast configurations of the
+    L3 virtual network from the fabric site.
   cisco.dnac.sda_fabric_multicast_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -400,7 +534,6 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-
 # Case_1: Successful configuration of SDA fabric multicast on a L3 VN under a site
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -414,7 +547,6 @@ response_1:
       },
       "version": "str"
     }
-
 # Case_2: Successful configuration update of SDA fabric multicast on a L3 VN under a site
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -428,7 +560,6 @@ response_2:
       },
       "version": "str"
     }
-
 # Case_3: Successful updation of the replication mode
 response_3:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -442,7 +573,6 @@ response_3:
       },
       "version": "str"
     }
-
 # Case_4: Successful deletion of SDA fabric multicast configuration on a L3 VN under a site
 response_4:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -456,7 +586,6 @@ response_4:
       },
       "version": "str"
     }
-
 """
 
 import time

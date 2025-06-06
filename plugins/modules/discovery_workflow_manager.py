@@ -8,25 +8,29 @@ __author__ = ("Abinash Mishra, Phan Nguyen, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: discovery_workflow_manager
-short_description: A resource module for handling device discovery tasks.
+short_description: A resource module for handling device
+  discovery tasks.
 description:
-  - Manages device discovery using IP address, address range, CDP, and LLDP, including
-    deletion of discovered devices.
+  - Manages device discovery using IP address, address
+    range, CDP, and LLDP, including deletion of discovered
+    devices.
   - API to discover a device or multiple devices
-  - API to delete a discovery of a device or multiple devices
+  - API to delete a discovery of a device or multiple
+    devices
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abinash Mishra (@abimishr) Phan Nguyen (@phannguy) Madhan Sankaranarayanan
-  (@madhansansel)
+author: Abinash Mishra (@abimishr) Phan Nguyen (@phannguy)
+  Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying
-      the playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center config after applying the playbook config.
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: The state of Cisco Catalyst Center
+      after module completion.
     type: str
     choices: [merged, deleted]
     default: merged
@@ -42,364 +46,457 @@ options:
         type: str
         required: true
       discovery_type:
-        description: Determines the method of device discovery. Here are the available
-          options. - SINGLE discovers a single device using a single IP address. -
-          RANGE discovers multiple devices within a single IP address range. - MULTI
-          RANGE discovers devices across multiple IP address ranges. - CDP  uses Cisco
-          Discovery Protocol to discover devices in subsequent layers of the given
-          IP address. - LLDP uses Link Layer Discovery Protocol to discover devices
-          in subsequent layers of the specified IP address. - CIDR discovers devices
-          based on subnet filtering using Classless Inter-Domain Routing.
+        description: Determines the method of device
+          discovery. Here are the available options.
+          - SINGLE discovers a single device using a
+          single IP address. - RANGE discovers multiple
+          devices within a single IP address range.
+          - MULTI RANGE discovers devices across multiple
+          IP address ranges. - CDP  uses Cisco Discovery
+          Protocol to discover devices in subsequent
+          layers of the given IP address. - LLDP uses
+          Link Layer Discovery Protocol to discover
+          devices in subsequent layers of the specified
+          IP address. - CIDR discovers devices based
+          on subnet filtering using Classless Inter-Domain
+          Routing.
         type: str
         required: true
-        choices: ['SINGLE', 'RANGE', 'MULTI RANGE', 'CDP', 'LLDP', 'CIDR']
+        choices: ['SINGLE', 'RANGE', 'MULTI RANGE',
+          'CDP', 'LLDP', 'CIDR']
       ip_address_list:
-        description: List of IP addresses to be discovered. For CDP/LLDP/SINGLE based
-          discovery, we should pass a list with single element like - 10.197.156.22.
-          For CIDR based discovery, we should pass a list with single element like
-          - 10.197.156.22/22. For RANGE based discovery, we should pass a list with
-          single element and range like - 10.197.156.1-10.197.156.100. For MULTI RANGE
-          based discovery, we should pass a list with multiple elements like - 10.197.156.1-10.197.156.100
-          and in next line - 10.197.157.1-10.197.157.100. Maximum of 8 IP address
-          ranges are allowed.
+        description: List of IP addresses to be discovered.
+          For CDP/LLDP/SINGLE based discovery, we should
+          pass a list with single element like - 10.197.156.22.
+          For CIDR based discovery, we should pass a
+          list with single element like - 10.197.156.22/22.
+          For RANGE based discovery, we should pass
+          a list with single element and range like
+          - 10.197.156.1-10.197.156.100. For MULTI RANGE
+          based discovery, we should pass a list with
+          multiple elements like - 10.197.156.1-10.197.156.100
+          and in next line - 10.197.157.1-10.197.157.100.
+          Maximum of 8 IP address ranges are allowed.
         type: list
         elements: str
         required: true
       ip_filter_list:
-        description: List of IP adddrsess that needs to get filtered out from the
-          IP addresses passed.
+        description: List of IP adddrsess that needs
+          to get filtered out from the IP addresses
+          passed.
         type: list
         elements: str
       cdp_level:
-        description: Total number of levels that are there in cdp's method of discovery
+        description: Total number of levels that are
+          there in cdp's method of discovery
         type: int
         default: 16
       lldp_level:
-        description: Total number of levels that are there in lldp's method of discovery
+        description: Total number of levels that are
+          there in lldp's method of discovery
         type: int
         default: 16
       preferred_mgmt_ip_method:
-        description: Preferred method for the management of the IP (None/UseLoopBack)
+        description: Preferred method for the management
+          of the IP (None/UseLoopBack)
         type: str
         default: None
       use_global_credentials:
         description:
-          - Determines if device discovery should utilize pre-configured global credentials.
-          - Setting to True employs the predefined global credentials for discovery
-            tasks. This is the default setting.
-          - Setting to False requires manually provided, device-specific credentials
-            for discovery, as global credentials will be bypassed.
+          - Determines if device discovery should utilize
+            pre-configured global credentials.
+          - Setting to True employs the predefined global
+            credentials for discovery tasks. This is
+            the default setting.
+          - Setting to False requires manually provided,
+            device-specific credentials for discovery,
+            as global credentials will be bypassed.
         type: bool
         default: true
       discovery_specific_credentials:
-        description: Credentials specifically created by the user for performing device
-          discovery.
+        description: Credentials specifically created
+          by the user for performing device discovery.
         type: dict
         suboptions:
           cli_credentials_list:
-            description: List of CLI credentials to be used during device discovery.
+            description: List of CLI credentials to
+              be used during device discovery.
             type: list
             elements: dict
             suboptions:
               username:
-                description: Username for CLI authentication, mandatory when using
-                  CLI credentials.
+                description: Username for CLI authentication,
+                  mandatory when using CLI credentials.
                 type: str
               password:
-                description: Password for CLI authentication, mandatory when using
-                  CLI credential.
+                description: Password for CLI authentication,
+                  mandatory when using CLI credential.
                 type: str
               enable_password:
-                description: Enable password for CLI authentication, mandatory when
-                  using CLI credential.
+                description: Enable password for CLI
+                  authentication, mandatory when using
+                  CLI credential.
                 type: str
           http_read_credential:
-            description: HTTP read credential is used for authentication purposes
-              and specifically utilized to grant read-only access to certain resources
-              from the device.
+            description: HTTP read credential is used
+              for authentication purposes and specifically
+              utilized to grant read-only access to
+              certain resources from the device.
             type: dict
             suboptions:
               username:
-                description: Username for HTTP(S) Read authentication, mandatory when
-                  using HTTP credentials.
+                description: Username for HTTP(S) Read
+                  authentication, mandatory when using
+                  HTTP credentials.
                 type: str
               password:
-                description: Password for HTTP(S) Read authentication, mandatory when
-                  using HTTP credentials.
+                description: Password for HTTP(S) Read
+                  authentication, mandatory when using
+                  HTTP credentials.
                 type: str
               port:
-                description: Port for HTTP(S) Read authentication, mandatory for using
+                description: Port for HTTP(S) Read authentication,
+                  mandatory for using HTTP credentials.
+                type: int
+              secure:
+                description: Flag for HTTP(S) Read authentication,
+                  not mandatory when using HTTP credentials.
+                type: bool
+          http_write_credential:
+            description: HTTP write credential is used
+              for authentication purposes and grants
+              Cisco Catalyst Center the ability to alter
+              configurations, update software, or perform
+              other modifications on a network device.
+            type: dict
+            suboptions:
+              username:
+                description: Username for HTTP(S) Write
+                  authentication, mandatory when using
+                  HTTP credentials.
+                type: str
+              password:
+                description: Password for HTTP(S) Write
+                  authentication, mandatory when using
+                  HTTP credentials.
+                type: str
+              port:
+                description: Port for HTTP(S) Write
+                  authentication, mandatory when using
                   HTTP credentials.
                 type: int
               secure:
-                description: Flag for HTTP(S) Read authentication, not mandatory when
+                description: Flag for HTTP(S) Write
+                  authentication, not mandatory when
                   using HTTP credentials.
-                type: bool
-          http_write_credential:
-            description: HTTP write credential is used for authentication purposes
-              and grants Cisco Catalyst Center the ability to alter configurations,
-              update software, or perform other modifications on a network device.
-            type: dict
-            suboptions:
-              username:
-                description: Username for HTTP(S) Write authentication, mandatory
-                  when using HTTP credentials.
-                type: str
-              password:
-                description: Password for HTTP(S) Write authentication, mandatory
-                  when using HTTP credentials.
-                type: str
-              port:
-                description: Port for HTTP(S) Write authentication, mandatory when
-                  using HTTP credentials.
-                type: int
-              secure:
-                description: Flag for HTTP(S) Write authentication, not mandatory
-                  when using HTTP credentials.
                 type: bool
           snmp_v2_read_credential:
             description:
-              - The SNMP v2 credentials to be created and used for contacting a device
-                via SNMP protocol in read mode.
-              - SNMP v2 also delivers data encryptions, but it uses data types.
+              - The SNMP v2 credentials to be created
+                and used for contacting a device via
+                SNMP protocol in read mode.
+              - SNMP v2 also delivers data encryptions,
+                but it uses data types.
             type: dict
             suboptions:
               description:
-                description: Name/Description of the SNMP read credential to be used
-                  for creation of snmp_v2_read_credential.
+                description: Name/Description of the
+                  SNMP read credential to be used for
+                  creation of snmp_v2_read_credential.
                 type: str
               community:
-                description: SNMP V2 Read community string enables Cisco Catalyst
-                  Center to extract read-only data from device.
+                description: SNMP V2 Read community
+                  string enables Cisco Catalyst Center
+                  to extract read-only data from device.
                 type: str
           snmp_v2_write_credential:
             description:
-              - The SNMP v2 credentials to be created and used for contacting a device
-                via SNMP protocol in read and write mode.
-              - SNMP v2 also delivers data encryptions, but it uses data types.
+              - The SNMP v2 credentials to be created
+                and used for contacting a device via
+                SNMP protocol in read and write mode.
+              - SNMP v2 also delivers data encryptions,
+                but it uses data types.
             type: dict
             suboptions:
               description:
-                description: Name/Description of the SNMP write credential to be used
-                  for creation of snmp_v2_write_credential.
+                description: Name/Description of the
+                  SNMP write credential to be used for
+                  creation of snmp_v2_write_credential.
                 type: str
               community:
-                description: SNMP V2 Write community string is used to extract data
-                  and alter device configurations.
+                description: SNMP V2 Write community
+                  string is used to extract data and
+                  alter device configurations.
                 type: str
           snmp_v3_credential:
             description:
-              - The SNMP v3 credentials to be created and used for contacting a device
-                via SNMP protocol in read and write mode.
-              - SNMPv3 is the most secure version of SNMP, allowing users to fully
-                encrypt transmissions, keeping us safe from external attackers.
+              - The SNMP v3 credentials to be created
+                and used for contacting a device via
+                SNMP protocol in read and write mode.
+              - SNMPv3 is the most secure version of
+                SNMP, allowing users to fully encrypt
+                transmissions, keeping us safe from
+                external attackers.
             type: dict
             suboptions:
               username:
-                description: Username of the SNMP v3 protocol to be used.
+                description: Username of the SNMP v3
+                  protocol to be used.
                 type: str
               snmp_mode:
                 description:
-                  - Mode of SNMP which determines the encryption level of our community
+                  - Mode of SNMP which determines the
+                    encryption level of our community
                     string.
-                  - AUTHPRIV mode uses both Authentication and Encryption.
-                  - AUTHNOPRIV mode uses Authentication but no Encryption.
-                  - NOAUTHNOPRIV mode does not use either Authentication or Encryption.
+                  - AUTHPRIV mode uses both Authentication
+                    and Encryption.
+                  - AUTHNOPRIV mode uses Authentication
+                    but no Encryption.
+                  - NOAUTHNOPRIV mode does not use either
+                    Authentication or Encryption.
                 type: str
-                choices: ['AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV']
+                choices: ['AUTHPRIV', 'AUTHNOPRIV',
+                  'NOAUTHNOPRIV']
               auth_password:
                 description:
-                  - Authentication Password of the SNMP v3 protocol to be used.
-                  - Must be of length greater than 7 characters.
+                  - Authentication Password of the SNMP
+                    v3 protocol to be used.
+                  - Must be of length greater than 7
+                    characters.
                   - Not required for NOAUTHNOPRIV snmp_mode.
                 type: str
               auth_type:
                 description:
-                  - Authentication type of the SNMP v3 protocol to be used.
-                  - SHA uses Secure Hash Algorithm (SHA) as your authentication protocol.
-                  - MD5 uses Message Digest 5 (MD5) as your authentication protocol
+                  - Authentication type of the SNMP
+                    v3 protocol to be used.
+                  - SHA uses Secure Hash Algorithm (SHA)
+                    as your authentication protocol.
+                  - MD5 uses Message Digest 5 (MD5)
+                    as your authentication protocol
                     and is not recommended.
                   - Not required for NOAUTHNOPRIV snmp_mode.
                 type: str
                 choices: ['SHA', 'MD5']
               privacy_type:
                 description:
-                  - Privacy type/protocol of the SNMP v3 protocol to be used in AUTHPRIV
+                  - Privacy type/protocol of the SNMP
+                    v3 protocol to be used in AUTHPRIV
                     SNMP mode
-                  - Not required for AUTHNOPRIV and NOAUTHNOPRIV snmp_mode.
+                  - Not required for AUTHNOPRIV and
+                    NOAUTHNOPRIV snmp_mode.
                 type: str
                 choices: ['AES128', 'AES192', 'AES256']
               privacy_password:
                 description:
-                  - Privacy password of the SNMP v3 protocol to be used in AUTHPRIV
+                  - Privacy password of the SNMP v3
+                    protocol to be used in AUTHPRIV
                     SNMP mode
-                  - Not required for AUTHNOPRIV and NOAUTHNOPRIV snmp_mode.
+                  - Not required for AUTHNOPRIV and
+                    NOAUTHNOPRIV snmp_mode.
                 type: str
           net_conf_port:
             description:
-              - To be used when network contains IOS XE-based wireless controllers.
-              - This is used for discovery and the enabling of wireless services on
-                the controllers.
+              - To be used when network contains IOS
+                XE-based wireless controllers.
+              - This is used for discovery and the enabling
+                of wireless services on the controllers.
               - Requires valid SSH credentials to work.
-              - Avoid standard ports like 22, 80, and 8080.
+              - Avoid standard ports like 22, 80, and
+                8080.
             type: str
       global_credentials:
         description:
-          - Set of various credential types, including CLI, SNMP, HTTP, and NETCONF,
-            that a user has pre-configured in the Device Credentials section of the
-            Cisco Catalyst Center.
-          - If user doesn't pass any global credentials in the playbook, then by default,
-            we will use all the global credentials present in the Cisco Catalyst Center
-            of each type for performing discovery. (Max 5 allowed)
+          - Set of various credential types, including
+            CLI, SNMP, HTTP, and NETCONF, that a user
+            has pre-configured in the Device Credentials
+            section of the Cisco Catalyst Center.
+          - If user doesn't pass any global credentials
+            in the playbook, then by default, we will
+            use all the global credentials present in
+            the Cisco Catalyst Center of each type for
+            performing discovery. (Max 5 allowed)
         type: dict
         version_added: 6.12.0
         suboptions:
           cli_credentials_list:
             description:
-              - Accepts a list of global CLI credentials for use in device discovery.
-              - It's recommended to create device credentials with both a unique username
-                and a clear description.
+              - Accepts a list of global CLI credentials
+                for use in device discovery.
+              - It's recommended to create device credentials
+                with both a unique username and a clear
+                description.
             type: list
             elements: dict
             suboptions:
               username:
-                description: Username required for CLI authentication and is mandatory
-                  when using global CLI credentials.
+                description: Username required for CLI
+                  authentication and is mandatory when
+                  using global CLI credentials.
                 type: str
               description:
-                description: Name of the CLI credential, mandatory when using global
-                  CLI credentials.
+                description: Name of the CLI credential,
+                  mandatory when using global CLI credentials.
                 type: str
           http_read_credential_list:
             description:
-              - List of global HTTP Read credentials that will be used in the process
-                of discovering devices.
-              - It's recommended to create device credentials with both a unique username
-                and a clear description for easy identification.
+              - List of global HTTP Read credentials
+                that will be used in the process of
+                discovering devices.
+              - It's recommended to create device credentials
+                with both a unique username and a clear
+                description for easy identification.
             type: list
             elements: dict
             suboptions:
               username:
-                description: Username for HTTP Read authentication, mandatory when
-                  using global HTTP credentials.
+                description: Username for HTTP Read
+                  authentication, mandatory when using
+                  global HTTP credentials.
                 type: str
               description:
-                description: Name of the HTTP Read credential, mandatory when using  global
-                  HTTP credentials.
+                description: Name of the HTTP Read credential,
+                  mandatory when using  global HTTP
+                  credentials.
                 type: str
           http_write_credential_list:
             description:
-              - List of global HTTP Write credentials that will be used in the process
-                of discovering devices.
-              - It's recommended to create device credentials with both a unique username
-                and a clear description for easy identification.
+              - List of global HTTP Write credentials
+                that will be used in the process of
+                discovering devices.
+              - It's recommended to create device credentials
+                with both a unique username and a clear
+                description for easy identification.
             type: list
             elements: dict
             suboptions:
               username:
-                description: Username for HTTP Write authentication, mandatory when
-                  using global HTTP credentials.
+                description: Username for HTTP Write
+                  authentication, mandatory when using
+                  global HTTP credentials.
                 type: str
               description:
-                description: Name of the HTTP Write credential, mandatory when using  global
+                description: Name of the HTTP Write
+                  credential, mandatory when using  global
                   HTTP credentials.
                 type: str
           snmp_v2_read_credential_list:
             description:
-              - List of Global SNMP V2 Read credentials to be used during device discovery.
-              - It's recommended to create device credentials with a clear description
-                for easy identification.
+              - List of Global SNMP V2 Read credentials
+                to be used during device discovery.
+              - It's recommended to create device credentials
+                with a clear description for easy identification.
             type: list
             elements: dict
             suboptions:
               description:
-                description: Name of the SNMP Read credential, mandatory when using  global
-                  SNMP credentials.
+                description: Name of the SNMP Read credential,
+                  mandatory when using  global SNMP
+                  credentials.
                 type: str
           snmp_v2_write_credential_list:
             description:
-              - List of Global SNMP V2 Write credentials to be used during device
-                discovery.
-              - It's recommended to create device credentials with a clear description
-                for easy identification.
+              - List of Global SNMP V2 Write credentials
+                to be used during device discovery.
+              - It's recommended to create device credentials
+                with a clear description for easy identification.
             type: list
             elements: dict
             suboptions:
               description:
-                description: Name of the SNMP Write credential, mandatory when using
-                  global SNMP credentials.
+                description: Name of the SNMP Write
+                  credential, mandatory when using global
+                  SNMP credentials.
                 type: str
           snmp_v3_credential_list:
             description:
-              - List of Global SNMP V3 credentials to be used during device discovery,
-                giving read and write mode.
-              - It's recommended to create device credentials with both a unique username
-                and a clear description for easy identification.
+              - List of Global SNMP V3 credentials to
+                be used during device discovery, giving
+                read and write mode.
+              - It's recommended to create device credentials
+                with both a unique username and a clear
+                description for easy identification.
             type: list
             elements: dict
             suboptions:
               username:
-                description: Username for SNMP V3 authentication, mandatory when using
-                  global SNMP credentials.
+                description: Username for SNMP V3 authentication,
+                  mandatory when using global SNMP credentials.
                 type: str
               description:
-                description: Name of the SNMP V3 credential, mandatory when using
-                  global SNMP credentials.
+                description: Name of the SNMP V3 credential,
+                  mandatory when using global SNMP credentials.
                 type: str
           net_conf_port_list:
             description:
-              - List of Global Net conf ports to be used during device discovery.
-              - It's recommended to create device credentials with unique description.
+              - List of Global Net conf ports to be
+                used during device discovery.
+              - It's recommended to create device credentials
+                with unique description.
             type: list
             elements: dict
             suboptions:
               description:
-                description: Name of the Net Conf Port credential, mandatory when
-                  using global Net conf port.
+                description: Name of the Net Conf Port
+                  credential, mandatory when using global
+                  Net conf port.
                 type: str
       start_index:
-        description: Start index for the header in fetching SNMP v2 credentials
+        description: Start index for the header in fetching
+          SNMP v2 credentials
         type: int
         default: 1
       records_to_return:
-        description: Number of records to return for the header in fetching global
-          v2 credentials
+        description: Number of records to return for
+          the header in fetching global v2 credentials
         type: int
         default: 100
       protocol_order:
-        description: Determines the order in which device connections will be attempted.
-          Here are the options - "telnet" Only telnet connections will be tried. -
-          "ssh, telnet" SSH (Secure Shell) will be attempted first, followed by telnet
-          if SSH fails.
+        description: Determines the order in which device
+          connections will be attempted. Here are the
+          options - "telnet" Only telnet connections
+          will be tried. - "ssh, telnet" SSH (Secure
+          Shell) will be attempted first, followed by
+          telnet if SSH fails.
         type: str
         default: ssh
       retry:
-        description: Number of times to try establishing connection to device
+        description: Number of times to try establishing
+          connection to device
         type: int
       timeout:
-        description: Time to wait for device response in seconds
+        description: Time to wait for device response
+          in seconds
         type: int
       delete_all:
-        description: Parameter to delete all the discoveries at one go
+        description: Parameter to delete all the discoveries
+          at one go
         type: bool
         default: false
 requirements:
   - dnacentersdk == 2.6.10
   - python >= 3.9
 notes:
-  - SDK Method used are discovery.Discovery.get_all_global_credentials_v2, discovery.Discovery.start_discovery,
-    task.Task.get_task_by_id, discovery.Discovery.get_discoveries_by_range, discovery.Discovery.get_discovered_network_devices_by_discovery_id',
+  - SDK Method used are
+    discovery.Discovery.get_all_global_credentials_v2,
+    discovery.Discovery.start_discovery,
+    task.Task.get_task_by_id,
+    discovery.Discovery.get_discoveries_by_range,
+    discovery.Discovery.get_discovered_network_devices_by_discovery_id',
     discovery.Discovery.delete_discovery_by_id discovery.Discovery.delete_all_discovery
     discovery.Discovery.get_count_of_all_discovery_jobs
-  - Paths used are get /dna/intent/api/v2/global-credential post /dna/intent/api/v1/discovery
-    get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn}
-    get /dna/intent/api/v1/discovery/{id}/network-device delete /dna/intent/api/v1/discovery/{id}
-    delete /dna/intent/api/v1/delete get /dna/intent/api/v1/discovery/count
+  - Paths used are
+    get /dna/intent/api/v2/global-credential
+    post /dna/intent/api/v1/discovery get /dna/intent/api/v1/task/{taskId}
+    get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn}
+    get /dna/intent/api/v1/discovery/{id}/network-device
+    delete /dna/intent/api/v1/discovery/{id} delete
+    /dna/intent/api/v1/delete get /dna/intent/api/v1/discovery/count
   - Removed 'global_cli_len' option in v6.12.0.
 """
 EXAMPLES = r"""
-- name: Execute discovery of devices with both global credentials and discovery
-    specific credentials
+---
+- name: Execute discovery of devices with both global
+    credentials and discovery specific credentials
   cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -413,7 +510,8 @@ EXAMPLES = r"""
     state: merged
     config_verify: true
     config:
-      - discovery_name: Discovery with both global and job specific credentials
+      - discovery_name: Discovery with both global and
+          job specific credentials
         discovery_type: RANGE
         ip_address_list:
           - 201.1.1.1-201.1.1.100
@@ -475,7 +573,8 @@ EXAMPLES = r"""
         protocol_order: ssh
         retry: 5
         timeout: 3
-- name: Execute discovery of devices with discovery specific credentials only
+- name: Execute discovery of devices with discovery
+    specific credentials only
   cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -489,7 +588,8 @@ EXAMPLES = r"""
     state: merged
     config_verify: true
     config:
-      - discovery_name: Single with discovery specific credentials only
+      - discovery_name: Single with discovery specific
+          credentials only
         discovery_type: SINGLE
         ip_address_list:
           - 204.1.1.10
@@ -528,7 +628,8 @@ EXAMPLES = r"""
         protocol_order: ssh
         retry: 5
         timeout: 3
-- name: Execute discovery of devices with global credentials only
+- name: Execute discovery of devices with global credentials
+    only
   cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -542,7 +643,8 @@ EXAMPLES = r"""
     state: merged
     config_verify: true
     config:
-      - discovery_name: CDP with global credentials only
+      - discovery_name: CDP with global credentials
+          only
         discovery_type: CDP
         ip_address_list:
           - 204.1.1.1
@@ -573,7 +675,8 @@ EXAMPLES = r"""
         protocol_order: ssh
         retry: 5
         timeout: 3
-- name: Execute discovery of devices with all the global credentials (max 5 allowed)
+- name: Execute discovery of devices with all the global
+    credentials (max 5 allowed)
   cisco.dnac.discovery_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -13,18 +13,19 @@ __author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: wireless_design_workflow_manager
-short_description: Manage wireless design elements in Cisco Catalyst Center.
+short_description: Manage wireless design elements in
+  Cisco Catalyst Center.
 description:
-  - Manage wireless design operations, including creating, updating, and deleting
-    - SSID(s)
-    - Interface(s)
-    - Power Profile(s)
-    - Access Point Profile(s)
-    - Radio Frequency (RF) Profile(s)
-    - Anchor Group(s)
-  - Provides APIs for wireless design automation in Cisco Catalyst Center.
-  - Note - This module supports only the creation, updating, and deletion of Wireless Design elements.
-         - To associate them with a Wireless Profile, utilize the 'network_wireless_profile_workflow_manager' module.
+  - Manage wireless design operations, including creating,
+    updating, and deleting - SSID(s) - Interface(s)
+    - Power Profile(s) - Access Point Profile(s) - Radio
+    Frequency (RF) Profile(s) - Anchor Group(s)
+  - Provides APIs for wireless design automation in
+    Cisco Catalyst Center.
+  - Note - This module supports only the creation, updating,
+    and deletion of Wireless Design elements. - To associate
+    them with a Wireless Profile, utilize the 'network_wireless_profile_workflow_manager'
+    module.
 version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -33,55 +34,82 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to true to verify the Cisco Catalyst Center configuration after applying the playbook configuration.
+    description: Set to true to verify the Cisco Catalyst
+      Center configuration after applying the playbook
+      configuration.
     type: bool
     default: false
   state:
-    description: The desired state of Cisco Catalyst Center after module execution.
+    description: The desired state of Cisco Catalyst
+      Center after module execution.
     type: str
     choices: [merged, deleted]
     default: merged
   config:
     description:
-      - A list containing configurations for managing SSIDs, Interfaces, Power Profiles, RF Profiles, AP Profiles, and Anchor Groups in Cisco Catalyst Center.
-      - Guidelines for Update Operations
-          - SSIDs - No need to provide the entire target SSID configuration; updates are handled automatically.
-          - Interfaces - Must provide the complete configuration for the specific interfaces being updated.
-          - Power Profiles - Required to specify the exact configuration for the power profiles being updated.
-          - AP Profiles - No need to provide the full configuration; updates are managed as needed.
-          - RF Profiles - Similar to AP profiles, full configurations are not required for updates.
-          - Anchor Groups - Must provide the complete configuration for the anchor groups being updated.
+      - A list containing configurations for managing
+        SSIDs, Interfaces, Power Profiles, RF Profiles,
+        AP Profiles, and Anchor Groups in Cisco Catalyst
+        Center.
+      - Guidelines for Update Operations - SSIDs - No
+        need to provide the entire target SSID configuration;
+        updates are handled automatically. - Interfaces
+        - Must provide the complete configuration for
+        the specific interfaces being updated. - Power
+        Profiles - Required to specify the exact configuration
+        for the power profiles being updated. - AP Profiles
+        - No need to provide the full configuration;
+        updates are managed as needed. - RF Profiles
+        - Similar to AP profiles, full configurations
+        are not required for updates. - Anchor Groups
+        - Must provide the complete configuration for
+        the anchor groups being updated.
     type: list
     elements: dict
     required: true
     suboptions:
       ssids:
         description:
-          - Configure SSIDs for Enterprise and Guest Wireless Networks.
-          - When updating SSIDs, if "passphrase" or "mpsk_passphrase" is included, the Cisco Catalyst Center returns these values in an encrypted format.
-            This prevents comparison with existing values. As a result, even if no other parameters change, the operation is treated as an update
-            to ensure the provided "passphrase" or "mpsk_passphrase" is applied.
+          - Configure SSIDs for Enterprise and Guest
+            Wireless Networks.
+          - When updating SSIDs, if "passphrase" or
+            "mpsk_passphrase" is included, the Cisco
+            Catalyst Center returns these values in
+            an encrypted format. This prevents comparison
+            with existing values. As a result, even
+            if no other parameters change, the operation
+            is treated as an update to ensure the provided
+            "passphrase" or "mpsk_passphrase" is applied.
         type: list
         elements: dict
         suboptions:
           ssid_name:
             description:
-              - Specifies the Wireless Network name or SSID name.
-              - The maximum length of the SSID name is 32 characters.
-              - Required for creating, updating, or deleting SSIDs.
+              - Specifies the Wireless Network name
+                or SSID name.
+              - The maximum length of the SSID name
+                is 32 characters.
+              - Required for creating, updating, or
+                deleting SSIDs.
             type: str
           ssid_type:
             description:
               - Specifies the type of WLAN.
-              - Required in merged state for creating or updating SSIDs.
+              - Required in merged state for creating
+                or updating SSIDs.
             type: str
             choices: ["Enterprise", "Guest"]
           wlan_profile_name:
             description:
-              - Optional parameter specifying the WLAN Profile Name.
-              - If not provided, an autogenerated profile name is assigned using `ssid_name`.
-              - This profile name is also used as the Policy Profile Name.
-              - For example, If the "ssid_name" is "entssid", the autogenerated WLAN Profile Name will be "entssid_profile".
+              - Optional parameter specifying the WLAN
+                Profile Name.
+              - If not provided, an autogenerated profile
+                name is assigned using `ssid_name`.
+              - This profile name is also used as the
+                Policy Profile Name.
+              - For example, If the "ssid_name" is "entssid",
+                the autogenerated WLAN Profile Name
+                will be "entssid_profile".
             type: str
           radio_policy:
             description: Configure radio policy settings.
@@ -89,714 +117,1180 @@ options:
             suboptions:
               radio_bands:
                 description:
-                  - Defines the frequency bands used for wireless communication.
-                  - This parameter is optional and defaults to Triple band operation (2.4GHz, 5GHz, and 6GHz).
-                  - 6GHz is applicable only for IOS-XE releases 17.7 or later; for other devices/platforms, this will be ignored.
-                  - For example, [2.4, 5], [2.4, 6], [5, 6], [2.4], [5], [6], [2.4, 5, 6].
+                  - Defines the frequency bands used
+                    for wireless communication.
+                  - This parameter is optional and defaults
+                    to Triple band operation (2.4GHz,
+                    5GHz, and 6GHz).
+                  - 6GHz is applicable only for IOS-XE
+                    releases 17.7 or later; for other
+                    devices/platforms, this will be
+                    ignored.
+                  - For example, [2.4, 5], [2.4, 6],
+                    [5, 6], [2.4], [5], [6], [2.4, 5,
+                    6].
                 type: list
                 elements: float
                 default: [2.4, 5, 6]
               2_dot_4_ghz_band_policy:
                 description:
-                  - Defines the policy for managing the 2.4 GHz frequency band.
-                  - Determines how client devices connect and operate on the 2.4 GHz band.
-                  - Allowed only when the 2.4 GHz Radio Band is enabled in "radio_bands".
+                  - Defines the policy for managing
+                    the 2.4 GHz frequency band.
+                  - Determines how client devices connect
+                    and operate on the 2.4 GHz band.
+                  - Allowed only when the 2.4 GHz Radio
+                    Band is enabled in "radio_bands".
                 type: str
                 choices: ["802.11-bg", "802.11-g"]
                 default: "802.11-bg"
               band_select:
                 description:
-                  - Enables Band Select to optimize client distribution across frequency bands.
-                  - When enabled, dual-band clients are encouraged to connect to the 5 GHz or 6 GHz band instead of the more congested 2.4 GHz band.
-                  - Can be activated only when the "radio_bands" selected are
-                    - [2.4, 5], i.e., 2.4 GHz and 5GHz
-                    - [2.4, 5, 6], i.e., Triple band operation (2.4GHz, 5GHz, and 6GHz).
+                  - Enables Band Select to optimize
+                    client distribution across frequency
+                    bands.
+                  - When enabled, dual-band clients
+                    are encouraged to connect to the
+                    5 GHz or 6 GHz band instead of the
+                    more congested 2.4 GHz band.
+                  - Can be activated only when the "radio_bands"
+                    selected are - [2.4, 5], i.e., 2.4
+                    GHz and 5GHz - [2.4, 5, 6], i.e.,
+                    Triple band operation (2.4GHz, 5GHz,
+                    and 6GHz).
                 type: bool
                 default: false
               6_ghz_client_steering:
                 description:
-                  - Enables 6 GHz Client Steering to optimize network performance by directing capable clients to the 6 GHz band.
-                  - Helps reduce congestion on 2.4 GHz and 5 GHz by prioritizing the use of 6 GHz for supported devices.
-                  - Can only be enabled if "band_select" includes the 6 GHz radio band.
+                  - Enables 6 GHz Client Steering to
+                    optimize network performance by
+                    directing capable clients to the
+                    6 GHz band.
+                  - Helps reduce congestion on 2.4 GHz
+                    and 5 GHz by prioritizing the use
+                    of 6 GHz for supported devices.
+                  - Can only be enabled if "band_select"
+                    includes the 6 GHz radio band.
                 type: bool
                 default: false
           fast_lane:
             description:
-              - Enables Fast Lane to optimize network performance for real-time applications like voice and video.
-              - Helps improve Quality of Service (QoS) by prioritizing latency-sensitive traffic.
-              - When "fast_lane" is enabled
-                - For IOS-XE, QoS (Egress and Ingress) will be set to empty.
-                - For AireOS, QoS (Egress) will be set to VoIP (Platinum).
+              - Enables Fast Lane to optimize network
+                performance for real-time applications
+                like voice and video.
+              - Helps improve Quality of Service (QoS)
+                by prioritizing latency-sensitive traffic.
+              - When "fast_lane" is enabled - For IOS-XE,
+                QoS (Egress and Ingress) will be set
+                to empty. - For AireOS, QoS (Egress)
+                will be set to VoIP (Platinum).
               - By default, "fast_lane" is disabled.
             type: bool
             default: false
           quality_of_service:
             description:
-              - Configures Quality of Service (QoS) settings to prioritize network traffic based on application requirements.
-              - QoS selection is ignored when Fast Lane is enabled.
-              - For AireOS devices, the primary traffic type is set to VoIP (Platinum), ensuring high priority for voice traffic.
-              - For Wireless Controllers, the primary traffic type is set to empty, meaning no specific prioritization.
+              - Configures Quality of Service (QoS)
+                settings to prioritize network traffic
+                based on application requirements.
+              - QoS selection is ignored when Fast Lane
+                is enabled.
+              - For AireOS devices, the primary traffic
+                type is set to VoIP (Platinum), ensuring
+                high priority for voice traffic.
+              - For Wireless Controllers, the primary
+                traffic type is set to empty, meaning
+                no specific prioritization.
             type: dict
             suboptions:
               egress:
                 description:
-                  - Specifies the Quality of Service (QoS) level for outgoing (egress) traffic.
-                  - Determines traffic prioritization for data leaving the network.
-                  - Higher priority levels (e.g., PLATINUM) ensure better performance for latency-sensitive applications.
+                  - Specifies the Quality of Service
+                    (QoS) level for outgoing (egress)
+                    traffic.
+                  - Determines traffic prioritization
+                    for data leaving the network.
+                  - Higher priority levels (e.g., PLATINUM)
+                    ensure better performance for latency-sensitive
+                    applications.
                 type: str
-                choices: ["PLATINUM", "GOLD", "SILVER", "BRONZE"]
+                choices: ["PLATINUM", "GOLD", "SILVER",
+                  "BRONZE"]
               ingress:
                 description:
-                  - Specifies the Quality of Service (QoS) level for incoming (ingress) traffic.
-                  - Determines how traffic is prioritized when entering the network.
-                  - The "-UP" suffix denotes user priority levels for upstream traffic classification.
+                  - Specifies the Quality of Service
+                    (QoS) level for incoming (ingress)
+                    traffic.
+                  - Determines how traffic is prioritized
+                    when entering the network.
+                  - The "-UP" suffix denotes user priority
+                    levels for upstream traffic classification.
                 type: str
-                choices: ["PLATINUM-UP", "GOLD-UP", "SILVER-UP", "BRONZE-UP"]
+                choices: ["PLATINUM-UP", "GOLD-UP",
+                  "SILVER-UP", "BRONZE-UP"]
           ssid_state:
             description:
-              - Configure the SSID state settings, which define the operational status and visibility of the SSID on the wireless network.
+              - Configure the SSID state settings, which
+                define the operational status and visibility
+                of the SSID on the wireless network.
             type: dict
             suboptions:
               admin_status:
                 description:
                   - Controls whether the SSID is operational.
-                  - When set to 'true', the SSID is enabled and available for clients to connect.
-                  - When set to 'false', the SSID is disabled, preventing clients from connecting to the network.
+                  - When set to 'true', the SSID is
+                    enabled and available for clients
+                    to connect.
+                  - When set to 'false', the SSID is
+                    disabled, preventing clients from
+                    connecting to the network.
                 type: bool
                 default: false
               broadcast_ssid:
                 description:
-                  - Controls whether the SSID is visible to client devices when scanning for available networks.
-                  - When set to 'true', the SSID will be publicly visible in the list of available networks.
-                  - When set to 'false', the SSID will be hidden, requiring clients to manually enter the network name to connect.
+                  - Controls whether the SSID is visible
+                    to client devices when scanning
+                    for available networks.
+                  - When set to 'true', the SSID will
+                    be publicly visible in the list
+                    of available networks.
+                  - When set to 'false', the SSID will
+                    be hidden, requiring clients to
+                    manually enter the network name
+                    to connect.
                 type: bool
                 default: false
           l2_security:
             description:
-              - Configure the Layer 2 (L2) security settings for the SSID.
-              - L2 security determines how client devices authenticate before gaining network access.
+              - Configure the Layer 2 (L2) security
+                settings for the SSID.
+              - L2 security determines how client devices
+                authenticate before gaining network
+                access.
             type: dict
             suboptions:
               l2_auth_type:
                 description:
-                  - Specifies the Layer 2 (L2) authentication type for securing SSID access.
-                  - Determines how devices authenticate and connect to the network.
-                  - The available L2 authentication types include
-                    - WPA2_PERSONAL
-                      - Uses a pre-shared key (PSK) for authentication.
-                      - Requires at least one WPA encryption, AKM, and passphrase.
-                      - AP Beacon Protection cannot be enabled.
-                    - WPA2_ENTERPRISE
-                      - Uses a RADIUS server for authentication instead of a password.
-                      - Requires at least one WPA encryption and AKM.
-                      - AP Beacon Protection cannot be enabled.
-                    - WPA3_PERSONAL
-                      - Uses Simultaneous Authentication of Equals (SAE) instead of PSK.
-                      - Provides enhanced security against brute-force attacks.
-                      - Requires at least one WPA encryption, AKM, and passphrase.
-                      - AP Beacon Protection can be enabled.
-                    - WPA3_ENTERPRISE
-                      - Uses 192-bit encryption for enhanced security.
-                      - Requires at least one WPA encryption and AKM.
-                      - AP Beacon Protection can be enabled.
-                    - WPA2_WPA3_PERSONAL
-                      - Allows devices to connect using either WPA2-Personal or WPA3-Personal.
-                      - Requires at least one WPA encryption, AKM, and passphrase.
-                      - AP Beacon Protection can be enabled.
-                    - WPA2_WPA3_ENTERPRISE
-                      - Allows devices to connect using either WPA2-Enterprise or WPA3-Enterprise.
-                      - Requires at least one WPA encryption and AKM.
-                      - AP Beacon Protection can be enabled.
-                    - OPEN-SECURED
-                      - Provides encrypted communication but does not require a password for access.
-                      - Requires at least one Wi-Fi Protected Access(WPA) encryption and Authentication Key Management (AKM).
-                      - AP Beacon Protection cannot be enabled.
-                    - OPEN
-                      - No authentication or encryption is used.
-                      - Anyone can connect without providing credentials.
-                      - AP Beacon Protection cannot be enabled.
-                  - Notes
-                    - If "l2_auth_type" is not "OPEN", then at least one RSN Cipher Suite and the corresponding valid Authentication Key Management
-                      (AKM) must be provided.
-                    - The WPA3 feature is supported for Wireless Controller versions 8.10 and above, and for Catalyst 9800 Controllers versions 16.12 and above.
-                    - For 6GHz operation alongside 2.4GHz/5GHz on IOS-XE devices (17.7 to 17.11), WPA3 must be enabled, and WPA2 must be disabled.
-                    - For IOS-XE 17.12 and above, all radio bands (2.4GHz, 5GHz, and 6GHz) can be enabled on the same SSID with WPA3 enabled.
+                  - Specifies the Layer 2 (L2) authentication
+                    type for securing SSID access.
+                  - Determines how devices authenticate
+                    and connect to the network.
+                  - The available L2 authentication
+                    types include - WPA2_PERSONAL -
+                    Uses a pre-shared key (PSK) for
+                    authentication. - Requires at least
+                    one WPA encryption, AKM, and passphrase.
+                    - AP Beacon Protection cannot be
+                    enabled. - WPA2_ENTERPRISE - Uses
+                    a RADIUS server for authentication
+                    instead of a password. - Requires
+                    at least one WPA encryption and
+                    AKM. - AP Beacon Protection cannot
+                    be enabled. - WPA3_PERSONAL - Uses
+                    Simultaneous Authentication of Equals
+                    (SAE) instead of PSK. - Provides
+                    enhanced security against brute-force
+                    attacks. - Requires at least one
+                    WPA encryption, AKM, and passphrase.
+                    - AP Beacon Protection can be enabled.
+                    - WPA3_ENTERPRISE - Uses 192-bit
+                    encryption for enhanced security.
+                    - Requires at least one WPA encryption
+                    and AKM. - AP Beacon Protection
+                    can be enabled. - WPA2_WPA3_PERSONAL
+                    - Allows devices to connect using
+                    either WPA2-Personal or WPA3-Personal.
+                    - Requires at least one WPA encryption,
+                    AKM, and passphrase. - AP Beacon
+                    Protection can be enabled. - WPA2_WPA3_ENTERPRISE
+                    - Allows devices to connect using
+                    either WPA2-Enterprise or WPA3-Enterprise.
+                    - Requires at least one WPA encryption
+                    and AKM. - AP Beacon Protection
+                    can be enabled. - OPEN-SECURED -
+                    Provides encrypted communication
+                    but does not require a password
+                    for access. - Requires at least
+                    one Wi-Fi Protected Access(WPA)
+                    encryption and Authentication Key
+                    Management (AKM). - AP Beacon Protection
+                    cannot be enabled. - OPEN - No authentication
+                    or encryption is used. - Anyone
+                    can connect without providing credentials.
+                    - AP Beacon Protection cannot be
+                    enabled.
+                  - Notes - If "l2_auth_type" is not
+                    "OPEN", then at least one RSN Cipher
+                    Suite and the corresponding valid
+                    Authentication Key Management (AKM)
+                    must be provided. - The WPA3 feature
+                    is supported for Wireless Controller
+                    versions 8.10 and above, and for
+                    Catalyst 9800 Controllers versions
+                    16.12 and above. - For 6GHz operation
+                    alongside 2.4GHz/5GHz on IOS-XE
+                    devices (17.7 to 17.11), WPA3 must
+                    be enabled, and WPA2 must be disabled.
+                    - For IOS-XE 17.12 and above, all
+                    radio bands (2.4GHz, 5GHz, and 6GHz)
+                    can be enabled on the same SSID
+                    with WPA3 enabled.
                 type: str
-                choices: [
-                          "WPA2_ENTERPRISE", "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE", "WPA2_PERSONAL",
-                          "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL", "OPEN-SECURED", "OPEN"
-                          ]
+                choices: ["WPA2_ENTERPRISE", "WPA3_ENTERPRISE",
+                  "WPA2_WPA3_ENTERPRISE", "WPA2_PERSONAL",
+                  "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL",
+                  "OPEN-SECURED", "OPEN"]
               ap_beacon_protection:
                 description:
-                  - AP Beacon Protection enhances network security by preventing rogue access points from spoofing legitimate beacons.
-                  - Can be set to 'true' only when L2 Authentication is one of the following
-                    - "WPA3_ENTERPRISE"
-                    - "WPA2_WPA3_ENTERPRISE"
-                    - "WPA3_PERSONAL"
-                    - "WPA2_WPA3_PERSONAL"
-                  - Protected Management Frame (PMF) must be configured as `Required` along with WPA3 or WPA2 + WPA3 for AP Beacon Protection to be enabled.
+                  - AP Beacon Protection enhances network
+                    security by preventing rogue access
+                    points from spoofing legitimate
+                    beacons.
+                  - Can be set to 'true' only when L2
+                    Authentication is one of the following
+                    - "WPA3_ENTERPRISE" - "WPA2_WPA3_ENTERPRISE"
+                    - "WPA3_PERSONAL" - "WPA2_WPA3_PERSONAL"
+                  - Protected Management Frame (PMF)
+                    must be configured as `Required`
+                    along with WPA3 or WPA2 + WPA3 for
+                    AP Beacon Protection to be enabled.
                 type: bool
                 default: false
               open_ssid:
                 description:
-                  - An Open SSID is a wireless network that does not require authentication or encryption for client connections.
-                  - Specifies the name of an existing Open SSID to be used.
-                  - Required when using "OPEN-SECURED" L2 Authentication.
-                  - All Open SSIDs that are not assigned to any Open Secured SSID must be provided.
-                  - For Enterprise SSIDs, L2 security must be set to "OPEN".
-                  - For Guest SSIDs, both L2 and L3 security must be set to "OPEN".
+                  - An Open SSID is a wireless network
+                    that does not require authentication
+                    or encryption for client connections.
+                  - Specifies the name of an existing
+                    Open SSID to be used.
+                  - Required when using "OPEN-SECURED"
+                    L2 Authentication.
+                  - All Open SSIDs that are not assigned
+                    to any Open Secured SSID must be
+                    provided.
+                  - For Enterprise SSIDs, L2 security
+                    must be set to "OPEN".
+                  - For Guest SSIDs, both L2 and L3
+                    security must be set to "OPEN".
                 type: str
               passphrase_type:
                 description:
-                  - Defines the format of the passphrase used for authentication.
-                  - Applicable only when the L2 Authentication Type is one of the following
-                    - "WPA2_PERSONAL"
-                    - "WPA3_PERSONAL"
-                    - "WPA2_WPA3_PERSONAL"
-                  - Supports two formats
-                    - "HEX" – Passphrase is specified in hexadecimal format.
-                    - "ASCII" – Passphrase is specified in ASCII characters.
+                  - Defines the format of the passphrase
+                    used for authentication.
+                  - Applicable only when the L2 Authentication
+                    Type is one of the following - "WPA2_PERSONAL"
+                    - "WPA3_PERSONAL" - "WPA2_WPA3_PERSONAL"
+                  - Supports two formats - "HEX" – Passphrase
+                    is specified in hexadecimal format.
+                    - "ASCII" – Passphrase is specified
+                    in ASCII characters.
                   - The default format is "ASCII".
                 type: str
                 choices: ["HEX", "ASCII"]
                 default: "ASCII"
               passphrase:
                 description:
-                  - A "passphrase" is a security key used to authenticate devices connecting to the SSID.
-                  - Required when the L2 Authentication Type is one of the following
-                    - "WPA2_PERSONAL"
-                    - "WPA3_PERSONAL"
-                    - "WPA2_WPA3_PERSONAL"
-                  - Passphrase format requirements
-                    - ASCII - Must be between 8 and 63 characters.
-                    - HEX - Must be exactly 64 characters.
-                  - During an update operation, if a "passphrase" is provided, the update proceeds even if there are no changes to the existing passphrase.
-                  - When updating SSIDs, if "passphrase" is included, the Cisco Catalyst Center returns these values in an encrypted format.
-                    This prevents comparison with existing values. As a result, even if no other parameters change, the operation is treated as an update
-                    to ensure the provided "passphrase" is applied.
+                  - A "passphrase" is a security key
+                    used to authenticate devices connecting
+                    to the SSID.
+                  - Required when the L2 Authentication
+                    Type is one of the following - "WPA2_PERSONAL"
+                    - "WPA3_PERSONAL" - "WPA2_WPA3_PERSONAL"
+                  - Passphrase format requirements -
+                    ASCII - Must be between 8 and 63
+                    characters. - HEX - Must be exactly
+                    64 characters.
+                  - During an update operation, if a
+                    "passphrase" is provided, the update
+                    proceeds even if there are no changes
+                    to the existing passphrase.
+                  - When updating SSIDs, if "passphrase"
+                    is included, the Cisco Catalyst
+                    Center returns these values in an
+                    encrypted format. This prevents
+                    comparison with existing values.
+                    As a result, even if no other parameters
+                    change, the operation is treated
+                    as an update to ensure the provided
+                    "passphrase" is applied.
                 type: str
               mpsk_settings:
                 description:
-                  - MPSK (Multiple Pre-Shared Key) allows multiple unique pre-shared keys to be used for the same SSID, enhancing security and flexibility.
-                  - This parameter is applicable only when the L2 Authentication Type is "WPA2_PERSONAL".
+                  - MPSK (Multiple Pre-Shared Key) allows
+                    multiple unique pre-shared keys
+                    to be used for the same SSID, enhancing
+                    security and flexibility.
+                  - This parameter is applicable only
+                    when the L2 Authentication Type
+                    is "WPA2_PERSONAL".
                   - Not supported on AireOS platforms.
                 type: list
                 elements: dict
                 suboptions:
                   mpsk_priority:
                     description:
-                      - Defines the priority level for the Multiple Pre-Shared Key (MPSK).
-                      - The priority can be set between 0 and 4, where 0 is the highest priority.
-                      - If an MPSK key with priority 0 is not configured in L3 "central_web_authentication" Flex mode, clients may fail to connect to the WLAN.
+                      - Defines the priority level for
+                        the Multiple Pre-Shared Key
+                        (MPSK).
+                      - The priority can be set between
+                        0 and 4, where 0 is the highest
+                        priority.
+                      - If an MPSK key with priority
+                        0 is not configured in L3 "central_web_authentication"
+                        Flex mode, clients may fail
+                        to connect to the WLAN.
                     type: int
                     choices: [0, 1, 2, 3, 4]
                     default: 0
                   mpsk_passphrase_type:
                     description:
                       - Specifies the type of MPSK passphrase.
-                      - If set to "ASCII", the passphrase must be between 8 and 63 characters.
-                      - If set to "HEX", the passphrase must be exactly 64 characters.
+                      - If set to "ASCII", the passphrase
+                        must be between 8 and 63 characters.
+                      - If set to "HEX", the passphrase
+                        must be exactly 64 characters.
                     type: str
                     default: "ASCII"
                     choices: ["HEX", "ASCII"]
                   mpsk_passphrase:
                     description:
-                      - Specifies the MPSK (Multiple Pre-Shared Key) passphrase used for authenticating devices on the SSID.
+                      - Specifies the MPSK (Multiple
+                        Pre-Shared Key) passphrase used
+                        for authenticating devices on
+                        the SSID.
                       - Required when configuring MPSK.
-                      - If "mpsk_passphrase_type" is set to "ASCII", the passphrase must be between 8 and 63 characters.
-                      - If "mpsk_passphrase_type" is set to "HEX", the passphrase must be exactly 64 characters.
-                      - When updating SSIDs, if "mpsk_passphrase" is included, the Cisco Catalyst Center returns these values in an encrypted format.
-                        This prevents comparison with existing values. As a result, even if no other parameters change, the operation is treated as an update
-                        to ensure the provided "mpsk_passphrase" is applied.
+                      - If "mpsk_passphrase_type" is
+                        set to "ASCII", the passphrase
+                        must be between 8 and 63 characters.
+                      - If "mpsk_passphrase_type" is
+                        set to "HEX", the passphrase
+                        must be exactly 64 characters.
+                      - When updating SSIDs, if "mpsk_passphrase"
+                        is included, the Cisco Catalyst
+                        Center returns these values
+                        in an encrypted format. This
+                        prevents comparison with existing
+                        values. As a result, even if
+                        no other parameters change,
+                        the operation is treated as
+                        an update to ensure the provided
+                        "mpsk_passphrase" is applied.
                     type: str
           fast_transition:
             description:
-              - Fast Transition (802.11r) improves roaming performance by enabling seamless authentication between access points.
-              - In AireOS, 802.1X-SHA1 must be configured when set to "ADAPTIVE".
-              - If disabled, 802.1X-SHA1 or SHA2 must be configured in AireOS.
-              - If disabled, Fast Transition over the Distributed System cannot be enabled.
-              - Recommended to disable for WLANs using "OPEN" L2 Authentication.
+              - Fast Transition (802.11r) improves roaming
+                performance by enabling seamless authentication
+                between access points.
+              - In AireOS, 802.1X-SHA1 must be configured
+                when set to "ADAPTIVE".
+              - If disabled, 802.1X-SHA1 or SHA2 must
+                be configured in AireOS.
+              - If disabled, Fast Transition over the
+                Distributed System cannot be enabled.
+              - Recommended to disable for WLANs using
+                "OPEN" L2 Authentication.
             type: str
             choices: ["ADAPTIVE", "ENABLE", "DISABLE"]
             default: "DISABLE"
           fast_transition_over_the_ds:
             description:
-              - Enable Fast Transition over the Distributed System when set to true.
-              - Fast Transition over the Distributed System can be enabled only when Fast Transition is set to "ADAPTIVE" or "ENABLE".
+              - Enable Fast Transition over the Distributed
+                System when set to true.
+              - Fast Transition over the Distributed
+                System can be enabled only when Fast
+                Transition is set to "ADAPTIVE" or "ENABLE".
             type: bool
             default: false
           wpa_encryption:
             description:
-              - Specifies the WPA2/WPA3 encryption protocol used for securing wireless communication.
-              - GCMP (Galois/Counter Mode Protocol) and CCMP (Counter Mode CBC-MAC Protocol) are encryption protocols used in WPA2/WPA3 security.
-              - GCMP256 - Uses the Robust Security Network (RSN) Cipher Suite with GCMP256 encryption.
-              - CCMP256 - Uses the RSN Cipher Suite with CCMP256 encryption.
-              - CCMP128 - Uses the RSN Cipher Suite with CCMP128 encryption.
+              - Specifies the WPA2/WPA3 encryption protocol
+                used for securing wireless communication.
+              - GCMP (Galois/Counter Mode Protocol)
+                and CCMP (Counter Mode CBC-MAC Protocol)
+                are encryption protocols used in WPA2/WPA3
+                security.
+              - GCMP256 - Uses the Robust Security Network
+                (RSN) Cipher Suite with GCMP256 encryption.
+              - CCMP256 - Uses the RSN Cipher Suite
+                with CCMP256 encryption.
+              - CCMP128 - Uses the RSN Cipher Suite
+                with CCMP128 encryption.
             type: list
             elements: str
-            choices: ["GCMP256", "CCMP256", "GCMP128", "CCMP128"]
+            choices: ["GCMP256", "CCMP256", "GCMP128",
+              "CCMP128"]
           auth_key_management:
             description:
-              - Defines the Authentication Key Management (AKM) methods available for securing wireless connections.
-              - AKM determines how clients authenticate with the wireless network and establishes encryption keys.
-              - The available AKM options depend on the selected Layer 2 (L2) authentication type, encryption protocol, and Fast Transition setting.
-              - In AireOS, 802.1X-SHA1 must be configured when Fast Transition is set to "ADAPTIVE."
-              - Required for both Enterprise and Personal Layer 2 Authentication Types.
-              - On IOS-XE controllers running version 17.7 and later, 802.1X-SHA1 AKM is not supported for WPA3-only SSIDs.
-              - Easy-PSK is only supported on IOS-XE. Selecting Easy-PSK enables Identity PSK (MAC Filtering).
-              - SUITE-B-1X - Uses AES-GCMP-128 encryption with 802.1X authentication, designed for high-security environments.
-              - SUITE-B-192X - Uses AES-GCMP-256 encryption with 802.1X authentication, providing a stronger security level.
-              - WPA2_ENTERPRISE
-                 - When fast transition is ADAPTIVE/DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                   - CCMP128 - CCKM/802.1X-SHA1/802.1X-SHA2
-                   - GCMP128 - SUITE-B-1X
-                   - CCMP256 - SUITE-B-192X
-                   - GCMP256 - SUITE-B-192X
-                 - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                   - CCMP128 - CCKM/802.1X-SHA1/802.1X-SHA2/FT+802.1x
-                   - GCMP128 - SUITE-B-1X
-                   - CCMP256 - SUITE-B-192X
-                   - GCMP256 - SUITE-B-192X
-              - WPA3_ENTERPRISE
-                - When fast transition is ADAPTIVE/DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                  - CCMP128 - 802.1X-SHA1/802.1X-SHA2
-                  - GCMP128 - SUITE-B-1X
-                  - GCMP256 - SUITE-B-192X
-                - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                  - CCMP128 - 802.1X-SHA1/802.1X-SHA2/FT+802.1x
-                  - GCMP128 - SUITE-B-1X
-                  - GCMP256 - SUITE-B-192X
-              - WPA2_WPA3_ENTERPRISE
-                - When fast transition is ADAPTIVE/DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                  - CCMP128 - CCKM/802.1X-SHA1/802.1X-SHA2
-                  - GCMP128 - SUITE-B-1X
-                  - CCMP256 - SUITE-B-192X
-                  - GCMP256 - SUITE-B-192X
-                - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                  - CCMP128 - CCKM/802.1X-SHA1/802.1X-SHA2/FT+802.1x
-                  - GCMP128 - SUITE-B-1X
-                  - CCMP256 - SUITE-B-192X
-                  - GCMP256 - SUITE-B-192X
-              - WPA2_PERSONAL
-                - When fast transition is ADAPTIVE/DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                  - CCMP128 - PSK/PSK-SHA2/Easy-PSK
-                - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                  - CCMP128 - PSK/PSK-SHA2/Easy-PSK/FT+PSK
-              - WPA3_PERSONAL
-                - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                  - CCMP128 - SAE/SAE-EXT-KEY/FT+SAE/FT+SAE-EXT-KEY
-                  - GCMP256 - SAE-EXT-KEY/FT+SAE-EXT-KEY
-                - When fast transition is DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                  - CCMP128 - SAE/SAE-EXT-KEY
-                  - GCMP256 - SAE-EXT-KEY
-              - WPA2_WPA3_PERSONAL
-                - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                  - CCMP128 - SAE/SAE-EXT-KEY/PSK/PSK-SHA2/FT+SAE/FT+PSK/FT+SAE-EXT-KEY
-                  - GCMP256 - SAE-EXT-KEY/FT+SAE-EXT-KEY
-                - When fast transition is DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
-                  - CCMP128 - SAE/SAE-EXT-KEY/PSK/PSK-SHA2
-                  - GCMP256 - SAE-EXT-KEY
-              - OPEN-SECURED
-                - AKMs available for each RSN Cipher Suite encryption protocol and allowed combinations are as follows
-                  - CCMP128 + OWE
-                  - GCMP256 + OWE
-              - OPEN
-                - Authentication Management Key is not required, any user can associate with the network.
+              - Defines the Authentication Key Management
+                (AKM) methods available for securing
+                wireless connections.
+              - AKM determines how clients authenticate
+                with the wireless network and establishes
+                encryption keys.
+              - The available AKM options depend on
+                the selected Layer 2 (L2) authentication
+                type, encryption protocol, and Fast
+                Transition setting.
+              - In AireOS, 802.1X-SHA1 must be configured
+                when Fast Transition is set to "ADAPTIVE."
+              - Required for both Enterprise and Personal
+                Layer 2 Authentication Types.
+              - On IOS-XE controllers running version
+                17.7 and later, 802.1X-SHA1 AKM is not
+                supported for WPA3-only SSIDs.
+              - Easy-PSK is only supported on IOS-XE.
+                Selecting Easy-PSK enables Identity
+                PSK (MAC Filtering).
+              - SUITE-B-1X - Uses AES-GCMP-128 encryption
+                with 802.1X authentication, designed
+                for high-security environments.
+              - SUITE-B-192X - Uses AES-GCMP-256 encryption
+                with 802.1X authentication, providing
+                a stronger security level.
+              - WPA2_ENTERPRISE - When fast transition
+                is ADAPTIVE/DISABLE, AKMs available
+                for each RSN Cipher Suite encryption
+                protocol are as follows - CCMP128 -
+                CCKM/802.1X-SHA1/802.1X-SHA2 - GCMP128
+                - SUITE-B-1X - CCMP256 - SUITE-B-192X
+                - GCMP256 - SUITE-B-192X - When fast
+                transition is ENABLE, AKMs available
+                for each RSN Cipher Suite encryption
+                protocol are as follows - CCMP128 -
+                CCKM/802.1X-SHA1/802.1X-SHA2/FT+802.1x
+                - GCMP128 - SUITE-B-1X - CCMP256 - SUITE-B-192X
+                - GCMP256 - SUITE-B-192X
+              - WPA3_ENTERPRISE - When fast transition
+                is ADAPTIVE/DISABLE, AKMs available
+                for each RSN Cipher Suite encryption
+                protocol are as follows - CCMP128 -
+                802.1X-SHA1/802.1X-SHA2 - GCMP128 -
+                SUITE-B-1X - GCMP256 - SUITE-B-192X
+                - When fast transition is ENABLE, AKMs
+                available for each RSN Cipher Suite
+                encryption protocol are as follows -
+                CCMP128 - 802.1X-SHA1/802.1X-SHA2/FT+802.1x
+                - GCMP128 - SUITE-B-1X - GCMP256 - SUITE-B-192X
+              - WPA2_WPA3_ENTERPRISE - When fast transition
+                is ADAPTIVE/DISABLE, AKMs available
+                for each RSN Cipher Suite encryption
+                protocol are as follows - CCMP128 -
+                CCKM/802.1X-SHA1/802.1X-SHA2 - GCMP128
+                - SUITE-B-1X - CCMP256 - SUITE-B-192X
+                - GCMP256 - SUITE-B-192X - When fast
+                transition is ENABLE, AKMs available
+                for each RSN Cipher Suite encryption
+                protocol are as follows - CCMP128 -
+                CCKM/802.1X-SHA1/802.1X-SHA2/FT+802.1x
+                - GCMP128 - SUITE-B-1X - CCMP256 - SUITE-B-192X
+                - GCMP256 - SUITE-B-192X
+              - WPA2_PERSONAL - When fast transition
+                is ADAPTIVE/DISABLE, AKMs available
+                for each RSN Cipher Suite encryption
+                protocol are as follows - CCMP128 -
+                PSK/PSK-SHA2/Easy-PSK - When fast transition
+                is ENABLE, AKMs available for each RSN
+                Cipher Suite encryption protocol are
+                as follows - CCMP128 - PSK/PSK-SHA2/Easy-PSK/FT+PSK
+              - WPA3_PERSONAL - When fast transition
+                is ENABLE, AKMs available for each RSN
+                Cipher Suite encryption protocol are
+                as follows - CCMP128 - SAE/SAE-EXT-KEY/FT+SAE/FT+SAE-EXT-KEY
+                - GCMP256 - SAE-EXT-KEY/FT+SAE-EXT-KEY
+                - When fast transition is DISABLE, AKMs
+                available for each RSN Cipher Suite
+                encryption protocol are as follows -
+                CCMP128 - SAE/SAE-EXT-KEY - GCMP256
+                - SAE-EXT-KEY
+              - WPA2_WPA3_PERSONAL - When fast transition
+                is ENABLE, AKMs available for each RSN
+                Cipher Suite encryption protocol are
+                as follows - CCMP128 - SAE/SAE-EXT-KEY/PSK/PSK-SHA2/FT+SAE/FT+PSK/FT+SAE-EXT-KEY
+                - GCMP256 - SAE-EXT-KEY/FT+SAE-EXT-KEY
+                - When fast transition is DISABLE, AKMs
+                available for each RSN Cipher Suite
+                encryption protocol are as follows -
+                CCMP128 - SAE/SAE-EXT-KEY/PSK/PSK-SHA2
+                - GCMP256 - SAE-EXT-KEY
+              - OPEN-SECURED - AKMs available for each
+                RSN Cipher Suite encryption protocol
+                and allowed combinations are as follows
+                - CCMP128 + OWE - GCMP256 + OWE
+              - OPEN - Authentication Management Key
+                is not required, any user can associate
+                with the network.
             type: list
             elements: str
-            choices: [
-                      "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x", "SUITE-B-1X", "SUITE-B-192X", "CCKM",
-                      "PSK", "FT+PSK", "Easy-PSK", "PSK-SHA2", "SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY", "OWE"
-                      ]
+            choices: ["802.1X-SHA1", "802.1X-SHA2",
+              "FT+802.1x", "SUITE-B-1X", "SUITE-B-192X",
+              "CCKM", "PSK", "FT+PSK", "Easy-PSK", "PSK-SHA2",
+              "SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY",
+              "OWE"]
           cckm_timestamp_tolerance:
             description:
-              - Specifies the value of the CCKM Timestamp Tolerance.
-              - CCKM (Cisco Centralized Key Management) is a Cisco-proprietary feature that enables fast and secure roaming for wireless clients in a network
-                using WPA2/WPA3 Enterprise security.
-              - It allows clients to roam between access points (APs) without requiring a full 802.1X authentication, reducing latency and improving performance
-                for applications like VoIP and real-time communication.
-              - Parameter "cckm_timestamp_tolerance" is not applicable for AireOS platforms.
-              - The value of the cckm_timestamp_tolerance should be in a range from 1000 to 5000.
+              - Specifies the value of the CCKM Timestamp
+                Tolerance.
+              - CCKM (Cisco Centralized Key Management)
+                is a Cisco-proprietary feature that
+                enables fast and secure roaming for
+                wireless clients in a network using
+                WPA2/WPA3 Enterprise security.
+              - It allows clients to roam between access
+                points (APs) without requiring a full
+                802.1X authentication, reducing latency
+                and improving performance for applications
+                like VoIP and real-time communication.
+              - Parameter "cckm_timestamp_tolerance"
+                is not applicable for AireOS platforms.
+              - The value of the cckm_timestamp_tolerance
+                should be in a range from 1000 to 5000.
             type: int
             default: 0
           l3_security:
             description:
-              - Defines Layer 3 security settings for an SSID.
-              - Required when "ssid_type" is set to "Guest".
+              - Defines Layer 3 security settings for
+                an SSID.
+              - Required when "ssid_type" is set to
+                "Guest".
             type: dict
             suboptions:
               l3_auth_type:
                 description:
                   - Required parameter in "l3_security".
-                  - If "l3_auth_type" is "OPEN", any user can associate with the network.
-                  - If the "l3_auth_type" is "WEB_AUTH", Guest users are redirected to a Web Portal for authentication.
+                  - If "l3_auth_type" is "OPEN", any
+                    user can associate with the network.
+                  - If the "l3_auth_type" is "WEB_AUTH",
+                    Guest users are redirected to a
+                    Web Portal for authentication.
                 type: str
                 default: "OPEN"
                 choices: ["OPEN", "WEB_AUTH"]
               auth_server:
                 description:
                   - Specifies the Authentication Server.
-                  - Required for Guest SSIDs with "ssid_type" as "Guest" and "l3_auth_type" as "WEB_AUTH".
-                  - Available options
-                    - "central_web_authentication" Authentication is handled by an external centralized server.
-                    - "web_authentication_internal" Authentication is managed by the controllers internal web authentication system.
-                    - "web_authentication_external" Authentication is performed through an external web authentication server.
-                    - "web_passthrough_internal" Users are granted access without authentication but must acknowledge a captive portal page hosted internally.
-                    - "web_passthrough_external" Users are granted access without authentication but must acknowledge a captive portal page hosted externally.
+                  - Required for Guest SSIDs with "ssid_type"
+                    as "Guest" and "l3_auth_type" as
+                    "WEB_AUTH".
+                  - Available options - "central_web_authentication"
+                    Authentication is handled by an
+                    external centralized server. - "web_authentication_internal"
+                    Authentication is managed by the
+                    controllers internal web authentication
+                    system. - "web_authentication_external"
+                    Authentication is performed through
+                    an external web authentication server.
+                    - "web_passthrough_internal" Users
+                    are granted access without authentication
+                    but must acknowledge a captive portal
+                    page hosted internally. - "web_passthrough_external"
+                    Users are granted access without
+                    authentication but must acknowledge
+                    a captive portal page hosted externally.
                 type: str
-                choices: [
-                          "central_web_authentication", "web_authentication_internal", "web_authentication_external",
-                          "web_passthrough_internal", "web_passthrough_external"
-                          ]
+                choices: ["central_web_authentication",
+                  "web_authentication_internal", "web_authentication_external",
+                  "web_passthrough_internal", "web_passthrough_external"]
                 default: "web_authentication_external"
               web_auth_url:
                 description:
-                  - Defines the external web authentication URL.
-                  - Required for SSIDs when "ssid_type" is "Guest", "l3_auth_type" is  "WEB_AUTH" and "auth_server" is "web_authentication_external"
+                  - Defines the external web authentication
+                    URL.
+                  - Required for SSIDs when "ssid_type"
+                    is "Guest", "l3_auth_type" is  "WEB_AUTH"
+                    and "auth_server" is "web_authentication_external"
                     or "web_passthrough_external".
                 type: str
               enable_sleeping_client:
                 description:
-                  - Enables timeout settings for clients in sleep mode.
-                  - When enabled, inactive clients will be disconnected after the specified timeout period.
+                  - Enables timeout settings for clients
+                    in sleep mode.
+                  - When enabled, inactive clients will
+                    be disconnected after the specified
+                    timeout period.
                 type: bool
                 default: false
               sleeping_client_timeout:
                 description:
-                  - Defines the duration (in minutes) before an inactive (sleeping) client is disconnected from the network.
-                  - Applicable only if "enable_sleeping_client" is set to "true".
+                  - Defines the duration (in minutes)
+                    before an inactive (sleeping) client
+                    is disconnected from the network.
+                  - Applicable only if "enable_sleeping_client"
+                    is set to "true".
                 type: int
                 default: 720
           aaa:
             description:
-              - Specifies the Authentication, Authorization, and Accounting Configuration.
-              - Please associate one or more AAA servers with the SSID.
-              - If no AAA server is configured, default configuration will be pushed under WLAN profile for the selected security setting.
-              - Catalyst 9800 Controllers versions less than 17.9 support only up to 8 Accounting Method list configuration.
-              - Configuring more than that will result in provisioning failure.
-              - To ensure the right configuration is pushed for this SSID, configure one or more AAA/PSN.
-              - Can configure a maximum of 6 Servers. Can also configure an optional guest portal on ISE, by selecting at least 1 ISE, PSN or VIP.
-              - Please note to support ISE Portal, L3 security should be Web Policy and Authentication server should be Central web authentication.
+              - Specifies the Authentication, Authorization,
+                and Accounting Configuration.
+              - Please associate one or more AAA servers
+                with the SSID.
+              - If no AAA server is configured, default
+                configuration will be pushed under WLAN
+                profile for the selected security setting.
+              - Catalyst 9800 Controllers versions less
+                than 17.9 support only up to 8 Accounting
+                Method list configuration.
+              - Configuring more than that will result
+                in provisioning failure.
+              - To ensure the right configuration is
+                pushed for this SSID, configure one
+                or more AAA/PSN.
+              - Can configure a maximum of 6 Servers.
+                Can also configure an optional guest
+                portal on ISE, by selecting at least
+                1 ISE, PSN or VIP.
+              - Please note to support ISE Portal, L3
+                security should be Web Policy and Authentication
+                server should be Central web authentication.
             type: dict
             suboptions:
               auth_servers_ip_address_list:
                 description:
-                  - List of Authentication/Authorization server IP Addresses.
-                  - These servers handle user authentication and policy enforcement.
-                  - At least one AAA/PSN server is required with the "auth_server" for "l3_security" as "central_web_authentication".
+                  - List of Authentication/Authorization
+                    server IP Addresses.
+                  - These servers handle user authentication
+                    and policy enforcement.
+                  - At least one AAA/PSN server is required
+                    with the "auth_server" for "l3_security"
+                    as "central_web_authentication".
                 type: list
                 elements: str
               accounting_servers_ip_address_list:
-                description: List of Accounting server IP Addresses.
+                description: List of Accounting server
+                  IP Addresses.
                 type: list
                 elements: str
               aaa_override:
                 description:
-                  - Enables the AAA override feature, allowing RADIUS servers to dynamically assign VLANs, ACLs, and QoS settings based on user authentication.
-                  - Requires at least one server in "auth_servers_ip_address_list" to be configured.
-                  - When AAA override is disabled, RADIUS NAC (Network Admission Control) will also be disabled.
+                  - Enables the AAA override feature,
+                    allowing RADIUS servers to dynamically
+                    assign VLANs, ACLs, and QoS settings
+                    based on user authentication.
+                  - Requires at least one server in
+                    "auth_servers_ip_address_list" to
+                    be configured.
+                  - When AAA override is disabled, RADIUS
+                    NAC (Network Admission Control)
+                    will also be disabled.
                 type: bool
               mac_filtering:
                 description:
-                  - Enables MAC filtering when set to true, allowing network access control based on device MAC addresses.
-                  - MAC filtering is commonly used for device authentication and access control in enterprise networks.
-                  - If "ssid_type" is "Guest" then
-                    - mac_filtering is configurable only when "l3_auth_type" is "OPEN".
-                    - mac_filtering cannot be enabled if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is
-                      "WPA2_ENTERPRISE", "WPA3_ENTERPRISE", or "WPA2_WPA3_ENTERPRISE".
-                    - mac_filtering is enabled by default if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is
-                      "WPA2_PERSONAL", "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL", "OPEN-SECURED", or "OPEN".
+                  - Enables MAC filtering when set to
+                    true, allowing network access control
+                    based on device MAC addresses.
+                  - MAC filtering is commonly used for
+                    device authentication and access
+                    control in enterprise networks.
+                  - If "ssid_type" is "Guest" then -
+                    mac_filtering is configurable only
+                    when "l3_auth_type" is "OPEN". -
+                    mac_filtering cannot be enabled
+                    if "l3_auth_type" is "WEB_AUTH"
+                    and "l2_auth_type" is "WPA2_ENTERPRISE",
+                    "WPA3_ENTERPRISE", or "WPA2_WPA3_ENTERPRISE".
+                    - mac_filtering is enabled by default
+                    if "l3_auth_type" is "WEB_AUTH"
+                    and "l2_auth_type" is "WPA2_PERSONAL",
+                    "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL",
+                    "OPEN-SECURED", or "OPEN".
                 type: bool
               deny_rcm_clients:
                 description:
-                  - Prevents clients using randomized MAC addresses from connecting to the network when set to 'true'.
-                  - Randomized MAC addresses (RCM) are used by devices for privacy, but they can interfere with MAC-based security policies.
-                  - Supported on Catalyst 9800 Controllers (version 17.5 & later) and Wireless Controllers (version 8.10 MRS & later).
+                  - Prevents clients using randomized
+                    MAC addresses from connecting to
+                    the network when set to 'true'.
+                  - Randomized MAC addresses (RCM) are
+                    used by devices for privacy, but
+                    they can interfere with MAC-based
+                    security policies.
+                  - Supported on Catalyst 9800 Controllers
+                    (version 17.5 & later) and Wireless
+                    Controllers (version 8.10 MRS &
+                    later).
                 type: bool
               enable_posture:
                 description:
-                  - Enables Posturing, also known as ISE Network Access Control (ISE NAC) for Enterprise SSIDs when set to 'true'.
-                  - Posturing is a security mechanism that checks endpoint compliance (e.g., antivirus status, OS updates) before granting full network access.
-                  - Must be set to 'true' if an ACL needs to be applied to an Enterprise SSID.
+                  - Enables Posturing, also known as
+                    ISE Network Access Control (ISE
+                    NAC) for Enterprise SSIDs when set
+                    to 'true'.
+                  - Posturing is a security mechanism
+                    that checks endpoint compliance
+                    (e.g., antivirus status, OS updates)
+                    before granting full network access.
+                  - Must be set to 'true' if an ACL
+                    needs to be applied to an Enterprise
+                    SSID.
                 type: bool
               pre_auth_acl_name:
                 description:
-                  - Name of the Pre-Authentication Access Control List (ACL).
-                  - Defines network access rules before authentication is completed.
+                  - Name of the Pre-Authentication Access
+                    Control List (ACL).
+                  - Defines network access rules before
+                    authentication is completed.
                   - Required if Posturing is enabled.
                 type: str
           mfp_client_protection:
             description:
-              - Management Frame Protection (MFP) Client Protection helps secure wireless clients from forged management frames.
-              - Provides protection against deauthentication/disassociation attacks.
-              - Available options
-                - For "DISABLED" - MFP is turned off.
-                - For "OPTIONAL" - MFP is enabled but not enforced.
-                - For "REQUIRED" - MFP is mandatory for all clients.
-              - Only "OPTIONAL" is applicable for 6GHz SSIDs.
+              - Management Frame Protection (MFP) Client
+                Protection helps secure wireless clients
+                from forged management frames.
+              - Provides protection against deauthentication/disassociation
+                attacks.
+              - Available options - For "DISABLED" -
+                MFP is turned off. - For "OPTIONAL"
+                - MFP is enabled but not enforced. -
+                For "REQUIRED" - MFP is mandatory for
+                all clients.
+              - Only "OPTIONAL" is applicable for 6GHz
+                SSIDs.
               - Applicable only for AireOS controllers.
             type: str
-            choices: ["OPTIONAL",  "DISABLED", "REQUIRED"]
+            choices: ["OPTIONAL", "DISABLED", "REQUIRED"]
             default: "OPTIONAL"
           protected_management_frame:
             description:
-              - Protected Management Frames (PMF) enhance security by protecting critical management frames from spoofing attacks.
-              - Prevents deauthentication/disassociation attacks by ensuring frames are encrypted.
-              - Available options
-                - For "DISABLED" - PMF is turned off.
-                - For "OPTIONAL" - PMF is enabled but not mandatory.
-                - For "REQUIRED" - PMF is enforced for all clients.
-              - PMF "REQUIRED" is applicable when "l2_auth_type" is
-                - "WPA3_PERSONAL", "WPA3_ENTERPRISE", or "OPEN-SECURED".
-              - PMF "OPTIONAL" or "REQUIRED" is applicable when "l2_auth_type" is
-                - "WPA2_WPA3_PERSONAL" or "WPA2_WPA3_ENTERPRISE".
+              - Protected Management Frames (PMF) enhance
+                security by protecting critical management
+                frames from spoofing attacks.
+              - Prevents deauthentication/disassociation
+                attacks by ensuring frames are encrypted.
+              - Available options - For "DISABLED" -
+                PMF is turned off. - For "OPTIONAL"
+                - PMF is enabled but not mandatory.
+                - For "REQUIRED" - PMF is enforced for
+                all clients.
+              - PMF "REQUIRED" is applicable when "l2_auth_type"
+                is - "WPA3_PERSONAL", "WPA3_ENTERPRISE",
+                or "OPEN-SECURED".
+              - PMF "OPTIONAL" or "REQUIRED" is applicable
+                when "l2_auth_type" is - "WPA2_WPA3_PERSONAL"
+                or "WPA2_WPA3_ENTERPRISE".
             type: str
             choices: ["OPTIONAL", "DISABLED", "REQUIRED"]
             default: "DISABLED"
           11k_neighbor_list:
             description:
-              - 802.11k Neighbor List assists client devices in faster roaming by providing a list of nearby access points.
-              - When enabled, the access point sends neighbor reports to clients, improving roaming efficiency.
+              - 802.11k Neighbor List assists client
+                devices in faster roaming by providing
+                a list of nearby access points.
+              - When enabled, the access point sends
+                neighbor reports to clients, improving
+                roaming efficiency.
               - Set to `true` to activate this feature.
             type: bool
             default: true
           coverage_hole_detection:
             description:
-              - Coverage Hole Detection (CHD) helps identify areas with weak Wi-Fi signals.
-              - When enabled, the controller detects and mitigates poor coverage areas by adjusting transmit power.
+              - Coverage Hole Detection (CHD) helps
+                identify areas with weak Wi-Fi signals.
+              - When enabled, the controller detects
+                and mitigates poor coverage areas by
+                adjusting transmit power.
               - Set to 'true' to activate this feature.
             type: bool
             default: false
           wlan_timeouts:
             description:
-              - WLAN Timeouts Configuration allows setting time limits for user sessions.
-              - Specifies which timeout features to activate and their respective values.
+              - WLAN Timeouts Configuration allows setting
+                time limits for user sessions.
+              - Specifies which timeout features to
+                activate and their respective values.
             type: dict
             suboptions:
               enable_session_timeout:
                 description:
-                  - Session Timeout Enforcement ensures user sessions are terminated after a specified period.
+                  - Session Timeout Enforcement ensures
+                    user sessions are terminated after
+                    a specified period.
                   - Set to true to activate this feature.
                 type: bool
                 default: true
               session_timeout:
                 description:
-                  - Session Timeout Duration defines the maximum allowed time (in seconds) before an inactive session is automatically terminated.
-                  - Accepted range
-                    - Generally it should be between 1 to 86400 seconds.
-                    - 802.1X Security (`auth_key_management`) 300 to 86400 seconds.
-                    - For Catalyst 9800 Controllers it should be between 0 to 86400 seconds.
-                    - AireOS Controllers 0 to 65535 seconds.
+                  - Session Timeout Duration defines
+                    the maximum allowed time (in seconds)
+                    before an inactive session is automatically
+                    terminated.
+                  - Accepted range - Generally it should
+                    be between 1 to 86400 seconds. -
+                    802.1X Security (`auth_key_management`)
+                    300 to 86400 seconds. - For Catalyst
+                    9800 Controllers it should be between
+                    0 to 86400 seconds. - AireOS Controllers
+                    0 to 65535 seconds.
                 type: int
                 default: 1800
               enable_client_exclusion_timeout:
                 description:
-                  - Client Exclusion Feature prevents clients from reconnecting after multiple failed authentication attempts.
-                  - Set to 'true' to activate client exclusion.
+                  - Client Exclusion Feature prevents
+                    clients from reconnecting after
+                    multiple failed authentication attempts.
+                  - Set to 'true' to activate client
+                    exclusion.
                 type: bool
                 default: true
               client_exclusion_timeout:
                 description:
-                  - Client Exclusion Timeout Duration defines the period (in seconds) for which a client is blocked from accessing the network
-                    after repeated failed attempts.
-                  - Value should be between 0 to 2,147,483,647 seconds.
+                  - Client Exclusion Timeout Duration
+                    defines the period (in seconds)
+                    for which a client is blocked from
+                    accessing the network after repeated
+                    failed attempts.
+                  - Value should be between 0 to 2,147,483,647
+                    seconds.
                 type: int
                 default: 180
           bss_transition_support:
             description:
-              - Configure Basic Service Set (BSS) Transition Support settings.
-              - A BSS is a group of wireless devices that communicate through a single access point (AP).
-              - This setting helps manage client transitions between access points in an infrastructure BSS.
+              - Configure Basic Service Set (BSS) Transition
+                Support settings.
+              - A BSS is a group of wireless devices
+                that communicate through a single access
+                point (AP).
+              - This setting helps manage client transitions
+                between access points in an infrastructure
+                BSS.
             type: dict
             suboptions:
               bss_max_idle_service:
                 description:
-                  - Enables the maximum idle service, which determines how long a client can remain inactive before being disconnected from the
-                    Basic Service Set (BSS).
+                  - Enables the maximum idle service,
+                    which determines how long a client
+                    can remain inactive before being
+                    disconnected from the Basic Service
+                    Set (BSS).
                 type: bool
                 default: true
               bss_idle_client_timeout:
                 description:
-                  - Defines the inactivity duration (in seconds) after which a client connected to the Basic Service Set (BSS) is considered
-                    idle and disconnected.
+                  - Defines the inactivity duration
+                    (in seconds) after which a client
+                    connected to the Basic Service Set
+                    (BSS) is considered idle and disconnected.
                   - Value should be between 15 to 100000.
                 type: int
                 default: 300
               directed_multicast_service:
                 description:
-                  - Converts multicast traffic into unicast traffic when possible to enhance network efficiency.
-                  - Helps reduce packet collisions and improve reliability for multicast transmissions, such as video streaming or voice applications.
-                  - The feature becomes operational when set to true.
+                  - Converts multicast traffic into
+                    unicast traffic when possible to
+                    enhance network efficiency.
+                  - Helps reduce packet collisions and
+                    improve reliability for multicast
+                    transmissions, such as video streaming
+                    or voice applications.
+                  - The feature becomes operational
+                    when set to true.
                 type: bool
                 default: true
           nas_id:
             description:
-              - The Network Access Server (NAS) Identifier used for AAA authentication.
-              - Can specify up to 4 values from the following predefined options
-                - Custom Option - A custom NAS ID value can be specified.
-                - "AP ETH Mac Address" - Uses the Ethernet MAC address of the Access Point.
-                - "AP IP Address" - Uses the IP address of the Access Point.
-                - "AP Location" - Identifies the Access Point based on its assigned location.
-                - "AP MAC Address" - Uses the MAC address of the Access Point.
-                - "AP Name" - Identifies the Access Point by its configured name.
-                - "AP Policy Tag" - Uses the assigned policy tag of the Access Point.
-                - "AP Site Tag" - Uses the site tag assigned to the Access Point.
-                - "SSID" - Identifies the Service Set Identifier of the network.
-                - "System IP Address" - Uses the system-wide IP address.
-                - "System MAC Address" - Uses the system-wide MAC address.
-                - "System Name" - Identifies the system by its configured hostname.
-              - NAS ID with a custom script is supported for Catalyst 9800 release 17.7 and above.
-              - Only one NAS ID option can be applied to AireOS controllers.
-              - NAS ID can be overridden at the site level.
-              - Note - If the NAS ID specified is not one of the default options, it will be considered as a custom NAS ID.
+              - The Network Access Server (NAS) Identifier
+                used for AAA authentication.
+              - Can specify up to 4 values from the
+                following predefined options - Custom
+                Option - A custom NAS ID value can be
+                specified. - "AP ETH Mac Address" -
+                Uses the Ethernet MAC address of the
+                Access Point. - "AP IP Address" - Uses
+                the IP address of the Access Point.
+                - "AP Location" - Identifies the Access
+                Point based on its assigned location.
+                - "AP MAC Address" - Uses the MAC address
+                of the Access Point. - "AP Name" - Identifies
+                the Access Point by its configured name.
+                - "AP Policy Tag" - Uses the assigned
+                policy tag of the Access Point. - "AP
+                Site Tag" - Uses the site tag assigned
+                to the Access Point. - "SSID" - Identifies
+                the Service Set Identifier of the network.
+                - "System IP Address" - Uses the system-wide
+                IP address. - "System MAC Address" -
+                Uses the system-wide MAC address. -
+                "System Name" - Identifies the system
+                by its configured hostname.
+              - NAS ID with a custom script is supported
+                for Catalyst 9800 release 17.7 and above.
+              - Only one NAS ID option can be applied
+                to AireOS controllers.
+              - NAS ID can be overridden at the site
+                level.
+              - Note - If the NAS ID specified is not
+                one of the default options, it will
+                be considered as a custom NAS ID.
             type: list
             elements: str
           client_rate_limit:
             description:
-              - Defines the maximum data transfer rate (in bits per second) allowed for a client.
+              - Defines the maximum data transfer rate
+                (in bits per second) allowed for a client.
               - Value must be in multiples of 500.
               - Allowed range 8000 to 100000000000 bps.
-              - Applies to all applications running on the client device.
-              - Platform-specific limits (in bps)
-                - For Catalyst 9800-L, 9800-40, 9800-80 range is 8000 - 67000000000
-                - For Catalyst 9800-CL range is 8000 - 10000000000
-                - For Embedded Wireless on Access Points range is 8000 - 2000000000
-                - For Embedded Wireless on Catalyst 9000 Switches range is 8000 - 10000000000
+              - Applies to all applications running
+                on the client device.
+              - Platform-specific limits (in bps) -
+                For Catalyst 9800-L, 9800-40, 9800-80
+                range is 8000 - 67000000000 - For Catalyst
+                9800-CL range is 8000 - 10000000000
+                - For Embedded Wireless on Access Points
+                range is 8000 - 2000000000 - For Embedded
+                Wireless on Catalyst 9000 Switches range
+                is 8000 - 10000000000
             type: int
             default: 0
           sites_specific_override_settings:
             description:
-              - A list of site-specific override settings that allow customization of parameters for specific site hierarchies.
+              - A list of site-specific override settings
+                that allow customization of parameters
+                for specific site hierarchies.
             type: list
             elements: dict
             suboptions:
               site_name_hierarchy:
                 description:
-                  - Specifies the site hierarchy where these overrides will apply.
-                  - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                  - Specifies the site hierarchy where
+                    these overrides will apply.
+                  - For a detailed description of this
+                    parameter, refer to the explanation
+                    in the above specified global settings
+                    parameters.
                 type: str
               wlan_profile_name:
                 description:
-                  - The "wlan_profile_name" parameter is eligible for site-specific overrides.
-                  - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                  - The "wlan_profile_name" parameter
+                    is eligible for site-specific overrides.
+                  - For a detailed description of this
+                    parameter, refer to the explanation
+                    in the above specified global settings
+                    parameters.
                 type: str
               l2_security:
                 description:
-                  - Certain parameters in the  L2 security settings are eligible for site-specific overrides.
-                  - For a detailed description, refer to the explanation in the above specified global settings parameters.
-                  - Required for creation or update SSID(s) operations.
+                  - Certain parameters in the  L2 security
+                    settings are eligible for site-specific
+                    overrides.
+                  - For a detailed description, refer
+                    to the explanation in the above
+                    specified global settings parameters.
+                  - Required for creation or update
+                    SSID(s) operations.
                 type: dict
                 suboptions:
                   l2_auth_type:
                     description:
-                      -  The "l2_auth_type" parameter is eligible for site-specific overrides.
-                      - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                      - The "l2_auth_type" parameter
+                        is eligible for site-specific
+                        overrides.
+                      - For a detailed description of
+                        this parameter, refer to the
+                        explanation in the above specified
+                        global settings parameters.
                     type: str
                   open_ssid:
                     description:
-                      - The "open_ssid" parameter is eligible for site-specific overrides.
-                      -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                      - The "open_ssid" parameter is
+                        eligible for site-specific overrides.
+                      - For a detailed description of
+                        this parameter, refer to the
+                        explanation in the above specified
+                        global settings parameters.
                     type: str
                   passphrase:
                     description:
-                      - The "passphrase" parameter is eligible for site-specific overrides.
-                      - For update operations, if an "passphrase" is provided, the update will proceed even if there are no changes to the passphrase.
-                      -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                      - The "passphrase" parameter is
+                        eligible for site-specific overrides.
+                      - For update operations, if an
+                        "passphrase" is provided, the
+                        update will proceed even if
+                        there are no changes to the
+                        passphrase.
+                      - For a detailed description of
+                        this parameter, refer to the
+                        explanation in the above specified
+                        global settings parameters.
                     type: str
                   mpsk_settings:
                     description:
-                      - Certain parameters within "mpsk_settings" are eligible for site-specific overrides.
-                      -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                      - Certain parameters within "mpsk_settings"
+                        are eligible for site-specific
+                        overrides.
+                      - For a detailed description of
+                        this parameter, refer to the
+                        explanation in the above specified
+                        global settings parameters.
                     type: list
                     elements: dict
                     suboptions:
                       mpsk_priority:
                         description:
-                          - The "mpsk_priority" parameter is eligible for site-specific overrides.
-                          - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                          - The "mpsk_priority" parameter
+                            is eligible for site-specific
+                            overrides.
+                          - For a detailed description
+                            of this parameter, refer
+                            to the explanation in the
+                            above specified global settings
+                            parameters.
                         type: int
                       mpsk_passphrase_type:
                         description:
-                          - The "mpsk_passphrase_type" parameter is eligible for site-specific overrides.
-                          - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                          - The "mpsk_passphrase_type"
+                            parameter is eligible for
+                            site-specific overrides.
+                          - For a detailed description
+                            of this parameter, refer
+                            to the explanation in the
+                            above specified global settings
+                            parameters.
                         type: str
                       mpsk_passphrase:
                         description:
-                          - The "mpsk_passphrase" parameter is eligible for site-specific overrides.
-                          - For update operations, if an "mpsk_passphrase" is provided, the update will proceed even if there are no changes to the passphrase.
-                          - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                          - The "mpsk_passphrase" parameter
+                            is eligible for site-specific
+                            overrides.
+                          - For update operations, if
+                            an "mpsk_passphrase" is
+                            provided, the update will
+                            proceed even if there are
+                            no changes to the passphrase.
+                          - For a detailed description
+                            of this parameter, refer
+                            to the explanation in the
+                            above specified global settings
+                            parameters.
                         type: str
               fast_transition:
                 description:
-                  - The "fast_transition" parameter is eligible for site-specific overrides.
-                  -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                  - The "fast_transition" parameter
+                    is eligible for site-specific overrides.
+                  - For a detailed description of this
+                    parameter, refer to the explanation
+                    in the above specified global settings
+                    parameters.
                 type: str
               fast_transition_over_the_ds:
                 description:
-                  - The "fast_transition_over_the_ds" parameter is eligible for site-specific overrides.
-                  -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                  - The "fast_transition_over_the_ds"
+                    parameter is eligible for site-specific
+                    overrides.
+                  - For a detailed description of this
+                    parameter, refer to the explanation
+                    in the above specified global settings
+                    parameters.
                 type: bool
               wpa_encryption:
                 description:
-                  - The "wpa_encryption" parameter is eligible for site-specific overrides.
-                  -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                  - The "wpa_encryption" parameter is
+                    eligible for site-specific overrides.
+                  - For a detailed description of this
+                    parameter, refer to the explanation
+                    in the above specified global settings
+                    parameters.
                 type: list
                 elements: str
               aaa:
                 description:
-                  - Certain arameters within "aaa" are eligible for site-specific overrides.
-                  -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                  - Certain arameters within "aaa" are
+                    eligible for site-specific overrides.
+                  - For a detailed description of this
+                    parameter, refer to the explanation
+                    in the above specified global settings
+                    parameters.
                 type: dict
                 suboptions:
                   auth_servers_ip_address_list:
                     description:
-                      - The "auth_servers_ip_address_list" parameter is eligible for site-specific overrides.
-                      - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                      - The "auth_servers_ip_address_list"
+                        parameter is eligible for site-specific
+                        overrides.
+                      - For a detailed description of
+                        this parameter, refer to the
+                        explanation in the above specified
+                        global settings parameters.
                     type: list
                     elements: str
                   accounting_servers_ip_address_list:
                     description:
-                      - The "accounting_servers_ip_address_list" parameter is eligible for site-specific overrides.
-                      - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                      - The "accounting_servers_ip_address_list"
+                        parameter is eligible for site-specific
+                        overrides.
+                      - For a detailed description of
+                        this parameter, refer to the
+                        explanation in the above specified
+                        global settings parameters.
                     type: list
                     elements: str
                   aaa_override:
                     description:
-                      - The "aaa_override" parameter is eligible for site-specific overrides.
-                      - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                      - The "aaa_override" parameter
+                        is eligible for site-specific
+                        overrides.
+                      - For a detailed description of
+                        this parameter, refer to the
+                        explanation in the above specified
+                        global settings parameters.
                     type: bool
                   mac_filtering:
                     description:
-                      - The "mac_filtering" parameter is eligible for site-specific overrides.
-                      - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                      - The "mac_filtering" parameter
+                        is eligible for site-specific
+                        overrides.
+                      - For a detailed description of
+                        this parameter, refer to the
+                        explanation in the above specified
+                        global settings parameters.
                     type: bool
               protected_management_frame:
                 description:
-                  - The "protected_management_frame" parameter is eligible for site-specific overrides.
-                  - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                  - The "protected_management_frame"
+                    parameter is eligible for site-specific
+                    overrides.
+                  - For a detailed description of this
+                    parameter, refer to the explanation
+                    in the above specified global settings
+                    parameters.
                 type: str
               nas_id:
                 description:
-                  - The "nas_id" parameter is eligible for site-specific overrides.
-                  - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                  - The "nas_id" parameter is eligible
+                    for site-specific overrides.
+                  - For a detailed description of this
+                    parameter, refer to the explanation
+                    in the above specified global settings
+                    parameters.
                 type: list
                 elements: str
               client_rate_limit:
                 description:
-                  - The "client_rate_limit" parameter is eligible for site-specific overrides.
-                  -   For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                  - The "client_rate_limit" parameter
+                    is eligible for site-specific overrides.
+                  - For a detailed description of this
+                    parameter, refer to the explanation
+                    in the above specified global settings
+                    parameters.
                 type: int
               remove_override_in_hierarchy:
                 description:
-                  - Controls the removal of site-specific overrides for SSIDs within a hierarchical site structure.
-                  - When set to true, this parameter will remove the override from the specified site and also remove any existing overrides for the same SSID
-                    at all child sites within the hierarchy.
-                  - When set to false, the override will be removed only from the specified site, leaving any existing overrides at child sites unchanged.
-                  - By default, when deleting global SSIDs, this parameter is set to true, ensuring that all hierarchical overrides are removed.
+                  - Controls the removal of site-specific
+                    overrides for SSIDs within a hierarchical
+                    site structure.
+                  - When set to true, this parameter
+                    will remove the override from the
+                    specified site and also remove any
+                    existing overrides for the same
+                    SSID at all child sites within the
+                    hierarchy.
+                  - When set to false, the override
+                    will be removed only from the specified
+                    site, leaving any existing overrides
+                    at child sites unchanged.
+                  - By default, when deleting global
+                    SSIDs, this parameter is set to
+                    true, ensuring that all hierarchical
+                    overrides are removed.
                 type: bool
-
       interfaces:
-        description: Defines a list of interface configurations for creation, update, or deletion.
+        description: Defines a list of interface configurations
+          for creation, update, or deletion.
         type: list
         elements: dict
         suboptions:
@@ -804,96 +1298,131 @@ options:
             description:
               - Specifies the name of the Interface.
               - Length should be between  1 to 31 characters.
-              - Required for create, update, and delete operations.
+              - Required for create, update, and delete
+                operations.
             type: str
           vlan_id:
             description:
-              - Specifies the VLAN ID in range is 1 to 4094.
+              - Specifies the VLAN ID in range is 1
+                to 4094.
               - Required for create and update operations.
             type: int
       power_profiles:
         description:
-          - This API allows the user to create a custom Power Profile(s).
-          - Create a Power Profile here and attach it to AP Profiles.
-          - If using as a Regular Power Profile, an Access Point receiving less than required power will function in a derated state as defined
-            by the sequence of rules.
-          - If using as a Calendar Power Profile, all rules take effect simultaneously in the schedule defined in the AP Profile.
-          - If only the interface_type is provided, then default values for the rules based on the interface type are
-            - If the interface_type is "RADIO", default values are as follows
-              - Default "interface_id" is "6GHZ"
-              - Default "parameter_type" is "SPATIALSTREAM"
-              - Default "parameter_value" is "FOUR_BY_FOUR"
-            - If the interface_type is "ETHERNET", default values are as follows
-              - Default "interface_id" is "GIGABITETHERNET0"
-              - Default "parameter_type" is "SPEED"
-              - Default "parameter_value" is "5000MBPS"
-            - If the interface_type is "USB", default values are as follows
-              - Default "interface_id" is "USB0"
-              - Default "parameter_type" is "STATE"
-              - Default "parameter_value" is"DISABLE"
-            - Note - Power Profiles associated to a Access Point Profile cannot be deleted.
+          - This API allows the user to create a custom
+            Power Profile(s).
+          - Create a Power Profile here and attach it
+            to AP Profiles.
+          - If using as a Regular Power Profile, an
+            Access Point receiving less than required
+            power will function in a derated state as
+            defined by the sequence of rules.
+          - If using as a Calendar Power Profile, all
+            rules take effect simultaneously in the
+            schedule defined in the AP Profile.
+          - If only the interface_type is provided,
+            then default values for the rules based
+            on the interface type are - If the interface_type
+            is "RADIO", default values are as follows
+            - Default "interface_id" is "6GHZ" - Default
+            "parameter_type" is "SPATIALSTREAM" - Default
+            "parameter_value" is "FOUR_BY_FOUR" - If
+            the interface_type is "ETHERNET", default
+            values are as follows - Default "interface_id"
+            is "GIGABITETHERNET0" - Default "parameter_type"
+            is "SPEED" - Default "parameter_value" is
+            "5000MBPS" - If the interface_type is "USB",
+            default values are as follows - Default
+            "interface_id" is "USB0" - Default "parameter_type"
+            is "STATE" - Default "parameter_value" is"DISABLE"
+            - Note - Power Profiles associated to a
+            Access Point Profile cannot be deleted.
         type: list
         elements: dict
         suboptions:
           power_profile_name:
             description:
-              - Name of the Power Profile. Max allowed characters is 128.
-              - This parameter is required for add/create/update power profile(s) operation.
+              - Name of the Power Profile. Max allowed
+                characters is 128.
+              - This parameter is required for add/create/update
+                power profile(s) operation.
             type: str
           power_profile_description:
             description:
-              - Description of the Power Profile. Max allowed characters is 128.
-              - The description must not be an empty string or consist solely of whitespace characters.
+              - Description of the Power Profile. Max
+                allowed characters is 128.
+              - The description must not be an empty
+                string or consist solely of whitespace
+                characters.
             type: str
           rules:
-            description: Sequential Ordered List of rules for Power Profile.
+            description: Sequential Ordered List of
+              rules for Power Profile.
             type: list
             elements: dict
             suboptions:
               interface_type:
-                description: Specifies the interface type for the rule.
+                description: Specifies the interface
+                  type for the rule.
                 type: str
                 choices: ["ETHERNET", "RADIO", "USB"]
               interface_id:
                 description:
-                  - Identifies the interface for the rule.
-                  - Valid "interface_id" based on the "interface_type" are as follows
-                    - ETHERNET - "GIGABITETHERNET0", "GIGABITETHERNET1", "LAN1", "LAN2", "LAN3"
-                    - RADIO - "6GHZ", "5GHZ", "SECONDARY_5GHZ", "2_4GHZ"
-                    - USB - "USB0"
+                  - Identifies the interface for the
+                    rule.
+                  - Valid "interface_id" based on the
+                    "interface_type" are as follows
+                    - ETHERNET - "GIGABITETHERNET0",
+                    "GIGABITETHERNET1", "LAN1", "LAN2",
+                    "LAN3" - RADIO - "6GHZ", "5GHZ",
+                    "SECONDARY_5GHZ", "2_4GHZ" - USB
+                    - "USB0"
                 type: str
-                choices: ["GIGABITETHERNET0", "GIGABITETHERNET1", "LAN1", "LAN2", "LAN3", "6GHZ", "5GHZ", "SECONDARY_5GHZ", "2_4GHZ", "USB0"]
+                choices: ["GIGABITETHERNET0", "GIGABITETHERNET1",
+                  "LAN1", "LAN2", "LAN3", "6GHZ", "5GHZ",
+                  "SECONDARY_5GHZ", "2_4GHZ", "USB0"]
               parameter_type:
                 description:
-                  - Defines the parameter type for the rule.
-                  - Valid "parameter_type" based on the "interface_type" are as follows
-                    - ETHERNET
-                      - ETHERNET - GIGABITETHERNET0/GIGABITETHERNET1 - SPEED - 5000MBPS/2500MBPS/1000MBPS/100MBPS
-                      - ETHERNET - LAN1/LAN2/LAN3 - STATE - DISABLE
-                    - RADIO
-                      - RADIO - 6GHZ/5GHZ/SECONDARY_5GHZ/2_4GHZ - STATE - DISABLE
-                      - RADIO - 6GHZ/5GHZ/SECONDARY_5GHZ/2_4GHZ - SPATIALSTREAM - FOUR_BY_FOUR/THREE_BY_THREE/TWO_BY_TWO/ONE_BY_ONE
-                    - USB
-                      - USB - USB0 - STATE - DISABLE
-                choices: ["SPEED", "SPATIALSTREAM", "STATE"]
+                  - Defines the parameter type for the
+                    rule.
+                  - Valid "parameter_type" based on
+                    the "interface_type" are as follows
+                    - ETHERNET - ETHERNET - GIGABITETHERNET0/GIGABITETHERNET1
+                    - SPEED - 5000MBPS/2500MBPS/1000MBPS/100MBPS
+                    - ETHERNET - LAN1/LAN2/LAN3 - STATE
+                    - DISABLE - RADIO - RADIO - 6GHZ/5GHZ/SECONDARY_5GHZ/2_4GHZ
+                    - STATE - DISABLE - RADIO - 6GHZ/5GHZ/SECONDARY_5GHZ/2_4GHZ
+                    - SPATIALSTREAM - FOUR_BY_FOUR/THREE_BY_THREE/TWO_BY_TWO/ONE_BY_ONE
+                    - USB - USB - USB0 - STATE - DISABLE
+                choices: ["SPEED", "SPATIALSTREAM",
+                  "STATE"]
                 type: str
               parameter_value:
                 description:
                   - Parameter Value for the rule.
-                  - Valid "parameter_value" based on the "interface_type" are as follows
-                    - ETHERNET - "5000MBPS", "2500MBPS", "1000MBPS", "100MBPS"
-                    - RADIO - "EIGHT_BY_EIGHT", "FOUR_BY_FOUR", "THREE_BY_THREE", "TWO_BY_TWO", "ONE_BY_ONE"
-                    - USB - "DISABLE"
-                    - The Ethernet Speed Configuration order must be from high to low.
+                  - Valid "parameter_value" based on
+                    the "interface_type" are as follows
+                    - ETHERNET - "5000MBPS", "2500MBPS",
+                    "1000MBPS", "100MBPS" - RADIO -
+                    "EIGHT_BY_EIGHT", "FOUR_BY_FOUR",
+                    "THREE_BY_THREE", "TWO_BY_TWO",
+                    "ONE_BY_ONE" - USB - "DISABLE" -
+                    The Ethernet Speed Configuration
+                    order must be from high to low.
                 type: str
-                choices: ["5000MBPS", "2500MBPS", "1000MBPS", "100MBPS", "EIGHT_BY_EIGHT",
-                          "FOUR_BY_FOUR", "THREE_BY_THREE", "TWO_BY_TWO", "ONE_BY_ONE", "DISABLE"]
-
+                choices: ["5000MBPS", "2500MBPS", "1000MBPS",
+                  "100MBPS", "EIGHT_BY_EIGHT", "FOUR_BY_FOUR",
+                  "THREE_BY_THREE", "TWO_BY_TWO", "ONE_BY_ONE",
+                  "DISABLE"]
       access_point_profiles:
         description:
-          - Access Point Profile is used to manage and provision access points. AP Profiles can be assigned to sites by associating them to Wireless Network
-            Profiles.
-          - When verifying config uses "config_verify" module does not verify password changes, which would include "dot1x_password", "management_password",
+          - Access Point Profile is used to manage and
+            provision access points. AP Profiles can
+            be assigned to sites by associating them
+            to Wireless Network Profiles.
+          - When verifying config uses "config_verify"
+            module does not verify password changes,
+            which would include "dot1x_password", "management_password",
             "management_enable_password".
         type: list
         elements: dict
@@ -902,344 +1431,578 @@ options:
             description:
               - Name of the Access Point profile.
               - Max length is 32 characters.
-              - This parameter required for create/update/delete Access Point profile(s) operation.
+              - This parameter required for create/update/delete
+                Access Point profile(s) operation.
             type: str
           access_point_profile_description:
             description:
-              - Description of the AP profile. Max length is 241 characters.
+              - Description of the AP profile. Max length
+                is 241 characters.
             type: str
           remote_teleworker:
             description:
-              - Enable if this AP Profile is for Remote Teleworker APs or OEAPs.
-              - Indicates if remote worker mode is enabled on the AP.
-              - Remote teleworker enabled profile cannot support security features like aWIPS, Forensic Capture Enablement,
-                Rogue Detection, and Rogue Containment.
+              - Enable if this AP Profile is for Remote
+                Teleworker APs or OEAPs.
+              - Indicates if remote worker mode is enabled
+                on the AP.
+              - Remote teleworker enabled profile cannot
+                support security features like aWIPS,
+                Forensic Capture Enablement, Rogue Detection,
+                and Rogue Containment.
               - Remote teleworker updates are not allowed.
             type: bool
             default: false
           management_settings:
             description:
-              - These settings apply during the PnP claim process and Day-N authentication of APs.
-              - Modifying these settings will impact service for PnP-onboarded APs and will require a factory reset for those APs.
-              - Enables SSH and Telnet for adding credentials to manage the device.
-              - EAP-TLS (Extensible Authentication Protocol - Transport Layer Security) TLS uses certificate-based authentication.
-              - EAP-PEAP (Protected Extensible Authentication Protocol) Enter the username and password, and a certificate will be generated and
-                applied during the PnP claim process.
-              - EAP-FAST (Flexible Authentication via Secure Tunneling) Enter the username and password to be applied during the PnP claim process.
+              - These settings apply during the PnP
+                claim process and Day-N authentication
+                of APs.
+              - Modifying these settings will impact
+                service for PnP-onboarded APs and will
+                require a factory reset for those APs.
+              - Enables SSH and Telnet for adding credentials
+                to manage the device.
+              - EAP-TLS (Extensible Authentication Protocol
+                - Transport Layer Security) TLS uses
+                certificate-based authentication.
+              - EAP-PEAP (Protected Extensible Authentication
+                Protocol) Enter the username and password,
+                and a certificate will be generated
+                and applied during the PnP claim process.
+              - EAP-FAST (Flexible Authentication via
+                Secure Tunneling) Enter the username
+                and password to be applied during the
+                PnP claim process.
             type: dict
             suboptions:
               access_point_authentication:
                 description:
-                  - Authentication type used in the AP profile.
-                  - These settings are applicable during PnP claim and for day-N authentication of AP.
-                  - Changing these settings will be service impacting for the PnP onboarded APs and will need a factory-reset for those APs.
-                  - The "access_point_authentication" must be "NO-AUTH" when "remote_teleworker" is true.
+                  - Authentication type used in the
+                    AP profile.
+                  - These settings are applicable during
+                    PnP claim and for day-N authentication
+                    of AP.
+                  - Changing these settings will be
+                    service impacting for the PnP onboarded
+                    APs and will need a factory-reset
+                    for those APs.
+                  - The "access_point_authentication"
+                    must be "NO-AUTH" when "remote_teleworker"
+                    is true.
                 type: str
                 default: "NO-AUTH"
-                choices: ["NO-AUTH", "EAP-TLS", "EAP-PEAP", "EAP-FAST"]
+                choices: ["NO-AUTH", "EAP-TLS", "EAP-PEAP",
+                  "EAP-FAST"]
               dot1x_username:
                 description:
-                  - Username for 802.1X authentication. "dot1x_username" must have a minimum of 1 character and a maximum of 32 characters.
+                  - Username for 802.1X authentication.
+                    "dot1x_username" must have a minimum
+                    of 1 character and a maximum of
+                    32 characters.
                 type: str
               dot1x_password:
                 description:
-                  - Password for 802.1X authentication. AP "dot1x_password" length should not exceed 120 characters.
-                  - Length must be between 8 and 120 characters.
-                  - In an update operation, the update will happen even if the password is not changed.
-                  - For update operations, if an "dot1x_password" is provided, the update will proceed even if there are no changes to the password.
+                  - Password for 802.1X authentication.
+                    AP "dot1x_password" length should
+                    not exceed 120 characters.
+                  - Length must be between 8 and 120
+                    characters.
+                  - In an update operation, the update
+                    will happen even if the password
+                    is not changed.
+                  - For update operations, if an "dot1x_password"
+                    is provided, the update will proceed
+                    even if there are no changes to
+                    the password.
                 type: str
               ssh_enabled:
                 description:
-                  - Indicates if SSH is enabled on the AP. Enable SSH to add credentials for device management.
+                  - Indicates if SSH is enabled on the
+                    AP. Enable SSH to add credentials
+                    for device management.
                 type: bool
                 default: false
               telnet_enabled:
                 description:
-                  - Indicates if Telnet is enabled on the AP. Enable Telnet to add credentials for device management.
+                  - Indicates if Telnet is enabled on
+                    the AP. Enable Telnet to add credentials
+                    for device management.
                 type: bool
                 default: false
               management_username:
                 description:
-                  - Management username must have a minimum of 1 character and a maximum of 32 characters.
+                  - Management username must have a
+                    minimum of 1 character and a maximum
+                    of 32 characters.
                 type: str
               management_password:
                 description:
-                  - Management password for the AP. Length must be 8 to 120 characters.
-                  - For update operations, if an "management_password" is provided, the update will proceed even if there are no changes to the password.
-                  - The following password policies are recommended, though not mandatory
-                    - Password length should be between 8 and 120 characters.
-                    - Must contain at least one uppercase character.
-                    - Must contain at least one lowercase character.
-                    - Must contain at least one digit.
-                  - What is Not Allowed
-                    - Default passwords (For example, "Cisco") and reverse passwords (For example, "Ocsic")
-                    - Alphabets repeated more than twice in sequence (For example, "ccc")
-                    - Digits repeated more than twice in sequence (For example, "111")
-                    - Sequential alphabets (For example, "abc")
-                    - Sequential digits (For example, "123")
-                  - In an update operation, the update will happen even if the password is not changed.
+                  - Management password for the AP.
+                    Length must be 8 to 120 characters.
+                  - For update operations, if an "management_password"
+                    is provided, the update will proceed
+                    even if there are no changes to
+                    the password.
+                  - The following password policies
+                    are recommended, though not mandatory
+                    - Password length should be between
+                    8 and 120 characters. - Must contain
+                    at least one uppercase character.
+                    - Must contain at least one lowercase
+                    character. - Must contain at least
+                    one digit.
+                  - What is Not Allowed - Default passwords
+                    (For example, "Cisco") and reverse
+                    passwords (For example, "Ocsic")
+                    - Alphabets repeated more than twice
+                    in sequence (For example, "ccc")
+                    - Digits repeated more than twice
+                    in sequence (For example, "111")
+                    - Sequential alphabets (For example,
+                    "abc") - Sequential digits (For
+                    example, "123")
+                  - In an update operation, the update
+                    will happen even if the password
+                    is not changed.
                 type: str
               management_enable_password:
                 description:
-                  - Enable password for managing the AP. Length must be 8 to 120 characters.
-                  - For update operations, if an "management_enable_password" is provided, the update will proceed even if there are no changes to the password.
-                  - The following password policies are recommended, though not mandatory
-                    - Password length should be between 8 and 120 characters.
-                    - Must contain at least one uppercase character.
-                    - Must contain at least one lowercase character.
-                    - Must contain at least one digit.
-                  - What is Not Allowed
-                    - Default passwords (For example, "Cisco") and reverse passwords (For example, "Ocsic")
-                    - Alphabets repeated more than twice in sequence (For example, "ccc")
-                    - Digits repeated more than twice in sequence (For example, "111")
-                    - Sequential alphabets (For example, "abc")
-                    - Sequential digits (For example, "123")
-                  - In an update operation, the update will happen even if the password is not changed.
+                  - Enable password for managing the
+                    AP. Length must be 8 to 120 characters.
+                  - For update operations, if an "management_enable_password"
+                    is provided, the update will proceed
+                    even if there are no changes to
+                    the password.
+                  - The following password policies
+                    are recommended, though not mandatory
+                    - Password length should be between
+                    8 and 120 characters. - Must contain
+                    at least one uppercase character.
+                    - Must contain at least one lowercase
+                    character. - Must contain at least
+                    one digit.
+                  - What is Not Allowed - Default passwords
+                    (For example, "Cisco") and reverse
+                    passwords (For example, "Ocsic")
+                    - Alphabets repeated more than twice
+                    in sequence (For example, "ccc")
+                    - Digits repeated more than twice
+                    in sequence (For example, "111")
+                    - Sequential alphabets (For example,
+                    "abc") - Sequential digits (For
+                    example, "123")
+                  - In an update operation, the update
+                    will happen even if the password
+                    is not changed.
                 type: str
               cdp_state:
                 description:
-                  - Indicates whether CDP (Cisco Discovery Protocol) is enabled on the AP.
-                  - Enabling CDP allows Cisco Access Points to be discovered by neighboring devices and vice versa.
+                  - Indicates whether CDP (Cisco Discovery
+                    Protocol) is enabled on the AP.
+                  - Enabling CDP allows Cisco Access
+                    Points to be discovered by neighboring
+                    devices and vice versa.
                 type: bool
                 default: false
           security_settings:
             description:
-              - Configure security settings for the Access Point.
+              - Configure security settings for the
+                Access Point.
             type: dict
             suboptions:
               awips:
                 description:
-                  - aWIPS (Adaptive Wireless Intrusion Prevention System) is supported from IOS-XE version 17.3.1 and above.
-                  - Indicates whether aWIPS is enabled on the AP.
+                  - aWIPS (Adaptive Wireless Intrusion
+                    Prevention System) is supported
+                    from IOS-XE version 17.3.1 and above.
+                  - Indicates whether aWIPS is enabled
+                    on the AP.
                 type: bool
                 default: false
               awips_forensic:
                 description:
-                  - Forensic Capture is supported from IOS-XE version 17.4 and above.
-                  - Forensic Capture can be activated only if aWIPS is enabled.
-                  - Indicates if AWIPS forensic is enabled on the AP.
+                  - Forensic Capture is supported from
+                    IOS-XE version 17.4 and above.
+                  - Forensic Capture can be activated
+                    only if aWIPS is enabled.
+                  - Indicates if AWIPS forensic is enabled
+                    on the AP.
                 type: bool
                 default: false
               rogue_detection_enabled:
                 description:
-                  - Detects unauthorized Access Points (rogues) that are installed on a secure network without explicit authorization
-                    from a system administrator.
+                  - Detects unauthorized Access Points
+                    (rogues) that are installed on a
+                    secure network without explicit
+                    authorization from a system administrator.
                   - Configures the rogue detection parameters.
-                  - Indicates whether rogue detection is enabled on the AP.
+                  - Indicates whether rogue detection
+                    is enabled on the AP.
                 type: bool
                 default: false
               minimum_rssi:
                 description:
-                  - Specifies the minimum RSSI (Received Signal Strength Indicator) for rogue detection.
-                  - Value should be between -128 to -70 decibel milliwatts.
+                  - Specifies the minimum RSSI (Received
+                    Signal Strength Indicator) for rogue
+                    detection.
+                  - Value should be between -128 to
+                    -70 decibel milliwatts.
                 type: int
                 default: -90
               transient_interval:
                 description:
-                  - Specifies the transient interval for rogue detection.
-                  - This is the duration for which a detected rogue access point is considered transient (temporary) before it is either cleared
-                    or confirmed as rogue.
+                  - Specifies the transient interval
+                    for rogue detection.
+                  - This is the duration for which a
+                    detected rogue access point is considered
+                    transient (temporary) before it
+                    is either cleared or confirmed as
+                    rogue.
                 type: int
                 default: 0
               report_interval:
                 description:
-                  - Specifies the report interval for rogue detection.
-                  - This defines how often rogue access points are reported after detection.
-                  - The value should be between 10 and 300 seconds.
+                  - Specifies the report interval for
+                    rogue detection.
+                  - This defines how often rogue access
+                    points are reported after detection.
+                  - The value should be between 10 and
+                    300 seconds.
                 type: int
                 default: 10
               pmf_denial:
                 description:
-                  - Indicates whether PMF (Protected Management Frames) denial is active on the AP.
-                  - PMF is a security feature that protects management frames such as authentication and association frames in a wireless network.
-                  - When PMF Denial is enabled, the AP blocks PMF-protected frames, which can help mitigate certain types of network attacks but may
-                    limit some security features or device compatibility.
-                  - PMF Denial is supported from IOS-XE version 17.12 and above.
+                  - Indicates whether PMF (Protected
+                    Management Frames) denial is active
+                    on the AP.
+                  - PMF is a security feature that protects
+                    management frames such as authentication
+                    and association frames in a wireless
+                    network.
+                  - When PMF Denial is enabled, the
+                    AP blocks PMF-protected frames,
+                    which can help mitigate certain
+                    types of network attacks but may
+                    limit some security features or
+                    device compatibility.
+                  - PMF Denial is supported from IOS-XE
+                    version 17.12 and above.
                 type: bool
                 default: false
           mesh_enabled:
             description:
-              - This setting indicates whether mesh networking is enabled on the Access Point (AP).
-              - When mesh networking is enabled, a custom mesh profile with the configured parameters will be created and mapped to the AP join profile
-                on the device.
-              - If mesh networking is disabled, any existing custom mesh profile will be deleted from the device, and the AP join profile will revert to the
-                default mesh profile.
-              - Mesh networking allows APs to form a wireless mesh to extend coverage and connect devices in areas where wired connections may not be available.
+              - This setting indicates whether mesh
+                networking is enabled on the Access
+                Point (AP).
+              - When mesh networking is enabled, a custom
+                mesh profile with the configured parameters
+                will be created and mapped to the AP
+                join profile on the device.
+              - If mesh networking is disabled, any
+                existing custom mesh profile will be
+                deleted from the device, and the AP
+                join profile will revert to the default
+                mesh profile.
+              - Mesh networking allows APs to form a
+                wireless mesh to extend coverage and
+                connect devices in areas where wired
+                connections may not be available.
             type: bool
             default: false
           mesh_settings:
             description:
-              - Settings specific to mesh networking configuration. Mesh networking allows Access Points (APs) to communicate with each other
-                wirelessly, extending coverage and improving network performance.
-              - The MAC address of Access Points (APs) in mesh mode must be added to the AP Authorization list to ensure proper communication.
+              - Settings specific to mesh networking
+                configuration. Mesh networking allows
+                Access Points (APs) to communicate with
+                each other wirelessly, extending coverage
+                and improving network performance.
+              - The MAC address of Access Points (APs)
+                in mesh mode must be added to the AP
+                Authorization list to ensure proper
+                communication.
             type: dict
             suboptions:
               range:
                 description:
-                  - The range of the mesh network, which defines the coverage area.
-                  - The value should be between 150 and 132000 meters.
+                  - The range of the mesh network, which
+                    defines the coverage area.
+                  - The value should be between 150
+                    and 132000 meters.
                 type: int
                 default: 12000
               backhaul_client_access:
                 description:
-                  - Indicates whether backhaul client access is enabled on the AP.
-                  - Enabling this allows clients to access the backhaul network.
+                  - Indicates whether backhaul client
+                    access is enabled on the AP.
+                  - Enabling this allows clients to
+                    access the backhaul network.
                 type: bool
                 default: false
               rap_downlink_backhaul:
                 description:
-                  - Specifies the type of downlink backhaul used by the Root Access Point (RAP) to communicate with other Access Points (APs) in a mesh network.
-                  - Options
-                    - "5 GHz" Utilizes the 5 GHz frequency band for backhaul communication, providing higher data rates and generally less interference.
-                    - "2.4 GHz" Uses the 2.4 GHz frequency band for backhaul communication. It is typically used when 5 GHz is not available or for
-                      longer-range connectivity.
-                  - The choice of backhaul impacts the network's overall performance, range, and data throughput. The 5 GHz backhaul is generally preferred
-                    for its higher capacity and reduced interference compared to the 2.4 GHz band.
+                  - Specifies the type of downlink backhaul
+                    used by the Root Access Point (RAP)
+                    to communicate with other Access
+                    Points (APs) in a mesh network.
+                  - Options - "5 GHz" Utilizes the 5
+                    GHz frequency band for backhaul
+                    communication, providing higher
+                    data rates and generally less interference.
+                    - "2.4 GHz" Uses the 2.4 GHz frequency
+                    band for backhaul communication.
+                    It is typically used when 5 GHz
+                    is not available or for longer-range
+                    connectivity.
+                  - The choice of backhaul impacts the
+                    network's overall performance, range,
+                    and data throughput. The 5 GHz backhaul
+                    is generally preferred for its higher
+                    capacity and reduced interference
+                    compared to the 2.4 GHz band.
                 type: str
                 default: "5 GHz"
                 choices: ["5 GHz", "2.4 GHz"]
               ghz_5_backhaul_data_rates:
                 description:
-                  - Specifies the available data rates for the 5 GHz backhaul.
-                  - Defines the communication speed between mesh access points over the 5 GHz frequency band.
+                  - Specifies the available data rates
+                    for the 5 GHz backhaul.
+                  - Defines the communication speed
+                    between mesh access points over
+                    the 5 GHz frequency band.
                 type: str
-                choices: ["auto", "802.11abg", "802.12ac", "802.11ax", "802.11n"]
+                choices: ["auto", "802.11abg", "802.12ac",
+                  "802.11ax", "802.11n"]
                 default: "auto"
               ghz_2_4_backhaul_data_rates:
                 description:
-                  - Specifies the available data rates for the 2.4 GHz backhaul.
-                  - Defines the communication speed between mesh access points over the 2.4 GHz frequency band.
+                  - Specifies the available data rates
+                    for the 2.4 GHz backhaul.
+                  - Defines the communication speed
+                    between mesh access points over
+                    the 2.4 GHz frequency band.
                 type: str
-                choices: ["auto", "802.11abg", "802.11ax", "802.11n"]
+                choices: ["auto", "802.11abg", "802.11ax",
+                  "802.11n"]
                 default: "auto"
               bridge_group_name:
                 description:
-                  - Name of the bridge group for mesh settings.
-                  - The bridge group is responsible for connecting the APs in the mesh network.
-                  - If not configured, the "Default" Bridge group name will be used.
+                  - Name of the bridge group for mesh
+                    settings.
+                  - The bridge group is responsible
+                    for connecting the APs in the mesh
+                    network.
+                  - If not configured, the "Default"
+                    Bridge group name will be used.
                 type: str
                 default: "default"
           power_settings:
             description:
-              - Configure power settings for the Access Point.
+              - Configure power settings for the Access
+                Point.
             type: dict
             suboptions:
               ap_power_profile_name:
                 description:
                   - Name of the existing AP power profile.
-                  - Select the AP Power Profile that should be applied to Access Points.
-                  - If an Access Point does not receive the required power, it will function in a derated state as defined by
-                    the sequence of rules in the Power Profile.
-                  - Only Power profiles with rules will be listed below.
-                  - This setting is applicable only for IOS-XE based Wireless Controllers running 17.10.1 and above.
+                  - Select the AP Power Profile that
+                    should be applied to Access Points.
+                  - If an Access Point does not receive
+                    the required power, it will function
+                    in a derated state as defined by
+                    the sequence of rules in the Power
+                    Profile.
+                  - Only Power profiles with rules will
+                    be listed below.
+                  - This setting is applicable only
+                    for IOS-XE based Wireless Controllers
+                    running 17.10.1 and above.
                 type: str
               calendar_power_profiles:
                 description:
-                  - Select when you would like the Power Profile to be applied to Access Points.
-                  - All rules defined in the Power Profile take effect simultaneously.
-                  - The Start Time and End Time configured below will be applicable based on Time Zone
-                    settings configured in the Additional Tab of AP Profile.
-                  - Represents a calendar-based power profile setting.
-                  - You can map multiple Power Profiles to different calendar schedules based on your requirement.
-                  - Select the AP Power Profile that should be applied to Access Points in power save mode.
-                  - You can map multiple Power Profiles to different calendar schedules based on your requirement.
-                  - All rules defined in the Power Profile take effect simultaneously in the configured schedule.
+                  - Select when you would like the Power
+                    Profile to be applied to Access
+                    Points.
+                  - All rules defined in the Power Profile
+                    take effect simultaneously.
+                  - The Start Time and End Time configured
+                    below will be applicable based on
+                    Time Zone settings configured in
+                    the Additional Tab of AP Profile.
+                  - Represents a calendar-based power
+                    profile setting.
+                  - You can map multiple Power Profiles
+                    to different calendar schedules
+                    based on your requirement.
+                  - Select the AP Power Profile that
+                    should be applied to Access Points
+                    in power save mode.
+                  - You can map multiple Power Profiles
+                    to different calendar schedules
+                    based on your requirement.
+                  - All rules defined in the Power Profile
+                    take effect simultaneously in the
+                    configured schedule.
                 type: list
                 elements: dict
                 suboptions:
                   ap_power_profile_name:
                     description:
-                      - Select the Power Profile that you would like to use.
-                      - Name of the existing AP power profile to be mapped to the calendar power profile.
+                      - Select the Power Profile that
+                        you would like to use.
+                      - Name of the existing AP power
+                        profile to be mapped to the
+                        calendar power profile.
                     type: str
                   scheduler_type:
                     description:
-                      - Type of the scheduler (when the power profile should be applied).
+                      - Type of the scheduler (when
+                        the power profile should be
+                        applied).
                     type: str
                     choices: ["DAILY", "WEEKLY", "MONTHLY"]
                   scheduler_start_time:
                     description:
                       - Start time of the duration setting.
-                      - Supported format is 12-hour clock (AM/PM).
-                      - For example, "12:00 PM", "6:00 AM".
+                      - Supported format is 12-hour
+                        clock (AM/PM).
+                      - For example, "12:00 PM", "6:00
+                        AM".
                     type: str
                   scheduler_end_time:
                     description:
                       - End time of the duration setting.
-                      - Supported format is 12-hour clock (AM/PM).
-                      - For example, "02:00 PM", "9:00 AM".
+                      - Supported format is 12-hour
+                        clock (AM/PM).
+                      - For example, "02:00 PM", "9:00
+                        AM".
                     type: str
                   scheduler_days_list:
-                    description: Applies every week on the selected days.
+                    description: Applies every week
+                      on the selected days.
                     type: list
                     elements: str
-                    choices: ["sunday", "saturday", "tuesday", "wednesday", "thursday", "friday", "monday"]
+                    choices: ["sunday", "saturday",
+                      "tuesday", "wednesday", "thursday",
+                      "friday", "monday"]
                   scheduler_dates_list:
                     description:
-                      - Dates of the duration setting, applicable for MONTHLY schedulers.
+                      - Dates of the duration setting,
+                        applicable for MONTHLY schedulers.
                       - For example, ["2", "9", "28"]
                     type: list
                     elements: str
           country_code:
             description:
-              - Set the country code for ROW Access Points that have no country code configured already.
-              - This setting will not impact the Access Points that already have a country code configured.
+              - Set the country code for ROW Access
+                Points that have no country code configured
+                already.
+              - This setting will not impact the Access
+                Points that already have a country code
+                configured.
             type: str
-            choices: ["Afghanistan", "Albania", "Algeria", "Angola", "Argentina", "Australia", "Austria", "Bahamas", "Bahrain",
-                      "Bangladesh", "Barbados", "Belarus", "Belgium", "Bhutan", "Bolivia", "Bosnia", "Botswana", "Brazil", "Brunei",
-                      "Bulgaria", "Burundi", "Cambodia", "Cameroon", "Canada", "Chile", "China", "Colombia", "Costa Rica", "Croatia",
-                      "Cuba", "Cyprus", "Czech Republic", "Democratic Republic of the Congo", "Denmark", "Dominican Republic",
-                      "Ecuador", "Egypt", "El Salvador", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Georgia", "Germany",
-                      "Ghana", "Gibraltar", "Greece", "Guatemala", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia",
-                      "Iraq", "Ireland", "Isle of Man", "Israel", "Israel (Outdoor)", "Italy", "Ivory Coast (Cote dIvoire)",
-                      "Jamaica", "Japan 2(P)", "Japan 4(Q)", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Korea Extended (CK)",
-                      "Kosovo", "Kuwait", "Laos", "Latvia", "Lebanon", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao",
-                      "Macedonia", "Malaysia", "Malta", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco",
-                      "Myanmar", "Namibia", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Nigeria", "Norway", "Oman", "Pakistan",
-                      "Panama", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Romania", "Russian Federation",
-                      "San Marino", "Saudi Arabia", "Serbia", "Singapore", "Slovak Republic", "Slovenia", "South Africa", "Spain", "Sri Lanka",
-                      "Sudan", "Sweden", "Switzerland", "Taiwan", "Thailand", "Trinidad", "Tunisia", "Turkey", "Uganda", "Ukraine", "United Arab Emirates",
-                      "United Kingdom", "United Republic of Tanzania", "United States", "Uruguay", "Uzbekistan", "Vatican City State",
-                      "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"]
+            choices: ["Afghanistan", "Albania", "Algeria",
+              "Angola", "Argentina", "Australia", "Austria",
+              "Bahamas", "Bahrain", "Bangladesh", "Barbados",
+              "Belarus", "Belgium", "Bhutan", "Bolivia",
+              "Bosnia", "Botswana", "Brazil", "Brunei",
+              "Bulgaria", "Burundi", "Cambodia", "Cameroon",
+              "Canada", "Chile", "China", "Colombia",
+              "Costa Rica", "Croatia", "Cuba", "Cyprus",
+              "Czech Republic", "Democratic Republic
+                of the Congo", "Denmark", "Dominican
+                Republic", "Ecuador", "Egypt", "El Salvador",
+              "Estonia", "Ethiopia", "Fiji", "Finland",
+              "France", "Gabon", "Georgia", "Germany",
+              "Ghana", "Gibraltar", "Greece", "Guatemala",
+              "Honduras", "Hong Kong", "Hungary", "Iceland",
+              "India", "Indonesia", "Iraq", "Ireland",
+              "Isle of Man", "Israel", "Israel (Outdoor)",
+              "Italy", "Ivory Coast (Cote dIvoire)",
+              "Jamaica", "Japan 2(P)", "Japan 4(Q)",
+              "Jersey", "Jordan", "Kazakhstan", "Kenya",
+              "Korea Extended (CK)", "Kosovo", "Kuwait",
+              "Laos", "Latvia", "Lebanon", "Libya",
+              "Liechtenstein", "Lithuania", "Luxembourg",
+              "Macao", "Macedonia", "Malaysia", "Malta",
+              "Mauritius", "Mexico", "Moldova", "Monaco",
+              "Mongolia", "Montenegro", "Morocco", "Myanmar",
+              "Namibia", "Nepal", "Netherlands", "New
+                Zealand", "Nicaragua", "Nigeria", "Norway",
+              "Oman", "Pakistan", "Panama", "Paraguay",
+              "Peru", "Philippines", "Poland", "Portugal",
+              "Puerto Rico", "Qatar", "Romania", "Russian
+                Federation", "San Marino", "Saudi Arabia",
+              "Serbia", "Singapore", "Slovak Republic",
+              "Slovenia", "South Africa", "Spain", "Sri
+                Lanka", "Sudan", "Sweden", "Switzerland",
+              "Taiwan", "Thailand", "Trinidad", "Tunisia",
+              "Turkey", "Uganda", "Ukraine", "United
+                Arab Emirates", "United Kingdom", "United
+                Republic of Tanzania", "United States",
+              "Uruguay", "Uzbekistan", "Vatican City
+                State", "Venezuela", "Vietnam", "Yemen",
+              "Zambia", "Zimbabwe"]
           time_zone:
             description:
-              - In the Time Zone area, choose one of the following options.
-                - Not Configured - APs operate in the UTC time zone.
-                - Controller - APs operate in the Cisco Wireless Controller time zone.
-                - Delta from Controller - APs operate in the offset time from the wireless controller time zone.
-              - Time zone is supported from IOS-XE version 17.6 and above.
-              - When updating "time_zone" from "DELTA FROM CONTROLLER" to "NOT CONFIGURED" or "CONTROLLER", make sure to set "time_zone_offset_hour" and
-                "time_zone_offset_minutes" to 0.
+              - In the Time Zone area, choose one of
+                the following options. - Not Configured
+                - APs operate in the UTC time zone.
+                - Controller - APs operate in the Cisco
+                Wireless Controller time zone. - Delta
+                from Controller - APs operate in the
+                offset time from the wireless controller
+                time zone.
+              - Time zone is supported from IOS-XE version
+                17.6 and above.
+              - When updating "time_zone" from "DELTA
+                FROM CONTROLLER" to "NOT CONFIGURED"
+                or "CONTROLLER", make sure to set "time_zone_offset_hour"
+                and "time_zone_offset_minutes" to 0.
             type: str
-            choices: ["NOT CONFIGURED", "CONTROLLER", "DELTA FROM CONTROLLER"]
+            choices: ["NOT CONFIGURED", "CONTROLLER",
+              "DELTA FROM CONTROLLER"]
             default: "NOT CONFIGURED"
           time_zone_offset_hour:
             description:
-              - Enter the hour value (HH) for the time zone offset.
-              - The value should be between -12 and 14
+              - Enter the hour value (HH) for the time
+                zone offset.
+              - The value should be between -12 and
+                14
             type: int
             default: 0
           time_zone_offset_minutes:
             description:
-              - Enter the minute value (MM) for the time zone offset.
+              - Enter the minute value (MM) for the
+                time zone offset.
               - The value should be between 0 and 59.
             type: int
             default: 0
           maximum_client_limit:
             description:
-              - The maximum number of clients that can be supported.
+              - The maximum number of clients that can
+                be supported.
               - The value should be between 0 and 1200.
             type: int
             default: 0
       radio_frequency_profiles:
         description:
-          - A list of configurations to create, update, or delete Radio Frequency (RF) profiles.
-          - Each profile contains configuration settings for different radio bands (e.g., 2.4 GHz, 5 GHz).
-          - Useful for managing and optimizing wireless network performance, ensuring proper channel allocation and interference management.
-          - The RF profile will be provisioned on the Wireless LAN Controller (WLC) during Access Point (AP) network provisioning or AP Plug and
-            Play (PnP) onboarding.
-          - The RF profile will also be pushed to the WLC when network provisioning occurs and when the RF profile is associated with a network profile
-            configured under advanced settings for AireOS controllers.
+          - A list of configurations to create, update,
+            or delete Radio Frequency (RF) profiles.
+          - Each profile contains configuration settings
+            for different radio bands (e.g., 2.4 GHz,
+            5 GHz).
+          - Useful for managing and optimizing wireless
+            network performance, ensuring proper channel
+            allocation and interference management.
+          - The RF profile will be provisioned on the
+            Wireless LAN Controller (WLC) during Access
+            Point (AP) network provisioning or AP Plug
+            and Play (PnP) onboarding.
+          - The RF profile will also be pushed to the
+            WLC when network provisioning occurs and
+            when the RF profile is associated with a
+            network profile configured under advanced
+            settings for AireOS controllers.
         type: list
         elements: dict
         suboptions:
@@ -1247,289 +2010,503 @@ options:
             description:
               - Name of the radio frequency profile.
               - Unique identifier for the profile.
-              - Required for profile create/update/delete radio frequency profile operations.
+              - Required for profile create/update/delete
+                radio frequency profile operations.
             type: str
           default_rf_profile:
             description:
-              - Indicates if this is the default RF profile.
-              - Boolean value where "true" sets this as default.
+              - Indicates if this is the default RF
+                profile.
+              - Boolean value where "true" sets this
+                as default.
               - Optional, default is "false".
-              - True if RF Profile is default, else false.
-              - Only one RF profile can be marked as default at any given time.
+              - True if RF Profile is default, else
+                false.
+              - Only one RF profile can be marked as
+                default at any given time.
             type: bool
           radio_bands:
             description:
-              - List of radio bands supported by the RF profile.
-              - Includes configuration settings for each band to be enabled for the RF profile.
-              - Radio bands can be selected based on the AP's capabilities and deployment requirements.
+              - List of radio bands supported by the
+                RF profile.
+              - Includes configuration settings for
+                each band to be enabled for the RF profile.
+              - Radio bands can be selected based on
+                the AP's capabilities and deployment
+                requirements.
             type: list
             elements: int
             choices: [2.4, 5, 6]
           radio_bands_2_4ghz_settings:
             description:
-              - Settings specific to the 2.4 GHz radio band.
-              - Includes channels, data rates, and other parameters.
+              - Settings specific to the 2.4 GHz radio
+                band.
+              - Includes channels, data rates, and other
+                parameters.
             type: dict
             suboptions:
               parent_profile:
                 description:
-                  - Parent profile from which settings are inherited.
-                  - Defines baseline configurations for the 2.4 GHz radio band.
+                  - Parent profile from which settings
+                    are inherited.
+                  - Defines baseline configurations
+                    for the 2.4 GHz radio band.
                 type: str
-                choices: ["HIGH", "TYPICAL", "LOW", "CUSTOM"]
+                choices: ["HIGH", "TYPICAL", "LOW",
+                  "CUSTOM"]
                 default: "CUSTOM"
               dca_channels_list:
                 description:
-                  - List of DCA (Dynamic Channel Assignment) channels for the 2.4 GHz band.
-                  - Channels are dynamically assigned based on network conditions to minimize interference.
-                  - DCA ensures that the selected channels have minimal overlap and congestion, improving network performance.
-                  - In the 2.4 GHz band, typically only channels 1, 6, and 11 are non-overlapping and preferred.
-                  - The list includes channels 1 through 14, but the dynamic assignment process helps optimize the usage of these channels
-                    based on the wireless environment.
+                  - List of DCA (Dynamic Channel Assignment)
+                    channels for the 2.4 GHz band.
+                  - Channels are dynamically assigned
+                    based on network conditions to minimize
+                    interference.
+                  - DCA ensures that the selected channels
+                    have minimal overlap and congestion,
+                    improving network performance.
+                  - In the 2.4 GHz band, typically only
+                    channels 1, 6, and 11 are non-overlapping
+                    and preferred.
+                  - The list includes channels 1 through
+                    14, but the dynamic assignment process
+                    helps optimize the usage of these
+                    channels based on the wireless environment.
                 type: list
                 elements: int
-                choices: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                choices: [1, 2, 3, 4, 5, 6, 7, 8, 9,
+                  10, 11, 12, 13, 14]
                 default: [1, 6, 11]
               supported_data_rates_list:
                 description:
-                  - List of supported data rates for the radio band.
-                  - Data rates are specified in Mbps and represent the maximum transmission speed.
-                  - Higher data rates allow for faster communication but require better signal quality.
-                  - Note - If a lower data rate (e.g., 1 Mbps) is selected, all higher data rates (e.g., 2 Mbps, 5.5 Mbps, 6 Mbps, etc.)
-                          should also be selected to allow fallback as signal quality varies.
+                  - List of supported data rates for
+                    the radio band.
+                  - Data rates are specified in Mbps
+                    and represent the maximum transmission
+                    speed.
+                  - Higher data rates allow for faster
+                    communication but require better
+                    signal quality.
+                  - Note - If a lower data rate (e.g.,
+                    1 Mbps) is selected, all higher
+                    data rates (e.g., 2 Mbps, 5.5 Mbps,
+                    6 Mbps, etc.) should also be selected
+                    to allow fallback as signal quality
+                    varies.
                 type: list
                 elements: float
-                choices: [1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54]
-                default: [9, 11, 12, 18, 24, 36, 48, 54]
+                choices: [1, 2, 5.5, 6, 9, 11, 12, 18,
+                  24, 36, 48, 54]
+                default: [9, 11, 12, 18, 24, 36, 48,
+                  54]
               mandatory_data_rates_list:
                 description:
-                  - List of mandatory data rates for the 2.4 GHz band.
-                  - Must be a subset of supported data rates.
-                  - Valid value are [1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54]
+                  - List of mandatory data rates for
+                    the 2.4 GHz band.
+                  - Must be a subset of supported data
+                    rates.
+                  - Valid value are [1, 2, 5.5, 6, 9,
+                    11, 12, 18, 24, 36, 48, 54]
                 type: list
                 elements: float
                 default: [9]
               minimum_power_level:
                 description:
-                  - Minimum power level for the 2.4 GHz band.
-                  - Specified in dBm, affects coverage area.
+                  - Minimum power level for the 2.4
+                    GHz band.
+                  - Specified in dBm, affects coverage
+                    area.
                   - Value should be between -10 to 30.
                 type: int
                 default: 7
               maximum_power_level:
                 description:
-                  - Maximum power level for the 2.4 GHz band.
-                  - Specified in dBm, affects coverage area.
+                  - Maximum power level for the 2.4
+                    GHz band.
+                  - Specified in dBm, affects coverage
+                    area.
                   - Value should be between -10 to 30.
                 type: int
                 default: 30
               rx_sop_threshold:
                 description:
-                  - The RX-SOP (Receiver Start of Packet) threshold defines the signal strength required for the access point (AP) to begin processing
-                    received packets.
-                  - It impacts how sensitive the AP is to weak signals, which in turn affects coverage and interference management.
-                  - This threshold is used to control the signal strength sensitivity of the AP's receiver, helping to determine whether a received signal
+                  - The RX-SOP (Receiver Start of Packet)
+                    threshold defines the signal strength
+                    required for the access point (AP)
+                    to begin processing received packets.
+                  - It impacts how sensitive the AP
+                    is to weak signals, which in turn
+                    affects coverage and interference
+                    management.
+                  - This threshold is used to control
+                    the signal strength sensitivity
+                    of the AP's receiver, helping to
+                    determine whether a received signal
                     is valid or should be ignored.
-                  - A higher RX-SOP threshold means the AP will ignore weaker signals, which can help avoid interference from unwanted, weak signals.
-                  - A lower RX-SOP threshold makes the AP more sensitive to weaker signals, which can improve coverage in low-signal areas but may increase
-                    the risk of processing noise or interference.
-                  - The threshold can be set to one of several predefined values, or customized with a specific signal strength value (in dBm).
-                  - The threshold setting applies to the 2.4 GHz radio band and impacts how packets are received and processed, particularly in environments
-                    with varying signal conditions.
+                  - A higher RX-SOP threshold means
+                    the AP will ignore weaker signals,
+                    which can help avoid interference
+                    from unwanted, weak signals.
+                  - A lower RX-SOP threshold makes the
+                    AP more sensitive to weaker signals,
+                    which can improve coverage in low-signal
+                    areas but may increase the risk
+                    of processing noise or interference.
+                  - The threshold can be set to one
+                    of several predefined values, or
+                    customized with a specific signal
+                    strength value (in dBm).
+                  - The threshold setting applies to
+                    the 2.4 GHz radio band and impacts
+                    how packets are received and processed,
+                    particularly in environments with
+                    varying signal conditions.
                 type: str
-                choices: ["HIGH", "MEDIUM", "LOW", "AUTO", "CUSTOM"]
+                choices: ["HIGH", "MEDIUM", "LOW", "AUTO",
+                  "CUSTOM"]
                 default: "MEDIUM"
               custom_rx_sop_threshold:
                 description:
-                  - The custom RX-SOP threshold allows defining a specific signal strength value (in dBm) when the 'rx_sop_threshold' is set to "CUSTOM".
-                  - This setting enables fine-tuned control over the APs sensitivity to signals, overriding the predefined values of "HIGH", "MEDIUM",
-                    "LOW", or "AUTO".
-                  - The value must be within the range of -85 dBm to -60 dBm.
-                  - A lower value (e.g., closer to -85 dBm) increases sensitivity, while a higher value (e.g., closer to -60 dBm) reduces sensitivity to weak.
+                  - The custom RX-SOP threshold allows
+                    defining a specific signal strength
+                    value (in dBm) when the 'rx_sop_threshold'
+                    is set to "CUSTOM".
+                  - This setting enables fine-tuned
+                    control over the APs sensitivity
+                    to signals, overriding the predefined
+                    values of "HIGH", "MEDIUM", "LOW",
+                    or "AUTO".
+                  - The value must be within the range
+                    of -85 dBm to -60 dBm.
+                  - A lower value (e.g., closer to -85
+                    dBm) increases sensitivity, while
+                    a higher value (e.g., closer to
+                    -60 dBm) reduces sensitivity to
+                    weak.
                 type: int
               tpc_power_threshold:
                 description:
-                  - The TPC power threshold defines the minimum signal strength (in dBm) required for Transmit Power Control (TPC) to adjust the power
+                  - The TPC power threshold defines
+                    the minimum signal strength (in
+                    dBm) required for Transmit Power
+                    Control (TPC) to adjust the power
                     levels for the 2.4 GHz band.
-                  - TPC is used to manage transmit power, ensuring optimal coverage and interference mitigation.
-                  - The value must be between -80 dBm and -50 dBm.
-                  - A value closer to -50 dBm will allow higher transmit power, while a value closer to -80 dBm will reduce the transmit power.
+                  - TPC is used to manage transmit power,
+                    ensuring optimal coverage and interference
+                    mitigation.
+                  - The value must be between -80 dBm
+                    and -50 dBm.
+                  - A value closer to -50 dBm will allow
+                    higher transmit power, while a value
+                    closer to -80 dBm will reduce the
+                    transmit power.
                 type: int
                 default: -70
               coverage_hole_detection:
                 description:
-                  - Coverage hole detection is used to monitor and identify areas with insufficient wireless coverage within the 2.4 GHz band.
-                  - This feature ensures that coverage holes, where signal strength is inadequate, are detected and can be addressed.
-                  - The settings help to adjust network performance by detecting gaps in coverage, particularly for client devices and voice calls.
+                  - Coverage hole detection is used
+                    to monitor and identify areas with
+                    insufficient wireless coverage within
+                    the 2.4 GHz band.
+                  - This feature ensures that coverage
+                    holes, where signal strength is
+                    inadequate, are detected and can
+                    be addressed.
+                  - The settings help to adjust network
+                    performance by detecting gaps in
+                    coverage, particularly for client
+                    devices and voice calls.
                 type: dict
                 suboptions:
                   minimum_client_level:
                     description:
-                      - Defines the minimum number of clients required for a coverage hole to be detected.
-                      - If fewer clients are connected, the detection mechanism will not trigger, as the system assumes coverage is sufficient.
-                      - Value should be between 1 to 200 clients.
+                      - Defines the minimum number of
+                        clients required for a coverage
+                        hole to be detected.
+                      - If fewer clients are connected,
+                        the detection mechanism will
+                        not trigger, as the system assumes
+                        coverage is sufficient.
+                      - Value should be between 1 to
+                        200 clients.
                     type: int
                     default: 3
                   data_rssi_threshold:
                     description:
-                      - Data RSSI (Received Signal Strength Indicator) threshold determines the signal strength level below which the network considers
-                        the coverage to be insufficient for data traffic.
-                      - The value should be between -90 to -60 dBm.
-                      - If the RSSI for data traffic falls below this threshold, a coverage hole is detected.
+                      - Data RSSI (Received Signal Strength
+                        Indicator) threshold determines
+                        the signal strength level below
+                        which the network considers
+                        the coverage to be insufficient
+                        for data traffic.
+                      - The value should be between
+                        -90 to -60 dBm.
+                      - If the RSSI for data traffic
+                        falls below this threshold,
+                        a coverage hole is detected.
                     type: int
                     default: -80
                   voice_rssi_threshold:
                     description:
-                      - Voice RSSI threshold determines the signal strength level below which coverage is considered inadequate for voice traffic.
-                      - The value should be between -90 to -60 dBm.
-                      - If the RSSI for voice traffic falls below this threshold, a coverage hole is detected.
+                      - Voice RSSI threshold determines
+                        the signal strength level below
+                        which coverage is considered
+                        inadequate for voice traffic.
+                      - The value should be between
+                        -90 to -60 dBm.
+                      - If the RSSI for voice traffic
+                        falls below this threshold,
+                        a coverage hole is detected.
                     type: int
                     default: -80
                   exception_level:
                     description:
-                      - The exception level sets the percentage of coverage hole occurrences that are allowed before the system triggers an alert.
-                      - This helps avoid false positives or over-sensitivity in detecting coverage gaps.
-                      - The value should be between 0 to 100.
-                      - A higher value indicates stricter detection of coverage issues.
+                      - The exception level sets the
+                        percentage of coverage hole
+                        occurrences that are allowed
+                        before the system triggers an
+                        alert.
+                      - This helps avoid false positives
+                        or over-sensitivity in detecting
+                        coverage gaps.
+                      - The value should be between
+                        0 to 100.
+                      - A higher value indicates stricter
+                        detection of coverage issues.
                     type: int
                     default: 25
               client_limit:
                 description:
-                  - Maximum number of clients for the 2.4 GHz band.
+                  - Maximum number of clients for the
+                    2.4 GHz band.
                   - Value should be between 0 to 500.
                 type: int
                 default: 200
               spatial_reuse:
                 description:
-                  - Spatial reuse settings for the 2.4 GHz band are used to improve the efficiency of frequency use in areas with multiple devices.
-                  - It helps to manage interference by defining thresholds for non-SRG (Non-Same Radio Group) and SRG (Same Radio Group)
-                    OBSS (Overlapping Basic Service Set) PD (Physical Layer) values.
-                  - Proper configuration can improve network performance by reducing interference and optimizing spectrum usage in dense environments.
+                  - Spatial reuse settings for the 2.4
+                    GHz band are used to improve the
+                    efficiency of frequency use in areas
+                    with multiple devices.
+                  - It helps to manage interference
+                    by defining thresholds for non-SRG
+                    (Non-Same Radio Group) and SRG (Same
+                    Radio Group) OBSS (Overlapping Basic
+                    Service Set) PD (Physical Layer)
+                    values.
+                  - Proper configuration can improve
+                    network performance by reducing
+                    interference and optimizing spectrum
+                    usage in dense environments.
                 type: dict
                 suboptions:
                   non_srg_obss_pd:
                     description:
-                      - Defines whether Non-SRG OBSS PD (Overlapping BSS Power Distribution) is enabled or disabled for 2.4 GHz band.
-                      - Non-SRG OBSS PD controls interference from other devices operating on different channels.
-                      - When enabled, the access points consider power distribution to minimize interference from devices in adjacent BSSs.
+                      - Defines whether Non-SRG OBSS
+                        PD (Overlapping BSS Power Distribution)
+                        is enabled or disabled for 2.4
+                        GHz band.
+                      - Non-SRG OBSS PD controls interference
+                        from other devices operating
+                        on different channels.
+                      - When enabled, the access points
+                        consider power distribution
+                        to minimize interference from
+                        devices in adjacent BSSs.
                     type: bool
                     default: false
                   non_srg_obss_pd_max_threshold:
                     description:
-                      - Sets the maximum threshold for Non-SRG OBSS PD for 2.4 GHz band.
-                      - The value should be between -82 to -62 dBm.
-                      - This threshold determines how much power is allowed for non-SRG OBSS PD to operate without causing excessive interference.
+                      - Sets the maximum threshold for
+                        Non-SRG OBSS PD for 2.4 GHz
+                        band.
+                      - The value should be between
+                        -82 to -62 dBm.
+                      - This threshold determines how
+                        much power is allowed for non-SRG
+                        OBSS PD to operate without causing
+                        excessive interference.
                     type: int
                     default: -62
                   srg_obss_pd:
                     description:
-                      - Defines whether SRG OBSS PD (Same Radio Group OBSS PD) is enabled or disabled for 2.4 GHz band.
-                      - SRG OBSS PD ensures that devices in the same radio group do not interfere with each other, improving overall network efficiency.
+                      - Defines whether SRG OBSS PD
+                        (Same Radio Group OBSS PD) is
+                        enabled or disabled for 2.4
+                        GHz band.
+                      - SRG OBSS PD ensures that devices
+                        in the same radio group do not
+                        interfere with each other, improving
+                        overall network efficiency.
                     type: bool
                     default: false
                   srg_obss_pd_min_threshold:
                     description:
-                      - Sets the minimum threshold for SRG OBSS PD for 2.4 GHz band.
-                      - The value should be between -82 to -62 dB.
-                      - This threshold ensures that interference is minimized within the same radio group by controlling how much power is
-                        allowed for transmission.
+                      - Sets the minimum threshold for
+                        SRG OBSS PD for 2.4 GHz band.
+                      - The value should be between
+                        -82 to -62 dB.
+                      - This threshold ensures that
+                        interference is minimized within
+                        the same radio group by controlling
+                        how much power is allowed for
+                        transmission.
                     type: int
                     default: -82
                   srg_obss_pd_max_threshold:
                     description:
-                      - Sets the maximum threshold for SRG OBSS PD for 2.4 GHz band.
-                      - The value should be between -82 to -62 dBm.
-                      - This threshold limits the amount of power allowed for SRG OBSS PD to avoid excessive interference within the same radio group.
+                      - Sets the maximum threshold for
+                        SRG OBSS PD for 2.4 GHz band.
+                      - The value should be between
+                        -82 to -62 dBm.
+                      - This threshold limits the amount
+                        of power allowed for SRG OBSS
+                        PD to avoid excessive interference
+                        within the same radio group.
                     type: int
                     default: -62
           radio_bands_5ghz_settings:
             description:
-              - 5 GHz radio band settings that include configurations for channel width, data rates, and other related parameters.
-              - Used to manage the wireless performance and optimize the spectrum usage for devices operating on the 5 GHz band.
+              - 5 GHz radio band settings that include
+                configurations for channel width, data
+                rates, and other related parameters.
+              - Used to manage the wireless performance
+                and optimize the spectrum usage for
+                devices operating on the 5 GHz band.
             type: dict
             suboptions:
               parent_profile:
                 description:
-                  - Defines the baseline configuration settings inherited by this profile.
+                  - Defines the baseline configuration
+                    settings inherited by this profile.
                 type: str
                 default: "CUSTOM"
-                choices: ["HIGH", "TYPICAL", "LOW", "CUSTOM"]
+                choices: ["HIGH", "TYPICAL", "LOW",
+                  "CUSTOM"]
               channel_width:
                 description:
-                  - Defines the channel width for the 5 GHz band.
-                  - Channel width impacts available bandwidth, affecting both throughput and interference.
-                  - Options include 20 MHz, 40 MHz, 80 MHz, 160 MHz, and "best," which automatically selects the most optimal width.
+                  - Defines the channel width for the
+                    5 GHz band.
+                  - Channel width impacts available
+                    bandwidth, affecting both throughput
+                    and interference.
+                  - Options include 20 MHz, 40 MHz,
+                    80 MHz, 160 MHz, and "best," which
+                    automatically selects the most optimal
+                    width.
                 type: str
                 default: "best"
                 choices: ["20", "40", "80", "160", "best"]
               preamble_puncturing:
                 description:
-                  - Preamble puncturing reduces interference by removing parts of the preamble in the transmitted signal.
-                  - Defines whether preamble puncturing is enabled or disabled.
-                  - Applicable to Wi-Fi 7 configurations and supported only by IOS devices with version 17.15 or higher.
+                  - Preamble puncturing reduces interference
+                    by removing parts of the preamble
+                    in the transmitted signal.
+                  - Defines whether preamble puncturing
+                    is enabled or disabled.
+                  - Applicable to Wi-Fi 7 configurations
+                    and supported only by IOS devices
+                    with version 17.15 or higher.
                 type: bool
                 default: false
               zero_wait_dfs:
                 description:
-                  - Defines whether zero wait DFS is enabled or disabled.
-                  - DFS (Dynamic Frequency Selection) allows wireless devices to automatically select channels to avoid interference with radar systems.
-                  - Enabling zero wait DFS eliminates the wait time required after detecting radar, allowing for faster channel switching.
+                  - Defines whether zero wait DFS is
+                    enabled or disabled.
+                  - DFS (Dynamic Frequency Selection)
+                    allows wireless devices to automatically
+                    select channels to avoid interference
+                    with radar systems.
+                  - Enabling zero wait DFS eliminates
+                    the wait time required after detecting
+                    radar, allowing for faster channel
+                    switching.
                 type: bool
                 default: false
               dca_channels_list:
                 description:
-                  - List of DCA channels for the 5 GHz band.
-                  - Channels are specified in a list format.
-                  - For channel_width 20 MHz, any combination works.
-                  - For channel_width 40 MHz  [36, 40], [44, 48], [52, 56], [60, 64], [100, 104], [108, 112], [116, 120], [124, 128], [132, 136],
-                    [140, 144], [149, 153], [157, 161], [169, 173].
-                  - For channel_width 80 MHz [36, 40, 44, 48], [52, 56, 60, 64], [100, 104, 108, 112], [116, 120, 124, 128], [132, 136, 140, 144],
-                    [149, 153, 157, 161], [165, 169, 173, 177].
-                  - For channel_width 160 MHz [36, 40, 44, 48, 52, 56, 60, 64], [100, 104, 108, 112, 116, 120, 124, 128],
-                    [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128].
-                  - For channel_width best, any combination works.
+                  - List of DCA channels for the 5 GHz
+                    band.
+                  - Channels are specified in a list
+                    format.
+                  - For channel_width 20 MHz, any combination
+                    works.
+                  - For channel_width 40 MHz  [36, 40],
+                    [44, 48], [52, 56], [60, 64], [100,
+                    104], [108, 112], [116, 120], [124,
+                    128], [132, 136], [140, 144], [149,
+                    153], [157, 161], [169, 173].
+                  - For channel_width 80 MHz [36, 40,
+                    44, 48], [52, 56, 60, 64], [100,
+                    104, 108, 112], [116, 120, 124,
+                    128], [132, 136, 140, 144], [149,
+                    153, 157, 161], [165, 169, 173,
+                    177].
+                  - For channel_width 160 MHz [36, 40,
+                    44, 48, 52, 56, 60, 64], [100, 104,
+                    108, 112, 116, 120, 124, 128], [36,
+                    40, 44, 48, 52, 56, 60, 64, 100,
+                    104, 108, 112, 116, 120, 124, 128].
+                  - For channel_width best, any combination
+                    works.
                 type: list
                 elements: int
-                default: [36, 40, 44, 48, 52, 56, 60, 64, 149, 153, 157, 161]
-                choices: [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173]
+                default: [36, 40, 44, 48, 52, 56, 60,
+                  64, 149, 153, 157, 161]
+                choices: [36, 40, 44, 48, 52, 56, 60,
+                  64, 100, 104, 108, 112, 116, 120,
+                  124, 128, 132, 136, 140, 144, 149,
+                  153, 157, 161, 165, 169, 173]
               supported_data_rates_list:
                 description:
-                  - List of supported data rates for the 5 GHz band.
+                  - List of supported data rates for
+                    the 5 GHz band.
                   - Rates are specified in Mbps.
                 type: list
                 elements: int
-                default: [6, 9, 12, 18, 24, 36, 48, 54]
-                choices: [6, 9, 12, 18, 24, 36, 48, 54]
+                default: [6, 9, 12, 18, 24, 36, 48,
+                  54]
+                choices: [6, 9, 12, 18, 24, 36, 48,
+                  54]
               mandatory_data_rates_list:
                 description:
-                  - List of mandatory data rates for the 5 GHz band.
-                  - Must be a subset of supported data rates.
+                  - List of mandatory data rates for
+                    the 5 GHz band.
+                  - Must be a subset of supported data
+                    rates.
                   - Max 2 allowed.
-                  - Valid values are [6, 9, 12, 18, 24, 36, 48, 54].
+                  - Valid values are [6, 9, 12, 18,
+                    24, 36, 48, 54].
                 type: list
                 elements: int
                 default: [6]
               minimum_power_level:
                 description:
-                  - Minimum power level for the 5 GHz band.
-                  - Specified in dBm, affects coverage area.
+                  - Minimum power level for the 5 GHz
+                    band.
+                  - Specified in dBm, affects coverage
+                    area.
                   - Value should be between -10 to 30.
                 type: int
                 default: -10
               maximum_power_level:
                 description:
-                  - Maximum power level for the 5 GHz band.
-                  - Specified in dBm, affects coverage area.
+                  - Maximum power level for the 5 GHz
+                    band.
+                  - Specified in dBm, affects coverage
+                    area.
                   - Value should be between -10 to 30.
                 type: int
                 default: 30
               rx_sop_threshold:
                 description:
-                  - RX-SOP threshold setting for the 5 GHz band.
+                  - RX-SOP threshold setting for the
+                    5 GHz band.
                   - Defines sensitivity to interference.
                 type: str
                 default: "LOW"
-                choices: ["HIGH", "MEDIUM", "LOW", "AUTO", "CUSTOM"]
+                choices: ["HIGH", "MEDIUM", "LOW", "AUTO",
+                  "CUSTOM"]
               custom_rx_sop_threshold:
                 description:
                   - RX-SOP threshold custom configuration.
@@ -1537,113 +2514,153 @@ options:
                 type: int
               tpc_power_threshold:
                 description:
-                  - TPC power threshold for the 5 GHz band.
+                  - TPC power threshold for the 5 GHz
+                    band.
                   - Used for transmit power control.
                   - Value should be between -80 to -50.
                 type: int
                 default: -60
               coverage_hole_detection:
                 description:
-                  - Coverage hole detection settings for the 5 GHz band.
-                  - Includes thresholds and exception levels.
+                  - Coverage hole detection settings
+                    for the 5 GHz band.
+                  - Includes thresholds and exception
+                    levels.
                 type: dict
                 suboptions:
                   minimum_client_level:
                     description:
-                      - Minimum number of clients for coverage hole detection.
-                      - Value should be between 1 to 200.
+                      - Minimum number of clients for
+                        coverage hole detection.
+                      - Value should be between 1 to
+                        200.
                     type: int
                     default: 3
                   data_rssi_threshold:
                     description:
-                      - Data RSSI threshold for coverage hole detection.
-                      - Value should be between -90 to -60.
+                      - Data RSSI threshold for coverage
+                        hole detection.
+                      - Value should be between -90
+                        to -60.
                     type: int
                     default: -80
                   voice_rssi_threshold:
                     description:
-                      - Voice RSSI threshold for coverage hole detection.
-                      - Value should be between -90 to -60.
+                      - Voice RSSI threshold for coverage
+                        hole detection.
+                      - Value should be between -90
+                        to -60.
                     type: int
                     default: -80
                   exception_level:
                     description:
-                      - Exception level percentage for coverage hole detection.
-                      - Value should be between 0 to 100.
+                      - Exception level percentage for
+                        coverage hole detection.
+                      - Value should be between 0 to
+                        100.
                     type: int
                     default: 25
               client_limit:
                 description:
-                  - Maximum number of clients for the 5 GHz band.
+                  - Maximum number of clients for the
+                    5 GHz band.
                   - Value should be between 1 to 200.
                 type: int
                 default: 200
               flexible_radio_assignment:
                 description:
-                  - Flexible radio assignment settings for the 5 GHz band.
+                  - Flexible radio assignment settings
+                    for the 5 GHz band.
                   - Includes client awareness and selection.
                 type: dict
                 suboptions:
                   client_aware:
-                    description: Enable or disable client awareness.
+                    description: Enable or disable client
+                      awareness.
                     type: bool
                     default: false
                   client_select:
                     description:
                       - Client selection percentage.
-                      - Value should be between 0 to 100.
+                      - Value should be between 0 to
+                        100.
                     type: int
                     default: 50
                   client_reset:
                     description:
                       - Client reset percentage.
-                      - Value should be between 0 to 100.
+                      - Value should be between 0 to
+                        100.
                     type: int
                     default: 5
               spatial_reuse:
                 description:
-                  - Spatial reuse settings for the 5 GHz band are used to improve the efficiency of frequency use in areas with multiple devices.
+                  - Spatial reuse settings for the 5
+                    GHz band are used to improve the
+                    efficiency of frequency use in areas
+                    with multiple devices.
                 type: dict
                 suboptions:
                   non_srg_obss_pd:
                     description:
-                      - Defines whether Non-SRG OBSS PD (Overlapping BSS Power Distribution) is enabled or disabled for 5 GHz band.
+                      - Defines whether Non-SRG OBSS
+                        PD (Overlapping BSS Power Distribution)
+                        is enabled or disabled for 5
+                        GHz band.
                     type: bool
                     default: false
                   non_srg_obss_pd_max_threshold:
                     description:
-                      - Sets the maximum threshold for Non-SRG OBSS PD for 5 GHz band.
-                      - The value should be between -82 to -62 dBm.
+                      - Sets the maximum threshold for
+                        Non-SRG OBSS PD for 5 GHz band.
+                      - The value should be between
+                        -82 to -62 dBm.
                     type: int
                     default: -62
                   srg_obss_pd:
                     description:
-                      - Defines whether SRG OBSS PD (Same Radio Group OBSS PD) is enabled or disabled for 5 GHz band.
-                      - SRG OBSS PD ensures that devices in the same radio group do not interfere with each other, improving overall network efficiency.
+                      - Defines whether SRG OBSS PD
+                        (Same Radio Group OBSS PD) is
+                        enabled or disabled for 5 GHz
+                        band.
+                      - SRG OBSS PD ensures that devices
+                        in the same radio group do not
+                        interfere with each other, improving
+                        overall network efficiency.
                     type: bool
                     default: false
                   srg_obss_pd_min_threshold:
                     description:
-                      - Sets the minimum threshold for SRG OBSS PD for 5 GHz band.
-                      - The value should be between -82 to -62 dB.
-                      - This threshold ensures that interference is minimized within the same radio group by controlling how much power is
-                        allowed for transmission.
+                      - Sets the minimum threshold for
+                        SRG OBSS PD for 5 GHz band.
+                      - The value should be between
+                        -82 to -62 dB.
+                      - This threshold ensures that
+                        interference is minimized within
+                        the same radio group by controlling
+                        how much power is allowed for
+                        transmission.
                     type: int
                     default: -82
                   srg_obss_pd_max_threshold:
                     description:
-                      - Sets the maximum threshold for SRG OBSS PD for 5 GHz band.
-                      - The value should be between -82 to -62 dBm.
+                      - Sets the maximum threshold for
+                        SRG OBSS PD for 5 GHz band.
+                      - The value should be between
+                        -82 to -62 dBm.
                     type: int
                     default: -62
           radio_bands_6ghz_settings:
             description:
-              - Settings specific to the 6 GHz radio band.
-              - Includes channel width, data rates, and more.
+              - Settings specific to the 6 GHz radio
+                band.
+              - Includes channel width, data rates,
+                and more.
             type: dict
             suboptions:
               parent_profile:
-                description: Parent profile of 6 GHz radio band.
+                description: Parent profile of 6 GHz
+                  radio band.
                 type: str
                 default: "CUSTOM"
                 choices: ["CUSTOM"]
@@ -1661,59 +2678,80 @@ options:
               preamble_puncturing:
                 description:
                   - Enable or Disable Preamble Puncturing.
-                  - This Wifi 7 configuration is applicable to wireless IOS devices supporting 17.15 and higher.
+                  - This Wifi 7 configuration is applicable
+                    to wireless IOS devices supporting
+                    17.15 and higher.
                 type: bool
                 default: false
               psc_enforcing_enabled:
-                description: PSC Enforcing Enable for 6 GHz radio band.
+                description: PSC Enforcing Enable for
+                  6 GHz radio band.
                 type: bool
                 default: false
               dca_channels_list:
                 description:
                   - DCA channels of 6 GHz radio band.
-                  - Valid values are [1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101,
-                    105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181,
-                    185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233]
+                  - Valid values are [1, 5, 9, 13, 17,
+                    21, 25, 29, 33, 37, 41, 45, 49,
+                    53, 57, 61, 65, 69, 73, 77, 81,
+                    85, 89, 93, 97, 101, 105, 109, 113,
+                    117, 121, 125, 129, 133, 137, 141,
+                    145, 149, 153, 157, 161, 165, 169,
+                    173, 177, 181, 185, 189, 193, 197,
+                    201, 205, 209, 213, 217, 221, 225,
+                    229, 233]
                 type: list
                 elements: int
-                default: [5, 21, 37, 53, 69, 85, 101, 117, 133, 149, 165, 181, 197, 213, 229]
+                default: [5, 21, 37, 53, 69, 85, 101,
+                  117, 133, 149, 165, 181, 197, 213,
+                  229]
               supported_data_rates_list:
                 description:
                   - Data rates of 6 GHz radio band.
-                  - Valid values [6, 9, 12, 18, 24, 36, 48, 54]
+                  - Valid values [6, 9, 12, 18, 24,
+                    36, 48, 54]
                 type: list
                 elements: int
-                default: [6, 9, 12, 18, 24, 36, 48, 54]
+                default: [6, 9, 12, 18, 24, 36, 48,
+                  54]
               mandatory_data_rates_list:
                 description:
-                  - Mandatory data rates of 6 GHz radio band.
-                  - Must be a subset of selected data rates.
+                  - Mandatory data rates of 6 GHz radio
+                    band.
+                  - Must be a subset of selected data
+                    rates.
                   - Maximum of 2 values.
-                  - Valid values [6, 9, 12, 18, 24, 36, 48, 54].
+                  - Valid values [6, 9, 12, 18, 24,
+                    36, 48, 54].
                 type: list
                 elements: int
                 default: [6]
               standard_power_service:
-                description: True if Standard Power Service is enabled, else false.
+                description: True if Standard Power
+                  Service is enabled, else false.
                 type: bool
                 default: false
               minimum_power_level:
                 description:
-                  - Minimum power level of 6 GHz radio band.
+                  - Minimum power level of 6 GHz radio
+                    band.
                   - Value should be between -10 to 30.
                 type: int
                 default: -10
               maximum_power_level:
                 description:
-                  - Maximum power level of 6 GHz radio band.
+                  - Maximum power level of 6 GHz radio
+                    band.
                   - Value should be between -10 to 30.
                 type: int
                 default: 30
               rx_sop_threshold:
-                description: RX-SOP threshold of 6 GHz radio band.
+                description: RX-SOP threshold of 6 GHz
+                  radio band.
                 type: str
                 default: "AUTO"
-                choices: ["HIGH", "MEDIUM", "LOW", "AUTO", "CUSTOM"]
+                choices: ["HIGH", "MEDIUM", "LOW", "AUTO",
+                  "CUSTOM"]
               custom_rx_sop_threshold:
                 description:
                   - RX-SOP threshold custom configuration.
@@ -1721,70 +2759,90 @@ options:
                 type: int
               tpc_power_threshold:
                 description:
-                  - Specifies the TPC Power threshold of 6 GHz radio band.
+                  - Specifies the TPC Power threshold
+                    of 6 GHz radio band.
                   - Value should be between -80 to -50.
                 type: int
                 default: -70
               coverage_hole_detection:
                 description:
-                  - Coverage hole detection settings for the 6 GHz band.
-                  - Includes thresholds and exception levels.
+                  - Coverage hole detection settings
+                    for the 6 GHz band.
+                  - Includes thresholds and exception
+                    levels.
                 type: dict
                 suboptions:
                   minimum_client_level:
                     description:
-                      - Minimum number of clients for coverage hole detection.
-                      - Value should be between 1 to 200.
+                      - Minimum number of clients for
+                        coverage hole detection.
+                      - Value should be between 1 to
+                        200.
                     type: int
                     default: 3
                   data_rssi_threshold:
                     description:
-                      - Data RSSI threshold for coverage hole detection.
-                      - Value should be between -90 to -60.
+                      - Data RSSI threshold for coverage
+                        hole detection.
+                      - Value should be between -90
+                        to -60.
                     type: int
                     default: -80
                   voice_rssi_threshold:
                     description:
-                      - Voice RSSI threshold for coverage hole detection.
-                      - Value should be between -90 to -60.
+                      - Voice RSSI threshold for coverage
+                        hole detection.
+                      - Value should be between -90
+                        to -60.
                     type: int
                     default: -80
                   exception_level:
                     description:
-                      - Exception level percentage for coverage hole detection.
-                      - Value should be between 0 to 100.
+                      - Exception level percentage for
+                        coverage hole detection.
+                      - Value should be between 0 to
+                        100.
                     type: int
                     default: 25
               client_limit:
                 description:
-                  - Specifies Client Limit of 6 GHz radio band.
+                  - Specifies Client Limit of 6 GHz
+                    radio band.
                   - Value should be between 0 to 500.
                 type: int
                 default: 200
               flexible_radio_assignment:
-                description: Configure Flexible Radio Assignment 6 GHz Properties.
+                description: Configure Flexible Radio
+                  Assignment 6 GHz Properties.
                 type: dict
                 suboptions:
                   client_reset_count:
                     description:
-                      - Specifies the Client Reset Count of 6 GHz radio band.
-                      - Value should be between 1 to 10.
+                      - Specifies the Client Reset Count
+                        of 6 GHz radio band.
+                      - Value should be between 1 to
+                        10.
                     type: int
                     default: 1
                   client_utilization_threshold:
                     description:
-                      - Specifies the Client Utilization Threshold of 6 GHz radio band.
-                      - Value should be between 1 to 100.
+                      - Specifies the Client Utilization
+                        Threshold of 6 GHz radio band.
+                      - Value should be between 1 to
+                        100.
                     type: int
                     default: 5
               discovery_frames_6ghz:
-                description: Discovery Frames of 6 GHz radio band.
+                description: Discovery Frames of 6 GHz
+                  radio band.
                 type: str
                 default: "None"
-                choices: ["None", "Broadcast Probe Response", "FILS Discovery"]
+                choices: ["None", "Broadcast Probe Response",
+                  "FILS Discovery"]
               broadcast_probe_response_interval:
                 description:
-                  - Specifies the Broadcast Probe Response Interval of 6 GHz radio band.
+                  - Specifies the Broadcast Probe Response
+                    Interval of 6 GHz radio band.
                   - Value should be between 5 to 25.
                 type: int
                 default: 20
@@ -1797,19 +2855,27 @@ options:
                     type: dict
                     suboptions:
                       ofdma_downlink:
-                        description: Set "ofdma_downlink" to true to activate OFDMA Downlink.
+                        description: Set "ofdma_downlink"
+                          to true to activate OFDMA
+                          Downlink.
                         type: bool
                         default: false
                       ofdma_uplink:
-                        description: Set "ofdma_uplink" to true to activate OFDMA Uplink.
+                        description: Set "ofdma_uplink"
+                          to true to activate OFDMA
+                          Uplink.
                         type: bool
                         default: false
                       mu_mimo_downlink:
-                        description: Set "mu_mimo_downlink" to true to activate MU-MIMO Uplink.
+                        description: Set "mu_mimo_downlink"
+                          to true to activate MU-MIMO
+                          Uplink.
                         type: bool
                         default: true
                       mu_mimo_uplink:
-                        description:  Set "mu_mimo_uplink" to true to activate MU-MIMO Downlink.
+                        description: Set "mu_mimo_uplink"
+                          to true to activate MU-MIMO
+                          Downlink.
                         type: bool
                         default: true
                   dot_11be_parameters:
@@ -1817,90 +2883,137 @@ options:
                     type: dict
                     suboptions:
                       ofdma_downlink:
-                        description: Set "ofdma_downlink" to true to activate OFDMA Downlink.
+                        description: Set "ofdma_downlink"
+                          to true to activate OFDMA
+                          Downlink.
                         type: bool
                         default: false
                       ofdma_uplink:
-                        description: Set "ofdma_uplink" to true to activate OFDMA Uplink.
+                        description: Set "ofdma_uplink"
+                          to true to activate OFDMA
+                          Uplink.
                         type: bool
                         default: false
                       mu_mimo_downlink:
-                        description: Set "mu_mimo_downlink" to true to activate MU-MIMO Uplink.
+                        description: Set "mu_mimo_downlink"
+                          to true to activate MU-MIMO
+                          Uplink.
                         type: bool
                         default: true
                       mu_mimo_uplink:
-                        description: Set "mu_mimo_uplink" to true to activate MU-MIMO Downlink.
+                        description: Set "mu_mimo_uplink"
+                          to true to activate MU-MIMO
+                          Downlink.
                         type: bool
                         default: true
                       ofdma_multi_ru:
-                        description: Set "ofdma_multi_ru" to true to activate OFDMA Multi-RU.
+                        description: Set "ofdma_multi_ru"
+                          to true to activate OFDMA
+                          Multi-RU.
                         type: bool
                         default: false
                   target_waketime:
-                    description: Set "target_waketime" to true to activate Target Wake Time.
+                    description: Set "target_waketime"
+                      to true to activate Target Wake
+                      Time.
                     type: bool
                     default: false
                   twt_broadcast_support:
-                    description: Set "twt_broadcast_support" to true to activate TWT Broadcast Support.
+                    description: Set "twt_broadcast_support"
+                      to true to activate TWT Broadcast
+                      Support.
                     type: bool
                     default: false
               spatial_reuse:
                 description:
-                  - Spatial reuse settings for the 6 GHz band are used to improve the efficiency of frequency use in areas with multiple devices.
+                  - Spatial reuse settings for the 6
+                    GHz band are used to improve the
+                    efficiency of frequency use in areas
+                    with multiple devices.
                 type: dict
                 suboptions:
                   non_srg_obss_pd:
                     description:
-                      - Defines whether Non-SRG OBSS PD (Overlapping BSS Power Distribution) is enabled or disabled for 6 GHz band.
+                      - Defines whether Non-SRG OBSS
+                        PD (Overlapping BSS Power Distribution)
+                        is enabled or disabled for 6
+                        GHz band.
                     type: bool
                     default: false
                   non_srg_obss_pd_max_threshold:
                     description:
-                      - Sets the maximum threshold for Non-SRG OBSS PD for 6 GHz band.
-                      - The value should be between -82 to -62 dBm.
+                      - Sets the maximum threshold for
+                        Non-SRG OBSS PD for 6 GHz band.
+                      - The value should be between
+                        -82 to -62 dBm.
                     type: int
                     default: -62
                   srg_obss_pd:
                     description:
-                      - Defines whether SRG OBSS PD (Same Radio Group OBSS PD) is enabled or disabled for 6 GHz band.
-                      - SRG OBSS PD ensures that devices in the same radio group do not interfere with each other, improving overall network efficiency.
+                      - Defines whether SRG OBSS PD
+                        (Same Radio Group OBSS PD) is
+                        enabled or disabled for 6 GHz
+                        band.
+                      - SRG OBSS PD ensures that devices
+                        in the same radio group do not
+                        interfere with each other, improving
+                        overall network efficiency.
                     type: bool
                     default: false
                   srg_obss_pd_min_threshold:
                     description:
-                      - Sets the minimum threshold for SRG OBSS PD for 6 GHz band.
-                      - The value should be between -82 to -62 dB.
-                      - This threshold ensures that interference is minimized within the same radio group by controlling how much power
-                        is allowed for transmission.
+                      - Sets the minimum threshold for
+                        SRG OBSS PD for 6 GHz band.
+                      - The value should be between
+                        -82 to -62 dB.
+                      - This threshold ensures that
+                        interference is minimized within
+                        the same radio group by controlling
+                        how much power is allowed for
+                        transmission.
                     type: int
                     default: -82
                   srg_obss_pd_max_threshold:
                     description:
-                      - Sets the maximum threshold for SRG OBSS PD for 6 GHz band.
-                      - The value should be between -82 to -62 dBm.
+                      - Sets the maximum threshold for
+                        SRG OBSS PD for 6 GHz band.
+                      - The value should be between
+                        -82 to -62 dBm.
                     type: int
                     default: -62
       anchor_groups:
         description:
-          - Allows the user to define Anchor Groups and their associated Mobility Anchors.
-          - An Anchor Group represents a collection of mobility anchors, enabling seamless roaming and mobility between different network segments.
+          - Allows the user to define Anchor Groups
+            and their associated Mobility Anchors.
+          - An Anchor Group represents a collection
+            of mobility anchors, enabling seamless roaming
+            and mobility between different network segments.
         type: list
         elements: dict
         suboptions:
           anchor_group_name:
             description:
               - Anchor Group Name.
-              - Must be a string with a minimum length of 1 and maximum length is 32 characters.
-              - Required parameter for anchor groups operations.
+              - Must be a string with a minimum length
+                of 1 and maximum length is 32 characters.
+              - Required parameter for anchor groups
+                operations.
             type: str
           mobility_anchors:
             description:
-              - List of Mobility Anchors associated with the Anchor Group.
-              - This is a required parameter for create or update Anchor Group(s) operation.
-              - If it is a Managed Device i.e., "managed_device" is set to true then required parameters are
-                - "device_name", "device_ip_address", "device_priority" and "managed_device"
-              - If it is a not Managed Device i.e., "managed_device" is set to false then required parameters are
-                - "device_name", "device_ip_address", "device_priority", "managed_device", "device_type"
+              - List of Mobility Anchors associated
+                with the Anchor Group.
+              - This is a required parameter for create
+                or update Anchor Group(s) operation.
+              - If it is a Managed Device i.e., "managed_device"
+                is set to true then required parameters
+                are - "device_name", "device_ip_address",
+                "device_priority" and "managed_device"
+              - If it is a not Managed Device i.e.,
+                "managed_device" is set to false then
+                required parameters are - "device_name",
+                "device_ip_address", "device_priority",
+                "managed_device", "device_type"
             type: list
             elements: dict
             suboptions:
@@ -1909,75 +3022,72 @@ options:
                 type: str
               device_ip_address:
                 description:
-                  - Indicates the Mobility public IP address.
-                  - Allowed formats are "192.168.0.1", "10.0.0.1", "255.255.255.255".
+                  - Indicates the Mobility public IP
+                    address.
+                  - Allowed formats are "192.168.0.1",
+                    "10.0.0.1", "255.255.255.255".
                 type: str
               device_mac_address:
-                description: Peer Device mobility MAC address.
+                description: Peer Device mobility MAC
+                  address.
                 type: str
               device_type:
-                description: Indicates whether the peer device mobility belongs to the AireOS or IOS-XE family.
+                description: Indicates whether the peer
+                  device mobility belongs to the AireOS
+                  or IOS-XE family.
                 type: str
                 choices: ["IOS-XE", "AIREOS"]
               device_priority:
                 description:
                   - Indicates anchor priority.
-                  - Priority values range from 1 (high) to 3 (low).
-                  - Only one priority value is allowed per anchor WLC.
+                  - Priority values range from 1 (high)
+                    to 3 (low).
+                  - Only one priority value is allowed
+                    per anchor WLC.
                 type: int
               device_nat_ip_address:
                 description:
-                  - Indicates the private management IP address.
-                  - Allowed formats are "192.168.0.1", "10.0.0.1", "255.255.255.255".
+                  - Indicates the private management
+                    IP address.
+                  - Allowed formats are "192.168.0.1",
+                    "10.0.0.1", "255.255.255.255".
                 type: str
               mobility_group_name:
                 description:
                   - Peer Device mobility group Name.
-                  - Must be alphanumeric without special characters {{!,<,space,?/'}}.
+                  - Must be alphanumeric without special
+                    characters {{!,<,space,?/'}}.
                   - Maximum of 31 characters.
                 type: str
               managed_device:
                 description:
-                  - Indicates whether the Wireless LAN Controller supporting the Anchor is managed by the Network Controller.
-                  - True means it is managed by the Network Controller.
+                  - Indicates whether the Wireless LAN
+                    Controller supporting the Anchor
+                    is managed by the Network Controller.
+                  - True means it is managed by the
+                    Network Controller.
                 type: bool
-
 requirements:
   - dnacentersdk >= 2.10.3
   - python >= 3.9
-
 notes:
-  - SDK Methods used are
-    - sites.Sites.get_site
-    - site_design.SiteDesigns.get_sites
-    - wirelesss.Wireless.create_ssid
-    - wirelesss.Wireless.update_ssid
-    - wirelesss.Wireless.update_or_overridessid
-    - wirelesss.Wireless.delete_ssid
-    - wirelesss.Wireless.get_interfaces
-    - wirelesss.Wireless.create_interface
-    - wirelesss.Wireless.update_interface
-    - wirelesss.Wireless.delete_interface
-    - wirelesss.Wireless.get_power_profiles
-    - wirelesss.Wireless.create_power_profile
+  - SDK Methods used are - sites.Sites.get_site - site_design.SiteDesigns.get_sites
+    - wirelesss.Wireless.create_ssid - wirelesss.Wireless.update_ssid
+    - wirelesss.Wireless.update_or_overridessid - wirelesss.Wireless.delete_ssid
+    - wirelesss.Wireless.get_interfaces - wirelesss.Wireless.create_interface
+    - wirelesss.Wireless.update_interface - wirelesss.Wireless.delete_interface
+    - wirelesss.Wireless.get_power_profiles - wirelesss.Wireless.create_power_profile
     - wirelesss.Wireless.update_power_profile_by_id
     - wirelesss.Wireless.delete_power_profile_by_id
-    - wirelesss.Wireless.get_ap_profiles
-    - wirelesss.Wireless.create_ap_profile
-    - wirelesss.Wireless.update_ap_profile_by_id
-    - wirelesss.Wireless.delete_ap_profile_by_id
-    - wirelesss.Wireless.get_rf_profiles
-    - wirelesss.Wireless.create_rf_profile
-    - wirelesss.Wireless.update_rf_profile
-    - wirelesss.Wireless.delete_rf_profile
-    - wirelesss.Wireless.get_anchor_groups
-    - wirelesss.Wireless.create_anchor_group
-    - wirelesss.Wireless.update_anchor_group
-    - wirelesss.Wireless.delete_anchor_group_by_id
-
+    - wirelesss.Wireless.get_ap_profiles - wirelesss.Wireless.create_ap_profile
+    - wirelesss.Wireless.update_ap_profile_by_id - wirelesss.Wireless.delete_ap_profile_by_id
+    - wirelesss.Wireless.get_rf_profiles - wirelesss.Wireless.create_rf_profile
+    - wirelesss.Wireless.update_rf_profile - wirelesss.Wireless.delete_rf_profile
+    - wirelesss.Wireless.get_anchor_groups - wirelesss.Wireless.create_anchor_group
+    - wirelesss.Wireless.update_anchor_group - wirelesss.Wireless.delete_anchor_group_by_id
   - Paths used are
-    - GET /dna/intent/api/v1/sites
-    - GET /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids
+    - GET /dna/intent/api/v1/sites -
+    GET /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids
     - POST /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids
     - PUT /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids/${id}
     - POST /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids/${id}/update
@@ -2002,10 +3112,10 @@ notes:
     - POST /dna/intent/api/v1/wirelessSettings/anchorGroups
     - PUT /dna/intent/api/v1/wirelessSettings/anchorGroups/${id}
     - DELETE /dna/intent/api/v1/wirelessSettings/anchorGroups/${id}
-
 """
 
 EXAMPLES = r"""
+---
 - name: Add SSIDs
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -2024,14 +3134,12 @@ EXAMPLES = r"""
             ssid_type: "Enterprise"
             l2_security:
               l2_auth_type: "OPEN"
-
           - ssid_name: "guest_wifi"
             ssid_type: "Guest"
             l2_security:
               l2_auth_type: "OPEN"
             l3_security:
               l3_auth_type: "OPEN"
-
           - ssid_name: "staff_wifi"
             ssid_type: "Enterprise"
             wlan_profile_name: "staff_wifi_profile"
@@ -2072,7 +3180,6 @@ EXAMPLES = r"""
               directed_multicast_service: true
             nas_id: ["AP Location"]
             client_rate_limit: 90000
-
           - ssid_name: "iot_network"
             ssid_type: "Enterprise"
             l2_security:
@@ -2080,9 +3187,9 @@ EXAMPLES = r"""
             fast_transition: "ADAPTIVE"
             fast_transition_over_the_ds: true
             wpa_encryption: ["CCMP128"]
-            auth_key_management: ["CCKM", "802.1X-SHA1", "802.1X-SHA2"]
+            auth_key_management: ["CCKM", "802.1X-SHA1",
+              "802.1X-SHA2"]
             cckm_timestamp_tolerance: 1000
-
           - ssid_name: "secure_psk"
             ssid_type: "Enterprise"
             l2_security:
@@ -2091,7 +3198,6 @@ EXAMPLES = r"""
             fast_transition_over_the_ds: true
             wpa_encryption: ["GCMP256"]
             auth_key_management: ["SUITE-B-192X"]
-
           - ssid_name: "lab_wifi"
             ssid_type: "Enterprise"
             l2_security:
@@ -2099,7 +3205,6 @@ EXAMPLES = r"""
             fast_transition: "DISABLE"
             wpa_encryption: ["GCMP256"]
             auth_key_management: ["SUITE-B-192X"]
-
           - ssid_name: "vip_wifi"
             ssid_type: "Enterprise"
             l2_security:
@@ -2107,9 +3212,9 @@ EXAMPLES = r"""
             fast_transition: "ENABLE"
             fast_transition_over_the_ds: true
             wpa_encryption: ["CCMP128"]
-            auth_key_management: ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"]
+            auth_key_management: ["CCKM", "802.1X-SHA1",
+              "802.1X-SHA2", "FT+802.1x"]
             cckm_timestamp_tolerance: 3000
-
           - ssid_name: "enterprise_secure"
             ssid_type: "Enterprise"
             l2_security:
@@ -2117,8 +3222,8 @@ EXAMPLES = r"""
             fast_transition: "ENABLE"
             fast_transition_over_the_ds: true
             wpa_encryption: ["CCMP128"]
-            auth_key_management: ["802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"]
-
+            auth_key_management: ["802.1X-SHA1", "802.1X-SHA2",
+              "FT+802.1x"]
           - ssid_name: "branch_office_wifi"
             ssid_type: "Enterprise"
             l2_security:
@@ -2127,7 +3232,6 @@ EXAMPLES = r"""
             fast_transition_over_the_ds: true
             wpa_encryption: ["GCMP128"]
             auth_key_management: ["SUITE-B-1X"]
-
           - ssid_name: "conference_wifi"
             ssid_type: "Enterprise"
             l2_security:
@@ -2135,7 +3239,6 @@ EXAMPLES = r"""
             fast_transition: "DISABLE"
             wpa_encryption: ["GCMP256"]
             auth_key_management: ["SUITE-B-192X"]
-
           - ssid_name: "floor1_wifi"
             ssid_type: "Enterprise"
             wlan_profile_name: "floor1_profile"
@@ -2171,17 +3274,18 @@ EXAMPLES = r"""
             nas_id: ["AP Location"]
             client_rate_limit: 90000
             sites_specific_override_settings:
-              - site_name_hierarchy: "Global/USA/San Jose"
+              - site_name_hierarchy: "Global/USA/San
+                  Jose"
                 l2_security:
                   l2_auth_type: "WPA2_PERSONAL"
                   passphrase: "password456"
                 fast_transition: "ENABLE"
                 wpa_encryption: ["CCMP128"]
                 auth_key_management: ["PSK"]
-              - site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+              - site_name_hierarchy: "Global/USA/San
+                  Jose/BLDG23"
                 fast_transition: "DISABLE"
                 client_rate_limit: 9000
-
 - name: Update SSIDs
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -2204,10 +3308,10 @@ EXAMPLES = r"""
             fast_transition: "ENABLE"
             fast_transition_over_the_ds: true
             wpa_encryption: ["CCMP128"]
-            auth_key_management: ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"]
+            auth_key_management: ["CCKM", "802.1X-SHA1",
+              "802.1X-SHA2", "FT+802.1x"]
             cckm_timestamp_tolerance: 3000
             protected_management_frame: "REQUIRED"
-
           - ssid_name: "branch_office_wifi"
             ssid_type: "Enterprise"
             l2_security:
@@ -2218,18 +3322,17 @@ EXAMPLES = r"""
             wpa_encryption: ["GCMP128", "CCMP256", "GCMP256"]
             auth_key_management: ["SUITE-B-1X", "SUITE-B-192X"]
             protected_management_frame: "REQUIRED"
-
           - ssid_name: "guest_wifi"
             ssid_type: "Guest"
             sites_specific_override_settings:
-              - site_name_hierarchy: "Global/USA/San Jose"
+              - site_name_hierarchy: "Global/USA/San
+                  Jose"
                 l2_security:
                   l2_auth_type: "WPA2_PERSONAL"
                   passphrase: "password456"
                 fast_transition: "ENABLE"
                 wpa_encryption: ["CCMP128"]
                 auth_key_management: ["PSK"]
-
 - name: Delete SSIDs
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -2256,9 +3359,9 @@ EXAMPLES = r"""
           - ssid_name: "conference_wifi"
           - ssid_name: "floor1_wifi"
             sites_specific_override_settings:
-              - site_name_hierarchy: "Global/USA/San Jose"
+              - site_name_hierarchy: "Global/USA/San
+                  Jose"
                 remove_override_in_hierarchy: true
-
 - name: Add Interfaces
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -2275,22 +3378,16 @@ EXAMPLES = r"""
       - interfaces:
           - interface_name: "data"
             vlan_id: 1
-
           - interface_name: "voice"
             vlan_id: 2
-
           - interface_name: "guest_access"
             vlan_id: 3
-
           - interface_name: "iot_network"
             vlan_id: 4
-
           - interface_name: "secure_vlan"
             vlan_id: 5
-
           - interface_name: "corporate"
             vlan_id: 6
-
 - name: Update Interfaces
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -2307,16 +3404,12 @@ EXAMPLES = r"""
       - interfaces:
           - interface_name: "data"
             vlan_id: 7
-
           - interface_name: "voice"
             vlan_id: 8
-
           - interface_name: "guest_access"
             vlan_id: 9
-
           - interface_name: "corporate"
             vlan_id: 10
-
 - name: Delete Interfaces
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -2337,7 +3430,6 @@ EXAMPLES = r"""
           - interface_name: "iot_network"
           - interface_name: "secure_vlan"
           - interface_name: "corporate"
-
 - name: Add Power Profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -2357,9 +3449,9 @@ EXAMPLES = r"""
               - interface_type: "USB"
               - interface_type: "RADIO"
               - interface_type: "ETHERNET"
-
           - power_profile_name: "EthernetSpeeds"
-            power_profile_description: "Profile for all Ethernet speed settings."
+            power_profile_description: "Profile for
+              all Ethernet speed settings."
             rules:
               - interface_type: "ETHERNET"
                 interface_id: "GIGABITETHERNET0"
@@ -2393,9 +3485,9 @@ EXAMPLES = r"""
                 interface_id: "GIGABITETHERNET1"
                 parameter_type: "SPEED"
                 parameter_value: "100MBPS"
-
           - power_profile_name: "EthernetState"
-            power_profile_description: "Profile for Ethernet state settings."
+            power_profile_description: "Profile for
+              Ethernet state settings."
             rules:
               - interface_type: "ETHERNET"
                 interface_id: "LAN1"
@@ -2409,9 +3501,9 @@ EXAMPLES = r"""
                 interface_id: "LAN3"
                 parameter_type: "STATE"
                 parameter_value: "DISABLE"
-
           - power_profile_name: "RadioState"
-            power_profile_description: "Profile for radio state settings."
+            power_profile_description: "Profile for
+              radio state settings."
             rules:
               - interface_type: "RADIO"
                 interface_id: "6GHZ"
@@ -2429,9 +3521,9 @@ EXAMPLES = r"""
                 interface_id: "2_4GHZ"
                 parameter_type: "STATE"
                 parameter_value: "DISABLE"
-
           - power_profile_name: "RadioSpatialStream"
-            power_profile_description: "Profile for radio spatial stream settings."
+            power_profile_description: "Profile for
+              radio spatial stream settings."
             rules:
               - interface_type: "RADIO"
                 interface_id: "6GHZ"
@@ -2473,15 +3565,14 @@ EXAMPLES = r"""
                 interface_id: "2_4GHZ"
                 parameter_type: "SPATIALSTREAM"
                 parameter_value: "FOUR_BY_FOUR"
-
           - power_profile_name: "UsbState"
-            power_profile_description: "Profile for USB state settings."
+            power_profile_description: "Profile for
+              USB state settings."
             rules:
               - interface_type: "USB"
                 interface_id: "USB0"
                 parameter_type: "STATE"
                 parameter_value: "DISABLE"
-
 - name: Update Power Profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -2501,7 +3592,6 @@ EXAMPLES = r"""
               - interface_type: "RADIO"
               - interface_type: "ETHERNET"
               - interface_type: "USB"
-
           - power_profile_name: "EthernetSpeeds"
             rules:
               - interface_type: "ETHERNET"
@@ -2516,9 +3606,9 @@ EXAMPLES = r"""
                 interface_id: "GIGABITETHERNET1"
                 parameter_type: "SPEED"
                 parameter_value: "100MBPS"
-
           - power_profile_name: "EthernetState"
-            power_profile_description: "Updated profile for Ethernet state settings."
+            power_profile_description: "Updated profile
+              for Ethernet state settings."
             rules:
               - interface_type: "ETHERNET"
                 interface_id: "LAN3"
@@ -2532,7 +3622,6 @@ EXAMPLES = r"""
                 interface_id: "LAN2"
                 parameter_type: "STATE"
                 parameter_value: "DISABLE"
-
           - power_profile_name: "RadioState"
             rules:
               - interface_type: "RADIO"
@@ -2551,9 +3640,9 @@ EXAMPLES = r"""
                 interface_id: "6GHZ"
                 parameter_type: "STATE"
                 parameter_value: "DISABLE"
-
           - power_profile_name: "RadioSpatialStream"
-            power_profile_description: "Updated profile for radio spatial stream settings."
+            power_profile_description: "Updated profile
+              for radio spatial stream settings."
             rules:
               - interface_type: "RADIO"
                 interface_id: "6GHZ"
@@ -2571,19 +3660,17 @@ EXAMPLES = r"""
                 interface_id: "SECONDARY_5GHZ"
                 parameter_type: "SPATIALSTREAM"
                 parameter_value: "FOUR_BY_FOUR"
-
           - power_profile_name: "UsbState"
-            power_profile_description: "Updated profile for USB state settings."
+            power_profile_description: "Updated profile
+              for USB state settings."
             rules:
               - interface_type: "USB"
                 interface_id: "USB0"
                 parameter_type: "STATE"
                 parameter_value: "DISABLE"
-
           - power_profile_name: "UsbState"
             rules:
               - interface_type: "USB"
-
 - name: Delete Power Profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -2604,7 +3691,6 @@ EXAMPLES = r"""
           - power_profile_name: "RadioState"
           - power_profile_name: "RadioSpatialStream"
           - power_profile_name: "UsbState"
-
 - name: Add Access Point Profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -2620,39 +3706,33 @@ EXAMPLES = r"""
     config:
       - access_point_profiles:
           - access_point_profile_name: "Corporate-Office-AP"
-
           - access_point_profile_name: "Guest-WiFi-AP"
-            access_point_profile_description: "Main office for guest network"
-
+            access_point_profile_description: "Main
+              office for guest network"
           - access_point_profile_name: "Remote-Worker-AP"
-            access_point_profile_description: "Main office AP profile 3"
+            access_point_profile_description: "Main
+              office AP profile 3"
             remote_teleworker: true
-
           - access_point_profile_name: "Branch-Office-AP"
             remote_teleworker: true
-
           - access_point_profile_name: "Warehouse-AP"
             remote_teleworker: true
             management_settings:
               access_point_authentication: "NO-AUTH"
-
           - access_point_profile_name: "Manufacturing-Plant-AP"
             remote_teleworker: false
             management_settings:
               access_point_authentication: "EAP-TLS"
-
           - access_point_profile_name: "Development-AP"
             management_settings:
               access_point_authentication: "EAP-PEAP"
               dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
-
           - access_point_profile_name: "Conference-Room-AP"
             management_settings:
               access_point_authentication: "EAP-FAST"
               dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
-
           - access_point_profile_name: "Lobby-AP"
             remote_teleworker: true
             management_settings:
@@ -2662,7 +3742,6 @@ EXAMPLES = r"""
               management_username: "admin"
               management_password: "securePass"
               management_enable_password: "adflmlssf"
-
           - access_point_profile_name: "Cafeteria-AP"
             management_settings:
               access_point_authentication: "EAP-PEAP"
@@ -2673,13 +3752,11 @@ EXAMPLES = r"""
               management_username: "admin"
               management_password: "securePass"
               management_enable_password: "adflmlssf"
-
           - access_point_profile_name: "Parking-Lot-AP"
             management_settings:
               access_point_authentication: "EAP-TLS"
               ssh_enabled: false
               telnet_enabled: false
-
           - access_point_profile_name: "Outdoor-AP"
             management_settings:
               access_point_authentication: "EAP-PEAP"
@@ -2690,7 +3767,6 @@ EXAMPLES = r"""
               management_username: "admin"
               management_password: "securePass"
               management_enable_password: "adflmlssf"
-
           - access_point_profile_name: "Training-Room-AP"
             security_settings:
               awips: true
@@ -2700,12 +3776,10 @@ EXAMPLES = r"""
               transient_interval: 300
               report_interval: 60
               pmf_denial: false
-
           - access_point_profile_name: "Executive-Office-AP"
             security_settings:
               awips: true
               awips_forensic: true
-
           - access_point_profile_name: "Meeting-Room-AP"
             remote_teleworker: false
             management_settings:
@@ -2725,7 +3799,6 @@ EXAMPLES = r"""
               transient_interval: 300
               report_interval: 60
               pmf_denial: false
-
           - access_point_profile_name: "Reception-AP"
             mesh_enabled: true
             mesh_settings:
@@ -2733,7 +3806,6 @@ EXAMPLES = r"""
               backhaul_client_access: true
               rap_downlink_backhaul: "5 GHz"
               ghz_5_backhaul_data_rates: "802.11ax"
-
           - access_point_profile_name: "Server-Room-AP"
             mesh_enabled: true
             mesh_settings:
@@ -2742,9 +3814,9 @@ EXAMPLES = r"""
               rap_downlink_backhaul: "2.4 GHz"
               ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
-
           - access_point_profile_name: "IT-Department-AP"
-            access_point_profile_description: "Main office AP profile 17"
+            access_point_profile_description: "Main
+              office AP profile 17"
             remote_teleworker: false
             management_settings:
               access_point_authentication: "EAP-PEAP"
@@ -2770,11 +3842,9 @@ EXAMPLES = r"""
               rap_downlink_backhaul: "2.4 GHz"
               ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
-
           - access_point_profile_name: "HR-Department-AP"
             power_settings:
               ap_power_profile_name: "Low-Power-Mode"
-
           - access_point_profile_name: "Finance-Department-AP"
             power_settings:
               ap_power_profile_name: "Low-Power-Mode"
@@ -2783,7 +3853,6 @@ EXAMPLES = r"""
                   scheduler_type: "DAILY"
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
-
           - access_point_profile_name: "Marketing-Department-AP"
             power_settings:
               ap_power_profile_name: "Low-Power-Mode"
@@ -2793,7 +3862,6 @@ EXAMPLES = r"""
                   scheduler_days_list: ["monday", "tuesday"]
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
-
           - access_point_profile_name: "Sales-Department-AP"
             power_settings:
               ap_power_profile_name: "Low-Power-Mode"
@@ -2803,9 +3871,9 @@ EXAMPLES = r"""
                   scheduler_dates_list: ["2", "9", "28"]
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
-
           - access_point_profile_name: "Engineering-Department-AP"
-            access_point_profile_description: "Main office AP profile 22"
+            access_point_profile_description: "Main
+              office AP profile 22"
             remote_teleworker: false
             management_settings:
               access_point_authentication: "EAP-PEAP"
@@ -2838,9 +3906,9 @@ EXAMPLES = r"""
                   scheduler_type: "DAILY"
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
-
           - access_point_profile_name: "Support-Department-AP"
-            access_point_profile_description: "Main office AP profile 23"
+            access_point_profile_description: "Main
+              office AP profile 23"
             remote_teleworker: false
             management_settings:
               access_point_authentication: "EAP-PEAP"
@@ -2874,9 +3942,9 @@ EXAMPLES = r"""
                   scheduler_days_list: ["monday", "tuesday"]
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
-
           - access_point_profile_name: "R&D-Department-AP"
-            access_point_profile_description: "Main office AP profile 24"
+            access_point_profile_description: "Main
+              office AP profile 24"
             management_settings:
               access_point_authentication: "EAP-PEAP"
               dot1x_username: "admin"
@@ -2909,27 +3977,23 @@ EXAMPLES = r"""
                   scheduler_dates_list: ["2", "9", "28"]
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
-
           - access_point_profile_name: "Production-AP"
             country_code: "India"
-
           - access_point_profile_name: "Quality-Control-AP"
             country_code: "Australia"
             time_zone: "NOT CONFIGURED"
             maximum_client_limit: 500
-
           - access_point_profile_name: "Logistics-AP"
             time_zone: "CONTROLLER"
             maximum_client_limit: 1100
-
           - access_point_profile_name: "Security-AP"
             time_zone: "DELTA FROM CONTROLLER"
             time_zone_offset_hour: -11
             time_zone_offset_minutes: 30
             maximum_client_limit: 900
-
           - access_point_profile_name: "Maintenance-AP"
-            access_point_profile_description: "Main office AP profile 29"
+            access_point_profile_description: "Main
+              office AP profile 29"
             management_settings:
               access_point_authentication: "EAP-PEAP"
               dot1x_username: "admin"
@@ -2964,9 +4028,9 @@ EXAMPLES = r"""
             country_code: "Australia"
             time_zone: "NOT CONFIGURED"
             maximum_client_limit: 500
-
           - access_point_profile_name: "Backup-AP"
-            access_point_profile_description: "Main office AP profile 30"
+            access_point_profile_description: "Main
+              office AP profile 30"
             management_settings:
               access_point_authentication: "EAP-PEAP"
               dot1x_username: "admin"
@@ -3001,9 +4065,9 @@ EXAMPLES = r"""
                   scheduler_end_time: "6:00 PM"
             time_zone: "CONTROLLER"
             maximum_client_limit: 1100
-
           - access_point_profile_name: "Testing-AP"
-            access_point_profile_description: "Main office AP profile 31"
+            access_point_profile_description: "Main
+              office AP profile 31"
             management_settings:
               access_point_authentication: "EAP-PEAP"
               dot1x_username: "admin"
@@ -3040,9 +4104,9 @@ EXAMPLES = r"""
             time_zone_offset_hour: -11
             time_zone_offset_minutes: 30
             maximum_client_limit: 900
-
           - access_point_profile_name: "Staging-AP"
-            access_point_profile_description: "Main office AP profile 31"
+            access_point_profile_description: "Main
+              office AP profile 31"
             management_settings:
               access_point_authentication: "EAP-PEAP"
               dot1x_username: "admin"
@@ -3079,7 +4143,6 @@ EXAMPLES = r"""
             time_zone_offset_hour: -11
             time_zone_offset_minutes: 30
             maximum_client_limit: 900
-
 - name: Update Access Point Profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -3095,7 +4158,8 @@ EXAMPLES = r"""
     config:
       - access_point_profiles:
           - access_point_profile_name: "Corporate-Office-AP"
-            access_point_profile_description: "Main office AP profile 1"
+            access_point_profile_description: "Main
+              office AP profile 1"
             management_settings:
               access_point_authentication: "EAP-PEAP"
               dot1x_username: "admin"
@@ -3132,9 +4196,9 @@ EXAMPLES = r"""
             time_zone_offset_hour: -11
             time_zone_offset_minutes: 30
             maximum_client_limit: 900
-
           - access_point_profile_name: "R&D-Department-AP"
-            access_point_profile_description: "Main office AP profile 24"
+            access_point_profile_description: "Main
+              office AP profile 24"
             management_settings:
               access_point_authentication: "EAP-PEAP"
               dot1x_username: "admin"
@@ -3167,15 +4231,14 @@ EXAMPLES = r"""
                   scheduler_dates_list: ["2", "9", "28"]
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
-
       - access_point_profile_name: "Guest-WiFi-AP"
-        access_point_profile_description: "Updated Main office AP profile 2"
-
+        access_point_profile_description: "Updated Main
+          office AP profile 2"
       - access_point_profile_name: "Remote-Worker-AP"
-        access_point_profile_description: "Updated Main office AP profile 3"
+        access_point_profile_description: "Updated Main
+          office AP profile 3"
         management_settings:
           access_point_authentication: "NO-AUTH"
-
       - access_point_profile_name: "Warehouse-AP"
         power_settings:
           calendar_power_profiles:
@@ -3183,13 +4246,11 @@ EXAMPLES = r"""
               scheduler_type: "DAILY"
               scheduler_start_time: "10:00 AM"
               scheduler_end_time: "6:00 PM"
-
       - access_point_profile_name: "Manufacturing-Plant-AP"
         time_zone: "CONTROLLER"
         time_zone_offset_hour: 0
         time_zone_offset_minutes: 0
         maximum_client_limit: 900
-
 - name: Delete Access Point Profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -3237,7 +4298,6 @@ EXAMPLES = r"""
           - access_point_profile_name: "Testing-AP"
           - access_point_profile_name: "Development-AP"
           - access_point_profile_name: "Staging-AP"
-
 - name: Add Radio Frequency Profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -3255,45 +4315,45 @@ EXAMPLES = r"""
           - radio_frequency_profile_name: "rf_profile_2_4ghz_basic"
             default_rf_profile: false
             radio_bands: [2.4]
-
           - radio_frequency_profile_name: "rf_profile_5ghz_basic"
             default_rf_profile: false
             radio_bands: [5]
-
           - radio_frequency_profile_name: "rf_profile_6ghz_basic"
             default_rf_profile: false
             radio_bands: [6]
-
           - radio_frequency_profile_name: "rf_profile_2_4ghz_high_parent"
             default_rf_profile: false
             radio_bands: [2.4]
             radio_bands_2_4ghz_settings:
               parent_profile: "HIGH"
               dca_channels_list: [1, 6, 11]
-              supported_data_rates_list: [11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+              supported_data_rates_list: [11, 12, 18,
+                2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [2, 11]
-
           - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
             default_rf_profile: false
             radio_bands: [5]
             radio_bands_5ghz_settings:
               parent_profile: "TYPICAL"
               channel_width: "160"
-              dca_channels_list: [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128]
-              supported_data_rates_list: [12, 18, 24, 36, 48, 54]
+              dca_channels_list: [36, 40, 44, 48, 52,
+                56, 60, 64, 100, 104, 108, 112, 116,
+                120, 124, 128]
+              supported_data_rates_list: [12, 18, 24,
+                36, 48, 54]
               mandatory_data_rates_list: [24]
-
           - radio_frequency_profile_name: "rf_profile_6ghz_custom"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
-              dca_channels_list: [13, 17, 21, 25, 29, 33, 37, 41]
-              supported_data_rates_list: [6, 9, 12, 18, 24, 36, 48, 54]
+              dca_channels_list: [13, 17, 21, 25, 29,
+                33, 37, 41]
+              supported_data_rates_list: [6, 9, 12,
+                18, 24, 36, 48, 54]
               mandatory_data_rates_list: [6, 9]
               parent_profile: "CUSTOM"
               minimum_dbs_channel_width: 20
               maximum_dbs_channel_width: 160
-
           - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power"
             default_rf_profile: false
             radio_bands: [2.4]
@@ -3302,7 +4362,6 @@ EXAMPLES = r"""
               minimum_power_level: 5
               maximum_power_level: 20
               rx_sop_threshold: "MEDIUM"
-
           - radio_frequency_profile_name: "rf_profile_5ghz_high_limit"
             default_rf_profile: false
             radio_bands: [5]
@@ -3310,15 +4369,14 @@ EXAMPLES = r"""
               parent_profile: "HIGH"
               zero_wait_dfs: true
               client_limit: 50
-
           - radio_frequency_profile_name: "rf_profile_6ghz_psc_enforced"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
               parent_profile: "CUSTOM"
               psc_enforcing_enabled: true
-              discovery_frames_6ghz: "Broadcast Probe Response"
-
+              discovery_frames_6ghz: "Broadcast Probe
+                Response"
           - radio_frequency_profile_name: "rf_profile_2_4_5ghz_typical"
             default_rf_profile: false
             radio_bands: [2.4, 5]
@@ -3330,7 +4388,6 @@ EXAMPLES = r"""
               parent_profile: "TYPICAL"
               channel_width: "20"
               zero_wait_dfs: true
-
           - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed"
             default_rf_profile: false
             radio_bands: [5, 6]
@@ -3343,7 +4400,6 @@ EXAMPLES = r"""
               psc_enforcing_enabled: true
               maximum_dbs_channel_width: 160
               discovery_frames_6ghz: "None"
-
           - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high"
             default_rf_profile: false
             radio_bands: [2.4, 6]
@@ -3356,7 +4412,6 @@ EXAMPLES = r"""
               parent_profile: "CUSTOM"
               minimum_dbs_channel_width: 20
               maximum_dbs_channel_width: 80
-
           - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low"
             default_rf_profile: false
             radio_bands: [2.4, 5, 6]
@@ -3370,7 +4425,6 @@ EXAMPLES = r"""
             radio_bands_6ghz_settings:
               parent_profile: "CUSTOM"
               maximum_dbs_channel_width: 160
-
           - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial"
             default_rf_profile: false
             radio_bands: [2.4, 5, 6]
@@ -3390,7 +4444,6 @@ EXAMPLES = r"""
                 dot_11be_parameters:
                   ofdma_downlink: true
                   mu_mimo_downlink: true
-
           - radio_frequency_profile_name: "rf_profile_5_6ghz_high_limit"
             default_rf_profile: false
             radio_bands: [5, 6]
@@ -3401,7 +4454,6 @@ EXAMPLES = r"""
             radio_bands_6ghz_settings:
               parent_profile: "CUSTOM"
               broadcast_probe_response_interval: 20
-
           - radio_frequency_profile_name: "rf_profile_6ghz_twt_broadcast"
             default_rf_profile: false
             radio_bands: [6]
@@ -3410,14 +4462,14 @@ EXAMPLES = r"""
               multi_bssid:
                 target_waketime: true
                 twt_broadcast_support: true
-
           - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_advanced"
             default_rf_profile: false
             radio_bands: [2.4, 5, 6]
             radio_bands_2_4ghz_settings:
               parent_profile: "LOW"
               dca_channels_list: [1, 6, 11]
-              supported_data_rates_list: [1, 11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+              supported_data_rates_list: [1, 11, 12,
+                18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [1, 2]
               minimum_power_level: 3
               maximum_power_level: 20
@@ -3441,7 +4493,8 @@ EXAMPLES = r"""
               preamble_puncturing: false
               zero_wait_dfs: true
               dca_channels_list: [36, 40, 44, 48]
-              supported_data_rates_list: [6, 9, 12, 18, 24, 36, 48, 54]
+              supported_data_rates_list: [6, 9, 12,
+                18, 24, 36, 48, 54]
               mandatory_data_rates_list: [6]
               minimum_power_level: 5
               maximum_power_level: 30
@@ -3470,7 +4523,8 @@ EXAMPLES = r"""
               preamble_puncturing: true
               psc_enforcing_enabled: true
               dca_channels_list: [37, 53, 69, 85]
-              supported_data_rates_list: [12, 18, 24, 36, 48, 54, 6, 9]
+              supported_data_rates_list: [12, 18, 24,
+                36, 48, 54, 6, 9]
               mandatory_data_rates_list: [6, 12]
               minimum_power_level: 10
               maximum_power_level: 30
@@ -3509,7 +4563,6 @@ EXAMPLES = r"""
                 srg_obss_pd: true
                 srg_obss_pd_min_threshold: -63
                 srg_obss_pd_max_threshold: -62
-
 - name: Update Radio Frequency Profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -3531,7 +4584,6 @@ EXAMPLES = r"""
               parent_profile: "LOW"
               minimum_power_level: 3
               maximum_power_level: 15
-
           - radio_frequency_profile_name: "rf_profile_5ghz_basic"
             default_rf_profile: false
             radio_bands: [5]
@@ -3539,7 +4591,6 @@ EXAMPLES = r"""
               parent_profile: "TYPICAL"
               channel_width: "40"
               zero_wait_dfs: false
-
           - radio_frequency_profile_name: "rf_profile_6ghz_basic"
             default_rf_profile: false
             radio_bands: [6]
@@ -3547,16 +4598,15 @@ EXAMPLES = r"""
               parent_profile: "CUSTOM"
               minimum_dbs_channel_width: 40
               maximum_dbs_channel_width: 80
-
           - radio_frequency_profile_name: "rf_profile_2_4ghz_high_parent"
             default_rf_profile: false
             radio_bands: [2.4]
             radio_bands_2_4ghz_settings:
               parent_profile: "TYPICAL"
               dca_channels_list: [1, 6]
-              supported_data_rates_list: [1, 11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+              supported_data_rates_list: [1, 11, 12,
+                18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [12]
-
           - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
             default_rf_profile: false
             radio_bands: [5]
@@ -3564,9 +4614,9 @@ EXAMPLES = r"""
               parent_profile: "HIGH"
               channel_width: "80"
               dca_channels_list: [52, 56, 60, 64]
-              supported_data_rates_list: [18, 24, 36, 48, 54]
+              supported_data_rates_list: [18, 24, 36,
+                48, 54]
               mandatory_data_rates_list: [24]
-
           - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power"
             default_rf_profile: false
             radio_bands: [2.4]
@@ -3574,7 +4624,6 @@ EXAMPLES = r"""
               parent_profile: "LOW"
               minimum_power_level: 1
               maximum_power_level: 10
-
           - radio_frequency_profile_name: "rf_profile_5ghz_high_limit"
             default_rf_profile: false
             radio_bands: [5]
@@ -3582,7 +4631,6 @@ EXAMPLES = r"""
               parent_profile: "TYPICAL"
               channel_width: "20"
               zero_wait_dfs: true
-
           - radio_frequency_profile_name: "rf_profile_6ghz_psc_enforced"
             default_rf_profile: false
             radio_bands: [6]
@@ -3590,28 +4638,29 @@ EXAMPLES = r"""
               parent_profile: "CUSTOM"
               minimum_dbs_channel_width: 20
               maximum_dbs_channel_width: 40
-
           - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed"
             default_rf_profile: false
             radio_bands: [5]
             radio_bands_5ghz_settings:
               parent_profile: "TYPICAL"
               channel_width: "160"
-              dca_channels_list: [36, 40, 44, 48, 52, 56, 60, 64]
-              supported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
+              dca_channels_list: [36, 40, 44, 48, 52,
+                56, 60, 64]
+              supported_data_rates_list: [12, 24, 36,
+                48, 6, 18, 9, 54]
               mandatory_data_rates_list: [24]
-
           - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
               parent_profile: "CUSTOM"
-              dca_channels_list: [1, 129, 5, 133, 9, 137, 13, 141, 17, 145]
-              supported_data_rates_list: [12, 18, 24, 36, 48, 54, 6, 9]
+              dca_channels_list: [1, 129, 5, 133, 9,
+                137, 13, 141, 17, 145]
+              supported_data_rates_list: [12, 18, 24,
+                36, 48, 54, 6, 9]
               mandatory_data_rates_list: [6, 12]
               minimum_dbs_channel_width: 40
               maximum_dbs_channel_width: 80
-
           - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low"
             default_rf_profile: false
             radio_bands: [2.4]
@@ -3619,7 +4668,6 @@ EXAMPLES = r"""
               parent_profile: "TYPICAL"
               minimum_power_level: 2
               maximum_power_level: 12
-
           - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial"
             default_rf_profile: false
             radio_bands: [5]
@@ -3627,7 +4675,6 @@ EXAMPLES = r"""
               parent_profile: "CUSTOM"
               channel_width: "40"
               zero_wait_dfs: false
-
           - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_advanced"
             default_rf_profile: false
             radio_bands: [5]
@@ -3635,9 +4682,9 @@ EXAMPLES = r"""
               parent_profile: "LOW"
               channel_width: "20"
               dca_channels_list: [36, 44, 48]
-              supported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
+              supported_data_rates_list: [12, 24, 36,
+                48, 6, 18, 9, 54]
               mandatory_data_rates_list: [24]
-
 - name: Delete Radio Frequency Profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -3669,7 +4716,6 @@ EXAMPLES = r"""
           - radio_frequency_profile_name: "rf_profile_5_6ghz_high_limit"
           - radio_frequency_profile_name: "rf_profile_6ghz_twt_broadcast"
           - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_advanced"
-
 - name: Add Anchor Groups
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -3702,7 +4748,6 @@ EXAMPLES = r"""
                 device_nat_ip_address: "10.0.0.11"
                 mobility_group_name: "Enterprise_Mobility_Group"
                 managed_device: false
-
           - anchor_group_name: "Branch_Anchor_Group"
             mobility_anchors:
               - device_name: "WLC_Branch_1"
@@ -3721,7 +4766,6 @@ EXAMPLES = r"""
                 device_nat_ip_address: "10.0.0.13"
                 mobility_group_name: "Branch_Mobility_Group"
                 managed_device: false
-
           - anchor_group_name: DataCenter_Anchor_Group
             mobility_anchors:
               - device_name: "WLC_DC_1"
@@ -3740,7 +4784,6 @@ EXAMPLES = r"""
                 device_nat_ip_address: "10.0.0.15"
                 mobility_group_name: "DataCenter_Mobility_Group"
                 managed_device: false
-
 - name: Update Anchor Groups
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -3773,7 +4816,6 @@ EXAMPLES = r"""
                 device_nat_ip_address: "10.0.0.11"
                 mobility_group_name: "Enterprise_Mobility_Group"
                 managed_device: false
-
           - anchor_group_name: "Branch_Anchor_Group"
             mobility_anchors:
               - device_name: "WLC_Branch_1"
@@ -3796,7 +4838,6 @@ EXAMPLES = r"""
                 device_ip_address: "204.192.6.200"
                 device_priority: 2
                 managed_device: true
-
           - anchor_group_name: "DataCenter_Anchor_Group"
             mobility_anchors:
               - device_name: "WLC_DC_1"
@@ -3807,7 +4848,6 @@ EXAMPLES = r"""
                 device_nat_ip_address: "10.0.0.14"
                 mobility_group_name: "DataCenter_Mobility_Group"
                 managed_device: false
-
 - name: Delete Anchor Groups
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -3842,7 +4882,6 @@ response_1:
         },
       "msg": String
     }
-
 # Case_2: Error Scenario
 response_2:
   description: A string with the response returned by the Cisco Catalyst Center Python SDK

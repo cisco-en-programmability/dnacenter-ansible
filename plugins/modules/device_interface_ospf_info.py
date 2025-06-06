@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: device_interface_ospf_info
-short_description: Information module for Device Interface Ospf Info
+short_description: Information module for Device Interface
+  Ospf
 description:
-  - This module represents an alias of the module device_interface_ospf_v1_info
+  - Get all Device Interface Ospf.
+  - Returns the interfaces that has OSPF enabled.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,16 +24,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetOSPFInterfacesV1
-    description: Complete reference of the GetOSPFInterfacesV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      GetOSPFInterfaces
+    description: Complete reference of the GetOSPFInterfaces
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ospf-interfaces
 notes:
-  - SDK Method used are devices.Devices.get_ospf_interfaces_v1,
-  - Paths used are get /dna/intent/api/v1/interface/ospf,
-  - It should be noted that this module is an alias of device_interface_ospf_v1_info
+  - SDK Method used are
+    devices.Devices.get_ospf_interfaces,
+  - Paths used are
+    get /dna/intent/api/v1/interface/ospf,
 """
+
 EXAMPLES = r"""
-- name: Get all Device Interface Ospf Info
+---
+- name: Get all Device Interface Ospf
   cisco.dnac.device_interface_ospf_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

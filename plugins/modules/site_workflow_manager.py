@@ -11,64 +11,77 @@ DOCUMENTATION = r"""
 module: site_workflow_manager
 short_description: Resource module for Site operations
 description:
-  - Manage operation create, bulk create, update and delete of the resource Sites.
-  - Creates site with area/building/floor with specified hierarchy.
-  - Create multiple sites (area, building, or floor) with specified hierarchies in
-    bulk.
-  - Updates site with area/building/floor with specified hierarchy.
-  - Deletes site with area/building/floor with specified hierarchy.
+  - Manage operation create, bulk create, update and
+    delete of the resource Sites.
+  - Creates site with area/building/floor with specified
+    hierarchy.
+  - Create multiple sites (area, building, or floor)
+    with specified hierarchies in bulk.
+  - Updates site with area/building/floor with specified
+    hierarchy.
+  - Deletes site with area/building/floor with specified
+    hierarchy.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
-  Abhishek Maheshwari (@abhishekmaheshwari) Megha Kandari (@kandarimegha) Sonali Deepthi
-  Kesali (@skesali)
+author: Madhan Sankaranarayanan (@madhansansel) Rishita
+  Chowdhary (@rishitachowdhary) Abhishek Maheshwari
+  (@abhishekmaheshwari) Megha Kandari (@kandarimegha)
+  Sonali Deepthi Kesali (@skesali)
 options:
   config_verify:
-    description: Set to true to verify the Cisco Catalyst Center config after applying
-      the playbook config.
+    description: Set to true to verify the Cisco Catalyst
+      Center config after applying the playbook config.
     type: bool
     default: false
   state:
-    description: The state of Catalyst Center after module completion.
+    description: The state of Catalyst Center after
+      module completion.
     type: str
     choices: [merged, deleted]
     default: merged
   config:
-    description: It represents a list of details for creating/managing/deleting sites,
-      including areas, buildings, and floors.
+    description: It represents a list of details for
+      creating/managing/deleting sites, including areas,
+      buildings, and floors.
     type: list
     elements: dict
     required: true
     suboptions:
       site_type:
-        description: Type of site to create/update/delete (eg area, building, floor).
+        description: Type of site to create/update/delete
+          (eg area, building, floor).
         type: str
       site:
-        description: Contains details about the site being managed including areas,
-          buildings and floors.
+        description: Contains details about the site
+          being managed including areas, buildings and
+          floors.
         type: dict
         suboptions:
           area:
-            description: Configuration details for creating or managing an area within
-              a site.
+            description: Configuration details for creating
+              or managing an area within a site.
             type: dict
             suboptions:
               name:
-                description: Name of the area to be created or managed (e.g., "Area1").
+                description: Name of the area to be
+                  created or managed (e.g., "Area1").
                 type: str
               parent_name:
-                description: The full name of the parent under which the area will
-                  be created/managed/deleted (e.g., "Global/USA").
+                description: The full name of the parent
+                  under which the area will be created/managed/deleted
+                  (e.g., "Global/USA").
                 type: str
           building:
-            description: Configuration details required for creating or managing a
-              building within a site.
+            description: Configuration details required
+              for creating or managing a building within
+              a site.
             type: dict
             suboptions:
               address:
-                description: Physical address of the building that is to be created
-                  or managed.
+                description: Physical address of the
+                  building that is to be created or
+                  managed.
                 type: str
               latitude:
                 description: |
@@ -81,25 +94,32 @@ options:
                   Valid values range from -180.0 to +180.0 degrees.
                 type: float
               name:
-                description: Name of the building (e.g., "Building1").
+                description: Name of the building (e.g.,
+                  "Building1").
                 type: str
               parent_name:
-                description: Hierarchical parent path of the building, indicating
-                  its location within the site (e.g., "Global/USA/San Francisco").
+                description: Hierarchical parent path
+                  of the building, indicating its location
+                  within the site (e.g., "Global/USA/San
+                  Francisco").
                 type: str
           floor:
-            description: Configuration details required for creating or managing a
-              floor within a site.
+            description: Configuration details required
+              for creating or managing a floor within
+              a site.
             type: dict
             suboptions:
               height:
-                description: Height of the floor in feet (e.g., 15.23).
+                description: Height of the floor in
+                  feet (e.g., 15.23).
                 type: float
               length:
-                description: Length of the floor in feet (e.g., 100.11).
+                description: Length of the floor in
+                  feet (e.g., 100.11).
                 type: float
               name:
-                description: Name of the floor (e.g., "Floor-1").
+                description: Name of the floor (e.g.,
+                  "Floor-1").
                 type: str
               parent_name:
                 description: |
@@ -123,7 +143,8 @@ options:
                       and may follow different patterns compared to indoor environments.
                 type: str
               width:
-                description: Width of the floor in feet (e.g., 100.22).
+                description: Width of the floor in feet
+                  (e.g., 100.22).
                 type: float
               floor_number:
                 description: |
@@ -156,17 +177,27 @@ requirements:
   - dnacentersdk == 2.4.5
   - python >= 3.9
 notes:
-  - SDK Method used are sites.Sites.create_site, sites.Sites.update_site, sites.Sites.delete_site
-    site.Sites.create_sites site.Sites.update_a_floor site.Sites.update_a_building
-    site.Sites.update_an_area site.Sites.delete_a_floor site.Sites.delete_a_building
-    site.Sites.delete_an_area site.Sites.get_site_assigned_network_devices
-  - Paths used are POST /dna/intent/api/v1/site, PUT dna/intent/api/v1/site/{siteId},
-    DELETE dna/intent/api/v1/site/{siteId} DELETE/dna/intent/api/v2/buildings/{id}
-    DELETE/dna/intent/api/v1/areas/{id} DELETE/dna/intent/api/v2/floors/{id} PUT/dna/intent/api/v2/floors/{id}
-    PUT/dna/intent/api/v1/areas/{id} PUT/dna/intent/api/v2/buildings/{id} GET/dna/intent/api/v1/sites
-    POST/dna/intent/api/v1/sites/bulk GET/dna/intent/api/v1/networkDevices/assignedToSite
+  - SDK Method used are
+    sites.Sites.create_site,
+    sites.Sites.update_site,
+    sites.Sites.delete_site site.Sites.create_sites
+    site.Sites.update_a_floor site.Sites.update_a_building
+    site.Sites.update_an_area site.Sites.delete_a_floor
+    site.Sites.delete_a_building site.Sites.delete_an_area
+    site.Sites.get_site_assigned_network_devices
+  - Paths used are
+    POST /dna/intent/api/v1/site,
+    PUT
+    dna/intent/api/v1/site/{siteId},
+    DELETE dna/intent/api/v1/site/{siteId}
+    DELETE/dna/intent/api/v2/buildings/{id} DELETE/dna/intent/api/v1/areas/{id}
+    DELETE/dna/intent/api/v2/floors/{id} PUT/dna/intent/api/v2/floors/{id}
+    PUT/dna/intent/api/v1/areas/{id} PUT/dna/intent/api/v2/buildings/{id}
+    GET/dna/intent/api/v1/sites POST/dna/intent/api/v1/sites/bulk
+    GET/dna/intent/api/v1/networkDevices/assignedToSite
 """
 EXAMPLES = r"""
+---
 - name: Create a new area site
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -250,7 +281,8 @@ EXAMPLES = r"""
             width: 35.54
             height: 30.12
         site_type: floor
-- name: Deleting any site you need site name and parent name
+- name: Deleting any site you need site name and parent
+    name
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

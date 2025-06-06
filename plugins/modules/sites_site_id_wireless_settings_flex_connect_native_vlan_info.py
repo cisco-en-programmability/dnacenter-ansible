@@ -1,14 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sites_site_id_wireless_settings_flex_connect_native_vlan_info
-short_description: Information module for Sites Site Id Wireless Settings Flex Connect
-  Native Vlan Info
+short_description: Information module for Sites Site
+  Id Wireless Settings Flex Connect Native Vlan
 description:
-  - This module represents an alias of the module sites_site_id_wireless_settings_flex_connect_native_vlan_v1_info
+  - Get all Sites Site Id Wireless Settings Flex Connect
+    Native Vlan. - > This API allows the user to get
+    all Native VLAN Settings at the given site. The
+    default value of the native VLAN on the device is
+    1 when nothing is explicitly set.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,17 +31,22 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetNativeVlanSettingsBySiteV1
-    description: Complete reference of the GetNativeVlanSettingsBySiteV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-native-vlan-settings-by-site
+  - name: Cisco DNA Center documentation for Wireless
+      GetNativeVlanSettingsBySite
+    description: Complete reference of the GetNativeVlanSettingsBySite
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-native-vlan-settings-by-site
 notes:
-  - SDK Method used are wireless.Wireless.get_native_vlan_settings_by_site_v1,
-  - Paths used are get /dna/intent/api/v1/sites/{siteId}/wirelessSettings/flexConnectNativeVlan,
-  - It should be noted that this module is an alias of sites_site_id_wireless_settings_flex_connect_native_vlan_v1_info
+  - SDK Method used are
+    wireless.Wireless.get_native_vlan_settings_by_site,
+  - Paths used are
+    get /dna/intent/api/v1/sites/{siteId}/wirelessSettings/flexConnectNativeVlan,
 """
+
 EXAMPLES = r"""
-- name: Get all Sites Site Id Wireless Settings Flex Connect Native Vlan Info
+---
+- name: Get all Sites Site Id Wireless Settings Flex
+    Connect Native Vlan
   cisco.dnac.sites_site_id_wireless_settings_flex_connect_native_vlan_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

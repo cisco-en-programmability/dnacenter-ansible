@@ -10,168 +10,216 @@ DOCUMENTATION = r"""
 module: inventory_workflow_manager
 short_description: Resource module for Network Device
 description:
-  - Manage operations create, update and delete of the resource Network Device.
+  - Manage operations create, update and delete of the
+    resource Network Device.
   - Adds the device with given credential.
   - Deletes the network device for the given Id.
   - Sync the devices provided as input.
 version_added: '6.8.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel) Syed
-  Khadeer Ahmed (@syed-khadeerahmed) Ajith andrew j (ajithandrewj)
+author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan
+  (@madhansansel) Syed Khadeer Ahmed (@syed-khadeerahmed)
+  Ajith andrew j (ajithandrewj)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying
-      the playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center config after applying the playbook config.
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: The state of Cisco Catalyst Center
+      after module completion.
     type: str
     choices: [merged, deleted]
     default: merged
   config:
-    description: List of devices with credentails to perform Add/Update/Delete/Resync
-      operation
+    description: List of devices with credentails to
+      perform Add/Update/Delete/Resync operation
     type: list
     elements: dict
     required: true
     suboptions:
       type:
-        description: Select Device's type from NETWORK_DEVICE, COMPUTE_DEVICE, MERAKI_DASHBOARD,
-          THIRD_PARTY_DEVICE, FIREPOWER_MANAGEMENT_SYSTEM. NETWORK_DEVICE - This refers
-          to traditional networking equipment such as routers, switches, access points,
-          and firewalls. These devices are responsible for routing, switching, and
-          providing connectivity within the network. COMPUTE_DEVICE - These are computing
-          resources such as servers, virtual machines, or containers that are part
-          of the network infrastructure. Cisco Catalyst Center can integrate with
-          compute devices to provide visibility and management capabilities, ensuring
-          that the network and compute resources work together seamlessly to support
-          applications and services. MERAKI_DASHBOARD - It is cloud-based platform
-          used to manage Meraki networking devices, including wireless access points,
-          switches, security appliances, and cameras. THIRD_PARTY_DEVICE - This category
-          encompasses devices from vendors other than Cisco or Meraki. Cisco Catalyst
-          Center is designed to support integration with third-party devices through
-          open standards and APIs. This allows organizations to manage heterogeneous
-          network environments efficiently using Cisco Catalyst Center's centralized
-          management and automation capabilities. FIREPOWER_MANAGEMENT_SYSTEM - It
-          is a centralized management console used to manage Cisco's Firepower Next-Generation
-          Firewall (NGFW) devices. It provides features such as policy management,
-          threat detection, and advanced security analytics.
+        description: Select Device's type from NETWORK_DEVICE,
+          COMPUTE_DEVICE, MERAKI_DASHBOARD, THIRD_PARTY_DEVICE,
+          FIREPOWER_MANAGEMENT_SYSTEM. NETWORK_DEVICE
+          - This refers to traditional networking equipment
+          such as routers, switches, access points,
+          and firewalls. These devices are responsible
+          for routing, switching, and providing connectivity
+          within the network. COMPUTE_DEVICE - These
+          are computing resources such as servers, virtual
+          machines, or containers that are part of the
+          network infrastructure. Cisco Catalyst Center
+          can integrate with compute devices to provide
+          visibility and management capabilities, ensuring
+          that the network and compute resources work
+          together seamlessly to support applications
+          and services. MERAKI_DASHBOARD - It is cloud-based
+          platform used to manage Meraki networking
+          devices, including wireless access points,
+          switches, security appliances, and cameras.
+          THIRD_PARTY_DEVICE - This category encompasses
+          devices from vendors other than Cisco or Meraki.
+          Cisco Catalyst Center is designed to support
+          integration with third-party devices through
+          open standards and APIs. This allows organizations
+          to manage heterogeneous network environments
+          efficiently using Cisco Catalyst Center's
+          centralized management and automation capabilities.
+          FIREPOWER_MANAGEMENT_SYSTEM - It is a centralized
+          management console used to manage Cisco's
+          Firepower Next-Generation Firewall (NGFW)
+          devices. It provides features such as policy
+          management, threat detection, and advanced
+          security analytics.
         type: str
         default: "NETWORK_DEVICE"
       cli_transport:
-        description: The essential prerequisite for adding Network devices is the
-          specification of the transport protocol (either ssh or telnet) used by the
-          device.
+        description: The essential prerequisite for
+          adding Network devices is the specification
+          of the transport protocol (either ssh or telnet)
+          used by the device.
         type: str
       compute_device:
-        description: Indicates whether a device is a compute device.
+        description: Indicates whether a device is a
+          compute device.
         type: bool
       password:
-        description: Password for accessing the device and for file encryption during
-          device export. Required for adding Network Device. Also needed for file
-          encryption while exporting device in a csv file.
+        description: Password for accessing the device
+          and for file encryption during device export.
+          Required for adding Network Device. Also needed
+          for file encryption while exporting device
+          in a csv file.
         type: str
       enable_password:
-        description: Password required for enabling configurations on the device.
+        description: Password required for enabling
+          configurations on the device.
         type: str
       extended_discovery_info:
-        description: Additional discovery information for the device.
+        description: Additional discovery information
+          for the device.
         type: str
       http_password:
-        description: HTTP password required for adding compute, Meraki, and Firepower
-          Management Devices.
+        description: HTTP password required for adding
+          compute, Meraki, and Firepower Management
+          Devices.
         type: str
       http_port:
-        description: HTTP port number required for adding compute and Firepower Management
-          Devices.
+        description: HTTP port number required for adding
+          compute and Firepower Management Devices.
         type: str
       http_secure:
         description: Flag indicating HTTP security.
         type: bool
       http_username:
-        description: HTTP username required for adding compute and Firepower Management
-          Devices.
+        description: HTTP username required for adding
+          compute and Firepower Management Devices.
         type: str
       ip_address_list:
-        description: A list of the IP addresses for the devices. It is required for
-          tasks such as adding, updating, deleting, or resyncing devices, with Meraki
-          devices being the exception.
+        description: A list of the IP addresses for
+          the devices. It is required for tasks such
+          as adding, updating, deleting, or resyncing
+          devices, with Meraki devices being the exception.
         elements: str
         type: list
       hostname_list:
-        description: "A list of hostnames representing devices. Operations such as
-          updating, deleting, resyncing, or rebooting can be performed as alternatives
-          to using IP addresses."
+        description: "A list of hostnames representing
+          devices. Operations such as updating, deleting,
+          resyncing, or rebooting can be performed as
+          alternatives to using IP addresses."
         type: list
         elements: str
       serial_number_list:
-        description: A list of serial numbers representing devices. Operations such
-          as updating, deleting, resyncing, or rebooting can be performed as alternatives
-          to using IP addresses.
+        description: A list of serial numbers representing
+          devices. Operations such as updating, deleting,
+          resyncing, or rebooting can be performed as
+          alternatives to using IP addresses.
         type: list
         elements: str
       mac_address_list:
-        description: "A list of MAC addresses representing devices. Operations such
-          as updating, deleting, resyncing, or rebooting can be performed as alternatives
-          to using IP addresses."
+        description: "A list of MAC addresses representing
+          devices. Operations such as updating, deleting,
+          resyncing, or rebooting can be performed as
+          alternatives to using IP addresses."
         type: list
         elements: str
       netconf_port:
-        description: Specifies the port number for connecting to devices using the
-          Netconf protocol. Netconf (Network Configuration Protocol) is used for managing
-          network devices. Ensure that the provided port number corresponds to the
-          Netconf service port configured on your network devices. NETCONF with user
-          privilege 15 is mandatory for enabling Wireless Services on Wireless capable
-          devices such as Catalyst 9000 series Switches and C9800 Series Wireless
-          Controllers. The NETCONF credentials are required to connect to C9800 Series
-          Wireless Controllers as the majority of data collection is done using NETCONF
-          for these Devices.
+        description: Specifies the port number for connecting
+          to devices using the Netconf protocol. Netconf
+          (Network Configuration Protocol) is used for
+          managing network devices. Ensure that the
+          provided port number corresponds to the Netconf
+          service port configured on your network devices.
+          NETCONF with user privilege 15 is mandatory
+          for enabling Wireless Services on Wireless
+          capable devices such as Catalyst 9000 series
+          Switches and C9800 Series Wireless Controllers.
+          The NETCONF credentials are required to connect
+          to C9800 Series Wireless Controllers as the
+          majority of data collection is done using
+          NETCONF for these Devices.
         type: str
       username:
-        description: Username for accessing the device. Required for Adding Network
-          Device.
+        description: Username for accessing the device.
+          Required for Adding Network Device.
         type: str
       snmp_auth_passphrase:
-        description: SNMP authentication passphrase required for adding network, compute,
-          and third-party devices.
+        description: SNMP authentication passphrase
+          required for adding network, compute, and
+          third-party devices.
         type: str
       snmp_auth_protocol:
-        description: SNMP authentication protocol. SHA (Secure Hash Algorithm) - cryptographic
-          hash function commonly used for data integrity verification and authentication
-          purposes.
+        description: SNMP authentication protocol. SHA
+          (Secure Hash Algorithm) - cryptographic hash
+          function commonly used for data integrity
+          verification and authentication purposes.
         type: str
         default: "SHA"
       snmp_mode:
-        description: Device's snmp Mode refer to different SNMP (Simple Network Management
-          Protocol) versions and their corresponding security levels. NOAUTHNOPRIV
-          - This mode provides no authentication or encryption for SNMP messages.
-          It means that devices communicating using SNMPv1 do not require any authentication
-          (username/password) or encryption (data confidentiality). This makes it
-          the least secure option. AUTHNOPRIV - This mode provides authentication
-          but no encryption for SNMP messages. Authentication involves validating
-          the source of the SNMP messages using a community string (similar to a password).
-          However, the data transmitted between devices is not encrypted, so it's
-          susceptible to eavesdropping. AUTHPRIV - This mode provides both authentication
-          and encryption for SNMP messages. It offers the highest level of security
-          among the three options. Authentication ensures that the source of the messages
-          is genuine, and encryption ensures that the data exchanged between devices
-          is confidential and cannot be intercepted by unauthorized parties.
+        description: Device's snmp Mode refer to different
+          SNMP (Simple Network Management Protocol)
+          versions and their corresponding security
+          levels. NOAUTHNOPRIV - This mode provides
+          no authentication or encryption for SNMP messages.
+          It means that devices communicating using
+          SNMPv1 do not require any authentication (username/password)
+          or encryption (data confidentiality). This
+          makes it the least secure option. AUTHNOPRIV
+          - This mode provides authentication but no
+          encryption for SNMP messages. Authentication
+          involves validating the source of the SNMP
+          messages using a community string (similar
+          to a password). However, the data transmitted
+          between devices is not encrypted, so it's
+          susceptible to eavesdropping. AUTHPRIV - This
+          mode provides both authentication and encryption
+          for SNMP messages. It offers the highest level
+          of security among the three options. Authentication
+          ensures that the source of the messages is
+          genuine, and encryption ensures that the data
+          exchanged between devices is confidential
+          and cannot be intercepted by unauthorized
+          parties.
         type: str
       snmp_priv_passphrase:
-        description: SNMP private passphrase required for adding network, compute,
-          and third-party devices.
+        description: SNMP private passphrase required
+          for adding network, compute, and third-party
+          devices.
         type: str
       snmp_priv_protocol:
-        description: SNMP private protocol required for adding network, compute, and
-          third-party devices.
+        description: SNMP private protocol required
+          for adding network, compute, and third-party
+          devices.
         type: str
       snmp_ro_community:
-        description: SNMP Read-Only community required for adding V2C devices.
+        description: SNMP Read-Only community required
+          for adding V2C devices.
         type: str
       snmp_rw_community:
-        description: SNMP Read-Write community required for adding V2C devices.
+        description: SNMP Read-Write community required
+          for adding V2C devices.
         type: str
       snmp_retry:
         description: SNMP retry count.
@@ -182,22 +230,28 @@ options:
         type: int
         default: 5
       snmp_username:
-        description: SNMP username required for adding network, compute, and third-party
-          devices.
+        description: SNMP username required for adding
+          network, compute, and third-party devices.
         type: str
       snmp_version:
-        description: It is a standard protocol used for managing and monitoring network
-          devices. v2 - In this communication between the SNMP manager (such as Cisco
-          Catalyst) and the managed devices (such as routers, switches, or access
-          points) is based on community strings.Community strings serve as form of
-          authentication and they are transmitted in clear text, providing no encryption.
-          v3 - It is the most secure version of SNMP, providing authentication, integrity,
-          and encryption features. It allows for the use of usernames, authentication
-          passwords, and encryption keys, providing stronger security compared to
-          v2.
+        description: It is a standard protocol used
+          for managing and monitoring network devices.
+          v2 - In this communication between the SNMP
+          manager (such as Cisco Catalyst) and the managed
+          devices (such as routers, switches, or access
+          points) is based on community strings.Community
+          strings serve as form of authentication and
+          they are transmitted in clear text, providing
+          no encryption. v3 - It is the most secure
+          version of SNMP, providing authentication,
+          integrity, and encryption features. It allows
+          for the use of usernames, authentication passwords,
+          and encryption keys, providing stronger security
+          compared to v2.
         type: str
       update_mgmt_ipaddresslist:
-        description: List of updated management IP addresses for network devices.
+        description: List of updated management IP addresses
+          for network devices.
         type: list
         elements: dict
         suboptions:
@@ -208,337 +262,504 @@ options:
             description: Device's new Mgmt IpAddress.
             type: str
       force_sync:
-        description: If forcesync is true then device sync would run in high priority
-          thread if available, else the sync will fail.
+        description: If forcesync is true then device
+          sync would run in high priority thread if
+          available, else the sync will fail.
         type: bool
         default: false
       device_resync:
-        description: Make this as true needed for the resyncing of device.
+        description: Make this as true needed for the
+          resyncing of device.
         type: bool
         default: false
       resync_device_count:
-        description: Specifies the maximum number of devices to be resynced in the
-          inventory. Ensure this count does not exceed 200, as attempting to resync
-          more than 200 devices may cause the 'sync_devices_using_forcesync' API to
+        description: Specifies the maximum number of
+          devices to be resynced in the inventory. Ensure
+          this count does not exceed 200, as attempting
+          to resync more than 200 devices may cause
+          the 'sync_devices_using_forcesync' API to
           enter an infinite loop.
         type: int
         default: 200
       resync_max_timeout:
-        description: Sets the maximum timeout for the device resync process in the
-          inventory, in seconds. The default is 600 seconds, which helps prevent infinite
-          loops.
+        description: Sets the maximum timeout for the
+          device resync process in the inventory, in
+          seconds. The default is 600 seconds, which
+          helps prevent infinite loops.
         type: int
         default: 600
       reboot_device:
-        description: Make this as true needed for the Rebooting of Access Points.
+        description: Make this as true needed for the
+          Rebooting of Access Points.
         type: bool
         default: false
       export_device_details_limit:
-        description: Specifies the limit for updating device details or exporting
-          device details/credentials to a file. The default limit is set to 500 devices.
-          This limit is applied when exporting device details/credentials and editing
-          device details. The maximum number of device details/credentials that can
-          be exported in a single API call is 800.
+        description: Specifies the limit for updating
+          device details or exporting device details/credentials
+          to a file. The default limit is set to 500
+          devices. This limit is applied when exporting
+          device details/credentials and editing device
+          details. The maximum number of device details/credentials
+          that can be exported in a single API call
+          is 800.
         type: int
         default: 500
       credential_update:
-        description: Set this to 'True' to update device credentials and other device
-          details. When this parameter is 'True', ensure that the devices are present
-          in Cisco Catalyst Center; only then can update operations be performed on
-          the respective devices. If the parameter is 'True' and any device is not
-          present, the module will attempt to add it.  If required parameters are
-          missing during this addition, the module will fail and stop execution, preventing
-          update operations for devices that are already present.
+        description: Set this to 'True' to update device
+          credentials and other device details. When
+          this parameter is 'True', ensure that the
+          devices are present in Cisco Catalyst Center;
+          only then can update operations be performed
+          on the respective devices. If the parameter
+          is 'True' and any device is not present, the
+          module will attempt to add it.  If required
+          parameters are missing during this addition,
+          the module will fail and stop execution, preventing
+          update operations for devices that are already
+          present.
         type: bool
         default: false
       clean_config:
-        description: Required if need to delete the Provisioned device by clearing
-          current configuration.
+        description: Required if need to delete the
+          Provisioned device by clearing current configuration.
         type: bool
         default: false
       role:
-        description: Role of device which can be ACCESS, CORE, DISTRIBUTION, BORDER
-          ROUTER, UNKNOWN. ALL - This role typically represents all devices within
-          the network, regardless of their specific roles or functions. UNKNOWN -
-          This role is assigned to devices whose roles or functions have not been
-          identified or classified within Cisco Catalsyt Center. This could happen
-          if the platform is unable to determine the device's role based on available
-          information. ACCESS - This role typically represents switches or access
-          points that serve as access points for end-user devices to connect to the
-          network. These devices are often located at the edge of the network and
-          provide connectivity to end-user devices. BORDER ROUTER - These are devices
-          that connect different network domains or segments together. They often
-          serve as gateways between different networks, such as connecting an enterprise
-          network to the internet or connecting multiple branch offices. DISTRIBUTION
-          - This role represents function as distribution switches or routers in hierarchical
-          network designs. They aggregate traffic from access switches and route it
-          toward the core of the network or toward other distribution switches. CORE
-          - This role typically represents high-capacity switches or routers that
-          form the backbone of the network. They handle large volumes of traffic and
-          provide connectivity between different parts of network, such as connecting
-          distribution switches or providing interconnection between different network
+        description: Role of device which can be ACCESS,
+          CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
+          ALL - This role typically represents all devices
+          within the network, regardless of their specific
+          roles or functions. UNKNOWN - This role is
+          assigned to devices whose roles or functions
+          have not been identified or classified within
+          Cisco Catalsyt Center. This could happen if
+          the platform is unable to determine the device's
+          role based on available information. ACCESS
+          - This role typically represents switches
+          or access points that serve as access points
+          for end-user devices to connect to the network.
+          These devices are often located at the edge
+          of the network and provide connectivity to
+          end-user devices. BORDER ROUTER - These are
+          devices that connect different network domains
+          or segments together. They often serve as
+          gateways between different networks, such
+          as connecting an enterprise network to the
+          internet or connecting multiple branch offices.
+          DISTRIBUTION - This role represents function
+          as distribution switches or routers in hierarchical
+          network designs. They aggregate traffic from
+          access switches and route it toward the core
+          of the network or toward other distribution
+          switches. CORE - This role typically represents
+          high-capacity switches or routers that form
+          the backbone of the network. They handle large
+          volumes of traffic and provide connectivity
+          between different parts of network, such as
+          connecting distribution switches or providing
+          interconnection between different network
           segments.
         type: str
       add_user_defined_field:
-        description: This operation will take dictionary as a parameter and in this
-          we give details to create/update/delete/assign multiple UDF to a device.
+        description: This operation will take dictionary
+          as a parameter and in this we give details
+          to create/update/delete/assign multiple UDF
+          to a device.
         type: dict
         suboptions:
           name:
-            description: Name of Global User Defined Field. Required for creating/deleting
+            description: Name of Global User Defined
+              Field. Required for creating/deleting
               UDF and then assigning it to device.
             type: str
           description:
-            description: Info about the global user defined field. Also used while
-              updating interface details.
+            description: Info about the global user
+              defined field. Also used while updating
+              interface details.
             type: str
           value:
-            description: Value to assign to tag with or without the same user defined
-              field name.
+            description: Value to assign to tag with
+              or without the same user defined field
+              name.
             type: str
       update_interface_details:
-        description: This operation will take dictionary as a parameter and in this
-          we give details to update interface details of device.
+        description: This operation will take dictionary
+          as a parameter and in this we give details
+          to update interface details of device.
         type: dict
         suboptions:
           description:
-            description: Specifies the description of the interface of the device.
+            description: Specifies the description of
+              the interface of the device.
             type: str
           interface_name:
-            description: Specify the list of interface names to update the details
-              of the device interface. (For example, GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2)
+            description: Specify the list of interface
+              names to update the details of the device
+              interface. (For example, GigabitEthernet1/0/11,
+              FortyGigabitEthernet1/1/2)
             type: list
             elements: str
           vlan_id:
-            description: Unique Id number assigned to a VLAN within a network used
-              only while updating interface details.
+            description: Unique Id number assigned to
+              a VLAN within a network used only while
+              updating interface details.
             type: int
           voice_vlan_id:
-            description: Identifier used to distinguish a specific VLAN that is dedicated
-              to voice traffic used only while updating interface details.
+            description: Identifier used to distinguish
+              a specific VLAN that is dedicated to voice
+              traffic used only while updating interface
+              details.
             type: int
           deployment_mode:
-            description: Preview/Deploy [Preview means the configuration is not pushed
-              to the device. Deploy makes the configuration pushed to the device]
+            description: Preview/Deploy [Preview means
+              the configuration is not pushed to the
+              device. Deploy makes the configuration
+              pushed to the device]
             type: str
             default: "Deploy"
           clear_mac_address_table:
-            description: Set this to true if you need to clear the MAC address table
-              for a specific device's interface. It's a boolean type, with a default
-              value of False.
+            description: Set this to true if you need
+              to clear the MAC address table for a specific
+              device's interface. It's a boolean type,
+              with a default value of False.
             type: bool
             default: false
           admin_status:
-            description: Status of Interface of a device, it can be (UP/DOWN).
+            description: Status of Interface of a device,
+              it can be (UP/DOWN).
             type: str
       export_device_list:
-        description: This operation take dictionary as parameter and export the device
-          details as well as device credentials details in a csv file.
+        description: This operation take dictionary
+          as parameter and export the device details
+          as well as device credentials details in a
+          csv file.
         type: dict
         suboptions:
           password:
-            description: Specifies the password for the encryption of file while exporting
+            description: Specifies the password for
+              the encryption of file while exporting
               the device credentails into the file.
             type: str
           site_name:
-            description: Indicates the exact location where the wired device will
-              be provisioned. This is a string value that should represent the complete
-              hierarchical path of the site (For example, "Global/USA/San Francisco/BGL_18/floor_pnp").
+            description: Indicates the exact location
+              where the wired device will be provisioned.
+              This is a string value that should represent
+              the complete hierarchical path of the
+              site (For example, "Global/USA/San Francisco/BGL_18/floor_pnp").
             type: str
           operation_enum:
-            description: enum(CREDENTIALDETAILS, DEVICEDETAILS) 0 to export Device
-              Credential Details Or 1 to export Device Details. CREDENTIALDETAILS
-              - Used for exporting device credentials details like snpm credntials,
-              device crdentails etc. DEVICEDETAILS - Used for exporting device specific
-              details like device hostname, serial number, type, family etc.
+            description: enum(CREDENTIALDETAILS, DEVICEDETAILS)
+              0 to export Device Credential Details
+              Or 1 to export Device Details. CREDENTIALDETAILS
+              - Used for exporting device credentials
+              details like snpm credntials, device crdentails
+              etc. DEVICEDETAILS - Used for exporting
+              device specific details like device hostname,
+              serial number, type, family etc.
             type: str
           parameters:
-            description: List of device parameters that needs to be exported to file.(For
-              example, ["componentName", "SerialNumber", "Last Sync Status"])
+            description: List of device parameters that
+              needs to be exported to file.(For example,
+              ["componentName", "SerialNumber", "Last
+              Sync Status"])
             type: list
             elements: str
       provision_wired_device:
-        description: This parameter takes a list of dictionaries. Each dictionary
-          provides the IP address of a wired device and the name of the site where
-          the device will be provisioned.
+        description: This parameter takes a list of
+          dictionaries. Each dictionary provides the
+          IP address of a wired device and the name
+          of the site where the device will be provisioned.
         type: list
         elements: dict
         suboptions:
           device_ip:
-            description: Specifies the IP address of the wired device. This is a string
-              value that should be in the format of standard IPv4 or IPv6 addresses.
+            description: Specifies the IP address of
+              the wired device. This is a string value
+              that should be in the format of standard
+              IPv4 or IPv6 addresses.
             type: str
             version_added: 6.12.0
           site_name:
-            description: Indicates the exact location where the wired device will
-              be provisioned. This is a string value that should represent the complete
-              hierarchical path of the site (For example, "Global/USA/San Francisco/BGL_18/floor_pnp").
+            description: Indicates the exact location
+              where the wired device will be provisioned.
+              This is a string value that should represent
+              the complete hierarchical path of the
+              site (For example, "Global/USA/San Francisco/BGL_18/floor_pnp").
             type: str
           resync_retry_count:
-            description: Determines the total number of retry attempts for checking
-              if the device has reached a managed state during the provisioning process.
-              If unspecified, the default value is set to 200 retries.
+            description: Determines the total number
+              of retry attempts for checking if the
+              device has reached a managed state during
+              the provisioning process. If unspecified,
+              the default value is set to 200 retries.
             type: int
             default: 200
             version_added: 6.12.0
           resync_retry_interval:
-            description: Sets the interval, in seconds, at which the system will recheck
-              the device status throughout the provisioning process. If unspecified,
-              the system will check the device status every 2 seconds by default.
+            description: Sets the interval, in seconds,
+              at which the system will recheck the device
+              status throughout the provisioning process.
+              If unspecified, the system will check
+              the device status every 2 seconds by default.
             type: int
             default: 2
             version_added: 6.12.0
       devices_maintenance_schedule:
-        description: Defines the maintenance schedule for a list of devices, specifying
-            the time frame and recurrence details for scheduled maintenance tasks or deleting them.
+        description: Defines the maintenance schedule
+          for a list of devices, specifying the time
+          frame and recurrence details for scheduled
+          maintenance tasks or deleting them.
         type: list
         elements: dict
         suboptions:
           device_ips:
             description: >
-                A list of network device IPs.
-                This field is applicable only during the creation or deletion of schedules.
-                For updates, this field is read-only, and devices cannot be added or removed.
+              A list of network device IPs. This field
+              is applicable only during the creation
+              or deletion of schedules. For updates,
+              this field is read-only, and devices cannot
+              be added or removed.
             type: str
           description:
-            description: A brief description of the maintenance schedule, specifying its purpose or any relevant details.
+            description: A brief description of the
+              maintenance schedule, specifying its purpose
+              or any relevant details.
             type: str
           start_time:
             description: >
-                The scheduled start time of the maintenance window.
-                For one-time schedules, this must be later than the current time.
-                The expected format is "YYYY-MM-DD HH:MM:SS" (for example, "2025-04-05 10:00:00").
+              The scheduled start time of the maintenance
+              window. For one-time schedules, this must
+              be later than the current time. The expected
+              format is "YYYY-MM-DD HH:MM:SS" (for example,
+              "2025-04-05 10:00:00").
             type: str
           end_time:
             description: >
-                The scheduled end time of the maintenance window.
-                For one-time schedules, this must be later than the current time.
-                The expected format is "YYYY-MM-DD HH:MM:SS" (for example, "2025-04-05 10:30:00").
+              The scheduled end time of the maintenance
+              window. For one-time schedules, this must
+              be later than the current time. The expected
+              format is "YYYY-MM-DD HH:MM:SS" (for example,
+              "2025-04-05 10:30:00").
             type: str
           time_zone:
             description: >
-                Time zone in which the maintenance schedule is defined (for example, "Africa/Nairobi", "America/New_York",
-                "Asia/Kolkata", "Europe/London", "Australia/Sydney", etc.).
+              Time zone in which the maintenance schedule
+              is defined (for example, "Africa/Nairobi",
+              "America/New_York", "Asia/Kolkata", "Europe/London",
+              "Australia/Sydney", etc.).
             type: str
-            choices: [
-                "Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara",
-                "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre",
-                "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Conakry",
-                "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun",
-                "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba",
-                "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos",
-                "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka",
-                "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu",
-                "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott",
-                "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Tripoli", "Africa/Tunis",
-                "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua",
-                "America/Argentina/Buenos_Aires", "America/Aruba", "America/Asuncion", "America/Atikokan",
-                "America/Barbados", "America/Belize", "America/Blanc-Sablon", "America/Bogota", "America/Cancun",
-                "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Costa_Rica",
-                "America/Curacao", "America/Danmarkshavn", "America/Denver", "America/Dominica",
-                "America/Edmonton", "America/El_Salvador", "America/Grand_Turk", "America/Grenada",
-                "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana",
-                "America/Halifax", "America/Havana", "America/Hermosillo", "America/Jamaica",
-                "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles",
-                "America/Lower_Princes", "America/Managua", "America/Manaus", "America/Marigot",
-                "America/Martinique", "America/Mexico_City", "America/Miquelon", "America/Montevideo",
-                "America/Montserrat", "America/Nassau", "America/New_York", "America/Noronha",
-                "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Paramaribo",
-                "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Puerto_Rico",
-                "America/Punta_Arenas", "America/Regina", "America/Rio_Branco", "America/Santiago",
-                "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/St_Barthelemy",
-                "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas",
-                "America/St_Vincent", "America/Tegucigalpa", "America/Thule", "America/Tijuana",
-                "America/Toronto", "America/Tortola", "America/Vancouver", "America/Whitehorse",
-                "America/Winnipeg", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville",
-                "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Syowa",
-                "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty",
-                "Asia/Amman", "Asia/Ashgabat", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok",
-                "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Calcutta", "Asia/Chita", "Asia/Colombo",
-                "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Hebron",
-                "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Jakarta",
-                "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi",
-                "Asia/Kathmandu", "Asia/Kuala_Lumpur", "Asia/Kuwait", "Asia/Macau", "Asia/Makassar",
-                "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novosibirsk", "Asia/Omsk",
-                "Asia/Phnom_Penh", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qyzylorda", "Asia/Riyadh",
-                "Asia/Sakhalin", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Taipei",
-                "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Thimphu", "Asia/Tokyo",
-                "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yangon",
-                "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda",
-                "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Reykjavik",
-                "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide",
-                "Australia/Brisbane", "Australia/Darwin", "Australia/Eucla", "Australia/Lord_Howe",
-                "Australia/Perth", "Australia/Sydney", "Europe/Amsterdam", "Europe/Andorra", "Europe/Athens",
-                "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest",
-                "Europe/Budapest", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "GMT",
-                "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man",
-                "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kyiv", "Europe/Lisbon",
-                "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta",
-                "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Oslo",
-                "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome",
-                "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Simferopol", "Europe/Skopje",
-                "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Vaduz",
-                "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Warsaw", "Europe/Zagreb",
-                "Europe/Zurich", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos",
-                "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius",
-                "Indian/Mayotte", "Indian/Reunion", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville",
-                "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo",
-                "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal",
-                "Pacific/Guam", "Pacific/Honolulu", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Majuro",
-                "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk",
-                "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn",
-                "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Tahiti",
-                "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis"
-            ]
+            choices: ["Africa/Abidjan", "Africa/Accra",
+              "Africa/Addis_Ababa", "Africa/Algiers",
+              "Africa/Asmara", "Africa/Bamako", "Africa/Bangui",
+              "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre",
+              "Africa/Brazzaville", "Africa/Bujumbura",
+              "Africa/Cairo", "Africa/Casablanca", "Africa/Conakry",
+              "Africa/Dakar", "Africa/Dar_es_Salaam",
+              "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun",
+              "Africa/Freetown", "Africa/Gaborone",
+              "Africa/Harare", "Africa/Johannesburg",
+              "Africa/Juba", "Africa/Kampala", "Africa/Khartoum",
+              "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos",
+              "Africa/Libreville", "Africa/Lome", "Africa/Luanda",
+              "Africa/Lubumbashi", "Africa/Lusaka",
+              "Africa/Malabo", "Africa/Maputo", "Africa/Maseru",
+              "Africa/Mbabane", "Africa/Mogadishu",
+              "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena",
+              "Africa/Niamey", "Africa/Nouakchott",
+              "Africa/Ouagadougou", "Africa/Porto-Novo",
+              "Africa/Sao_Tome", "Africa/Tripoli", "Africa/Tunis",
+              "Africa/Windhoek", "America/Adak", "America/Anchorage",
+              "America/Anguilla", "America/Antigua",
+              "America/Argentina/Buenos_Aires", "America/Aruba",
+              "America/Asuncion", "America/Atikokan",
+              "America/Barbados", "America/Belize",
+              "America/Blanc-Sablon", "America/Bogota",
+              "America/Cancun", "America/Caracas", "America/Cayenne",
+              "America/Cayman", "America/Chicago", "America/Costa_Rica",
+              "America/Curacao", "America/Danmarkshavn",
+              "America/Denver", "America/Dominica",
+              "America/Edmonton", "America/El_Salvador",
+              "America/Grand_Turk", "America/Grenada",
+              "America/Guadeloupe", "America/Guatemala",
+              "America/Guayaquil", "America/Guyana",
+              "America/Halifax", "America/Havana", "America/Hermosillo",
+              "America/Jamaica", "America/Kralendijk",
+              "America/La_Paz", "America/Lima", "America/Los_Angeles",
+              "America/Lower_Princes", "America/Managua",
+              "America/Manaus", "America/Marigot", "America/Martinique",
+              "America/Mexico_City", "America/Miquelon",
+              "America/Montevideo", "America/Montserrat",
+              "America/Nassau", "America/New_York",
+              "America/Noronha", "America/Nuuk", "America/Ojinaga",
+              "America/Panama", "America/Paramaribo",
+              "America/Phoenix", "America/Port-au-Prince",
+              "America/Port_of_Spain", "America/Puerto_Rico",
+              "America/Punta_Arenas", "America/Regina",
+              "America/Rio_Branco", "America/Santiago",
+              "America/Santo_Domingo", "America/Sao_Paulo",
+              "America/Scoresbysund", "America/St_Barthelemy",
+              "America/St_Johns", "America/St_Kitts",
+              "America/St_Lucia", "America/St_Thomas",
+              "America/St_Vincent", "America/Tegucigalpa",
+              "America/Thule", "America/Tijuana", "America/Toronto",
+              "America/Tortola", "America/Vancouver",
+              "America/Whitehorse", "America/Winnipeg",
+              "Antarctica/Casey", "Antarctica/Davis",
+              "Antarctica/DumontDUrville", "Antarctica/Mawson",
+              "Antarctica/McMurdo", "Antarctica/Palmer",
+              "Antarctica/Syowa", "Antarctica/Troll",
+              "Antarctica/Vostok", "Arctic/Longyearbyen",
+              "Asia/Aden", "Asia/Almaty", "Asia/Amman",
+              "Asia/Ashgabat", "Asia/Baghdad", "Asia/Bahrain",
+              "Asia/Baku", "Asia/Bangkok", "Asia/Beirut",
+              "Asia/Bishkek", "Asia/Brunei", "Asia/Calcutta",
+              "Asia/Chita", "Asia/Colombo", "Asia/Damascus",
+              "Asia/Dhaka", "Asia/Dili", "Asia/Dubai",
+              "Asia/Dushanbe", "Asia/Hebron", "Asia/Ho_Chi_Minh",
+              "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk",
+              "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem",
+              "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi",
+              "Asia/Kathmandu", "Asia/Kuala_Lumpur",
+              "Asia/Kuwait", "Asia/Macau", "Asia/Makassar",
+              "Asia/Manila", "Asia/Muscat", "Asia/Nicosia",
+              "Asia/Novosibirsk", "Asia/Omsk", "Asia/Phnom_Penh",
+              "Asia/Pyongyang", "Asia/Qatar", "Asia/Qyzylorda",
+              "Asia/Riyadh", "Asia/Sakhalin", "Asia/Seoul",
+              "Asia/Shanghai", "Asia/Singapore", "Asia/Taipei",
+              "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran",
+              "Asia/Thimphu", "Asia/Tokyo", "Asia/Ulaanbaatar",
+              "Asia/Urumqi", "Asia/Vientiane", "Asia/Vladivostok",
+              "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan",
+              "Atlantic/Azores", "Atlantic/Bermuda",
+              "Atlantic/Canary", "Atlantic/Cape_Verde",
+              "Atlantic/Faroe", "Atlantic/Reykjavik",
+              "Atlantic/South_Georgia", "Atlantic/St_Helena",
+              "Atlantic/Stanley", "Australia/Adelaide",
+              "Australia/Brisbane", "Australia/Darwin",
+              "Australia/Eucla", "Australia/Lord_Howe",
+              "Australia/Perth", "Australia/Sydney",
+              "Europe/Amsterdam", "Europe/Andorra",
+              "Europe/Athens", "Europe/Belgrade", "Europe/Berlin",
+              "Europe/Bratislava", "Europe/Brussels",
+              "Europe/Bucharest", "Europe/Budapest",
+              "Europe/Chisinau", "Europe/Copenhagen",
+              "Europe/Dublin", "GMT", "Europe/Gibraltar",
+              "Europe/Guernsey", "Europe/Helsinki",
+              "Europe/Isle_of_Man", "Europe/Istanbul",
+              "Europe/Jersey", "Europe/Kaliningrad",
+              "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana",
+              "Europe/London", "Europe/Luxembourg",
+              "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn",
+              "Europe/Minsk", "Europe/Monaco", "Europe/Moscow",
+              "Europe/Oslo", "Europe/Paris", "Europe/Podgorica",
+              "Europe/Prague", "Europe/Riga", "Europe/Rome",
+              "Europe/Samara", "Europe/San_Marino",
+              "Europe/Sarajevo", "Europe/Simferopol",
+              "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm",
+              "Europe/Tallinn", "Europe/Tirane", "Europe/Vaduz",
+              "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius",
+              "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich",
+              "Indian/Antananarivo", "Indian/Chagos",
+              "Indian/Christmas", "Indian/Cocos", "Indian/Comoro",
+              "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives",
+              "Indian/Mauritius", "Indian/Mayotte",
+              "Indian/Reunion", "Pacific/Apia", "Pacific/Auckland",
+              "Pacific/Bougainville", "Pacific/Chatham",
+              "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate",
+              "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti",
+              "Pacific/Galapagos", "Pacific/Gambier",
+              "Pacific/Guadalcanal", "Pacific/Guam",
+              "Pacific/Honolulu", "Pacific/Kiritimati",
+              "Pacific/Kosrae", "Pacific/Majuro", "Pacific/Marquesas",
+              "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue",
+              "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago",
+              "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Port_Moresby",
+              "Pacific/Rarotonga", "Pacific/Saipan",
+              "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu",
+              "Pacific/Wake", "Pacific/Wallis"]
           recurrence_end_time:
             description: >
-                The timestamp indicating when the recurring maintenance schedule should end.
-                It must be greater than both the maintenance end date/time and the current time.
-                The format should be a recognizable timestamp (For example, "YYYY-MM-DD HH:MM:SS" like "2025-04-05 10:30:00").
+              The timestamp indicating when the recurring
+              maintenance schedule should end. It must
+              be greater than both the maintenance end
+              date/time and the current time. The format
+              should be a recognizable timestamp (For
+              example, "YYYY-MM-DD HH:MM:SS" like "2025-04-05
+              10:30:00").
             type: str
           recurrence_interval:
             description: >
-                Interval for recurrence in days.
-                The interval must be longer than the duration of the maintenance schedules and must be within the range 1 to 365 (inclusive).
+              Interval for recurrence in days. The interval
+              must be longer than the duration of the
+              maintenance schedules and must be within
+              the range 1 to 365 (inclusive).
             type: int
-
-
 requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9
 seealso:
-  - name: Cisco Catalyst Center documentation for Devices AddDevice2
-    description: Complete reference of the AddDevice2 API.
+  - name: Cisco Catalyst Center documentation for Devices
+      AddDevice2
+    description: Complete reference of the AddDevice2
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!add-device
-  - name: Cisco Catalyst Center documentation for Devices DeleteDeviceById
-    description: Complete reference of the DeleteDeviceById API.
+  - name: Cisco Catalyst Center documentation for Devices
+      DeleteDeviceById
+    description: Complete reference of the DeleteDeviceById
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id
-  - name: Cisco Catalyst Center documentation for Devices SyncDevices2
-    description: Complete reference of the SyncDevices2 API.
+  - name: Cisco Catalyst Center documentation for Devices
+      SyncDevices2
+    description: Complete reference of the SyncDevices2
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!sync-devices
 notes:
-  - SDK Method used are devices.Devices.add_device, devices.Devices.delete_device_by_id,
+  - SDK Method used are
+    devices.Devices.add_device,
+    devices.Devices.delete_device_by_id,
     devices.Devices.sync_devices,
-  - Paths used are post /dna/intent/api/v1/network-device, delete /dna/intent/api/v1/network-device/{id},
-    put /dna/intent/api/v1/network-device,
-  - Removed 'managementIpAddress' options in v4.3.0.
-  - Renamed argument 'ip_address' to 'ip_address_list' option in v6.12.0.
-  - Removed 'serial_number', 'device_added', 'role_source', options in v6.12.0.
-  - Added 'add_user_defined_field', 'update_interface_details', 'export_device_list'
+  - Paths used are
+    post /dna/intent/api/v1/network-device,
+    delete /dna/intent/api/v1/network-device/{id},
+    put
+    /dna/intent/api/v1/network-device,
+    - Removed 'managementIpAddress'
+    options in v4.3.0.
+  - Renamed argument 'ip_address' to 'ip_address_list'
+    option in v6.12.0.
+  - Removed 'serial_number',
+    'device_added',
+    'role_source',
+    options in v6.12.0.
+  - Added 'add_user_defined_field',
+    'update_interface_details',
+    'export_device_list' options in v6.13.1.
+  - Removed 'provision_wireless_device',
+    'reprovision_wired_device'
     options in v6.13.1.
-  - Removed 'provision_wireless_device', 'reprovision_wired_device' options in v6.13.1.
   - Added the parameter 'admin_status' options in v6.13.1.
   - Removed 'device_updated' options in v6.13.1.
-  - The maintenance scheduling feature for network devices was introduced in version 2.3.7.9.
-    To use this functionality, ensure the Catalyst Center is upgraded to at least version 2.3.7.9.
-  - It is recommended to specify the complete time zone when scheduling maintenance for network devices.
-    For a list of supported time zones, please refer to the relevant documentation detailing all available options.
-  - By default, when deleting network devices, the 'clean_config' flag is set to False, which retains the device
-    configuration. To delete a device along with its configuration, the 'clean_config' flag must be explicitly
-    set to True.
-
+  - The maintenance scheduling feature for network devices
+    was introduced in version 2.3.7.9. To use this functionality,
+    ensure the Catalyst Center is upgraded to at least
+    version 2.3.7.9.
+  - It is recommended to specify the complete time zone
+    when scheduling maintenance for network devices.
+    For a list of supported time zones,
+    please refer
+    to the relevant documentation detailing all available
+    options.
+  - By default,
+    when deleting network devices,
+    the 'clean_config'
+    flag is set to False,
+    which retains the device configuration.
+    To delete a device along with its configuration,
+    the 'clean_config' flag must be explicitly set to
+    True.
 """
 EXAMPLES = r"""
+---
 - name: Add new device in Inventory with full credentials
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -576,8 +797,8 @@ EXAMPLES = r"""
         snmp_version: v3
         type: NETWORK_DEVICE
         username: cisco
-- name: Add new Compute device in Inventory with full credentials.Inputs needed
-    for Compute Device
+- name: Add new Compute device in Inventory with full
+    credentials.Inputs needed for Compute Device
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -607,8 +828,8 @@ EXAMPLES = r"""
         compute_device: true
         username: cisco
         type: "COMPUTE_DEVICE"
-- name: Add new Meraki device in Inventory with full credentials.Inputs needed for
-    Meraki Device.
+- name: Add new Meraki device in Inventory with full
+    credentials.Inputs needed for Meraki Device.
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -623,8 +844,8 @@ EXAMPLES = r"""
     config:
       - http_password: "test"
         type: "MERAKI_DASHBOARD"
-- name: Add new Firepower Management device in Inventory with full credentials.Input
-    needed to add Device.
+- name: Add new Firepower Management device in Inventory
+    with full credentials.Input needed to add Device.
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -644,8 +865,8 @@ EXAMPLES = r"""
         http_password: "test"
         http_port: "443"
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
-- name: Add new Third Party device in Inventory with full credentials.Input needed
-    to add Device.
+- name: Add new Third Party device in Inventory with
+    full credentials.Input needed to add Device.
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -692,7 +913,8 @@ EXAMPLES = r"""
         enable_password: newtest1233
         type: NETWORK_DEVICE
         credential_update: true
-- name: Update new management IP address of device in inventory
+- name: Update new management IP address of device in
+    inventory
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -712,7 +934,8 @@ EXAMPLES = r"""
         update_mgmt_ipaddresslist:
           - exist_mgmt_ipaddress: "1.1.1.1"
             new_mgmt_ipaddress: "12.12.12.12"
-- name: Associate Wired Devices to site and Provisioned it in Inventory
+- name: Associate Wired Devices to site and Provisioned
+    it in Inventory
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -768,14 +991,17 @@ EXAMPLES = r"""
           - "204.1.2.2"
           - "204.1.2.3"
         update_interface_details:
-          description: "Testing for updating interface details"
+          description: "Testing for updating interface
+            details"
           admin_status: "UP"
           vlan_id: 23
           voice_vlan_id: 45
           deployment_mode: "Deploy"
-          interface_name: ["GigabitEthernet1/0/11", FortyGigabitEthernet1/1/1]
+          interface_name: ["GigabitEthernet1/0/11",
+            FortyGigabitEthernet1/1/1]
           clear_mac_address_table: true
-- name: Export Device Details in a CSV file Interface details with IP Address
+- name: Export Device Details in a CSV file Interface
+    details with IP Address
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -794,7 +1020,8 @@ EXAMPLES = r"""
         export_device_list:
           password: "File_password"
           operation_enum: "0"
-          parameters: ["componentName", "SerialNumber", "Last Sync Status"]
+          parameters: ["componentName", "SerialNumber",
+            "Last Sync Status"]
 - name: Create Global User Defined with IP Address
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -836,7 +1063,6 @@ EXAMPLES = r"""
           - "204.1.2.3"
         device_resync: true
         force_sync: false
-
 - name: Reboot AP Devices with IP Addresses
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -854,8 +1080,8 @@ EXAMPLES = r"""
           - "204.1.2.2"
           - "204.1.2.3"
         reboot_device: true
-
-- name: Schedule the maintenance for the devices for one time.
+- name: Schedule the maintenance for the devices for
+    one time.
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -872,12 +1098,13 @@ EXAMPLES = r"""
           - device_ips:
               - "204.1.2.2"
               - "204.1.2.3"
-            description: "Schedule maintenance for 2 devices"
+            description: "Schedule maintenance for 2
+              devices"
             start_time: "2025-04-05 10:30:00"
             end_time: "2025-04-05 11:30:00"
             time_zone: "Asia/Kolkata"
-
-- name: Schedule the maintenance for the devices with recurrence interval and recurrence end time.
+- name: Schedule the maintenance for the devices with
+    recurrence interval and recurrence end time.
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -894,13 +1121,13 @@ EXAMPLES = r"""
           - device_ips:
               - "204.1.2.2"
               - "204.1.2.3"
-            description: "Schedule maintenance for 2 devices"
+            description: "Schedule maintenance for 2
+              devices"
             start_time: "2025-04-05 10:30:00"
             end_time: "2025-04-05 11:30:00"
             ime_zone: "Asia/Kolkata"
             recurrence_end_time: "2025-04-10 11:40:00"
             recurrence_interval: 2
-
 - name: Update the maintenance schedule for the devices.
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -918,13 +1145,13 @@ EXAMPLES = r"""
           - device_ips:
               - "204.1.2.2"
               - "204.1.2.3"
-            description: "Updated description for maintenance of 2 devices"
+            description: "Updated description for maintenance
+              of 2 devices"
             start_time: "2025-04-05 10:30:00"
             end_time: "2025-04-05 11:30:00"
             time_zone: "Asia/Kolkata"
             recurrence_end_time: "2025-04-10 11:40:00"
             recurrence_interval: 1
-
 - name: Delete Provision/Unprovision Devices by IP Address
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -942,8 +1169,8 @@ EXAMPLES = r"""
           - "204.1.2.2"
           - "204.1.2.3"
         clean_config: false
-
-- name: Delete Provision/Unprovision network devices along with configuration
+- name: Delete Provision/Unprovision network devices
+    along with configuration
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -960,7 +1187,6 @@ EXAMPLES = r"""
           - "204.1.2.2"
           - "204.1.2.3"
         clean_config: true
-
 - name: Delete Global User Defined Field with name
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -979,7 +1205,6 @@ EXAMPLES = r"""
           - "204.1.2.3"
         add_user_defined_field:
           - name: "Test123"
-
 - name: Delete the maintenance schedule for the devices.
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"

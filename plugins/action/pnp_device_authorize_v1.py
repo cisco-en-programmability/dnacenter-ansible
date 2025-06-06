@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="device_onboarding_pnp",
-            function='authorize_device_v1',
+            function='authorize_device',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

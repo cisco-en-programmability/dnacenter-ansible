@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: health_score_definitions_bulk_update
-short_description: Resource module for Health Score Definitions Bulk Update
+short_description: Resource module for Health Score
+  Definitions Bulk Update
 description:
-  - This module represents an alias of the module health_score_definitions_bulk_update_v1
+  - Manage operation create of the resource Health Score
+    Definitions Bulk Update.
+  - Update health thresholds, include status of overall
+    health status for each metric.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -17,7 +23,8 @@ options:
     description: Additional headers.
     type: dict
   payload:
-    description: Health Score Definitions Bulk Update's payload.
+    description: Health Score Definitions Bulk Update's
+      payload.
     elements: dict
     suboptions:
       id:
@@ -37,16 +44,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices UpdateHealthScoreDefinitionsV1
-    description: Complete reference of the UpdateHealthScoreDefinitionsV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!update-health-score-definitions
+  - name: Cisco DNA Center documentation for Devices
+      UpdateHealthScoreDefinitions
+    description: Complete reference of the UpdateHealthScoreDefinitions
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-health-score-definitions
 notes:
-  - SDK Method used are devices.Devices.update_health_score_definitions_v1,
-  - Paths used are post /dna/intent/api/v1/healthScoreDefinitions/bulkUpdate,
-  - It should be noted that this module is an alias of health_score_definitions_bulk_update_v1
+  - SDK Method used are
+    devices.Devices.update_health_score_definitions,
+  - Paths used are
+    post /dna/intent/api/v1/healthScoreDefinitions/bulkUpdate,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.health_score_definitions_bulk_update:
     dnac_host: "{{dnac_host}}"

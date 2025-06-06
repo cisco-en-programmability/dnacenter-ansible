@@ -81,7 +81,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="industrial_configuration",
-            function='retrieves_the_count_of_m_r_p_rings_v1',
+            function='retrieves_the_count_of_mrp_rings_v1',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

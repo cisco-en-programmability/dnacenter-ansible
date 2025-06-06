@@ -1,14 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: accesspoint_configuration_details_by_task_id_info
-short_description: Information module for Accesspoint Configuration Details By Task
-  Id Info
+short_description: Information module for Accesspoint
+  Configuration Details By Task Id
 description:
-  - This module represents an alias of the module accesspoint_configuration_details_by_task_id_v1_info
+  - Get Accesspoint Configuration Details By Task Id
+    by id.
+  - Users can query the access point configuration result
+    using this intent API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,24 +24,29 @@ options:
     type: dict
   task_id:
     description:
-      - Task_id path parameter. Task id information of ap config.
+      - Task_id path parameter. Task id information
+        of ap config.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationTaskResultV1
-    description: Complete reference of the GetAccessPointConfigurationTaskResultV1
+  - name: Cisco DNA Center documentation for Wireless
+      GetAccessPointConfigurationTaskResult
+    description: Complete reference of the GetAccessPointConfigurationTaskResult
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-task-result
+    link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-task-result
 notes:
-  - SDK Method used are wireless.Wireless.get_access_point_configuration_task_result_v1,
-  - Paths used are get /dna/intent/api/v1/wireless/accesspoint-configuration/details/{task_id},
-  - It should be noted that this module is an alias of accesspoint_configuration_details_by_task_id_v1_info
+  - SDK Method used are
+    wireless.Wireless.get_access_point_configuration_task_result,
+  - Paths used are
+    get /dna/intent/api/v1/wireless/accesspoint-configuration/details/{task_id},
 """
+
 EXAMPLES = r"""
-- name: Get Accesspoint Configuration Details By Task Id Info by id
+---
+- name: Get Accesspoint Configuration Details By Task
+    Id by id
   cisco.dnac.accesspoint_configuration_details_by_task_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

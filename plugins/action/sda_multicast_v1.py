@@ -23,6 +23,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -68,7 +69,7 @@ class SdaMulticastV1(object):
         try:
             items = self.dnac.exec(
                 family="sda",
-                function="get_multicast_v1",
+                function="get_multicast",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -121,7 +122,7 @@ class SdaMulticastV1(object):
         result = None
         result = self.dnac.exec(
             family="sda",
-            function="update_multicast_v1",
+            function="update_multicast",
             params=self.update_all_params(),
             op_modifies=True,
         )

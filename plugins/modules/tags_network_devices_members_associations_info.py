@@ -1,14 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: tags_network_devices_members_associations_info
-short_description: Information module for Tags Network Devices Members Associations
-  Info
+short_description: Information module for Tags Network
+  Devices Members Associations
 description:
-  - This module represents an alias of the module tags_network_devices_members_associations_v1_info
+  - Get all Tags Network Devices Members Associations.
+    - > Fetches the tags associated with network devices.
+    Devices that don't have any tags associated will
+    not be included in the response. A tag is a user-defined
+    or system-defined construct to group resources.
+    When a device is tagged, it is called a member of
+    the tag.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,30 +27,33 @@ options:
     type: dict
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first
-        record is numbered 1. Minimum 1.
+      - Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1. Minimum 1.
     type: float
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page. Minimum
-        1, maximum 500.
+      - Limit query parameter. The number of records
+        to show for this page. Minimum 1, maximum 500.
     type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Tag RetrieveTagsAssociatedWithNetworkDevicesV1
-    description: Complete reference of the RetrieveTagsAssociatedWithNetworkDevicesV1
+  - name: Cisco DNA Center documentation for Tag RetrieveTagsAssociatedWithNetworkDevices
+    description: Complete reference of the RetrieveTagsAssociatedWithNetworkDevices
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieve-tags-associated-with-network-devices
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-tags-associated-with-network-devices
 notes:
-  - SDK Method used are tag.Tag.retrieve_tags_associated_with_network_devices_v1,
-  - Paths used are get /dna/intent/api/v1/tags/networkDevices/membersAssociations,
-  - It should be noted that this module is an alias of tags_network_devices_members_associations_v1_info
+  - SDK Method used are
+    tag.Tag.retrieve_tags_associated_with_network_devices,
+  - Paths used are
+    get /dna/intent/api/v1/tags/networkDevices/membersAssociations,
 """
+
 EXAMPLES = r"""
-- name: Get all Tags Network Devices Members Associations Info
+---
+- name: Get all Tags Network Devices Members Associations
   cisco.dnac.tags_network_devices_members_associations_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

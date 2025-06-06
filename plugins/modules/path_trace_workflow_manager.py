@@ -14,7 +14,8 @@ __author__ = ['A Mohamed Rafeek, Madhan Sankaranarayanan']
 DOCUMENTATION = r"""
 ---
 module: path_trace_workflow_manager
-short_description: Resource module for managing PathTrace settings in Cisco Catalyst Center
+short_description: Resource module for managing PathTrace
+  settings in Cisco Catalyst Center
 description: |
   This module allows the management of PathTrace settings in Cisco Catalyst Center.
   - It supports creating and deleting PathTrace configurations.
@@ -26,7 +27,6 @@ extends_documentation_fragment:
 author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
-
 options:
   config_verify:
     description: |
@@ -44,7 +44,8 @@ options:
     choices: ["merged", "deleted"]
     default: merged
   config:
-    description: A list containing the details for Path Trace configuration.
+    description: A list containing the details for Path
+      Trace configuration.
     type: list
     elements: dict
     required: true
@@ -62,15 +63,18 @@ options:
         type: str
         required: false
       source_port:
-        description: The source port for the path trace (optional).
+        description: The source port for the path trace
+          (optional).
         type: int
         required: false
       dest_port:
-        description: The destination port for the path trace (optional).
+        description: The destination port for the path
+          trace (optional).
         type: int
         required: false
       protocol:
-        description: The protocol to use for the path trace, e.g., TCP, UDP (optional).
+        description: The protocol to use for the path
+          trace, e.g., TCP, UDP (optional).
         type: str
         choices: ["TCP", "UDP"]
         required: false
@@ -93,7 +97,8 @@ options:
         elements: str
         required: false
       periodic_refresh:
-        description: Boolean value to enable periodic refresh for the path trace.
+        description: Boolean value to enable periodic
+          refresh for the path trace.
         type: bool
         required: false
         default: true
@@ -105,7 +110,8 @@ options:
         required: false
         default: false
       get_last_pathtrace_result:
-        description: Boolean value to display the last result again for the path trace.
+        description: Boolean value to display the last
+          result again for the path trace.
         type: bool
         required: false
         default: true
@@ -125,21 +131,17 @@ options:
           section), which should be shown in a register
         type: str
         required: false
-
 requirements:
-- dnacentersdk >= 2.8.6
-- python >= 3.9
+  - dnacentersdk >= 2.8.6
+  - python >= 3.9
 notes:
- - SDK Method used are
+  - SDK Method used are
     path_trace.PathTraceWorkflow.retrieves_all_previous_pathtraces_summary,
     path_trace.PathTraceWorkflow.retrieves_previous_pathtraces_summary,
     path_trace.PathTraceWorkflow.initiate_a_new_pathtrace,
     path_trace.PathTraceWorkflow.delete_pathtrace_by_id,
-
- - API paths used are
-    GET/dna/intent/api/v1/flow-analysis
-    POST/dna/intent/api/v1/flow-analysis
-    GET/dna/intent/api/v1/flow-analysis/{flowAnalysisId}
+    - API paths used are GET/dna/intent/api/v1/flow-analysis
+    POST/dna/intent/api/v1/flow-analysis GET/dna/intent/api/v1/flow-analysis/{flowAnalysisId}
     DELETE/dna/intent/api/v1/flow-analysis/{flowAnalysisId}
 """
 
@@ -151,7 +153,8 @@ EXAMPLES = r"""
   gather_facts: false
   connection: local
   tasks:
-    - name: Create and auto-delete path trace on Cisco Catalyst Center
+    - name: Create and auto-delete path trace on Cisco
+        Catalyst Center
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -166,22 +169,22 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-          - source_ip: "204.1.2.3"  # required field
-            dest_ip: "204.1.2.4"  # required field
-            source_port: 4020  # optional field
-            dest_port: 4021  # optional field
-            protocol: "TCP"  # optional field
-            include_stats:  # optional field
+          - source_ip: "204.1.2.3" # required field
+            dest_ip: "204.1.2.4" # required field
+            source_port: 4020 # optional field
+            dest_port: 4021 # optional field
+            protocol: "TCP" # optional field
+            include_stats: # optional field
               - DEVICE_STATS
               - INTERFACE_STATS
               - QOS_STATS
               - PERFORMANCE_STATS
               - ACL_TRACE
-            periodic_refresh: false  # optional field
-            control_path: false  # optional field
-            delete_on_completion: true  # optional field
-
-    - name: Delete path trace based on source and destination IP
+            periodic_refresh: false # optional field
+            control_path: false # optional field
+            delete_on_completion: true # optional field
+    - name: Delete path trace based on source and destination
+        IP
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -195,9 +198,8 @@ EXAMPLES = r"""
         state: deleted
         config_verify: true
         config:
-          - source_ip: "204.1.2.3"  # required field
-            dest_ip: "204.1.2.4"  # required field
-
+          - source_ip: "204.1.2.3" # required field
+            dest_ip: "204.1.2.4" # required field
     - name: Retrieve last path trace
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -212,11 +214,11 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-          - source_ip: "204.1.2.3"  # required field
-            dest_ip: "204.1.2.4"  # required field
+          - source_ip: "204.1.2.3" # required field
+            dest_ip: "204.1.2.4" # required field
             get_last_pathtrace_result: true
-
-    - name: Retrieve path trace based on the flow analysis id
+    - name: Retrieve path trace based on the flow analysis
+        id
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -234,10 +236,10 @@ EXAMPLES = r"""
           # (the "id" from the "request" section), which should be
           # shown in a register.
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
-            delete_on_completion: false  # optional field
+            delete_on_completion: false # optional field
       register: output_list
-
-    - name: Retrieve and Delete path trace based on the required field
+    - name: Retrieve and Delete path trace based on
+        the required field
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -251,10 +253,11 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-          - source_ip: "204.1.2.3"  # required field
-            dest_ip: "204.1.2.4"  # required field
+          - source_ip: "204.1.2.3" # required field
+            dest_ip: "204.1.2.4" # required field
       register: output_list
-    - name: Delete path trace based on registered flow analysis id
+    - name: Delete path trace based on registered flow
+        analysis id
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -269,8 +272,8 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - flow_analysis_id: output_list.request.id
-
-    - name: delete path trace based on the flow analysis id
+    - name: delete path trace based on the flow analysis
+        id
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -288,8 +291,8 @@ EXAMPLES = r"""
           # (the "id" from the "request" section), which should be
           # shown in a register.
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
-
-    - name: Create/Retrieve Path trace for the config list.
+    - name: Create/Retrieve Path trace for the config
+        list.
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -303,33 +306,30 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-          - source_ip: "204.1.2.3"  # required field
-            dest_ip: "204.1.2.4"  # required field
-            source_port: 4020  # optional field
-            dest_port: 4021  # optional field
-            protocol: "TCP"  # optional field
-            include_stats:  # optional field
+          - source_ip: "204.1.2.3" # required field
+            dest_ip: "204.1.2.4" # required field
+            source_port: 4020 # optional field
+            dest_port: 4021 # optional field
+            protocol: "TCP" # optional field
+            include_stats: # optional field
               - DEVICE_STATS
               - INTERFACE_STATS
               - QOS_STATS
               - PERFORMANCE_STATS
               - ACL_TRACE
-            periodic_refresh: false  # optional field
-            control_path: false  # optional field
-            delete_on_completion: true  # optional field
-
-          - source_ip: "204.1.1.2"  # required field
-            dest_ip: "204.1.2.4"  # required field
-            control_path: false  # optional field
-            get_last_pathtrace_result: true  # optional field
-            delete_on_completion: true  # optional field
-
+            periodic_refresh: false # optional field
+            control_path: false # optional field
+            delete_on_completion: true # optional field
+          - source_ip: "204.1.1.2" # required field
+            dest_ip: "204.1.2.4" # required field
+            control_path: false # optional field
+            get_last_pathtrace_result: true # optional field
+            delete_on_completion: true # optional field
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
 """
 
 
 RETURN = r"""
-
 #Case 1: Successful creation of trace path based on multiple fields
 response_1:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
@@ -419,7 +419,6 @@ response_1:
         ],
         "status": "success"
     }
-
 #Case 2: Retrieve the path trace based on flow analysis id
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -506,7 +505,6 @@ response_2:
         ],
         "status": "success"
     }
-
 #Case 3: Retrieve the last created path trace based on source and dest IP
 response_3:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -615,7 +613,6 @@ response_3:
         ],
         "status": "success"
     }
-
 #Case 4: Delete path trace based on flow analysis id
 response_4:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -629,7 +626,6 @@ response_4:
             'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
         "status": "success"
     }
-
 #Case 5: Delete path trace based on Source and Destination IP
 response_5:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK

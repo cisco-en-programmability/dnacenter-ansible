@@ -12,12 +12,17 @@ __author__ = ["A Mohamed Rafeek, Megha Kandari, Madhan Sankaranarayanan"]
 DOCUMENTATION = r"""
 ---
 module: assurance_issue_workflow_manager
-short_description: Resource module for managing assurance global profile settings and issue resolution in Cisco Catalyst Center
+short_description: Resource module for managing assurance
+  global profile settings and issue resolution in Cisco
+  Catalyst Center
 description:
-  - This module allows the management of assurance global profile settings and issues in Cisco Catalyst Center.
-  - It supports creating, updating, and deleting configurations for issue settings and issue resolution functionalities.
-  - This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs,
-    and more for issue settings and issue resolution.
+  - This module allows the management of assurance global
+    profile settings and issues in Cisco Catalyst Center.
+  - It supports creating, updating, and deleting configurations
+    for issue settings and issue resolution functionalities.
+  - This module interacts with Cisco Catalyst Center's
+    Assurance settings to configure thresholds, rules,
+    KPIs, and more for issue settings and issue resolution.
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -25,250 +30,270 @@ author:
   - A Mohamed Rafeek (@mabdulk2)
   - Megha Kandari (@mekandar)
   - Madhan Sankaranarayanan (@madhansansel)
-
 options:
   config_verify:
     description: >
-      Set to `true` to enable configuration verification on Cisco Catalyst Center after applying the playbook config.
-      This will ensure that the system validates the configuration state after the change is applied.
+      Set to `true` to enable configuration verification
+      on Cisco Catalyst Center after applying the playbook
+      config. This will ensure that the system validates
+      the configuration state after the change is applied.
     type: bool
     default: false
   state:
     description: >
       Specifies the desired state for the configuration.
-      If `merged`, the module will create or update the configuration, adding new settings or modifying existing ones.
-      If `deleted`, it will remove the specified settings.
+      If `merged`, the module will create or update
+      the configuration, adding new settings or modifying
+      existing ones. If `deleted`, it will remove the
+      specified settings.
     type: str
     choices: ["merged", "deleted"]
     default: merged
   config:
     description: >
       A list of settings and parameters to be applied.
-      It consists of different sub-configurations for managing assurance settings such as issue settings,
-      health score, ICAP settings, issue resolution, and command execution.
+      It consists of different sub-configurations for
+      managing assurance settings such as issue settings,
+      health score, ICAP settings, issue resolution,
+      and command execution.
     type: list
     elements: dict
     required: true
     suboptions:
       assurance_user_defined_issue_settings:
         description: >
-          Configures user-defined issue settings for assurance in Cisco Catalyst Center.
-          Allows defining issue names, descriptions, severity, priority, and rules governing network issues.
+          Configures user-defined issue settings for
+          assurance in Cisco Catalyst Center. Allows
+          defining issue names, descriptions, severity,
+          priority, and rules governing network issues.
         type: list
         elements: dict
         suboptions:
           name:
             description: >
-              The name of the issue setting, used for identification in the system.
-              Required when creating a new setting or updating an existing one.
+              The name of the issue setting, used for
+              identification in the system. Required
+              when creating a new setting or updating
+              an existing one.
             type: str
             required: true
           description:
             description: >
-              A brief explanation of the issue for clarity in reports and dashboards.
+              A brief explanation of the issue for clarity
+              in reports and dashboards.
             type: str
           rules:
             description: >
-              A set of rules that define the parameters for triggering the issue.
-              Includes severity, facility, mnemonic, pattern, occurrences, and duration.
+              A set of rules that define the parameters
+              for triggering the issue. Includes severity,
+              facility, mnemonic, pattern, occurrences,
+              and duration.
             type: list
             elements: dict
             suboptions:
               severity:
                 description: >
-                  Specifies the severity level of the issue.
-                  The severity value can be an integer (0 to 6) or its corresponding string representation.
+                  Specifies the severity level of the
+                  issue. The severity value can be an
+                  integer (0 to 6) or its corresponding
+                  string representation.
                 type: str
                 choices:
-                   - "0"  # Emergency
-                   - "1"  # Alert
-                   - "2"  # Critical
-                   - "3"  # Error
-                   - "4"  # Warning
-                   - "5"  # Notice
-                   - "6"  # Info
-                   - "Emergency"
-                   - "Alert"
-                   - "Critical"
-                   - "Error"
-                   - "Warning"
-                   - "Notice"
-                   - "Info"
+                  - "0" # Emergency
+                  - "1" # Alert
+                  - "2" # Critical
+                  - "3" # Error
+                  - "4" # Warning
+                  - "5" # Notice
+                  - "6" # Info
+                  - "Emergency"
+                  - "Alert"
+                  - "Critical"
+                  - "Error"
+                  - "Warning"
+                  - "Notice"
+                  - "Info"
               facility:
                 description: >
-                  The facility type that the rule applies to.
+                  The facility type that the rule applies
+                  to.
                 choices:
-                   - CI
-                   - PLATFORM_ENV
-                   - PLATFORM_THERMAL
-                   - PLATFORM_FEP
-                   - ENVMON
-                   - HARDWARE
-                   - SYS
-                   - ENVM
-                   - PLATFORM
-                   - CTS
-                   - THERMAL
-                   - SPA
-                   - IOSXE_RP_ALARM
-                   - ENVIRONMENT
-                   - SPANTREE
-                   - CMRP_ENVMON
-                   - LISP
-                   - PM
-                   - UDLD
-                   - IP
-                   - SW_MATM
-                   - CMRP_PFU
-                   - C4K_IOSMODPORTMAN
-                   - C6KENV
-                   - MAC_MOVE
-                   - OSP
-                   - SFF8472
-                   - DUAL
-                   - DMI
-                   - BGP
-                   - REDUNDANCY
-                   - IFDAMP
-                   - CAPWAPAC_SMGR_TRACE_MESSAGE
-                   - OSPF
-                   - DOT1X
-                   - ILPOWER
-                   - IOSXE_OIR
-                   - TRANSCEIVER
-                   - SMART_LIC
-                   - STANDBY
-                   - IOSXE_PEM
-                   - PLATFORM_STACKPOWER
-                   - ENV_MON
-                   - IOSXE_INFRA
-                   - STACKMGR
+                  - CI
+                  - PLATFORM_ENV
+                  - PLATFORM_THERMAL
+                  - PLATFORM_FEP
+                  - ENVMON
+                  - HARDWARE
+                  - SYS
+                  - ENVM
+                  - PLATFORM
+                  - CTS
+                  - THERMAL
+                  - SPA
+                  - IOSXE_RP_ALARM
+                  - ENVIRONMENT
+                  - SPANTREE
+                  - CMRP_ENVMON
+                  - LISP
+                  - PM
+                  - UDLD
+                  - IP
+                  - SW_MATM
+                  - CMRP_PFU
+                  - C4K_IOSMODPORTMAN
+                  - C6KENV
+                  - MAC_MOVE
+                  - OSP
+                  - SFF8472
+                  - DUAL
+                  - DMI
+                  - BGP
+                  - REDUNDANCY
+                  - IFDAMP
+                  - CAPWAPAC_SMGR_TRACE_MESSAGE
+                  - OSPF
+                  - DOT1X
+                  - ILPOWER
+                  - IOSXE_OIR
+                  - TRANSCEIVER
+                  - SMART_LIC
+                  - STANDBY
+                  - IOSXE_PEM
+                  - PLATFORM_STACKPOWER
+                  - ENV_MON
+                  - IOSXE_INFRA
+                  - STACKMGR
                 type: str
               mnemonic:
                 description: >
-                  A system-generated identifier or label representing the issue.
+                  A system-generated identifier or label
+                  representing the issue.
                 choices:
-                  - SHUT_LC_FANGONE  #facility :CI
-                  - SHUTFANGONE  #facility :CI
-                  - SHUTFANFAIL  #facility :CI
-                  - SHUT_LC_FANFAIL  #facility :CI
-                  - FRU_PS_FAN_FAILED  #facility :PLATFORM_ENV
-                  - RPS_FAN_FAILED  #facility :PLATFORM_ENV, ENVMON
-                  - FRU_PS_FAN_OK  #facility :PLATFORM_ENV
-                  - FAN  #facility :PLATFORM_ENV, ENVIRONMENT
-                  - FAN_NOT_PRESENT  #facility :PLATFORM_ENV
-                  - FRU_FAN_OK  #facility :PLATFORM_ENV
-                  - PLATFORM_FAN_CRITICAL  #facility :PLATFORM_ENV
-                  - RPS_PS_FAN_FAILED  #facility :PLATFORM_ENV, PLATFORM_THERMAL
-                  - FRU_FAN_FAILURE  #facility :PLATFORM_THERMAL
-                  - FRU_FAN_RECOVERY  #facility :PLATFORM_THERMAL
-                  - FAN_CRITICAL  #facility :PLATFORM_THERMAL
-                  - FRU_FAN_NOT_PRESENT  #facility :PLATFORM_THERMAL
-                  - FRU_FAN_DISABLED  #facility :PLATFORM_THERMAL
-                  - FRU_FAN_INSUFFICIENTFANTRAYSDETECTEDPOWERDOWN  #facility :PLATFORM_THERMAL
-                  - FRU_PS_SIGNAL_FAULTY  #facility :PLATFORM_FEP
-                  - FAN_FAILURE_LC_SHUT  #facility :CI
-                  - FAN_MISSING  #facility :CI
-                  - TOTALFANFAIL  #facility :CI
-                  - NOFAN  #facility :CI
-                  - THERMAL_CRITICAL  #facility :HARDWARE
-                  - OVERTEMP  #facility :SYS
-                  - OVERTEMP_ALERT  #facility :ENVM
-                  - PFM_ALERT  #facility :PLATFORM
-                  - PFU_FAN_FAILED  #facility :CMRP_PFU
-                  - MODULECRITICALTEMP  #facility :C4K_IOSMODPORTMAN
-                  - CRITICALTEMP  #facility :C4K_IOSMODPORTMAN
-                  - AUTHZ_POLICY_SGACL_ACE_FAILED  #facility :CTS
-                  - THERMAL_YELLOW_THRESHOLD  #facility :THERMAL
-                  - THERMAL_RED_THRESHOLD  #facility :THERMAL
-                  - TEMP_CRITICAL  #facility :SPA
-                  - PEM  #facility :IOSXE_RP_ALARM
-                  - FANOK  #facility :EVN_MON, IOSXE_PEM
-                  - FAN_FAULT  #facility :ENVIRONMENT
-                  - PS_RED_MODE_CHG  #facility :PLATFORM
-                  - PS_FAIL  #facility :PLATFORM
-                  - PS_DETECT  #facility :PLATFORM
-                  - PS_ABSENT  #facility :PLATFORM
-                  - BLOCK_BPDUGUARD  #facility :SPANTREE
-                  - MAJORTEMPALARM  #facility :C6KENV
-                  - PEER_MONITOR  #facility :REDUNDANCY
-                  - SWITCHOVER  #facility :REDUNDANCY
-                  - STANDBY_LOST  #facility :REDUNDANCY
-                  - PARTIAL_FAN_FAIL  #facility :CI
-                  - PARTFANFAIL  #facility :CI
-                  - PSFANFAIL  #facility :CI
+                  - SHUT_LC_FANGONE #facility :CI
+                  - SHUTFANGONE #facility :CI
+                  - SHUTFANFAIL #facility :CI
+                  - SHUT_LC_FANFAIL #facility :CI
+                  - FRU_PS_FAN_FAILED #facility :PLATFORM_ENV
+                  - RPS_FAN_FAILED #facility :PLATFORM_ENV, ENVMON
+                  - FRU_PS_FAN_OK #facility :PLATFORM_ENV
+                  - FAN #facility :PLATFORM_ENV, ENVIRONMENT
+                  - FAN_NOT_PRESENT #facility :PLATFORM_ENV
+                  - FRU_FAN_OK #facility :PLATFORM_ENV
+                  - PLATFORM_FAN_CRITICAL #facility :PLATFORM_ENV
+                  - RPS_PS_FAN_FAILED #facility :PLATFORM_ENV, PLATFORM_THERMAL
+                  - FRU_FAN_FAILURE #facility :PLATFORM_THERMAL
+                  - FRU_FAN_RECOVERY #facility :PLATFORM_THERMAL
+                  - FAN_CRITICAL #facility :PLATFORM_THERMAL
+                  - FRU_FAN_NOT_PRESENT #facility :PLATFORM_THERMAL
+                  - FRU_FAN_DISABLED #facility :PLATFORM_THERMAL
+                  - FRU_FAN_INSUFFICIENTFANTRAYSDETECTEDPOWERDOWN #facility :PLATFORM_THERMAL
+                  - FRU_PS_SIGNAL_FAULTY #facility :PLATFORM_FEP
+                  - FAN_FAILURE_LC_SHUT #facility :CI
+                  - FAN_MISSING #facility :CI
+                  - TOTALFANFAIL #facility :CI
+                  - NOFAN #facility :CI
+                  - THERMAL_CRITICAL #facility :HARDWARE
+                  - OVERTEMP #facility :SYS
+                  - OVERTEMP_ALERT #facility :ENVM
+                  - PFM_ALERT #facility :PLATFORM
+                  - PFU_FAN_FAILED #facility :CMRP_PFU
+                  - MODULECRITICALTEMP #facility :C4K_IOSMODPORTMAN
+                  - CRITICALTEMP #facility :C4K_IOSMODPORTMAN
+                  - AUTHZ_POLICY_SGACL_ACE_FAILED #facility :CTS
+                  - THERMAL_YELLOW_THRESHOLD #facility :THERMAL
+                  - THERMAL_RED_THRESHOLD #facility :THERMAL
+                  - TEMP_CRITICAL #facility :SPA
+                  - PEM #facility :IOSXE_RP_ALARM
+                  - FANOK #facility :EVN_MON, IOSXE_PEM
+                  - FAN_FAULT #facility :ENVIRONMENT
+                  - PS_RED_MODE_CHG #facility :PLATFORM
+                  - PS_FAIL #facility :PLATFORM
+                  - PS_DETECT #facility :PLATFORM
+                  - PS_ABSENT #facility :PLATFORM
+                  - BLOCK_BPDUGUARD #facility :SPANTREE
+                  - MAJORTEMPALARM #facility :C6KENV
+                  - PEER_MONITOR #facility :REDUNDANCY
+                  - SWITCHOVER #facility :REDUNDANCY
+                  - STANDBY_LOST #facility :REDUNDANCY
+                  - PARTIAL_FAN_FAIL #facility :CI
+                  - PARTFANFAIL #facility :CI
+                  - PSFANFAIL #facility :CI
                   - DUPADDR #facility :STANDBY
-                  - PEMCHASFSERR  #facility :IOSXE_PEM
-                  - PEMFAIL  #facility :IOSXE_PEM
-                  - FAN_FAIL_SHUTDOWN  #facility :IOSXE_PEM
-                  - FANFAIL  #facility :IOSXE_PEM
-                  - TEMP_SYS_SHUTDOWN_PENDING  #facility :CMRP_ENVMON
-                  - TEMP_WARN_CRITICAL  #facility :CMRP_ENVMON
-                  - TEMP_FRU_SHUTDOWN_PENDING  #facility :CMRP_ENVMON
-                  - MAP_CACHE_WARNING_THRESHOLD_REACHED  #facility :LISP
-                  - LOCAL_EID_NO_ROUTE  #facility :LISP
-                  - LOCAL_EID_MAP_REGISTER_FAILURE  #facility :LISP
-                  - CEF_DISABLED  #facility :LISP
-                  - ERR_DISABLE  #facility :PM
-                  - UNDER_BUDGET   #facility :PLATFORM_STACKPOWER
-                  - VERSION_MISMATCH  #facility :PLATFORM_STACKPOWER
-                  - TOO_MANY_ERRORS  #facility :PLATFORM_STACKPOWER
-                  - INSUFFICIENT_PWR  #facility :PLATFORM_STACKPOWER
-                  - REDUNDANCY_LOSS  #facility :PLATFORM_STACKPOWER
-                  - UDLD_PORT_DISABLED  #facility :UDLD
-                  - DUPADDR  #facility :IP
-                  - MACFLAP_NOTIF  #facility :SW_MATM
-                  - PFU_FAN_WARN  #facility :CMRP_PFU
-                  - MODULETEMPHIGH  #facility :C4K_IOSMODPORTMAN
-                  - POWERSUPPLYBAD  #facility :C4K_IOSMODPORTMAN
-                  - CRITICALTEMP  #facility :C4K_IOSMODPORTMAN
-                  - MODULECRITICALTEMP  #facility :C4K_IOSMODPORTMAN
-                  - TEMPHIGH  #facility :C4K_IOSMODPORTMAN
-                  - FANTRAYREMOVED  #facility :C4K_IOSMODPORTMAN
-                  - TERMINATOR_PS_TEMP_MAJORALARM  #facility :C6KENV
-                  - NOTIF  #facility :MAC_MOVE
-                  - THRESHOLD_VIOLATION  #facility :SFF8472
-                  - NBRCHANGE  #facility :DUAL
-                  - SUCCESS  #facility :DOT1X
-                  - FAIL  #facility :DOT1X
-                  - SYNC_NEEDED  #facility :DMI
-                  - SYNC_START  #facility :DMI
-                  - ADJCHANGE  #facility :BGP
-                  - PEER_MONITOR_EVENT  #facility :REDUNDANCY
-                  - UPDOWN  #facility :IFDAMP
-                  - AP_JOIN_DISJOIN  #facility :CAPWAPAC_SMGR_TRACE_MESSAGE
-                  - ADJCHG  #facility :OSPF
-                  - ILPOWER_POWER_DENY  #facility :ILPOWER
-                  - REMSPA   #facility :IOSXE_OIR
-                  - INSSPA  #facility :IOSXE_OIR
-                  - OFFLINECARD  #facility :IOSXE_OIR
-                  - REMOVED  #facility :TRANSCEIVER
-                  - INSERTED  #facility :TRANSCEIVER
-                  - AGENT_READY  #facility :SMART_LIC
-                  - HA_ROLE_CHANGED  #facility :SMART_LIC
-                  - AGENT_ENABLED  #facility :SMART_LIC
-                  - STATECHANGE  #facility :STANDBY
-                  - REMPEM_FM  #facility :IOSXE_PEM
-                  - PEMOK  #facility :IOSXE_PEM
-                  - CABLE_EVENT  #facility :PLATFORM_STACKPOWER
-                  - LINK_EVENT  #facility :PLATFORM_STACKPOWER
-                  - REMPEM  #facility :ENV_MON
-                  - HASTATUS_DETAIL  #facility :PLATFORM
-                  - HASTATUS  #facility :PLATFORM
-                  - PROCPATH_CLIENT_HOG  #facility :IOSXE_INFRA
-                  - STACK_LINK_CHANGE  #facility :STACKMGR
+                  - PEMCHASFSERR #facility :IOSXE_PEM
+                  - PEMFAIL #facility :IOSXE_PEM
+                  - FAN_FAIL_SHUTDOWN #facility :IOSXE_PEM
+                  - FANFAIL #facility :IOSXE_PEM
+                  - TEMP_SYS_SHUTDOWN_PENDING #facility :CMRP_ENVMON
+                  - TEMP_WARN_CRITICAL #facility :CMRP_ENVMON
+                  - TEMP_FRU_SHUTDOWN_PENDING #facility :CMRP_ENVMON
+                  - MAP_CACHE_WARNING_THRESHOLD_REACHED #facility :LISP
+                  - LOCAL_EID_NO_ROUTE #facility :LISP
+                  - LOCAL_EID_MAP_REGISTER_FAILURE #facility :LISP
+                  - CEF_DISABLED #facility :LISP
+                  - ERR_DISABLE #facility :PM
+                  - UNDER_BUDGET #facility :PLATFORM_STACKPOWER
+                  - VERSION_MISMATCH #facility :PLATFORM_STACKPOWER
+                  - TOO_MANY_ERRORS #facility :PLATFORM_STACKPOWER
+                  - INSUFFICIENT_PWR #facility :PLATFORM_STACKPOWER
+                  - REDUNDANCY_LOSS #facility :PLATFORM_STACKPOWER
+                  - UDLD_PORT_DISABLED #facility :UDLD
+                  - DUPADDR #facility :IP
+                  - MACFLAP_NOTIF #facility :SW_MATM
+                  - PFU_FAN_WARN #facility :CMRP_PFU
+                  - MODULETEMPHIGH #facility :C4K_IOSMODPORTMAN
+                  - POWERSUPPLYBAD #facility :C4K_IOSMODPORTMAN
+                  - CRITICALTEMP #facility :C4K_IOSMODPORTMAN
+                  - MODULECRITICALTEMP #facility :C4K_IOSMODPORTMAN
+                  - TEMPHIGH #facility :C4K_IOSMODPORTMAN
+                  - FANTRAYREMOVED #facility :C4K_IOSMODPORTMAN
+                  - TERMINATOR_PS_TEMP_MAJORALARM #facility :C6KENV
+                  - NOTIF #facility :MAC_MOVE
+                  - THRESHOLD_VIOLATION #facility :SFF8472
+                  - NBRCHANGE #facility :DUAL
+                  - SUCCESS #facility :DOT1X
+                  - FAIL #facility :DOT1X
+                  - SYNC_NEEDED #facility :DMI
+                  - SYNC_START #facility :DMI
+                  - ADJCHANGE #facility :BGP
+                  - PEER_MONITOR_EVENT #facility :REDUNDANCY
+                  - UPDOWN #facility :IFDAMP
+                  - AP_JOIN_DISJOIN #facility :CAPWAPAC_SMGR_TRACE_MESSAGE
+                  - ADJCHG #facility :OSPF
+                  - ILPOWER_POWER_DENY #facility :ILPOWER
+                  - REMSPA #facility :IOSXE_OIR
+                  - INSSPA #facility :IOSXE_OIR
+                  - OFFLINECARD #facility :IOSXE_OIR
+                  - REMOVED #facility :TRANSCEIVER
+                  - INSERTED #facility :TRANSCEIVER
+                  - AGENT_READY #facility :SMART_LIC
+                  - HA_ROLE_CHANGED #facility :SMART_LIC
+                  - AGENT_ENABLED #facility :SMART_LIC
+                  - STATECHANGE #facility :STANDBY
+                  - REMPEM_FM #facility :IOSXE_PEM
+                  - PEMOK #facility :IOSXE_PEM
+                  - CABLE_EVENT #facility :PLATFORM_STACKPOWER
+                  - LINK_EVENT #facility :PLATFORM_STACKPOWER
+                  - REMPEM #facility :ENV_MON
+                  - HASTATUS_DETAIL #facility :PLATFORM
+                  - HASTATUS #facility :PLATFORM
+                  - PROCPATH_CLIENT_HOG #facility :IOSXE_INFRA
+                  - STACK_LINK_CHANGE #facility :STACKMGR
                 type: str
               pattern:
                 description: >
-                  A pattern or regular expression defining the issue detection criteria.
+                  A pattern or regular expression defining
+                  the issue detection criteria.
                 type: str
               occurrences:
                 description: >
-                  The number of times the issue pattern must occur before triggering the issue.
+                  The number of times the issue pattern
+                  must occur before triggering the issue.
                 type: int
               duration_in_minutes:
                 description: >
-                  The duration, in minutes, for which the issue pattern must persist to be considered valid.
+                  The duration, in minutes, for which
+                  the issue pattern must persist to
+                  be considered valid.
                 type: int
           is_enabled:
             description: >
@@ -281,51 +306,56 @@ options:
             type: str
           is_notification_enabled:
             description: >
-              Boolean value to specify if notifications for this issue setting should be enabled.
+              Boolean value to specify if notifications
+              for this issue setting should be enabled.
             type: bool
           prev_name:
             description: >
-              The previous name of the issue setting (used when updating an existing issue setting).
+              The previous name of the issue setting
+              (used when updating an existing issue
+              setting).
             type: str
       assurance_system_issue_settings:
         description: >
-          Manages system issue settings for assurance in Cisco Catalyst Center.
+          Manages system issue settings for assurance
+          in Cisco Catalyst Center.
         type: list
         elements: dict
         suboptions:
           name:
             description: >
-              The name of the system issue setting, used to identify the configuration in the system.
-              Required when creating or updating an issue setting.
+              The name of the system issue setting,
+              used to identify the configuration in
+              the system. Required when creating or
+              updating an issue setting.
             type: str
             required: true
           description:
             description: >
-                Provides a detailed explanation of the system issue setting, including the specific threshold fields
-                that require updates for the defined issue names. This field is essential for understanding which
-                parameters need adjustment to align with the current system configurations and alerting criteria.
+              Provides a detailed explanation of the
+              system issue setting, including the specific
+              threshold fields that require updates
+              for the defined issue names. This field
+              is essential for understanding which parameters
+              need adjustment to align with the current
+              system configurations and alerting criteria.
             type: str
             required: true
           device_type:
             description: >
-                Specifies the type of device to which the issue configuration applies.
-                For example,
-                choices:
-                - ROUTER
-                - SWITCH_AND_HUB
-                - UNIFIED_AP
-                - WIRELESS_CLIENT
-                - WIRED_CLIENT
-                - WIRELESS_CONTROLLER
-                - THIRD_PARTY_DEVICE
-                - APPLICATION
-                - SENSOR
+              Specifies the type of device to which
+              the issue configuration applies. For example,
+              choices: - ROUTER - SWITCH_AND_HUB - UNIFIED_AP
+              - WIRELESS_CLIENT - WIRED_CLIENT - WIRELESS_CONTROLLER
+              - THIRD_PARTY_DEVICE - APPLICATION - SENSOR
             type: str
             required: true
           synchronize_to_health_threshold:
             description: >
-              A boolean value indicating whether the system issue should be synchronized to the health threshold.
-              Accepts "true" or "false".
+              A boolean value indicating whether the
+              system issue should be synchronized to
+              the health threshold. Accepts "true" or
+              "false".
             type: bool
             required: true
           priority:
@@ -336,110 +366,139 @@ options:
             required: true
           issue_enabled:
             description: >
-              A boolean value that determines whether the issue is enabled or disabled.
-              Accepts "true" or "false".
+              A boolean value that determines whether
+              the issue is enabled or disabled. Accepts
+              "true" or "false".
             type: bool
             required: true
           threshold_value:
             description: >
-              The threshold value that triggers the issue. This is usually specified as a percentage or a numerical value depending on the nature of the issue.
-              For example, for the issue "Wireless client exhibiting sticky behavior," the threshold could be a maximum RSSI value (e.g., -70 dBm).
-              Similarly, for a "WLC Memory High Utilization", a threshold like 90% can be used.
-              - **Percentage-based thresholds**: Must not exceed 100%.
-              - **dBm (decibel-milliwatts) thresholds**: Must not exceed 0 dBm, meaning it should be a negative value.
+              The threshold value that triggers the
+              issue. This is usually specified as a
+              percentage or a numerical value depending
+              on the nature of the issue. For example,
+              for the issue "Wireless client exhibiting
+              sticky behavior," the threshold could
+              be a maximum RSSI value (e.g., -70 dBm).
+              Similarly, for a "WLC Memory High Utilization",
+              a threshold like 90% can be used. - **Percentage-based
+              thresholds**: Must not exceed 100%. -
+              **dBm (decibel-milliwatts) thresholds**:
+              Must not exceed 0 dBm, meaning it should
+              be a negative value.
             type: int
             required: true
       assurance_issue:
         description: >
-          Allow to resolve, ignore, or execute commands based on the issue settings assurance
-          in Cisco Catalyst Center.
+          Allow to resolve, ignore, or execute commands
+          based on the issue settings assurance in Cisco
+          Catalyst Center.
         type: list
         elements: dict
         suboptions:
           issue_name:
             description: >
-              The name of the issue to be processed (either resolved, ignored, or command executed). This field is required when creating or updating an issue.
+              The name of the issue to be processed
+              (either resolved, ignored, or command
+              executed). This field is required when
+              creating or updating an issue.
             type: str
             required: true
           issue_process_type:
             description: >
-              Defines the action to be taken on the issue. Possible values:
-                resolution: Resolves the issue.
-                ignore: Ignores the issue.
-                command_execution: Executes commands to address the issue.
+              Defines the action to be taken on the
+              issue. Possible values:
+                resolution:
+              Resolves the issue.
+                ignore:
+              Ignores the issue.
+                command_execution:
+              Executes commands to address the issue.
             type: str
             required: true
           start_datetime:
             description: >
-              A filter to select issues that started at or after this date and time. The format is "YYYY-MM-DD HH:MM:SS".
+              A filter to select issues that started
+              at or after this date and time. The format
+              is "YYYY-MM-DD HH:MM:SS".
             type: str
             required: false
           end_datetime:
             description: >
-              A filter to select issues that ended at or before this date and time. The format is "YYYY-MM-DD HH:MM:SS".
+              A filter to select issues that ended at
+              or before this date and time. The format
+              is "YYYY-MM-DD HH:MM:SS".
             type: str
             required: false
           site_hierarchy:
             description: >
-              A filter to select issues based on the site location hierarchy.
-              The format is "Global/Region/Location/Building", where each level is separated by a slash.
+              A filter to select issues based on the
+              site location hierarchy. The format is
+              "Global/Region/Location/Building", where
+              each level is separated by a slash.
             type: str
             required: false
           priority:
             description: >
-              A filter to select issues based on their priority. Acceptable values are:
-                - P1 (Highest Priority)
+              A filter to select issues based on their
+              priority. Acceptable values are:
+                - P1 (Highest
+              Priority)
                 - P2
                 - P3
-                - P4 (Lowest Priority)
-              type: str
-              required: false
+                - P4 (Lowest
+              Priority) type: str required: false
           issue_status:
             description: >
-              A filter to select issues based on their status. Acceptable values are:
-                ACTIVE: The issue is currently open.
-                RESOLVED: The issue has been resolved.
-                IGNORED: The issue has been ignored.
-              type: str
+              A filter to select issues based on their
+              status. Acceptable values are:
+                ACTIVE:
+              The issue is currently open.
+                RESOLVED:
+              The issue has been resolved.
+                IGNORED:
+              The issue has been ignored. type: str
               required: false
           device_name:
             description: >
-              A filter to select issues based on the device name that is associated with the issue (e.g., `NY-EN-9300.cisco.local`).
+              A filter to select issues based on the
+              device name that is associated with the
+              issue (e.g., `NY-EN-9300.cisco.local`).
             type: str
             required: false
           mac_address:
             description: >
-              A filter to select issues based on the MAC address of the device associated with the issue.
+              A filter to select issues based on the
+              MAC address of the device associated with
+              the issue.
             type: str
             required: false
           network_device_ip_address:
             description: >
-              A filter to select issues based on the network device's IP address associated with the issue.
+              A filter to select issues based on the
+              network device's IP address associated
+              with the issue.
             type: str
             required: false
 requirements:
   - dnacentersdk >= 2.8.6
   - python >= 3.9
-
 notes:
-  - SDK Methods used are
-      issues.AssuranceSettings.get_all_the_custom_issue_definitions_based_on_the_given_filters
-      issues.AssuranceSettings.creates_a_new_user_defined_issue_definitions
-      issues.AssuranceSettings.deletes_an_existing_custom_issue_definition
-      issues.AssuranceSettings.resolve_the_given_lists_of_issues
-      issues.AssuranceSettings.ignore_the_given_list_of_issues
-      issues.AssuranceSettings.execute_suggested_action_commands
-
+  - SDK Methods used are issues.AssuranceSettings.get_all_the_custom_issue_definitions_based_on_the_given_filters
+    issues.AssuranceSettings.creates_a_new_user_defined_issue_definitions
+    issues.AssuranceSettings.deletes_an_existing_custom_issue_definition
+    issues.AssuranceSettings.resolve_the_given_lists_of_issues
+    issues.AssuranceSettings.ignore_the_given_list_of_issues
+    issues.AssuranceSettings.execute_suggested_action_commands
   - Paths used are
-      POST /dna/intent/api/api/v1/customIssueDefinitions
-      POST /dna/intent/api/v1/assuranceIssues/resolve
-      POST /dna/intent/api/v1/execute-suggested-actions-commands
-      POST /dna/intent/api/v1/assuranceIssues/ignore
-      POST /dna/intent/api/v1/flow-analysis/${flowAnalysisId}
-      POST /dna/intent/api/v1/flow-analysis
-      PUT /dna/intent/api/v1/systemIssueDefinitions/${id}
-      DELETE /dna/intent/api/v1/flow-analysis/{flowAnalysisId}
-      DELETE /dna/intent/api/v1/customIssueDefinitions/{id}
+    POST /dna/intent/api/api/v1/customIssueDefinitions
+    POST /dna/intent/api/v1/assuranceIssues/resolve
+    POST /dna/intent/api/v1/execute-suggested-actions-commands
+    POST /dna/intent/api/v1/assuranceIssues/ignore POST
+    /dna/intent/api/v1/flow-analysis/${flowAnalysisId}
+    POST /dna/intent/api/v1/flow-analysis PUT /dna/intent/api/v1/systemIssueDefinitions/${id}
+    DELETE /dna/intent/api/v1/flow-analysis/{flowAnalysisId}
+    DELETE /dna/intent/api/v1/customIssueDefinitions/{id}
 """
 # Facility and mnemonic mappings for severities 3, 4, 5, and 6
 facility_mnemonic_map = r"""
@@ -605,7 +664,8 @@ EXAMPLES = r"""
         config:
           - assurance_user_defined_issue_settings:
               - name: High CPU Usage Alert
-                description: Triggers an alert when CPU usage exceeds threshold
+                description: Triggers an alert when
+                  CPU usage exceeds threshold
                 rules:
                   - severity: Warning
                     facility: redundancy
@@ -616,7 +676,6 @@ EXAMPLES = r"""
                 is_enabled: false
                 priority: P1
                 is_notification_enabled: false
-
     - name: update issue settings
       cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -646,7 +705,6 @@ EXAMPLES = r"""
                 is_enabled: false
                 priority: P1
                 is_notification_enabled: false
-
     - name: Delete issue settings
       cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -663,7 +721,6 @@ EXAMPLES = r"""
         config:
           - assurance_user_defined_issue_settings:
               - name: High CPU Usage Alert
-
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
@@ -686,14 +743,14 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_system_issue_settings:
-              - name: "Assurance telemetry status is poor"
+              - name: "Assurance telemetry status is
+                  poor"
                 description: RF Noise (5GHz)
                 device_type: WIRED_CLIENT
                 synchronize_to_health_threshold: true
                 priority: P1
                 issue_enabled: false
                 threshold_value: -10
-
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
@@ -716,17 +773,17 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_issue:
-              - issue_name: Fabric BGP session status is down with Peer Device  # required field
-                issue_process_type: resolution  # required field
-                start_datetime: "2024-12-11 16:00:00"  # optional field
-                end_datetime: "2024-12-11 18:30:00"  # optional field
-                site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
-                device_name: NY-EN-9300.cisco.local  # optional field
-                priority: P4  # optional field
-                issue_status: ACTIVE  # optional field
-                mac_address: e4:38:7e:42:bc:40  # optional field
-                network_device_ip_address: 204.1.2.4  # optional field
-
+              - issue_name: Fabric BGP session status
+                  is down with Peer Device # required field
+                issue_process_type: resolution # required field
+                start_datetime: "2024-12-11 16:00:00" # optional field
+                end_datetime: "2024-12-11 18:30:00" # optional field
+                site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
+                device_name: NY-EN-9300.cisco.local # optional field
+                priority: P4 # optional field
+                issue_status: ACTIVE # optional field
+                mac_address: e4:38:7e:42:bc:40 # optional field
+                network_device_ip_address: 204.1.2.4 # optional field
     - name: Ignoring issues
       cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -743,17 +800,17 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_issue:
-              - issue_name: Fabric BGP session status is down with Peer Device  # required field
-                issue_process_type: ignore  # required field
-                start_datetime: "2024-12-11 16:00:00"  # optional field
-                end_datetime: "2024-12-11 18:30:00"  # optional field
-                site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
-                device_name: NY-EN-9300.cisco.local  # optional field
-                priority: P4  # optional field
-                issue_status: ACTIVE  # optional field
-                mac_address: e4:38:7e:42:bc:40  # optional field
-                network_device_ip_address: 204.1.2.4  # optional field
-
+              - issue_name: Fabric BGP session status
+                  is down with Peer Device # required field
+                issue_process_type: ignore # required field
+                start_datetime: "2024-12-11 16:00:00" # optional field
+                end_datetime: "2024-12-11 18:30:00" # optional field
+                site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
+                device_name: NY-EN-9300.cisco.local # optional field
+                priority: P4 # optional field
+                issue_status: ACTIVE # optional field
+                mac_address: e4:38:7e:42:bc:40 # optional field
+                network_device_ip_address: 204.1.2.4 # optional field
     - name: Execute suggested commands
       cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -770,21 +827,21 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_issue:
-              - issue_name: Fabric BGP session status is down with Peer Device  # required field
-                issue_process_type: command_execution  # required field
-                start_datetime: "2024-12-11 16:00:00"  # optional field
-                end_datetime: "2024-12-11 18:30:00"  # optional field
-                site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
-                device_name: NY-EN-9300.cisco.local  # optional field
-                priority: P4  # optional field
-                issue_status: ACTIVE  # optional field
-                mac_address: e4:38:7e:42:bc:40  # optional field
-                network_device_ip_address: 204.1.2.4  # optional field
+              - issue_name: Fabric BGP session status
+                  is down with Peer Device # required field
+                issue_process_type: command_execution # required field
+                start_datetime: "2024-12-11 16:00:00" # optional field
+                end_datetime: "2024-12-11 18:30:00" # optional field
+                site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
+                device_name: NY-EN-9300.cisco.local # optional field
+                priority: P4 # optional field
+                issue_status: ACTIVE # optional field
+                mac_address: e4:38:7e:42:bc:40 # optional field
+                network_device_ip_address: 204.1.2.4 # optional field
 """
 
 
 RETURN = r"""
-
 #Case 1: Successful creation of issue
 response_create:
   description: Details of the response returned by the assurance settings create API.
@@ -816,8 +873,6 @@ response_create:
           "lastUpdatedTime": 1672617600
       }
   }
-
-
 #Case 2: Successful updation of issue
 response_update:
   description: Details of the response returned by the assurance settings update API.
@@ -849,7 +904,6 @@ response_update:
           "lastUpdatedTime": 1672617600
       }
   }
-
 #Case 3: Successfully Resolved issue
 response_resolved:
   description: The response after resolving issues in Cisco Catalyst Center.
@@ -866,7 +920,6 @@ response_resolved:
       },
       "version": "string"
   }
-
 #Case 4: Successfully ignored issue
 Response_ignore:
   description: The response after ignoring issues in Cisco Catalyst Center.
@@ -883,7 +936,6 @@ Response_ignore:
       },
       "version": "string"
   }
-
 #Case 5: Successfully executed commands of issue
 Response:
   description: The response object containing execution details of suggested action commands.
@@ -897,7 +949,6 @@ Response:
     "message": "The request has been accepted for execution"
     }
   ]
-
 #Case 6: Successfully updated System issue
 response_update_system_issue:
   description: The response object containing detailed information about the issue or configuration.
