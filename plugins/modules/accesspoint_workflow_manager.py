@@ -1263,7 +1263,7 @@ EXAMPLES = r"""
     Configuration
   hosts: dnac_servers
   connection: local
-  gather_facts: false # This space must be "no." It was set to false due to formatting errors.
+  gather_facts: false  # This space must be "no." It was set to false due to formatting errors.
   vars_files:
     - "credentials.yml"
   tasks:
