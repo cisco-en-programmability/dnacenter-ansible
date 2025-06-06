@@ -8,24 +8,28 @@ __author__ = ("Abinash Mishra, Madhan Sankaranarayanan, Syed Khadeer Ahmed, Ajit
 DOCUMENTATION = r"""
 ---
 module: provision_workflow_manager
-short_description: Resource module for provision related functions
+short_description: Resource module for provision related
+  functions
 description:
-  - Manage operations related to wired and wireless provisioning
+  - Manage operations related to wired and wireless
+    provisioning
   - API to re-provision provisioned devices
   - API to un-provision provisioned devices
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abinash Mishra (@abimishr) Madhan Sankaranarayanan (@madhansansel) Syed Khadeer
-  Ahmed(@syed-khadeerahmed) Ajith Andrew J (@ajithandrewj)
+author: Abinash Mishra (@abimishr) Madhan Sankaranarayanan
+  (@madhansansel) Syed Khadeer Ahmed(@syed-khadeerahmed)
+  Ajith Andrew J (@ajithandrewj)
 options:
   config_verify:
-    description: Set to true to verify the Cisco Catalyst Center config after applying
-      the playbook config.
+    description: Set to true to verify the Cisco Catalyst
+      Center config after applying the playbook config.
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: The state of Cisco Catalyst Center
+      after module completion.
     type: str
     choices: [merged, deleted]
     default: merged
@@ -42,70 +46,89 @@ options:
         required: true
       provisioning:
         description:
-          - Specifies whether the user intends to perform site assignment only or
-            full provisioning for a wired device.
-          - Set to 'false' to carry out site assignment only.
-          - Set to 'true' to proceed with provisioning to a site.
+          - Specifies whether the user intends to perform
+            site assignment only or full provisioning
+            for a wired device.
+          - Set to 'false' to carry out site assignment
+            only.
+          - Set to 'true' to proceed with provisioning
+            to a site.
         type: bool
         required: false
         default: true
       force_provisioning:
         description:
-          - Determines whether to force reprovisioning of a device.
-          - A device cannot be re-provisioned to a different site.
-          - The 'provisioning' option should not be set to 'false' for 'force_provisioning'
+          - Determines whether to force reprovisioning
+            of a device.
+          - A device cannot be re-provisioned to a different
+            site.
+          - The 'provisioning' option should not be
+            set to 'false' for 'force_provisioning'
             to take effect.
-          - Set to 'true' to enforce reprovisioning, even if the device is already
-            provisioned.
-          - Set to 'false' to skip provisioning for devices that are already provisioned.
+          - Set to 'true' to enforce reprovisioning,
+            even if the device is already provisioned.
+          - Set to 'false' to skip provisioning for
+            devices that are already provisioned.
         type: bool
         required: false
         default: false
       site_name_hierarchy:
-        description: Name of the site where the device will be added. This parameter
-          is required for provisioning the device and assigning it to a site.
+        description: Name of the site where the device
+          will be added. This parameter is required
+          for provisioning the device and assigning
+          it to a site.
         type: str
         required: true
       managed_ap_locations:
         description:
-          - Specifies the site locations allocated for Access Points (APs).
-          - Renamed to 'primary_managed_ap_locations' starting from Cisco Catalyst
-            version 2.3.7.6 to differentiate between primary and secondary managed
-            AP locations.
-          - Backward compatibility is maintained; either 'managed_ap_locations' or
-            'primary_managed_ap_locations' can be specified, with no changes required
+          - Specifies the site locations allocated for
+            Access Points (APs).
+          - Renamed to 'primary_managed_ap_locations'
+            starting from Cisco Catalyst version 2.3.7.6
+            to differentiate between primary and secondary
+            managed AP locations.
+          - Backward compatibility is maintained; either
+            'managed_ap_locations' or 'primary_managed_ap_locations'
+            can be specified, with no changes required
             after upgrades.
-          - Either 'managed_ap_locations' or 'primary_managed_ap_locations' can be
-            used interchangeably, but only one of them is mandatory and must be provided.
+          - Either 'managed_ap_locations' or 'primary_managed_ap_locations'
+            can be used interchangeably, but only one
+            of them is mandatory and must be provided.
         type: list
         elements: str
       primary_managed_ap_locations:
         description:
-          - Specifies the site locations assigned to primary managed Access Points
-            (APs).
-          - Introduced as the updated name for 'managed_ap_locations' starting from
-            Cisco Catalyst version 2.3.7.6.
-          - Backward compatible with 'managed_ap_locations'; either parameter can
-            be specified without requiring changes after upgrades.
-          - Mandatory for provisioning wireless devices if 'managed_ap_locations'
-            is not used.
-          - Supported in Cisco Catalyst version 2.3.7.6 and later.
+          - Specifies the site locations assigned to
+            primary managed Access Points (APs).
+          - Introduced as the updated name for 'managed_ap_locations'
+            starting from Cisco Catalyst version 2.3.7.6.
+          - Backward compatible with 'managed_ap_locations';
+            either parameter can be specified without
+            requiring changes after upgrades.
+          - Mandatory for provisioning wireless devices
+            if 'managed_ap_locations' is not used.
+          - Supported in Cisco Catalyst version 2.3.7.6
+            and later.
         type: list
         elements: str
       secondary_managed_ap_locations:
         description:
-          - Specifies the site locations assigned to secondary managed Access Points
-            (APs).
-          - Introduced in Cisco Catalyst version 2.3.7.6 to allow differentiation
-            between primary and secondary managed AP locations.
-          - Mandatory for provisioning wireless devices in scenarios where secondary
-            AP locations are required.
+          - Specifies the site locations assigned to
+            secondary managed Access Points (APs).
+          - Introduced in Cisco Catalyst version 2.3.7.6
+            to allow differentiation between primary
+            and secondary managed AP locations.
+          - Mandatory for provisioning wireless devices
+            in scenarios where secondary AP locations
+            are required.
         type: list
         elements: str
       dynamic_interfaces:
         description:
-          - A list of dynamic interfaces on the wireless controller.
-          - Each entry represents an interface with associated configuration details.
+          - A list of dynamic interfaces on the wireless
+            controller.
+          - Each entry represents an interface with
+            associated configuration details.
         type: list
         elements: dict
         suboptions:
@@ -113,105 +136,125 @@ options:
             description: The name of the interface.
             type: str
           vlan_id:
-            description: The VLAN ID associated with the interface.
+            description: The VLAN ID associated with
+              the interface.
             type: str
           interface_ip_address:
-            description: The IP address assigned to the interface.
+            description: The IP address assigned to
+              the interface.
             type: str
           interface_netmask_in_c_i_d_r:
-            description: The netmask of the interface in CIDR format (e.g., 24 for
-              255.255.255.0).
+            description: The netmask of the interface
+              in CIDR format (e.g., 24 for 255.255.255.0).
             type: str
           interface_gateway:
-            description: The gateway IP address for the interface.
+            description: The gateway IP address for
+              the interface.
             type: str
           lag_or_port_number:
-            description: The port number or LAG (Link Aggregation Group) identifier.
+            description: The port number or LAG (Link
+              Aggregation Group) identifier.
             type: str
       skip_ap_provision:
         description:
-          - If set to 'true', Access Point (AP) provisioning will be skipped during
-            the workflow.
-          - Use this option when AP provisioning is not required as part of the current
-            operation.
-          - Supported in Cisco Catalyst version 2.3.7.6 and later.
+          - If set to 'true', Access Point (AP) provisioning
+            will be skipped during the workflow.
+          - Use this option when AP provisioning is
+            not required as part of the current operation.
+          - Supported in Cisco Catalyst version 2.3.7.6
+            and later.
         type: bool
         default: false
       rolling_ap_upgrade:
         description:
-          - Configuration options for performing a rolling upgrade of Access Points
-            (APs) in phases.
-          - Allows control over the gradual rebooting of APs during the upgrade process.
-          - Supported in Cisco Catalyst version 2.3.7.6 and later.
+          - Configuration options for performing a rolling
+            upgrade of Access Points (APs) in phases.
+          - Allows control over the gradual rebooting
+            of APs during the upgrade process.
+          - Supported in Cisco Catalyst version 2.3.7.6
+            and later.
         type: dict
         suboptions:
           enable_rolling_ap_upgrade:
             description:
-              - Enable or disable the rolling AP upgrade feature.
-              - If set to 'true', APs will be upgraded in batches based on the specified
-                reboot percentage.
-              - Supported in Cisco Catalyst version 2.3.7.6 and later.
+              - Enable or disable the rolling AP upgrade
+                feature.
+              - If set to 'true', APs will be upgraded
+                in batches based on the specified reboot
+                percentage.
+              - Supported in Cisco Catalyst version
+                2.3.7.6 and later.
             type: bool
             default: false
           ap_reboot_percentage:
             description:
-              - The percentage of APs to reboot simultaneously during an upgrade.
-              - Supported in Cisco Catalyst version 2.3.7.6 and later.
-              - Must be either 5, 15 or 25 representing the proportion of APs to reboot
-                at once.
+              - The percentage of APs to reboot simultaneously
+                during an upgrade.
+              - Supported in Cisco Catalyst version
+                2.3.7.6 and later.
+              - Must be either 5, 15 or 25 representing
+                the proportion of APs to reboot at once.
             type: int
       application_telemetry:
         description: |
-            - A list of settings for enabling or disabling application telemetry on a group of network devices.
-            - Supported in Cisco Catalyst version 2.3.7.9 and later.
+          - A list of settings for enabling or disabling application telemetry on a group of network devices.
+          - Supported in Cisco Catalyst version 2.3.7.9 and later.
         type: list
         elements: dict
         suboptions:
           device_ips:
-            description: A list of IP addresses representing the network devices on which application telemetry should be enabled or disabled.
+            description: A list of IP addresses representing
+              the network devices on which application
+              telemetry should be enabled or disabled.
             type: list
             elements: str
           telemetry:
             description: |
-                - Specifies whether to enable or disable application telemetry on the devices.
+              - Specifies whether to enable or disable application telemetry on the devices.
             type: str
             choices: ["enable", "disable"]
           wlan_mode:
             description: |
-                - Defines the WLAN mode for the device.
-                - Applicable when enabling telemetry on wireless devices
+              - Defines the WLAN mode for the device.
+              - Applicable when enabling telemetry on wireless devices
             type: str
             choices: ["LOCAL", "NON_LOCAL"]
           include_guest_ssid:
-            description: A flag that indicates whether to include guest SSID information when enabling telemetry for wireless devices.
+            description: A flag that indicates whether
+              to include guest SSID information when
+              enabling telemetry for wireless devices.
             type: bool
             default: false
-
 requirements:
   - dnacentersdk == 2.4.5
   - python >= 3.9
 notes:
-  - SDK Methods used are sites.Sites.get_site, devices.Devices.get_network_device_by_ip,
-    task.Task.get_task_by_id, sda.Sda.get_provisioned_wired_device, sda.Sda.re_provision_wired_device,
-    sda.Sda.provision_wired_device, wireless.Wireless.provision
-    devices.Device.delete_network_device_with_configuration_cleanup,
+  - SDK Methods used are sites.Sites.get_site,
+    devices.Devices.get_network_device_by_ip,
+    task.Task.get_task_by_id,
+    sda.Sda.get_provisioned_wired_device,
+    sda.Sda.re_provision_wired_device,
+    sda.Sda.provision_wired_device,
+    wireless.Wireless.provision devices.Device.delete_network_device_with_configuration_cleanup,
     devices.Device.delete_a_network_device_without_configuration_cleanup,
     application_policy.ApplicationPolicy.enable_application_telemetry_feature_on_multiple_network_devices_v1,
     application_policy.ApplicationPolicy.disable_application_telemetry_feature_on_multiple_network_devices_v1
-
-  - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
+  - Paths used are
+    get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
     get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/business/sda/provision-device
-    put /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/business/sda/provision-device
-    post /dna/intent/api/v1/wireless/provision
-    delete /dna/intent/api/v1/networkDevices/deleteWithCleanup
+    put /dna/intent/api/v1/business/sda/provision-device
+    post /dna/intent/api/v1/business/sda/provision-device
+    post /dna/intent/api/v1/wireless/provision delete
+    /dna/intent/api/v1/networkDevices/deleteWithCleanup
     delete /dna/intent/api/v1/networkDevices/deleteWithoutCleanup
     post /dna/intent/api/v1/applicationVisibility/networkDevices/enableAppTelemetry
     post /dna/intent/api/v1/applicationVisibility/networkDevices/disableAppTelemetry
-
   - Added 'provisioning' option in v6.16.0
-  - Added provisioning and reprovisioning of wireless devices in v6.16.0
+  - Added provisioning and reprovisioning of wireless
+    devices in v6.16.0
 """
 EXAMPLES = r"""
+---
 - name: Provision a wireless device to a site
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -233,8 +276,8 @@ EXAMPLES = r"""
             interface_name: Vlan1866
             interface_ip_address: 204.192.6.200
             interface_gateway: 204.192.6.1
-
-- name: Provision a wireless device to a site for version - 2.3.7.6
+- name: Provision a wireless device to a site for version
+    - 2.3.7.6
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -261,7 +304,6 @@ EXAMPLES = r"""
         rolling_ap_upgrade:
           enable_rolling_ap_upgrade: false
           ap_reboot_percentage: 5
-
 - name: Provision a wired device to a site
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -276,7 +318,6 @@ EXAMPLES = r"""
     config:
       - site_name_hierarchy: Global/USA/San Francisco/BGL_18
         management_ip_address: 204.192.3.40
-
 - name: Re-Provision a wired device to a site forcefully
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -292,7 +333,6 @@ EXAMPLES = r"""
       - site_name_hierarchy: Global/USA/San Francisco/BGL_18
         management_ip_address: 204.192.3.40
         force_provisioning: true
-
 - name: Assign a wired device to a site
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -308,7 +348,6 @@ EXAMPLES = r"""
       - site_name_hierarchy: Global/USA/San Francisco/BGL_18
         management_ip_address: 204.192.3.40
         provisioning: false
-
 - name: Provision a wireless device to a site
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -326,7 +365,6 @@ EXAMPLES = r"""
         management_ip_address: 204.192.12.201
         managed_ap_locations:
           - Global/USA/RTP/BLD11/BLD11_FLOOR1
-
 - name: Unprovision a device from a site
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -341,7 +379,6 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - management_ip_address: 204.1.2.2
-
 - name: Unprovision a device from a site
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -357,15 +394,16 @@ EXAMPLES = r"""
     config:
       - management_ip_address: 204.1.2.2
         clean_config: true
-
-- name: Configure application telemetry for network devices on Cisco Catalyst Center
+- name: Configure application telemetry for network
+    devices on Cisco Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Enable application telemetry on specified network devices
+    - name: Enable application telemetry on specified
+        network devices
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -386,15 +424,16 @@ EXAMPLES = r"""
                 telemetry: enable
                 wlan_mode: LOCAL
                 include_guest_ssid: true
-
-- name: Configure application telemetry for network devices on Cisco Catalyst Center
+- name: Configure application telemetry for network
+    devices on Cisco Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Disable application telemetry on specified network devices
+    - name: Disable application telemetry on specified
+        network devices
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"

@@ -12,69 +12,91 @@ DOCUMENTATION = r"""
 ---
 module: application_policy_workflow_manager
 short_description: >
-  Resource module for managing queuing profiles, applications, application sets and application
-  policies for wired and wireless in Cisco Catalyst Center.
+  Resource module for managing queuing profiles, applications,
+  application sets and application policies for wired
+  and wireless in Cisco Catalyst Center.
 description:
-  - Provides functionality to create, update, and delete applications in Cisco Catalyst Center.
-  - Provides functionality to create, update, and delete application policies in Cisco Catalyst Center.
-  - Provides functionality to create, update, and delete application queuing profiles in Cisco Catalyst Center.
-  - Supports managing queuing profiles and application policies for traffic classification and prioritization.
-
+  - Provides functionality to create, update, and delete
+    applications in Cisco Catalyst Center.
+  - Provides functionality to create, update, and delete
+    application policies in Cisco Catalyst Center.
+  - Provides functionality to create, update, and delete
+    application queuing profiles in Cisco Catalyst Center.
+  - Supports managing queuing profiles and application
+    policies for traffic classification and prioritization.
 version_added: "6.31.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
   - Syed Khadeer Ahmed (@syed-khadeerahmed)
   - Madhan Sankaranarayanan (@madhansansel)
-
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center after applying the playbook config.
     type: bool
     default: True
   state:
-    description: The desired state of the configuration after module execution.
+    description: The desired state of the configuration
+      after module execution.
     type: str
     choices: ["merged", "deleted"]
     default: merged
   config:
-    description: A list of dictionaries containing application queuing profile details.
+    description: A list of dictionaries containing application
+      queuing profile details.
     type: list
     elements: dict
     required: true
     suboptions:
       queuing_profile:
         description:
-            - Defines queuing profile settings for application traffic shaping and bandwidth allocation.
-            - Each profile specifies whether bandwidth allocation is uniform across all interface speeds or customized per speed.
-            - Changing the value of 'is_common_between_all_interface_speeds' (from 'true' to 'false' or vice versa) is not supported during updates.
-            - To switch between common and per-speed bandwidth settings, create a new queuing profile instead of updating the existing one.
+          - Defines queuing profile settings for application
+            traffic shaping and bandwidth allocation.
+          - Each profile specifies whether bandwidth
+            allocation is uniform across all interface
+            speeds or customized per speed.
+          - Changing the value of 'is_common_between_all_interface_speeds'
+            (from 'true' to 'false' or vice versa) is
+            not supported during updates.
+          - To switch between common and per-speed bandwidth
+            settings, create a new queuing profile instead
+            of updating the existing one.
         type: list
         elements: dict
         suboptions:
           profile_name:
             description:
               - Name of the queuing profile.
-              - Required for create, update, and delete operations.
+              - Required for create, update, and delete
+                operations.
             type: str
           new_profile_name:
-            description: New name for the queuing profile (used for updates).
+            description: New name for the queuing profile
+              (used for updates).
             type: str
           profile_description:
-            description: Description of the queuing profile.
+            description: Description of the queuing
+              profile.
             type: str
           new_profile_description:
-            description: New description of the queuing profile.
+            description: New description of the queuing
+              profile.
             type: str
           bandwidth_settings:
-            description: Specifies bandwidth allocation details.
+            description: Specifies bandwidth allocation
+              details.
             type: dict
             suboptions:
               is_common_between_all_interface_speeds:
-                description: Indicates whether bandwidth settings apply uniformly across all interface speeds.
+                description: Indicates whether bandwidth
+                  settings apply uniformly across all
+                  interface speeds.
                 type: bool
               interface_speed_settings:
-                description: Defines bandwidth allocation for different types of network traffic based on interface speed.
+                description: Defines bandwidth allocation
+                  for different types of network traffic
+                  based on interface speed.
                 type: list
                 elements: dict
                 suboptions:
@@ -97,40 +119,57 @@ options:
                     type: dict
                     suboptions:
                       transactional_data:
-                        description: Bandwidth allocated to transactional data traffic.
+                        description: Bandwidth allocated
+                          to transactional data traffic.
                         type: str
                       best_effort:
-                        description: Bandwidth for non-priority, general-purpose traffic.
+                        description: Bandwidth for non-priority,
+                          general-purpose traffic.
                         type: str
                       voip_telephony:
-                        description: Bandwidth for voice and video calls over IP.
+                        description: Bandwidth for voice
+                          and video calls over IP.
                         type: str
                       multimedia_streaming:
-                        description: Bandwidth for real-time audio and video streaming.
+                        description: Bandwidth for real-time
+                          audio and video streaming.
                         type: str
                       real_time_interactive:
-                        description: Bandwidth for low-latency applications requiring immediate response.
+                        description: Bandwidth for low-latency
+                          applications requiring immediate
+                          response.
                         type: str
                       multimedia_conferencing:
-                        description: Bandwidth for combined audio-video conferencing traffic.
+                        description: Bandwidth for combined
+                          audio-video conferencing traffic.
                         type: str
                       signaling:
-                        description: Bandwidth for network control messages managing communication sessions.
+                        description: Bandwidth for network
+                          control messages managing
+                          communication sessions.
                         type: str
                       scavenger:
-                        description: Bandwidth for low-priority traffic that can be delayed or dropped.
+                        description: Bandwidth for low-priority
+                          traffic that can be delayed
+                          or dropped.
                         type: str
                       ops_admin_mgmt:
-                        description: Bandwidth for operations and administration management traffic.
+                        description: Bandwidth for operations
+                          and administration management
+                          traffic.
                         type: str
                       broadcast_video:
-                        description: Bandwidth for one-to-many video distribution.
+                        description: Bandwidth for one-to-many
+                          video distribution.
                         type: str
                       network_control:
-                        description: Bandwidth for traffic related to network management and operation.
+                        description: Bandwidth for traffic
+                          related to network management
+                          and operation.
                         type: str
                       bulk_data:
-                        description: Bandwidth for large-volume, non-time-sensitive data transfers.
+                        description: Bandwidth for large-volume,
+                          non-time-sensitive data transfers.
                         type: str
           dscp_settings:
             description: |
@@ -139,71 +178,105 @@ options:
             type: dict
             suboptions:
               transactional_data:
-                description: DSCP value for transactional data traffic, involving data exchanges between systems.
+                description: DSCP value for transactional
+                  data traffic, involving data exchanges
+                  between systems.
                 type: str
               best_effort:
-                description: DSCP value for best-effort traffic, which does not require specific quality or priority guarantees.
+                description: DSCP value for best-effort
+                  traffic, which does not require specific
+                  quality or priority guarantees.
                 type: str
               voip_telephony:
-                description: DSCP value for voice and video calls transmitted over IP networks.
+                description: DSCP value for voice and
+                  video calls transmitted over IP networks.
                 type: str
               multimedia_streaming:
-                description: DSCP value for real-time audio and video streaming traffic.
+                description: DSCP value for real-time
+                  audio and video streaming traffic.
                 type: str
               real_time_interactive:
-                description: DSCP value for interactive applications requiring low latency and immediate responsiveness.
+                description: DSCP value for interactive
+                  applications requiring low latency
+                  and immediate responsiveness.
                 type: str
               multimedia_conferencing:
-                description: DSCP value for multimedia conferencing traffic, including both audio and video communication.
+                description: DSCP value for multimedia
+                  conferencing traffic, including both
+                  audio and video communication.
                 type: str
               signaling:
-                description: DSCP value for signaling traffic used to establish, manage, and terminate communication sessions.
+                description: DSCP value for signaling
+                  traffic used to establish, manage,
+                  and terminate communication sessions.
                 type: str
               scavenger:
-                description: DSCP value for low-priority traffic that can be delayed or dropped in case of congestion.
+                description: DSCP value for low-priority
+                  traffic that can be delayed or dropped
+                  in case of congestion.
                 type: str
               ops_admin_mgmt:
-                description: DSCP value for operations, administration, and management traffic.
+                description: DSCP value for operations,
+                  administration, and management traffic.
                 type: str
               broadcast_video:
-                description: DSCP value for broadcast video traffic, typically distributed in a one-to-many model.
+                description: DSCP value for broadcast
+                  video traffic, typically distributed
+                  in a one-to-many model.
                 type: str
               network_control:
-                description: DSCP value for network control traffic related to management and operation.
+                description: DSCP value for network
+                  control traffic related to management
+                  and operation.
                 type: str
               bulk_data:
-                description: DSCP value for large-volume data transfers that can tolerate delays or interruptions.
+                description: DSCP value for large-volume
+                  data transfers that can tolerate delays
+                  or interruptions.
                 type: str
       application_sets:
         description:
-          - Defines a logical grouping of network applications that share common policies and configuration settings.
-          - Application sets enable network administrators to manage and apply policies to multiple applications simultaneously,
-            streamlining policy enforcement, monitoring, and optimization.
+          - Defines a logical grouping of network applications
+            that share common policies and configuration
+            settings.
+          - Application sets enable network administrators
+            to manage and apply policies to multiple
+            applications simultaneously, streamlining
+            policy enforcement, monitoring, and optimization.
         type: list
         elements: dict
         suboptions:
           name:
             description:
-              - Specifies the name of the application set.
-              - Required for deleting an application set.
+              - Specifies the name of the application
+                set.
+              - Required for deleting an application
+                set.
             type: str
       application:
         description:
-          - Defines individual applications within an application set that share a common purpose or function.
-          - Grouping similar applications into sets allows administrators to apply uniform policies efficiently.
+          - Defines individual applications within an
+            application set that share a common purpose
+            or function.
+          - Grouping similar applications into sets
+            allows administrators to apply uniform policies
+            efficiently.
         type: list
         elements: dict
         suboptions:
           name:
             description:
               - Specifies the name of the application.
-              - Required for create, update, and delete operations.
+              - Required for create, update, and delete
+                operations.
             type: str
           description:
-            description: A brief description of the application.
+            description: A brief description of the
+              application.
             type: str
           help_string:
-            description: Provides the purpose or intended use of the application.
+            description: Provides the purpose or intended
+              use of the application.
             type: str
           type:
             description: |
@@ -214,32 +287,44 @@ options:
                 - server_ip: Custom application identified by server IP address.
             type: str
           server_name:
-            description: Required if `type` is `server_name`; specifies the server name for application identification.
+            description: Required if `type` is `server_name`;
+              specifies the server name for application
+              identification.
             type: str
           dscp:
             description:
-              - Required if `type` is `server_ip`; specifies DSCP value or `network_identity` details for the application.
-              - DSCP value must be in the range 0 - 63.
+              - Required if `type` is `server_ip`; specifies
+                DSCP value or `network_identity` details
+                for the application.
+              - DSCP value must be in the range 0 -
+                63.
             type: int
           network_identity:
-            description: Required if `type` is `server_ip`; defines network-related parameters for application identification.
+            description: Required if `type` is `server_ip`;
+              defines network-related parameters for
+              application identification.
             type: dict
             suboptions:
               protocol:
-                description: Specifies the network protocol used by the application.
+                description: Specifies the network protocol
+                  used by the application.
                 type: str
               port:
-                description: Specifies the communication port number for the application.
+                description: Specifies the communication
+                  port number for the application.
                 type: str
               ip_subnet:
-                description: List of IP addresses or subnets associated with the application.
+                description: List of IP addresses or
+                  subnets associated with the application.
                 type: list
                 elements: str
               lower_port:
-                description: Specifies the lower range of ports for network communication.
+                description: Specifies the lower range
+                  of ports for network communication.
                 type: str
               upper_port:
-                description: Specifies the upper range of ports for network communication.
+                description: Specifies the upper range
+                  of ports for network communication.
                 type: str
           app_protocol:
             description: |
@@ -252,7 +337,8 @@ options:
                 - 'IP': Internet Protocol for network addressing and routing.
             type: str
           url:
-            description: Required if `type` is `url`; specifies the URL for application identification.
+            description: Required if `type` is `url`;
+              specifies the URL for application identification.
             type: str
           traffic_class:
             description: |
@@ -272,19 +358,24 @@ options:
                   - "SCAVENGER": Low-priority traffic, often background tasks.
             type: str
           ignore_conflict:
-            description: Flag to indicate whether to ignore conflicts during configuration.
+            description: Flag to indicate whether to
+              ignore conflicts during configuration.
             type: bool
           rank:
-            description: Specifies the priority ranking of the application.
+            description: Specifies the priority ranking
+              of the application.
             type: int
           engine_id:
-            description: Identifier for the engine managing the application.
+            description: Identifier for the engine managing
+              the application.
             type: int
           application_set_name:
-            description: Specifies the application set under which this application is created.
+            description: Specifies the application set
+              under which this application is created.
             type: str
       application_policy:
-        description: Defines how an application's traffic is managed and prioritized within a network.
+        description: Defines how an application's traffic
+          is managed and prioritized within a network.
         type: list
         elements: dict
         suboptions:
@@ -301,20 +392,28 @@ options:
                   - "RESTORED": The policy has been reactivated after being deleted.
             type: str
           site_names:
-            description: The site or area within the network where the policy should be enforced.
+            description: The site or area within the
+              network where the policy should be enforced.
             type: list
             elements: str
           device_type:
-            description: Indicates whether the device is wired or wireless.
+            description: Indicates whether the device
+              is wired or wireless.
             type: str
           ssid_name:
-            description: Specifies the SSID name for wireless devices. Required if device_type is set to 'wireless'.
+            description: Specifies the SSID name for
+              wireless devices. Required if device_type
+              is set to 'wireless'.
             type: str
           application_queuing_profile_name:
-            description: Defines rules for traffic management by prioritizing network traffic within the application policy.
+            description: Defines rules for traffic management
+              by prioritizing network traffic within
+              the application policy.
             type: str
           clause:
-            description: Defines specific rules or conditions under which an application set is added to the application policy.
+            description: Defines specific rules or conditions
+              under which an application set is added
+              to the application policy.
             type: list
             elements: dict
             suboptions:
@@ -328,7 +427,8 @@ options:
                     such as traffic prioritization and resource allocation.
                 type: str
               relevance_details:
-                description: Details about how relevant the application is to business operations.
+                description: Details about how relevant
+                  the application is to business operations.
                 type: list
                 elements: dict
                 suboptions:
@@ -341,56 +441,54 @@ options:
                         - "DEFAULT": A default setting when no specific relevance is assigned.
                     type: str
                   application_set_name:
-                    description: Include all the application sets for which the application policy has to be created
+                    description: Include all the application
+                      sets for which the application
+                      policy has to be created
                     type: list
                     elements: str
 requirements:
-- dnacentersdk >= 2.9.3
-- python >= 3.9.19
+  - dnacentersdk >= 2.9.3
+  - python >= 3.9.19
 notes:
-- SDK Methods used are
-  - application_policy.ApplicationPolicy.get_application_policy
-  - application_policy.ApplicationPolicy.application_policy_intent
-  - application_policy.ApplicationPolicy.get_application_policy_queuing_profile
-  - application_policy.ApplicationPolicy.update_application_policy_queuing_profile
-  - application_policy.ApplicationPolicy.create_application_policy_queuing_profile
-  - application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
-  - application_policy.ApplicationPolicy.get_application_sets
-  - application_policy.ApplicationPolicy.create_application_set
-  - application_policy.ApplicationPolicy.delete_application_set
-  - application_policy.ApplicationPolicy.get_applications
-  - application_policy.ApplicationPolicy.create_application
-  - application_policy.ApplicationPolicy.update_application
-  - application_policy.ApplicationPolicy.delete_application
-
-- Paths used are
-  - GET/dna/intent/api/v1/app-policy
-  - POST/dna/intent/api/v1/app-policy-intent
-  - GET/dna/intent/api/v1/app-policy-queuing-profile
-  - POST/dna/intent/api/v1/app-policy-queuing-profile
-  - PUT/dna/intent/api/v1/app-policy-queuing-profile
-  - DELETE/dna/intent/api/v1/app-policy-queuing-profile/{id}
-  - GET/dna/intent/api/v1/application-policy-application-set
-  - POST//dna/intent/api/v1/application-policy-application-set
-  - DELETE/dna/intent/api/v2/application-policy-application-set/{id}
-  - GET/dna/intent/api/v2/applications
-  - POST/dna/intent/api/v2/applications
-  - PUT/dna/intent/api/v1/applications
-  - DELETE/dna/intent/api/v2/applications/{id}
+  - SDK Methods used are - application_policy.ApplicationPolicy.get_application_policy
+    - application_policy.ApplicationPolicy.application_policy_intent
+    - application_policy.ApplicationPolicy.get_application_policy_queuing_profile
+    - application_policy.ApplicationPolicy.update_application_policy_queuing_profile
+    - application_policy.ApplicationPolicy.create_application_policy_queuing_profile
+    - application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
+    - application_policy.ApplicationPolicy.get_application_sets
+    - application_policy.ApplicationPolicy.create_application_set
+    - application_policy.ApplicationPolicy.delete_application_set
+    - application_policy.ApplicationPolicy.get_applications
+    - application_policy.ApplicationPolicy.create_application
+    - application_policy.ApplicationPolicy.update_application
+    - application_policy.ApplicationPolicy.delete_application
+  - Paths used are
+    - GET/dna/intent/api/v1/app-policy
+    - POST/dna/intent/api/v1/app-policy-intent - GET/dna/intent/api/v1/app-policy-queuing-profile
+    - POST/dna/intent/api/v1/app-policy-queuing-profile
+    - PUT/dna/intent/api/v1/app-policy-queuing-profile
+    - DELETE/dna/intent/api/v1/app-policy-queuing-profile/{id}
+    - GET/dna/intent/api/v1/application-policy-application-set
+    - POST//dna/intent/api/v1/application-policy-application-set
+    - DELETE/dna/intent/api/v2/application-policy-application-set/{id}
+    - GET/dna/intent/api/v2/applications - POST/dna/intent/api/v2/applications
+    - PUT/dna/intent/api/v1/applications - DELETE/dna/intent/api/v2/applications/{id}
 """
 
 EXAMPLES = r"""
 ---
 # Playbook - application queuing profile - type both ("bandwidth", "dscp")
-
-- name: Create Enterprise QoS Profile for Optimized Network Performance
+- name: Create Enterprise QoS Profile for Optimized
+    Network Performance
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Create Enterprise QoS Profile for Optimized Network Performance
+    - name: Create Enterprise QoS Profile for Optimized
+        Network Performance
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -408,7 +506,8 @@ EXAMPLES = r"""
         config:
           - queuing_profile:
               - profile_name: "Enterprise-QoS-Profile"
-                profile_description: "QoS profile optimized for business-critical applications"
+                profile_description: "QoS profile optimized
+                  for business-critical applications"
                 bandwidth_settings:
                   is_common_between_all_interface_speeds: true
                   interface_speed: "ALL"
@@ -438,17 +537,17 @@ EXAMPLES = r"""
                   bulk_data: "10"
                   scavenger: "2"
                   real_time_interactive: "34"
-
 # Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)
-
-- name: Deploy Enterprise QoS Profile in Cisco Catalyst Center
+- name: Deploy Enterprise QoS Profile in Cisco Catalyst
+    Center
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Configure Enterprise QoS Profile for Consistent Traffic Prioritization
+    - name: Configure Enterprise QoS Profile for Consistent
+        Traffic Prioritization
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -466,7 +565,9 @@ EXAMPLES = r"""
         config:
           - queuing_profile:
               - profile_name: "Enterprise-QoS-All-Speeds"
-                profile_description: "Optimized QoS profile for consistent traffic prioritization across all interface speeds"
+                profile_description: "Optimized QoS
+                  profile for consistent traffic prioritization
+                  across all interface speeds"
                 bandwidth_settings:
                   is_common_between_all_interface_speeds: true
                   interface_speed: "ALL"
@@ -483,17 +584,17 @@ EXAMPLES = r"""
                     broadcast_video: "2"
                     network_control: "3"
                     bulk_data: "5"
-
 # Playbook - QoS Profile Based on Interface Speeds
-
-- name: Deploy Interface-Specific QoS Profile in Cisco Catalyst Center
+- name: Deploy Interface-Specific QoS Profile in Cisco
+    Catalyst Center
   hosts: localhost
   vars_files:
     - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
-    - name: Configure QoS Profile for Different Interface Speeds
+    - name: Configure QoS Profile for Different Interface
+        Speeds
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -511,7 +612,9 @@ EXAMPLES = r"""
         config:
           - queuing_profile:
               - profile_name: "Enterprise-Speed-Based-QoS"
-                profile_description: "Optimized traffic prioritization based on interface speed"
+                profile_description: "Optimized traffic
+                  prioritization based on interface
+                  speed"
                 bandwidth_settings:
                   is_common_between_all_interface_speeds: false
                   interface_speed_settings:
@@ -599,17 +702,17 @@ EXAMPLES = r"""
                         broadcast_video: "2"
                         network_control: "3"
                         bulk_data: "5"
-
 # Playbook - for some interface speeds having common bandwidth percentage
-
-- name: Configure an Application Queueing Profile for Traffic Prioritization
+- name: Configure an Application Queueing Profile for
+    Traffic Prioritization
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Create an Application Queueing Profile for Traffic Prioritization
+    - name: Create an Application Queueing Profile for
+        Traffic Prioritization
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -627,7 +730,9 @@ EXAMPLES = r"""
         config:
           - queuing_profile:
               - profile_name: "Enterprise_Traffic_Policy"
-                profile_description: "Queueing profile for optimizing enterprise application traffic."
+                profile_description: "Queueing profile
+                  for optimizing enterprise application
+                  traffic."
                 bandwidth_settings:
                   is_common_between_all_interface_speeds: false
                   interface_speed_settings:
@@ -687,17 +792,17 @@ EXAMPLES = r"""
                         broadcast_video: "2"
                         network_control: "3"
                         bulk_data: "5"
-
 # Playbook - application queuing profile - type dscp
-
-- name: Configure Application Queuing Profile (DSCP) in Cisco Catalyst Center
+- name: Configure Application Queuing Profile (DSCP)
+    in Cisco Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Create an Application Queuing Profile with DSCP Settings
+    - name: Create an Application Queuing Profile with
+        DSCP Settings
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -715,7 +820,8 @@ EXAMPLES = r"""
         config:
           - queuing_profile:
               - profile_name: "Enterprise_DSCP_Profile"
-                profile_description: "DSCP-based queuing profile for traffic prioritization."
+                profile_description: "DSCP-based queuing
+                  profile for traffic prioritization."
                 dscp_settings:
                   multimedia_conferencing: "20"
                   ops_admin_mgmt: "23"
@@ -729,17 +835,17 @@ EXAMPLES = r"""
                   bulk_data: "10"
                   scavenger: "2"
                   real_time_interactive: "34"
-
 # Playbook - update application queuing profile
-
-- name: Application Queuing Profile update in Cisco Catalyst Center
+- name: Application Queuing Profile update in Cisco
+    Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Update Application Queuing Profile in Cisco Catalyst Center
+    - name: Update Application Queuing Profile in Cisco
+        Catalyst Center
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -756,10 +862,12 @@ EXAMPLES = r"""
         state: merged
         config:
           - queuing_profile:
-              - profile_name: "Enterprise_Traffic_Profile"  # Existing profile to be updated
-                new_profile_name: "Enterprise_Traffic_Profile_v2"  # New profile name after update
-                profile_description: "Traffic queuing profile for enterprise applications."
-                new_profile_description: "Updated queuing profile for optimized traffic management."
+              - profile_name: "Enterprise_Traffic_Profile" # Existing profile to be updated
+                new_profile_name: "Enterprise_Traffic_Profile_v2" # New profile name after update
+                profile_description: "Traffic queuing
+                  profile for enterprise applications."
+                new_profile_description: "Updated queuing
+                  profile for optimized traffic management."
                 bandwidth_settings:
                   is_common_between_all_interface_speeds: true
                   interface_speed: "ALL"
@@ -789,17 +897,17 @@ EXAMPLES = r"""
                   bulk_data: "10"
                   scavenger: "2"
                   real_time_interactive: "34"
-
 # Playbook - delete application queuing profile
-
-- name: Delete application queuing profile from Cisco Catalyst Center
+- name: Delete application queuing profile from Cisco
+    Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Delete application queuing profile from Cisco Catalyst Center
+    - name: Delete application queuing profile from
+        Cisco Catalyst Center
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -816,10 +924,8 @@ EXAMPLES = r"""
         state: deleted
         config:
           - queuing_profile:
-              - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
-
+              - profile_name: "Enterprise_Traffic_Profile" # Profile to be deleted
 # Playbook - create application - type server_name
-
 - name: Create application on Cisco Catalyst Center
   hosts: localhost
   connection: local
@@ -827,7 +933,8 @@ EXAMPLES = r"""
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Create Application with Server Name on Cisco Catalyst Center
+    - name: Create Application with Server Name on Cisco
+        Catalyst Center
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -845,7 +952,8 @@ EXAMPLES = r"""
         config:
           - application:
               - name: "Security_Gateway_App"
-                help_string: "Application for network security and access control"
+                help_string: "Application for network
+                  security and access control"
                 description: "Security Gateway Application"
                 type: "server_name"
                 server_name: "www.securitygateway.com"
@@ -854,9 +962,7 @@ EXAMPLES = r"""
                 rank: 23
                 engineId: 4
                 application_set_name: "local-services"
-
 # Playbook - create application - type server_ip
-
 - name: Create application on Cisco Catalyst Center
   hosts: localhost
   connection: local
@@ -864,7 +970,8 @@ EXAMPLES = r"""
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Create application with Server IP on Cisco Catalyst Center
+    - name: Create application with Server IP on Cisco
+        Catalyst Center
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -882,13 +989,16 @@ EXAMPLES = r"""
         config:
           - application:
               - name: "Security_Gateway_IP_App"
-                help_string: "Security Gateway Application based on IP"
-                description: "Defines security gateway policies using server IPs"
+                help_string: "Security Gateway Application
+                  based on IP"
+                description: "Defines security gateway
+                  policies using server IPs"
                 type: "server_ip"
                 network_identity_setting:
                   protocol: "UDP"
                   port: "2000"
-                  ip_subnet: ["1.1.1.1", "2.2.2.2", "3.3.3.3"]
+                  ip_subnet: ["1.1.1.1", "2.2.2.2",
+                    "3.3.3.3"]
                   lower_port: 10
                   upper_port: 100
                 dscp: 2
@@ -897,17 +1007,17 @@ EXAMPLES = r"""
                 rank: "23"
                 engine_id: "4"
                 application_set_name: "local-services"
-
 # Playbook - create application - type url
-
-- name: Define and Register Application in Cisco Catalyst Center
+- name: Define and Register Application in Cisco Catalyst
+    Center
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Create Application with URL Type in Cisco Catalyst Center
+    - name: Create Application with URL Type in Cisco
+        Catalyst Center
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -925,8 +1035,10 @@ EXAMPLES = r"""
         config:
           - application:
               - name: "video_streaming_app"
-                help_string: "Manages video streaming application traffic"
-                description: "Defines security gateway policies using server urls"
+                help_string: "Manages video streaming
+                  application traffic"
+                description: "Defines security gateway
+                  policies using server urls"
                 type: "url"
                 app_protocol: "TCP"
                 url: "www.videostreaming.com"
@@ -935,9 +1047,7 @@ EXAMPLES = r"""
                 rank: "23"
                 engine_id: "4"
                 application_set_name: "local-services"
-
 # Playbook - delete application
-
 - name: Delete application from Cisco Catalyst Center
   hosts: localhost
   connection: local
@@ -945,7 +1055,8 @@ EXAMPLES = r"""
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Delete Video Streaming Application from Cisco Catalyst Center
+    - name: Delete Video Streaming Application from
+        Cisco Catalyst Center
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -963,10 +1074,9 @@ EXAMPLES = r"""
         config:
           - application:
               - name: "video_streaming_app"
-
 # Playbook - create application policy – wired
-
-- name: Create Wired Application Policy in Cisco Catalyst Center
+- name: Create Wired Application Policy in Cisco Catalyst
+    Center
   hosts: localhost
   connection: local
   gather_facts: false
@@ -1001,13 +1111,14 @@ EXAMPLES = r"""
                       - relevance: "BUSINESS_RELEVANT"
                         application_set_name: ["collaboration-apps"]
                       - relevance: "BUSINESS_IRRELEVANT"
-                        application_set_name: ["email", "tunneling"]
+                        application_set_name: ["email",
+                          "tunneling"]
                       - relevance: "DEFAULT"
-                        application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
-
+                        application_set_name: ["backup-and-storage",
+                          "general-media", "file-sharing"]
 # Playbook - create application policy – wireless
-
-- name: Create Wireless Application Policy in Cisco Catalyst Center
+- name: Create Wireless Application Policy in Cisco
+    Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
@@ -1043,19 +1154,21 @@ EXAMPLES = r"""
                       - relevance: "BUSINESS_RELEVANT"
                         application_set_name: ["file-sharing"]
                       - relevance: "BUSINESS_IRRELEVANT"
-                        application_set_name: ["email", "backup-and-storage"]
+                        application_set_name: ["email",
+                          "backup-and-storage"]
                       - relevance: "DEFAULT"
-                        application_set_name: ["collaboration-apps", "tunneling", "general-media"]
-
+                        application_set_name: ["collaboration-apps",
+                          "tunneling", "general-media"]
 # Playbook - delete application policy
-
-- name: Delete Application Policy from Cisco Catalyst Center
+- name: Delete Application Policy from Cisco Catalyst
+    Center
   hosts: localhost
   connection: local
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Delete application policy from Cisco Catalyst Center
+    - name: Delete application policy from Cisco Catalyst
+        Center
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -1076,9 +1189,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-
 # Case 1: Successful creation of application queuing profile
-
 creation _of_application_queuing_profile_response_task_execution:
   description: A dictionary with details for successful task execution.
   returned: always
@@ -1093,10 +1204,7 @@ creation _of_application_queuing_profile_response_task_execution:
       },
       "status": "success"
     }
-
-
 # Case 2: Successful update of application queuing profile
-
 update_of_application_queuing_profile_response_task_execution:
   description: With task id get details for successful task execution.
   returned: always
@@ -1111,9 +1219,7 @@ update_of_application_queuing_profile_response_task_execution:
       },
       "status": "success"
     }
-
 # Case 3: Successful deletion of application queuing profile
-
 deletion_of_application_queuing_profile_response_task_execution:
   description: With task id get details for successful task execution.
   returned: always
@@ -1128,9 +1234,7 @@ deletion_of_application_queuing_profile_response_task_execution:
       },
       "status": "success"
     }
-
 # Case 4: Update not required for application queuing profile
-
 update_not_required_for_queuing_profile_response_task_execution:
   description: With task id get details for successful task execution.
   returned: always
@@ -1145,10 +1249,7 @@ update_not_required_for_queuing_profile_response_task_execution:
         },
       "status": "success"
     }
-
-
 # Case 5: Error during application queuing profile create
-
 error_during_application_queuing_profile_create_response_task_execution:
   description: With task id get details for task execution.
   returned: always
@@ -1162,9 +1263,7 @@ error_during_application_queuing_profile_create_response_task_execution:
         "url": "str"
       }
     }
-
 # Case 6: Error during application queuing profile update
-
 error_during_application_queuing_profile_update_response_task_execution:
   description: With task id get details for task execution.
   returned: always
@@ -1182,9 +1281,7 @@ error_during_application_queuing_profile_update_response_task_execution:
         "url": "str"
       }
     }
-
 # Case 7: Error during application queuing profile delete
-
 error_during_application_queuing_profile_delete_response_task_execution:
   description: With task id get details for task execution.
   returned: always
@@ -1202,9 +1299,7 @@ error_during_application_queuing_profile_delete_response_task_execution:
         "url": "str"
       }
     }
-
 # Case 8: Application queuing profile not found (during delete operation)
-
 application_queuing_profile_not_found_response_task_execution:
   description: With task id get details for task execution
   returned: always
@@ -1218,9 +1313,7 @@ application_queuing_profile_not_found_response_task_execution:
         "url": "str"
       }
     }
-
 # Case 9: Successful creation of application
-
 successful_creation_of_application_response_task_execution:
   description: With task id get details for successful task execution
   returned: always
@@ -1235,9 +1328,7 @@ successful_creation_of_application_response_task_execution:
       },
       "status": "success"
     }
-
 # Case 10: Successful update of application
-
 successful_update_of_application_response_task_execution:
   description: With task id get details for successful task execution
   returned: always
@@ -1252,9 +1343,7 @@ successful_update_of_application_response_task_execution:
         },
       "status": "success"
     }
-
 # Case 11: Successful deletion of application
-
 deletion_of_application_response_task_execution:
   description: With task id get details for successful task execution
   returned: always
@@ -1269,9 +1358,7 @@ deletion_of_application_response_task_execution:
         },
       "status": "success"
     }
-
 # Case 12: update not required for application
-
 update_not_required_for_application_response_task_execution:
   description: With task id get details for task execution
   returned: always
@@ -1286,9 +1373,7 @@ update_not_required_for_application_response_task_execution:
         },
       "status": "success"
     }
-
 # Case 13: Error during application create
-
 error_during_application_create_response_task_execution:
   description: With task id get details for task execution
   returned: always
@@ -1302,9 +1387,7 @@ error_during_application_create_response_task_execution:
           "url": "str"
         },
     }
-
 # Case 14: Error during application update
-
 error_during_application_update_response_task_execution:
   description: With task id get details for task execution.
   returned: always
@@ -1318,9 +1401,7 @@ error_during_application_update_response_task_execution:
           "url": "str"
         },
     }
-
 # Case 15: Application not found (during delete operation)
-
 application_not_found_response_task_execution:
   description: With task id get details for task execution.
   returned: always
@@ -1334,9 +1415,7 @@ application_not_found_response_task_execution:
           "url": "str"
         },
     }
-
 # Case 16: Successful creation of application policy
-
 successful_creation_of_application_policy_response_task_execution:
   description: With task id get details for successful task execution
   returned: always
@@ -1351,9 +1430,7 @@ successful_creation_of_application_policy_response_task_execution:
         },
       "status": "success"
     }
-
 #Case 17: Successful update of application policy
-
 successful_update_of_application_policy_response_task_execution:
   description: With task id get details for successful task execution
   returned: always
@@ -1368,9 +1445,7 @@ successful_update_of_application_policy_response_task_execution:
         },
       "status": "success"
     }
-
 # Case 18: Successful deletion of application policy
-
 successful_deletion_of_application_policy_response_task_execution:
   description: With task id get details for successful task execution
   returned: always
@@ -1385,9 +1460,7 @@ successful_deletion_of_application_policy_response_task_execution:
         },
       "status": "success"
     }
-
 # Case 19: update not required for application policy
-
 update_not_required_ for_application_policy_response_task_execution:
   description: With task id get details for successful task execution
   returned: always
@@ -1402,9 +1475,7 @@ update_not_required_ for_application_policy_response_task_execution:
         },
       "status": "success"
     }
-
 # Case 20: Error during application policy create
-
 error_during_application_policy_create_response_task_execution:
   description: With task id get details for task execution
   returned: always
@@ -1423,9 +1494,7 @@ error_during_application_policy_create_response_task_execution:
           "url": "str"
         }
     }
-
 # Case 21: Error during application policy update
-
 error_during_application_policy_update_response_task_execution:
   description: With task id get details for task execution
   returned: always
@@ -1444,9 +1513,7 @@ error_during_application_policy_update_response_task_execution:
           "url": "str"
         }
     }
-
 # Case 22: Application policy not found (during delete operation)
-
 application_policy_not_found_response_task_execution:
   description: With task id get details for task execution
   returned: always
@@ -1460,7 +1527,6 @@ application_policy_not_found_response_task_execution:
           "url": "str"
         }
     }
-
 """
 
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (

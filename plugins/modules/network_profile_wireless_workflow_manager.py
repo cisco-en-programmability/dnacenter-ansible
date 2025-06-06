@@ -13,20 +13,23 @@ __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 DOCUMENTATION = r"""
 ---
 module: network_profile_wireless_workflow_manager
-short_description: Resource module for managing network wireless profile in Cisco Catalyst Center
+short_description: Resource module for managing network
+  wireless profile in Cisco Catalyst Center
 description:
-    - This module allows the creation and deletion of wireless profiles in Cisco Catalyst Center.
-    - It enables configuring SSID details, assigning profile names, and managing
-      additional interface settings, destination ports, and protocols.
-    - This module interacts with Cisco Catalyst Center's to create profile name, SSID details,
-      additional interface details destination port and protocol.
+  - This module allows the creation and deletion of
+    wireless profiles in Cisco Catalyst Center.
+  - It enables configuring SSID details, assigning profile
+    names, and managing additional interface settings,
+    destination ports, and protocols.
+  - This module interacts with Cisco Catalyst Center's
+    to create profile name, SSID details, additional
+    interface details destination port and protocol.
 version_added: "6.31.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
-
 options:
   config_verify:
     description: |
@@ -44,13 +47,15 @@ options:
     choices: ["merged", "deleted"]
     default: merged
   config:
-    description: A list containing the details for network wireless profile creation.
+    description: A list containing the details for network
+      wireless profile creation.
     type: list
     elements: dict
     required: true
     suboptions:
       profile_name:
-        description: Specify the name of the wireless profile that needs to be created.
+        description: Specify the name of the wireless
+          profile that needs to be created.
         type: str
         required: true
       site_names:
@@ -67,7 +72,8 @@ options:
         required: false
         suboptions:
           ssid_name:
-            description: The name of the SSID (Service Set Identifier) to be configured.
+            description: The name of the SSID (Service
+              Set Identifier) to be configured.
             type: str
             required: true
           dot11be_profile_name:
@@ -120,7 +126,8 @@ options:
         required: false
         suboptions:
           ap_zone_name:
-            description: Name of the AP zone to be created and associated with the wireless profile.
+            description: Name of the AP zone to be created
+              and associated with the wireless profile.
             type: str
             required: true
           ssids:
@@ -162,26 +169,24 @@ options:
               This field is required if the VLAN interface and ID do not already exist.
             type: int
             required: true
-
 requirements:
-- dnacentersdk >= 2.8.6
-- python >= 3.9
+  - dnacentersdk >= 2.8.6
+  - python >= 3.9
 notes:
- - SDK Method used are
-    wireless.create_wireless_profile ,
+  - SDK Method used are
+    wireless.create_wireless_profile
+    ,
     wireless.update_application_policy,
     wireless.get_wireless_profile,
     site_design.assign_sites,
     wireless.get_interfaces_v1
     wireless.create_interface_v1
-
- - Paths used are
+  - Paths used are
     GET dna/intent/api/v1/wirelessProfiles
-    POST dna/intent/api/v1/wirelessProfiles/{
-    GET /dna/intent/api/v1/app-policy-intent
-    DELETE /dna/intent/api/v1/app-policy-intent
-    GET /dna/intent/api/v1/wirelessSettings/interfaces
-    POST /dna/intent/api/v1/wirelessSettings/interfaces
+    POST dna/intent/api/v1/wirelessProfiles/{ GET /dna/intent/api/v1/app-policy-intent
+    DELETE /dna/intent/api/v1/app-policy-intent GET
+    /dna/intent/api/v1/wirelessSettings/interfaces POST
+    /dna/intent/api/v1/wirelessSettings/interfaces
 """
 
 EXAMPLES = r"""
@@ -238,7 +243,6 @@ EXAMPLES = r"""
                 vlan_id: 3002
             day_n_templates:
               - "Wireless_Controller_Config"
-
     - name: Update wireless network profile
       cisco.dnac.network_profile_wireless_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -274,8 +278,8 @@ EXAMPLES = r"""
                 vlan_id: 2002
             day_n_templates:
               - "Wireless_Controller_Config"
-
-    - name: Delete wireless profile from Cisco Catalyst Center.
+    - name: Delete wireless profile from Cisco Catalyst
+        Center.
       cisco.dnac.network_profile_wireless_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -295,7 +299,6 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-
 # Case 1: Successful creation/update of wireless profile
 response_create:
   description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
@@ -314,7 +317,6 @@ response_create:
         ],
         "status": "success"
     }
-
 # Case 2: Successfully deleted wireless profile
 response_delete:
   description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
@@ -333,7 +335,6 @@ response_delete:
         ],
         "status": "success"
     }
-
 """
 
 import re

@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: lan_automation_port_channels_id_info
-short_description: Information module for Lan Automation Port Channels Id Info
+short_description: Information module for Lan Automation
+  Port Channels Id
 description:
-  - This module represents an alias of the module lan_automation_port_channels_id_v1_info
+  - Get Lan Automation Port Channels Id by id.
+  - This API retrieves Port Channel information using
+    its ID.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,17 +29,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation GetPortChannelInformationByIdV1
-    description: Complete reference of the GetPortChannelInformationByIdV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-port-channel-information-by-id
+  - name: Cisco DNA Center documentation for LAN Automation
+      GetPortChannelInformationById
+    description: Complete reference of the GetPortChannelInformationById
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-port-channel-information-by-id
 notes:
-  - SDK Method used are lan_automation.LanAutomation.get_port_channel_information_by_id_v1,
-  - Paths used are get /dna/intent/api/v1/lanAutomation/portChannels/{id},
-  - It should be noted that this module is an alias of lan_automation_port_channels_id_v1_info
+  - SDK Method used are
+    lan_automation.LanAutomation.get_port_channel_information_by_id,
+  - Paths used are
+    get /dna/intent/api/v1/lanAutomation/portChannels/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Lan Automation Port Channels Id Info by id
+---
+- name: Get Lan Automation Port Channels Id by id
   cisco.dnac.lan_automation_port_channels_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

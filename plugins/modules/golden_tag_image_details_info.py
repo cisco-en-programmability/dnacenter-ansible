@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: golden_tag_image_details_info
-short_description: Information module for Golden Tag Image Details Info
+short_description: Information module for Golden Tag
+  Image Details
 description:
-  - This module represents an alias of the module golden_tag_image_details_v1_info
+  - Get Golden Tag Image Details by id.
+  - Get golden tag status of an image. Set siteId as
+    -1 for Global site.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,20 +23,21 @@ options:
     type: dict
   siteId:
     description:
-      - SiteId path parameter. Site Id in uuid format. Set siteId as -1 for Global
-        site.
+      - SiteId path parameter. Site Id in uuid format.
+        Set siteId as -1 for Global site.
     type: str
   deviceFamilyIdentifier:
     description:
-      - DeviceFamilyIdentifier path parameter. Device family identifier e.g. 277696480-283933147,
+      - DeviceFamilyIdentifier path parameter. Device
+        family identifier e.g. 277696480-283933147,
         e.g. 277696480.
     type: str
   deviceRole:
     description:
       - >
-        DeviceRole path parameter. Device Role. Permissible Values ALL, UNKNOWN, ACCESS,
-        BORDER ROUTER, DISTRIBUTION
-        and CORE.
+        DeviceRole path parameter. Device Role. Permissible
+        Values ALL, UNKNOWN, ACCESS, BORDER ROUTER,
+        DISTRIBUTION and CORE.
     type: str
   imageId:
     description:
@@ -41,19 +47,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetGoldenTagStatusOfAnImageV1
-    description: Complete reference of the GetGoldenTagStatusOfAnImageV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-golden-tag-status-of-an-image
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) GetGoldenTagStatusOfAnImage
+    description: Complete reference of the GetGoldenTagStatusOfAnImage
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-golden-tag-status-of-an-image
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image_v1,
-  - Paths used are get
-    /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId},
-  - It should be noted that this module is an alias of golden_tag_image_details_v1_info
+    software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image,
+  - Paths used are
+    get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId},
 """
+
 EXAMPLES = r"""
-- name: Get Golden Tag Image Details Info by id
+---
+- name: Get Golden Tag Image Details by id
   cisco.dnac.golden_tag_image_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

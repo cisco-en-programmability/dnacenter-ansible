@@ -8,11 +8,13 @@ __author__ = ("Abinash Mishra, Madhan Sankaranarayanan, Rishita Chowdhary, A Moh
 DOCUMENTATION = r"""
 ---
 module: pnp_workflow_manager
-short_description: Resource module for Site and PnP related functions
+short_description: Resource module for Site and PnP
+  related functions
 description:
-  - Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP)
-    resource
-  - API to add device to pnp inventory and claim it to a site.
+  - Manage operations add device, claim device and unclaim
+    device of Onboarding Configuration(PnP) resource
+  - API to add device to pnp inventory and claim it
+    to a site.
   - API to delete device from the pnp inventory.
   - API to reset the device from errored state.
 version_added: 6.28.0
@@ -31,7 +33,8 @@ options:
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: The state of Cisco Catalyst Center
+      after module completion.
     type: str
     choices: [merged, deleted]
     default: merged
@@ -58,16 +61,19 @@ options:
         suboptions:
           hostname:
             description:
-              - Defines the desired hostname for the PnP device after it has been
-                claimed.
-              - The hostname can only be assigned or changed during the claim process,
-                not during bulk or single device additions.
+              - Defines the desired hostname for the
+                PnP device after it has been claimed.
+              - The hostname can only be assigned or
+                changed during the claim process, not
+                during bulk or single device additions.
             type: str
             required: false
           state:
             description:
-              - Represents the onboarding state of the PnP device.
-              - Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.
+              - Represents the onboarding state of the
+                PnP device.
+              - Possible values are 'Unclaimed', 'Claimed',
+                or 'Provisioned'.
             type: str
             required: false
           pid:
@@ -79,41 +85,47 @@ options:
             type: str
             required: true
           is_sudi_required:
-            description: Sudi Authentication requiremnet's flag.
+            description: Sudi Authentication requiremnet's
+              flag.
             type: bool
             required: false
       site_name:
-        description: Name of the site for which the device will be claimed.
+        description: Name of the site for which the
+          device will be claimed.
         type: str
         required: false
       project_name:
-        description: Name of the project under which the template is present.
+        description: Name of the project under which
+          the template is present.
         type: str
         default: 'Onboarding Configuration'
         required: false
       template_name:
         description:
-          - Name of the template to be configured on the device.
-          - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x
-            onwards.
+          - Name of the template to be configured on
+            the device.
+          - Supported for EWLC from Cisco Catalyst Center
+            release version 2.3.7.x onwards.
         type: str
         required: false
       template_params:
         description:
           - Parameter values for the parameterised templates.
-          - Each varibale has a value that needs to be passed as key-value pair in
-            the dictionary. We can pass values as variable_name:variable_value.
-          - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x
-            onwards.
+          - Each varibale has a value that needs to
+            be passed as key-value pair in the dictionary.
+            We can pass values as variable_name:variable_value.
+          - Supported for EWLC from Cisco Catalyst Center
+            release version 2.3.7.x onwards.
         type: dict
         required: false
       image_name:
-        description: Name of the image to be configured on the device.
+        description: Name of the image to be configured
+          on the device.
         type: str
         required: false
       golden_image:
-        description: Specifies whether the configured image is tagged as a golden
-          image.
+        description: Specifies whether the configured
+          image is tagged as a golden image.
         type: bool
         required: false
       pnp_type:
@@ -134,42 +146,49 @@ options:
           - StackSwitch
         default: Default
       static_ip:
-        description: Management IP address of the Wireless Controller.
+        description: Management IP address of the Wireless
+          Controller.
         type: str
         required: false
       subnet_mask:
-        description: Subnet mask of the management IP address of the Wireless Controller.
+        description: Subnet mask of the management IP
+          address of the Wireless Controller.
         type: str
         required: false
       gateway:
-        description: Gateway IP address of the Wireless Controller for connectivity.
+        description: Gateway IP address of the Wireless
+          Controller for connectivity.
         type: str
         required: false
       vlan_id:
-        description: VLAN ID allocated for claiming the Wireless Controller.
+        description: VLAN ID allocated for claiming
+          the Wireless Controller.
         type: str
         required: false
       ip_interface_name:
         description:
-          - Specifies the interface name utilized for Plug and Play (PnP) by the Wireless
-            Controller.
-          - Ensure this interface is pre-configured on the controller before device
-            claiming.
+          - Specifies the interface name utilized for
+            Plug and Play (PnP) by the Wireless Controller.
+          - Ensure this interface is pre-configured
+            on the controller before device claiming.
         type: str
         required: false
       rf_profile:
         description:
-          - Radio Frequecy (RF) profile of the AP being claimed.
-          - RF Profiles allow you to tune groups of APs that share a common coverage
-            zone together.
-          - They selectively change how Radio Resource Management will operate the
-            APs within that coverage zone.
-          - HIGH RF profile allows you to use more power and allows to join AP with
-            the client in an easier fashion.
-          - TYPICAL RF profile is a blend of moderate power and moderate visibility
-            to the client.
-          - LOW RF profile allows you to consume lesser power and has least visibility
-            to the client.
+          - Radio Frequecy (RF) profile of the AP being
+            claimed.
+          - RF Profiles allow you to tune groups of
+            APs that share a common coverage zone together.
+          - They selectively change how Radio Resource
+            Management will operate the APs within that
+            coverage zone.
+          - HIGH RF profile allows you to use more power
+            and allows to join AP with the client in
+            an easier fashion.
+          - TYPICAL RF profile is a blend of moderate
+            power and moderate visibility to the client.
+          - LOW RF profile allows you to consume lesser
+            power and has least visibility to the client.
         type: str
         choices:
           - HIGH
@@ -180,18 +199,28 @@ requirements:
   - dnacentersdk == 2.6.10
   - python >= 3.9
 notes:
-  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_device, device_onboarding_pnp.DeviceOnboardingPnp.get_device_list,
-    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site, device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
-    device_onboarding_pnp.DeviceOnboardingPnp.get_device_count, device_onboarding_pnp.DeviceOnboardingPnp.get_device_by_id,
-    device_onboarding_pnp.DeviceOnboardingPnp.update_device, sites.Sites.get_site,
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.add_device,
+    device_onboarding_pnp.DeviceOnboardingPnp.get_device_list,
+    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site,
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
+    device_onboarding_pnp.DeviceOnboardingPnp.get_device_count,
+    device_onboarding_pnp.DeviceOnboardingPnp.get_device_by_id,
+    device_onboarding_pnp.DeviceOnboardingPnp.update_device,
+    sites.Sites.get_site,
     software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details,
     configuration_templates.ConfigurationTemplates.gets_the_templates_available
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device post /dna/intent/api/v1/onboarding/pnp-device/site-claim
-    post /dna/intent/api/v1/onboarding/pnp-device/{id} get /dna/intent/api/v1/onboarding/pnp-device/count
-    get /dna/intent/api/v1/onboarding/pnp-device put /onboarding/pnp-device/${id}
-    get /dna/intent/api/v1/site get /dna/intent/api/v1/image/importation get /dna/intent/api/v1/template-programmer/template
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device
+    post /dna/intent/api/v1/onboarding/pnp-device/site-claim
+    post /dna/intent/api/v1/onboarding/pnp-device/{id}
+    get /dna/intent/api/v1/onboarding/pnp-device/count
+    get /dna/intent/api/v1/onboarding/pnp-device put
+    /onboarding/pnp-device/${id} get /dna/intent/api/v1/site
+    get /dna/intent/api/v1/image/importation get /dna/intent/api/v1/template-programmer/template
 """
 EXAMPLES = r"""
+---
 - name: Import multiple switches in bulk only
   cisco.dnac.pnp_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -250,8 +279,8 @@ EXAMPLES = r"""
         gateway: 204.192.101.1
         vlan_id: 1101
         ip_interface_name: TenGigabitEthernet0/0/0
-- name: Claim a pre-added switch, apply a template, and perform an image upgrade
-    for a specific site
+- name: Claim a pre-added switch, apply a template,
+    and perform an image upgrade for a specific site
   cisco.dnac.pnp_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -277,8 +306,8 @@ EXAMPLES = r"""
         template_params:
           hostname: SJC-Switch-1
           interface: TwoGigabitEthernet1/0/2
-- name: Remove multiple devices from the PnP dashboard safely (ignores non-existent
-    devices)
+- name: Remove multiple devices from the PnP dashboard
+    safely (ignores non-existent devices)
   cisco.dnac.pnp_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

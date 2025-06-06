@@ -1,20 +1,32 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: assurance_issues_trend_analytics
-short_description: Resource module for Assurance Issues Trend Analytics
+short_description: Resource module for Assurance Issues
+  Trend Analytics
 description:
-  - This module represents an alias of the module assurance_issues_trend_analytics_v1
+  - Manage operation create of the resource Assurance
+    Issues Trend Analytics. - > Gets the trend analytics
+    data related to issues based on given filters and
+    group by field. This data can be used to find issue
+    counts in different intervals over a period of time.
+    For detailed information about the usage of the
+    API, please refer to the Open API specification
+    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    IssuesList-1.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Assurance Issues Trend Analytics's aggregateAttributes.
+    description: Assurance Issues Trend Analytics's
+      aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -32,7 +44,8 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Assurance Issues Trend Analytics's filters.
+    description: Assurance Issues Trend Analytics's
+      filters.
     elements: dict
     suboptions:
       key:
@@ -53,7 +66,8 @@ options:
     description: Additional headers.
     type: dict
   page:
-    description: Assurance Issues Trend Analytics's page.
+    description: Assurance Issues Trend Analytics's
+      page.
     suboptions:
       limit:
         description: Limit.
@@ -75,16 +89,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Issues GetTrendAnalyticsDataOfIssuesV1
-    description: Complete reference of the GetTrendAnalyticsDataOfIssuesV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-issues
+  - name: Cisco DNA Center documentation for Issues
+      GetTrendAnalyticsDataOfIssues
+    description: Complete reference of the GetTrendAnalyticsDataOfIssues
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-issues
 notes:
-  - SDK Method used are issues.Issues.get_trend_analytics_data_of_issues_v1,
-  - Paths used are post /dna/data/api/v1/assuranceIssues/trendAnalytics,
-  - It should be noted that this module is an alias of assurance_issues_trend_analytics_v1
+  - SDK Method used are
+    issues.Issues.get_trend_analytics_data_of_issues,
+  - Paths used are
+    post /dna/data/api/v1/assuranceIssues/trendAnalytics,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.assurance_issues_trend_analytics:
     dnac_host: "{{dnac_host}}"

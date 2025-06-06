@@ -9,93 +9,116 @@ __author__ = ["Muthu Rakesh, Madhan Sankaranarayanan"]
 DOCUMENTATION = r"""
 ---
 module: ise_radius_integration_workflow_manager
-short_description: Resource module for Authentication and Policy Servers
+short_description: Resource module for Authentication
+  and Policy Servers
 description:
   - Manage operations on Authentication and Policy Servers.
-  - API to create Authentication and Policy Server Access Configuration.
-  - API to update Authentication and Policy Server Access Configuration.
-  - API to delete Authentication and Policy Server Access Configuration.
+  - API to create Authentication and Policy Server Access
+    Configuration.
+  - API to update Authentication and Policy Server Access
+    Configuration.
+  - API to delete Authentication and Policy Server Access
+    Configuration.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
+  (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the
-      playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center after applying the playbook config.
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: The state of Cisco Catalyst Center
+      after module completion.
     type: str
     choices: ["merged", "deleted"]
     default: merged
   config:
     description:
-      - List of details of Authentication and Policy Servers being managed.
+      - List of details of Authentication and Policy
+        Servers being managed.
     type: list
     elements: dict
     required: true
     suboptions:
       authentication_policy_server:
-        description: Manages the Authentication and Policy Servers.
+        description: Manages the Authentication and
+          Policy Servers.
         type: list
         elements: dict
         suboptions:
           server_type:
             description:
-              - Type of the Authentication and Policy Server.
+              - Type of the Authentication and Policy
+                Server.
               - ISE for Cisco ISE servers.
               - AAA for Non-Cisco ISE servers.
             type: str
             choices: ["AAA", "ISE"]
             default: AAA
           server_ip_address:
-            description: IP Address of the Authentication and Policy Server.
+            description: IP Address of the Authentication
+              and Policy Server.
             type: str
             required: true
           shared_secret:
             description:
-              - Shared secret between devices and authentication and policy server.
-              - Shared secret must have 4 to 100 characters with no spaces or the
-                following characters - ["<", "?"].
+              - Shared secret between devices and authentication
+                and policy server.
+              - Shared secret must have 4 to 100 characters
+                with no spaces or the following characters
+                - ["<", "?"].
               - Shared secret is a Read-Only parameter.
             type: str
           protocol:
             description:
-              - Type of protocol for authentication and policy server.
-              - RADIUS provides centralized services (AAA) for users in remote access
-                scenarios.
-              - TACACS focuses on access control and administrative authentication
-                for network devices.
+              - Type of protocol for authentication
+                and policy server.
+              - RADIUS provides centralized services
+                (AAA) for users in remote access scenarios.
+              - TACACS focuses on access control and
+                administrative authentication for network
+                devices.
             type: str
             choices: ["TACACS", "RADIUS", "RADIUS_TACACS"]
             default: RADIUS
           encryption_scheme:
             description:
-              - Type of encryption scheme for additional security.
-              - If encryption scheme is given, then message authenticator code and
-                encryption keys need to be required.
-              - Updation of encryption scheme is not possible.
+              - Type of encryption scheme for additional
+                security.
+              - If encryption scheme is given, then
+                message authenticator code and encryption
+                keys need to be required.
+              - Updation of encryption scheme is not
+                possible.
               - >
-                KEYWRAP is used for securely wrapping and unwrapping encryption keys,
-                ensuring their confidentiality during transmission or storage.
+                KEYWRAP is used for securely wrapping
+                and unwrapping encryption keys, ensuring
+                their confidentiality during transmission
+                or storage.
               - >
-                RADSEC is an extension of RADIUS that provides secure communication
-                between RADIUS clients and servers over TLS/SSL. Enhances enhancing
-                the
-                confidentiality and integrity of authentication and accounting data
-                exchange.
+                RADSEC is an extension of RADIUS that
+                provides secure communication between
+                RADIUS clients and servers over TLS/SSL.
+                Enhances enhancing the confidentiality
+                and integrity of authentication and
+                accounting data exchange.
             type: str
             choices: ["KEYWRAP", "RADSEC"]
           encryption_key:
             description:
-              - Encryption key used to encrypt shared secret.
-              - Updation of encryption scheme is not possible.
+              - Encryption key used to encrypt shared
+                secret.
+              - Updation of encryption scheme is not
+                possible.
               - Required when encryption_scheme is provided.
               - >
-                When ASCII format is selected, Encryption Key may contain
-                alphanumeric and special characters. Key must be 16 char long.
+                When ASCII format is selected, Encryption
+                Key may contain alphanumeric and special
+                characters. Key must be 16 char long.
             type: str
           message_authenticator_code_key:
             description:
@@ -103,35 +126,40 @@ options:
               - Updation of message key is not possible.
               - Required when encryption_scheme is provided.
               - >
-                Message Authentication Code Key may contain alphanumeric and special
-                characters.
+                Message Authentication Code Key may
+                contain alphanumeric and special characters.
                 Key must be 20 char long.
             type: str
           authentication_port:
             description:
               - Authentication port of RADIUS server.
-              - Updation of authentication port is not possible.
-              - Authentication port should be from 1 to 65535.
+              - Updation of authentication port is not
+                possible.
+              - Authentication port should be from 1
+                to 65535.
             type: int
             default: 1812
           accounting_port:
             description:
               - Accounting port of RADIUS server.
               - Updation of accounting port is not possible.
-              - Accounting port should be from 1 to 65535.
+              - Accounting port should be from 1 to
+                65535.
             type: int
             default: 1813
           retries:
             description:
-              - Number of communication retries between devices and authentication
-                and policy server.
+              - Number of communication retries between
+                devices and authentication and policy
+                server.
               - Retries should be from 1 to 3.
             type: int
             default: 3
           timeout:
             description:
-              - Number of seconds before timing out between devices and authentication
-                and policy server.
+              - Number of seconds before timing out
+                between devices and authentication and
+                policy server.
               - Timeout should be from 2 to 20.
             type: int
             default: 4
@@ -143,24 +171,28 @@ options:
             default: secondary
           pxgrid_enabled:
             description:
-              - Set True to enable the Pxgrid and False to disable the Pxgrid.
-              - Pxgrid is available only for the Cisco ISE Servers.
+              - Set True to enable the Pxgrid and False
+                to disable the Pxgrid.
+              - Pxgrid is available only for the Cisco
+                ISE Servers.
               - >
-                PxGrid facilitates seamless integration and information sharing across
-                products,
-                enhancing threat detection and response capabilities within the network
-                ecosystem.
+                PxGrid facilitates seamless integration
+                and information sharing across products,
+                enhancing threat detection and response
+                capabilities within the network ecosystem.
             type: bool
             default: true
           use_dnac_cert_for_pxgrid:
-            description: Set True to use the Cisco Catalyst Center certificate for
-              the Pxgrid.
+            description: Set True to use the Cisco Catalyst
+              Center certificate for the Pxgrid.
             type: bool
             default: false
           cisco_ise_dtos:
             description:
-              - List of Cisco ISE Data Transfer Objects (DTOs).
-              - Required when server_type is set to ISE.
+              - List of Cisco ISE Data Transfer Objects
+                (DTOs).
+              - Required when server_type is set to
+                ISE.
             type: list
             elements: dict
             suboptions:
@@ -172,13 +204,15 @@ options:
               password:
                 description:
                   - Password of the Cisco ISE server.
-                  - Password must have 4 to 127 characters with no spaces or the following
+                  - Password must have 4 to 127 characters
+                    with no spaces or the following
                     characters - "<".
                   - Required for passing the cisco_ise_dtos.
                 type: str
               fqdn:
                 description:
-                  - Fully-qualified domain name of the Cisco ISE server.
+                  - Fully-qualified domain name of the
+                    Cisco ISE server.
                   - Required for passing the cisco_ise_dtos.
                 type: str
               ip_address:
@@ -187,14 +221,16 @@ options:
                   - Required for passing the cisco_ise_dtos.
                 type: str
               description:
-                description: Description about the Cisco ISE server.
+                description: Description about the Cisco
+                  ISE server.
                 type: str
               ssh_key:
-                description: SSH key of the Cisco ISE server.
+                description: SSH key of the Cisco ISE
+                  server.
                 type: str
           external_cisco_ise_ip_addr_dtos:
-            description: External Cisco ISE IP address data transfer objects for future
-              use.
+            description: External Cisco ISE IP address
+              data transfer objects for future use.
             type: list
             elements: dict
             suboptions:
@@ -204,23 +240,27 @@ options:
                 elements: dict
                 suboptions:
                   external_ip_address:
-                    description: External Cisco ISE IP address.
+                    description: External Cisco ISE
+                      IP address.
                     type: str
               ise_type:
-                description: Type of the Authentication and Policy Server.
+                description: Type of the Authentication
+                  and Policy Server.
                 type: str
           trusted_server:
             description:
-              - Indicates whether the certificate is trustworthy for the server.
-              - Serves as a validation of its authenticity and reliability in secure
-                connections.
+              - Indicates whether the certificate is
+                trustworthy for the server.
+              - Serves as a validation of its authenticity
+                and reliability in secure connections.
             default: true
             type: bool
           ise_integration_wait_time:
             description:
-              - Indicates the sleep time after initiating the Cisco ISE integration
-                process.
-              - Maximum sleep time should be less or equal to 120 seconds.
+              - Indicates the sleep time after initiating
+                the Cisco ISE integration process.
+              - Maximum sleep time should be less or
+                equal to 120 seconds.
             default: 20
             type: int
 requirements:
@@ -232,12 +272,19 @@ notes:
     system_settings.SystemSettings.edit_authentication_and_policy_server_access_configuration,
     system_settings.SystemSettings.accept_cisco_ise_server_certificate_for_cisco_ise_server_integration,
     system_settings.SystemSettings.delete_authentication_and_policy_server_access_configuration,
-    system_settings.SystemSettings.get_authentication_and_policy_servers, system_settings.SystemSettings.cisco_ise_server_integration_status,
-  - Paths used are post /dna/intent/api/v1/authentication-policy-servers, put /dna/intent/api/v1/authentication-policy-servers/${id},
-    put /dna/intent/api/v1/integrate-ise/${id}, delete /dna/intent/api/v1/authentication-policy-servers/${id}
-    get /dna/intent/api/v1/authentication-policy-servers get /dna/intent/api/v1/ise-integration-status
+    system_settings.SystemSettings.get_authentication_and_policy_servers,
+    system_settings.SystemSettings.cisco_ise_server_integration_status,
+  - Paths used are
+    post /dna/intent/api/v1/authentication-policy-servers,
+    put /dna/intent/api/v1/authentication-policy-servers/${id},
+    put /dna/intent/api/v1/integrate-ise/${id},
+    delete
+    /dna/intent/api/v1/authentication-policy-servers/${id}
+    get /dna/intent/api/v1/authentication-policy-servers
+    get /dna/intent/api/v1/ise-integration-status
 """
 EXAMPLES = r"""
+---
 - name: Create an AAA server.
   cisco.dnac.ise_radius_integration_workflow_manager:
     dnac_host: "{{dnac_host}}"

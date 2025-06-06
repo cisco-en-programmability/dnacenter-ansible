@@ -9,38 +9,45 @@ __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan, Megha Kandari']
 DOCUMENTATION = r"""
 ---
 module: network_settings_workflow_manager
-short_description: Resource module for IP Address pools and network functions
+short_description: Resource module for IP Address pools
+  and network functions
 description:
-  - Manage operations on Global Pool, Reserve Pool, Network resources.
+  - Manage operations on Global Pool, Reserve Pool,
+    Network resources.
   - API to create/update/delete global pool.
-  - API to reserve/update/delete an ip subpool from the global pool.
-  - API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client
-    and Endpoint AAA, and/or DNS center server settings.
+  - API to reserve/update/delete an ip subpool from
+    the global pool.
+  - API to update network settings for DHCP, Syslog,
+    SNMP, NTP, Network AAA, Client and Endpoint AAA,
+    and/or DNS center server settings.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel) Megha
-  Kandari (@kandarimegha)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
+  (@madhansansel) Megha Kandari (@kandarimegha)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the
-      playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center after applying the playbook config.
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: The state of Cisco Catalyst Center
+      after module completion.
     type: str
     choices: [merged, deleted]
     default: merged
   config:
     description:
-      - List of details of global pool, reserved pool, network being managed.
+      - List of details of global pool, reserved pool,
+        network being managed.
     type: list
     elements: dict
     required: true
     suboptions:
       global_pool_details:
-        description: Manages IPv4 and IPv6 IP pools in the global level.
+        description: Manages IPv4 and IPv6 IP pools
+          in the global level.
         type: dict
         suboptions:
           settings:
@@ -48,150 +55,190 @@ options:
             type: dict
             suboptions:
               ip_pool:
-                description: Contains a list of global IP pool configurations.
+                description: Contains a list of global
+                  IP pool configurations.
                 elements: dict
                 type: list
                 suboptions:
                   name:
                     description:
-                      - Specifies the name assigned to the Global IP Pool.
-                      - Required for the operations in the Global IP Pool.
-                      - Length should be less than or equal to 100.
-                      - Only letters, numbers and -_./ characters are allowed.
+                      - Specifies the name assigned
+                        to the Global IP Pool.
+                      - Required for the operations
+                        in the Global IP Pool.
+                      - Length should be less than or
+                        equal to 100.
+                      - Only letters, numbers and -_./
+                        characters are allowed.
                     type: str
                   pool_type:
                     description: >
-                      Includes both the Generic Ip Pool and Tunnel Ip Pool.
-                      Generic - Used for general purpose within the network such as
-                      device
-                                management or communication between the network devices.
-                      Tunnel - Designated for the tunnel interfaces to encapsulate
-                      packets
-                               within the network protocol. It is used in VPN connections,
-                               GRE tunnels, or other types of overlay networks.
+                      Includes both the Generic Ip Pool
+                      and Tunnel Ip Pool. Generic -
+                      Used for general purpose within
+                      the network such as device management
+                      or communication between the network
+                      devices. Tunnel - Designated for
+                      the tunnel interfaces to encapsulate
+                      packets within the network protocol.
+                      It is used in VPN connections,
+                      GRE tunnels, or other types of
+                      overlay networks.
                     default: Generic
                     choices: [Generic, Tunnel]
                     type: str
                   ip_address_space:
-                    description: IP address space either IPv4 or IPv6.
+                    description: IP address space either
+                      IPv4 or IPv6.
                     type: str
                   cidr:
                     description: >
-                      Defines the IP pool's Classless Inter-Domain Routing block,
-                      enabling systematic IP address distribution within a network.
+                      Defines the IP pool's Classless
+                      Inter-Domain Routing block, enabling
+                      systematic IP address distribution
+                      within a network.
                     type: str
                   gateway:
-                    description: Serves as an entry or exit point for data traffic
+                    description: Serves as an entry
+                      or exit point for data traffic
                       between networks.
                     type: str
                   dhcp_server_ips:
                     description: >
-                      The DHCP server IPs responsible for automatically assigning
-                      IP addresses
-                      and network configuration parameters to devices on a local network.
+                      The DHCP server IPs responsible
+                      for automatically assigning IP
+                      addresses and network configuration
+                      parameters to devices on a local
+                      network.
                     elements: str
                     type: list
                   dns_server_ips:
-                    description: Responsible for translating domain names into corresponding
+                    description: Responsible for translating
+                      domain names into corresponding
                       IP addresses.
                     elements: str
                     type: list
                   prev_name:
                     description: >
-                      The former identifier for the global pool. It should be used
-                      exclusively when you need to update the global pool's name.
+                      The former identifier for the
+                      global pool. It should be used
+                      exclusively when you need to update
+                      the global pool's name.
                     type: str
                   force_delete:
                     description: >
-                      Forcefully delete all IP pools from the global level of the
-                      global pool.
-                      The default value is false.
+                      Forcefully delete all IP pools
+                      from the global level of the global
+                      pool. The default value is false.
                     type: bool
                     required: false
                     default: false
       reserve_pool_details:
-        description: Reserved IP subpool details from the global pool.
+        description: Reserved IP subpool details from
+          the global pool.
         type: dict
         suboptions:
           site_name:
             description: >
-              The name of the site provided as a path parameter, used
-              to specify where the IP sub-pool will be reserved.
+              The name of the site provided as a path
+              parameter, used to specify where the IP
+              sub-pool will be reserved.
             type: str
           name:
             description:
               - Name of the reserve IP subpool.
-              - Required for the operations in the Reserve IP Pool.
-              - Length should be less than or equal to 100.
-              - Only letters, numbers and -_./ characters are allowed.
+              - Required for the operations in the Reserve
+                IP Pool.
+              - Length should be less than or equal
+                to 100.
+              - Only letters, numbers and -_./ characters
+                are allowed.
             type: str
           pool_type:
-            description: Type of the reserve ip sub pool. Generic - Used for general
-              purpose within the network such as device management or communication
-              between the network devices. LAN - Used for the devices and the resources
-              within the Local Area Network such as device connectivity, internal
-              communication, or services. Management - Used for the management purposes
-              such as device management interfaces, management access, or other administrative
-              functions. Service - Used for the network services and application such
-              as DNS (Domain Name System), DHCP (Dynamic Host Configuration Protocol),
-              NTP (Network Time Protocol). WAN - Used for the devices and resources
-              with the Wide Area Network such as remote sites interconnection with
-              other network or services hosted within WAN.
+            description: Type of the reserve ip sub
+              pool. Generic - Used for general purpose
+              within the network such as device management
+              or communication between the network devices.
+              LAN - Used for the devices and the resources
+              within the Local Area Network such as
+              device connectivity, internal communication,
+              or services. Management - Used for the
+              management purposes such as device management
+              interfaces, management access, or other
+              administrative functions. Service - Used
+              for the network services and application
+              such as DNS (Domain Name System), DHCP
+              (Dynamic Host Configuration Protocol),
+              NTP (Network Time Protocol). WAN - Used
+              for the devices and resources with the
+              Wide Area Network such as remote sites
+              interconnection with other network or
+              services hosted within WAN.
             default: Generic
-            choices: [Generic, LAN, Management, Service, WAN]
+            choices: [Generic, LAN, Management, Service,
+              WAN]
             type: str
           ipv6_address_space:
             description: >
-              Determines whether both IPv6 and IPv4 inputs are required.
-              If set to false, only IPv4 inputs are required.
-              If set to true, both IPv6 and IPv4 inputs are required.
+              Determines whether both IPv6 and IPv4
+              inputs are required. If set to false,
+              only IPv4 inputs are required. If set
+              to true, both IPv6 and IPv4 inputs are
+              required.
             type: bool
           ipv4_global_pool:
             description:
-              - IP v4 Global pool address with cidr, example 175.175.0.0/16.
-              - If both 'ipv6_global_pool' and 'ipv4_global_pool_name' are provided,
-                the 'ipv4_global_pool' will be given priority.
+              - IP v4 Global pool address with cidr,
+                example 175.175.0.0/16.
+              - If both 'ipv6_global_pool' and 'ipv4_global_pool_name'
+                are provided, the 'ipv4_global_pool'
+                will be given priority.
             type: str
           ipv4_global_pool_name:
             description:
-              - Specifies the name to be associated with the IPv4 Global IP Pool.
-              - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided,
-                the 'ipv4_global_pool' will be given priority.
+              - Specifies the name to be associated
+                with the IPv4 Global IP Pool.
+              - If both 'ipv4_global_pool' and 'ipv4_global_pool_name'
+                are provided, the 'ipv4_global_pool'
+                will be given priority.
             type: str
             version_added: 6.14.0
           ipv4_subnet:
-            description: Indicates the IPv4 subnet address, for example, "175.175.0.0".
+            description: Indicates the IPv4 subnet address,
+              for example, "175.175.0.0".
             type: str
           ipv4_prefix:
-            description: ip4 prefix length is enabled or ipv4 total Host input is
-              enabled
+            description: ip4 prefix length is enabled
+              or ipv4 total Host input is enabled
             type: bool
           ipv4_prefix_length:
-            description: The ipv4 prefix length is required when ipv4_prefix value
-              is true.
+            description: The ipv4 prefix length is required
+              when ipv4_prefix value is true.
             type: int
           ipv4_total_host:
-            description: The total number of hosts for IPv4, required when the 'ipv4_prefix'
+            description: The total number of hosts for
+              IPv4, required when the 'ipv4_prefix'
               is set to false.
             type: int
           ipv4_gateway:
-            description: Provides the gateway's IPv4 address, for example, "175.175.0.1".
+            description: Provides the gateway's IPv4
+              address, for example, "175.175.0.1".
             type: str
             version_added: 4.0.0
           ipv4_dhcp_servers:
-            description: Specifies the IPv4 addresses for DHCP servers, for example,
-              "1.1.1.1".
+            description: Specifies the IPv4 addresses
+              for DHCP servers, for example, "1.1.1.1".
             elements: str
             type: list
           ipv4_dns_servers:
-            description: Specifies the IPv4 addresses for DNS servers, for example,
-              "4.4.4.4".
+            description: Specifies the IPv4 addresses
+              for DNS servers, for example, "4.4.4.4".
             elements: str
             type: list
           ipv6_dhcp_servers:
             description: >
-              Specifies the IPv6 addresses for DHCP servers in the format.
-              For example, "2001:0db8:0123:4567:89ab:cdef:0001:0001".
+              Specifies the IPv6 addresses for DHCP
+              servers in the format. For example, "2001:0db8:0123:4567:89ab:cdef:0001:0001".
             elements: str
             type: list
           ipv6_dns_servers:
@@ -202,85 +249,101 @@ options:
             type: list
           ipv6_gateway:
             description: >
-              Provides the gateway's IPv6 address.
-              For example, "2001:0db8:0123:4567:89ab:cdef:0003:0003".
+              Provides the gateway's IPv6 address. For
+              example, "2001:0db8:0123:4567:89ab:cdef:0003:0003".
             type: str
           ipv6_global_pool:
             description:
-              - The ipv6_global_pool is a required when the ipv6_address_space is
-                set to true.
-              - It specifies the global IPv6 address pool using CIDR notation, such
-                as "2001:db8:85a3::/64".
-              - In cases where both ipv6_global_pool and ipv6_global_pool_name are
-                specified, ipv6_global_pool will take precedence.
+              - The ipv6_global_pool is a required when
+                the ipv6_address_space is set to true.
+              - It specifies the global IPv6 address
+                pool using CIDR notation, such as "2001:db8:85a3::/64".
+              - In cases where both ipv6_global_pool
+                and ipv6_global_pool_name are specified,
+                ipv6_global_pool will take precedence.
             type: str
           ipv6_global_pool_name:
             description:
-              - Specifies the name assigned to the Ip v6 Global IP Pool.
-              - If both 'ipv6_global_pool' and 'ipv6_global_pool_name' are provided,
-                the 'ipv6_global_pool' will be given priority.
+              - Specifies the name assigned to the Ip
+                v6 Global IP Pool.
+              - If both 'ipv6_global_pool' and 'ipv6_global_pool_name'
+                are provided, the 'ipv6_global_pool'
+                will be given priority.
             type: str
             version_added: 6.14.0
           ipv6_subnet:
-            description: IPv6 Subnet address, example 2001:db8:85a3:0:100.
+            description: IPv6 Subnet address, example
+              2001:db8:85a3:0:100.
             type: str
           ipv6_prefix:
             description: >
-              Determines whether to enable the 'ipv6_prefix_length' or 'ipv6_total_host'
-              input field.
-              If IPv6 prefix value is true, the IPv6 prefix length input field is
-              required,
-              If it is false ipv6 total Host input is required.
+              Determines whether to enable the 'ipv6_prefix_length'
+              or 'ipv6_total_host' input field. If IPv6
+              prefix value is true, the IPv6 prefix
+              length input field is required, If it
+              is false ipv6 total Host input is required.
             type: bool
           ipv6_prefix_length:
-            description: Specifies the IPv6 prefix length. Required when 'ipv6_prefix'
-              is set to true.
+            description: Specifies the IPv6 prefix length.
+              Required when 'ipv6_prefix' is set to
+              true.
             type: int
           ipv6_total_host:
             description:
-              - Specifies the total number of IPv6 hosts. Required when 'ipv6_prefix'
-                is set to false.
-              - Must specify a number of IPv6 IP addresses that is less than 256.
+              - Specifies the total number of IPv6 hosts.
+                Required when 'ipv6_prefix' is set to
+                false.
+              - Must specify a number of IPv6 IP addresses
+                that is less than 256.
             type: int
           prev_name:
-            description: The former name associated with the reserved IP sub-pool.
+            description: The former name associated
+              with the reserved IP sub-pool.
             type: str
           slaac_support:
             description: >
-              Allows devices on IPv6 networks to self-configure their
-              IP addresses autonomously, eliminating the need for manual setup.
+              Allows devices on IPv6 networks to self-configure
+              their IP addresses autonomously, eliminating
+              the need for manual setup.
             type: bool
           force_delete:
             description: >
-              Forcefully delete all IP pools from the reserve level of the IP sub-pool.
-              The default value is false.
+              Forcefully delete all IP pools from the
+              reserve level of the IP sub-pool. The
+              default value is false.
             type: bool
             required: false
             default: false
       network_management_details:
-        description: Set default network settings for the site
+        description: Set default network settings for
+          the site
         type: list
         elements: dict
         suboptions:
           site_name:
             description: >
-              The name of the site provided as a path parameter, used
-              to specify where the IP sub-pool will be reserved. (eg Global/Chennai/Trill)
+              The name of the site provided as a path
+              parameter, used to specify where the IP
+              sub-pool will be reserved. (eg Global/Chennai/Trill)
             type: str
           settings:
-            description: Network management details settings.
+            description: Network management details
+              settings.
             type: dict
             suboptions:
               network_aaa:
-                description: Manages AAA (Authentication Authorization Accounting)
-                  for network devices.
+                description: Manages AAA (Authentication
+                  Authorization Accounting) for network
+                  devices.
                 suboptions:
                   server_type:
-                    description: Server type for managing AAA for network devices.
+                    description: Server type for managing
+                      AAA for network devices.
                     choices: [AAA, ISE]
                     type: str
                   protocol:
-                    description: Protocol for AAA or ISE server.
+                    description: Protocol for AAA or
+                      ISE server.
                     choices: [RADIUS, TACACS]
                     default: RADIUS
                     type: str
@@ -292,33 +355,39 @@ options:
                     version_added: 6.14.0
                   primary_server_address:
                     description:
-                      - Primary IP address for the ISE/AAA server.
+                      - Primary IP address for the ISE/AAA
+                        server.
                       - For example, 1.1.1.2.
                     type: str
                     version_added: 6.14.0
                   secondary_server_address:
                     description:
-                      - Secondary IP address for the AAA server.
+                      - Secondary IP address for the
+                        AAA server.
                       - For example, 1.1.1.3.
                     type: str
                     version_added: 6.14.0
                   shared_secret:
                     description:
                       - Shared secret for ISE Server.
-                      - Length of the shared secret should be atleast 4 characters.
+                      - Length of the shared secret
+                        should be atleast 4 characters.
                     type: str
                 type: dict
               client_and_endpoint_aaa:
-                description: Manages AAA (Authentication Authorization Accounting)
-                  for clients and endpoints.
+                description: Manages AAA (Authentication
+                  Authorization Accounting) for clients
+                  and endpoints.
                 suboptions:
                   server_type:
                     description:
-                      - Server type for managing AAA for client and endpoints.
+                      - Server type for managing AAA
+                        for client and endpoints.
                     choices: [AAA, ISE]
                     type: str
                   protocol:
-                    description: Protocol for AAA or ISE server.
+                    description: Protocol for AAA or
+                      ISE server.
                     choices: [RADIUS, TACACS]
                     default: RADIUS
                     type: str
@@ -330,119 +399,152 @@ options:
                     version_added: 6.14.0
                   primary_server_address:
                     description:
-                      - Primary IP address for the ISE/AAA server.
+                      - Primary IP address for the ISE/AAA
+                        server.
                       - For example, 1.1.1.2.
                     type: str
                     version_added: 6.14.0
                   secondary_server_address:
                     description:
-                      - Secondary IP address for the AAA server.
+                      - Secondary IP address for the
+                        AAA server.
                       - For example, 1.1.1.3.
                     type: str
                     version_added: 6.14.0
                   shared_secret:
                     description:
                       - Shared secret for ISE Server.
-                      - Length of the shared secret should be atleast 4 characters.
+                      - Length of the shared secret
+                        should be atleast 4 characters.
                     type: str
                 type: dict
               dhcp_server:
-                description: DHCP Server IP address (eg 1.1.1.4).
+                description: DHCP Server IP address
+                  (eg 1.1.1.4).
                 elements: str
                 type: list
               dns_server:
-                description: DNS server details of the network under a specific site.
+                description: DNS server details of the
+                  network under a specific site.
                 suboptions:
                   domain_name:
-                    description: Domain Name of DHCP (eg; cisco.com, cisco.net).
+                    description: Domain Name of DHCP
+                      (eg; cisco.com, cisco.net).
                     type: str
                   primary_ip_address:
-                    description: Primary IP Address for DHCP (eg 2.2.2.2).
+                    description: Primary IP Address
+                      for DHCP (eg 2.2.2.2).
                     type: str
                   secondary_ip_address:
-                    description: Secondary IP Address for DHCP (eg 3.3.3.3).
+                    description: Secondary IP Address
+                      for DHCP (eg 3.3.3.3).
                     type: str
                 type: dict
               ntp_server:
-                description: IP address for NTP server under a specific site (eg 1.1.1.2).
+                description: IP address for NTP server
+                  under a specific site (eg 1.1.1.2).
                 elements: str
                 type: list
               timezone:
-                description: Time zone of a specific site. (eg Africa/Abidjan/GMT).
+                description: Time zone of a specific
+                  site. (eg Africa/Abidjan/GMT).
                 type: str
               message_of_the_day:
-                description: Banner details under a specific site.
+                description: Banner details under a
+                  specific site.
                 suboptions:
                   banner_message:
-                    description: Message for the banner (eg; Good day).
+                    description: Message for the banner
+                      (eg; Good day).
                     type: str
                   retain_existing_banner:
-                    description: Retain existing banner message.
+                    description: Retain existing banner
+                      message.
                     type: bool
                 type: dict
               wired_data_collection:
                 description:
-                  - Enables or disables the collection of data from wired network
-                    devices for telemetry and monitoring purposes.
-                  - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
+                  - Enables or disables the collection
+                    of data from wired network devices
+                    for telemetry and monitoring purposes.
+                  - Applicable from Cisco Catalyst Center
+                    version 2.3.7.6 onwards.
                 suboptions:
                   enable_wired_data_collection:
-                    description: Enable or disable wired data collection.
+                    description: Enable or disable wired
+                      data collection.
                     type: bool
                 type: dict
               wireless_telemetry:
                 description:
-                  - Enables or disables the collection of telemetry data from wireless
-                    network devices for performance monitoring and analysis.
-                  - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
+                  - Enables or disables the collection
+                    of telemetry data from wireless
+                    network devices for performance
+                    monitoring and analysis.
+                  - Applicable from Cisco Catalyst Center
+                    version 2.3.7.6 onwards.
                 suboptions:
                   enable_wireless_telemetry:
-                    description: Enable or disable wireless telemetry.
+                    description: Enable or disable wireless
+                      telemetry.
                     type: bool
                 type: dict
               netflow_collector:
-                description: NetFlow collector configuration for a specific site.
+                description: NetFlow collector configuration
+                  for a specific site.
                 suboptions:
                   collector_type:
                     description:
                       - Type of NetFlow collector.
-                      - Supported values include 'Builtin' and 'Telemetry_broker_or_UDP_director'.
-                      - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
+                      - Supported values include 'Builtin'
+                        and 'Telemetry_broker_or_UDP_director'.
+                      - Applicable from Cisco Catalyst
+                        Center version 2.3.7.6 onwards.
                     type: str
                     choices: [Builtin, Telemetry_broker_or_UDP_director]
                   ip_address:
-                    description: IP Address for NetFlow collector. For example, 3.3.3.1.
+                    description: IP Address for NetFlow
+                      collector. For example, 3.3.3.1.
                     type: str
                   port:
-                    description: Port number used by the NetFlow collector. For example,
+                    description: Port number used by
+                      the NetFlow collector. For example,
                       443.
                     type: int
                   enable_on_wired_access_devices:
-                    description: Enable or disable wired access device. Applicable
-                      from Cisco Catalyst Center version 2.3.7.6 onwards..
+                    description: Enable or disable wired
+                      access device. Applicable from
+                      Cisco Catalyst Center version
+                      2.3.7.6 onwards..
                     type: bool
                 type: dict
               snmp_server:
-                description: Snmp Server details under a specific site.
+                description: Snmp Server details under
+                  a specific site.
                 suboptions:
                   configure_dnac_ip:
-                    description: Configuration Cisco Catalyst Center IP for SNMP Server
+                    description: Configuration Cisco
+                      Catalyst Center IP for SNMP Server
                       (eg true).
                     type: bool
                   ip_addresses:
-                    description: IP Address for SNMP Server (eg 4.4.4.1).
+                    description: IP Address for SNMP
+                      Server (eg 4.4.4.1).
                     elements: str
                     type: list
                 type: dict
               syslog_server:
-                description: syslog Server details under a specific site.
+                description: syslog Server details under
+                  a specific site.
                 suboptions:
                   configure_dnac_ip:
-                    description: Configuration Cisco Catalyst Center IP for syslog
+                    description: Configuration Cisco
+                      Catalyst Center IP for syslog
                       server (eg true).
                     type: bool
                   ip_addresses:
-                    description: IP Address for syslog server (eg 4.4.4.4).
+                    description: IP Address for syslog
+                      server (eg 4.4.4.4).
                     elements: str
                     type: list
                 type: dict
@@ -450,16 +552,26 @@ requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9
 notes:
-  - SDK Method used are network_settings.NetworkSettings.create_global_pool, network_settings.NetworkSettings.delete_global_ip_pool,
-    network_settings.NetworkSettings.update_global_pool, network_settings.NetworkSettings.release_reserve_ip_subpool,
-    network_settings.NetworkSettings.reserve_ip_subpool, network_settings.NetworkSettings.update_reserve_ip_subpool,
+  - SDK Method used are
+    network_settings.NetworkSettings.create_global_pool,
+    network_settings.NetworkSettings.delete_global_ip_pool,
+    network_settings.NetworkSettings.update_global_pool,
+    network_settings.NetworkSettings.release_reserve_ip_subpool,
+    network_settings.NetworkSettings.reserve_ip_subpool,
+    network_settings.NetworkSettings.update_reserve_ip_subpool,
     network_settings.NetworkSettings.update_network_v2,
-  - Paths used are post /dna/intent/api/v1/global-pool, delete /dna/intent/api/v1/global-pool/{id},
-    put /dna/intent/api/v1/global-pool, post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
-    delete /dna/intent/api/v1/reserve-ip-subpool/{id}, put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+  - Paths used are
+    post /dna/intent/api/v1/global-pool,
+    delete /dna/intent/api/v1/global-pool/{id},
+    put
+    /dna/intent/api/v1/global-pool,
+    post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+    delete /dna/intent/api/v1/reserve-ip-subpool/{id},
+    put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
     put /dna/intent/api/v2/network/{siteId},
 """
 EXAMPLES = r"""
+---
 - name: Create global pool
   cisco.dnac.network_settings_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -512,7 +624,8 @@ EXAMPLES = r"""
             ipv6_global_pool: string
             ipv6_subnet: string
             slaac_support: true
-- name: Create reserve an ip pool using global pool name
+- name: Create reserve an ip pool using global pool
+    name
   cisco.dnac.network_settings_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -611,7 +724,8 @@ EXAMPLES = r"""
               syslog_server:
                 configure_dnac_ip: true
                 ip_addresses: list
-- name: Adding the network_aaa and client_and_endpoint_aaa AAA server
+- name: Adding the network_aaa and client_and_endpoint_aaa
+    AAA server
   cisco.dnac.network_settings_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -638,7 +752,8 @@ EXAMPLES = r"""
                 primary_server_address: string
                 secondary_server_address: string
                 protocol: string
-- name: Adding the network_aaa and client_and_endpoint_aaa ISE server
+- name: Adding the network_aaa and client_and_endpoint_aaa
+    ISE server
   cisco.dnac.network_settings_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

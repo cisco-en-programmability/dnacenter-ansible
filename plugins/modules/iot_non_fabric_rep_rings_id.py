@@ -1,38 +1,49 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: iot_non_fabric_rep_rings_id
-short_description: Resource module for Iot Non Fabric Rep Rings Id
+short_description: Resource module for Iot Non Fabric
+  Rep Rings Id
 description:
-  - This module represents an alias of the module iot_non_fabric_rep_rings_id_v1
+  - Manage operation delete of the resource Iot Non
+    Fabric Rep Rings Id. - > This API deletes the REP
+    ring configured in the NON-FABRIC deployment for
+    the given id. The id of configured REP ring can
+    be retrieved using the API /dna/intent/api/v1/iot/repRings/query.The
+    taskid returned can be used to monitor the status
+    of delete operation using following API -/intent/api/v1/task/{taskId}.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Ring ID of configured REP ring can be fetched
-      using the API `/dna/intent/api/v1/iot/repRings/query`.
+    description: Id path parameter. Ring ID of configured
+      REP ring can be fetched using the API `/dna/intent/api/v1/iot/repRings/query`.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Industrial Configuration DeleteREPRingConfiguredInTheNONFABRICDeploymentV1
-    description: Complete reference of the DeleteREPRingConfiguredInTheNONFABRICDeploymentV1
+  - name: Cisco DNA Center documentation for Industrial
+      Configuration DeleteREPRingConfiguredInTheNONFABRICDeployment
+    description: Complete reference of the DeleteREPRingConfiguredInTheNONFABRICDeployment
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!delete-rep-ring-configured-in-the-nonfabric-deployment
+    link: https://developer.cisco.com/docs/dna-center/#!delete-rep-ring-configured-in-the-nonfabric-deployment
 notes:
   - SDK Method used are
-    industrial_configuration.IndustrialConfiguration.delete_r_e_p_ring_configured_in_the_n_o_n_f_a_b_r_i_c_deployment_v1,
-  - Paths used are delete /dna/intent/api/v1/iot/nonFabric/repRings/{id},
-  - It should be noted that this module is an alias of iot_non_fabric_rep_rings_id_v1
+    industrial_configuration.IndustrialConfiguration.delete_r_e_p_ring_configured_in_the_n_o_n_f_a_b_r_i_c_deployment,
+  - Paths used are
+    delete /dna/intent/api/v1/iot/nonFabric/repRings/{id},
 """
+
 EXAMPLES = r"""
+---
 - name: Delete by id
   cisco.dnac.iot_non_fabric_rep_rings_id:
     dnac_host: "{{dnac_host}}"

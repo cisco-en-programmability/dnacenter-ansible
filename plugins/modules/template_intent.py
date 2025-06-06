@@ -11,23 +11,30 @@ DOCUMENTATION = r"""
 module: template_intent
 short_description: Resource module for Template functions
 description:
-  - Manage operations create, update and delete of the resource Configuration Template.
-  - API to create a template by project name and template name.
-  - API to update a template by template name and project name.
-  - API to delete a template by template name and project name.
+  - Manage operations create, update and delete of the
+    resource Configuration Template.
+  - API to create a template by project name and template
+    name.
+  - API to update a template by template name and project
+    name.
+  - API to delete a template by template name and project
+    name.
   - API to export the projects for given projectNames.
   - API to export the templates for given templateIds.
-  - API to manage operation create of the resource Configuration Template Import Project.
-  - API to manage operation create of the resource Configuration Template Import Template.
+  - API to manage operation create of the resource Configuration
+    Template Import Project.
+  - API to manage operation create of the resource Configuration
+    Template Import Template.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
-  Akash Bhaskaran (@akabhask) Muthu Rakesh (@MUTHU-RAKESH-27)
+author: Madhan Sankaranarayanan (@madhansansel) Rishita
+  Chowdhary (@rishitachowdhary) Akash Bhaskaran (@akabhask)
+  Muthu Rakesh (@MUTHU-RAKESH-27)
 options:
   config_verify:
-    description: Set to True to verify the Cisco DNA Center after applying the playbook
-      config.
+    description: Set to True to verify the Cisco DNA
+      Center after applying the playbook config.
     type: bool
     default: false
   state:
@@ -53,7 +60,8 @@ options:
             description: Is it composite template.
             type: bool
           containing_templates:
-            description: Configuration Template Create's containingTemplates.
+            description: Configuration Template Create's
+              containingTemplates.
             suboptions:
               composite:
                 description: Is it composite template.
@@ -62,7 +70,8 @@ options:
                 description: Description of template.
                 type: str
               device_types:
-                description: deviceTypes on which templates would be applied.
+                description: deviceTypes on which templates
+                  would be applied.
                 type: list
                 elements: dict
                 suboptions:
@@ -88,13 +97,16 @@ options:
                 description: Name of template.
                 type: str
               project_name:
-                description: Name of the project under which templates are managed.
+                description: Name of the project under
+                  which templates are managed.
                 type: str
               project_description:
-                description: Description of the project created.
+                description: Description of the project
+                  created.
                 type: str
               rollback_template_params:
-                description: Params required for template rollback.
+                description: Params required for template
+                  rollback.
                 type: list
                 elements: dict
                 suboptions:
@@ -102,16 +114,20 @@ options:
                     description: Bind to source.
                     type: str
                   custom_order:
-                    description: CustomOrder of template param.
+                    description: CustomOrder of template
+                      param.
                     type: int
                   data_type:
-                    description: Datatype of template param.
+                    description: Datatype of template
+                      param.
                     type: str
                   default_value:
-                    description: Default value of template param.
+                    description: Default value of template
+                      param.
                     type: str
                   description:
-                    description: Description of template param.
+                    description: Description of template
+                      param.
                     type: str
                   display_name:
                     description: Display name of param.
@@ -123,7 +139,8 @@ options:
                     description: UUID of template param.
                     type: str
                   instruction_text:
-                    description: Instruction text for param.
+                    description: Instruction text for
+                      param.
                     type: str
                   key:
                     description: Key.
@@ -144,7 +161,8 @@ options:
                     description: Provider.
                     type: str
                   range:
-                    description: Configuration Template Create's range.
+                    description: Configuration Template
+                      Create's range.
                     type: list
                     elements: dict
                     suboptions:
@@ -161,24 +179,28 @@ options:
                     description: Is param required.
                     type: bool
                   selection:
-                    description: Configuration Template Create's selection.
+                    description: Configuration Template
+                      Create's selection.
                     suboptions:
                       default_selected_values:
-                        description: Default selection values.
+                        description: Default selection
+                          values.
                         elements: str
                         type: list
                       id:
                         description: UUID of selection.
                         type: str
                       selection_type:
-                        description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                        description: Type of selection(SINGLE_SELECT
+                          or MULTI_SELECT).
                         type: str
                       selection_values:
                         description: Selection values.
                         type: dict
                     type: dict
               tags:
-                description: Configuration Template Create's tags.
+                description: Configuration Template
+                  Create's tags.
                 suboptions:
                   id:
                     description: UUID of tag.
@@ -192,23 +214,28 @@ options:
                 description: Template content.
                 type: str
               template_params:
-                description: Configuration Template Create's templateParams.
+                description: Configuration Template
+                  Create's templateParams.
                 elements: dict
                 suboptions:
                   binding:
                     description: Bind to source.
                     type: str
                   custom_order:
-                    description: CustomOrder of template param.
+                    description: CustomOrder of template
+                      param.
                     type: int
                   data_type:
-                    description: Datatype of template param.
+                    description: Datatype of template
+                      param.
                     type: str
                   default_value:
-                    description: Default value of template param.
+                    description: Default value of template
+                      param.
                     type: str
                   description:
-                    description: Description of template param.
+                    description: Description of template
+                      param.
                     type: str
                   display_name:
                     description: Display name of param.
@@ -220,7 +247,8 @@ options:
                     description: UUID of template param.
                     type: str
                   instruction_text:
-                    description: Instruction text for param.
+                    description: Instruction text for
+                      param.
                     type: str
                   key:
                     description: Key.
@@ -241,7 +269,8 @@ options:
                     description: Provider.
                     type: str
                   range:
-                    description: Configuration Template Create's range.
+                    description: Configuration Template
+                      Create's range.
                     suboptions:
                       id:
                         description: UUID of range.
@@ -258,17 +287,20 @@ options:
                     description: Is param required.
                     type: bool
                   selection:
-                    description: Configuration Template Create's selection.
+                    description: Configuration Template
+                      Create's selection.
                     suboptions:
                       default_selected_values:
-                        description: Default selection values.
+                        description: Default selection
+                          values.
                         elements: str
                         type: list
                       id:
                         description: UUID of selection.
                         type: str
                       selection_type:
-                        description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                        description: Type of selection(SINGLE_SELECT
+                          or MULTI_SELECT).
                         type: str
                       selection_values:
                         description: Selection values.
@@ -290,8 +322,9 @@ options:
             description: Description of template.
             type: str
           device_types:
-            description: Configuration Template Create's deviceTypes. This field is
-              mandatory to create a new template.
+            description: Configuration Template Create's
+              deviceTypes. This field is mandatory to
+              create a new template.
             suboptions:
               product_family:
                 description: Device family.
@@ -305,7 +338,8 @@ options:
             type: list
             elements: dict
           failure_policy:
-            description: Define failure policy if template provisioning fails.
+            description: Define failure policy if template
+              provisioning fails.
             type: str
           id:
             description: UUID of template.
@@ -323,8 +357,8 @@ options:
             description: Latest versioned template time.
             type: int
           template_name:
-            description: Name of template. This field is mandatory to create a new
-              template.
+            description: Name of template. This field
+              is mandatory to create a new template.
             type: str
           parent_template_id:
             description: Parent templateID.
@@ -342,22 +376,26 @@ options:
             description: Rollback template content.
             type: str
           rollback_template_params:
-            description: Configuration Template Create's rollbackTemplateParams.
+            description: Configuration Template Create's
+              rollbackTemplateParams.
             suboptions:
               binding:
                 description: Bind to source.
                 type: str
               custom_order:
-                description: CustomOrder of template param.
+                description: CustomOrder of template
+                  param.
                 type: int
               data_type:
                 description: Datatype of template param.
                 type: str
               default_value:
-                description: Default value of template param.
+                description: Default value of template
+                  param.
                 type: str
               description:
-                description: Description of template param.
+                description: Description of template
+                  param.
                 type: str
               display_name:
                 description: Display name of param.
@@ -390,7 +428,8 @@ options:
                 description: Provider.
                 type: str
               range:
-                description: Configuration Template Create's range.
+                description: Configuration Template
+                  Create's range.
                 suboptions:
                   id:
                     description: UUID of range.
@@ -407,7 +446,8 @@ options:
                 description: Is param required.
                 type: bool
               selection:
-                description: Configuration Template Create's selection.
+                description: Configuration Template
+                  Create's selection.
                 suboptions:
                   default_selected_values:
                     description: Default selection values.
@@ -417,7 +457,8 @@ options:
                     description: UUID of selection.
                     type: str
                   selection_type:
-                    description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                    description: Type of selection(SINGLE_SELECT
+                      or MULTI_SELECT).
                     type: str
                   selection_values:
                     description: Selection values.
@@ -426,17 +467,21 @@ options:
             type: list
             elements: dict
           software_type:
-            description: Applicable device software type. This field is mandatory
-              to create a new template.
+            description: Applicable device software
+              type. This field is mandatory to create
+              a new template.
             type: str
           software_variant:
-            description: Applicable device software variant.
+            description: Applicable device software
+              variant.
             type: str
           software_version:
-            description: Applicable device software version.
+            description: Applicable device software
+              version.
             type: str
           template_tag:
-            description: Configuration Template Create's tags.
+            description: Configuration Template Create's
+              tags.
             suboptions:
               id:
                 description: UUID of tag.
@@ -450,22 +495,26 @@ options:
             description: Template content.
             type: str
           template_params:
-            description: Configuration Template Create's templateParams.
+            description: Configuration Template Create's
+              templateParams.
             suboptions:
               binding:
                 description: Bind to source.
                 type: str
               custom_order:
-                description: CustomOrder of template param.
+                description: CustomOrder of template
+                  param.
                 type: int
               data_type:
                 description: Datatype of template param.
                 type: str
               default_value:
-                description: Default value of template param.
+                description: Default value of template
+                  param.
                 type: str
               description:
-                description: Description of template param.
+                description: Description of template
+                  param.
                 type: str
               display_name:
                 description: Display name of param.
@@ -498,7 +547,8 @@ options:
                 description: Provider.
                 type: str
               range:
-                description: Configuration Template Create's range.
+                description: Configuration Template
+                  Create's range.
                 suboptions:
                   id:
                     description: UUID of range.
@@ -515,7 +565,8 @@ options:
                 description: Is param required.
                 type: bool
               selection:
-                description: Configuration Template Create's selection.
+                description: Configuration Template
+                  Create's selection.
                 suboptions:
                   default_selected_values:
                     description: Default selection values.
@@ -525,7 +576,8 @@ options:
                     description: UUID of selection.
                     type: str
                   selection_type:
-                    description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                    description: Type of selection(SINGLE_SELECT
+                      or MULTI_SELECT).
                     type: str
                   selection_values:
                     description: Selection values.
@@ -534,14 +586,17 @@ options:
             type: list
             elements: dict
           validation_errors:
-            description: Configuration Template Create's validationErrors.
+            description: Configuration Template Create's
+              validationErrors.
             suboptions:
               rollback_template_errors:
-                description: Validation or design conflicts errors of rollback template.
+                description: Validation or design conflicts
+                  errors of rollback template.
                 elements: dict
                 type: list
               template_errors:
-                description: Validation or design conflicts errors.
+                description: Validation or design conflicts
+                  errors.
                 elements: dict
                 type: list
               template_id:
@@ -571,10 +626,12 @@ options:
             elements: dict
             suboptions:
               project_name:
-                description: Name of the project under the template available.
+                description: Name of the project under
+                  the template available.
                 type: str
               template_name:
-                description: Name of the template which we need to export
+                description: Name of the template which
+                  we need to export
                 type: str
       import:
         description: Import the project/template details.
@@ -585,23 +642,30 @@ options:
             type: dict
             suboptions:
               do_version:
-                description: DoVersion query parameter. If this flag is true, creates
-                  a new version of the template with the imported contents, if the
-                  templates already exists. " If false and if template already exists,
-                  then operation fails with 'Template already exists' error.
+                description: DoVersion query parameter.
+                  If this flag is true, creates a new
+                  version of the template with the imported
+                  contents, if the templates already
+                  exists. " If false and if template
+                  already exists, then operation fails
+                  with 'Template already exists' error.
                 type: bool
           template:
             description: Import the template details.
             type: dict
             suboptions:
               do_version:
-                description: DoVersion query parameter. If this flag is true, creates
-                  a new version of the template with the imported contents, if the
-                  templates already exists. " If false and if template already exists,
-                  then operation fails with 'Template already exists' error.
+                description: DoVersion query parameter.
+                  If this flag is true, creates a new
+                  version of the template with the imported
+                  contents, if the templates already
+                  exists. " If false and if template
+                  already exists, then operation fails
+                  with 'Template already exists' error.
                 type: bool
               payload:
-                description: Configuration Template Import Template's payload.
+                description: Configuration Template
+                  Import Template's payload.
                 elements: dict
                 suboptions:
                   author:
@@ -611,17 +675,21 @@ options:
                     description: Is it composite template.
                     type: bool
                   containing_templates:
-                    description: Configuration Template Import Template's containingTemplates.
+                    description: Configuration Template
+                      Import Template's containingTemplates.
                     elements: dict
                     suboptions:
                       composite:
-                        description: Is it composite template.
+                        description: Is it composite
+                          template.
                         type: bool
                       description:
-                        description: Description of template.
+                        description: Description of
+                          template.
                         type: str
                       device_types:
-                        description: Configuration Template Import Template's deviceTypes.
+                        description: Configuration Template
+                          Import Template's deviceTypes.
                         elements: dict
                         suboptions:
                           product_family:
@@ -638,7 +706,8 @@ options:
                         description: UUID of template.
                         type: str
                       language:
-                        description: Template language (JINJA or VELOCITY).
+                        description: Template language
+                          (JINJA or VELOCITY).
                         type: str
                       name:
                         description: Name of template.
@@ -647,93 +716,115 @@ options:
                         description: Project name.
                         type: str
                       rollback_template_params:
-                        description: Configuration Template Import Template's rollbackTemplateParams.
+                        description: Configuration Template
+                          Import Template's rollbackTemplateParams.
                         elements: dict
                         suboptions:
                           binding:
                             description: Bind to source.
                             type: str
                           custom_order:
-                            description: CustomOrder of template param.
+                            description: CustomOrder
+                              of template param.
                             type: int
                           data_type:
-                            description: Datatype of template param.
+                            description: Datatype of
+                              template param.
                             type: str
                           default_value:
-                            description: Default value of template param.
+                            description: Default value
+                              of template param.
                             type: str
                           description:
-                            description: Description of template param.
+                            description: Description
+                              of template param.
                             type: str
                           display_name:
-                            description: Display name of param.
+                            description: Display name
+                              of param.
                             type: str
                           group:
                             description: Group.
                             type: str
                           id:
-                            description: UUID of template param.
+                            description: UUID of template
+                              param.
                             type: str
                           instruction_text:
-                            description: Instruction text for param.
+                            description: Instruction
+                              text for param.
                             type: str
                           key:
                             description: Key.
                             type: str
                           not_param:
-                            description: Is it not a variable.
+                            description: Is it not a
+                              variable.
                             type: bool
                           order:
-                            description: Order of template param.
+                            description: Order of template
+                              param.
                             type: int
                           param_array:
                             description: Is it an array.
                             type: bool
                           parameter_name:
-                            description: Name of template param.
+                            description: Name of template
+                              param.
                             type: str
                           provider:
                             description: Provider.
                             type: str
                           range:
-                            description: Configuration Template Import Template's
+                            description: Configuration
+                              Template Import Template's
                               range.
                             elements: dict
                             suboptions:
                               id:
-                                description: UUID of range.
+                                description: UUID of
+                                  range.
                                 type: str
                               max_value:
-                                description: Max value of range.
+                                description: Max value
+                                  of range.
                                 type: int
                               min_value:
-                                description: Min value of range.
+                                description: Min value
+                                  of range.
                                 type: int
                             type: list
                           required:
                             description: Is param required.
                             type: bool
                           selection:
-                            description: Configuration Template Import Template's
+                            description: Configuration
+                              Template Import Template's
                               selection.
                             suboptions:
                               default_selected_values:
-                                description: Default selection values.
+                                description: Default
+                                  selection values.
                                 elements: str
                                 type: list
                               id:
-                                description: UUID of selection.
+                                description: UUID of
+                                  selection.
                                 type: str
                               selection_type:
-                                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                                description: Type of
+                                  selection(SINGLE_SELECT
+                                  or MULTI_SELECT).
                                 type: str
                               selection_values:
-                                description: Selection values.
+                                description: Selection
+                                  values.
                                 type: dict
                             type: dict
                         type: list
                       tags:
-                        description: Configuration Template Import Template's tags.
+                        description: Configuration Template
+                          Import Template's tags.
                         elements: dict
                         suboptions:
                           id:
@@ -747,93 +838,115 @@ options:
                         description: Template content.
                         type: str
                       template_params:
-                        description: Configuration Template Import Template's templateParams.
+                        description: Configuration Template
+                          Import Template's templateParams.
                         elements: dict
                         suboptions:
                           binding:
                             description: Bind to source.
                             type: str
                           custom_order:
-                            description: CustomOrder of template param.
+                            description: CustomOrder
+                              of template param.
                             type: int
                           data_type:
-                            description: Datatype of template param.
+                            description: Datatype of
+                              template param.
                             type: str
                           default_value:
-                            description: Default value of template param.
+                            description: Default value
+                              of template param.
                             type: str
                           description:
-                            description: Description of template param.
+                            description: Description
+                              of template param.
                             type: str
                           display_name:
-                            description: Display name of param.
+                            description: Display name
+                              of param.
                             type: str
                           group:
                             description: Group.
                             type: str
                           id:
-                            description: UUID of template param.
+                            description: UUID of template
+                              param.
                             type: str
                           instruction_text:
-                            description: Instruction text for param.
+                            description: Instruction
+                              text for param.
                             type: str
                           key:
                             description: Key.
                             type: str
                           not_param:
-                            description: Is it not a variable.
+                            description: Is it not a
+                              variable.
                             type: bool
                           order:
-                            description: Order of template param.
+                            description: Order of template
+                              param.
                             type: int
                           param_array:
                             description: Is it an array.
                             type: bool
                           parameter_name:
-                            description: Name of template param.
+                            description: Name of template
+                              param.
                             type: str
                           provider:
                             description: Provider.
                             type: str
                           range:
-                            description: Configuration Template Import Template's
+                            description: Configuration
+                              Template Import Template's
                               range.
                             elements: dict
                             suboptions:
                               id:
-                                description: UUID of range.
+                                description: UUID of
+                                  range.
                                 type: str
                               max_value:
-                                description: Max value of range.
+                                description: Max value
+                                  of range.
                                 type: int
                               min_value:
-                                description: Min value of range.
+                                description: Min value
+                                  of range.
                                 type: int
                             type: list
                           required:
                             description: Is param required.
                             type: bool
                           selection:
-                            description: Configuration Template Import Template's
+                            description: Configuration
+                              Template Import Template's
                               selection.
                             suboptions:
                               default_selected_values:
-                                description: Default selection values.
+                                description: Default
+                                  selection values.
                                 elements: str
                                 type: list
                               id:
-                                description: UUID of selection.
+                                description: UUID of
+                                  selection.
                                 type: str
                               selection_type:
-                                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                                description: Type of
+                                  selection(SINGLE_SELECT
+                                  or MULTI_SELECT).
                                 type: str
                               selection_values:
-                                description: Selection values.
+                                description: Selection
+                                  values.
                                 type: dict
                             type: dict
                         type: list
                       version:
-                        description: Current version of template.
+                        description: Current version
+                          of template.
                         type: str
                     type: list
                   create_time:
@@ -846,7 +959,8 @@ options:
                     description: Description of template.
                     type: str
                   device_types:
-                    description: Configuration Template Import Template's deviceTypes.
+                    description: Configuration Template
+                      Import Template's deviceTypes.
                     elements: dict
                     suboptions:
                       product_family:
@@ -860,19 +974,22 @@ options:
                         type: str
                     type: list
                   failure_policy:
-                    description: Define failure policy if template provisioning fails.
+                    description: Define failure policy
+                      if template provisioning fails.
                     type: str
                   id:
                     description: UUID of template.
                     type: str
                   language:
-                    description: Template language (JINJA or VELOCITY).
+                    description: Template language (JINJA
+                      or VELOCITY).
                     type: str
                   last_update_time:
                     description: Update time of template.
                     type: int
                   latest_version_time:
-                    description: Latest versioned template time.
+                    description: Latest versioned template
+                      time.
                     type: int
                   name:
                     description: Name of template.
@@ -890,35 +1007,43 @@ options:
                     description: Rollback template content.
                     type: str
                   rollback_template_params:
-                    description: Configuration Template Import Template's rollbackTemplateParams.
+                    description: Configuration Template
+                      Import Template's rollbackTemplateParams.
                     elements: dict
                     suboptions:
                       binding:
                         description: Bind to source.
                         type: str
                       custom_order:
-                        description: CustomOrder of template param.
+                        description: CustomOrder of
+                          template param.
                         type: int
                       data_type:
-                        description: Datatype of template param.
+                        description: Datatype of template
+                          param.
                         type: str
                       default_value:
-                        description: Default value of template param.
+                        description: Default value of
+                          template param.
                         type: str
                       description:
-                        description: Description of template param.
+                        description: Description of
+                          template param.
                         type: str
                       display_name:
-                        description: Display name of param.
+                        description: Display name of
+                          param.
                         type: str
                       group:
                         description: Group.
                         type: str
                       id:
-                        description: UUID of template param.
+                        description: UUID of template
+                          param.
                         type: str
                       instruction_text:
-                        description: Instruction text for param.
+                        description: Instruction text
+                          for param.
                         type: str
                       key:
                         description: Key.
@@ -927,46 +1052,54 @@ options:
                         description: Is it not a variable.
                         type: bool
                       order:
-                        description: Order of template param.
+                        description: Order of template
+                          param.
                         type: int
                       param_array:
                         description: Is it an array.
                         type: bool
                       parameter_name:
-                        description: Name of template param.
+                        description: Name of template
+                          param.
                         type: str
                       provider:
                         description: Provider.
                         type: str
                       range:
-                        description: Configuration Template Import Template's range.
+                        description: Configuration Template
+                          Import Template's range.
                         elements: dict
                         suboptions:
                           id:
                             description: UUID of range.
                             type: str
                           max_value:
-                            description: Max value of range.
+                            description: Max value of
+                              range.
                             type: int
                           min_value:
-                            description: Min value of range.
+                            description: Min value of
+                              range.
                             type: int
                         type: list
                       required:
                         description: Is param required.
                         type: bool
                       selection:
-                        description: Configuration Template Import Template's selection.
+                        description: Configuration Template
+                          Import Template's selection.
                         suboptions:
                           default_selected_values:
-                            description: Default selection values.
+                            description: Default selection
+                              values.
                             elements: str
                             type: list
                           id:
                             description: UUID of selection.
                             type: str
                           selection_type:
-                            description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                            description: Type of selection(SINGLE_SELECT
+                              or MULTI_SELECT).
                             type: str
                           selection_values:
                             description: Selection values.
@@ -974,16 +1107,20 @@ options:
                         type: dict
                     type: list
                   software_type:
-                    description: Applicable device software type.
+                    description: Applicable device software
+                      type.
                     type: str
                   software_variant:
-                    description: Applicable device software variant.
+                    description: Applicable device software
+                      variant.
                     type: str
                   software_version:
-                    description: Applicable device software version.
+                    description: Applicable device software
+                      version.
                     type: str
                   tags:
-                    description: Configuration Template Import Template's tags.
+                    description: Configuration Template
+                      Import Template's tags.
                     elements: dict
                     suboptions:
                       id:
@@ -997,35 +1134,43 @@ options:
                     description: Template content.
                     type: str
                   template_params:
-                    description: Configuration Template Import Template's templateParams.
+                    description: Configuration Template
+                      Import Template's templateParams.
                     elements: dict
                     suboptions:
                       binding:
                         description: Bind to source.
                         type: str
                       custom_order:
-                        description: CustomOrder of template param.
+                        description: CustomOrder of
+                          template param.
                         type: int
                       data_type:
-                        description: Datatype of template param.
+                        description: Datatype of template
+                          param.
                         type: str
                       default_value:
-                        description: Default value of template param.
+                        description: Default value of
+                          template param.
                         type: str
                       description:
-                        description: Description of template param.
+                        description: Description of
+                          template param.
                         type: str
                       display_name:
-                        description: Display name of param.
+                        description: Display name of
+                          param.
                         type: str
                       group:
                         description: Group.
                         type: str
                       id:
-                        description: UUID of template param.
+                        description: UUID of template
+                          param.
                         type: str
                       instruction_text:
-                        description: Instruction text for param.
+                        description: Instruction text
+                          for param.
                         type: str
                       key:
                         description: Key.
@@ -1034,46 +1179,54 @@ options:
                         description: Is it not a variable.
                         type: bool
                       order:
-                        description: Order of template param.
+                        description: Order of template
+                          param.
                         type: int
                       param_array:
                         description: Is it an array.
                         type: bool
                       parameter_name:
-                        description: Name of template param.
+                        description: Name of template
+                          param.
                         type: str
                       provider:
                         description: Provider.
                         type: str
                       range:
-                        description: Configuration Template Import Template's range.
+                        description: Configuration Template
+                          Import Template's range.
                         elements: dict
                         suboptions:
                           id:
                             description: UUID of range.
                             type: str
                           max_value:
-                            description: Max value of range.
+                            description: Max value of
+                              range.
                             type: int
                           min_value:
-                            description: Min value of range.
+                            description: Min value of
+                              range.
                             type: int
                         type: list
                       required:
                         description: Is param required.
                         type: bool
                       selection:
-                        description: Configuration Template Import Template's selection.
+                        description: Configuration Template
+                          Import Template's selection.
                         suboptions:
                           default_selected_values:
-                            description: Default selection values.
+                            description: Default selection
+                              values.
                             elements: str
                             type: list
                           id:
                             description: UUID of selection.
                             type: str
                           selection_type:
-                            description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                            description: Type of selection(SINGLE_SELECT
+                              or MULTI_SELECT).
                             type: str
                           selection_values:
                             description: Selection values.
@@ -1081,48 +1234,61 @@ options:
                         type: dict
                     type: list
                   validation_errors:
-                    description: Configuration Template Import Template's validationErrors.
+                    description: Configuration Template
+                      Import Template's validationErrors.
                     suboptions:
                       rollback_template_errors:
-                        description: Validation or design conflicts errors of rollback
+                        description: Validation or design
+                          conflicts errors of rollback
                           template.
                         type: dict
                       template_errors:
-                        description: Validation or design conflicts errors.
+                        description: Validation or design
+                          conflicts errors.
                         type: dict
                       template_id:
                         description: UUID of template.
                         type: str
                       template_version:
-                        description: Current version of template.
+                        description: Current version
+                          of template.
                         type: str
                     type: dict
                   version:
-                    description: Current version of template.
+                    description: Current version of
+                      template.
                     type: str
                 type: list
               project_name:
-                description: ProjectName path parameter. Project name to create template
-                  under the project.
+                description: ProjectName path parameter.
+                  Project name to create template under
+                  the project.
                 type: str
 requirements:
   - dnacentersdk == 2.4.5
   - python >= 3.9
 notes:
-  - SDK Method used are configuration_templates.ConfigurationTemplates.create_template,
-    configuration_templates.ConfigurationTemplates.deletes_the_template, configuration_templates.ConfigurationTemplates.update_template,
-    configuration_templates.ConfigurationTemplates.export_projects, configuration_templates.ConfigurationTemplates.export_templates,
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.create_template,
+    configuration_templates.ConfigurationTemplates.deletes_the_template,
+    configuration_templates.ConfigurationTemplates.update_template,
+    configuration_templates.ConfigurationTemplates.export_projects,
+    configuration_templates.ConfigurationTemplates.export_templates,
     configuration_templates.ConfigurationTemplates.imports_the_projects_provided,
     configuration_templates.ConfigurationTemplates.imports_the_templates_provided,
-  - Paths used are post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
-    delete /dna/intent/api/v1/template-programmer/template/{templateId}, put /dna/intent/api/v1/template-programmer/template,
-    post /dna/intent/api/v1/template-programmer/project/name/exportprojects, post
-    /dna/intent/api/v1/template-programmer/template/exporttemplates, post /dna/intent/api/v1/template-programmer/project/importprojects,
-    post
-    /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
+  - Paths used are
+    post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
+    delete /dna/intent/api/v1/template-programmer/template/{templateId},
+    put /dna/intent/api/v1/template-programmer/template,
+    post /dna/intent/api/v1/template-programmer/project/name/exportprojects,
+    post /dna/intent/api/v1/template-programmer/template/exporttemplates,
+    post /dna/intent/api/v1/template-programmer/project/importprojects,
+    post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
 """
 EXAMPLES = r"""
-- name: Create a new template, export and import the project and template.
+---
+- name: Create a new template, export and import the
+    project and template.
   cisco.dnac.template_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

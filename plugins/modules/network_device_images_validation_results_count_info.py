@@ -1,14 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_images_validation_results_count_info
-short_description: Information module for Network Device Images Validation Results
-  Count Info
+short_description: Information module for Network Device
+  Images Validation Results Count
 description:
-  - This module represents an alias of the module network_device_images_validation_results_count_v1_info
+  - Get all Network Device Images Validation Results
+    Count.
+  - The count of network device validation results.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,42 +23,48 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device identifier.
+      - NetworkDeviceId query parameter. Network device
+        identifier.
     type: str
   operationType:
     description:
       - >
-        OperationType query parameter. The operation type, as part of which this validation
-        will get triggered.
-        Available values DISTRIBUTION, ACTIVATION, READINESS_CHECK.
+        OperationType query parameter. The operation
+        type, as part of which this validation will
+        get triggered. Available values DISTRIBUTION,
+        ACTIVATION, READINESS_CHECK.
     type: str
   status:
     description:
-      - Status query parameter. Status of the validation result. Available values
-        SUCCESS, FAILED, IN_PROGRESS, WARNING.
+      - Status query parameter. Status of the validation
+        result. Available values SUCCESS, FAILED, IN_PROGRESS,
+        WARNING.
     type: str
   type:
     description:
-      - Type query parameter. Type of the validation. Available values PRE_VALIDATION,
-        POST_VALIDATION.
+      - Type query parameter. Type of the validation.
+        Available values PRE_VALIDATION, POST_VALIDATION.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkDeviceImageUpdateValidationResultsV1
-    description: Complete reference of the CountOfNetworkDeviceImageUpdateValidationResultsV1
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) CountOfNetworkDeviceImageUpdateValidationResults
+    description: Complete reference of the CountOfNetworkDeviceImageUpdateValidationResults
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!count-of-network-device-image-update-validation-results
+    link: https://developer.cisco.com/docs/dna-center/#!count-of-network-device-image-update-validation-results
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.count_of_network_device_image_update_validation_results_v1,
-  - Paths used are get /dna/intent/api/v1/networkDeviceImages/validationResults/count,
-  - It should be noted that this module is an alias of network_device_images_validation_results_count_v1_info
+    software_image_management_swim.SoftwareImageManagementSwim.count_of_network_device_image_update_validation_results,
+  - Paths used are
+    get /dna/intent/api/v1/networkDeviceImages/validationResults/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Network Device Images Validation Results Count Info
+---
+- name: Get all Network Device Images Validation Results
+    Count
   cisco.dnac.network_device_images_validation_results_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

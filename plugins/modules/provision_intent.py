@@ -19,8 +19,8 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying
-      the playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center config after applying the playbook config.
     type: bool
     default: false
   state:
@@ -40,10 +40,12 @@ options:
         type: str
         required: true
       site_name:
-        description: Name of site where the device needs to be added.
+        description: Name of site where the device needs
+          to be added.
         type: str
       managed_ap_locations:
-        description: Location of the sites allocated for the APs
+        description: Location of the sites allocated
+          for the APs
         type: list
         elements: str
       dynamic_interfaces:
@@ -52,36 +54,49 @@ options:
         elements: dict
         suboptions:
           interface_ip_address:
-            description: Ip Address allocated to the interface
+            description: Ip Address allocated to the
+              interface
             type: str
           interface_netmask_in_c_i_d_r:
-            description: Ip Address allocated to the interface
+            description: Ip Address allocated to the
+              interface
             type: int
           interface_gateway:
-            description: Ip Address allocated to the interface
+            description: Ip Address allocated to the
+              interface
             type: str
           lag_or_port_number:
-            description: Ip Address allocated to the interface
+            description: Ip Address allocated to the
+              interface
             type: int
           vlan_id:
-            description: Ip Address allocated to the interface
+            description: Ip Address allocated to the
+              interface
             type: int
           interface_name:
-            description: Ip Address allocated to the interface
+            description: Ip Address allocated to the
+              interface
             type: str
 requirements:
   - dnacentersdk == 2.4.5
   - python >= 3.9
 notes:
-  - SDK Methods used are sites.Sites.get_site, devices.Devices.get_network_device_by_ip,
-    task.Task.get_task_by_id, sda.Sda.get_provisioned_wired_device, sda.Sda.re_provision_wired_device,
-    sda.Sda.provision_wired_device, wireless.Wireless.provision
-  - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
+  - SDK Methods used are sites.Sites.get_site,
+    devices.Devices.get_network_device_by_ip,
+    task.Task.get_task_by_id,
+    sda.Sda.get_provisioned_wired_device,
+    sda.Sda.re_provision_wired_device,
+    sda.Sda.provision_wired_device,
+    wireless.Wireless.provision
+  - Paths used are
+    get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
     get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/business/sda/provision-device
-    put /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/business/sda/provision-device
+    put /dna/intent/api/v1/business/sda/provision-device
+    post /dna/intent/api/v1/business/sda/provision-device
     post /dna/intent/api/v1/wireless/provision
 """
 EXAMPLES = r"""
+---
 - name: Create/Modify a new provision
   cisco.dnac.provision_intent:
     dnac_host: "{{dnac_host}}"

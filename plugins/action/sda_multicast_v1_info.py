@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="sda",
-            function='get_multicast_v1',
+            function='get_multicast',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

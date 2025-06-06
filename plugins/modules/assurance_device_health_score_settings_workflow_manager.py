@@ -11,52 +11,72 @@ __author__ = ['Megha Kandari, Madhan Sankaranarayanan']
 
 DOCUMENTATION = r"""
 ---
-module:  assurance_device_health_score_settings_workflow_manager
-short_description: Resource module for managing assurance Health score settings in Cisco Catalyst Center.
+module: assurance_device_health_score_settings_workflow_manager
+short_description: Resource module for managing assurance
+  Health score settings in Cisco Catalyst Center.
 description:
-- Manages assurance Health score settings in Cisco Catalyst Center.
-- It supports updating configurations for Health score settings functionalities.
-- This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs, and more for health score monitoring.
-- The health score can be customized based on device type.
-- The network device's health score is determined by the lowest score among all included KPIs.
-- To disable a KPI from impacting the overall device health, you can exclude it from the health score calculation.
-- Health score setting is not applicable for Third Party Devices.
+  - Manages assurance Health score settings in Cisco
+    Catalyst Center.
+  - It supports updating configurations for Health score
+    settings functionalities.
+  - This module interacts with Cisco Catalyst Center's
+    Assurance settings to configure thresholds, rules,
+    KPIs, and more for health score monitoring.
+  - The health score can be customized based on device
+    type.
+  - The network device's health score is determined
+    by the lowest score among all included KPIs.
+  - To disable a KPI from impacting the overall device
+    health, you can exclude it from the health score
+    calculation.
+  - Health score setting is not applicable for Third
+    Party Devices.
 version_added: '6.31.0'
 extends_documentation_fragment:
- - cisco.dnac.workflow_manager_params
-author: Megha Kandari (@kandarimegha)
-        Madhan Sankaranarayanan (@madhansansel)
+  - cisco.dnac.workflow_manager_params
+author: Megha Kandari (@kandarimegha) Madhan Sankaranarayanan
+  (@madhansansel)
 options:
   config_verify:
     description: >
-      Set to `True` to enable configuration verification on Cisco Catalyst Center after applying the playbook config.
-      This will ensure that the system validates the configuration state after the change is applied.
+      Set to `True` to enable configuration verification
+      on Cisco Catalyst Center after applying the playbook
+      config. This will ensure that the system validates
+      the configuration state after the change is applied.
     type: bool
     default: false
   state:
     description: >
-      Specifies the desired state for the configuration. If `merged`, the module will update the configuration modifying existing ones.
+      Specifies the desired state for the configuration.
+      If `merged`, the module will update the configuration
+      modifying existing ones.
     type: str
     choices: [merged]
     default: merged
   config:
     description: >
-      A list of settings and parameters for managing network issues in Cisco Catalyst Center,
-      including synchronization with health thresholds, priority, KPI enablement, and threshold values.
+      A list of settings and parameters for managing
+      network issues in Cisco Catalyst Center, including
+      synchronization with health thresholds, priority,
+      KPI enablement, and threshold values.
     type: list
     elements: dict
     required: true
     suboptions:
       device_health_score:
         description: >
-          Configures the health score settings for network devices. Defines thresholds for KPIs like CPU UTILIZATION, MEMORY UTILIZATION, etc.
+          Configures the health score settings for network
+          devices. Defines thresholds for KPIs like
+          CPU UTILIZATION, MEMORY UTILIZATION, etc.
         type: dict
         required: true
         suboptions:
           device_family:
             description: >
-              Specifies the device family to which the health score applies.
-                required: true
+              Specifies the device family to which the
+              health score applies.
+                required:
+              true
                 choices:
                   - ROUTER
                   - SWITCH_AND_HUB
@@ -66,115 +86,210 @@ options:
                   - WIRED_CLIENT
           kpi_name:
             description: >
-              The name of the Key Performance Indicator (KPI) to be monitored (e.g., LINK ERROR).
-              Must be one of the valid KPI names for the specified device family.
-              choices:
+              The name of the Key Performance Indicator
+              (KPI) to be monitored (e.g., LINK ERROR).
+              Must be one of the valid KPI names for
+              the specified device family. choices:
                 ROUTER:
-                    - BGP Session from Border to Control Plane (BGP)
-                    - BGP Session from Border to Control Plane (PubSub)
-                    - BGP Session from Border to Peer Node for INFRA VN
-                    - BGP Session from Border to Peer Node
-                    - BGP Session from Border to Transit Control Plane
-                    - BGP Session to Spine
-                    - Cisco TrustSec environment data download status
-                    - CPU Utilization
-                    - Extended Node Connectivity
-                    - Fabric Control Plane Reachability
-                    - Fabric Multicast RP Reachability
-                    - Inter-device Link Availability
-                    - Internet Availability
-                    - Link Discard
-                    - Link Error
-                    - Link Utilization
-                    - LISP Session from Border to Transit Site Control Plane
-                    - LISP Session Status
-                    - Memory Utilization
-                    - Peer Status
-                    - Pub-Sub Session from Border to Transit Site Control Plane
-                    - Pub-Sub Session Status for INFRA VN
-                    - Pub-Sub Session Status
-                    - Remote Internet Availability
-                    - VNI Status
+                    -
+              BGP Session from Border to Control Plane
+              (BGP)
+                    -
+              BGP Session from Border to Control Plane
+              (PubSub)
+                    -
+              BGP Session from Border to Peer Node for
+              INFRA VN
+                    -
+              BGP Session from Border to Peer Node
+                    -
+              BGP Session from Border to Transit Control
+              Plane
+                    -
+              BGP Session to Spine
+                    -
+              Cisco TrustSec environment data download
+              status
+                    -
+              CPU Utilization
+                    -
+              Extended Node Connectivity
+                    -
+              Fabric Control Plane Reachability
+                    -
+              Fabric Multicast RP Reachability
+                    -
+              Inter-device Link Availability
+                    -
+              Internet Availability
+                    -
+              Link Discard
+                    -
+              Link Error
+                    -
+              Link Utilization
+                    -
+              LISP Session from Border to Transit Site
+              Control Plane
+                    -
+              LISP Session Status
+                    -
+              Memory Utilization
+                    -
+              Peer Status
+                    -
+              Pub-Sub Session from Border to Transit
+              Site Control Plane
+                    -
+              Pub-Sub Session Status for INFRA VN
+                    -
+              Pub-Sub Session Status
+                    -
+              Remote Internet Availability
+                    -
+              VNI Status
                 SWITCH_AND_HUB:
-                    - AAA server reachability
-                    - BGP Session from Border to Control Plane (BGP)
-                    - BGP Session from Border to Control Plane (PubSub)
-                    - BGP Session from Border to Peer Node for INFRA VN
-                    - BGP Session from Border to Peer Node
-                    - BGP Session from Border to Transit Control Plane
-                    - BGP Session to Spine
-                    - Cisco TrustSec environment data download status
-                    - CPU Utilization
-                    - Extended Node Connectivity
-                    - Fabric Control Plane Reachability
-                    - Fabric Multicast RP Reachability
-                    - Inter-device Link Availability
-                    - Internet Availability
-                    - Link Discard
-                    - Link Error
-                    - LISP Session from Border to Transit Site Control Plane
-                    - LISP Session Status
-                    - Memory Utilization
-                    - Peer Status
-                    - Pub-Sub Session from Border to Transit Site Control Plane
-                    - Pub-Sub Session Status for INFRA VN
-                    - Pub-Sub Session Status
-                    - Remote Internet Availability
-                    - VNI Status
+                    -
+              AAA server reachability
+                    -
+              BGP Session from Border to Control Plane
+              (BGP)
+                    -
+              BGP Session from Border to Control Plane
+              (PubSub)
+                    -
+              BGP Session from Border to Peer Node for
+              INFRA VN
+                    -
+              BGP Session from Border to Peer Node
+                    -
+              BGP Session from Border to Transit Control
+              Plane
+                    -
+              BGP Session to Spine
+                    -
+              Cisco TrustSec environment data download
+              status
+                    -
+              CPU Utilization
+                    -
+              Extended Node Connectivity
+                    -
+              Fabric Control Plane Reachability
+                    -
+              Fabric Multicast RP Reachability
+                    -
+              Inter-device Link Availability
+                    -
+              Internet Availability
+                    -
+              Link Discard
+                    -
+              Link Error
+                    -
+              LISP Session from Border to Transit Site
+              Control Plane
+                    -
+              LISP Session Status
+                    -
+              Memory Utilization
+                    -
+              Peer Status
+                    -
+              Pub-Sub Session from Border to Transit
+              Site Control Plane
+                    -
+              Pub-Sub Session Status for INFRA VN
+                    -
+              Pub-Sub Session Status
+                    -
+              Remote Internet Availability
+                    -
+              VNI Status
                 WIRELESS_CONTROLLER:
-                    - Fabric Control Plane Reachability
-                    - Free Mbuf
-                    - Free Timer
-                    - Link Error
-                    - LISP Session Status
-                    - Memory Utilization
-                    - Packet Pool
-                    - WQE Pool
+                    -
+              Fabric Control Plane Reachability
+                    -
+              Free Mbuf
+                    -
+              Free Timer
+                    -
+              Link Error
+                    -
+              LISP Session Status
+                    -
+              Memory Utilization
+                    -
+              Packet Pool
+                    -
+              WQE Pool
                 UNIFIED_AP:
-                    - Air Quality 2.4 GHz
-                    - Air Quality 5 GHz
-                    - Air Quality 6 GHz
-                    - CPU Utilization
-                    - Interference 2.4 GHz
-                    - Interference 5 GHz
-                    - Interference 6 GHz
-                    - Link Error
-                    - Memory Utilization
-                    - Noise 2.4 GHz
-                    - Noise 5 GHz
-                    - Noise 6 GHz
-                    - RF Utilization 2.4 GHz
-                    - RF Utilization 5 GHz
-                    - RF Utilization 6 GHz
+                    -
+              Air Quality 2.4 GHz
+                    -
+              Air Quality 5 GHz
+                    -
+              Air Quality 6 GHz
+                    -
+              CPU Utilization
+                    -
+              Interference 2.4 GHz
+                    -
+              Interference 5 GHz
+                    -
+              Interference 6 GHz
+                    -
+              Link Error
+                    -
+              Memory Utilization
+                    -
+              Noise 2.4 GHz
+                    -
+              Noise 5 GHz
+                    -
+              Noise 6 GHz
+                    -
+              RF Utilization 2.4 GHz
+                    -
+              RF Utilization 5 GHz
+                    -
+              RF Utilization 6 GHz
                 WIRELESS_CLIENT:
-                    - Connectivity RSSI
-                    - Connectivity SNR
+                    -
+              Connectivity RSSI
+                    -
+              Connectivity SNR
                 WIRED_CLIENT:
-                    - Link Error
+                    -
+              Link Error
             type: str
             required: true
           include_for_overall_health:
             description: >
-              Boolean value indicating whether this KPI should be included in the overall health score calculation.
+              Boolean value indicating whether this
+              KPI should be included in the overall
+              health score calculation.
             type: bool
             required: true
           threshold_value:
             description: >
-              The threshold value that, when exceeded, will affect the health score.
+              The threshold value that, when exceeded,
+              will affect the health score.
             type: int
           synchronize_to_issue_threshold:
             description: >
-              Boolean value indicating whether the threshold should synchronize with issue resolution thresholds.
+              Boolean value indicating whether the threshold
+              should synchronize with issue resolution
+              thresholds.
             type: bool
 requirements:
-- dnacentersdk >= 2.8.6
-- python >= 3.9
-
+  - dnacentersdk >= 2.8.6
+  - python >= 3.9
 notes:
-- SDK Method used are
+  - SDK Method used are
     devices.AssuranceSettings.get_all_health_score_definitions_for_given_filters,
     devices.AssuranceSettings.update_health_score_definitions
-- Paths used are
+  - Paths used are
     post /dna/intent/api/v1/health_scoreDefinitions/${id},
     post /dna/intent/api/v1/health_scoreDefinitions/bulkUpdate
 """
@@ -203,12 +318,11 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - device_health_score:
-              - device_family: SWITCH_AND_HUB  # required field
-                kpi_name: CPU Utilization  # required field
-                include_for_overall_health: true  # required field
+              - device_family: SWITCH_AND_HUB # required field
+                kpi_name: CPU Utilization # required field
+                include_for_overall_health: true # required field
                 threshold_value: 90
                 synchronize_to_issue_threshold: false
-
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
@@ -231,12 +345,11 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - device_health_score:
-              - device_family: ROUTER  # required field
-                kpi_name: Link Error  # required field
-                include_for_overall_health: true  # required field
+              - device_family: ROUTER # required field
+                kpi_name: Link Error # required field
+                include_for_overall_health: true # required field
                 threshold_value: 60
                 synchronize_to_issue_threshold: false
-
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
@@ -259,9 +372,9 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - device_health_score:
-              - device_family: UNIFIED_AP  # required field
-                kpi_name: Interference 6 GHz  # required field
-                include_for_overall_health: true  # required field
+              - device_family: UNIFIED_AP # required field
+                kpi_name: Interference 6 GHz # required field
+                include_for_overall_health: true # required field
                 threshold_value: 80
                 synchronize_to_issue_threshold: false
 """
@@ -269,7 +382,6 @@ EXAMPLES = r"""
 
 RETURN = r"""
 #Case 1: Successful updation of health_score
-
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -290,7 +402,6 @@ response_1:
       },
       "version": "string"
     }
-
 """
 
 

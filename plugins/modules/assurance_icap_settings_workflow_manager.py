@@ -18,13 +18,22 @@ __author__ = ['Megha Kandari, Madhan Sankaranarayanan']
 DOCUMENTATION = r"""
 ---
 module: assurance_icap_settings_workflow_manager
-short_description: Configure and manage ICAP (Intelligent Capture) settings in Cisco Catalyst Center for network assurance.
+short_description: Configure and manage ICAP (Intelligent
+  Capture) settings in Cisco Catalyst Center for network
+  assurance.
 description:
-  - Automates the configuration and management of Intelligent Capture (ICAP) settings in Cisco Catalyst Center.
-  - ICAP enables real-time packet capture and analysis for troubleshooting client and network device connectivity issues.
-  - Supports capturing traffic based on parameters such as capture type, client MAC, AP, WLC, slot, OTA band, and channel.
-  - Facilitates automated deployment and validation of ICAP configurations.
-  - Supports downloading PCAP files for further analysis of captured network traffic.
+  - Automates the configuration and management of Intelligent
+    Capture (ICAP) settings in Cisco Catalyst Center.
+  - ICAP enables real-time packet capture and analysis
+    for troubleshooting client and network device connectivity
+    issues.
+  - Supports capturing traffic based on parameters such
+    as capture type, client MAC, AP, WLC, slot, OTA
+    band, and channel.
+  - Facilitates automated deployment and validation
+    of ICAP configurations.
+  - Supports downloading PCAP files for further analysis
+    of captured network traffic.
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -33,114 +42,145 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-   description: Set to 'true' to verify the ICAP configuration on Cisco Catalyst Center after deployment.
-   type: bool
-   default: true
+    description: Set to 'true' to verify the ICAP configuration
+      on Cisco Catalyst Center after deployment.
+    type: bool
+    default: true
   state:
     description:
-      - The state of Cisco Catalyst Center after module completion.
+      - The state of Cisco Catalyst Center after module
+        completion.
     type: str
     choices: ["merged"]
     default: merged
   config:
     description:
-      - List of parameters required to configure, create, and deploy ICAP settings in Cisco Catalyst Center.
+      - List of parameters required to configure, create,
+        and deploy ICAP settings in Cisco Catalyst Center.
     type: list
     elements: dict
     required: true
     suboptions:
       assurance_icap_settings:
         description:
-          - Defines ICAP settings for capturing client and network device information.
-          - Used for onboarding, monitoring, and troubleshooting network connectivity issues.
+          - Defines ICAP settings for capturing client
+            and network device information.
+          - Used for onboarding, monitoring, and troubleshooting
+            network connectivity issues.
         type: list
         elements: dict
         suboptions:
           capture_type:
-            description: The type of Intelligent Capture to be performed (e.g., onboarding).
+            description: The type of Intelligent Capture
+              to be performed (e.g., onboarding).
             type: str
             choices:
-            - FULL  # Captures complete network traffic for deep analysis.
-            - ONBOARDING  # Captures packets related to client onboarding processes.
-            - OTA  # Captures over-the-air (OTA) wireless traffic.
-            - RFSTATS  # Captures RF statistics to analyze signal and interference levels.
-            - ANOMALY  # Captures specific anomalies detected in the network.
+              - FULL # Captures complete network traffic for deep analysis.
+              - ONBOARDING # Captures packets related to client onboarding processes.
+              - OTA # Captures over-the-air (OTA) wireless traffic.
+              - RFSTATS # Captures RF statistics to analyze signal and interference levels.
+              - ANOMALY # Captures specific anomalies detected in the network.
           duration_in_mins:
-            description: The duration of the Intelligent Capture session in minutes.
+            description: The duration of the Intelligent
+              Capture session in minutes.
             type: int
           preview_description:
-            description: A short summary or metadata about the Intelligent Capture session,
-              providing details such as purpose, expected outcomes, or session context.
+            description: A short summary or metadata
+              about the Intelligent Capture session,
+              providing details such as purpose, expected
+              outcomes, or session context.
             type: str
           client_mac:
-            description: The MAC address of the client device for which the capture is being performed.
+            description: The MAC address of the client
+              device for which the capture is being
+              performed.
             type: str
           wlc_name:
-            description: The name of the Wireless LAN Controller (WLC) involved in the Intelligent Capture.
+            description: The name of the Wireless LAN
+              Controller (WLC) involved in the Intelligent
+              Capture.
             type: str
           ap_name:
-            description: The name of the Access Point (AP) for the capture.
+            description: The name of the Access Point
+              (AP) for the capture.
             type: str
           slot:
-            description: List of slot numbers for the capture session.
+            description: List of slot numbers for the
+              capture session.
             type: list
             elements: int
           ota_band:
             description:
-              - Specifies the wireless frequency band for the ICAP capture.
-              - Ensure the selected band is valid for the region and device capabilities.
+              - Specifies the wireless frequency band
+                for the ICAP capture.
+              - Ensure the selected band is valid for
+                the region and device capabilities.
             type: str
             choices:
-              - 2.4GHz  # Supports legacy devices, may have interference.
-              - 5GHz    # Faster speeds, DFS (Dynamic Frequency Selection) may apply for some channels.
-              - 6GHz    # Wi-Fi 6E and Wi-Fi 7 only, check regional availability.
+              - 2.4GHz # Supports legacy devices, may have interference.
+              - 5GHz # Faster speeds, DFS (Dynamic Frequency Selection) may apply for some channels.
+              - 6GHz # Wi-Fi 6E and Wi-Fi 7 only, check regional availability.
           ota_channel:
             description:
-                - Wireless channel used for the ICAP capture (For example, 36, 40).
-                - Available channels depend on the selected `ota_band` and regulatory restrictions.
+              - Wireless channel used for the ICAP capture
+                (For example, 36, 40).
+              - Available channels depend on the selected
+                `ota_band` and regulatory restrictions.
             type: int
           ota_channel_width:
             description:
-                - Specifies the channel width in MHz for the ICAP capture (For example, 20, 40).
-                - Ensure compatibility with the selected `ota_band` and regulatory requirements.
+              - Specifies the channel width in MHz for
+                the ICAP capture (For example, 20, 40).
+              - Ensure compatibility with the selected
+                `ota_band` and regulatory requirements.
             type: int
-
       assurance_icap_download:
         description:
-            - Defines settings for downloading Intelligent Capture (ICAP) data.
-            - Used to configure the parameters for capturing client data during a specific timeframe.
+          - Defines settings for downloading Intelligent
+            Capture (ICAP) data.
+          - Used to configure the parameters for capturing
+            client data during a specific timeframe.
         type: dict
         suboptions:
           capture_type:
-            description: The type of ICAP session to be executed.
+            description: The type of ICAP session to
+              be executed.
             type: str
             choices:
-                - FULL # Captures complete network traffic for deep analysis.
-                - ONBOARDING  # Captures packets related to client onboarding processes.
-                - OTA # Captures over-the-air (OTA) wireless traffic.
-                - RFSTATS  # Captures RF statistics to analyze signal and interference levels.
-                - ANOMALY # Captures specific anomalies detected in the network.
+              - FULL # Captures complete network traffic for deep analysis.
+              - ONBOARDING # Captures packets related to client onboarding processes.
+              - OTA # Captures over-the-air (OTA) wireless traffic.
+              - RFSTATS # Captures RF statistics to analyze signal and interference levels.
+              - ANOMALY # Captures specific anomalies detected in the network.
           client_mac:
-            description: The MAC address of the client device for which the capture is being performed.
+            description: The MAC address of the client
+              device for which the capture is being
+              performed.
             type: str
             required: true
           ap_mac:
-            description: The Ap mac address of the AP for which the capture will be performed through.
+            description: The Ap mac address of the AP
+              for which the capture will be performed
+              through.
             type: str
             required: true
           start_time:
-            description: "The start date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'."
+            description: "The start date and time of
+              the ICAP session in the format 'YYYY-MM-DD
+              HH:MM:SS'."
             type: str
             required: false
           end_time:
-            description: "The end date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'."
+            description: "The end date and time of the
+              ICAP session in the format 'YYYY-MM-DD
+              HH:MM:SS'."
             type: str
             required: false
           file_path:
-            description: The file system path where the captured data will be saved.
+            description: The file system path where
+              the captured data will be saved.
             type: str
             required: true
-
 requirements:
   - dnacentersdk >=  2.8.6
   - python >= 3.9
@@ -152,14 +192,12 @@ notes:
     sensors.AssuranceSettings.deploys_the_i_cap_configuration_intent_by_activity_id_v1
     sensors.AssuranceSettings.lists_i_cap_packet_capture_files_matching_specified_criteria
     sensors.AssuranceSettings.downloads_a_specific_i_cap_packet_capture_file
-
   - Paths used are
     GET /dna/intent/api/v1/icapSettings/deviceDeployments
     POST /dna/intent/api/icapSettings/configurationModels
     DELETE /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}
     POST /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/deploy
-    GET /dna/data/api/v1/icap/captureFiles
-    GET /dna/data/api/v1/icap/captureFiles/${id}/download
+    GET /dna/data/api/v1/icap/captureFiles GET /dna/data/api/v1/icap/captureFiles/${id}/download
 """
 
 EXAMPLES = r"""
@@ -187,16 +225,17 @@ EXAMPLES = r"""
         config:
           - assurance_icap_settings:
               - capture_type: ONBOARDING
-                preview_description: "ICAP onboarding capture"
+                preview_description: "ICAP onboarding
+                  capture"
                 duration_in_mins: 30
-                client_mac: 50:91:E3:47:AC:9E  # required field
-                wlc_name: NY-IAC-EWLC.cisco.local  # required field
+                client_mac: 50:91:E3:47:AC:9E # required field
+                wlc_name: NY-IAC-EWLC.cisco.local # required field
               - capture_type: FULL
-                preview_description: "Full ICAP capture for troubleshooting"
+                preview_description: "Full ICAP capture
+                  for troubleshooting"
                 duration_in_mins: 30
-                client_mac: 50:91:E3:47:AC:9E  # required field
-                wlc_name: NY-IAC-EWLC.cisco.local  # required field
-
+                client_mac: 50:91:E3:47:AC:9E # required field
+                wlc_name: NY-IAC-EWLC.cisco.local # required field
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
@@ -241,7 +280,6 @@ response_1:
     },
     "version": "string"
     }
-
 """
 
 

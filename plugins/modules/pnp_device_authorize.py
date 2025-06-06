@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: pnp_device_authorize
 short_description: Resource module for Pnp Device Authorize
 description:
-  - This module represents an alias of the module pnp_device_authorize_v1
+  - Manage operation create of the resource Pnp Device
+    Authorize.
+  - Authorizes one of more devices. A device can only
+    be authorized if Authorization is set in Device
+    Settings.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,15 +27,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AuthorizeDeviceV1
-    description: Complete reference of the AuthorizeDeviceV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) AuthorizeDevice
+    description: Complete reference of the AuthorizeDevice
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!authorize-device
 notes:
-  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.authorize_device_v1,
-  - Paths used are post /api/v1/onboarding/pnp-device/authorize,
-  - It should be noted that this module is an alias of pnp_device_authorize_v1
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.authorize_device,
+  - Paths used are
+    post /api/v1/onboarding/pnp-device/authorize,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.pnp_device_authorize:
     dnac_host: "{{dnac_host}}"

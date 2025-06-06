@@ -8,40 +8,56 @@ __author__ = ("Trupti A Shetty, Mohamed Rafeek, Madhan Sankaranarayanan, Ajith A
 DOCUMENTATION = r"""
 ---
 module: rma_workflow_manager
-short_description: Manage device replacement workflows in Cisco Catalyst Center.
+short_description: Manage device replacement workflows
+  in Cisco Catalyst Center.
 description:
-  - The purpose of this workflow is to provide a streamlined and efficient process
-    for network administrators, to initiate Return Material Authorization (RMA) requests
-    for faulty network devices. This automation aims to simplify the RMA process,
-    reduce manual effort, and enhance overall operational efficiency.
-  - Implement an RMA (Return Material Authorization) workflow within Cisco Catalyst
-    Center, enabling a seamless process for returning and replacing faulty network
-    devices.
-  - The RMA workflow facilitates the replacement of routers, switches, and Access
-    Points (APs).
-  - Allows administrators to mark devices for replacement and track the entire replacement
-    workflow.
-  - For routers and switches, the software image, configuration, and licenses are
-    restored from the failed device to the replacement device, ensuring minimal disruption.
-  - For wireless APs, the replacement device is assigned to the same site, provisioned
-    with the primary wireless controller, RF profile, and AP group settings, and placed
-    on the same floor map location in Cisco Catalyst Center as the failed AP.
-  - Need to consider the following before doing RMA, - Ensure the software image version
-    of the faulty device is imported into the image repository before initiating the
-    replacement process. - The faulty device must be in an unreachable state to be
-    eligible for RMA. - If the replacement device onboards Cisco Catalyst Center through
-    Plug and Play (PnP), ensure the faulty device is assigned to a user-defined site.
-    - The replacement device must not be in a provisioning state during the initiation
-    of the RMA workflow. - The AP RMA feature supports only like-to-like replacements,
-    meaning the replacement AP must have the same model number and Product ID (PID)
-    as the faulty AP. - The replacement AP must have joined the same Cisco Wireless
-    Controller as the faulty AP. - Cisco Mobility Express APs acting as wireless controllers
-    are not eligible for replacement through this RMA workflow. - Ensure the software
-    image version of the faulty AP is imported into the image repository before initiating
-    the replacement process. - The faulty device must be assigned to a user-defined
-    site if the replacement device onboards Cisco Catalyst Center through Plug and
-    Play (PnP). - The replacement AP must not be in a provisioning state during the
-    initiation of the RMA workflow.
+  - The purpose of this workflow is to provide a streamlined
+    and efficient process for network administrators,
+    to initiate Return Material Authorization (RMA)
+    requests for faulty network devices. This automation
+    aims to simplify the RMA process, reduce manual
+    effort, and enhance overall operational efficiency.
+  - Implement an RMA (Return Material Authorization)
+    workflow within Cisco Catalyst Center, enabling
+    a seamless process for returning and replacing faulty
+    network devices.
+  - The RMA workflow facilitates the replacement of
+    routers, switches, and Access Points (APs).
+  - Allows administrators to mark devices for replacement
+    and track the entire replacement workflow.
+  - For routers and switches, the software image, configuration,
+    and licenses are restored from the failed device
+    to the replacement device, ensuring minimal disruption.
+  - For wireless APs, the replacement device is assigned
+    to the same site, provisioned with the primary wireless
+    controller, RF profile, and AP group settings, and
+    placed on the same floor map location in Cisco Catalyst
+    Center as the failed AP.
+  - Need to consider the following before doing RMA,
+    - Ensure the software image version of the faulty
+    device is imported into the image repository before
+    initiating the replacement process. - The faulty
+    device must be in an unreachable state to be eligible
+    for RMA. - If the replacement device onboards Cisco
+    Catalyst Center through Plug and Play (PnP), ensure
+    the faulty device is assigned to a user-defined
+    site. - The replacement device must not be in a
+    provisioning state during the initiation of the
+    RMA workflow. - The AP RMA feature supports only
+    like-to-like replacements, meaning the replacement
+    AP must have the same model number and Product ID
+    (PID) as the faulty AP. - The replacement AP must
+    have joined the same Cisco Wireless Controller as
+    the faulty AP. - Cisco Mobility Express APs acting
+    as wireless controllers are not eligible for replacement
+    through this RMA workflow. - Ensure the software
+    image version of the faulty AP is imported into
+    the image repository before initiating the replacement
+    process. - The faulty device must be assigned to
+    a user-defined site if the replacement device onboards
+    Cisco Catalyst Center through Plug and Play (PnP).
+    - The replacement AP must not be in a provisioning
+    state during the initiation of the RMA workflow.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -125,47 +141,76 @@ requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.10
 notes:
-  - SDK Method used is - devices.get_device_detail - device_replacement.mark_device_for_replacement
-    - device_replacement.deploy_device_replacement_workflow - device_replacement.unmark_device_for_replacement
-  - Path used is - post /dna/intent/api/v1/device-replacement/workflow - put  /dna/intent/api/v1/device-replacement/
-    - post /dna/intent/api/v1/device-replacement/
+  - SDK Method used is - devices.get_device_detail -
+    device_replacement.mark_device_for_replacement -
+    device_replacement.deploy_device_replacement_workflow
+    - device_replacement.unmark_device_for_replacement
+  - Path used is - post /dna/intent/api/v1/device-replacement/workflow
+    - put  /dna/intent/api/v1/device-replacement/ -
+    post /dna/intent/api/v1/device-replacement/
   - limitations
-  - RMA supports the replacement of similar devices only. For instance, a Cisco Catalyst
-    3650 switch can only be replaced with another Cisco Catalyst 3650 switch. The
-    platform IDs of the faulty and replacement devices must match. The model number
-    of a Cisco device can be fetched using the `show version` command.
-  - RMA supports the replacement of all switches, routers, and Cisco SD-Access devices,
-    except for the following, - Chassis-based Nexus 7700 Series Switches - Devices
-    with embedded wireless controllers - Cisco Wireless Controllers
-  - RMA supports devices with an external SCEP broker PKI certificate. The PKI certificate
-    is created and authenticated for the replacement device during the RMA workflow.
-    The PKI certificate of the replaced faulty device must be manually deleted from
-    the certificate server.
-  - The RMA workflow supports device replacement only if the following conditions
-    are met, - Faulty and replacement devices must have the same extension cards.
-    - The faulty device must be managed by Catalyst Center with a static IP. (RMA
-    is not supported for devices managed by Catalyst Center with a DHCP IP.) - The
-    number of ports in both devices must not vary due to the extension cards. - The
-    replacement device must be connected to the same port to which the faulty device
-    was connected.
-  - Cisco Catalyst Center does not support legacy license deployment.
-  - If the software image installed on the faulty device is earlier than Cisco IOS
-    XE 16.8, the same legacy network license must be manually installed on the replacement
-    device.
-  - The RMA workflow deregisters the faulty device from Cisco SSM and registers the
-    replacement device with Cisco SSM.
-  - Cisco Catalyst Center supports PnP onboarding of the replacement device in a fabric
-    network, except for the following, - The faulty device is connected to an uplink
-    device using multiple interfaces. - LAN automation using an overlapping pool.
-  - If the replacement device onboards through PnP-DHCP functionality, ensure the
-    device receives the same IP address after every reload and that the DHCP lease
-    timeout is longer than two hours.
+  - RMA supports the replacement of similar devices
+    only. For instance,
+    a Cisco Catalyst 3650 switch
+    can only be replaced with another Cisco Catalyst
+    3650 switch. The platform IDs of the faulty and
+    replacement devices must match. The model number
+    of a Cisco device can be fetched using the `show
+    version` command.
+  - RMA supports the replacement of all switches,
+    routers,
+    and Cisco SD-Access devices,
+    except for the following,
+    - Chassis-based Nexus 7700 Series Switches - Devices
+    with embedded wireless controllers - Cisco Wireless
+    Controllers
+  - RMA supports devices with an external SCEP broker
+    PKI certificate. The PKI certificate is created
+    and authenticated for the replacement device during
+    the RMA workflow. The PKI certificate of the replaced
+    faulty device must be manually deleted from the
+    certificate server.
+  - The RMA workflow supports device replacement only
+    if the following conditions are met,
+    - Faulty and
+    replacement devices must have the same extension
+    cards. - The faulty device must be managed by Catalyst
+    Center with a static IP. (RMA is not supported for
+    devices managed by Catalyst Center with a DHCP IP.)
+    - The number of ports in both devices must not vary
+    due to the extension cards. - The replacement device
+    must be connected to the same port to which the
+    faulty device was connected.
+  - Cisco Catalyst Center does not support legacy license
+    deployment.
+  - If the software image installed on the faulty device
+    is earlier than Cisco IOS XE 16.8,
+    the same legacy
+    network license must be manually installed on the
+    replacement device.
+  - The RMA workflow deregisters the faulty device from
+    Cisco SSM and registers the replacement device with
+    Cisco SSM.
+  - Cisco Catalyst Center supports PnP onboarding of
+    the replacement device in a fabric network,
+    except
+    for the following,
+    - The faulty device is connected
+    to an uplink device using multiple interfaces. -
+    LAN automation using an overlapping pool.
+  - If the replacement device onboards through PnP-DHCP
+    functionality,
+    ensure the device receives the same
+    IP address after every reload and that the DHCP
+    lease timeout is longer than two hours.
 """
 """
 - User can use either one of the below playbook.
 """
 EXAMPLES = r"""
-- name: RMA workflow for faulty device replacement using device names
+---
+- name: RMA workflow for faulty device replacement using
+    device names
   cisco.dnac.rma_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -186,7 +231,8 @@ EXAMPLES = r"""
       - faulty_device_name: "SJ-EN-9300.cisco.local"
         replacement_device_name: "SJ-EN-9300.cisco-1.local"
   register: result
-- name: RMA workflow for faulty device replacement using IP addresses
+- name: RMA workflow for faulty device replacement using
+    IP addresses
   cisco.dnac.rma_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -207,7 +253,8 @@ EXAMPLES = r"""
       - faulty_device_ip_address: "204.192.3.40"
         replacement_device_ip_address: "204.1.2.5"
   register: result
-- name: RMA workflow for faulty device replacement using serial numbers
+- name: RMA workflow for faulty device replacement using
+    serial numbers
   cisco.dnac.rma_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -228,7 +275,8 @@ EXAMPLES = r"""
       - faulty_device_serial_number: "FJC2327U0S2"
         replacement_device_serial_number: "FCW2225C020"
   register: result
-- name: RMA workflow for unmark faulty device using device names
+- name: RMA workflow for unmark faulty device using
+    device names
   cisco.dnac.rma_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -248,7 +296,8 @@ EXAMPLES = r"""
     config:
       - faulty_device_name: "SJ-EN-9300.cisco.local"
   register: result
-- name: RMA workflow for unmark faulty device using IP addresses
+- name: RMA workflow for unmark faulty device using
+    IP addresses
   cisco.dnac.rma_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -268,7 +317,8 @@ EXAMPLES = r"""
     config:
       - faulty_device_ip_address: 204.1.2.9
   register: result
-- name: RMA workflow for unmark faulty device using serial numbers
+- name: RMA workflow for unmark faulty device using
+    serial numbers
   cisco.dnac.rma_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -288,7 +338,8 @@ EXAMPLES = r"""
     config:
       - faulty_device_serial_number: "FJC2327U0S2"
   register: result
-- name: RMA workflow for unmark faulty device using all
+- name: RMA workflow for unmark faulty device using
+    all
   cisco.dnac.rma_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
