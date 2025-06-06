@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: endpoint_analytics_profiling-rules_bulk
+module: endpoint_analytics_profiling_rules_bulk
 short_description: Resource module for Endpoint Analytics
   Profiling-Rules Bulk
 description:

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: dhcpServices_topNAnalytics
+module: dhcp_services_top_n_analytics
 short_description: Resource module for Dhcpservices
   Topnanalytics
 description:

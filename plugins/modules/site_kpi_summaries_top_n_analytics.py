@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: siteKpiSummaries_topNAnalytics
+module: site_kpi_summaries_top_n_analytics
 short_description: Resource module for Sitekpisummaries
   Topnanalytics
 description:

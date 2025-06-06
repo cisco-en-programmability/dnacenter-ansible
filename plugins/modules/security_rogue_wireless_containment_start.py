@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_rogue_wireless-containment_start
+module: security_rogue_wireless_containment_start
 short_description: Resource module for Security Rogue
   Wireless-Containment Start
 description:

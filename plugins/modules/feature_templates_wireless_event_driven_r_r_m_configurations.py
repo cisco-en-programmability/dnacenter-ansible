@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: featureTemplates_wireless_eventDrivenRRMConfigurations
+module: feature_templates_wireless_event_driven_r_r_m_configurations
 short_description: Resource module for Featuretemplates
   Wireless Eventdrivenrrmconfigurations
 description:

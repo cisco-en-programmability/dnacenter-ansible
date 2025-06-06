@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: networkDevices_topNAnalytics
+module: network_devices_top_n_analytics
 short_description: Resource module for Networkdevices
   Topnanalytics
 description:

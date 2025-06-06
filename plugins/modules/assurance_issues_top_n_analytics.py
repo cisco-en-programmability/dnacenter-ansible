@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: assuranceIssues_topNAnalytics
+module: assurance_issues_top_n_analytics
 short_description: Resource module for Assuranceissues
   Topnanalytics
 description:

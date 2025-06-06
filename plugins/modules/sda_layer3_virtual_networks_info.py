@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_layer3VirtualNetworks_info
+module: sda_layer3_virtual_networks_info
 short_description: Information module for Sda Layer3virtualnetworks
 description:
   - Get all Sda Layer3virtualnetworks.

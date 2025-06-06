@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: clients_topNAnalytics
+module: clients_top_n_analytics
 short_description: Resource module for Clients Topnanalytics
 description:
   - Manage operation create of the resource Clients

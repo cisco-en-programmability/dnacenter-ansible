@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: endpoint_analytics_profiling-rules_count_info
+module: endpoint_analytics_profiling_rules_count_info
 short_description: Information module for Endpoint Analytics
   Profiling-Rules Count
 description:

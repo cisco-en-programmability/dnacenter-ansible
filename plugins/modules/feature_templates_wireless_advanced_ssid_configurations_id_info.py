@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: featureTemplates_wireless_advancedSSIDConfigurations_id_info
+module: feature_templates_wireless_advanced_s_s_i_d_configurations_id_info
 short_description: Information module for Featuretemplates
   Wireless Advancedssidconfigurations Id
 description:

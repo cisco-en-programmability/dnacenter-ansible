@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_fabricDevices_layer2Handoffs_ipTransits
+module: sda_fabric_devices_layer2_handoffs_ip_transits
 short_description: Resource module for Sda Fabricdevices
   Layer2handoffs Iptransits
 description:

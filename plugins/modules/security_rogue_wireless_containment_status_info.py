@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: security_rogue_wireless-containment_status_info
+module: security_rogue_wireless_containment_status_info
 short_description: Information module for Security Rogue
   Wireless-Containment Status
 description:

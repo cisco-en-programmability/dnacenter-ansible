@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: endpoint_analytics_profiling-rules_info
+module: endpoint_analytics_profiling_rules_info
 short_description: Information module for Endpoint Analytics
   Profiling-Rules
 description:

@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: sda_layer2VirtualNetworks
+module: sda_layer2_virtual_networks
 short_description: Resource module for Sda Layer2virtualnetworks
 description:
   - Manage operations create, update and delete of the

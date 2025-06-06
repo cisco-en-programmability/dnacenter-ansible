@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: endpoint_analytics_endpoints_anc-policy_delete
+module: endpoint_analytics_endpoints_anc_policy_delete
 short_description: Resource module for Endpoint Analytics
   Endpoints Anc-Policy Delete
 description:
