@@ -68,11 +68,6 @@ argument_spec.update(dict(
     numDevices=dict(type="int"),
     parentDiscoveryId=dict(type="str"),
     retryCount=dict(type="int"),
-    snmpRoCommunity=dict(type="str"),
-    snmpRoCommunityDesc=dict(type="str"),
-    snmpRwCommunity=dict(type="str"),
-    snmpRwCommunityDesc=dict(type="str"),
-    timeout=dict(type="int"),
     updateMgmtIp=dict(type="bool"),
 ))
 
@@ -126,56 +121,35 @@ class Discovery(object):
             numDevices=params.get("numDevices"),
             parentDiscoveryId=params.get("parentDiscoveryId"),
             retryCount=params.get("retryCount"),
-            snmpRoCommunity=params.get("snmpRoCommunity"),
-            snmpRoCommunityDesc=params.get("snmpRoCommunityDesc"),
-            snmpRwCommunity=params.get("snmpRwCommunity"),
-            snmpRwCommunityDesc=params.get("snmpRwCommunityDesc"),
-            timeout=params.get("timeout"),
             updateMgmtIp=params.get("updateMgmtIp"),
         )
 
     def create_params(self):
         new_object_params = {}
         new_object_params['cdpLevel'] = self.new_object.get('cdpLevel')
-        new_object_params['discoveryType'] = self.new_object.get(
-            'discoveryType')
-        new_object_params['enablePasswordList'] = self.new_object.get(
-            'enablePasswordList')
-        new_object_params['globalCredentialIdList'] = self.new_object.get(
-            'globalCredentialIdList')
-        new_object_params['httpReadCredential'] = self.new_object.get(
-            'httpReadCredential')
-        new_object_params['httpWriteCredential'] = self.new_object.get(
-            'httpWriteCredential')
-        new_object_params['ipAddressList'] = self.new_object.get(
-            'ipAddressList')
+        new_object_params['discoveryType'] = self.new_object.get('discoveryType')
+        new_object_params['enablePasswordList'] = self.new_object.get('enablePasswordList')
+        new_object_params['globalCredentialIdList'] = self.new_object.get('globalCredentialIdList')
+        new_object_params['httpReadCredential'] = self.new_object.get('httpReadCredential')
+        new_object_params['httpWriteCredential'] = self.new_object.get('httpWriteCredential')
+        new_object_params['ipAddressList'] = self.new_object.get('ipAddressList')
         new_object_params['ipFilterList'] = self.new_object.get('ipFilterList')
         new_object_params['lldpLevel'] = self.new_object.get('lldpLevel')
         new_object_params['name'] = self.new_object.get('name')
         new_object_params['netconfPort'] = self.new_object.get('netconfPort')
         new_object_params['passwordList'] = self.new_object.get('passwordList')
-        new_object_params['preferredMgmtIPMethod'] = self.new_object.get(
-            'preferredMgmtIPMethod')
-        new_object_params['protocolOrder'] = self.new_object.get(
-            'protocolOrder')
+        new_object_params['preferredMgmtIPMethod'] = self.new_object.get('preferredMgmtIPMethod')
+        new_object_params['protocolOrder'] = self.new_object.get('protocolOrder')
         new_object_params['retry'] = self.new_object.get('retry')
-        new_object_params['snmpAuthPassphrase'] = self.new_object.get(
-            'snmpAuthPassphrase')
-        new_object_params['snmpAuthProtocol'] = self.new_object.get(
-            'snmpAuthProtocol')
+        new_object_params['snmpAuthPassphrase'] = self.new_object.get('snmpAuthPassphrase')
+        new_object_params['snmpAuthProtocol'] = self.new_object.get('snmpAuthProtocol')
         new_object_params['snmpMode'] = self.new_object.get('snmpMode')
-        new_object_params['snmpPrivPassphrase'] = self.new_object.get(
-            'snmpPrivPassphrase')
-        new_object_params['snmpPrivProtocol'] = self.new_object.get(
-            'snmpPrivProtocol')
-        new_object_params['snmpROCommunity'] = self.new_object.get(
-            'snmpROCommunity')
-        new_object_params['snmpRoCommunityDesc'] = self.new_object.get(
-            'snmpRoCommunityDesc')
-        new_object_params['snmpRwCommunity'] = self.new_object.get(
-            'snmpRwCommunity')
-        new_object_params['snmpRwCommunityDesc'] = self.new_object.get(
-            'snmpRwCommunityDesc')
+        new_object_params['snmpPrivPassphrase'] = self.new_object.get('snmpPrivPassphrase')
+        new_object_params['snmpPrivProtocol'] = self.new_object.get('snmpPrivProtocol')
+        new_object_params['snmpROCommunity'] = self.new_object.get('snmpROCommunity')
+        new_object_params['snmpRoCommunityDesc'] = self.new_object.get('snmpRoCommunityDesc')
+        new_object_params['snmpRwCommunity'] = self.new_object.get('snmpRwCommunity')
+        new_object_params['snmpRwCommunityDesc'] = self.new_object.get('snmpRwCommunityDesc')
         new_object_params['snmpUserName'] = self.new_object.get('snmpUserName')
         new_object_params['snmpVersion'] = self.new_object.get('snmpVersion')
         new_object_params['timeout'] = self.new_object.get('timeout')
@@ -199,28 +173,20 @@ class Discovery(object):
 
     def update_all_params(self):
         new_object_params = {}
-        new_object_params['attributeInfo'] = self.new_object.get(
-            'attributeInfo')
+        new_object_params['attributeInfo'] = self.new_object.get('attributeInfo')
         new_object_params['cdpLevel'] = self.new_object.get('cdpLevel')
         new_object_params['deviceIds'] = self.new_object.get('deviceIds')
-        new_object_params['discoveryCondition'] = self.new_object.get(
-            'discoveryCondition')
-        new_object_params['discoveryStatus'] = self.new_object.get(
-            'discoveryStatus')
-        new_object_params['discoveryType'] = self.new_object.get(
-            'discoveryType')
+        new_object_params['discoveryCondition'] = self.new_object.get('discoveryCondition')
+        new_object_params['discoveryStatus'] = self.new_object.get('discoveryStatus')
+        new_object_params['discoveryType'] = self.new_object.get('discoveryType')
         new_object_params['enablePasswordList'] = self.convert_list_string(
             self.new_object.get('enablePasswordList')
         )
-        new_object_params['globalCredentialIdList'] = self.new_object.get(
-            'globalCredentialIdList')
-        new_object_params['httpReadCredential'] = self.new_object.get(
-            'httpReadCredential')
-        new_object_params['httpWriteCredential'] = self.new_object.get(
-            'httpWriteCredential')
+        new_object_params['globalCredentialIdList'] = self.new_object.get('globalCredentialIdList')
+        new_object_params['httpReadCredential'] = self.new_object.get('httpReadCredential')
+        new_object_params['httpWriteCredential'] = self.new_object.get('httpWriteCredential')
         new_object_params['id'] = self.new_object.get('id')
-        new_object_params['ipAddressList'] = self.new_object.get(
-            'ipAddressList')
+        new_object_params['ipAddressList'] = self.new_object.get('ipAddressList')
         new_object_params['ipFilterList'] = self.convert_list_string(
             self.new_object.get('ipFilterList')
         )
@@ -229,33 +195,22 @@ class Discovery(object):
         new_object_params['name'] = self.new_object.get('name')
         new_object_params['netconfPort'] = self.new_object.get('netconfPort')
         new_object_params['numDevices'] = self.new_object.get('numDevices')
-        new_object_params['parentDiscoveryId'] = self.new_object.get(
-            'parentDiscoveryId')
+        new_object_params['parentDiscoveryId'] = self.new_object.get('parentDiscoveryId')
         new_object_params['passwordList'] = self.convert_list_string(
             self.new_object.get('passwordList')
         )
-        new_object_params['preferredMgmtIPMethod'] = self.new_object.get(
-            'preferredMgmtIPMethod')
-        new_object_params['protocolOrder'] = self.new_object.get(
-            'protocolOrder')
+        new_object_params['preferredMgmtIPMethod'] = self.new_object.get('preferredMgmtIPMethod')
+        new_object_params['protocolOrder'] = self.new_object.get('protocolOrder')
         new_object_params['retryCount'] = self.new_object.get('retryCount')
-        new_object_params['snmpAuthPassphrase'] = self.new_object.get(
-            'snmpAuthPassphrase')
-        new_object_params['snmpAuthProtocol'] = self.new_object.get(
-            'snmpAuthProtocol')
+        new_object_params['snmpAuthPassphrase'] = self.new_object.get('snmpAuthPassphrase')
+        new_object_params['snmpAuthProtocol'] = self.new_object.get('snmpAuthProtocol')
         new_object_params['snmpMode'] = self.new_object.get('snmpMode')
-        new_object_params['snmpPrivPassphrase'] = self.new_object.get(
-            'snmpPrivPassphrase')
-        new_object_params['snmpPrivProtocol'] = self.new_object.get(
-            'snmpPrivProtocol')
-        new_object_params['snmpRoCommunity'] = self.new_object.get(
-            'snmpRoCommunity')
-        new_object_params['snmpRoCommunityDesc'] = self.new_object.get(
-            'snmpRoCommunityDesc')
-        new_object_params['snmpRwCommunity'] = self.new_object.get(
-            'snmpRwCommunity')
-        new_object_params['snmpRwCommunityDesc'] = self.new_object.get(
-            'snmpRwCommunityDesc')
+        new_object_params['snmpPrivPassphrase'] = self.new_object.get('snmpPrivPassphrase')
+        new_object_params['snmpPrivProtocol'] = self.new_object.get('snmpPrivProtocol')
+        new_object_params['snmpRoCommunity'] = self.new_object.get('snmpRoCommunity')
+        new_object_params['snmpRoCommunityDesc'] = self.new_object.get('snmpRoCommunityDesc')
+        new_object_params['snmpRwCommunity'] = self.new_object.get('snmpRwCommunity')
+        new_object_params['snmpRwCommunityDesc'] = self.new_object.get('snmpRwCommunityDesc')
         new_object_params['snmpUserName'] = self.new_object.get('snmpUserName')
         new_object_params['timeout'] = self.new_object.get('timeout')
         new_object_params['updateMgmtIp'] = self.new_object.get('updateMgmtIp')
@@ -354,11 +309,6 @@ class Discovery(object):
             ("numDevices", "numDevices"),
             ("parentDiscoveryId", "parentDiscoveryId"),
             ("retryCount", "retryCount"),
-            ("snmpRoCommunity", "snmpRoCommunity"),
-            ("snmpRoCommunityDesc", "snmpRoCommunityDesc"),
-            ("snmpRwCommunity", "snmpRwCommunity"),
-            ("snmpRwCommunityDesc", "snmpRwCommunityDesc"),
-            ("timeout", "timeout"),
             ("updateMgmtIp", "updateMgmtIp"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

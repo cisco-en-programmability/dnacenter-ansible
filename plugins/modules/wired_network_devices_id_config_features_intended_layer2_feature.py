@@ -18,7 +18,7 @@ description:
     to a device using the API /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy. When the intended features are deployed, they are applied
     on top of the existing configurations on the device. Any existing configurations on the device which are not included in the intended features, are
     retained on the device.
-  - This API updates the configurations for an intended feature on a wired device. Updates to other intended features can be done over several iterations. 
+  - This API updates the configurations for an intended feature on a wired device. Updates to other intended features can be done over several iterations.
     Once all the updates to intended features are complete, they can be deployed to a device using the API
     /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy. When the intended features are deployed, they are applied on top of the existing
     configurations on the device. Any existing configurations on the device which are not included in the intended features, are retained on the device.
@@ -454,7 +454,7 @@ options:
                   querierVersion:
                     description: Configure MLD version. Corresponding CLI - ipv6 mld snooping vlan <vlan-id> querier version <1-2> VERSION_1 - MLDv1 snooping
                       detects MLDv1 control packets and sets up traffic bridging based on IPv6 destination multicast addresses. MLDv1 supports three types of
-                      messages - Listener Queries, Multicast Listener Reports, Multicast Listener Done. VERSION_2 - MLDv2 basic snooping (MBSS) uses MLDv2 
+                      messages - Listener Queries, Multicast Listener Reports, Multicast Listener Done. VERSION_2 - MLDv2 basic snooping (MBSS) uses MLDv2
                       control packets to set up traffic forwarding based on IPv6 destination multicast addresses. MLDv2 supports MLDv2 queries and reports, as
                       well as MLDv1 Report and Done messages.
                     type: str
@@ -488,11 +488,11 @@ seealso:
   description: Complete reference of the UpdateConfigurationsForAnIntendedLayer2FeatureOnAWiredDevice API.
   link: https://developer.cisco.com/docs/dna-center/#!update-configurations-for-an-intended-layer-2-feature-on-a-wired-device
 notes:
-- SDK Method used are wired.Wired.create_configurations_for_an_intended_layer2_feature_on_a_wired_device, 
-  wired.Wired.delete_configurations_for_an_intended_layer2_feature_on_a_wired_device, 
+- SDK Method used are wired.Wired.create_configurations_for_an_intended_layer2_feature_on_a_wired_device,
+  wired.Wired.delete_configurations_for_an_intended_layer2_feature_on_a_wired_device,
   wired.Wired.update_configurations_for_an_intended_layer2_feature_on_a_wired_device,
-- Paths used are post /dna/intent/api/v1/wired/networkDevices/{id}/configFeatures/intended/layer2/{feature}, 
-  delete /dna/intent/api/v1/wired/networkDevices/{id}/configFeatures/intended/layer2/{feature}, 
+- Paths used are post /dna/intent/api/v1/wired/networkDevices/{id}/configFeatures/intended/layer2/{feature},
+  delete /dna/intent/api/v1/wired/networkDevices/{id}/configFeatures/intended/layer2/{feature},
   put /dna/intent/api/v1/wired/networkDevices/{id}/configFeatures/intended/layer2/{feature},
 """
 
