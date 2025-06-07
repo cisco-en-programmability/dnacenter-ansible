@@ -10,13 +10,11 @@ module: network_device_config_info
 short_description: Information module for Network Device
   Config
 description:
-  - Get all Network Device Config.
-  - Get Network Device Config by id. - > Returns the
-    config for all devices. This API has been deprecated
-    and will not be available in a Cisco Catalyst Center
-    release after Nov 1st 2024 23 59 59 GMT.
-  - Returns the device config by specified device ID.
-version_added: '3.1.0'
+  - Get all Network Device Config . - > Returns the
+    historical device configurations running configuration
+    , startup configuration , vlan if applicable by
+    specified criteria.
+version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -24,37 +22,63 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  networkDeviceId:
+  deviceId:
     description:
-      - NetworkDeviceId path parameter.
+      - >
+        DeviceId query parameter. Comma separated device
+        id for example cf35b0a1-407f-412f-b2f4-f0c3156695f9,aaa38191-0c22-4158-befd-779a09d7cec1.
+        If device id is not provided it will fetch for
+        all devices.
     type: str
+  fileType:
+    description:
+      - FileType query parameter. Config File Type can
+        be RUNNINGCONFIG or STARTUPCONFIG.
+    type: str
+  createdTime:
+    description:
+      - CreatedTime query parameter. Supported with
+        logical filters GT,GTE,LT,LTE & BT time in milliseconds
+        (epoc format).
+    type: str
+  createdBy:
+    description:
+      - >
+        CreatedBy query parameter. Comma separated values
+        for createdBy - SCHEDULED, USER, CONFIG_CHANGE_EVENT,
+        SCHEDULED_FIRST_TIME, DR_CALL_BACK, PRE_DEPLOY.
+    type: str
+  offset:
+    description:
+      - Offset query parameter.
+    type: float
+  limit:
+    description:
+      - >
+        Limit query parameter. The number of records
+        to be retrieved defaults to 500 if not specified,
+        with a maximum allowed limit of 500.
+    type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceConfigById
-    description: Complete reference of the GetDeviceConfigById
+  - name: Cisco DNA Center documentation for Configuration
+      Archive GetConfigurationArchiveDetails
+    description: Complete reference of the GetConfigurationArchiveDetails
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceConfigForAllDevices
-    description: Complete reference of the GetDeviceConfigForAllDevices
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices
+    link: https://developer.cisco.com/docs/dna-center/#!get-configuration-archive-details
 notes:
   - SDK Method used are
-    devices.Devices.get_device_config_by_id,
-    devices.Devices.get_device_config_for_all_devices,
+    configuration_archive.ConfigurationArchive.get_configuration_archive_details,
   - Paths used are
-    get /dna/intent/api/v1/network-device/config,
-    get /dna/intent/api/v1/network-device/{networkDeviceId}/config,
+    get /dna/intent/api/v1/network-device-config,
 """
 
 EXAMPLES = r"""
 ---
 - name: Get all Network Device Config
-  cisco.dnac.network_device_config_info:
+  cisco.dnac.network_device_config__info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -63,28 +87,58 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-  register: result
-- name: Get Network Device Config by id
-  cisco.dnac.network_device_config_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    headers: "{{my_headers | from_json}}"
-    networkDeviceId: string
+    deviceId: string
+    fileType: string
+    createdTime: string
+    createdBy: string
+    offset: 0
+    limit: 0
   register: result
 """
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
+  type: list
+  elements: dict
   sample: >
-    {
-      "response": "string",
-      "version": "string"
-    }
+    [
+      {
+        "ipAddress": "string",
+        "deviceId": "string",
+        "versions": [
+          {
+            "files": [
+              {
+                "fileType": "string",
+                "fileId": "string",
+                "downloadPath": "string"
+              }
+            ],
+            "createdBy": "string",
+            "configChangeType": "string",
+            "syslogConfigEventDto": [
+              {
+                "userName": "string",
+                "deviceUuid": "string",
+                "outOfBand": true,
+                "configMethod": "string",
+                "terminalName": "string",
+                "loginIpAddress": "string",
+                "processName": "string",
+                "syslogTime": 0
+              }
+            ],
+            "createdTime": 0,
+            "startupRunningStatus": "string",
+            "id": "string",
+            "tags": [
+              "string"
+            ],
+            "lastUpdatedTime": 0
+          }
+        ],
+        "deviceName": "string"
+      }
+    ]
 """

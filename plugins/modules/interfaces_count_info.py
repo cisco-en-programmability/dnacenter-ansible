@@ -142,11 +142,11 @@ seealso:
       GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecified
       TimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
     description:
-      - >
-        Complete reference of the
-        GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecified
-        TimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
-        API.
+      >
+      Complete reference of the
+      GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecified
+      TimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-the-total-network-device-interface-counts-in-the-specified-time-range-
           when-there-is-no-start-and-end-time-specified-returns-the-latest-interfaces-total-count
 notes:
