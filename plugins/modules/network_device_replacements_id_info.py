@@ -36,9 +36,8 @@ seealso:
   - name: Cisco DNA Center documentation for Device
       Replacement RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
     description:
-      - >
-        Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
-        API.
+      Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-
           of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-device
 notes:

@@ -107,16 +107,15 @@ requirements:
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Devices
-      GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
+          GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
     description:
-      - >
-        Complete reference of the GetsTheListOfInterfacesAcrossThe
-        NetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
-        API.
+      >
+      Complete reference of the GetsTheListOfInterfacesAcrossThe
+      NetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
+      API.
     link:
-      ->
-        https://developer.cisco.com/docs/dna-center/#!gets-the-list-
-        of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions
+      https://developer.cisco.com/docs/dna-center/#!gets-the-list-
+      of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions
 notes:
   - SDK Method used are
     devices.Devices.gets_the_list_of_interfaces_across_the_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions,
