@@ -2325,7 +2325,7 @@ class NetworkSettings(DnacBase):
             - 'details' (dict or None): Details of the Reserved pool if it exists, or else None.
         """
 
-        reserve_pool = {"exists": False, "details": None, "id": None, "success": true}
+        reserve_pool = {"exists": False, "details": None, "id": None, "success": True}
         site_exist, site_id = self.get_site_id(site_name)
         self.log(
             "Site ID for the site name {0}: {1}".format(site_name, site_id), "DEBUG"
@@ -2399,7 +2399,7 @@ class NetworkSettings(DnacBase):
                     "exists": True,
                     "id": each_pool.get("id"),
                     "details": self.get_reserve_pool_params(each_pool),
-                    "success": true,
+                    "success": True,
                 }
                 all_reserve_pool.append(reserve_del_pool)
 
