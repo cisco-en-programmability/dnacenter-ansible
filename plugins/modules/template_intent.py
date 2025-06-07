@@ -4,30 +4,40 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on project and templates in DNAC."""
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
-__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh']
+__author__ = [
+    "Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh"
+]
 DOCUMENTATION = r"""
 ---
 module: template_intent
 short_description: Resource module for Template functions
 description:
-  - Manage operations create, update and delete of the resource Configuration Template.
-  - API to create a template by project name and template name.
-  - API to update a template by template name and project name.
-  - API to delete a template by template name and project name.
+  - Manage operations create, update and delete of the
+    resource Configuration Template.
+  - API to create a template by project name and template
+    name.
+  - API to update a template by template name and project
+    name.
+  - API to delete a template by template name and project
+    name.
   - API to export the projects for given projectNames.
   - API to export the templates for given templateIds.
-  - API to manage operation create of the resource Configuration Template Import Project.
-  - API to manage operation create of the resource Configuration Template Import Template.
+  - API to manage operation create of the resource Configuration
+    Template Import Project.
+  - API to manage operation create of the resource Configuration
+    Template Import Template.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
-  Akash Bhaskaran (@akabhask) Muthu Rakesh (@MUTHU-RAKESH-27)
+author: Madhan Sankaranarayanan (@madhansansel) Rishita
+  Chowdhary (@rishitachowdhary) Akash Bhaskaran (@akabhask)
+  Muthu Rakesh (@MUTHU-RAKESH-27)
 options:
   config_verify:
-    description: Set to True to verify the Cisco DNA Center after applying the playbook
-      config.
+    description: Set to True to verify the Cisco DNA
+      Center after applying the playbook config.
     type: bool
     default: false
   state:
@@ -53,7 +63,8 @@ options:
             description: Is it composite template.
             type: bool
           containing_templates:
-            description: Configuration Template Create's containingTemplates.
+            description: Configuration Template Create's
+              containingTemplates.
             suboptions:
               composite:
                 description: Is it composite template.
@@ -62,7 +73,8 @@ options:
                 description: Description of template.
                 type: str
               device_types:
-                description: deviceTypes on which templates would be applied.
+                description: deviceTypes on which templates
+                  would be applied.
                 type: list
                 elements: dict
                 suboptions:
@@ -88,13 +100,16 @@ options:
                 description: Name of template.
                 type: str
               project_name:
-                description: Name of the project under which templates are managed.
+                description: Name of the project under
+                  which templates are managed.
                 type: str
               project_description:
-                description: Description of the project created.
+                description: Description of the project
+                  created.
                 type: str
               rollback_template_params:
-                description: Params required for template rollback.
+                description: Params required for template
+                  rollback.
                 type: list
                 elements: dict
                 suboptions:
@@ -102,16 +117,20 @@ options:
                     description: Bind to source.
                     type: str
                   custom_order:
-                    description: CustomOrder of template param.
+                    description: CustomOrder of template
+                      param.
                     type: int
                   data_type:
-                    description: Datatype of template param.
+                    description: Datatype of template
+                      param.
                     type: str
                   default_value:
-                    description: Default value of template param.
+                    description: Default value of template
+                      param.
                     type: str
                   description:
-                    description: Description of template param.
+                    description: Description of template
+                      param.
                     type: str
                   display_name:
                     description: Display name of param.
@@ -123,7 +142,8 @@ options:
                     description: UUID of template param.
                     type: str
                   instruction_text:
-                    description: Instruction text for param.
+                    description: Instruction text for
+                      param.
                     type: str
                   key:
                     description: Key.
@@ -144,7 +164,8 @@ options:
                     description: Provider.
                     type: str
                   range:
-                    description: Configuration Template Create's range.
+                    description: Configuration Template
+                      Create's range.
                     type: list
                     elements: dict
                     suboptions:
@@ -161,24 +182,28 @@ options:
                     description: Is param required.
                     type: bool
                   selection:
-                    description: Configuration Template Create's selection.
+                    description: Configuration Template
+                      Create's selection.
                     suboptions:
                       default_selected_values:
-                        description: Default selection values.
+                        description: Default selection
+                          values.
                         elements: str
                         type: list
                       id:
                         description: UUID of selection.
                         type: str
                       selection_type:
-                        description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                        description: Type of selection(SINGLE_SELECT
+                          or MULTI_SELECT).
                         type: str
                       selection_values:
                         description: Selection values.
                         type: dict
                     type: dict
               tags:
-                description: Configuration Template Create's tags.
+                description: Configuration Template
+                  Create's tags.
                 suboptions:
                   id:
                     description: UUID of tag.
@@ -192,23 +217,28 @@ options:
                 description: Template content.
                 type: str
               template_params:
-                description: Configuration Template Create's templateParams.
+                description: Configuration Template
+                  Create's templateParams.
                 elements: dict
                 suboptions:
                   binding:
                     description: Bind to source.
                     type: str
                   custom_order:
-                    description: CustomOrder of template param.
+                    description: CustomOrder of template
+                      param.
                     type: int
                   data_type:
-                    description: Datatype of template param.
+                    description: Datatype of template
+                      param.
                     type: str
                   default_value:
-                    description: Default value of template param.
+                    description: Default value of template
+                      param.
                     type: str
                   description:
-                    description: Description of template param.
+                    description: Description of template
+                      param.
                     type: str
                   display_name:
                     description: Display name of param.
@@ -220,7 +250,8 @@ options:
                     description: UUID of template param.
                     type: str
                   instruction_text:
-                    description: Instruction text for param.
+                    description: Instruction text for
+                      param.
                     type: str
                   key:
                     description: Key.
@@ -241,7 +272,8 @@ options:
                     description: Provider.
                     type: str
                   range:
-                    description: Configuration Template Create's range.
+                    description: Configuration Template
+                      Create's range.
                     suboptions:
                       id:
                         description: UUID of range.
@@ -258,17 +290,20 @@ options:
                     description: Is param required.
                     type: bool
                   selection:
-                    description: Configuration Template Create's selection.
+                    description: Configuration Template
+                      Create's selection.
                     suboptions:
                       default_selected_values:
-                        description: Default selection values.
+                        description: Default selection
+                          values.
                         elements: str
                         type: list
                       id:
                         description: UUID of selection.
                         type: str
                       selection_type:
-                        description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                        description: Type of selection(SINGLE_SELECT
+                          or MULTI_SELECT).
                         type: str
                       selection_values:
                         description: Selection values.
@@ -290,8 +325,9 @@ options:
             description: Description of template.
             type: str
           device_types:
-            description: Configuration Template Create's deviceTypes. This field is
-              mandatory to create a new template.
+            description: Configuration Template Create's
+              deviceTypes. This field is mandatory to
+              create a new template.
             suboptions:
               product_family:
                 description: Device family.
@@ -305,7 +341,8 @@ options:
             type: list
             elements: dict
           failure_policy:
-            description: Define failure policy if template provisioning fails.
+            description: Define failure policy if template
+              provisioning fails.
             type: str
           id:
             description: UUID of template.
@@ -323,8 +360,8 @@ options:
             description: Latest versioned template time.
             type: int
           template_name:
-            description: Name of template. This field is mandatory to create a new
-              template.
+            description: Name of template. This field
+              is mandatory to create a new template.
             type: str
           parent_template_id:
             description: Parent templateID.
@@ -342,22 +379,26 @@ options:
             description: Rollback template content.
             type: str
           rollback_template_params:
-            description: Configuration Template Create's rollbackTemplateParams.
+            description: Configuration Template Create's
+              rollbackTemplateParams.
             suboptions:
               binding:
                 description: Bind to source.
                 type: str
               custom_order:
-                description: CustomOrder of template param.
+                description: CustomOrder of template
+                  param.
                 type: int
               data_type:
                 description: Datatype of template param.
                 type: str
               default_value:
-                description: Default value of template param.
+                description: Default value of template
+                  param.
                 type: str
               description:
-                description: Description of template param.
+                description: Description of template
+                  param.
                 type: str
               display_name:
                 description: Display name of param.
@@ -390,7 +431,8 @@ options:
                 description: Provider.
                 type: str
               range:
-                description: Configuration Template Create's range.
+                description: Configuration Template
+                  Create's range.
                 suboptions:
                   id:
                     description: UUID of range.
@@ -407,7 +449,8 @@ options:
                 description: Is param required.
                 type: bool
               selection:
-                description: Configuration Template Create's selection.
+                description: Configuration Template
+                  Create's selection.
                 suboptions:
                   default_selected_values:
                     description: Default selection values.
@@ -417,7 +460,8 @@ options:
                     description: UUID of selection.
                     type: str
                   selection_type:
-                    description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                    description: Type of selection(SINGLE_SELECT
+                      or MULTI_SELECT).
                     type: str
                   selection_values:
                     description: Selection values.
@@ -426,17 +470,21 @@ options:
             type: list
             elements: dict
           software_type:
-            description: Applicable device software type. This field is mandatory
-              to create a new template.
+            description: Applicable device software
+              type. This field is mandatory to create
+              a new template.
             type: str
           software_variant:
-            description: Applicable device software variant.
+            description: Applicable device software
+              variant.
             type: str
           software_version:
-            description: Applicable device software version.
+            description: Applicable device software
+              version.
             type: str
           template_tag:
-            description: Configuration Template Create's tags.
+            description: Configuration Template Create's
+              tags.
             suboptions:
               id:
                 description: UUID of tag.
@@ -450,22 +498,26 @@ options:
             description: Template content.
             type: str
           template_params:
-            description: Configuration Template Create's templateParams.
+            description: Configuration Template Create's
+              templateParams.
             suboptions:
               binding:
                 description: Bind to source.
                 type: str
               custom_order:
-                description: CustomOrder of template param.
+                description: CustomOrder of template
+                  param.
                 type: int
               data_type:
                 description: Datatype of template param.
                 type: str
               default_value:
-                description: Default value of template param.
+                description: Default value of template
+                  param.
                 type: str
               description:
-                description: Description of template param.
+                description: Description of template
+                  param.
                 type: str
               display_name:
                 description: Display name of param.
@@ -498,7 +550,8 @@ options:
                 description: Provider.
                 type: str
               range:
-                description: Configuration Template Create's range.
+                description: Configuration Template
+                  Create's range.
                 suboptions:
                   id:
                     description: UUID of range.
@@ -515,7 +568,8 @@ options:
                 description: Is param required.
                 type: bool
               selection:
-                description: Configuration Template Create's selection.
+                description: Configuration Template
+                  Create's selection.
                 suboptions:
                   default_selected_values:
                     description: Default selection values.
@@ -525,7 +579,8 @@ options:
                     description: UUID of selection.
                     type: str
                   selection_type:
-                    description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                    description: Type of selection(SINGLE_SELECT
+                      or MULTI_SELECT).
                     type: str
                   selection_values:
                     description: Selection values.
@@ -534,14 +589,17 @@ options:
             type: list
             elements: dict
           validation_errors:
-            description: Configuration Template Create's validationErrors.
+            description: Configuration Template Create's
+              validationErrors.
             suboptions:
               rollback_template_errors:
-                description: Validation or design conflicts errors of rollback template.
+                description: Validation or design conflicts
+                  errors of rollback template.
                 elements: dict
                 type: list
               template_errors:
-                description: Validation or design conflicts errors.
+                description: Validation or design conflicts
+                  errors.
                 elements: dict
                 type: list
               template_id:
@@ -571,10 +629,12 @@ options:
             elements: dict
             suboptions:
               project_name:
-                description: Name of the project under the template available.
+                description: Name of the project under
+                  the template available.
                 type: str
               template_name:
-                description: Name of the template which we need to export
+                description: Name of the template which
+                  we need to export
                 type: str
       import:
         description: Import the project/template details.
@@ -585,23 +645,30 @@ options:
             type: dict
             suboptions:
               do_version:
-                description: DoVersion query parameter. If this flag is true, creates
-                  a new version of the template with the imported contents, if the
-                  templates already exists. " If false and if template already exists,
-                  then operation fails with 'Template already exists' error.
+                description: DoVersion query parameter.
+                  If this flag is true, creates a new
+                  version of the template with the imported
+                  contents, if the templates already
+                  exists. " If false and if template
+                  already exists, then operation fails
+                  with 'Template already exists' error.
                 type: bool
           template:
             description: Import the template details.
             type: dict
             suboptions:
               do_version:
-                description: DoVersion query parameter. If this flag is true, creates
-                  a new version of the template with the imported contents, if the
-                  templates already exists. " If false and if template already exists,
-                  then operation fails with 'Template already exists' error.
+                description: DoVersion query parameter.
+                  If this flag is true, creates a new
+                  version of the template with the imported
+                  contents, if the templates already
+                  exists. " If false and if template
+                  already exists, then operation fails
+                  with 'Template already exists' error.
                 type: bool
               payload:
-                description: Configuration Template Import Template's payload.
+                description: Configuration Template
+                  Import Template's payload.
                 elements: dict
                 suboptions:
                   author:
@@ -611,17 +678,21 @@ options:
                     description: Is it composite template.
                     type: bool
                   containing_templates:
-                    description: Configuration Template Import Template's containingTemplates.
+                    description: Configuration Template
+                      Import Template's containingTemplates.
                     elements: dict
                     suboptions:
                       composite:
-                        description: Is it composite template.
+                        description: Is it composite
+                          template.
                         type: bool
                       description:
-                        description: Description of template.
+                        description: Description of
+                          template.
                         type: str
                       device_types:
-                        description: Configuration Template Import Template's deviceTypes.
+                        description: Configuration Template
+                          Import Template's deviceTypes.
                         elements: dict
                         suboptions:
                           product_family:
@@ -638,7 +709,8 @@ options:
                         description: UUID of template.
                         type: str
                       language:
-                        description: Template language (JINJA or VELOCITY).
+                        description: Template language
+                          (JINJA or VELOCITY).
                         type: str
                       name:
                         description: Name of template.
@@ -647,93 +719,115 @@ options:
                         description: Project name.
                         type: str
                       rollback_template_params:
-                        description: Configuration Template Import Template's rollbackTemplateParams.
+                        description: Configuration Template
+                          Import Template's rollbackTemplateParams.
                         elements: dict
                         suboptions:
                           binding:
                             description: Bind to source.
                             type: str
                           custom_order:
-                            description: CustomOrder of template param.
+                            description: CustomOrder
+                              of template param.
                             type: int
                           data_type:
-                            description: Datatype of template param.
+                            description: Datatype of
+                              template param.
                             type: str
                           default_value:
-                            description: Default value of template param.
+                            description: Default value
+                              of template param.
                             type: str
                           description:
-                            description: Description of template param.
+                            description: Description
+                              of template param.
                             type: str
                           display_name:
-                            description: Display name of param.
+                            description: Display name
+                              of param.
                             type: str
                           group:
                             description: Group.
                             type: str
                           id:
-                            description: UUID of template param.
+                            description: UUID of template
+                              param.
                             type: str
                           instruction_text:
-                            description: Instruction text for param.
+                            description: Instruction
+                              text for param.
                             type: str
                           key:
                             description: Key.
                             type: str
                           not_param:
-                            description: Is it not a variable.
+                            description: Is it not a
+                              variable.
                             type: bool
                           order:
-                            description: Order of template param.
+                            description: Order of template
+                              param.
                             type: int
                           param_array:
                             description: Is it an array.
                             type: bool
                           parameter_name:
-                            description: Name of template param.
+                            description: Name of template
+                              param.
                             type: str
                           provider:
                             description: Provider.
                             type: str
                           range:
-                            description: Configuration Template Import Template's
+                            description: Configuration
+                              Template Import Template's
                               range.
                             elements: dict
                             suboptions:
                               id:
-                                description: UUID of range.
+                                description: UUID of
+                                  range.
                                 type: str
                               max_value:
-                                description: Max value of range.
+                                description: Max value
+                                  of range.
                                 type: int
                               min_value:
-                                description: Min value of range.
+                                description: Min value
+                                  of range.
                                 type: int
                             type: list
                           required:
                             description: Is param required.
                             type: bool
                           selection:
-                            description: Configuration Template Import Template's
+                            description: Configuration
+                              Template Import Template's
                               selection.
                             suboptions:
                               default_selected_values:
-                                description: Default selection values.
+                                description: Default
+                                  selection values.
                                 elements: str
                                 type: list
                               id:
-                                description: UUID of selection.
+                                description: UUID of
+                                  selection.
                                 type: str
                               selection_type:
-                                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                                description: Type of
+                                  selection(SINGLE_SELECT
+                                  or MULTI_SELECT).
                                 type: str
                               selection_values:
-                                description: Selection values.
+                                description: Selection
+                                  values.
                                 type: dict
                             type: dict
                         type: list
                       tags:
-                        description: Configuration Template Import Template's tags.
+                        description: Configuration Template
+                          Import Template's tags.
                         elements: dict
                         suboptions:
                           id:
@@ -747,93 +841,115 @@ options:
                         description: Template content.
                         type: str
                       template_params:
-                        description: Configuration Template Import Template's templateParams.
+                        description: Configuration Template
+                          Import Template's templateParams.
                         elements: dict
                         suboptions:
                           binding:
                             description: Bind to source.
                             type: str
                           custom_order:
-                            description: CustomOrder of template param.
+                            description: CustomOrder
+                              of template param.
                             type: int
                           data_type:
-                            description: Datatype of template param.
+                            description: Datatype of
+                              template param.
                             type: str
                           default_value:
-                            description: Default value of template param.
+                            description: Default value
+                              of template param.
                             type: str
                           description:
-                            description: Description of template param.
+                            description: Description
+                              of template param.
                             type: str
                           display_name:
-                            description: Display name of param.
+                            description: Display name
+                              of param.
                             type: str
                           group:
                             description: Group.
                             type: str
                           id:
-                            description: UUID of template param.
+                            description: UUID of template
+                              param.
                             type: str
                           instruction_text:
-                            description: Instruction text for param.
+                            description: Instruction
+                              text for param.
                             type: str
                           key:
                             description: Key.
                             type: str
                           not_param:
-                            description: Is it not a variable.
+                            description: Is it not a
+                              variable.
                             type: bool
                           order:
-                            description: Order of template param.
+                            description: Order of template
+                              param.
                             type: int
                           param_array:
                             description: Is it an array.
                             type: bool
                           parameter_name:
-                            description: Name of template param.
+                            description: Name of template
+                              param.
                             type: str
                           provider:
                             description: Provider.
                             type: str
                           range:
-                            description: Configuration Template Import Template's
+                            description: Configuration
+                              Template Import Template's
                               range.
                             elements: dict
                             suboptions:
                               id:
-                                description: UUID of range.
+                                description: UUID of
+                                  range.
                                 type: str
                               max_value:
-                                description: Max value of range.
+                                description: Max value
+                                  of range.
                                 type: int
                               min_value:
-                                description: Min value of range.
+                                description: Min value
+                                  of range.
                                 type: int
                             type: list
                           required:
                             description: Is param required.
                             type: bool
                           selection:
-                            description: Configuration Template Import Template's
+                            description: Configuration
+                              Template Import Template's
                               selection.
                             suboptions:
                               default_selected_values:
-                                description: Default selection values.
+                                description: Default
+                                  selection values.
                                 elements: str
                                 type: list
                               id:
-                                description: UUID of selection.
+                                description: UUID of
+                                  selection.
                                 type: str
                               selection_type:
-                                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                                description: Type of
+                                  selection(SINGLE_SELECT
+                                  or MULTI_SELECT).
                                 type: str
                               selection_values:
-                                description: Selection values.
+                                description: Selection
+                                  values.
                                 type: dict
                             type: dict
                         type: list
                       version:
-                        description: Current version of template.
+                        description: Current version
+                          of template.
                         type: str
                     type: list
                   create_time:
@@ -846,7 +962,8 @@ options:
                     description: Description of template.
                     type: str
                   device_types:
-                    description: Configuration Template Import Template's deviceTypes.
+                    description: Configuration Template
+                      Import Template's deviceTypes.
                     elements: dict
                     suboptions:
                       product_family:
@@ -860,19 +977,22 @@ options:
                         type: str
                     type: list
                   failure_policy:
-                    description: Define failure policy if template provisioning fails.
+                    description: Define failure policy
+                      if template provisioning fails.
                     type: str
                   id:
                     description: UUID of template.
                     type: str
                   language:
-                    description: Template language (JINJA or VELOCITY).
+                    description: Template language (JINJA
+                      or VELOCITY).
                     type: str
                   last_update_time:
                     description: Update time of template.
                     type: int
                   latest_version_time:
-                    description: Latest versioned template time.
+                    description: Latest versioned template
+                      time.
                     type: int
                   name:
                     description: Name of template.
@@ -890,35 +1010,43 @@ options:
                     description: Rollback template content.
                     type: str
                   rollback_template_params:
-                    description: Configuration Template Import Template's rollbackTemplateParams.
+                    description: Configuration Template
+                      Import Template's rollbackTemplateParams.
                     elements: dict
                     suboptions:
                       binding:
                         description: Bind to source.
                         type: str
                       custom_order:
-                        description: CustomOrder of template param.
+                        description: CustomOrder of
+                          template param.
                         type: int
                       data_type:
-                        description: Datatype of template param.
+                        description: Datatype of template
+                          param.
                         type: str
                       default_value:
-                        description: Default value of template param.
+                        description: Default value of
+                          template param.
                         type: str
                       description:
-                        description: Description of template param.
+                        description: Description of
+                          template param.
                         type: str
                       display_name:
-                        description: Display name of param.
+                        description: Display name of
+                          param.
                         type: str
                       group:
                         description: Group.
                         type: str
                       id:
-                        description: UUID of template param.
+                        description: UUID of template
+                          param.
                         type: str
                       instruction_text:
-                        description: Instruction text for param.
+                        description: Instruction text
+                          for param.
                         type: str
                       key:
                         description: Key.
@@ -927,46 +1055,54 @@ options:
                         description: Is it not a variable.
                         type: bool
                       order:
-                        description: Order of template param.
+                        description: Order of template
+                          param.
                         type: int
                       param_array:
                         description: Is it an array.
                         type: bool
                       parameter_name:
-                        description: Name of template param.
+                        description: Name of template
+                          param.
                         type: str
                       provider:
                         description: Provider.
                         type: str
                       range:
-                        description: Configuration Template Import Template's range.
+                        description: Configuration Template
+                          Import Template's range.
                         elements: dict
                         suboptions:
                           id:
                             description: UUID of range.
                             type: str
                           max_value:
-                            description: Max value of range.
+                            description: Max value of
+                              range.
                             type: int
                           min_value:
-                            description: Min value of range.
+                            description: Min value of
+                              range.
                             type: int
                         type: list
                       required:
                         description: Is param required.
                         type: bool
                       selection:
-                        description: Configuration Template Import Template's selection.
+                        description: Configuration Template
+                          Import Template's selection.
                         suboptions:
                           default_selected_values:
-                            description: Default selection values.
+                            description: Default selection
+                              values.
                             elements: str
                             type: list
                           id:
                             description: UUID of selection.
                             type: str
                           selection_type:
-                            description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                            description: Type of selection(SINGLE_SELECT
+                              or MULTI_SELECT).
                             type: str
                           selection_values:
                             description: Selection values.
@@ -974,16 +1110,20 @@ options:
                         type: dict
                     type: list
                   software_type:
-                    description: Applicable device software type.
+                    description: Applicable device software
+                      type.
                     type: str
                   software_variant:
-                    description: Applicable device software variant.
+                    description: Applicable device software
+                      variant.
                     type: str
                   software_version:
-                    description: Applicable device software version.
+                    description: Applicable device software
+                      version.
                     type: str
                   tags:
-                    description: Configuration Template Import Template's tags.
+                    description: Configuration Template
+                      Import Template's tags.
                     elements: dict
                     suboptions:
                       id:
@@ -997,35 +1137,43 @@ options:
                     description: Template content.
                     type: str
                   template_params:
-                    description: Configuration Template Import Template's templateParams.
+                    description: Configuration Template
+                      Import Template's templateParams.
                     elements: dict
                     suboptions:
                       binding:
                         description: Bind to source.
                         type: str
                       custom_order:
-                        description: CustomOrder of template param.
+                        description: CustomOrder of
+                          template param.
                         type: int
                       data_type:
-                        description: Datatype of template param.
+                        description: Datatype of template
+                          param.
                         type: str
                       default_value:
-                        description: Default value of template param.
+                        description: Default value of
+                          template param.
                         type: str
                       description:
-                        description: Description of template param.
+                        description: Description of
+                          template param.
                         type: str
                       display_name:
-                        description: Display name of param.
+                        description: Display name of
+                          param.
                         type: str
                       group:
                         description: Group.
                         type: str
                       id:
-                        description: UUID of template param.
+                        description: UUID of template
+                          param.
                         type: str
                       instruction_text:
-                        description: Instruction text for param.
+                        description: Instruction text
+                          for param.
                         type: str
                       key:
                         description: Key.
@@ -1034,46 +1182,54 @@ options:
                         description: Is it not a variable.
                         type: bool
                       order:
-                        description: Order of template param.
+                        description: Order of template
+                          param.
                         type: int
                       param_array:
                         description: Is it an array.
                         type: bool
                       parameter_name:
-                        description: Name of template param.
+                        description: Name of template
+                          param.
                         type: str
                       provider:
                         description: Provider.
                         type: str
                       range:
-                        description: Configuration Template Import Template's range.
+                        description: Configuration Template
+                          Import Template's range.
                         elements: dict
                         suboptions:
                           id:
                             description: UUID of range.
                             type: str
                           max_value:
-                            description: Max value of range.
+                            description: Max value of
+                              range.
                             type: int
                           min_value:
-                            description: Min value of range.
+                            description: Min value of
+                              range.
                             type: int
                         type: list
                       required:
                         description: Is param required.
                         type: bool
                       selection:
-                        description: Configuration Template Import Template's selection.
+                        description: Configuration Template
+                          Import Template's selection.
                         suboptions:
                           default_selected_values:
-                            description: Default selection values.
+                            description: Default selection
+                              values.
                             elements: str
                             type: list
                           id:
                             description: UUID of selection.
                             type: str
                           selection_type:
-                            description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                            description: Type of selection(SINGLE_SELECT
+                              or MULTI_SELECT).
                             type: str
                           selection_values:
                             description: Selection values.
@@ -1081,48 +1237,61 @@ options:
                         type: dict
                     type: list
                   validation_errors:
-                    description: Configuration Template Import Template's validationErrors.
+                    description: Configuration Template
+                      Import Template's validationErrors.
                     suboptions:
                       rollback_template_errors:
-                        description: Validation or design conflicts errors of rollback
+                        description: Validation or design
+                          conflicts errors of rollback
                           template.
                         type: dict
                       template_errors:
-                        description: Validation or design conflicts errors.
+                        description: Validation or design
+                          conflicts errors.
                         type: dict
                       template_id:
                         description: UUID of template.
                         type: str
                       template_version:
-                        description: Current version of template.
+                        description: Current version
+                          of template.
                         type: str
                     type: dict
                   version:
-                    description: Current version of template.
+                    description: Current version of
+                      template.
                     type: str
                 type: list
               project_name:
-                description: ProjectName path parameter. Project name to create template
-                  under the project.
+                description: ProjectName path parameter.
+                  Project name to create template under
+                  the project.
                 type: str
 requirements:
   - dnacentersdk == 2.4.5
   - python >= 3.9
 notes:
-  - SDK Method used are configuration_templates.ConfigurationTemplates.create_template,
-    configuration_templates.ConfigurationTemplates.deletes_the_template, configuration_templates.ConfigurationTemplates.update_template,
-    configuration_templates.ConfigurationTemplates.export_projects, configuration_templates.ConfigurationTemplates.export_templates,
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.create_template,
+    configuration_templates.ConfigurationTemplates.deletes_the_template,
+    configuration_templates.ConfigurationTemplates.update_template,
+    configuration_templates.ConfigurationTemplates.export_projects,
+    configuration_templates.ConfigurationTemplates.export_templates,
     configuration_templates.ConfigurationTemplates.imports_the_projects_provided,
     configuration_templates.ConfigurationTemplates.imports_the_templates_provided,
-  - Paths used are post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
-    delete /dna/intent/api/v1/template-programmer/template/{templateId}, put /dna/intent/api/v1/template-programmer/template,
-    post /dna/intent/api/v1/template-programmer/project/name/exportprojects, post
-    /dna/intent/api/v1/template-programmer/template/exporttemplates, post /dna/intent/api/v1/template-programmer/project/importprojects,
-    post
-    /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
+  - Paths used are
+    post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
+    delete /dna/intent/api/v1/template-programmer/template/{templateId},
+    put /dna/intent/api/v1/template-programmer/template,
+    post /dna/intent/api/v1/template-programmer/project/name/exportprojects,
+    post /dna/intent/api/v1/template-programmer/template/exporttemplates,
+    post /dna/intent/api/v1/template-programmer/project/importprojects,
+    post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
 """
 EXAMPLES = r"""
-- name: Create a new template, export and import the project and template.
+---
+- name: Create a new template, export and import the
+    project and template.
   cisco.dnac.template_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -1302,7 +1471,7 @@ class DnacTemplate(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.accepted_languages = ["JINJA", "VELOCITY"]
         self.export_template = []
-        self.result['response'].append({})
+        self.result["response"].append({})
 
     def validate_input(self):
         """
@@ -1331,116 +1500,118 @@ class DnacTemplate(DnacBase):
 
         temp_spec = {
             "configuration_templates": {
-                'type': 'dict',
-                'tags': {'type': 'list'},
-                'author': {'type': 'str'},
-                'composite': {'type': 'bool'},
-                'containing_templates': {'type': 'list'},
-                'create_time': {'type': 'int'},
-                'custom_params_order': {'type': 'bool'},
-                'description': {'type': 'str'},
-                'device_types': {
-                    'type': 'list',
-                    'elements': 'dict',
-                    'product_family': {'type': 'str'},
-                    'product_series': {'type': 'str'},
-                    'product_type': {'type': 'str'},
+                "type": "dict",
+                "tags": {"type": "list"},
+                "author": {"type": "str"},
+                "composite": {"type": "bool"},
+                "containing_templates": {"type": "list"},
+                "create_time": {"type": "int"},
+                "custom_params_order": {"type": "bool"},
+                "description": {"type": "str"},
+                "device_types": {
+                    "type": "list",
+                    "elements": "dict",
+                    "product_family": {"type": "str"},
+                    "product_series": {"type": "str"},
+                    "product_type": {"type": "str"},
                 },
-                'failure_policy': {'type': 'str'},
-                'id': {'type': 'str'},
-                'language': {'type': 'str'},
-                'last_update_time': {'type': 'int'},
-                'latest_version_time': {'type': 'int'},
-                'name': {'type': 'str'},
-                'parent_template_id': {'type': 'str'},
-                'project_id': {'type': 'str'},
-                'project_name': {'type': 'str'},
-                'project_description': {'type': 'str'},
-                'rollback_template_content': {'type': 'str'},
-                'rollback_template_params': {'type': 'list'},
-                'software_type': {'type': 'str'},
-                'software_variant': {'type': 'str'},
-                'software_version': {'type': 'str'},
-                'template_content': {'type': 'str'},
-                'template_params': {'type': 'list'},
-                'template_name': {'type': 'str'},
-                'validation_errors': {'type': 'dict'},
-                'version': {'type': 'str'},
-                'version_description': {'type': 'str'}
+                "failure_policy": {"type": "str"},
+                "id": {"type": "str"},
+                "language": {"type": "str"},
+                "last_update_time": {"type": "int"},
+                "latest_version_time": {"type": "int"},
+                "name": {"type": "str"},
+                "parent_template_id": {"type": "str"},
+                "project_id": {"type": "str"},
+                "project_name": {"type": "str"},
+                "project_description": {"type": "str"},
+                "rollback_template_content": {"type": "str"},
+                "rollback_template_params": {"type": "list"},
+                "software_type": {"type": "str"},
+                "software_variant": {"type": "str"},
+                "software_version": {"type": "str"},
+                "template_content": {"type": "str"},
+                "template_params": {"type": "list"},
+                "template_name": {"type": "str"},
+                "validation_errors": {"type": "dict"},
+                "version": {"type": "str"},
+                "version_description": {"type": "str"},
             },
-            'export': {
-                'type': 'dict',
-                'project': {'type': 'list', 'elements': 'str'},
-                'template': {
-                    'type': 'list',
-                    'elements': 'dict',
-                    'project_name': {'type': 'str'},
-                    'template_name': {'type': 'str'}
-                }
-            },
-            'import': {
-                'type': 'dict',
-                'project': {
-                    'type': 'dict',
-                    'do_version': {'type': 'str', 'default': 'False'},
+            "export": {
+                "type": "dict",
+                "project": {"type": "list", "elements": "str"},
+                "template": {
+                    "type": "list",
+                    "elements": "dict",
+                    "project_name": {"type": "str"},
+                    "template_name": {"type": "str"},
                 },
-                'template': {
-                    'type': 'dict',
-                    'do_version': {'type': 'str', 'default': 'False'},
-                    'payload': {
-                        'type': 'list',
-                        'elements': 'dict',
-                        'tags': {'type': 'list'},
-                        'author': {'type': 'str'},
-                        'composite': {'type': 'bool'},
-                        'containing_templates': {'type': 'list'},
-                        'create_time': {'type': 'int'},
-                        'custom_params_order': {'type': 'bool'},
-                        'description': {'type': 'str'},
-                        'device_types': {
-                            'type': 'list',
-                            'elements': 'dict',
-                            'product_family': {'type': 'str'},
-                            'product_series': {'type': 'str'},
-                            'product_type': {'type': 'str'},
+            },
+            "import": {
+                "type": "dict",
+                "project": {
+                    "type": "dict",
+                    "do_version": {"type": "str", "default": "False"},
+                },
+                "template": {
+                    "type": "dict",
+                    "do_version": {"type": "str", "default": "False"},
+                    "payload": {
+                        "type": "list",
+                        "elements": "dict",
+                        "tags": {"type": "list"},
+                        "author": {"type": "str"},
+                        "composite": {"type": "bool"},
+                        "containing_templates": {"type": "list"},
+                        "create_time": {"type": "int"},
+                        "custom_params_order": {"type": "bool"},
+                        "description": {"type": "str"},
+                        "device_types": {
+                            "type": "list",
+                            "elements": "dict",
+                            "product_family": {"type": "str"},
+                            "product_series": {"type": "str"},
+                            "product_type": {"type": "str"},
                         },
-                        'failure_policy': {'type': 'str'},
-                        'id': {'type': 'str'},
-                        'language': {'type': 'str'},
-                        'last_update_time': {'type': 'int'},
-                        'latest_version_time': {'type': 'int'},
-                        'name': {'type': 'str'},
-                        'parent_template_id': {'type': 'str'},
-                        'project_id': {'type': 'str'},
-                        'project_name': {'type': 'str'},
-                        'project_description': {'type': 'str'},
-                        'rollback_template_content': {'type': 'str'},
-                        'rollback_template_params': {'type': 'list'},
-                        'software_type': {'type': 'str'},
-                        'software_variant': {'type': 'str'},
-                        'software_version': {'type': 'str'},
-                        'template_content': {'type': 'str'},
-                        'template_params': {'type': 'list'},
-                        'template_name': {'type': 'str'},
-                        'validation_errors': {'type': 'dict'},
-                        'version': {'type': 'str'}
-                    }
-                }
-            }
+                        "failure_policy": {"type": "str"},
+                        "id": {"type": "str"},
+                        "language": {"type": "str"},
+                        "last_update_time": {"type": "int"},
+                        "latest_version_time": {"type": "int"},
+                        "name": {"type": "str"},
+                        "parent_template_id": {"type": "str"},
+                        "project_id": {"type": "str"},
+                        "project_name": {"type": "str"},
+                        "project_description": {"type": "str"},
+                        "rollback_template_content": {"type": "str"},
+                        "rollback_template_params": {"type": "list"},
+                        "software_type": {"type": "str"},
+                        "software_variant": {"type": "str"},
+                        "software_version": {"type": "str"},
+                        "template_content": {"type": "str"},
+                        "template_params": {"type": "list"},
+                        "template_name": {"type": "str"},
+                        "validation_errors": {"type": "dict"},
+                        "version": {"type": "str"},
+                    },
+                },
+            },
         }
         # Validate template params
         self.config = self.camel_to_snake_case(self.config)
-        valid_temp, invalid_params = validate_list_of_dicts(
-            self.config, temp_spec
-        )
+        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
-                "\n".join(invalid_params))
+                "\n".join(invalid_params)
+            )
             self.status = "failed"
             return self
 
         self.validated_config = valid_temp
-        self.log("Successfully validated playbook config params: {0}".format(valid_temp), "INFO")
+        self.log(
+            "Successfully validated playbook config params: {0}".format(valid_temp),
+            "INFO",
+        )
         self.msg = "Successfully validated input"
         self.status = "success"
         return self
@@ -1456,9 +1627,10 @@ class DnacTemplate(DnacBase):
             project_params (dict) - Organized Project parameters.
         """
 
-        project_params = {"name": params.get("project_name"),
-                          "description": params.get("project_description")
-                          }
+        project_params = {
+            "name": params.get("project_name"),
+            "description": params.get("project_description"),
+        }
         return project_params
 
     def get_tags(self, _tags):
@@ -1548,27 +1720,21 @@ class DnacTemplate(DnacBase):
         validationErrors = {}
         rollback_template_errors = validation_errors.get("rollback_template_errors")
         if rollback_template_errors is not None:
-            validationErrors.update({
-                "rollbackTemplateErrors": rollback_template_errors
-            })
+            validationErrors.update(
+                {"rollbackTemplateErrors": rollback_template_errors}
+            )
 
         template_errors = validation_errors.get("template_errors")
         if template_errors is not None:
-            validationErrors.update({
-                "templateErrors": template_errors
-            })
+            validationErrors.update({"templateErrors": template_errors})
 
         template_id = validation_errors.get("template_id")
         if template_id is not None:
-            validationErrors.update({
-                "templateId": template_id
-            })
+            validationErrors.update({"templateId": template_id})
 
         template_version = validation_errors.get("template_version")
         if template_version is not None:
-            validationErrors.update({
-                "templateVersion": template_version
-            })
+            validationErrors.update({"templateVersion": template_version})
 
         return validationErrors
 
@@ -1654,7 +1820,13 @@ class DnacTemplate(DnacBase):
                 return self.check_return_status()
 
             data_type = item.get("data_type")
-            datatypes = ["STRING", "INTEGER", "IPADDRESS", "MACADDRESS", "SECTIONDIVIDER"]
+            datatypes = [
+                "STRING",
+                "INTEGER",
+                "IPADDRESS",
+                "MACADDRESS",
+                "SECTIONDIVIDER",
+            ]
             if data_type is not None:
                 templateParams[i].update({"dataType": data_type})
             else:
@@ -1662,7 +1834,9 @@ class DnacTemplate(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
             if data_type not in datatypes:
-                self.msg = "data_type under template_params should be in " + str(datatypes)
+                self.msg = "data_type under template_params should be in " + str(
+                    datatypes
+                )
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1686,14 +1860,18 @@ class DnacTemplate(DnacBase):
                     if max_value is not None:
                         _range[j].update({"maxValue": max_value})
                     else:
-                        self.msg = "max_value is mandatory for range under template_params"
+                        self.msg = (
+                            "max_value is mandatory for range under template_params"
+                        )
                         self.status = "failed"
                         return self.check_return_status()
                     min_value = value.get("min_value")
                     if min_value is not None:
                         _range[j].update({"maxValue": min_value})
                     else:
-                        self.msg = "min_value is mandatory for range under template_params"
+                        self.msg = (
+                            "min_value is mandatory for range under template_params"
+                        )
                         self.status = "failed"
                         return self.check_return_status()
                     j = j + 1
@@ -1709,7 +1887,9 @@ class DnacTemplate(DnacBase):
                     _selection.update({"id": id})
                 default_selected_values = selection.get("default_selected_values")
                 if default_selected_values is not None:
-                    _selection.update({"defaultSelectedValues": default_selected_values})
+                    _selection.update(
+                        {"defaultSelectedValues": default_selected_values}
+                    )
                 selection_values = selection.get("selection_values")
                 if selection_values is not None:
                     _selection.update({"selectionValues": selection_values})
@@ -1754,9 +1934,9 @@ class DnacTemplate(DnacBase):
 
             device_types = item.get("device_types")
             if device_types is not None:
-                containingTemplates[i].update({
-                    "deviceTypes": self.get_device_types(device_types)
-                })
+                containingTemplates[i].update(
+                    {"deviceTypes": self.get_device_types(device_types)}
+                )
 
             id = item.get("id")
             if id is not None:
@@ -1778,7 +1958,9 @@ class DnacTemplate(DnacBase):
 
             language_list = ["JINJA", "VELOCITY"]
             if language not in language_list:
-                self.msg = "language under containing templates should be in " + str(language_list)
+                self.msg = "language under containing templates should be in " + str(
+                    language_list
+                )
                 self.status = "failed"
                 return self.check_return_status()
 
@@ -1794,9 +1976,13 @@ class DnacTemplate(DnacBase):
 
             rollback_template_params = item.get("rollback_template_params")
             if rollback_template_params is not None:
-                containingTemplates[i].update({
-                    "rollbackTemplateParams": self.get_template_info(rollback_template_params)
-                })
+                containingTemplates[i].update(
+                    {
+                        "rollbackTemplateParams": self.get_template_info(
+                            rollback_template_params
+                        )
+                    }
+                )
 
             template_content = item.get("template_content")
             if template_content is not None:
@@ -1804,9 +1990,9 @@ class DnacTemplate(DnacBase):
 
             template_params = item.get("template_params")
             if template_params is not None:
-                containingTemplates[i].update({
-                    "templateParams": self.get_template_info(template_params)
-                })
+                containingTemplates[i].update(
+                    {"templateParams": self.get_template_info(template_params)}
+                )
 
             version = item.get("version")
             if version is not None:
@@ -1830,13 +2016,13 @@ class DnacTemplate(DnacBase):
             "tags": self.get_tags(params.get("template_tag")),
             "author": params.get("author"),
             "composite": params.get("composite"),
-            "containingTemplates":
-                self.get_containing_templates(params.get("containing_templates")),
+            "containingTemplates": self.get_containing_templates(
+                params.get("containing_templates")
+            ),
             "createTime": params.get("create_time"),
             "customParamsOrder": params.get("custom_params_order"),
             "description": params.get("template_description"),
-            "deviceTypes":
-                self.get_device_types(params.get("device_types")),
+            "deviceTypes": self.get_device_types(params.get("device_types")),
             "failurePolicy": params.get("failure_policy"),
             "id": params.get("id"),
             "language": params.get("language").upper(),
@@ -1847,18 +2033,19 @@ class DnacTemplate(DnacBase):
             "projectId": params.get("project_id"),
             "projectName": params.get("project_name"),
             "rollbackTemplateContent": params.get("rollback_template_content"),
-            "rollbackTemplateParams":
-                self.get_template_info(params.get("rollback_template_params")),
+            "rollbackTemplateParams": self.get_template_info(
+                params.get("rollback_template_params")
+            ),
             "softwareType": params.get("software_type"),
             "softwareVariant": params.get("software_variant"),
             "softwareVersion": params.get("software_version"),
             "templateContent": params.get("template_content"),
-            "templateParams":
-                self.get_template_info(params.get("template_params")),
-            "validationErrors":
-                self.get_validation_errors(params.get("validation_errors")),
+            "templateParams": self.get_template_info(params.get("template_params")),
+            "validationErrors": self.get_validation_errors(
+                params.get("validation_errors")
+            ),
             "version": params.get("version"),
-            "project_id": params.get("project_id")
+            "project_id": params.get("project_id"),
         }
         self.log("Formatted template params details: {0}".format(temp_params), "DEBUG")
         copy_temp_params = copy.deepcopy(temp_params)
@@ -1880,17 +2067,20 @@ class DnacTemplate(DnacBase):
         """
 
         result = None
-        items = self.dnac_apply['exec'](
+        items = self.dnac_apply["exec"](
             family="configuration_templates",
             function="get_template_details",
             op_modifies=True,
-            params={"template_id": config.get("templateId")}
+            params={"template_id": config.get("templateId")},
         )
         if items:
             result = items
 
-        self.log("Received API response from 'get_template_details': {0}".format(items), "DEBUG")
-        self.result['response'] = items
+        self.log(
+            "Received API response from 'get_template_details': {0}".format(items),
+            "DEBUG",
+        )
+        self.result["response"] = items
         return result
 
     def get_have_project(self, config):
@@ -1913,17 +2103,25 @@ class DnacTemplate(DnacBase):
         # DNAC returns project details even if the substring matches.
         # Hence check the projectName retrieved from DNAC.
         if not (project_details and isinstance(project_details, list)):
-            self.log("Project: {0} not found, need to create new project in DNAC"
-                     .format(given_projectName), "INFO")
+            self.log(
+                "Project: {0} not found, need to create new project in DNAC".format(
+                    given_projectName
+                ),
+                "INFO",
+            )
             return None
 
-        fetched_projectName = project_details[0].get('name')
+        fetched_projectName = project_details[0].get("name")
         if fetched_projectName != given_projectName:
-            self.log("Project {0} provided is not exact match in DNAC DB"
-                     .format(given_projectName), "INFO")
+            self.log(
+                "Project {0} provided is not exact match in DNAC DB".format(
+                    given_projectName
+                ),
+                "INFO",
+            )
             return None
 
-        template_available = project_details[0].get('templates')
+        template_available = project_details[0].get("templates")
         have_project["project_found"] = True
         have_project["id"] = project_details[0].get("id")
         have_project["isDeletable"] = project_details[0].get("isDeletable")
@@ -1951,21 +2149,25 @@ class DnacTemplate(DnacBase):
         have_template["isCommitPending"] = False
         have_template["template_found"] = False
 
-        template_details = get_dict_result(template_available,
-                                           "name",
-                                           templateName)
+        template_details = get_dict_result(template_available, "name", templateName)
         # Check if specified template in playbook is available
         if not template_details:
-            self.log("Template {0} not found in project {1}"
-                     .format(templateName, projectName), "INFO")
-            self.msg = "Template : {0} missing, new template to be created".format(templateName)
+            self.log(
+                "Template {0} not found in project {1}".format(
+                    templateName, projectName
+                ),
+                "INFO",
+            )
+            self.msg = "Template : {0} missing, new template to be created".format(
+                templateName
+            )
             self.status = "success"
             return self
 
         config["templateId"] = template_details.get("id")
         have_template["id"] = template_details.get("id")
         # Get available templates which are committed under the project
-        template_list = self.dnac_apply['exec'](
+        template_list = self.dnac_apply["exec"](
             family="configuration_templates",
             function="gets_the_templates_available",
             op_modifies=True,
@@ -1974,25 +2176,32 @@ class DnacTemplate(DnacBase):
         have_template["isCommitPending"] = True
         # This check will fail if specified template is there not committed in dnac
         if template_list and isinstance(template_list, list):
-            template_info = get_dict_result(template_list,
-                                            "name",
-                                            templateName)
+            template_info = get_dict_result(template_list, "name", templateName)
             if template_info:
                 template = self.get_template(config)
                 have_template["template"] = template
                 have_template["isCommitPending"] = False
-                have_template["template_found"] = template is not None \
-                    and isinstance(template, dict)
-                self.log("Template {0} is found and template "
-                         "details are :{1}".format(templateName, str(template)), "INFO")
+                have_template["template_found"] = template is not None and isinstance(
+                    template, dict
+                )
+                self.log(
+                    "Template {0} is found and template "
+                    "details are :{1}".format(templateName, str(template)),
+                    "INFO",
+                )
 
         # There are committed templates in the project but the
         # one specified in the playbook may not be committed
-        self.log("Commit pending for template name {0}"
-                 " is {1}".format(templateName, have_template.get('isCommitPending')), "INFO")
+        self.log(
+            "Commit pending for template name {0}"
+            " is {1}".format(templateName, have_template.get("isCommitPending")),
+            "INFO",
+        )
 
         self.have_template = have_template
-        self.msg = "Successfully collected all template parameters from dnac for comparison"
+        self.msg = (
+            "Successfully collected all template parameters from dnac for comparison"
+        )
         self.status = "success"
         return self
 
@@ -2032,9 +2241,9 @@ class DnacTemplate(DnacBase):
             items (dict) - Project details with given project name.
         """
 
-        items = self.dnac_apply['exec'](
+        items = self.dnac_apply["exec"](
             family="configuration_templates",
-            function='get_projects',
+            function="get_projects",
             op_modifies=True,
             params={"name": projectName},
         )
@@ -2068,8 +2277,9 @@ class DnacTemplate(DnacBase):
             want["comments"] = version_comments
 
         self.want = want
-        self.msg = "Successfully collected all parameters from playbook " + \
-                   "for comparison"
+        self.msg = (
+            "Successfully collected all parameters from playbook " + "for comparison"
+        )
         self.status = "success"
         return self
 
@@ -2093,47 +2303,67 @@ class DnacTemplate(DnacBase):
 
         if is_create_project:
             params_key = project_params
-            name = "project: {0}".format(project_params.get('name'))
+            name = "project: {0}".format(project_params.get("name"))
             validation_string = "Successfully created project"
             creation_value = "create_project"
         else:
             params_key = template_params
-            name = "template: {0}".format(template_params.get('name'))
+            name = "template: {0}".format(template_params.get("name"))
             validation_string = "Successfully created template"
             creation_value = "create_template"
 
-        response = self.dnac_apply['exec'](
+        response = self.dnac_apply["exec"](
             family="configuration_templates",
             function=creation_value,
             op_modifies=True,
             params=params_key,
         )
         if not isinstance(response, dict):
-            self.log("Response of '{0}' is not in dictionary format."
-                     .format(creation_value), "CRITICAL")
+            self.log(
+                "Response of '{0}' is not in dictionary format.".format(creation_value),
+                "CRITICAL",
+            )
             return creation_id, created
 
         task_id = response.get("response").get("taskId")
         if not task_id:
-            self.log("Task id {0} not found for '{1}'.".format(task_id, creation_value), "CRITICAL")
+            self.log(
+                "Task id {0} not found for '{1}'.".format(task_id, creation_value),
+                "CRITICAL",
+            )
             return creation_id, created
 
         while not created:
             task_details = self.get_task_details(task_id)
             if not task_details:
-                self.log("Failed to get task details of '{0}' for taskid: {1}"
-                         .format(creation_value, task_id), "CRITICAL")
+                self.log(
+                    "Failed to get task details of '{0}' for taskid: {1}".format(
+                        creation_value, task_id
+                    ),
+                    "CRITICAL",
+                )
                 return creation_id, created
 
-            self.log("Task details for {0}: {1}".format(creation_value, task_details), "DEBUG")
+            self.log(
+                "Task details for {0}: {1}".format(creation_value, task_details),
+                "DEBUG",
+            )
             if task_details.get("isError"):
-                self.log("Error occurred for '{0}' with taskid: {1}"
-                         .format(creation_value, task_id), "ERROR")
+                self.log(
+                    "Error occurred for '{0}' with taskid: {1}".format(
+                        creation_value, task_id
+                    ),
+                    "ERROR",
+                )
                 return creation_id, created
 
             if validation_string not in task_details.get("progress"):
-                self.log("'{0}' progress set to {1} for taskid: {2}"
-                         .format(creation_value, task_details.get('progress'), task_id), "DEBUG")
+                self.log(
+                    "'{0}' progress set to {1} for taskid: {2}".format(
+                        creation_value, task_details.get("progress"), task_id
+                    ),
+                    "DEBUG",
+                )
                 continue
 
             task_details_data = task_details.get("data")
@@ -2143,8 +2373,12 @@ class DnacTemplate(DnacBase):
             else:
                 creation_id = value.get("templateId")
             if not creation_id:
-                self.log("Export data is not found for '{0}' with taskid : {1}"
-                         .format(creation_value, task_id), "DEBUG")
+                self.log(
+                    "Export data is not found for '{0}' with taskid : {1}".format(
+                        creation_value, task_id
+                    ),
+                    "DEBUG",
+                )
                 continue
 
             created = True
@@ -2171,8 +2405,12 @@ class DnacTemplate(DnacBase):
         """
 
         if self.have_template.get("isCommitPending"):
-            self.log("Template '{0}' is in saved state and needs to be updated and committed."
-                     .format(self.have_template.get("template").get("name")), "DEBUG")
+            self.log(
+                "Template '{0}' is in saved state and needs to be updated and committed.".format(
+                    self.have_template.get("template").get("name")
+                ),
+                "DEBUG",
+            )
             return True
 
         current_obj = self.have_template.get("template")
@@ -2208,9 +2446,12 @@ class DnacTemplate(DnacBase):
             ("version", "version", ""),
         ]
 
-        return any(not dnac_compare_equality(current_obj.get(dnac_param, default),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param, default) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param, default), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param, default) in obj_params
+        )
 
     def update_mandatory_parameters(self, template_params):
         """
@@ -2229,14 +2470,17 @@ class DnacTemplate(DnacBase):
         template_params["project_id"] = self.have_project.get("id")
         # Update language,deviceTypes and softwareType if not provided for existing template.
         if not template_params.get("language"):
-            template_params["language"] = self.have_template.get('template') \
-                .get('language')
+            template_params["language"] = self.have_template.get("template").get(
+                "language"
+            )
         if not template_params.get("deviceTypes"):
-            template_params["deviceTypes"] = self.have_template.get('template') \
-                .get('deviceTypes')
+            template_params["deviceTypes"] = self.have_template.get("template").get(
+                "deviceTypes"
+            )
         if not template_params.get("softwareType"):
-            template_params["softwareType"] = self.have_template.get('template') \
-                .get('softwareType')
+            template_params["softwareType"] = self.have_template.get("template").get(
+                "softwareType"
+            )
 
     def validate_input_merge(self, template_exists):
         """
@@ -2257,17 +2501,21 @@ class DnacTemplate(DnacBase):
         language = template_params.get("language").upper()
         if language:
             if language not in self.accepted_languages:
-                self.msg = "Invalid value language {0} ." \
-                           "Accepted language values are {1}" \
-                           .format(self.accepted_languages, language)
+                self.msg = (
+                    "Invalid value language {0} ."
+                    "Accepted language values are {1}".format(
+                        self.accepted_languages, language
+                    )
+                )
                 self.status = "failed"
                 return self
         else:
             template_params["language"] = "JINJA"
 
         if not template_exists:
-            if not template_params.get("deviceTypes") \
-               or not template_params.get("softwareType"):
+            if not template_params.get("deviceTypes") or not template_params.get(
+                "softwareType"
+            ):
                 self.msg = "DeviceTypes and SoftwareType are required arguments to create Templates"
                 self.status = "failed"
                 return self
@@ -2288,28 +2536,41 @@ class DnacTemplate(DnacBase):
         """
 
         template_details = self.dnac._exec(
-            family="configuration_templates",
-            function='get_projects_details'
+            family="configuration_templates", function="get_projects_details"
         )
         for values in export_values:
             project_name = values.get("project_name")
-            self.log("Project name for export template: {0}".format(project_name), "DEBUG")
+            self.log(
+                "Project name for export template: {0}".format(project_name), "DEBUG"
+            )
             template_details = template_details.get("response")
             self.log("Template details: {0}".format(template_details), "DEBUG")
-            all_template_details = get_dict_result(template_details,
-                                                   "name",
-                                                   project_name)
-            self.log("Template details under the project name {0}: {1}"
-                     .format(project_name, all_template_details), "DEBUG")
+            all_template_details = get_dict_result(
+                template_details, "name", project_name
+            )
+            self.log(
+                "Template details under the project name {0}: {1}".format(
+                    project_name, all_template_details
+                ),
+                "DEBUG",
+            )
             all_template_details = all_template_details.get("templates")
-            self.log("Template details under the project name {0}: {1}"
-                     .format(project_name, all_template_details), "DEBUG")
+            self.log(
+                "Template details under the project name {0}: {1}".format(
+                    project_name, all_template_details
+                ),
+                "DEBUG",
+            )
             template_name = values.get("template_name")
-            template_detail = get_dict_result(all_template_details,
-                                              "name",
-                                              template_name)
-            self.log("Template details with template name {0}: {1}"
-                     .format(template_name, template_detail), "DEBUG")
+            template_detail = get_dict_result(
+                all_template_details, "name", template_name
+            )
+            self.log(
+                "Template details with template name {0}: {1}".format(
+                    template_name, template_detail
+                ),
+                "DEBUG",
+            )
             if template_detail is None:
                 self.msg = "Invalid project_name and template_name in export"
                 self.status = "failed"
@@ -2335,10 +2596,14 @@ class DnacTemplate(DnacBase):
         if configuration_templates:
             is_project_found = self.have_project.get("project_found")
             if not is_project_found:
-                project_id, project_created = \
-                    self.create_project_or_template(is_create_project=True)
+                project_id, project_created = self.create_project_or_template(
+                    is_create_project=True
+                )
                 if project_created:
-                    self.log("project created with projectId: {0}".format(project_id), "DEBUG")
+                    self.log(
+                        "project created with projectId: {0}".format(project_id),
+                        "DEBUG",
+                    )
                 else:
                     self.status = "failed"
                     self.msg = "Project creation failed"
@@ -2347,7 +2612,9 @@ class DnacTemplate(DnacBase):
             is_template_found = self.have_template.get("template_found")
             template_params = self.want.get("template_params")
             self.log("Desired template details: {0}".format(template_params), "DEBUG")
-            self.log("Current template details: {0}".format(self.have_template), "DEBUG")
+            self.log(
+                "Current template details: {0}".format(self.have_template), "DEBUG"
+            )
             template_id = None
             template_updated = False
             self.validate_input_merge(is_template_found).check_return_status()
@@ -2355,23 +2622,31 @@ class DnacTemplate(DnacBase):
                 if self.requires_update():
                     template_id = self.have_template.get("id")
                     template_params.update({"id": template_id})
-                    self.log("Current State (have): {0}".format(self.have_template), "INFO")
+                    self.log(
+                        "Current State (have): {0}".format(self.have_template), "INFO"
+                    )
                     self.log("Desired State (want): {0}".format(self.want), "INFO")
-                    response = self.dnac_apply['exec'](
+                    response = self.dnac_apply["exec"](
                         family="configuration_templates",
                         function="update_template",
                         op_modifies=True,
                         params=template_params,
                     )
                     template_updated = True
-                    self.log("Updating existing template '{0}'."
-                             .format(self.have_template.get("template").get("name")), "INFO")
+                    self.log(
+                        "Updating existing template '{0}'.".format(
+                            self.have_template.get("template").get("name")
+                        ),
+                        "INFO",
+                    )
                 else:
                     # Template does not need update
-                    self.result.update({
-                        'response': self.have_template.get("template"),
-                        'msg': "Template does not need update"
-                    })
+                    self.result.update(
+                        {
+                            "response": self.have_template.get("template"),
+                            "msg": "Template does not need update",
+                        }
+                    )
                     self.status = "exited"
                     return self
             else:
@@ -2386,13 +2661,13 @@ class DnacTemplate(DnacBase):
                 # Template needs to be versioned
                 version_params = {
                     "comments": self.want.get("comments"),
-                    "templateId": template_id
+                    "templateId": template_id,
                 }
-                response = self.dnac_apply['exec'](
+                response = self.dnac_apply["exec"](
                     family="configuration_templates",
                     function="version_template",
                     op_modifies=True,
-                    params=version_params
+                    params=version_params,
                 )
                 task_id = response.get("response").get("taskId")
                 if not task_id:
@@ -2400,13 +2675,16 @@ class DnacTemplate(DnacBase):
                     self.status = "failed"
                     return self
                 task_details = self.get_task_details(task_id)
-                self.result['changed'] = True
-                self.result['msg'] = task_details.get('progress')
-                self.result['diff'] = config.get("configuration_templates")
-                self.log("Task details for 'version_template': {0}".format(task_details), "DEBUG")
-                self.result['response'] = task_details if task_details else response
+                self.result["changed"] = True
+                self.result["msg"] = task_details.get("progress")
+                self.result["diff"] = config.get("configuration_templates")
+                self.log(
+                    "Task details for 'version_template': {0}".format(task_details),
+                    "DEBUG",
+                )
+                self.result["response"] = task_details if task_details else response
 
-                if not self.result.get('msg'):
+                if not self.result.get("msg"):
                     self.msg = "Error while versioning the template"
                     self.status = "failed"
                     return self
@@ -2425,37 +2703,42 @@ class DnacTemplate(DnacBase):
         export = config.get("export")
         if export:
             export_project = export.get("project")
-            self.log("Export project playbook details: {0}"
-                     .format(export_project), "DEBUG")
+            self.log(
+                "Export project playbook details: {0}".format(export_project), "DEBUG"
+            )
             if export_project:
                 response = self.dnac._exec(
                     family="configuration_templates",
-                    function='export_projects',
+                    function="export_projects",
                     op_modifies=True,
                     params={"payload": export_project},
                 )
                 validation_string = "successfully exported project"
-                self.check_task_response_status(response,
-                                                validation_string,
-                                                True).check_return_status()
-                self.result['response'][0].update({"exportProject": self.msg})
+                self.check_task_response_status(
+                    response, validation_string, True
+                ).check_return_status()
+                self.result["response"][0].update({"exportProject": self.msg})
 
             export_values = export.get("template")
             if export_values:
                 self.get_export_template_values(export_values).check_return_status()
-                self.log("Exporting template playbook details: {0}"
-                         .format(self.export_template), "DEBUG")
+                self.log(
+                    "Exporting template playbook details: {0}".format(
+                        self.export_template
+                    ),
+                    "DEBUG",
+                )
                 response = self.dnac._exec(
                     family="configuration_templates",
-                    function='export_templates',
+                    function="export_templates",
                     op_modifies=True,
                     params={"payload": self.export_template},
                 )
                 validation_string = "successfully exported template"
-                self.check_task_response_status(response,
-                                                validation_string,
-                                                True).check_return_status()
-                self.result['response'][0].update({"exportTemplate": self.msg})
+                self.check_task_response_status(
+                    response, validation_string, True
+                ).check_return_status()
+                self.result["response"][0].update({"exportTemplate": self.msg})
 
         return self
 
@@ -2478,34 +2761,46 @@ class DnacTemplate(DnacBase):
             if _import.get("project").get("payload"):
                 payload = _import.get("project").get("payload")
             else:
-                self.msg = "Mandatory parameter payload is not found under import project"
+                self.msg = (
+                    "Mandatory parameter payload is not found under import project"
+                )
                 self.status = "failed"
                 return self
             _import_project = {
                 "doVersion": do_version,
                 # "payload": "{0}".format(payload)
-                "payload": payload
+                "payload": payload,
             }
-            self.log("Importing project details from the playbook: {0}"
-                     .format(_import_project), "DEBUG")
+            self.log(
+                "Importing project details from the playbook: {0}".format(
+                    _import_project
+                ),
+                "DEBUG",
+            )
             if _import_project:
                 response = self.dnac._exec(
                     family="configuration_templates",
-                    function='imports_the_projects_provided',
+                    function="imports_the_projects_provided",
                     op_modifies=True,
                     params=_import_project,
                 )
                 validation_string = "successfully imported project"
-                self.check_task_response_status(response, validation_string).check_return_status()
-                self.result['response'][0].update({"importProject": validation_string})
+                self.check_task_response_status(
+                    response, validation_string
+                ).check_return_status()
+                self.result["response"][0].update({"importProject": validation_string})
 
             _import_template = _import.get("template")
             if _import_template.get("project_name"):
-                self.msg = "Mandatory paramter project_name is not found under import template"
+                self.msg = (
+                    "Mandatory paramter project_name is not found under import template"
+                )
                 self.status = "failed"
                 return self
             if _import_template.get("payload"):
-                self.msg = "Mandatory paramter payload is not found under import template"
+                self.msg = (
+                    "Mandatory paramter payload is not found under import template"
+                )
                 self.status = "failed"
                 return self
 
@@ -2513,20 +2808,26 @@ class DnacTemplate(DnacBase):
             import_template = {
                 "doVersion": _import_template.get("do_version"),
                 "projectName": _import_template.get("project_name"),
-                "payload": self.get_template_params(payload)
+                "payload": self.get_template_params(payload),
             }
-            self.log("Import template details from the playbook: {0}"
-                     .format(_import_template), "DEBUG")
+            self.log(
+                "Import template details from the playbook: {0}".format(
+                    _import_template
+                ),
+                "DEBUG",
+            )
             if _import_template:
                 response = self.dnac._exec(
                     family="configuration_templates",
-                    function='imports_the_templates_provided',
+                    function="imports_the_templates_provided",
                     op_modifies=True,
                     params=import_template,
                 )
                 validation_string = "successfully imported template"
-                self.check_task_response_status(response, validation_string).check_return_status()
-                self.result['response'][0].update({"importTemplate": validation_string})
+                self.check_task_response_status(
+                    response, validation_string
+                ).check_return_status()
+                self.result["response"][0].update({"importTemplate": validation_string})
 
         return self
 
@@ -2575,14 +2876,16 @@ class DnacTemplate(DnacBase):
         if is_delete_project:
             params_key = {"project_id": self.have_project.get("id")}
             deletion_value = "deletes_the_project"
-            name = "project: {0}".format(config.get("configuration_templates").get('project_name'))
+            name = "project: {0}".format(
+                config.get("configuration_templates").get("project_name")
+            )
         else:
             template_params = self.want.get("template_params")
             params_key = {"template_id": self.have_template.get("id")}
             deletion_value = "deletes_the_template"
-            name = "templateName: {0}".format(template_params.get('templateName'))
+            name = "templateName: {0}".format(template_params.get("templateName"))
 
-        response = self.dnac_apply['exec'](
+        response = self.dnac_apply["exec"](
             family="configuration_templates",
             function=deletion_value,
             op_modifies=True,
@@ -2591,14 +2894,17 @@ class DnacTemplate(DnacBase):
         task_id = response.get("response").get("taskId")
         if task_id:
             task_details = self.get_task_details(task_id)
-            self.result['changed'] = True
-            self.result['msg'] = task_details.get('progress')
-            self.result['diff'] = config.get("configuration_templates")
+            self.result["changed"] = True
+            self.result["msg"] = task_details.get("progress")
+            self.result["diff"] = config.get("configuration_templates")
 
-            self.log("Task details for '{0}': {1}".format(deletion_value, task_details), "DEBUG")
-            self.result['response'] = task_details if task_details else response
-            if not self.result['msg']:
-                self.result['msg'] = "Error while deleting {name} : "
+            self.log(
+                "Task details for '{0}': {1}".format(deletion_value, task_details),
+                "DEBUG",
+            )
+            self.result["response"] = task_details if task_details else response
+            if not self.result["msg"]:
+                self.result["msg"] = "Error while deleting {name} : "
                 self.status = "failed"
                 return self
 
@@ -2638,9 +2944,13 @@ class DnacTemplate(DnacBase):
                     self.status = "failed"
                     return self
             else:
-                self.log("Template name is empty, deleting the project '{0}' and "
-                         "associated templates"
-                         .format(config.get("configuration_templates").get("project_name")), "INFO")
+                self.log(
+                    "Template name is empty, deleting the project '{0}' and "
+                    "associated templates".format(
+                        config.get("configuration_templates").get("project_name")
+                    ),
+                    "INFO",
+                )
                 is_project_deletable = self.have_project.get("isDeletable")
                 if is_project_deletable:
                     self.delete_project_or_template(config, is_delete_project=True)
@@ -2675,16 +2985,34 @@ class DnacTemplate(DnacBase):
                 return self
 
             self.get_have_template(config, is_template_available)
-            self.log("Current State (have): {0}".format(self.want.get("template_params")), "INFO")
-            self.log("Desired State (want): {0}".format(self.have_template.get("template")), "INFO")
-            template_params = ["language", "name", "projectName", "softwareType",
-                               "softwareVariant", "templateContent"]
+            self.log(
+                "Current State (have): {0}".format(self.want.get("template_params")),
+                "INFO",
+            )
+            self.log(
+                "Desired State (want): {0}".format(self.have_template.get("template")),
+                "INFO",
+            )
+            template_params = [
+                "language",
+                "name",
+                "projectName",
+                "softwareType",
+                "softwareVariant",
+                "templateContent",
+            ]
             for item in template_params:
-                if self.have_template.get("template").get(item) != self.want.get("template_params").get(item):
-                    self.msg = " Configuration Template config is not applied to the DNAC."
+                if self.have_template.get("template").get(item) != self.want.get(
+                    "template_params"
+                ).get(item):
+                    self.msg = (
+                        " Configuration Template config is not applied to the DNAC."
+                    )
                     self.status = "failed"
                     return self
-            self.log("Successfully validated the Template in the Catalyst Center.", "INFO")
+            self.log(
+                "Successfully validated the Template in the Catalyst Center.", "INFO"
+            )
             self.result.get("response").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Configuration Templates."
@@ -2707,23 +3035,28 @@ class DnacTemplate(DnacBase):
         if config.get("configuration_templates") is not None:
             self.log("Current State (have): {0}".format(self.have), "INFO")
             self.log("Desired State (want): {0}".format(self.want), "INFO")
-            template_list = self.dnac_apply['exec'](
+            template_list = self.dnac_apply["exec"](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=True,
                 params={"projectNames": config.get("projectName")},
             )
             if template_list and isinstance(template_list, list):
-                templateName = config.get("configuration_templates").get("template_name")
-                template_info = get_dict_result(template_list,
-                                                "name",
-                                                templateName)
+                templateName = config.get("configuration_templates").get(
+                    "template_name"
+                )
+                template_info = get_dict_result(template_list, "name", templateName)
                 if template_info:
-                    self.msg = "Configuration Template config is not applied to the DNAC."
+                    self.msg = (
+                        "Configuration Template config is not applied to the DNAC."
+                    )
                     self.status = "failed"
                     return self
 
-            self.log("Successfully validated absence of template in the Catalyst Center.", "INFO")
+            self.log(
+                "Successfully validated absence of template in the Catalyst Center.",
+                "INFO",
+            )
             self.result.get("response").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the absence of Template in the DNAC."
@@ -2747,28 +3080,28 @@ class DnacTemplate(DnacBase):
 
 
 def main():
-    """ main entry point for module execution"""
+    """main entry point for module execution"""
 
-    element_spec = {'dnac_host': {'required': True, 'type': 'str'},
-                    'dnac_port': {'type': 'str', 'default': '443'},
-                    'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'dnac_password': {'type': 'str', 'no_log': True},
-                    'dnac_verify': {'type': 'bool', 'default': 'True'},
-                    'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log': {'type': 'bool', 'default': False},
-                    "dnac_log_level": {"type": 'str', "default": 'WARNING'},
-                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-                    "dnac_log_append": {"type": 'bool', "default": True},
-                    'validate_response_schema': {'type': 'bool', 'default': True},
-                    "config_verify": {"type": 'bool', "default": False},
-                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
-                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
-                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
-                    'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
-                    }
-    module = AnsibleModule(argument_spec=element_spec,
-                           supports_check_mode=False)
+    element_spec = {
+        "dnac_host": {"required": True, "type": "str"},
+        "dnac_port": {"type": "str", "default": "443"},
+        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "dnac_password": {"type": "str", "no_log": True},
+        "dnac_verify": {"type": "bool", "default": "True"},
+        "dnac_version": {"type": "str", "default": "2.2.3.3"},
+        "dnac_debug": {"type": "bool", "default": False},
+        "dnac_log": {"type": "bool", "default": False},
+        "dnac_log_level": {"type": "str", "default": "WARNING"},
+        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
+        "dnac_log_append": {"type": "bool", "default": True},
+        "validate_response_schema": {"type": "bool", "default": True},
+        "config_verify": {"type": "bool", "default": False},
+        "dnac_api_task_timeout": {"type": "int", "default": 1200},
+        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "config": {"required": True, "type": "list", "elements": "dict"},
+        "state": {"default": "merged", "choices": ["merged", "deleted"]},
+    }
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     dnac_template = DnacTemplate(module)
     dnac_template.validate_input().check_return_status()
     state = dnac_template.params.get("state")
@@ -2789,5 +3122,5 @@ def main():
     module.exit_json(**dnac_template.result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -1,13 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: dns_services_summary_analytics
-short_description: Resource module for Dns Services Summary Analytics
+short_description: Resource module for Dns Services
+  Summary Analytics
 description:
-  - This module represents an alias of the module dns_services_summary_analytics_v1
+  - Manage operation create of the resource Dns Services
+    Summary Analytics. - > Gets the summary analytics
+    data related to DNS Services based on given filters
+    and group by field. For detailed information about
+    the usage of the API, please refer to the Open API
+    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    DNSServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -36,7 +45,8 @@ options:
     elements: dict
     suboptions:
       filters:
-        description: Dns Services Summary Analytics's filters.
+        description: Dns Services Summary Analytics's
+          filters.
         elements: dict
         suboptions:
           filters:
@@ -86,7 +96,8 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Dns Services Summary Analytics's sortBy.
+        description: Dns Services Summary Analytics's
+          sortBy.
         elements: dict
         suboptions:
           function:
@@ -107,18 +118,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetSummaryAnalyticsDataOfDNSServicesForGivenSetOfComplexFiltersV1
-    description: Complete reference of the GetSummaryAnalyticsDataOfDNSServicesForGivenSetOfComplexFiltersV1
+  - name: Cisco DNA Center documentation for Devices
+      GetSummaryAnalyticsDataOfDNSServicesForGivenSetOfComplexFilters
+    description: Complete reference of the GetSummaryAnalyticsDataOfDNSServicesForGivenSetOfComplexFilters
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-dns-services-for-given-set-of-complex-filters
+    link: https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-dns-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
-    devices.Devices.get_summary_analytics_data_of_d_n_s_services_for_given_set_of_complex_filters_v1,
-  - Paths used are post /dna/data/api/v1/dnsServices/summaryAnalytics,
-  - It should be noted that this module is an alias of dns_services_summary_analytics_v1
+    devices.Devices.get_summary_analytics_data_of_d_n_s_services_for_given_set_of_complex_filters,
+  - Paths used are
+    post /dna/data/api/v1/dnsServices/summaryAnalytics,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.dns_services_summary_analytics:
     dnac_host: "{{dnac_host}}"

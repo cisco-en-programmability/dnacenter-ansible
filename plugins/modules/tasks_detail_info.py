@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: tasks_detail_info
-short_description: Information module for Tasks Detail Info
+short_description: Information module for Tasks Detail
 description:
-  - This module represents an alias of the module tasks_detail_v1_info
+  - Get all Tasks Detail.
+  - Returns the task details for the given task ID.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,22 +21,27 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. The `id` of the task to retrieve details for.
+      - Id path parameter. The `id` of the task to retrieve
+        details for.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Task GetTaskDetailsByIDV1
-    description: Complete reference of the GetTaskDetailsByIDV1 API.
+  - name: Cisco DNA Center documentation for Task GetTaskDetailsByID
+    description: Complete reference of the GetTaskDetailsByID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-task-details-by-id
 notes:
-  - SDK Method used are task.Task.get_task_details_by_id_v1,
-  - Paths used are get /dna/intent/api/v1/tasks/{id}/detail,
-  - It should be noted that this module is an alias of tasks_detail_v1_info
+  - SDK Method used are
+    task.Task.get_task_details_by_id,
+  - Paths used are
+    get /dna/intent/api/v1/tasks/{id}/detail,
 """
+
 EXAMPLES = r"""
-- name: Get all Tasks Detail Info
+---
+- name: Get all Tasks Detail
   cisco.dnac.tasks_detail_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

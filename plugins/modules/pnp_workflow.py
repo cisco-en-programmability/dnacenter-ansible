@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: pnp_workflow
 short_description: Resource module for Pnp Workflow
 description:
-  - This module represents an alias of the module pnp_workflow_v1
+  - Manage operations create, update and delete of the
+    resource Pnp Workflow.
+  - Adds a PnP Workflow along with the relevant tasks
+    in the workflow into the PnP database.
+  - Deletes a workflow specified by id.
+  - Updates an existing workflow.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -126,23 +133,34 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflowV1
-    description: Complete reference of the AddAWorkflowV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) AddAWorkflow
+    description: Complete reference of the AddAWorkflow
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!add-a-workflow
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowByIdV1
-    description: Complete reference of the DeleteWorkflowByIdV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) DeleteWorkflowById
+    description: Complete reference of the DeleteWorkflowById
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflowV1
-    description: Complete reference of the UpdateWorkflowV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) UpdateWorkflow
+    description: Complete reference of the UpdateWorkflow
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!update-workflow
 notes:
-  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow_v1,
-    device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id_v1, device_onboarding_pnp.DeviceOnboardingPnp.update_workflow_v1,
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-workflow, delete /dna/intent/api/v1/onboarding/pnp-workflow/{id},
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow,
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id,
+    device_onboarding_pnp.DeviceOnboardingPnp.update_workflow,
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-workflow,
+    delete /dna/intent/api/v1/onboarding/pnp-workflow/{id},
     put /dna/intent/api/v1/onboarding/pnp-workflow/{id},
-  - It should be noted that this module is an alias of pnp_workflow_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.pnp_workflow:
     dnac_host: "{{dnac_host}}"

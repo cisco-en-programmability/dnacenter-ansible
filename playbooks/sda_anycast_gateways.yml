@@ -6,7 +6,7 @@
   gather_facts: false
   tasks:
     - name: Create sda anycast gateways v1
-      cisco.dnac.sda_anycast_gateways_v1:
+      cisco.dnac.sda_anycast_gateways:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"

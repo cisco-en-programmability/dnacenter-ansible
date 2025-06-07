@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: license_term_details_info
-short_description: Information module for License Term Details Info
+short_description: Information module for License Term
+  Details
 description:
-  - This module represents an alias of the module license_term_details_v1_info
+  - Get License Term Details by name.
+  - Get license term details.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,35 +22,40 @@ options:
     type: dict
   smart_account_id:
     description:
-      - Smart_account_id path parameter. Id of smart account.
+      - Smart_account_id path parameter. Id of smart
+        account.
     type: str
   virtual_account_name:
     description:
       - >
-        Virtual_account_name path parameter. Name of virtual account. Putting "All"
-        will give license term detail
-        for all virtual accounts.
+        Virtual_account_name path parameter. Name of
+        virtual account. Putting "All" will give license
+        term detail for all virtual accounts.
     type: str
   device_type:
     description:
-      - Device_type query parameter. Type of device like router, switch, wireless
-        or ise.
+      - Device_type query parameter. Type of device
+        like router, switch, wireless or ise.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Licenses LicenseTermDetailsV1
-    description: Complete reference of the LicenseTermDetailsV1 API.
+  - name: Cisco DNA Center documentation for Licenses
+      LicenseTermDetails
+    description: Complete reference of the LicenseTermDetails
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!license-term-details
 notes:
-  - SDK Method used are licenses.Licenses.license_term_details_v1,
-  - Paths used are get
-    /dna/intent/api/v1/licenses/term/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name},
-  - It should be noted that this module is an alias of license_term_details_v1_info
+  - SDK Method used are
+    licenses.Licenses.license_term_details,
+  - Paths used are
+    get /dna/intent/api/v1/licenses/term/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name},
 """
+
 EXAMPLES = r"""
-- name: Get License Term Details Info by name
+---
+- name: Get License Term Details by name
   cisco.dnac.license_term_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,23 +1,26 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: global_credential_v2
-short_description: Resource module for Global Credential V2
+short_description: Resource module for Global Credential
+  V2
 description:
-  - Manage operations create, update and delete of the resource Global Credential
-    V2.
-  - >
-    API to create new global credentials. Multiple credentials of various types can
-    be passed at once. Please refer
+  - Manage operations create, update and delete of the
+    resource Global Credential V2. - > API to create
+    new global credentials. Multiple credentials of
+    various types can be passed at once. Please refer
     sample Request Body for more information.
-  - Delete a global credential. Only 'id' of the credential has to be passed.
-  - >
-    API to update device credentials. Multiple credentials can be passed at once,
-    but only a single credential of a
-    given type can be passed at once. Please refer sample Request Body for more information.
+  - Delete a global credential. Only 'id' of the credential
+    has to be passed. - > API to update device credentials.
+    Multiple credentials can be passed at once, but
+    only a single credential of a given type can be
+    passed at once. Please refer sample Request Body
+    for more information.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -33,7 +36,8 @@ options:
         description: CLI Enable Password.
         type: str
       id:
-        description: Id of the CLI Credential in UUID format.
+        description: Id of the CLI Credential in UUID
+          format.
         type: str
       password:
         description: CLI Password.
@@ -49,7 +53,8 @@ options:
         description: Description for HTTP(S) Read Credentials.
         type: str
       id:
-        description: Id of the HTTP(S) Read Credential in UUID format.
+        description: Id of the HTTP(S) Read Credential
+          in UUID format.
         type: str
       password:
         description: HTTP(S) Read Password.
@@ -68,7 +73,8 @@ options:
         description: Description for HTTP(S) Write Credentials.
         type: str
       id:
-        description: Id of the HTTP(S) Read Credential in UUID format.
+        description: Id of the HTTP(S) Read Credential
+          in UUID format.
         type: str
       password:
         description: HTTP(S) Write Password.
@@ -81,7 +87,8 @@ options:
         type: str
     type: dict
   id:
-    description: Id path parameter. Global Credential id.
+    description: Id path parameter. Global Credential
+      id.
     type: str
   snmpV2cRead:
     description: Global Credential V2's snmpV2cRead.
@@ -90,7 +97,8 @@ options:
         description: Description for Snmp RO community.
         type: str
       id:
-        description: Id of the SNMP Read Credential in UUID format.
+        description: Id of the SNMP Read Credential
+          in UUID format.
         type: str
       readCommunity:
         description: Snmp RO community.
@@ -103,7 +111,8 @@ options:
         description: Description for Snmp RW community.
         type: str
       id:
-        description: Id of the SNMP Write Credential in UUID format.
+        description: Id of the SNMP Write Credential
+          in UUID format.
         type: str
       writeCommunity:
         description: Snmp RW community.
@@ -122,7 +131,8 @@ options:
         description: Description for Snmp V3 Credential.
         type: str
       id:
-        description: Id of the SNMP V3 Credential in UUID format.
+        description: Id of the SNMP V3 Credential in
+          UUID format.
         type: str
       privacyPassword:
         description: Privacy Password for SNMP privacy.
@@ -131,7 +141,8 @@ options:
         description: SNMP privacy protocol. 'AES128','AES192','AES256'.
         type: str
       snmpMode:
-        description: Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV' or 'NOAUTHNOPRIV'.
+        description: Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV'
+          or 'NOAUTHNOPRIV'.
         type: str
       username:
         description: SNMP V3 Username.
@@ -141,22 +152,34 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
-    description: Complete reference of the CreateGlobalCredentialsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials
-  - name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
-    description: Complete reference of the DeleteGlobalCredentialV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential
-  - name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
-    description: Complete reference of the UpdateGlobalCredentialsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
+  - name: Cisco DNA Center documentation for Discovery
+      CreateGlobalCredentialsV2
+    description: Complete reference of the CreateGlobalCredentialsV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
+  - name: Cisco DNA Center documentation for Discovery
+      DeleteGlobalCredentialV2
+    description: Complete reference of the DeleteGlobalCredentialV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
+  - name: Cisco DNA Center documentation for Discovery
+      UpdateGlobalCredentialsV2
+    description: Complete reference of the UpdateGlobalCredentialsV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
 notes:
-  - SDK Method used are discovery.Discovery.create_global_credentials_v2, discovery.Discovery.delete_global_credential_v2,
+  - SDK Method used are
+    discovery.Discovery.create_global_credentials_v2,
+    discovery.Discovery.delete_global_credential_v2,
     discovery.Discovery.update_global_credentials_v2,
-  - Paths used are post /dna/intent/api/v2/global-credential, delete /dna/intent/api/v2/global-credential/{id},
+  - Paths used are
+    post /dna/intent/api/v2/global-credential,
+    delete /dna/intent/api/v2/global-credential/{id},
     put /dna/intent/api/v2/global-credential,
 """
+
 EXAMPLES = r"""
+---
 - name: Update all
   cisco.dnac.global_credential_v2:
     dnac_host: "{{dnac_host}}"

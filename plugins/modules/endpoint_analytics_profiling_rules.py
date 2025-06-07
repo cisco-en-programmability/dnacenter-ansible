@@ -1,93 +1,121 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_profiling_rules
-short_description: Resource module for Endpoint Analytics Profiling Rules
+short_description: Resource module for Endpoint Analytics
+  Profiling-Rules
 description:
-  - This module represents an alias of the module endpoint_analytics_profiling_rules_v1
+  - Manage operations create, update and delete of the
+    resource Endpoint Analytics Profiling-Rules.
+  - Creates profiling rule from the request body.
+  - Deletes the profiling rule for the given 'ruleId'.
+  - Updates the profiling rule for the given 'ruleId'.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   clusterId:
-    description: Unique identifier for ML cluster. Only applicable for 'ML Rule'.
+    description: Unique identifier for ML cluster. Only
+      applicable for 'ML Rule'.
     type: str
   conditionGroups:
-    description: Endpoint Analytics Profiling Rules's conditionGroups.
+    description: Endpoint Analytics Profiling Rules's
+      conditionGroups.
     suboptions:
       condition:
-        description: Endpoint Analytics Profiling Rules's condition.
+        description: Endpoint Analytics Profiling Rules's
+          condition.
         suboptions:
           attribute:
-            description: Endpoint Analytics Profiling Rules's attribute.
+            description: Endpoint Analytics Profiling
+              Rules's attribute.
             type: str
           attributeDictionary:
-            description: Endpoint Analytics Profiling Rules's attributeDictionary.
+            description: Endpoint Analytics Profiling
+              Rules's attributeDictionary.
             type: str
           operator:
-            description: Endpoint Analytics Profiling Rules's operator.
+            description: Endpoint Analytics Profiling
+              Rules's operator.
             type: str
           value:
-            description: Endpoint Analytics Profiling Rules's value.
+            description: Endpoint Analytics Profiling
+              Rules's value.
             type: str
         type: dict
       conditionGroup:
-        description: Endpoint Analytics Profiling Rules's conditionGroup.
-        elements: str
+        description: Endpoint Analytics Profiling Rules's
+          conditionGroup.
+        elements: dict
         type: list
       operator:
-        description: Endpoint Analytics Profiling Rules's operator.
+        description: Endpoint Analytics Profiling Rules's
+          operator.
         type: str
       type:
-        description: Endpoint Analytics Profiling Rules's type.
+        description: Endpoint Analytics Profiling Rules's
+          type.
         type: str
     type: dict
   isDeleted:
-    description: Flag to indicate whether the rule was deleted.
+    description: Flag to indicate whether the rule was
+      deleted.
     type: bool
   lastModifiedBy:
-    description: User that last modified the rule. It is read-only, and is ignored
-      if provided as part of input request.
+    description: User that last modified the rule. It
+      is read-only, and is ignored if provided as part
+      of input request.
     type: str
   lastModifiedOn:
-    description: Timestamp (in epoch milliseconds) of last modification. It is read-only,
-      and is ignored if provided as part of input request.
+    description: Timestamp (in epoch milliseconds) of
+      last modification. It is read-only, and is ignored
+      if provided as part of input request.
     type: int
   pluginId:
-    description: Plugin for the rule. Only applicable for 'Cisco Default' rules.
+    description: Plugin for the rule. Only applicable
+      for 'Cisco Default' rules.
     type: str
   rejected:
-    description: Flag to indicate whether rule has been rejected by user or not. Only
-      applicable for 'ML Rule'.
+    description: Flag to indicate whether rule has been
+      rejected by user or not. Only applicable for 'ML
+      Rule'.
     type: bool
   result:
-    description: Endpoint Analytics Profiling Rules's result.
+    description: Endpoint Analytics Profiling Rules's
+      result.
     suboptions:
       deviceType:
-        description: List of device types determined by the current rule.
+        description: List of device types determined
+          by the current rule.
         elements: str
         type: list
       hardwareManufacturer:
-        description: List of hardware manufacturers determined by the current rule.
+        description: List of hardware manufacturers
+          determined by the current rule.
         elements: str
         type: list
       hardwareModel:
-        description: List of hardware models determined by the current rule.
+        description: List of hardware models determined
+          by the current rule.
         elements: str
         type: list
       operatingSystem:
-        description: List of operating systems determined by the current rule.
+        description: List of operating systems determined
+          by the current rule.
         elements: str
         type: list
     type: dict
   ruleId:
-    description: Unique identifier for the rule. This is normally generated by the
-      system, and client does not need to provide it for rules that need to be newly
-      created.
+    description: Unique identifier for the rule. This
+      is normally generated by the system, and client
+      does not need to provide it for rules that need
+      to be newly created.
     type: str
   ruleName:
     description: Human readable name for the rule.
@@ -105,24 +133,28 @@ options:
     description: Source priority for the rule.
     type: int
   usedAttributes:
-    description: List of attributes used in the rule. Only applicable for 'Cisco Default'
-      rules.
+    description: List of attributes used in the rule.
+      Only applicable for 'Cisco Default' rules.
     elements: str
     type: list
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 notes:
-  - SDK Method used are a_i_endpoint_analytics.AIEndpointAnalytics.create_a_profiling_rule_v1,
-    a_i_endpoint_analytics.AIEndpointAnalytics.delete_an_existing_profiling_rule_v1,
-    a_i_endpoint_analytics.AIEndpointAnalytics.update_an_existing_profiling_rule_v1,
-  - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules, delete
-    /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}, put /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
-  - It should be noted that this module is an alias of endpoint_analytics_profiling_rules_v1
+  - SDK Method used are
+    ai_endpoint_analytics.AiEndpointAnalytics.create_a_profiling_rule,
+    ai_endpoint_analytics.AiEndpointAnalytics.delete_an_existing_profiling_rule,
+    ai_endpoint_analytics.AiEndpointAnalytics.update_an_existing_profiling_rule,
+  - Paths used are
+    post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
+    delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+    put /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
 """
+
 EXAMPLES = r"""
+---
 - name: Create
-  cisco.dnac.endpoint_analytics_profiling_rules:
+  cisco.dnac.endpoint_analytics_profiling-rules:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -139,7 +171,7 @@ EXAMPLES = r"""
         operator: string
         value: string
       conditionGroup:
-        - string
+        - {}
       operator: string
       type: string
     isDeleted: true
@@ -165,7 +197,7 @@ EXAMPLES = r"""
     usedAttributes:
       - string
 - name: Update by id
-  cisco.dnac.endpoint_analytics_profiling_rules:
+  cisco.dnac.endpoint_analytics_profiling-rules:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -182,7 +214,7 @@ EXAMPLES = r"""
         operator: string
         value: string
       conditionGroup:
-        - string
+        - {}
       operator: string
       type: string
     isDeleted: true
@@ -208,7 +240,7 @@ EXAMPLES = r"""
     usedAttributes:
       - string
 - name: Delete by id
-  cisco.dnac.endpoint_analytics_profiling_rules:
+  cisco.dnac.endpoint_analytics_profiling-rules:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

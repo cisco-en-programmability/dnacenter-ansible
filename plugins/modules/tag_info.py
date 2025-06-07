@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: tag_info
-short_description: Information module for Tag Info
+short_description: Information module for Tag
 description:
-  - This module represents an alias of the module tag_v1_info
+  - Get all Tag.
+  - Get Tag by id.
+  - Returns tag specified by Id.
+  - Returns the tags for given filter criteria.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,7 +23,8 @@ options:
     type: dict
   name:
     description:
-      - Name query parameter. Tag name is mandatory when filter operation is used.
+      - Name query parameter. Tag name is mandatory
+        when filter operation is used.
     type: str
   additionalInfo_nameSpace:
     description:
@@ -39,9 +45,9 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of tags to be retrieved. If not specified,
-        the default is 500. The maximum
-        allowed limit is 500.
+        Limit query parameter. The number of tags to
+        be retrieved. If not specified, the default
+        is 500. The maximum allowed limit is 500.
     type: float
   size:
     description:
@@ -50,17 +56,19 @@ options:
   field:
     description:
       - >
-        Field query parameter. Available field names are
-        'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
+        Field query parameter. Available field names
+        are 'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
     type: str
   sortBy:
     description:
-      - SortBy query parameter. Only supported attribute is name. SortyBy is mandatory
-        when order is used.
+      - SortBy query parameter. Only supported attribute
+        is name. SortyBy is mandatory when order is
+        used.
     type: str
   order:
     description:
-      - Order query parameter. Available values are asc and des.
+      - Order query parameter. Available values are
+        asc and des.
     type: str
   systemTag:
     description:
@@ -74,19 +82,25 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Tag GetTagByIdV1
-    description: Complete reference of the GetTagByIdV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id
-  - name: Cisco DNA Center documentation for Tag GetTagV1
-    description: Complete reference of the GetTagV1 API.
+  - name: Cisco DNA Center documentation for Tag GetTag
+    description: Complete reference of the GetTag API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tag
+  - name: Cisco DNA Center documentation for Tag GetTagById
+    description: Complete reference of the GetTagById
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id
 notes:
-  - SDK Method used are tag.Tag.get_tag_by_id_v1, tag.Tag.get_tag_v1,
-  - Paths used are get /dna/intent/api/v1/tag, get /dna/intent/api/v1/tag/{id},
-  - It should be noted that this module is an alias of tag_v1_info
+  - SDK Method used are
+    tag.Tag.get_tag,
+    tag.Tag.get_tag_by_id,
+  - Paths used are
+    get /dna/intent/api/v1/tag,
+    get /dna/intent/api/v1/tag/{id},
 """
+
 EXAMPLES = r"""
-- name: Get all Tag Info
+---
+- name: Get all Tag
   cisco.dnac.tag_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -108,7 +122,7 @@ EXAMPLES = r"""
     order: string
     systemTag: string
   register: result
-- name: Get Tag Info by id
+- name: Get Tag by id
   cisco.dnac.tag_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

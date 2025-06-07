@@ -1,29 +1,40 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_power_profiles_id
-short_description: Resource module for Wireless Settings Power Profiles Id
+short_description: Resource module for Wireless Settings
+  Power Profiles Id
 description:
-  - This module represents an alias of the module wireless_settings_power_profiles_id_v1
+  - Manage operations update and delete of the resource
+    Wireless Settings Power Profiles Id.
+  - This API allows the user to delete an Power Profile
+    by specifying the Power Profile ID.
+  - This API allows the user to update a custom power
+    Profile.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   description:
-    description: Description of the Power Profile. Max length is 32 characters.
+    description: Description of the Power Profile. Max
+      length is 32 characters.
     type: str
   id:
     description: Id path parameter. Power Profile ID.
     type: str
   profileName:
-    description: Name of the Power Profile. Max length is 32 characters.
+    description: Name of the Power Profile. Max length
+      is 32 characters.
     type: str
   rules:
-    description: Wireless Settings Power Profiles Id's rules.
+    description: Wireless Settings Power Profiles Id's
+      rules.
     elements: dict
     suboptions:
       interfaceID:
@@ -43,19 +54,27 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless DeletePowerProfileByIDV1
-    description: Complete reference of the DeletePowerProfileByIDV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      DeletePowerProfileByID
+    description: Complete reference of the DeletePowerProfileByID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-power-profile-by-id
-  - name: Cisco DNA Center documentation for Wireless UpdatePowerProfileByIDV1
-    description: Complete reference of the UpdatePowerProfileByIDV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      UpdatePowerProfileByID
+    description: Complete reference of the UpdatePowerProfileByID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!update-power-profile-by-id
 notes:
-  - SDK Method used are wireless.Wireless.delete_power_profile_by_id_v1, wireless.Wireless.update_power_profile_by_id_v1,
-  - Paths used are delete /dna/intent/api/v1/wirelessSettings/powerProfiles/{id},
+  - SDK Method used are
+    wireless.Wireless.delete_power_profile_by_id,
+    wireless.Wireless.update_power_profile_by_id,
+  - Paths used are
+    delete /dna/intent/api/v1/wirelessSettings/powerProfiles/{id},
     put /dna/intent/api/v1/wirelessSettings/powerProfiles/{id},
-  - It should be noted that this module is an alias of wireless_settings_power_profiles_id_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Delete by id
   cisco.dnac.wireless_settings_power_profiles_id:
     dnac_host: "{{dnac_host}}"

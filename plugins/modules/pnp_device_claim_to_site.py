@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: pnp_device_claim_to_site
-short_description: Resource module for Pnp Device Claim To Site
+short_description: Resource module for Pnp Device Claim
+  To Site
 description:
-  - This module represents an alias of the module pnp_device_claim_to_site_v1
+  - Manage operation create of the resource Pnp Device
+    Claim To Site. - > Claim a device based on Catalyst
+    Center Site-based design process. Some required
+    parameters differ based on device platform.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -86,15 +92,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASiteV1
-    description: Complete reference of the ClaimADeviceToASiteV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) ClaimADeviceToASite
+    description: Complete reference of the ClaimADeviceToASite
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site
 notes:
-  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site_v1,
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
-  - It should be noted that this module is an alias of pnp_device_claim_to_site_v1
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site,
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.pnp_device_claim_to_site:
     dnac_host: "{{dnac_host}}"

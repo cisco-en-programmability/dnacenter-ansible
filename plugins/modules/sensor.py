@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sensor
 short_description: Resource module for Sensor
 description:
-  - This module represents an alias of the module sensor_v1
+  - Manage operations create and delete of the resource
+    Sensor.
+  - Intent API to create a SENSOR test template with
+    a new SSID, existing SSID, or both new and existing
+    SSID.
+  - Intent API to delete an existing SENSOR test template.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,7 +35,8 @@ options:
         type: int
     type: list
   connection:
-    description: Connection type of test WIRED, WIRELESS, BOTH.
+    description: Connection type of test WIRED, WIRELESS,
+      BOTH.
     type: str
   encryptionMode:
     description: Encryption mode.
@@ -38,7 +46,8 @@ options:
     elements: dict
     suboptions:
       allSensors:
-        description: Use all sensors in the site for test.
+        description: Use all sensors in the site for
+          test.
         type: bool
       customManagementVlan:
         description: Custom Management VLAN.
@@ -61,7 +70,8 @@ options:
         type: str
     type: list
   modelVersion:
-    description: Test template object model version (must be 2).
+    description: Test template object model version
+      (must be 2).
     type: int
   name:
     description: The sensor test template name.
@@ -74,8 +84,8 @@ options:
         description: Auth protocol.
         type: str
       authType:
-        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB,
-          DOT1X, OTHER.
+        description: Authentication type OPEN, WPA2_PSK,
+          WPA2_EaP, WEB_AUTH, MAB, DOT1X, OTHER.
         type: str
       certdownloadurl:
         description: Certificate download URL.
@@ -87,20 +97,24 @@ options:
         description: Certificate password phrase.
         type: str
       certstatus:
-        description: Certificate status INACTIVE or ACTIVE.
+        description: Certificate status INACTIVE or
+          ACTIVE.
         type: str
       certxferprotocol:
-        description: Certificate transfering protocol HTTP or HTTPS.
+        description: Certificate transfering protocol
+          HTTP or HTTPS.
         type: str
       deviceType:
         description: Device Type.
         type: str
       eapMethod:
-        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS,
-          EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP, EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
+        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2,
+          EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP,
+          EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
         type: str
       extWebAuth:
-        description: Indication of using external WEB Auth.
+        description: Indication of using external WEB
+          Auth.
         type: bool
       extWebAuthAccessUrl:
         description: External WEB Auth access URL.
@@ -138,7 +152,8 @@ options:
             type: list
         type: list
       password:
-        description: Password string for onboarding SSID.
+        description: Password string for onboarding
+          SSID.
         type: str
       passwordType:
         description: SSID password type ASCII or HEX.
@@ -147,14 +162,16 @@ options:
         description: Profile name.
         type: str
       psk:
-        description: Password of SSID when passwordType is ASCII.
+        description: Password of SSID when passwordType
+          is ASCII.
         type: str
       qosPolicy:
-        description: QoS policy PlATINUM, GOLD, SILVER, BRONZE.
+        description: QoS policy PlATINUM, GOLD, SILVER,
+          BRONZE.
         type: str
       scep:
-        description: Secure certificate enrollment protocol true or false or null
-          for not applicable.
+        description: Secure certificate enrollment protocol
+          true or false or null for not applicable.
         type: bool
       tests:
         description: Sensor's tests.
@@ -165,7 +182,8 @@ options:
             elements: dict
             suboptions:
               direction:
-                description: IPerf direction (UPLOAD, DOWNLOAD, BOTH).
+                description: IPerf direction (UPLOAD,
+                  DOWNLOAD, BOTH).
                 type: str
               domains:
                 description: DNS domain name.
@@ -211,8 +229,9 @@ options:
                 description: Probe type.
                 type: str
               protocol:
-                description: Protocol used by file transfer, IPerf, mail server, and
-                  radius (TCP, UDP, FTP, POP3, IMAP, CHAP, PAP).
+                description: Protocol used by file transfer,
+                  IPerf, mail server, and radius (TCP,
+                  UDP, FTP, POP3, IMAP, CHAP, PAP).
                 type: str
               proxyPassword:
                 description: Proxy password.
@@ -227,7 +246,8 @@ options:
                 description: Proxy user name.
                 type: str
               server:
-                description: Ping, file transfer, mail, radius, ssh, or telnet server.
+                description: Ping, file transfer, mail,
+                  radius, ssh, or telnet server.
                 type: str
               servers:
                 description: IPerf server list.
@@ -240,7 +260,8 @@ options:
                 description: IPerf start port.
                 type: int
               transferType:
-                description: File transfer type (UPLOAD, DOWNLOAD, BOTH).
+                description: File transfer type (UPLOAD,
+                  DOWNLOAD, BOTH).
                 type: str
               udpBandwidth:
                 description: IPerf UDP bandwidth.
@@ -263,13 +284,15 @@ options:
             type: str
         type: list
       username:
-        description: User name string for onboarding SSID.
+        description: User name string for onboarding
+          SSID.
         type: str
       vlan:
         description: VLAN.
         type: str
       whiteList:
-        description: Indication of being on allowed list.
+        description: Indication of being on allowed
+          list.
         type: bool
     type: list
   runNow:
@@ -322,7 +345,8 @@ options:
         description: Service policy.
         type: str
       status:
-        description: Sensor device status UP, DOWN, REBOOT.
+        description: Sensor device status UP, DOWN,
+          REBOOT.
         type: str
       switchMac:
         description: Switch MAC address.
@@ -358,8 +382,8 @@ options:
         description: Auth protocol.
         type: str
       authType:
-        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB,
-          DOT1X, OTHER.
+        description: Authentication type OPEN, WPA2_PSK,
+          WPA2_EaP, WEB_AUTH, MAB, DOT1X, OTHER.
         type: str
       bands:
         description: WIFI bands 2.4GHz or 5GHz.
@@ -374,17 +398,21 @@ options:
         description: Certificate password phrase.
         type: str
       certstatus:
-        description: Certificate status INACTIVE or ACTIVE.
+        description: Certificate status INACTIVE or
+          ACTIVE.
         type: str
       certxferprotocol:
-        description: Certificate transfering protocol HTTP or HTTPS.
+        description: Certificate transfering protocol
+          HTTP or HTTPS.
         type: str
       eapMethod:
-        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS,
-          EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP, EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
+        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2,
+          EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP,
+          EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
         type: str
       extWebAuth:
-        description: Indication of using external WEB Auth.
+        description: Indication of using external WEB
+          Auth.
         type: bool
       extWebAuthAccessUrl:
         description: External WEB Auth access URL.
@@ -422,7 +450,8 @@ options:
         description: Layer 3 WEB Auth user name.
         type: str
       password:
-        description: Password string for onboarding SSID.
+        description: Password string for onboarding
+          SSID.
         type: str
       passwordType:
         description: SSID password type ASCII or HEX.
@@ -443,14 +472,16 @@ options:
         description: Proxy server user name.
         type: str
       psk:
-        description: Password of SSID when passwordType is ASCII.
+        description: Password of SSID when passwordType
+          is ASCII.
         type: str
       qosPolicy:
-        description: QoS policy PlATINUM, GOLD, SILVER, BRONZE.
+        description: QoS policy PlATINUM, GOLD, SILVER,
+          BRONZE.
         type: str
       scep:
-        description: Secure certificate enrollment protocol true or false or null
-          for not applicable.
+        description: Secure certificate enrollment protocol
+          true or false or null for not applicable.
         type: bool
       ssid:
         description: The SSID string.
@@ -464,7 +495,8 @@ options:
             elements: dict
             suboptions:
               direction:
-                description: IPerf direction (UPLOAD, DOWNLOAD, BOTH).
+                description: IPerf direction (UPLOAD,
+                  DOWNLOAD, BOTH).
                 type: str
               domains:
                 description: DNS domain name.
@@ -510,8 +542,9 @@ options:
                 description: Probe type.
                 type: str
               protocol:
-                description: Protocol used by file transfer, IPerf, mail server, and
-                  radius (TCP, UDP, FTP, POP3, IMAP, CHAP, PAP).
+                description: Protocol used by file transfer,
+                  IPerf, mail server, and radius (TCP,
+                  UDP, FTP, POP3, IMAP, CHAP, PAP).
                 type: str
               proxyPassword:
                 description: Proxy password.
@@ -526,7 +559,8 @@ options:
                 description: Proxy user name.
                 type: str
               server:
-                description: Ping, file transfer, mail, radius, ssh, or telnet server.
+                description: Ping, file transfer, mail,
+                  radius, ssh, or telnet server.
                 type: str
               servers:
                 description: IPerf server list.
@@ -539,7 +573,8 @@ options:
                 description: IPerf start port.
                 type: int
               transferType:
-                description: File transfer type (UPLOAD, DOWNLOAD, BOTH).
+                description: File transfer type (UPLOAD,
+                  DOWNLOAD, BOTH).
                 type: str
               udpBandwidth:
                 description: IPerf UDP bandwidth.
@@ -569,10 +604,12 @@ options:
             type: bool
         type: dict
       username:
-        description: User name string for onboarding SSID.
+        description: User name string for onboarding
+          SSID.
         type: str
       whiteList:
-        description: Indication of being on allowed list.
+        description: Indication of being on allowed
+          list.
         type: bool
       wlanId:
         description: WLAN ID.
@@ -585,24 +622,35 @@ options:
     description: TemplateName query parameter.
     type: str
   version:
-    description: The sensor test template version (must be 2).
+    description: The sensor test template version (must
+      be 2).
     type: int
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Sensors CreateSensorTestTemplateV1
-    description: Complete reference of the CreateSensorTestTemplateV1 API.
+  - name: Cisco DNA Center documentation for Sensors
+      CreateSensorTestTemplate
+    description: Complete reference of the CreateSensorTestTemplate
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template
-  - name: Cisco DNA Center documentation for Sensors DeleteSensorTestV1
-    description: Complete reference of the DeleteSensorTestV1 API.
+  - name: Cisco DNA Center documentation for Sensors
+      DeleteSensorTest
+    description: Complete reference of the DeleteSensorTest
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-sensor-test
 notes:
-  - SDK Method used are sensors.Sensors.create_sensor_test_template_v1, sensors.Sensors.delete_sensor_test_v1,
-  - Paths used are post /dna/intent/api/v1/sensor, delete /dna/intent/api/v1/sensor,
-  - It should be noted that this module is an alias of sensor_v1
+  - SDK Method used are
+    sensors.Sensors.create_sensor_test_template,
+    sensors.Sensors.delete_sensor_test,
+  - Paths used are
+    post /dna/intent/api/v1/sensor,
+    delete
+    /dna/intent/api/v1/sensor,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.sensor:
     dnac_host: "{{dnac_host}}"

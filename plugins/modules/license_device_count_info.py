@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: license_device_count_info
-short_description: Information module for License Device Count Info
+short_description: Information module for License Device
+  Count
 description:
-  - This module represents an alias of the module license_device_count_v1_info
+  - Get all License Device Count.
+  - Get total number of managed devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,35 +26,43 @@ options:
     type: str
   registration_status:
     description:
-      - Registration_status query parameter. Smart license registration status of
-        device.
+      - Registration_status query parameter. Smart license
+        registration status of device.
     type: str
   dna_level:
     description:
-      - Dna_level query parameter. Device Cisco DNA License Level.
+      - Dna_level query parameter. Device Cisco DNA
+        License Level.
     type: str
   virtual_account_name:
     description:
-      - Virtual_account_name query parameter. Virtual account name.
+      - Virtual_account_name query parameter. Virtual
+        account name.
     type: str
   smart_account_id:
     description:
-      - Smart_account_id query parameter. Smart account id.
+      - Smart_account_id query parameter. Smart account
+        id.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Licenses DeviceCountDetailsV1
-    description: Complete reference of the DeviceCountDetailsV1 API.
+  - name: Cisco DNA Center documentation for Licenses
+      DeviceCountDetails
+    description: Complete reference of the DeviceCountDetails
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!device-count-details
 notes:
-  - SDK Method used are licenses.Licenses.device_count_details_v1,
-  - Paths used are get /dna/intent/api/v1/licenses/device/count,
-  - It should be noted that this module is an alias of license_device_count_v1_info
+  - SDK Method used are
+    licenses.Licenses.device_count_details,
+  - Paths used are
+    get /dna/intent/api/v1/licenses/device/count,
 """
+
 EXAMPLES = r"""
-- name: Get all License Device Count Info
+---
+- name: Get all License Device Count
   cisco.dnac.license_device_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: applications_v2
-short_description: Resource module for Applications V2
+short_description: Resource module for Applications
+  V2
 description:
-  - Manage operations create, update and delete of the resource Applications V2.
+  - Manage operations create, update and delete of the
+    resource Applications V2.
   - Create new custom application/s.
   - Delete existing custom application by id.
   - Edit the attributes of an existing application.
@@ -17,7 +21,8 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Id of custom application to delete.
+    description: Id path parameter. Id of custom application
+      to delete.
     type: str
   payload:
     description: Applications V2's payload.
@@ -72,12 +77,14 @@ options:
             description: App protocol.
             type: str
           applicationSubType:
-            description: Application sub type, LEARNED discovered application, NONE
-              nbar and custom application.
+            description: Application sub type, LEARNED
+              discovered application, NONE nbar and
+              custom application.
             type: str
           applicationType:
-            description: Application type, DEFAULT nbar application, DEFAULT_MODIFIED
-              nbar modified application, CUSTOM custom application.
+            description: Application type, DEFAULT nbar
+              application, DEFAULT_MODIFIED nbar modified
+              application, CUSTOM custom application.
             type: str
           categoryId:
             description: Category id.
@@ -110,7 +117,8 @@ options:
             description: Popularity.
             type: float
           rank:
-            description: Rank, any value between 1 to 65535.
+            description: Rank, any value between 1 to
+              65535.
             type: int
           selectorId:
             description: Selector id.
@@ -160,18 +168,20 @@ options:
         description: Applications V2's parentScalableGroup.
         suboptions:
           idRef:
-            description: Id reference to parent application set.
+            description: Id reference to parent application
+              set.
             type: str
         type: dict
       qualifier:
         description: Qualifier, valid value application.
         type: str
       scalableGroupExternalHandle:
-        description: Scalable group external handle, should be equal to Application
-          name.
+        description: Scalable group external handle,
+          should be equal to Application name.
         type: str
       scalableGroupType:
-        description: Scalable group type, valid value APPLICATION.
+        description: Scalable group type, valid value
+          APPLICATION.
         type: str
       type:
         description: Type, valid value scalablegroup.
@@ -181,22 +191,35 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Application Policy CreateApplicationsV2
-    description: Complete reference of the CreateApplicationsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-applications
-  - name: Cisco DNA Center documentation for Application Policy DeleteApplicationV2
-    description: Complete reference of the DeleteApplicationV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-application
-  - name: Cisco DNA Center documentation for Application Policy EditApplicationsV2
-    description: Complete reference of the EditApplicationsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!edit-applications
+  - name: Cisco DNA Center documentation for Application
+      Policy CreateApplicationsV2
+    description: Complete reference of the CreateApplicationsV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-applications-v-2
+  - name: Cisco DNA Center documentation for Application
+      Policy DeleteApplicationV2
+    description: Complete reference of the DeleteApplicationV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-application-v-2
+  - name: Cisco DNA Center documentation for Application
+      Policy EditApplicationsV2
+    description: Complete reference of the EditApplicationsV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!edit-applications-v-2
 notes:
-  - SDK Method used are application_policy.ApplicationPolicy.create_applications_v2,
-    application_policy.ApplicationPolicy.delete_application_v2, application_policy.ApplicationPolicy.edit_applications_v2,
-  - Paths used are post /dna/intent/api/v2/applications, delete /dna/intent/api/v2/applications/{id},
-    put /dna/intent/api/v2/applications,
+  - SDK Method used are
+    application_policy.ApplicationPolicy.create_applications_v2,
+    application_policy.ApplicationPolicy.delete_application_v2,
+    application_policy.ApplicationPolicy.edit_applications_v2,
+  - Paths used are
+    post /dna/intent/api/v2/applications,
+    delete /dna/intent/api/v2/applications/{id},
+    put
+    /dna/intent/api/v2/applications,
 """
+
 EXAMPLES = r"""
+---
 - name: Update all
   cisco.dnac.applications_v2:
     dnac_host: "{{dnac_host}}"

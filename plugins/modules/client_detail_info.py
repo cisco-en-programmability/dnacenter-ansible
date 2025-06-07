@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: client_detail_info
-short_description: Information module for Client Detail Info
+short_description: Information module for Client Detail
 description:
-  - This module represents an alias of the module client_detail_v1_info
+  - Get all Client Detail.
+  - Returns detailed Client information retrieved by
+    Mac Address for any given point of time.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,27 +22,33 @@ options:
     type: dict
   macAddress:
     description:
-      - MacAddress query parameter. MAC Address of the client.
+      - MacAddress query parameter. MAC Address of the
+        client.
     type: str
   timestamp:
     description:
-      - Timestamp query parameter. Epoch time(in milliseconds) when the Client health
-        data is required.
+      - Timestamp query parameter. Epoch time(in milliseconds)
+        when the Client health data is required.
     type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Clients GetClientDetailV1
-    description: Complete reference of the GetClientDetailV1 API.
+  - name: Cisco DNA Center documentation for Clients
+      GetClientDetail
+    description: Complete reference of the GetClientDetail
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-client-detail
 notes:
-  - SDK Method used are clients.Clients.get_client_detail_v1,
-  - Paths used are get /dna/intent/api/v1/client-detail,
-  - It should be noted that this module is an alias of client_detail_v1_info
+  - SDK Method used are
+    clients.Clients.get_client_detail,
+  - Paths used are
+    get /dna/intent/api/v1/client-detail,
 """
+
 EXAMPLES = r"""
-- name: Get all Client Detail Info
+---
+- name: Get all Client Detail
   cisco.dnac.client_detail_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

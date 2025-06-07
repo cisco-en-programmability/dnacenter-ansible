@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sda_provision_device_info
-short_description: Information module for Sda Provision Device Info
+short_description: Information module for Sda Provision
+  Device
 description:
-  - This module represents an alias of the module sda_provision_device_v1_info
+  - Get all Sda Provision Device.
+  - Get Provisioned Wired Device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,16 +28,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA GetProvisionedWiredDeviceV1
-    description: Complete reference of the GetProvisionedWiredDeviceV1 API.
+  - name: Cisco DNA Center documentation for SDA GetProvisionedWiredDevice
+    description: Complete reference of the GetProvisionedWiredDevice
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-wired-device
 notes:
-  - SDK Method used are sda.Sda.get_provisioned_wired_device_v1,
-  - Paths used are get /dna/intent/api/v1/business/sda/provision-device,
-  - It should be noted that this module is an alias of sda_provision_device_v1_info
+  - SDK Method used are
+    sda.Sda.get_provisioned_wired_device,
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/provision-device,
 """
+
 EXAMPLES = r"""
-- name: Get all Sda Provision Device Info
+---
+- name: Get all Sda Provision Device
   cisco.dnac.sda_provision_device_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

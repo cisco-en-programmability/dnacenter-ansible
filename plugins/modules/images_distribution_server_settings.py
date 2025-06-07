@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: images_distribution_server_settings
-short_description: Resource module for Images Distribution Server Settings
+short_description: Resource module for Images Distribution
+  Server Settings
 description:
-  - This module represents an alias of the module images_distribution_server_settings_v1
+  - Manage operations create, update and delete of the
+    resource Images Distribution Server Settings.
+  - Add remote server for distributing software images.
+    Upto two such distribution servers are supported.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,16 +38,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) AddImageDistributionServerV1
-    description: Complete reference of the AddImageDistributionServerV1 API.
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) AddImageDistributionServer
+    description: Complete reference of the AddImageDistributionServer
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!add-image-distribution-server
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.add_image_distribution_server_v1,
-  - Paths used are post /dna/intent/api/v1/images/distributionServerSettings,
-  - It should be noted that this module is an alias of images_distribution_server_settings_v1
+    software_image_management_swim.SoftwareImageManagementSwim.add_image_distribution_server,
+  - Paths used are
+    post /dna/intent/api/v1/images/distributionServerSettings,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.images_distribution_server_settings:
     dnac_host: "{{dnac_host}}"

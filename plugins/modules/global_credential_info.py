@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: global_credential_info
-short_description: Information module for Global Credential Info
+short_description: Information module for Global Credential
 description:
-  - This module represents an alias of the module global_credential_v1_info
+  - Get all Global Credential.
+  - Get Global Credential by id.
+  - Returns global credential for the given credential
+    sub type.
+  - Returns the credential sub type for the given Id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,18 +25,19 @@ options:
   credentialSubType:
     description:
       - >
-        CredentialSubType query parameter. Credential type as CLI / SNMPV2_READ_COMMUNITY
-        / SNMPV2_WRITE_COMMUNITY /
-        SNMPV3 / HTTP_WRITE / HTTP_READ / NETCONF.
+        CredentialSubType query parameter. Credential
+        type as CLI / SNMPV2_READ_COMMUNITY / SNMPV2_WRITE_COMMUNITY
+        / SNMPV3 / HTTP_WRITE / HTTP_READ / NETCONF.
     type: str
   sortBy:
     description:
-      - SortBy query parameter. Field to sort the results by. Sorts by 'instanceId'
-        if no value is provided.
+      - SortBy query parameter. Field to sort the results
+        by. Sorts by 'instanceId' if no value is provided.
     type: str
   order:
     description:
-      - Order query parameter. Order of sorting. 'asc' or 'des'.
+      - Order query parameter. Order of sorting. 'asc'
+        or 'des'.
     type: str
   id:
     description:
@@ -40,21 +47,28 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Discovery GetCredentialSubTypeByCredentialIdV1
-    description: Complete reference of the GetCredentialSubTypeByCredentialIdV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-credential-sub-type-by-credential-id
-  - name: Cisco DNA Center documentation for Discovery GetGlobalCredentialsV1
-    description: Complete reference of the GetGlobalCredentialsV1 API.
+  - name: Cisco DNA Center documentation for Discovery
+      GetCredentialSubTypeByCredentialId
+    description: Complete reference of the GetCredentialSubTypeByCredentialId
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-credential-sub-type-by-credential-id
+  - name: Cisco DNA Center documentation for Discovery
+      GetGlobalCredentials
+    description: Complete reference of the GetGlobalCredentials
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-global-credentials
 notes:
-  - SDK Method used are discovery.Discovery.get_credential_sub_type_by_credential_id_v1,
-    discovery.Discovery.get_global_credentials_v1,
-  - Paths used are get /dna/intent/api/v1/global-credential, get /dna/intent/api/v1/global-credential/{id},
-  - It should be noted that this module is an alias of global_credential_v1_info
+  - SDK Method used are
+    discovery.Discovery.get_credential_sub_type_by_credential_id,
+    discovery.Discovery.get_global_credentials,
+  - Paths used are
+    get /dna/intent/api/v1/global-credential,
+    get /dna/intent/api/v1/global-credential/{id},
 """
+
 EXAMPLES = r"""
-- name: Get all Global Credential Info
+---
+- name: Get all Global Credential
   cisco.dnac.global_credential_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -68,7 +82,7 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
-- name: Get Global Credential Info by id
+- name: Get Global Credential by id
   cisco.dnac.global_credential_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

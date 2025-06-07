@@ -3,17 +3,19 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
-__author__ = ("Ajith Andrew J, Syed khadeer Ahmed, Rangaprabhu Deenadayalu, Madhan Sankaranarayanan")
+__author__ = "Ajith Andrew J, Syed khadeer Ahmed, Rangaprabhu Deenadayalu, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: user_role_workflow_manager
-short_description: Resource module for managing users and roles in Cisco Catalyst
-  Center.
+short_description: Resource module for managing users
+  and roles in Cisco Catalyst Center.
 description:
-  - Manages operations to create, update, and delete users and roles in Cisco Catalyst
-    Center.
-  - Provides APIs to create, update, and delete users and roles.
+  - Manages operations to create, update, and delete
+    users and roles in Cisco Catalyst Center.
+  - Provides APIs to create, update, and delete users
+    and roles.
 version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -24,29 +26,34 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the
-      playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center after applying the playbook config.
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: The state of Cisco Catalyst Center
+      after module completion.
     type: str
     choices: ["merged", "deleted"]
     default: merged
   config:
-    description: A dictionary containing the configuration details for users or roles.
+    description: A dictionary containing the configuration
+      details for users or roles.
     type: dict
     required: true
     suboptions:
       user_details:
-        description: Manages the configuration details for user accounts.
+        description: Manages the configuration details
+          for user accounts.
         type: list
         elements: dict
         suboptions:
           username:
             description:
-              - The 'username' associated with the user account.
-              - Required for user create, update and delete operations.
+              - The 'username' associated with the user
+                account.
+              - Required for user create, update and
+                delete operations.
             type: str
           first_name:
             description: The first name of the user.
@@ -56,165 +63,209 @@ options:
             type: str
           email:
             description:
-              - The email address of the user (e.g., syedkhadeerahmed@example.com).
-              - Used to retrieve user data if the 'username' is forgotten.
-              - Required for user deletion if the 'username' is forgotten.
+              - The email address of the user (e.g.,
+                syedkhadeerahmed@example.com).
+              - Used to retrieve user data if the 'username'
+                is forgotten.
+              - Required for user deletion if the 'username'
+                is forgotten.
             type: str
           password:
             description:
-              - The password for the user account, which must adhere to specified
-                complexity requirements.
-              - Must contain at least one special character, one capital letter, one
-                lowercase letter, and a minimum length of 8 characters.
+              - The password for the user account, which
+                must adhere to specified complexity
+                requirements.
+              - Must contain at least one special character,
+                one capital letter, one lowercase letter,
+                and a minimum length of 8 characters.
               - Required for creating a new user account.
             type: str
           password_update:
             description:
-              - Indicates whether the password should be updated.
-              - Set to `true` to trigger a password update.
-              - Required if a password change is necessary; must be explicitly set
-                to `true` to initiate the update process.
-              - If no update is needed, omit this parameter or set it to `false`.
-              - Ensure this parameter is correctly set to avoid unnecessary updates
-                or errors.
+              - Indicates whether the password should
+                be updated.
+              - Set to `true` to trigger a password
+                update.
+              - Required if a password change is necessary;
+                must be explicitly set to `true` to
+                initiate the update process.
+              - If no update is needed, omit this parameter
+                or set it to `false`.
+              - Ensure this parameter is correctly set
+                to avoid unnecessary updates or errors.
             type: str
           role_list:
             description:
-              - A list of role names to be assigned to the user. If no role is specified,
+              - A list of role names to be assigned
+                to the user. If no role is specified,
                 the default role will be "OBSERVER-ROLE".
-              - The role names must match with those defined in the Cisco Catalyst
-                Center.
-              - The default roles present in the Cisco Catalyst Center are "SUPER-ADMIN-ROLE",
+              - The role names must match with those
+                defined in the Cisco Catalyst Center.
+              - The default roles present in the Cisco
+                Catalyst Center are "SUPER-ADMIN-ROLE",
                 "NETWORK-ADMIN-ROLE", "OBSERVER-ROLE".
-              - SUPER-ADMIN-ROLE grants Full access, including user management.
-              - NETWORK-ADMIN-ROLE grants Full network access, no system functions.
-              - OBSERVER-ROLE grants view-only access, no configuration or control
-                functions.
+              - SUPER-ADMIN-ROLE grants Full access,
+                including user management.
+              - NETWORK-ADMIN-ROLE grants Full network
+                access, no system functions.
+              - OBSERVER-ROLE grants view-only access,
+                no configuration or control functions.
             type: list
             elements: str
       role_details:
-        description: Manages the configuration details for roles.
+        description: Manages the configuration details
+          for roles.
         type: list
         elements: dict
         suboptions:
           role_name:
-            description: The name of the role to be managed.
+            description: The name of the role to be
+              managed.
             type: str
           description:
-            description: A brief description of the role's purpose and scope.
+            description: A brief description of the
+              role's purpose and scope.
             type: str
           assurance:
-            description: Ensure consistent service levels with complete visibility
-              across all aspects of the network.
+            description: Ensure consistent service levels
+              with complete visibility across all aspects
+              of the network.
             choices: ["deny", "read", "write"]
             default: "read"
             suboptions:
               overall:
-                description: Set the same access level for all sub-parameters.
+                description: Set the same access level
+                  for all sub-parameters.
                 choices: ["deny", "read", "write"]
                 default: "read"
               monitoring_and_troubleshooting:
                 description:
-                  - Monitor and manage network health, troubleshoot issues, and perform
+                  - Monitor and manage network health,
+                    troubleshoot issues, and perform
                     remediation.
-                  - Includes proactive network monitoring and AI-driven insights.
+                  - Includes proactive network monitoring
+                    and AI-driven insights.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               monitoring_settings:
                 description:
-                  - Configure and manage health thresholds for the network, clients,
-                    and applications.
-                  - Requires at least 'read' permission for Monitoring and Troubleshooting.
+                  - Configure and manage health thresholds
+                    for the network, clients, and applications.
+                  - Requires at least 'read' permission
+                    for Monitoring and Troubleshooting.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               troubleshooting_tools:
                 description:
                   - Create and manage sensor tests.
-                  - Schedule on-demand forensic packet captures (Intelligent Capture)
-                    for troubleshooting clients.
-                  - Requires at least 'read' permission for Monitoring and Troubleshooting.
+                  - Schedule on-demand forensic packet
+                    captures (Intelligent Capture) for
+                    troubleshooting clients.
+                  - Requires at least 'read' permission
+                    for Monitoring and Troubleshooting.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
           network_analytics:
-            description: Manage components related to network analytics.
+            description: Manage components related to
+              network analytics.
             suboptions:
               overall:
-                description: Set the same access level for all sub-parameters.
+                description: Set the same access level
+                  for all sub-parameters.
                 choices: ["deny", "read", "write"]
                 default: "read"
               data_access:
                 description:
                   - Enable access to query engine APIs.
-                  - Manage functions such as global search, rogue management, and
-                    aWIPS.
-                  - Setting this to 'deny' affects Search and Assurance functionality.
+                  - Manage functions such as global
+                    search, rogue management, and aWIPS.
+                  - Setting this to 'deny' affects Search
+                    and Assurance functionality.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
           network_design:
-            description: Set up the network hierarchy, update the software image repository,
-              and configure network profiles and settings for managing sites and network
-              devices.
+            description: Set up the network hierarchy,
+              update the software image repository,
+              and configure network profiles and settings
+              for managing sites and network devices.
             suboptions:
               overall:
-                description: Set the same access level for all sub-parameters.
+                description: Set the same access level
+                  for all sub-parameters.
                 choices: ["deny", "read", "write"]
                 default: "read"
               advanced_network_settings:
                 description:
-                  - Update network settings, including global device credentials,
-                    authentication and policy servers, certificates, trustpool, cloud
-                    access keys, stealthwatch, umbrella, and data anonymization.
-                  - Export the device inventory and its credentials.
-                  - Requires at least 'read' permission on Network Settings.
+                  - Update network settings, including
+                    global device credentials, authentication
+                    and policy servers, certificates,
+                    trustpool, cloud access keys, stealthwatch,
+                    umbrella, and data anonymization.
+                  - Export the device inventory and
+                    its credentials.
+                  - Requires at least 'read' permission
+                    on Network Settings.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               image_repository:
-                description: Manage software images and facilitate upgrades and updates
+                description: Manage software images
+                  and facilitate upgrades and updates
                   on physical and virtual network entities
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               network_hierarchy:
-                description: Define and create a network hierarchy of sites, buildings,
-                  floors, and areas based on geographic location.
+                description: Define and create a network
+                  hierarchy of sites, buildings, floors,
+                  and areas based on geographic location.
               network_profiles:
                 description:
-                  - Create network profiles for routing, switching, and wireless.
-                    Assign profiles to sites.
-                  - Includes roles such as template editor, tagging, model config
-                    editor, and authentication template.
-                  - To create SSIDs, 'write' permission on network settings is required.
+                  - Create network profiles for routing,
+                    switching, and wireless. Assign
+                    profiles to sites.
+                  - Includes roles such as template
+                    editor, tagging, model config editor,
+                    and authentication template.
+                  - To create SSIDs, 'write' permission
+                    on network settings is required.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               network_settings:
                 description:
-                  - Manage common site-wide network settings such as AAA, NTP, DHCP,
+                  - Manage common site-wide network
+                    settings such as AAA, NTP, DHCP,
                     DNS, Syslog, SNMP, and Telemetry.
-                  - Users in this role can add an SFTP server and adjust the Network
-                    Resync Interval found under Systems > Settings.
-                  - To create wireless profiles, 'write' permission on Network Profiles
-                    is required.
+                  - Users in this role can add an SFTP
+                    server and adjust the Network Resync
+                    Interval found under Systems > Settings.
+                  - To create wireless profiles, 'write'
+                    permission on Network Profiles is
+                    required.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               virtual_network:
-                description: Manage virtual networks (VNs). Segment physical networks
-                  into multiple logical networks for traffic isolation and controlled
-                  inter-VN communication.
+                description: Manage virtual networks
+                  (VNs). Segment physical networks into
+                  multiple logical networks for traffic
+                  isolation and controlled inter-VN
+                  communication.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
           network_provision:
-            description: Configure, upgrade, provision, and manage network devices.
+            description: Configure, upgrade, provision,
+              and manage network devices.
             suboptions:
               overall:
-                description: Provides the same choice for all sub-parameters.
+                description: Provides the same choice
+                  for all sub-parameters.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
@@ -224,130 +275,164 @@ options:
                 default: "read"
                 type: str
               exo:
-                description: Scan the network for End of Life, End of Sales, or End
-                  of Support information for hardware and software.
+                description: Scan the network for End
+                  of Life, End of Sales, or End of Support
+                  information for hardware and software.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               image_update:
-                description: Upgrade software images on devices that do not match
-                  the Golden Image settings after a complete upgrade lifecycle.
+                description: Upgrade software images
+                  on devices that do not match the Golden
+                  Image settings after a complete upgrade
+                  lifecycle.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               inventory_management:
                 description:
-                  - Discover, add, replace, or delete devices while managing device
-                    attributes and configuration properties.
-                  - To replace a device, 'write' permission is required for pnp under
-                    network provision.
+                  - Discover, add, replace, or delete
+                    devices while managing device attributes
+                    and configuration properties.
+                  - To replace a device, 'write' permission
+                    is required for pnp under network
+                    provision.
                 type: list
                 elements: dict
                 suboptions:
                   overall:
-                    description: Provides the same choice for all sub-parameters.
+                    description: Provides the same choice
+                      for all sub-parameters.
                     choices: ["deny", "read", "write"]
                     default: "read"
                     type: str
                   device_configuration:
-                    description: Display the running configuration of a device.
+                    description: Display the running
+                      configuration of a device.
                     choices: ["deny", "read", "write"]
                     default: "read"
                     type: str
                   discovery:
-                    description: Discover new devices on the network.
+                    description: Discover new devices
+                      on the network.
                     choices: ["deny", "read", "write"]
                     default: "read"
                     type: str
                   network_device:
-                    description: Add devices from inventory, view device details,
-                      and perform device-level actions.
+                    description: Add devices from inventory,
+                      view device details, and perform
+                      device-level actions.
                     choices: ["deny", "read", "write"]
                     default: "read"
                     type: str
                   port_management:
-                    description: Allow port actions on a device.
+                    description: Allow port actions
+                      on a device.
                     choices: ["deny", "read", "write"]
                     default: "read"
                     type: str
                   topology:
                     description:
-                      - Display the network device and link connectivity.
-                      - Manage device roles, tag devices, customize the display, and
-                        save custom topology layouts.
-                      - To view the SD-Access Fabric window, at least 'read' permission
-                        on "Network Provision > Inventory Management > Topology" is
-                        required.
+                      - Display the network device and
+                        link connectivity.
+                      - Manage device roles, tag devices,
+                        customize the display, and save
+                        custom topology layouts.
+                      - To view the SD-Access Fabric
+                        window, at least 'read' permission
+                        on "Network Provision > Inventory
+                        Management > Topology" is required.
                     choices: ["deny", "read", "write"]
                     default: "read"
                     type: str
               license:
                 description:
-                  - Unified view of software and network assets related to license
-                    usage and compliance.
-                  - Also controls permissions for cisco.com and Smart accounts.
+                  - Unified view of software and network
+                    assets related to license usage
+                    and compliance.
+                  - Also controls permissions for cisco.com
+                    and Smart accounts.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               network_telemetry:
                 description:
-                  - Enable or disable the collection of application telemetry from
-                    devices.
-                  - Configure telemetry settings for the assigned site.
-                  - Configure additional settings such as wireless service assurance
-                    and controller certificates.
-                  - To enable or disable network telemetry, 'write' permission on
-                    Provision is required.
+                  - Enable or disable the collection
+                    of application telemetry from devices.
+                  - Configure telemetry settings for
+                    the assigned site.
+                  - Configure additional settings such
+                    as wireless service assurance and
+                    controller certificates.
+                  - To enable or disable network telemetry,
+                    'write' permission on Provision
+                    is required.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               pnp:
-                description: Automatically onboard new devices, assign them to sites,
-                  and configure them with site-specific settings.
+                description: Automatically onboard new
+                  devices, assign them to sites, and
+                  configure them with site-specific
+                  settings.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               provision:
                 description:
-                  - Provision devices with site-specific settings and network policies.
-                  - Includes roles such as Fabric, Application Policy, Application
-                    Visibility, Cloud, Site-to-Site VPN, Network/Application Telemetry,
-                    Stealthwatch, Sync Start vs Run Configuration, and Umbrella provisioning.
-                  - On the main dashboards for rogue and aWIPS, certain actions, including
-                    rogue containment, can be enabled or disabled.
-                  - To provision devices, 'write' permission on Network Design and
-                    Network Provision is required.
+                  - Provision devices with site-specific
+                    settings and network policies.
+                  - Includes roles such as Fabric, Application
+                    Policy, Application Visibility,
+                    Cloud, Site-to-Site VPN, Network/Application
+                    Telemetry, Stealthwatch, Sync Start
+                    vs Run Configuration, and Umbrella
+                    provisioning.
+                  - On the main dashboards for rogue
+                    and aWIPS, certain actions, including
+                    rogue containment, can be enabled
+                    or disabled.
+                  - To provision devices, 'write' permission
+                    on Network Design and Network Provision
+                    is required.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
           network_services:
-            description: Configure additional capabilities on the network beyond basic
-              network connectivity and access.
+            description: Configure additional capabilities
+              on the network beyond basic network connectivity
+              and access.
             default: "read"
             suboptions:
               overall:
-                description: Provides the same choice for all sub-parameters.
+                description: Provides the same choice
+                  for all sub-parameters.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               app_hosting:
-                description: Deploy, manage, and monitor virtualized and container-based
-                  applications running on network devices.
+                description: Deploy, manage, and monitor
+                  virtualized and container-based applications
+                  running on network devices.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               bonjour:
-                description: Enable the Wide Area Bonjour service to facilitate policy-based
+                description: Enable the Wide Area Bonjour
+                  service to facilitate policy-based
                   service discovery across the network.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               stealthwatch:
                 description:
-                  - Configure network elements to send data to Cisco Stealthwatch
-                    for threat detection and mitigation, including encrypted traffic.
-                  - To provision Stealthwatch, 'write' permission is required for
-                    the following components.
+                  - Configure network elements to send
+                    data to Cisco Stealthwatch for threat
+                    detection and mitigation, including
+                    encrypted traffic.
+                  - To provision Stealthwatch, 'write'
+                    permission is required for the following
+                    components.
                   - Network Design > Network Settings.
                   - Network Provision > Provision.
                   - Network Services > Stealthwatch.
@@ -357,10 +442,11 @@ options:
                 type: str
               umbrella:
                 description:
-                  - Configure network elements to use Cisco Umbrella as a first line
-                    of defense against cybersecurity threats.
-                  - To provision Umbrella, 'write' permission is required for the
-                    following components.
+                  - Configure network elements to use
+                    Cisco Umbrella as a first line of
+                    defense against cybersecurity threats.
+                  - To provision Umbrella, 'write' permission
+                    is required for the following components.
                   - Network Design > Network Settings.
                   - Network Provision > Provision.
                   - Network Provision > Scheduler.
@@ -369,148 +455,185 @@ options:
                 default: "read"
                 type: str
           platform:
-            description: Open platform for accessible, intent-based workflows, data
-              exchange, notifications, and third-party app integrations.
+            description: Open platform for accessible,
+              intent-based workflows, data exchange,
+              notifications, and third-party app integrations.
             default: "deny"
             suboptions:
               overall:
-                description: Provides the same choice for all sub-parameters.
+                description: Provides the same choice
+                  for all sub-parameters.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
               apis:
-                description: Access Cisco Catalyst Center through REST APIs to drive
-                  value.
+                description: Access Cisco Catalyst Center
+                  through REST APIs to drive value.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
               bundles:
-                description: Enhance productivity by configuring and activating preconfigured
+                description: Enhance productivity by
+                  configuring and activating preconfigured
                   bundles for ITSM integration.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
               events:
                 description:
-                  - Subscribe to near real-time notifications for network and system
-                    events of interest.
-                  - Configure email and syslog logs in System > Settings > Destinations.
+                  - Subscribe to near real-time notifications
+                    for network and system events of
+                    interest.
+                  - Configure email and syslog logs
+                    in System > Settings > Destinations.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
               reports:
                 description:
-                  - Generate reports using predefined templates for all aspects of
-                    the network.
-                  - Generate reports for rogue devices and aWIPS.
-                  - Configure webhooks in System > Settings > Destinations.
+                  - Generate reports using predefined
+                    templates for all aspects of the
+                    network.
+                  - Generate reports for rogue devices
+                    and aWIPS.
+                  - Configure webhooks in System > Settings
+                    > Destinations.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
           security:
-            description: Manage and control secure access to the network.
+            description: Manage and control secure access
+              to the network.
             default: "read"
             suboptions:
               overall:
-                description: Provides the same choice for all sub-parameters.
+                description: Provides the same choice
+                  for all sub-parameters.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               group_based_policy:
                 description:
-                  - Manage group-based policies for networks that enforce segmentation
-                    and access control based on Cisco security group tags.
+                  - Manage group-based policies for
+                    networks that enforce segmentation
+                    and access control based on Cisco
+                    security group tags.
                   - This role includes Endpoint Analytics.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               ip_based_access_control:
-                description: Manage IP-based access control lists that enforce network
+                description: Manage IP-based access
+                  control lists that enforce network
                   segmentation based on IP addresses.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               security_advisories:
-                description: Scan the network for security advisories. Review and
-                  understand the impact of published Cisco security advisories.
+                description: Scan the network for security
+                  advisories. Review and understand
+                  the impact of published Cisco security
+                  advisories.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
           system:
-            description: Centralized administration of Cisco Catalyst Center, including
-              configuration management, network connectivity, software upgrades, and
-              more.
+            description: Centralized administration
+              of Cisco Catalyst Center, including configuration
+              management, network connectivity, software
+              upgrades, and more.
             default: "read"
             suboptions:
               overall:
-                description: Provides the same choice for all sub-parameters.
+                description: Provides the same choice
+                  for all sub-parameters.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               machine_reasoning:
-                description: Configure automatic updates to the machine reasoning
-                  knowledge base to rapidly identify security vulnerabilities and
-                  improve automated issue analysis.
+                description: Configure automatic updates
+                  to the machine reasoning knowledge
+                  base to rapidly identify security
+                  vulnerabilities and improve automated
+                  issue analysis.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               system_management:
                 description:
-                  - Manage core system functionality and connectivity settings, user
+                  - Manage core system functionality
+                    and connectivity settings, user
                     roles, and external authentication.
-                  - This role includes Cisco Credentials, Integrity Verification,
-                    Device EULA, HA, Integration Settings, Disaster Recovery, Debugging
-                    Logs, Telemetry Collection, System EULA, IPAM, vManage Servers,
-                    Cisco AI Analytics, Backup & Restore, and Data Platform.
+                  - This role includes Cisco Credentials,
+                    Integrity Verification, Device EULA,
+                    HA, Integration Settings, Disaster
+                    Recovery, Debugging Logs, Telemetry
+                    Collection, System EULA, IPAM, vManage
+                    Servers, Cisco AI Analytics, Backup
+                    & Restore, and Data Platform.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
           utilities:
-            description: One-stop-shop productivity resource for the most commonly
-              used troubleshooting tools and services.
+            description: One-stop-shop productivity
+              resource for the most commonly used troubleshooting
+              tools and services.
             suboptions:
               overall:
-                description: Provides the same choice for all sub-parameters.
+                description: Provides the same choice
+                  for all sub-parameters.
                 choices: ["deny", "read", "write"]
                 type: str
               audit_log:
-                description: Detailed log of changes made via UI or API interface
-                  to network devices or Cisco Catalyst Center.
+                description: Detailed log of changes
+                  made via UI or API interface to network
+                  devices or Cisco Catalyst Center.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
               event_viewer:
-                description: View network device and client events for troubleshooting.
+                description: View network device and
+                  client events for troubleshooting.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               network_reasoner:
                 description:
-                  - Allow the Cisco support team to remotely troubleshoot the network
-                    devices managed by Cisco Catalyst Center.
-                  - Enables an engineer from the Cisco Technical Assistance Center
-                    (TAC) to connect remotely to a customer's Cisco Catalyst Center
-                    setup for troubleshooting.
+                  - Allow the Cisco support team to
+                    remotely troubleshoot the network
+                    devices managed by Cisco Catalyst
+                    Center.
+                  - Enables an engineer from the Cisco
+                    Technical Assistance Center (TAC)
+                    to connect remotely to a customer's
+                    Cisco Catalyst Center setup for
+                    troubleshooting.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               remote_device_support:
-                description: Allow Cisco support team to remotely troubleshoot any
-                  network devices managed by Cisco Catalyst Center.
+                description: Allow Cisco support team
+                  to remotely troubleshoot any network
+                  devices managed by Cisco Catalyst
+                  Center.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
               scheduler:
-                description: Run, schedule, and monitor network tasks and activities
-                  such as deploying policies, provisioning, or upgrading the network,
-                  integrated with other back-end services.
+                description: Run, schedule, and monitor
+                  network tasks and activities such
+                  as deploying policies, provisioning,
+                  or upgrading the network, integrated
+                  with other back-end services.
                 choices: ["deny", "read", "write"]
                 default: "write"
                 type: str
               search:
-                description: Search for various objects in Cisco Catalyst Center,
-                  including sites, network devices, clients, applications, policies,
-                  settings, tags, menu items, and more.
+                description: Search for various objects
+                  in Cisco Catalyst Center, including
+                  sites, network devices, clients, applications,
+                  policies, settings, tags, menu items,
+                  and more.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
@@ -518,12 +641,15 @@ requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9.19
 notes:
-  - SDK Methods used - user_and_roles.UserandRoles.get_user_api - user_and_roles.UserandRoles.add_user_api
-    - user_and_roles.UserandRoles.update_user_api - user_and_roles.UserandRoles.delete_user_api
-  - Paths used - get /dna/system/api/v1/user - post /dna/system/api/v1/user - put
-    /dna/system/api/v1/user - delete /dna/system/api/v1/user/{userId}
+  - SDK Methods used - user_and_roles.UserandRoles.get_user_api
+    - user_and_roles.UserandRoles.add_user_api - user_and_roles.UserandRoles.update_user_api
+    - user_and_roles.UserandRoles.delete_user_api
+  - Paths used - get /dna/system/api/v1/user - post
+    /dna/system/api/v1/user - put /dna/system/api/v1/user
+    - delete /dna/system/api/v1/user/{userId}
 """
 EXAMPLES = r"""
+---
 - name: Create a user
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -547,7 +673,8 @@ EXAMPLES = r"""
           email: "ajith.andrew@example.com"
           password: "Example@0101"
           role_list: ["SUPER-ADMIN-ROLE"]
-- name: Update a user for first name, last name, email, and role list
+- name: Update a user for first name, last name, email,
+    and role list
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -641,7 +768,8 @@ EXAMPLES = r"""
     config:
       role_details:
         - role_name: "Full-Access-Admin"
-          description: "Admin role with access to most operational domains."
+          description: "Admin role with access to most
+            operational domains."
           assurance:
             - monitoring_and_troubleshooting: "write"
               monitoring_settings: "read"
@@ -708,7 +836,8 @@ EXAMPLES = r"""
     config:
       role_details:
         - role_name: "Assurance-Manager"
-          description: "User with assurance write access and read-only monitoring."
+          description: "User with assurance write access
+            and read-only monitoring."
           assurance:
             - overall: "write"
               monitoring_and_troubleshooting: "read"
@@ -727,7 +856,8 @@ EXAMPLES = r"""
     config:
       role_details:
         - role_name: "Network-Provision-Manager"
-          description: "User with access to most network provision operations."
+          description: "User with access to most network
+            provision operations."
           network_provision:
             - compliance: "write"
               image_update: "write"
@@ -919,13 +1049,14 @@ import re
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
-    validate_list
+    validate_list,
 )
 from ansible.module_utils.basic import AnsibleModule
 
 
 class UserandRole(DnacBase):
     """Class containing member attributes for user workflow_manager module"""
+
     def __init__(self, module):
         super().__init__(module)
         self.result["response"] = []
@@ -971,40 +1102,75 @@ class UserandRole(DnacBase):
             self.status = "failed"
             return self
 
-        if "role_details" in config and "role_name" in user_role_details[0] and user_role_details[0].get("role_name") is not None:
+        if (
+            "role_details" in config
+            and "role_name" in user_role_details[0]
+            and user_role_details[0].get("role_name") is not None
+        ):
             role_details = {
                 "role_name": {"required": True, "type": "str"},
                 "description": {"required": False, "type": "str"},
                 "assurance": {"required": False, "type": "list", "elements": "dict"},
-                "network_analytics": {"required": False, "type": "list", "elements": "dict"},
-                "network_design": {"required": False, "type": "list", "elements": "dict"},
-                "network_provision": {"required": False, "type": "list", "elements": "dict"},
-                "network_services": {"required": False, "type": "list", "elements": "dict"},
+                "network_analytics": {
+                    "required": False,
+                    "type": "list",
+                    "elements": "dict",
+                },
+                "network_design": {
+                    "required": False,
+                    "type": "list",
+                    "elements": "dict",
+                },
+                "network_provision": {
+                    "required": False,
+                    "type": "list",
+                    "elements": "dict",
+                },
+                "network_services": {
+                    "required": False,
+                    "type": "list",
+                    "elements": "dict",
+                },
                 "platform": {"required": False, "type": "list", "elements": "dict"},
                 "security": {"required": False, "type": "list", "elements": "dict"},
                 "system": {"required": False, "type": "list", "elements": "dict"},
                 "utilities": {"required": False, "type": "list", "elements": "dict"},
             }
-            valid_param, invalid_param = validate_list_of_dicts(user_role_details, role_details)
+            valid_param, invalid_param = validate_list_of_dicts(
+                user_role_details, role_details
+            )
 
             if invalid_param:
-                self.msg = "Invalid parameter(s) found in playbook: {0}".format(", ".join(invalid_param))
+                self.msg = "Invalid parameter(s) found in playbook: {0}".format(
+                    ", ".join(invalid_param)
+                )
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
 
             self.validated_config = valid_param
-            self.msg = "Successfully validated playbook config params: {0}".format(str(valid_param[0]))
+            self.msg = "Successfully validated playbook config params: {0}".format(
+                str(valid_param[0])
+            )
             self.log(self.msg, "INFO")
             self.status = "success"
             return self
 
-        if "user_details" in config and "username" in user_role_details[0] or "email" in user_role_details[0]:
+        if (
+            "user_details" in config
+            and "username" in user_role_details[0]
+            or "email" in user_role_details[0]
+        ):
             for user in user_role_details:
-                if 'password' in user:
-                    encrypt_password_response = self.encrypt_password(user['password'], self.key.get("generate_key"))
+                if "password" in user:
+                    encrypt_password_response = self.encrypt_password(
+                        user["password"], self.key.get("generate_key")
+                    )
 
-                    if encrypt_password_response and "error_message" in encrypt_password_response:
+                    if (
+                        encrypt_password_response
+                        and "error_message" in encrypt_password_response
+                    ):
                         self.msg = encrypt_password_response.get("error_message")
                         self.log(self.msg, "ERROR")
                         self.status = "failed"
@@ -1012,7 +1178,10 @@ class UserandRole(DnacBase):
 
                     user["password"] = encrypt_password_response.get("encrypt_password")
 
-            if user_role_details[0].get("username") is not None or user_role_details[0].get("email") is not None:
+            if (
+                user_role_details[0].get("username") is not None
+                or user_role_details[0].get("email") is not None
+            ):
                 user_details = {
                     "first_name": {"required": False, "type": "str"},
                     "last_name": {"required": False, "type": "str"},
@@ -1024,22 +1193,28 @@ class UserandRole(DnacBase):
                 }
 
                 try:
-                    valid_param, invalid_param = validate_list_of_dicts(user_role_details, user_details)
+                    valid_param, invalid_param = validate_list_of_dicts(
+                        user_role_details, user_details
+                    )
                 except Exception as e:
                     self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-                    self.msg = "{0}.".format(str(e).split('.', maxsplit=1)[0])
+                    self.msg = "{0}.".format(str(e).split(".", maxsplit=1)[0])
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
                     return self
 
                 if invalid_param:
-                    self.msg = "Invalid parameter(s) found in playbook: {0}".format(", ".join(invalid_param))
+                    self.msg = "Invalid parameter(s) found in playbook: {0}".format(
+                        ", ".join(invalid_param)
+                    )
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
                     return self
 
                 self.validated_config = valid_param
-                self.msg = "Successfully validated playbook config params:{0}".format(str(valid_param[0]))
+                self.msg = "Successfully validated playbook config params:{0}".format(
+                    str(valid_param[0])
+                )
                 self.log(self.msg, "INFO")
                 self.status = "success"
                 return self
@@ -1059,7 +1234,9 @@ class UserandRole(DnacBase):
         """
         # Check if the parameter value is a string
         if not isinstance(param_value, str):
-            error_messages.append("Parameter '{0}' must be a string.".format(param_name))
+            error_messages.append(
+                "Parameter '{0}' must be a string.".format(param_name)
+            )
 
     def validate_string_field(self, field_value, regex, error_message, error_messages):
         """
@@ -1090,11 +1267,11 @@ class UserandRole(DnacBase):
 
         self.log(password_criteria_message, "DEBUG")
         password_regexs = [
-            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{9,20}$'),
-            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{9,20}$'),
-            re.compile(r'^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{9,20}$'),
-            re.compile(r'^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{9,20}$'),
-            re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,20}$')
+            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{9,20}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{9,20}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{9,20}$"),
+            re.compile(r"^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{9,20}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,20}$"),
         ]
 
         self.log("Password meets character type and length requirements.", "INFO")
@@ -1107,7 +1284,9 @@ class UserandRole(DnacBase):
             self.log("Password failed character type and length validation.", "ERROR")
             error_messages.append(password_criteria_message)
 
-    def validate_role_parameters(self, role_key, params_list, role_config, role_param_map, error_messages):
+    def validate_role_parameters(
+        self, role_key, params_list, role_config, role_param_map, error_messages
+    ):
         """
         Helper function to validate role parameters.
         """
@@ -1117,19 +1296,39 @@ class UserandRole(DnacBase):
                 self.log("Validating role: {0}".format(role), "DEBUG")
                 for param in params_list:
                     if role.get(param):
-                        self.log("Validating parameter '{0}' with value '{1}'".format(param, role[param]), "DEBUG")
-                        self.validate_string_parameter(param, role[param], error_messages)
+                        self.log(
+                            "Validating parameter '{0}' with value '{1}'".format(
+                                param, role[param]
+                            ),
+                            "DEBUG",
+                        )
+                        self.validate_string_parameter(
+                            param, role[param], error_messages
+                        )
 
                 if role == "network_provision":
                     inventory_management_list = role.get("inventory_management", [])
                     if inventory_management_list is not None:
                         for inventory_management in inventory_management_list:
-                            self.log("Validating inventory management: {0}".format(inventory_management), "DEBUG")
+                            self.log(
+                                "Validating inventory management: {0}".format(
+                                    inventory_management
+                                ),
+                                "DEBUG",
+                            )
                             for param in role_param_map["inventory_management"]:
                                 if inventory_management.get(param):
-                                    self.log("Validating inventory management parameter '{0}' with value '{1}'".format(param, inventory_management[param]),
-                                             "DEBUG")
-                                    self.validate_string_parameter(param, inventory_management[param], error_messages)
+                                    self.log(
+                                        "Validating inventory management parameter '{0}' with value '{1}'".format(
+                                            param, inventory_management[param]
+                                        ),
+                                        "DEBUG",
+                                    )
+                                    self.validate_string_parameter(
+                                        param,
+                                        inventory_management[param],
+                                        error_messages,
+                                    )
 
     def identify_invalid_params(self, params, mismatches):
         """
@@ -1145,16 +1344,65 @@ class UserandRole(DnacBase):
             - Only parameters that are not in the 'allowed_params' set are appended to the 'mismatches' list.
         """
         allowed_params = [
-            "monitoring_and_troubleshooting", "monitoring_settings", "troubleshooting_tools", "data_access", "advanced_network_settings",
-            "image_repository", "network_hierarchy", "network_profiles", "network_settings", "virtual_network", "compliance",
-            "eox", "image_update", "inventory_management", "license", "network_telemetry", "pnp", "provision", "device_configuration",
-            "discovery", "network_device", "port_management", "topology", "app_hosting", "bonjour", "stealthwatch", "umbrella",
-            "apis", "bundles", "events", "reports", "group_based_policy", "ip_based_access_control", "security_advisories",
-            "machine_reasoning", "system_management", "audit_log", "event_viewer", "network_reasoner", "remote_device_support",
-            "scheduler", "search", 'role_name', 'description', 'assurance', 'network_analytics', 'network_design', 'network_provision',
-            'network_services', 'platform', 'security', 'system', 'utilities', 'overall'
+            "monitoring_and_troubleshooting",
+            "monitoring_settings",
+            "troubleshooting_tools",
+            "data_access",
+            "advanced_network_settings",
+            "image_repository",
+            "network_hierarchy",
+            "network_profiles",
+            "network_settings",
+            "virtual_network",
+            "compliance",
+            "eox",
+            "image_update",
+            "inventory_management",
+            "license",
+            "network_telemetry",
+            "pnp",
+            "provision",
+            "device_configuration",
+            "discovery",
+            "network_device",
+            "port_management",
+            "topology",
+            "app_hosting",
+            "bonjour",
+            "stealthwatch",
+            "umbrella",
+            "apis",
+            "bundles",
+            "events",
+            "reports",
+            "group_based_policy",
+            "ip_based_access_control",
+            "security_advisories",
+            "machine_reasoning",
+            "system_management",
+            "audit_log",
+            "event_viewer",
+            "network_reasoner",
+            "remote_device_support",
+            "scheduler",
+            "search",
+            "role_name",
+            "description",
+            "assurance",
+            "network_analytics",
+            "network_design",
+            "network_provision",
+            "network_services",
+            "platform",
+            "security",
+            "system",
+            "utilities",
+            "overall",
         ]
-        self.log("Starting to iterate through params to identify unknown parameters.", "DEBUG")
+        self.log(
+            "Starting to iterate through params to identify unknown parameters.",
+            "DEBUG",
+        )
 
         if isinstance(params, dict):
             for key, value in params.items():
@@ -1195,7 +1443,8 @@ class UserandRole(DnacBase):
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook config: Mismatched parameter(s) '{0}' in role '{1}'".format(
-                "', '".join(invalid_params), role_config.get("role_name"))
+                "', '".join(invalid_params), role_config.get("role_name")
+            )
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
@@ -1206,36 +1455,96 @@ class UserandRole(DnacBase):
         role_name_regex_msg = "Role names must be 1 to 25 characters long and should contain only letters, numbers, periods, underscores, and hyphens."
 
         if role_name:
-            self.validate_string_field(role_name, role_name_regex, "role_name: '{0}' {1}".format(role_name, role_name_regex_msg), error_messages)
+            self.validate_string_field(
+                role_name,
+                role_name_regex,
+                "role_name: '{0}' {1}".format(role_name, role_name_regex_msg),
+                error_messages,
+            )
         else:
             error_messages.append(role_name_regex_msg)
 
         description = role_config["description"]
         if description:
             if len(description) > 1000:
-                error_messages.append("Role description exceeds the maximum length of 1000 characters.")
+                error_messages.append(
+                    "Role description exceeds the maximum length of 1000 characters."
+                )
             else:
-                self.validate_string_parameter("description", description, error_messages)
+                self.validate_string_parameter(
+                    "description", description, error_messages
+                )
 
         role_param_map = {
-            "assurance": ["overall", "monitoring_and_troubleshooting", "monitoring_settings", "troubleshooting_tools"],
+            "assurance": [
+                "overall",
+                "monitoring_and_troubleshooting",
+                "monitoring_settings",
+                "troubleshooting_tools",
+            ],
             "network_analytics": ["overall", "data_access"],
-            "network_design": ["overall", "advanced_network_settings", "image_repository", "network_hierarchy", "network_profiles",
-                               "network_settings", "virtual_network"],
-            "network_provision": ["overall", "compliance", "eox", "image_update", "license", "network_telemetry", "pnp", "provision"],
-            "inventory_management": ["overall", "device_configuration", "discovery", "network_device", "port_management", "topology"],
-            "network_services": ["overall", "app_hosting", "bonjour", "stealthwatch", "umbrella"],
+            "network_design": [
+                "overall",
+                "advanced_network_settings",
+                "image_repository",
+                "network_hierarchy",
+                "network_profiles",
+                "network_settings",
+                "virtual_network",
+            ],
+            "network_provision": [
+                "overall",
+                "compliance",
+                "eox",
+                "image_update",
+                "license",
+                "network_telemetry",
+                "pnp",
+                "provision",
+            ],
+            "inventory_management": [
+                "overall",
+                "device_configuration",
+                "discovery",
+                "network_device",
+                "port_management",
+                "topology",
+            ],
+            "network_services": [
+                "overall",
+                "app_hosting",
+                "bonjour",
+                "stealthwatch",
+                "umbrella",
+            ],
             "platform": ["overall", "apis", "bundles", "events", "reports"],
-            "security": ["overall", "group_based_policy", "ip_based_access_control", "security_advisories"],
+            "security": [
+                "overall",
+                "group_based_policy",
+                "ip_based_access_control",
+                "security_advisories",
+            ],
             "system": ["overall", "machine_reasoning", "system_management"],
-            "utilities": ["overall", "audit_log", "event_viewer", "network_reasoner", "remote_device_support", "scheduler", "search"]
+            "utilities": [
+                "overall",
+                "audit_log",
+                "event_viewer",
+                "network_reasoner",
+                "remote_device_support",
+                "scheduler",
+                "search",
+            ],
         }
 
         for role_key, params_list in role_param_map.items():
-            self.validate_role_parameters(role_key, params_list, role_config, role_param_map, error_messages)
+            self.validate_role_parameters(
+                role_key, params_list, role_config, role_param_map, error_messages
+            )
 
         if error_messages:
-            self.msg = "Invalid parameters in playbook config: {0}".format(", ".join(error_messages))
+            self.msg = "Invalid parameters in playbook config: {0}".format(
+                ", ".join(error_messages)
+            )
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
@@ -1263,53 +1572,85 @@ class UserandRole(DnacBase):
         self.log("Validating user configuration parameters...", "INFO")
         error_messages = []
         name_regex = re.compile(r"^[A-Za-z0-9@._-]{2,50}$")
-        name_regex_msg = "can have alphanumeric characters only and must be 2 to 50 characters long."
+        name_regex_msg = (
+            "can have alphanumeric characters only and must be 2 to 50 characters long."
+        )
 
         first_name = user_config.get("first_name")
-        self.validate_string_field(first_name, name_regex,
-                                   "first_name: First name '{0}' {1}".format(first_name, name_regex_msg), error_messages)
+        self.validate_string_field(
+            first_name,
+            name_regex,
+            "first_name: First name '{0}' {1}".format(first_name, name_regex_msg),
+            error_messages,
+        )
 
         last_name = user_config.get("last_name")
-        self.validate_string_field(last_name, name_regex,
-                                   "last_name: Last name '{0}' {1}".format(last_name, name_regex_msg), error_messages)
+        self.validate_string_field(
+            last_name,
+            name_regex,
+            "last_name: Last name '{0}' {1}".format(last_name, name_regex_msg),
+            error_messages,
+        )
 
         password = user_config.get("password")
 
         if password:
-            decrypt_password_response = self.decrypt_password(password, self.key.get("generate_key"))
+            decrypt_password_response = self.decrypt_password(
+                password, self.key.get("generate_key")
+            )
 
-            if decrypt_password_response and "error_message" in decrypt_password_response:
+            if (
+                decrypt_password_response
+                and "error_message" in decrypt_password_response
+            ):
                 self.msg = decrypt_password_response.get("error_message")
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
 
-            user_config['password'] = decrypt_password_response.get("decrypt_password")
+            user_config["password"] = decrypt_password_response.get("decrypt_password")
             plain_password = user_config.get("password")
             self.validate_password(plain_password, error_messages)
-            encrypt_password_response = self.encrypt_password(plain_password, self.key.get("generate_key"))
+            encrypt_password_response = self.encrypt_password(
+                plain_password, self.key.get("generate_key")
+            )
 
-            if encrypt_password_response and "error_message" in encrypt_password_response:
+            if (
+                encrypt_password_response
+                and "error_message" in encrypt_password_response
+            ):
                 self.msg = encrypt_password_response.get("error_message")
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
 
-            user_config['password'] = encrypt_password_response.get("encrypt_password").decode()
-            self.log("Password decrypted, validated, and re-encrypted successfully.", "DEBUG")
+            user_config["password"] = encrypt_password_response.get(
+                "encrypt_password"
+            ).decode()
+            self.log(
+                "Password decrypted, validated, and re-encrypted successfully.", "DEBUG"
+            )
 
         username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
         username_regex_msg = "The username must not contain any special characters and must be 3 to 50 characters long."
         username = user_config.get("username")
-        self.validate_string_field(username, username_regex,
-                                   "username: '{0}' {1}".format(username, username_regex_msg), error_messages)
+        self.validate_string_field(
+            username,
+            username_regex,
+            "username: '{0}' {1}".format(username, username_regex_msg),
+            error_messages,
+        )
 
         if user_config.get("role_list"):
             param_spec = dict(type="list", elements="str")
-            validate_list(user_config["role_list"], param_spec, "role_list", error_messages)
+            validate_list(
+                user_config["role_list"], param_spec, "role_list", error_messages
+            )
 
         if error_messages:
-            self.msg = "Invalid parameters in playbook config: {0}".format(str(", ".join(error_messages)))
+            self.msg = "Invalid parameters in playbook config: {0}".format(
+                str(", ".join(error_messages))
+            )
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
@@ -1350,7 +1691,9 @@ class UserandRole(DnacBase):
             have["current_role_config"] = current_role_config
         have["role_exists"] = role_exists
 
-    def update_have_with_user(self, have, user_exists, current_user_config, current_role_id_config):
+    def update_have_with_user(
+        self, have, user_exists, current_user_config, current_role_id_config
+    ):
         """
         Helper function to update the 'have' dictionary with user details.
         """
@@ -1379,13 +1722,27 @@ class UserandRole(DnacBase):
 
         if "role_name" in input_config and input_config["role_name"] is not None:
             role_exists, current_role_config = self.get_current_config(input_config)
-            self.log("Current role config details (have): {0}".format(str(current_role_config)), "DEBUG")
+            self.log(
+                "Current role config details (have): {0}".format(
+                    str(current_role_config)
+                ),
+                "DEBUG",
+            )
             self.update_have_with_role(have, role_exists, current_role_config)
 
         if "username" in input_config or "email" in input_config:
-            user_exists, current_user_config, current_role_id_config = self.get_current_config(input_config)
-            self.log("Current user config details (have): {0}".format(str(current_user_config)), "DEBUG")
-            self.update_have_with_user(have, user_exists, current_user_config, current_role_id_config)
+            user_exists, current_user_config, current_role_id_config = (
+                self.get_current_config(input_config)
+            )
+            self.log(
+                "Current user config details (have): {0}".format(
+                    str(current_user_config)
+                ),
+                "DEBUG",
+            )
+            self.update_have_with_user(
+                have, user_exists, current_user_config, current_role_id_config
+            )
 
         self.have = have
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
@@ -1416,13 +1773,21 @@ class UserandRole(DnacBase):
             if self.have.get("role_exists"):
                 self.valid_role_config_parameters(config).check_return_status()
                 desired_role = self.generate_role_payload(self.want, "update")
-                self.log("desired role with config {0}".format(str(desired_role)), "DEBUG")
+                self.log(
+                    "desired role with config {0}".format(str(desired_role)), "DEBUG"
+                )
 
                 if "error_message" not in desired_role:
-                    consolidated_data, update_required_param = self.role_requires_update(self.have["current_role_config"], desired_role)
+                    consolidated_data, update_required_param = (
+                        self.role_requires_update(
+                            self.have["current_role_config"], desired_role
+                        )
+                    )
 
                     if not consolidated_data:
-                        self.msg = "Role with role_name '{0}' already exists and does not require an update.".format(self.have.get("role_name"))
+                        self.msg = "Role with role_name '{0}' already exists and does not require an update.".format(
+                            self.have.get("role_name")
+                        )
                         self.no_update_role.append(self.have.get("role_name"))
                         self.log(self.msg, "INFO")
                         responses["role_operation"] = {"response": config}
@@ -1440,9 +1805,13 @@ class UserandRole(DnacBase):
                 role_info_params = self.generate_role_payload(self.want, "create")
 
                 if "error_message" not in role_info_params:
-                    filtered_data, overall_update_required = self.get_permissions(self.want, role_info_params, "create")
+                    filtered_data, overall_update_required = self.get_permissions(
+                        self.want, role_info_params, "create"
+                    )
                     denied_permissions = self.find_denied_permissions(self.want)
-                    denied_required, create_role_params = self.remove_denied_operations(filtered_data, denied_permissions)
+                    denied_required, create_role_params = self.remove_denied_operations(
+                        filtered_data, denied_permissions
+                    )
 
                     if denied_required or overall_update_required:
                         task_response = self.create_role(create_role_params)
@@ -1455,26 +1824,40 @@ class UserandRole(DnacBase):
             # update the user if role exists
             if self.have.get("user_exists"):
                 self.valid_user_config_parameters(config).check_return_status()
-                (consolidated_data, update_required_param) = self.user_requires_update(self.have["current_user_config"], self.have["current_role_id_config"])
+                (consolidated_data, update_required_param) = self.user_requires_update(
+                    self.have["current_user_config"],
+                    self.have["current_role_id_config"],
+                )
 
                 if self.want.get("password_update"):
                     if update_required_param.get("role_list"):
-                        if self.want["username"] not in self.have["current_user_config"]["username"]:
-                            task_response = {"error_message": "Username for an existing user cannot be updated."}
+                        if (
+                            self.want["username"]
+                            not in self.have["current_user_config"]["username"]
+                        ):
+                            task_response = {
+                                "error_message": "Username for an existing user cannot be updated."
+                            }
                         else:
                             self.get_diff_deleted(self.want)
-                            update_required_param["password"] = self.want.get("password")
-                            user_info_params = self.snake_to_camel_case(update_required_param)
+                            update_required_param["password"] = self.want.get(
+                                "password"
+                            )
+                            user_info_params = self.snake_to_camel_case(
+                                update_required_param
+                            )
                             task_response = self.create_user(user_info_params)
                     else:
                         task_response = {
                             "error_message": "The role name in the 'role_list' of user details is not present in the Cisco Catalyst Center. "
-                                             "Please provide a valid role name."
+                            "Please provide a valid role name."
                         }
                 else:
                     if not consolidated_data:
                         username = self.have.get("username")
-                        self.msg = "User with username '{0}' already exists and does not require an update.".format(username)
+                        self.msg = "User with username '{0}' already exists and does not require an update.".format(
+                            username
+                        )
                         self.no_update_user.append(username)
                         self.log(self.msg, "INFO")
                         responses["role_operation"] = {"response": config}
@@ -1483,8 +1866,13 @@ class UserandRole(DnacBase):
                         return self
 
                     if update_required_param.get("role_list"):
-                        if self.want["username"] not in self.have["current_user_config"]["username"]:
-                            task_response = {"error_message": "Username for an existing user cannot be updated."}
+                        if (
+                            self.want["username"]
+                            not in self.have["current_user_config"]["username"]
+                        ):
+                            task_response = {
+                                "error_message": "Username for an existing user cannot be updated."
+                            }
                         else:
                             user_in_have = self.have["current_user_config"]
                             update_param = update_required_param
@@ -1494,7 +1882,7 @@ class UserandRole(DnacBase):
                     else:
                         task_response = {
                             "error_message": "The role name in the user details 'role_list' is not present in the Cisco Catalyst Center. "
-                                             "Please provide a valid role name."
+                            "Please provide a valid role name."
                         }
             else:
                 # Create the user
@@ -1515,7 +1903,12 @@ class UserandRole(DnacBase):
                                 if role_id:
                                     user_details[key].append(role_id)
                                 else:
-                                    self.log("Role ID for {0} not found in current_role_id_config".format(str(role_name)), "DEBUG")
+                                    self.log(
+                                        "Role ID for {0} not found in current_role_id_config".format(
+                                            str(role_name)
+                                        ),
+                                        "DEBUG",
+                                    )
 
                 if "role_list" not in user_details:
                     default_role = self.have.get("current_role_id_config")
@@ -1526,15 +1919,17 @@ class UserandRole(DnacBase):
                     user_info_params = self.snake_to_camel_case(user_details)
                     task_response = self.create_user(user_info_params)
                 else:
-                    task_response = {"error_message": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
-                                     " Please provide a valid role name"}
+                    task_response = {
+                        "error_message": "The role name in the user details role_list is not present in the Cisco Catalyst Center,"
+                        " Please provide a valid role name"
+                    }
 
         if task_response and "error_message" not in task_response:
             self.log("Task respoonse {0}".format(str(task_response)), "INFO")
             responses["operation"] = {"response": task_response}
             self.msg = responses
             self.result["response"] = self.msg
-            self.result['changed'] = True
+            self.result["changed"] = True
             self.status = "success"
             self.log(self.msg, "INFO")
             return self
@@ -1575,7 +1970,12 @@ class UserandRole(DnacBase):
         current_role_id = {}
 
         if "role_name" in input_config and input_config["role_name"] is not None:
-            self.log("Retrieving role details for role_name: {0}".format(str(input_config["role_name"])), "DEBUG")
+            self.log(
+                "Retrieving role details for role_name: {0}".format(
+                    str(input_config["role_name"])
+                ),
+                "DEBUG",
+            )
 
             response_role = self.get_role()
             response_role = self.camel_to_snake_case(response_role)
@@ -1586,13 +1986,21 @@ class UserandRole(DnacBase):
                     current_role_configuration = role
                     role_exists = True
 
-            self.log("Role retrieval result - role_exists: {0}, current_role_configuration: {1}".format(
-                str(role_exists), str(current_role_configuration)), "DEBUG")
+            self.log(
+                "Role retrieval result - role_exists: {0}, current_role_configuration: {1}".format(
+                    str(role_exists), str(current_role_configuration)
+                ),
+                "DEBUG",
+            )
             return role_exists, current_role_configuration
 
         if "username" in input_config or "email" in input_config:
-            self.log("Retrieving user details for username: {0}, email: {1}".format(
-                str(input_config.get("username")), str(input_config.get("email"))), "DEBUG")
+            self.log(
+                "Retrieving user details for username: {0}, email: {1}".format(
+                    str(input_config.get("username")), str(input_config.get("email"))
+                ),
+                "DEBUG",
+            )
             response_user = self.get_user()
             response_role = self.get_role()
             response_user = self.camel_to_snake_case(response_user)
@@ -1609,20 +2017,31 @@ class UserandRole(DnacBase):
                         current_user_configuration = user
                         user_exists = True
 
-            self.log("User retrieval result - user_exists: {0}, current_user_configuration: {1}".format(
-                str(user_exists), str(current_user_configuration)), "DEBUG")
+            self.log(
+                "User retrieval result - user_exists: {0}, current_user_configuration: {1}".format(
+                    str(user_exists), str(current_user_configuration)
+                ),
+                "DEBUG",
+            )
 
             if input_config.get("role_list"):
                 for role_name in input_config["role_list"]:
                     for role in roles:
                         if role.get("name").lower() == role_name.lower():
-                            current_role_id[role.get("name").lower()] = role.get("role_id")
+                            current_role_id[role.get("name").lower()] = role.get(
+                                "role_id"
+                            )
             else:
                 for role in roles:
                     if role.get("name").lower() == "observer-role":
                         current_role_id[role.get("name").lower()] = role.get("role_id")
 
-            self.log("Role ID retrieval result - current_role_id: {0}".format(str(current_role_id)), "DEBUG")
+            self.log(
+                "Role ID retrieval result - current_role_id: {0}".format(
+                    str(current_role_id)
+                ),
+                "DEBUG",
+            )
             return user_exists, current_user_configuration, current_role_id
 
     def create_user(self, user_params):
@@ -1641,8 +2060,10 @@ class UserandRole(DnacBase):
         """
         self.log("Create user with 'user_params' argument...", "DEBUG")
 
-        if user_params.get('password'):
-            decrypt_password_response = self.decrypt_password(user_params['password'], self.key.get("generate_key"))
+        if user_params.get("password"):
+            decrypt_password_response = self.decrypt_password(
+                user_params["password"], self.key.get("generate_key")
+            )
 
             if "error_message" in decrypt_password_response:
                 self.msg = decrypt_password_response.get("error_message")
@@ -1650,18 +2071,25 @@ class UserandRole(DnacBase):
                 self.status = "failed"
                 return self
 
-            user_params['password'] = decrypt_password_response.get("decrypt_password")
+            user_params["password"] = decrypt_password_response.get("decrypt_password")
 
-        required_keys = ['username', 'password']
+        required_keys = ["username", "password"]
         missing_keys = []
 
-        self.log("Check if each required key is present in the user_params dictionary...", "DEBUG")
+        self.log(
+            "Check if each required key is present in the user_params dictionary...",
+            "DEBUG",
+        )
         for key in required_keys:
             if key not in user_params:
                 missing_keys.append(key)
 
         if missing_keys:
-            error_message = "Mandatory parameter(s) '{0}' not present in the user details.".format(", ".join(missing_keys))
+            error_message = (
+                "Mandatory parameter(s) '{0}' not present in the user details.".format(
+                    ", ".join(missing_keys)
+                )
+            )
             return {"error_message": error_message}
 
         try:
@@ -1671,16 +2099,18 @@ class UserandRole(DnacBase):
                 op_modifies=True,
                 params=user_params,
             )
-            self.log("Received API response from create_user: {0}".format(str(response)), "DEBUG")
+            self.log(
+                "Received API response from create_user: {0}".format(str(response)),
+                "DEBUG",
+            )
             self.created_user.append(user_params.get("username"))
             return response
 
         except Exception as e:
             self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
             if "[403]" in str(e):
-                error_message = (
-                    "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user via the API.".format(
-                        self.payload.get("dnac_username"))
+                error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user via the API.".format(
+                    self.payload.get("dnac_username")
                 )
             else:
                 error_message = error_message = str(e).split('"')[9]
@@ -1704,25 +2134,33 @@ class UserandRole(DnacBase):
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
-                self.log("Create role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+                self.log(
+                    "Create role with role_info_params: {0}".format(str(role_params)),
+                    "DEBUG",
+                )
                 response = self.dnac._exec(
                     family="user_and_roles",
                     function="add_role_api",
                     op_modifies=True,
                     params=role_params,
                 )
-                self.log("Received API response from create_role: {0}".format(str(response)), "DEBUG")
+                self.log(
+                    "Received API response from create_role: {0}".format(str(response)),
+                    "DEBUG",
+                )
                 self.created_role.append(role_params.get("role"))
                 return response
 
             except Exception as e:
                 self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
                 error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create a role' through the API.".format(
-                    self.payload.get("dnac_username"))
+                    self.payload.get("dnac_username")
+                )
                 return {"error_message": error_message}
 
         error_message = "The specified version '{0}' does not have the 'add_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("dnac_version"))
+            self.payload.get("dnac_version")
+        )
         return {"error_message": error_message}
 
     def get_user(self):
@@ -1743,7 +2181,10 @@ class UserandRole(DnacBase):
             op_modifies=True,
             params={"invoke_source": "external"},
         )
-        self.log("Received API response from get_users_api: {0}".format(str(response)), "DEBUG")
+        self.log(
+            "Received API response from get_users_api: {0}".format(str(response)),
+            "DEBUG",
+        )
         return response
 
     def get_role(self):
@@ -1763,16 +2204,16 @@ class UserandRole(DnacBase):
             function="get_roles_api",
             op_modifies=True,
         )
-        self.log("Received API response from get_roles_api: {0}".format(str(response)), "DEBUG")
+        self.log(
+            "Received API response from get_roles_api: {0}".format(str(response)),
+            "DEBUG",
+        )
         return response
 
     def add_entries(self, entry_types, operations, unique_types):
         """Add multiple entries with specified operations to the unique_types dictionary."""
         for entry_type in entry_types:
-            new_entry = {
-                "type": entry_type,
-                "operations": operations
-            }
+            new_entry = {"type": entry_type, "operations": operations}
             unique_types[new_entry["type"]] = new_entry
             self.log("Added entry: {0}".format(new_entry), "DEBUG")
 
@@ -1787,15 +2228,20 @@ class UserandRole(DnacBase):
         entry_types = [
             "Assurance.Monitoring and Troubleshooting",
             "Assurance.Monitoring Settings",
-            "Assurance.Troubleshooting Tools"
+            "Assurance.Troubleshooting Tools",
         ]
 
         # Determine if default entries should be added based on role_operation
         if role_operation == "create":
-            self.log("Role operation is 'create'. Adding default assurance entries.", "DEBUG")
+            self.log(
+                "Role operation is 'create'. Adding default assurance entries.", "DEBUG"
+            )
             self.add_entries(entry_types, ["gRead"], unique_types)
         else:
-            self.log("Role operation is not 'create'. Skipping default assurance entries.", "DEBUG")
+            self.log(
+                "Role operation is not 'create'. Skipping default assurance entries.",
+                "DEBUG",
+            )
 
         if role_config["assurance"] is None:
             return {}
@@ -1806,43 +2252,73 @@ class UserandRole(DnacBase):
         for assurance_rule in role_config["assurance"]:
             for resource_name, permission in assurance_rule.items():
                 if permission is None:
-                    self.log("Skipping resource {0} because permission is None".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is None".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission '{0}' for assurance resource '{1}' under the role '{2}'".format(
-                        permission, resource_name, self.have.get("role_name"))
+                        permission, resource_name, self.have.get("role_name")
+                    )
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
                 if permission == "deny":
-                    self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is 'deny'".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 operations = self.convert_permission_to_operations(permission)
-                self.log("Converted permission {0} to operations {1}".format(permission, operations), "DEBUG")
+                self.log(
+                    "Converted permission {0} to operations {1}".format(
+                        permission, operations
+                    ),
+                    "DEBUG",
+                )
 
                 if resource_name == "overall":
                     self.add_entries(entry_types, operations, unique_types)
                 elif resource_name == "monitoring_and_troubleshooting":
                     new_entry = {
                         "type": "Assurance.Monitoring and Troubleshooting",
-                        "operations": operations
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for 'monitoring_and_troubleshooting': {0}".format(new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for 'monitoring_and_troubleshooting': {0}".format(
+                            new_entry
+                        ),
+                        "DEBUG",
+                    )
                 else:
                     new_entry = {
-                        "type": "Assurance.{0}".format(resource_name.replace("_", " ").title()),
-                        "operations": operations
+                        "type": "Assurance.{0}".format(
+                            resource_name.replace("_", " ").title()
+                        ),
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for resource {0}: {1}".format(resource_name, new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for resource {0}: {1}".format(
+                            resource_name, new_entry
+                        ),
+                        "DEBUG",
+                    )
         return {}
 
-    def process_network_analytics_rules(self, role_config, role_operation, unique_types):
+    def process_network_analytics_rules(
+        self, role_config, role_operation, unique_types
+    ):
         """
         Process the network analytics rules and update the unique_types dictionary with the corresponding operations.
         Parameters:
@@ -1850,17 +2326,20 @@ class UserandRole(DnacBase):
             - role_operation (str): The operation type (e.g., "update").
             - unique_types (dict): A dictionary to store the unique resource types and their operations.
         """
-        entry_types = {
-            "type": "Network Analytics.Data Access",
-            "operations": ["gRead"]
-        }
+        entry_types = {"type": "Network Analytics.Data Access", "operations": ["gRead"]}
 
         # Determine if default entries should be added based on role_operation
         if role_operation == "create":
-            self.log("Role operation is 'create'. Adding default network analytics entries.", "DEBUG")
+            self.log(
+                "Role operation is 'create'. Adding default network analytics entries.",
+                "DEBUG",
+            )
             unique_types[entry_types["type"]] = entry_types
         else:
-            self.log("Role operation is not 'create'. Skipping default network analytics entries.", "DEBUG")
+            self.log(
+                "Role operation is not 'create'. Skipping default network analytics entries.",
+                "DEBUG",
+            )
 
         if role_config["network_analytics"] is None:
             return {}
@@ -1871,33 +2350,56 @@ class UserandRole(DnacBase):
         for network_analytics_rule in role_config["network_analytics"]:
             for resource_name, permission in network_analytics_rule.items():
                 if permission is None:
-                    self.log("Skipping resource {0} because permission is None".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is None".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission '{0}' for network analytics resource '{1}' under the role '{2}'".format(
-                        permission, resource_name, self.have.get("role_name"))
+                        permission, resource_name, self.have.get("role_name")
+                    )
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
                 if permission == "deny":
-                    self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is 'deny'".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 operations = self.convert_permission_to_operations(permission)
-                self.log("Converted permission {0} to operations {1}".format(permission, operations), "DEBUG")
+                self.log(
+                    "Converted permission {0} to operations {1}".format(
+                        permission, operations
+                    ),
+                    "DEBUG",
+                )
 
                 if resource_name == "overall":
                     unique_types[entry_types["type"]] = entry_types
                 else:
                     new_entry = {
-                        "type": "Network Analytics.{0}".format(resource_name.replace("_", " ").title()),
-                        "operations": operations
+                        "type": "Network Analytics.{0}".format(
+                            resource_name.replace("_", " ").title()
+                        ),
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for resource {0}: {1}".format(resource_name, new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for resource {0}: {1}".format(
+                            resource_name, new_entry
+                        ),
+                        "DEBUG",
+                    )
         return {}
 
     def process_network_design_rules(self, role_config, role_operation, unique_types):
@@ -1914,15 +2416,21 @@ class UserandRole(DnacBase):
             "Network Design.Network Hierarchy",
             "Network Design.Network Profiles",
             "Network Design.Network Settings",
-            "Network Design.Virtual Network"
+            "Network Design.Virtual Network",
         ]
 
         # Determine if default entries should be added based on role_operation
         if role_operation == "create":
-            self.log("Role operation is 'create'. Adding default network design entries.", "DEBUG")
+            self.log(
+                "Role operation is 'create'. Adding default network design entries.",
+                "DEBUG",
+            )
             self.add_entries(entry_types, ["gRead"], unique_types)
         else:
-            self.log("Role operation is not 'create'. Skipping default network design entries.", "DEBUG")
+            self.log(
+                "Role operation is not 'create'. Skipping default network design entries.",
+                "DEBUG",
+            )
 
         if role_config["network_design"] is None:
             return {}
@@ -1933,36 +2441,61 @@ class UserandRole(DnacBase):
         for network_design_rule in role_config["network_design"]:
             for resource_name, permission in network_design_rule.items():
                 if permission is None:
-                    self.log("Skipping resource {0} because permission is None".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is None".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission '{0}' for network design resource '{1}' under the role '{2}'".format(
-                        permission, resource_name, self.have.get("role_name"))
+                        permission, resource_name, self.have.get("role_name")
+                    )
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
                 if permission == "deny":
-                    self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is 'deny'".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 operations = self.convert_permission_to_operations(permission)
-                self.log("Converted permission {0} to operations {1}".format(permission, operations), "DEBUG")
+                self.log(
+                    "Converted permission {0} to operations {1}".format(
+                        permission, operations
+                    ),
+                    "DEBUG",
+                )
 
                 if resource_name == "overall":
                     self.add_entries(entry_types, operations, unique_types)
                 else:
                     new_entry = {
-                        "type": "Network Design.{0}".format(resource_name.replace("_", " ").title()),
-                        "operations": operations
+                        "type": "Network Design.{0}".format(
+                            resource_name.replace("_", " ").title()
+                        ),
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for resource {0}: {1}".format(resource_name, new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for resource {0}: {1}".format(
+                            resource_name, new_entry
+                        ),
+                        "DEBUG",
+                    )
         return {}
 
-    def process_network_provision_rules(self, role_config, role_operation, unique_types):
+    def process_network_provision_rules(
+        self, role_config, role_operation, unique_types
+    ):
         """
         Process the network provision rules and update the unique_types dictionary with the corresponding operations.
         Parameters:
@@ -1982,15 +2515,21 @@ class UserandRole(DnacBase):
             "Network Provision.License",
             "Network Provision.Network Telemetry",
             "Network Provision.PnP",
-            "Network Provision.Provision"
+            "Network Provision.Provision",
         ]
 
         # Determine if default entries should be added based on role_operation
         if role_operation == "create":
-            self.log("Role operation is 'create'. Adding default network provision entries.", "DEBUG")
+            self.log(
+                "Role operation is 'create'. Adding default network provision entries.",
+                "DEBUG",
+            )
             self.add_entries(entry_types, ["gRead"], unique_types)
         else:
-            self.log("Role operation is not 'create'. Skipping default network provision entries.", "DEBUG")
+            self.log(
+                "Role operation is not 'create'. Skipping default network provision entries.",
+                "DEBUG",
+            )
 
         if role_config["network_provision"] is None:
             return {}
@@ -2009,23 +2548,43 @@ class UserandRole(DnacBase):
                     # Handle nested inventory_management
                     for sub_resource_name, sub_permission in permission[0].items():
                         if sub_permission is None:
-                            self.log("Skipping sub-resource {0} because permission is None".format(sub_resource_name), "DEBUG")
+                            self.log(
+                                "Skipping sub-resource {0} because permission is None".format(
+                                    sub_resource_name
+                                ),
+                                "DEBUG",
+                            )
                             continue
 
                         sub_permission = sub_permission.lower()
 
                         if sub_permission not in ["read", "write", "deny"]:
                             error_message = "Invalid permission '{0}' for network provision for sub-resource '{1}' under the role '{2}'".format(
-                                sub_permission, sub_resource_name, self.have.get("role_name"))
+                                sub_permission,
+                                sub_resource_name,
+                                self.have.get("role_name"),
+                            )
                             self.log(error_message, "DEBUG")
                             return {"error_message": error_message}
 
                         if sub_permission == "deny":
-                            self.log("Skipping sub-resource {0} because permission is 'deny'".format(sub_resource_name), "DEBUG")
+                            self.log(
+                                "Skipping sub-resource {0} because permission is 'deny'".format(
+                                    sub_resource_name
+                                ),
+                                "DEBUG",
+                            )
                             continue
 
-                        operations = self.convert_permission_to_operations(sub_permission)
-                        self.log("Converted sub-permission {0} to operations {1}".format(sub_permission, operations), "DEBUG")
+                        operations = self.convert_permission_to_operations(
+                            sub_permission
+                        )
+                        self.log(
+                            "Converted sub-permission {0} to operations {1}".format(
+                                sub_permission, operations
+                            ),
+                            "DEBUG",
+                        )
 
                         if sub_resource_name == "overall":
                             overall_entry_types = [
@@ -2033,60 +2592,96 @@ class UserandRole(DnacBase):
                                 "Network Provision.Inventory Management.Discovery",
                                 "Network Provision.Inventory Management.Network Device",
                                 "Network Provision.Inventory Management.Port Management",
-                                "Network Provision.Inventory Management.Topology"
+                                "Network Provision.Inventory Management.Topology",
                             ]
-                            self.add_entries(overall_entry_types, operations, unique_types)
+                            self.add_entries(
+                                overall_entry_types, operations, unique_types
+                            )
                         else:
                             new_entry = {
-                                "type": "Network Provision.{0}.{1}".format(resource_name.replace("_", " ").title(),
-                                                                           sub_resource_name.replace("_", " ").title()),
-                                "operations": operations
+                                "type": "Network Provision.{0}.{1}".format(
+                                    resource_name.replace("_", " ").title(),
+                                    sub_resource_name.replace("_", " ").title(),
+                                ),
+                                "operations": operations,
                             }
                             unique_types[new_entry["type"]] = new_entry
-                            self.log("Added entry for resource {0}: {1}".format(sub_resource_name, new_entry), "DEBUG")
+                            self.log(
+                                "Added entry for resource {0}: {1}".format(
+                                    sub_resource_name, new_entry
+                                ),
+                                "DEBUG",
+                            )
                 else:
                     if permission is None:
-                        self.log("Skipping resource {0} because permission is None".format(resource_name), "DEBUG")
+                        self.log(
+                            "Skipping resource {0} because permission is None".format(
+                                resource_name
+                            ),
+                            "DEBUG",
+                        )
                         continue
 
                     permission = permission.lower()
 
                     if permission not in ["read", "write", "deny"]:
                         error_message = "Invalid permission '{0}' for network provision resource '{1}' under the role '{2}'".format(
-                            permission, resource_name, self.have.get("role_name"))
+                            permission, resource_name, self.have.get("role_name")
+                        )
                         self.log(error_message, "DEBUG")
                         return {"error_message": error_message}
 
                     if permission == "deny":
-                        self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
+                        self.log(
+                            "Skipping resource {0} because permission is 'deny'".format(
+                                resource_name
+                            ),
+                            "DEBUG",
+                        )
                         continue
 
                     operations = self.convert_permission_to_operations(permission)
-                    self.log("Converted permission {0} to operations {1}".format(permission, operations), "DEBUG")
+                    self.log(
+                        "Converted permission {0} to operations {1}".format(
+                            permission, operations
+                        ),
+                        "DEBUG",
+                    )
 
                     if resource_name == "overall":
                         self.add_entries(entry_types, operations, unique_types)
                     elif resource_name == "eox":
                         new_entry = {
                             "type": "Network Provision.EoX",
-                            "operations": operations
+                            "operations": operations,
                         }
                         unique_types[new_entry["type"]] = new_entry
-                        self.log("Added entry for 'eox': {0}".format(new_entry), "DEBUG")
+                        self.log(
+                            "Added entry for 'eox': {0}".format(new_entry), "DEBUG"
+                        )
                     elif resource_name == "pnp":
                         new_entry = {
                             "type": "Network Provision.PnP",
-                            "operations": operations
+                            "operations": operations,
                         }
                         unique_types[new_entry["type"]] = new_entry
-                        self.log("Added entry for 'pnp': {0}".format(new_entry), "DEBUG")
+                        self.log(
+                            "Added entry for 'pnp': {0}".format(new_entry), "DEBUG"
+                        )
                     else:
                         new_entry = {
-                            "type": "Network Provision.{0}".format(resource_name.replace("_", " ").title()),
-                            "operations": operations
+                            "type": "Network Provision.{0}".format(
+                                resource_name.replace("_", " ").title()
+                            ),
+                            "operations": operations,
                         }
                         unique_types[new_entry["type"]] = new_entry
-                        self.log("Added entry for resource {0}: {1}".format(resource_name, new_entry), "DEBUG")
+                        self.log(
+                            "Added entry for resource {0}: {1}".format(
+                                resource_name, new_entry
+                            ),
+                            "DEBUG",
+                        )
         return {}
 
     def process_network_services_rules(self, role_config, role_operation, unique_types):
@@ -2101,15 +2696,21 @@ class UserandRole(DnacBase):
             "Network Services.App Hosting",
             "Network Services.Bonjour",
             "Network Services.Stealthwatch",
-            "Network Services.Umbrella"
+            "Network Services.Umbrella",
         ]
 
         # Determine if default entries should be added based on role_operation
         if role_operation == "create":
-            self.log("Role operation is 'create'. Adding default network services entries.", "DEBUG")
+            self.log(
+                "Role operation is 'create'. Adding default network services entries.",
+                "DEBUG",
+            )
             self.add_entries(entry_types, ["gRead"], unique_types)
         else:
-            self.log("Role operation is not 'create'. Skipping default network services entries.", "DEBUG")
+            self.log(
+                "Role operation is not 'create'. Skipping default network services entries.",
+                "DEBUG",
+            )
 
         if role_config["network_services"] is None:
             return {}
@@ -2120,33 +2721,56 @@ class UserandRole(DnacBase):
         for services_rule in role_config["network_services"]:
             for resource_name, permission in services_rule.items():
                 if permission is None:
-                    self.log("Skipping resource {0} because permission is None".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is None".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission '{0}' for network services resource '{1}' under the role '{2}'".format(
-                        permission, resource_name, self.have.get("role_name"))
+                        permission, resource_name, self.have.get("role_name")
+                    )
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
                 if permission == "deny":
-                    self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is 'deny'".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 operations = self.convert_permission_to_operations(permission)
-                self.log("Converted permission {0} to operations {1}".format(permission, operations), "DEBUG")
+                self.log(
+                    "Converted permission {0} to operations {1}".format(
+                        permission, operations
+                    ),
+                    "DEBUG",
+                )
 
                 if resource_name == "overall":
                     self.add_entries(entry_types, operations, unique_types)
                 else:
                     new_entry = {
-                        "type": "Network Services.{0}".format(resource_name.replace("_", " ").title()),
-                        "operations": operations
+                        "type": "Network Services.{0}".format(
+                            resource_name.replace("_", " ").title()
+                        ),
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for resource {0}: {1}".format(resource_name, new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for resource {0}: {1}".format(
+                            resource_name, new_entry
+                        ),
+                        "DEBUG",
+                    )
         return {}
 
     def process_platform_rules(self, role_config, unique_types):
@@ -2166,46 +2790,66 @@ class UserandRole(DnacBase):
         for platform_rule in role_config["platform"]:
             for resource_name, permission in platform_rule.items():
                 if permission is None:
-                    self.log("Skipping resource {0} because permission is None".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is None".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission '{0}' for platform resource '{1}' under the role '{2}'".format(
-                        permission, resource_name, self.have.get("role_name"))
+                        permission, resource_name, self.have.get("role_name")
+                    )
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
                 if permission == "deny":
-                    self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is 'deny'".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 operations = self.convert_permission_to_operations(permission)
-                self.log("Converted permission {0} to operations {1}".format(permission, operations), "DEBUG")
+                self.log(
+                    "Converted permission {0} to operations {1}".format(
+                        permission, operations
+                    ),
+                    "DEBUG",
+                )
 
                 if resource_name == "overall":
                     overall_entry_types = [
                         "Platform.APIs",
                         "Platform.Bundles",
                         "Platform.Events",
-                        "Platform.Reports"
+                        "Platform.Reports",
                     ]
                     self.add_entries(overall_entry_types, operations, unique_types)
                 elif resource_name == "apis":
-                    new_entry = {
-                        "type": "Platform.APIs",
-                        "operations": operations
-                    }
+                    new_entry = {"type": "Platform.APIs", "operations": operations}
                     unique_types[new_entry["type"]] = new_entry
                     self.log("Added entry for 'apis': {0}".format(new_entry), "DEBUG")
                 else:
                     new_entry = {
-                        "type": "Platform.{0}".format(resource_name.replace("_", " ").title()),
-                        "operations": operations
+                        "type": "Platform.{0}".format(
+                            resource_name.replace("_", " ").title()
+                        ),
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for resource {0}: {1}".format(resource_name, new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for resource {0}: {1}".format(
+                            resource_name, new_entry
+                        ),
+                        "DEBUG",
+                    )
         return {}
 
     def process_security_rules(self, role_config, role_operation, unique_types):
@@ -2219,15 +2863,20 @@ class UserandRole(DnacBase):
         entry_types = [
             "Security.Group-Based Policy",
             "Security.IP Based Access Control",
-            "Security.Security Advisories"
+            "Security.Security Advisories",
         ]
 
         # Determine if default entries should be added based on role_operation
         if role_operation == "create":
-            self.log("Role operation is 'create'. Adding default security entries.", "DEBUG")
+            self.log(
+                "Role operation is 'create'. Adding default security entries.", "DEBUG"
+            )
             self.add_entries(entry_types, ["gRead"], unique_types)
         else:
-            self.log("Role operation is not 'create'. Skipping default security entries.", "DEBUG")
+            self.log(
+                "Role operation is not 'create'. Skipping default security entries.",
+                "DEBUG",
+            )
 
         if role_config["security"] is None:
             return {}
@@ -2238,47 +2887,78 @@ class UserandRole(DnacBase):
         for security_rule in role_config["security"]:
             for resource_name, permission in security_rule.items():
                 if permission is None:
-                    self.log("Skipping resource {0} because permission is None".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is None".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission '{0}' for security resource '{1}' under the role '{2}'".format(
-                        permission, resource_name, self.have.get("role_name"))
+                        permission, resource_name, self.have.get("role_name")
+                    )
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
                 if permission == "deny":
-                    self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is 'deny'".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 operations = self.convert_permission_to_operations(permission)
-                self.log("Converted permission {0} to operations {1}".format(permission, operations), "DEBUG")
+                self.log(
+                    "Converted permission {0} to operations {1}".format(
+                        permission, operations
+                    ),
+                    "DEBUG",
+                )
 
                 if resource_name == "overall":
                     self.add_entries(entry_types, operations, unique_types)
                 elif resource_name == "ip_based_access_control":
                     new_entry = {
                         "type": "Security.IP Based Access Control",
-                        "operations": operations
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for 'ip_based_access_control': {0}".format(new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for 'ip_based_access_control': {0}".format(
+                            new_entry
+                        ),
+                        "DEBUG",
+                    )
                 elif resource_name == "group_based_policy":
                     new_entry = {
                         "type": "Security.Group-Based Policy",
-                        "operations": operations
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for 'group_based_policy': {0}".format(new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for 'group_based_policy': {0}".format(new_entry),
+                        "DEBUG",
+                    )
                 else:
                     new_entry = {
-                        "type": "Security.{0}".format(resource_name.replace("_", " ").title()),
-                        "operations": operations
+                        "type": "Security.{0}".format(
+                            resource_name.replace("_", " ").title()
+                        ),
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for resource {0}: {1}".format(resource_name, new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for resource {0}: {1}".format(
+                            resource_name, new_entry
+                        ),
+                        "DEBUG",
+                    )
         return {}
 
     def process_system_rules(self, role_config, role_operation, unique_types):
@@ -2289,17 +2969,19 @@ class UserandRole(DnacBase):
             - role_operation (str): The operation type (e.g., "update").
             - unique_types (dict): A dictionary to store the unique resource types and their operations.
         """
-        entry_types = [
-            "System.Machine Reasoning",
-            "System.System Management"
-        ]
+        entry_types = ["System.Machine Reasoning", "System.System Management"]
 
         # Determine if default entries should be added based on role_operation
         if role_operation == "create":
-            self.log("Role operation is 'create'. Adding default system entries.", "DEBUG")
+            self.log(
+                "Role operation is 'create'. Adding default system entries.", "DEBUG"
+            )
             self.add_entries(entry_types, ["gRead"], unique_types)
         else:
-            self.log("Role operation is not 'create'. Skipping default system entries.", "DEBUG")
+            self.log(
+                "Role operation is not 'create'. Skipping default system entries.",
+                "DEBUG",
+            )
 
         if role_config["system"] is None:
             return {}
@@ -2310,33 +2992,56 @@ class UserandRole(DnacBase):
         for system_rule in role_config["system"]:
             for resource_name, permission in system_rule.items():
                 if permission is None:
-                    self.log("Skipping resource {0} because permission is None".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is None".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission '{0}' for system resource '{1}' under the role '{2}'".format(
-                        permission, resource_name, self.have.get("role_name"))
+                        permission, resource_name, self.have.get("role_name")
+                    )
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
                 if permission == "deny":
-                    self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is 'deny'".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 operations = self.convert_permission_to_operations(permission)
-                self.log("Converted permission {0} to operations {1}".format(permission, operations), "DEBUG")
+                self.log(
+                    "Converted permission {0} to operations {1}".format(
+                        permission, operations
+                    ),
+                    "DEBUG",
+                )
 
                 if resource_name == "overall":
                     self.add_entries(entry_types, operations, unique_types)
                 else:
                     new_entry = {
-                        "type": "System.{0}".format(resource_name.replace("_", " ").title()),
-                        "operations": operations
+                        "type": "System.{0}".format(
+                            resource_name.replace("_", " ").title()
+                        ),
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for resource {0}: {1}".format(resource_name, new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for resource {0}: {1}".format(
+                            resource_name, new_entry
+                        ),
+                        "DEBUG",
+                    )
         return {}
 
     def process_utilities_rules(self, role_config, role_operation, unique_types):
@@ -2349,21 +3054,26 @@ class UserandRole(DnacBase):
         """
         # Determine if default entries should be added based on role_operation
         if role_operation == "create":
-            self.log("Role operation is 'create'. Adding default utilities entries.", "DEBUG")
+            self.log(
+                "Role operation is 'create'. Adding default utilities entries.", "DEBUG"
+            )
             default_entry_types = [
                 "Utilities.Event Viewer",
                 "Utilities.Network Reasoner",
-                "Utilities.Search"
+                "Utilities.Search",
             ]
             self.add_entries(default_entry_types, ["gRead"], unique_types)
             new_entry1 = {
                 "type": "Utilities.Scheduler",
-                "operations": ["gRead", "gUpdate", "gCreate", "gRemove"]
+                "operations": ["gRead", "gUpdate", "gCreate", "gRemove"],
             }
             unique_types[new_entry1["type"]] = new_entry1
 
         else:
-            self.log("Role operation is not 'create'. Skipping default utilities entries.", "DEBUG")
+            self.log(
+                "Role operation is not 'create'. Skipping default utilities entries.",
+                "DEBUG",
+            )
 
         if role_config["utilities"] is None:
             return {}
@@ -2374,23 +3084,39 @@ class UserandRole(DnacBase):
         for utilities_rule in role_config["utilities"]:
             for resource_name, permission in utilities_rule.items():
                 if permission is None:
-                    self.log("Skipping resource {0} because permission is None".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is None".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 permission = permission.lower()
 
                 if permission not in ["read", "write", "deny"]:
                     error_message = "Invalid permission '{0}' for utilities resource '{1}' under the role '{2}'".format(
-                        permission, resource_name, self.have.get("role_name"))
+                        permission, resource_name, self.have.get("role_name")
+                    )
                     self.log(error_message, "DEBUG")
                     return {"error_message": error_message}
 
                 if permission == "deny":
-                    self.log("Skipping resource {0} because permission is 'deny'".format(resource_name), "DEBUG")
+                    self.log(
+                        "Skipping resource {0} because permission is 'deny'".format(
+                            resource_name
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 operations = self.convert_permission_to_operations(permission)
-                self.log("Converted permission {0} to operations {1}".format(permission, operations), "DEBUG")
+                self.log(
+                    "Converted permission {0} to operations {1}".format(
+                        permission, operations
+                    ),
+                    "DEBUG",
+                )
 
                 if resource_name == "overall":
                     overall_entry_types = [
@@ -2399,16 +3125,23 @@ class UserandRole(DnacBase):
                         "Utilities.Search",
                         "Utilities.Audit Log",
                         "Utilities.Remote Device Support",
-                        "Utilities.Scheduler"
+                        "Utilities.Scheduler",
                     ]
                     self.add_entries(overall_entry_types, operations, unique_types)
                 else:
                     new_entry = {
-                        "type": "Utilities.{0}".format(resource_name.replace("_", " ").title()),
-                        "operations": operations
+                        "type": "Utilities.{0}".format(
+                            resource_name.replace("_", " ").title()
+                        ),
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
-                    self.log("Added entry for resource {0}: {1}".format(resource_name, new_entry), "DEBUG")
+                    self.log(
+                        "Added entry for resource {0}: {1}".format(
+                            resource_name, new_entry
+                        ),
+                        "DEBUG",
+                    )
         return {}
 
     def generate_role_payload(self, role_config, role_operation):
@@ -2447,7 +3180,7 @@ class UserandRole(DnacBase):
             self.process_platform_rules,
             self.process_security_rules,
             self.process_system_rules,
-            self.process_utilities_rules
+            self.process_utilities_rules,
         ]
 
         # Process each section and check for errors
@@ -2457,9 +3190,14 @@ class UserandRole(DnacBase):
             if func_name in "process_platform_rules":
                 function_response = process_func(role_config, unique_types)
             else:
-                function_response = process_func(role_config, role_operation, unique_types)
+                function_response = process_func(
+                    role_config, role_operation, unique_types
+                )
             if function_response:
-                self.log("Error occurred in {0}: {1}".format(func_name, function_response), "DEBUG")
+                self.log(
+                    "Error occurred in {0}: {1}".format(func_name, function_response),
+                    "DEBUG",
+                )
                 return function_response
 
         # Construct the final payload
@@ -2468,7 +3206,7 @@ class UserandRole(DnacBase):
         payload = {
             "role": role_name,
             "description": description,
-            "resourceTypes": resource_types_list
+            "resourceTypes": resource_types_list,
         }
         self.log("Generated payload: {0}".format(payload), "DEBUG")
 
@@ -2521,12 +3259,22 @@ class UserandRole(DnacBase):
                 if have_resource["type"] == want_resource["type"]:
                     resource_found = True
                     if have_resource["operations"] != want_resource["operations"]:
-                        self.log("Updating operations for resource type {0}.".format(want_resource["type"]), "DEBUG")
+                        self.log(
+                            "Updating operations for resource type {0}.".format(
+                                want_resource["type"]
+                            ),
+                            "DEBUG",
+                        )
                         have_resource["operations"] = want_resource["operations"]
                         update_required = True
                     break
             if not resource_found:
-                self.log("Adding new resource type {0} to current role.".format(want_resource["type"]), "DEBUG")
+                self.log(
+                    "Adding new resource type {0} to current role.".format(
+                        want_resource["type"]
+                    ),
+                    "DEBUG",
+                )
                 current_role["resource_types"].append(want_resource)
                 update_required = True
 
@@ -2535,7 +3283,12 @@ class UserandRole(DnacBase):
         current_description = current_role.get("description")
         if desired_description is not None:
             if current_description != desired_description:
-                self.log("Updating description from {0} to {1}.".format(current_description, desired_description), "DEBUG")
+                self.log(
+                    "Updating description from {0} to {1}.".format(
+                        current_description, desired_description
+                    ),
+                    "DEBUG",
+                )
                 update_role_params["description"] = desired_description
                 update_required = True
             elif "description" not in update_role_params:
@@ -2547,15 +3300,19 @@ class UserandRole(DnacBase):
         updated_get_have = {
             "roleId": current_role["role_id"],
             "description": update_role_params["description"],
-            "resourceTypes": current_role["resource_types"]
+            "resourceTypes": current_role["resource_types"],
         }
 
         self.log("Calling get_permissions to filter permissions...", "DEBUG")
-        filtered_data, overall_update_required = self.get_permissions(self.want, updated_get_have, "update")
+        filtered_data, overall_update_required = self.get_permissions(
+            self.want, updated_get_have, "update"
+        )
 
         self.log("Finding denied permissions...", "DEBUG")
         denied_permissions = self.find_denied_permissions(self.want)
-        denied_update_required, updated_get_have = self.remove_denied_operations(filtered_data, denied_permissions)
+        denied_update_required, updated_get_have = self.remove_denied_operations(
+            filtered_data, denied_permissions
+        )
 
         if update_required or denied_update_required or overall_update_required:
             self.log("Role update required. Changes detected.", "DEBUG")
@@ -2588,7 +3345,12 @@ class UserandRole(DnacBase):
         current_first_name = current_user.get("first_name")
         if desired_first_name is not None:
             if current_first_name != desired_first_name:
-                self.log("Updating first name from {0} to {1}.".format(current_first_name, desired_first_name), "DEBUG")
+                self.log(
+                    "Updating first name from {0} to {1}.".format(
+                        current_first_name, desired_first_name
+                    ),
+                    "DEBUG",
+                )
                 update_user_params["first_name"] = desired_first_name
                 update_needed = True
             elif "first_name" not in update_user_params:
@@ -2601,7 +3363,12 @@ class UserandRole(DnacBase):
         current_last_name = current_user.get("last_name")
         if desired_last_name is not None:
             if current_last_name != desired_last_name:
-                self.log("Updating last name from {0} to {1}.".format(current_last_name, desired_last_name), "DEBUG")
+                self.log(
+                    "Updating last name from {0} to {1}.".format(
+                        current_last_name, desired_last_name
+                    ),
+                    "DEBUG",
+                )
                 update_user_params["last_name"] = desired_last_name
                 update_needed = True
             elif "last_name" not in update_user_params:
@@ -2614,7 +3381,12 @@ class UserandRole(DnacBase):
         current_username = current_user.get("username").lower()
         if desired_username is not None:
             if current_username != desired_username:
-                self.log("Username for an existing User cannot be updated from {0} to {1}.".format(current_username, desired_username), "DEBUG")
+                self.log(
+                    "Username for an existing User cannot be updated from {0} to {1}.".format(
+                        current_username, desired_username
+                    ),
+                    "DEBUG",
+                )
                 update_user_params["username"] = desired_username
                 update_needed = True
             elif "username" not in update_user_params:
@@ -2627,7 +3399,12 @@ class UserandRole(DnacBase):
         current_email = current_user.get("email")
         if desired_email is not None:
             if current_email != desired_email:
-                self.log("Updating email from {0} to {1}.".format(current_email, desired_email), "DEBUG")
+                self.log(
+                    "Updating email from {0} to {1}.".format(
+                        current_email, desired_email
+                    ),
+                    "DEBUG",
+                )
                 update_user_params["email"] = desired_email
                 update_needed = True
             elif "email" not in update_user_params:
@@ -2643,13 +3420,21 @@ class UserandRole(DnacBase):
             if desired_role_name in current_role:
                 role_id = current_role[desired_role_name]
                 if current_role_list[0] != role_id:
-                    self.log("Updating role list with new role ID {0}.".format(role_id), "DEBUG")
+                    self.log(
+                        "Updating role list with new role ID {0}.".format(role_id),
+                        "DEBUG",
+                    )
                     update_user_params["role_list"] = [role_id]
                     update_needed = True
                 else:
                     update_user_params["role_list"] = current_role_list
             else:
-                self.log("Role {0} not found in current_role. Setting role list to empty.".format(desired_role_name), "DEBUG")
+                self.log(
+                    "Role {0} not found in current_role. Setting role list to empty.".format(
+                        desired_role_name
+                    ),
+                    "DEBUG",
+                )
                 update_user_params["role_list"] = []
                 update_needed = True
         else:
@@ -2679,13 +3464,20 @@ class UserandRole(DnacBase):
                 op_modifies=True,
                 params=user_params,
             )
-            self.log("Received API response from update_user: {0}".format(str(response)), "DEBUG")
+            self.log(
+                "Received API response from update_user: {0}".format(str(response)),
+                "DEBUG",
+            )
             self.updated_user.append(user_params.get("username"))
             return response
 
         except Exception as e:
             self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
-            error_message = "Invalid email format for email '{0}' under username '{1}'".format(user_params.get("email"), user_params.get("username"))
+            error_message = (
+                "Invalid email format for email '{0}' under username '{1}'".format(
+                    user_params.get("email"), user_params.get("username")
+                )
+            )
             return {"error_message": error_message}
 
     def update_role(self, role_params):
@@ -2706,25 +3498,33 @@ class UserandRole(DnacBase):
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
-                self.log("Updating role with role_info_params: {0}".format(str(role_params)), "DEBUG")
+                self.log(
+                    "Updating role with role_info_params: {0}".format(str(role_params)),
+                    "DEBUG",
+                )
                 response = self.dnac._exec(
                     family="user_and_roles",
                     function="update_role_api",
                     op_modifies=True,
                     params=role_params,
                 )
-                self.log("Received API response from update_role: {0}".format(str(response)), "DEBUG")
+                self.log(
+                    "Received API response from update_role: {0}".format(str(response)),
+                    "DEBUG",
+                )
                 self.updated_role.append(self.have.get("role_name"))
                 return response
 
             except Exception as e:
                 self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
                 error_message = "The catalyst center user '{0}' does not have the necessary permissions to update role through the API.".format(
-                    self.payload.get("dnac_username"))
+                    self.payload.get("dnac_username")
+                )
                 return {"error_message": error_message}
 
         error_message = "The specified version '{0}' does not have the 'update_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("dnac_version"))
+            self.payload.get("dnac_version")
+        )
         return {"error_message": error_message}
 
     def find_denied_permissions(self, config, parent_key=""):
@@ -2744,7 +3544,9 @@ class UserandRole(DnacBase):
         denied_permissions = []
 
         if isinstance(config, dict):
-            self.log("Processing dictionary with parent_key: {0}".format(parent_key), "DEBUG")
+            self.log(
+                "Processing dictionary with parent_key: {0}".format(parent_key), "DEBUG"
+            )
 
             for key, value in config.items():
                 if parent_key:
@@ -2754,7 +3556,9 @@ class UserandRole(DnacBase):
                 self.log("Checking key: {0}".format(full_key), "DEBUG")
 
                 if isinstance(value, dict) or isinstance(value, list):
-                    denied_permissions.extend(self.find_denied_permissions(value, full_key))
+                    denied_permissions.extend(
+                        self.find_denied_permissions(value, full_key)
+                    )
                 elif isinstance(value, str) and value.lower() == "deny":
                     denied_permissions.append(full_key)
                 self.log("Found 'deny' at key: {0}".format(full_key), "DEBUG")
@@ -2762,10 +3566,14 @@ class UserandRole(DnacBase):
         elif isinstance(config, list):
             for index, item in enumerate(config):
                 full_key = "{0}[{1}]".format(parent_key, index)
-                self.log("Processing list with parent_key: {0}".format(parent_key), "DEBUG")
+                self.log(
+                    "Processing list with parent_key: {0}".format(parent_key), "DEBUG"
+                )
 
                 if isinstance(item, dict):
-                    denied_permissions.extend(self.find_denied_permissions(item, full_key))
+                    denied_permissions.extend(
+                        self.find_denied_permissions(item, full_key)
+                    )
                 self.log("Found 'deny' at index: {0}".format(full_key), "DEBUG")
 
         self.log("Denied permissions are {0}".format(str(denied_permissions)), "DEBUG")
@@ -2796,13 +3604,20 @@ class UserandRole(DnacBase):
             keep_resource = True
             resource_type_lower = resource["type"].lower()
             for denied in denied_permissions:
-                denied_type_lower = denied.split(".")[-1].replace("_", " ").replace("[0]", "").lower()
+                denied_type_lower = (
+                    denied.split(".")[-1].replace("_", " ").replace("[0]", "").lower()
+                )
 
                 if denied_type_lower == "network settings":
                     denied_type_lower = "network design.network settings"
                     if denied_type_lower in resource_type_lower:
                         keep_resource = False
-                        self.log("Removing resource due to denied type: {0}".format(denied_type_lower), "DEBUG")
+                        self.log(
+                            "Removing resource due to denied type: {0}".format(
+                                denied_type_lower
+                            ),
+                            "DEBUG",
+                        )
                         update_required = True
                         break
 
@@ -2810,7 +3625,12 @@ class UserandRole(DnacBase):
                     denied_type_lower = "network provision.provision"
                     if denied_type_lower in resource_type_lower:
                         keep_resource = False
-                        self.log("Removing resource due to denied type: {0}".format(denied_type_lower), "DEBUG")
+                        self.log(
+                            "Removing resource due to denied type: {0}".format(
+                                denied_type_lower
+                            ),
+                            "DEBUG",
+                        )
                         update_required = True
                         break
 
@@ -2818,14 +3638,24 @@ class UserandRole(DnacBase):
                     denied_type_lower = "security.group-based policy"
                     if denied_type_lower in resource_type_lower:
                         keep_resource = False
-                        self.log("Removing resource due to denied type: {0}".format(denied_type_lower), "DEBUG")
+                        self.log(
+                            "Removing resource due to denied type: {0}".format(
+                                denied_type_lower
+                            ),
+                            "DEBUG",
+                        )
                         update_required = True
                         break
 
                 else:
                     if denied_type_lower in resource_type_lower:
                         keep_resource = False
-                        self.log("Removing resource due to denied type: {0}".format(denied_type_lower), "DEBUG")
+                        self.log(
+                            "Removing resource due to denied type: {0}".format(
+                                denied_type_lower
+                            ),
+                            "DEBUG",
+                        )
                         update_required = True
                         break
 
@@ -2833,7 +3663,9 @@ class UserandRole(DnacBase):
                 remaining_resource_types.append(resource)
 
         input_data["resourceTypes"] = remaining_resource_types
-        self.log("Removal complete. Update required: {0}".format(update_required), "DEBUG")
+        self.log(
+            "Removal complete. Update required: {0}".format(update_required), "DEBUG"
+        )
 
         return update_required, input_data
 
@@ -2885,15 +3717,25 @@ class UserandRole(DnacBase):
             if key in current_level:
                 current_level = current_level[key]
                 self.log("Navigated to level: {0}".format(key), "DEBUG")
-            elif "overall" in current_level and current_level["overall"].lower() == "deny":
+            elif (
+                "overall" in current_level
+                and current_level["overall"].lower() == "deny"
+            ):
                 self.log("Permission denied at level: {0}".format(key), "DEBUG")
                 return True, False
             else:
                 self.log("Permission allowed at level: {0}".format(key), "DEBUG")
                 return False, True
 
-        overall_permission = "overall" in current_level and current_level["overall"].lower() == "deny"
-        self.log("Final permission check: Denied: {0}, Allowed: {1}".format(overall_permission, not overall_permission), "DEBUG")
+        overall_permission = (
+            "overall" in current_level and current_level["overall"].lower() == "deny"
+        )
+        self.log(
+            "Final permission check: Denied: {0}, Allowed: {1}".format(
+                overall_permission, not overall_permission
+            ),
+            "DEBUG",
+        )
         return False, not overall_permission
 
     def get_operations(self, permissions, resource_type):
@@ -2911,7 +3753,9 @@ class UserandRole(DnacBase):
             - If an "overall" permission of "deny" is found, it collects and returns specific permissions that are not denied.
             - If no specific operations are found or if the "overall" permission is not "deny", it returns an empty list.
         """
-        self.log("Retrieving operations for resource type: {0}".format(resource_type), "INFO")
+        self.log(
+            "Retrieving operations for resource type: {0}".format(resource_type), "INFO"
+        )
         keys = resource_type.lower().replace(" ", "_").split(".")
         current_level = permissions
 
@@ -2922,12 +3766,20 @@ class UserandRole(DnacBase):
 
         if "overall" in current_level and current_level["overall"].lower() == "deny":
             specific_permissions = {}
-            self.log("Overall permission denied for resource type: {0}".format(resource_type), "DEBUG")
+            self.log(
+                "Overall permission denied for resource type: {0}".format(
+                    resource_type
+                ),
+                "DEBUG",
+            )
 
             for k, v in current_level.items():
                 if k != "overall" and v.lower() != "deny":
                     specific_permissions[k] = v
-                    self.log("No specific operations found or overall permission not denied.", "DEBUG")
+                    self.log(
+                        "No specific operations found or overall permission not denied.",
+                        "DEBUG",
+                    )
 
             return list(specific_permissions.values())
 
@@ -2951,7 +3803,12 @@ class UserandRole(DnacBase):
             - It logs the final permissions configuration and returns the result along with a boolean indicating if any operations
             are denied.
         """
-        self.log("Starting permission retrieval for role operation: {0}".format(role_operation), "INFO")
+        self.log(
+            "Starting permission retrieval for role operation: {0}".format(
+                role_operation
+            ),
+            "INFO",
+        )
         permissions = self.parse_config(config)
         allowed_operations = []
         check_deny = []
@@ -2959,27 +3816,35 @@ class UserandRole(DnacBase):
         for resource in input_data["resourceTypes"]:
             res_type = resource["type"]
             operations = resource["operations"]
-            check_deny_update, check_permission = self.check_permission(permissions, res_type)
+            check_deny_update, check_permission = self.check_permission(
+                permissions, res_type
+            )
             check_deny.append(str(check_deny_update))
 
             if check_permission:
                 specific_operations = self.get_operations(permissions, res_type)
-                allowed_operations.append({
-                    "type": res_type,
-                    "operations": operations if not specific_operations else specific_operations
-                })
+                allowed_operations.append(
+                    {
+                        "type": res_type,
+                        "operations": (
+                            operations
+                            if not specific_operations
+                            else specific_operations
+                        ),
+                    }
+                )
 
         if role_operation == "create":
             result = {
                 "role": input_data["role"],
                 "description": input_data["description"],
-                "resourceTypes": allowed_operations
+                "resourceTypes": allowed_operations,
             }
         else:
             result = {
                 "roleId": input_data["roleId"],
                 "description": input_data["description"],
-                "resourceTypes": allowed_operations
+                "resourceTypes": allowed_operations,
             }
 
         self.log("Final permissions configuration: {0}".format(result), "DEBUG")
@@ -3084,7 +3949,12 @@ class UserandRole(DnacBase):
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             username = self.have.get("username")
-            self.log("Attempting to delete user with user_params: {0}".format(str(user_params)), "DEBUG")
+            self.log(
+                "Attempting to delete user with user_params: {0}".format(
+                    str(user_params)
+                ),
+                "DEBUG",
+            )
             try:
                 response = self.dnac._exec(
                     family="user_and_roles",
@@ -3094,30 +3964,46 @@ class UserandRole(DnacBase):
                 )
 
                 if response and isinstance(response, dict):
-                    self.log("Received API response from delete_user '{0}': {1}".format(username, str(response)), "DEBUG")
+                    self.log(
+                        "Received API response from delete_user '{0}': {1}".format(
+                            username, str(response)
+                        ),
+                        "DEBUG",
+                    )
                     self.deleted_user.append(username)
                     return response
 
-                error_msg = response.get("error_message", "Unknown error occurred while deleting user '{0}'".format(username))
+                error_msg = response.get(
+                    "error_message",
+                    "Unknown error occurred while deleting user '{0}'".format(username),
+                )
                 self.log("User deletion failed. Error: {0}".format(error_msg), "ERROR")
                 return {"error_message": error_msg}
 
             except Exception as e:
                 if "[404]" in str(e):
-                    error_message = "User '{0}' was not found in Cisco Catalyst Center".format(username)
-                elif "[412]" in str(e):
                     error_message = (
-                        "User '{0}' tried to delete themselves or does not have right permission to delete a user in Cisco Catalyst Center".format(
-                            username)
+                        "User '{0}' was not found in Cisco Catalyst Center".format(
+                            username
+                        )
+                    )
+                elif "[412]" in str(e):
+                    error_message = "User '{0}' tried to delete themselves or does not have right permission to delete a user in Cisco Catalyst Center".format(
+                        username
                     )
                 else:
-                    error_message = "Exception occurred while deleting user {0}: {1}".format(username, str(e))
+                    error_message = (
+                        "Exception occurred while deleting user {0}: {1}".format(
+                            username, str(e)
+                        )
+                    )
 
                 return {"error_message": error_message}
 
         self.status = "failed"
         self.msg = "The specified version '{0}' does not have the 'delete_user_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("dnac_version"))
+            self.payload.get("dnac_version")
+        )
         self.log(self.msg, "ERROR")
         self.check_return_status()
 
@@ -3137,33 +4023,40 @@ class UserandRole(DnacBase):
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
-                self.log("delete role with role_params: {0}".format(str(role_params)), "DEBUG")
+                self.log(
+                    "delete role with role_params: {0}".format(str(role_params)),
+                    "DEBUG",
+                )
                 response = self.dnac._exec(
                     family="user_and_roles",
                     function="delete_role_api",
                     op_modifies=True,
                     params=role_params,
                 )
-                self.log("Received API response from delete_role: {0}".format(str(response)), "DEBUG")
+                self.log(
+                    "Received API response from delete_role: {0}".format(str(response)),
+                    "DEBUG",
+                )
                 self.deleted_role.append(self.have.get("role_name"))
                 return response
 
             except Exception as e:
                 self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
                 if "[403]" in str(e):
-                    error_message = (
-                        "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API.".format(
-                            self.payload.get("dnac_username"))
+                    error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API.".format(
+                        self.payload.get("dnac_username")
                     )
                 else:
                     error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to the role '{0}'.".format(
-                        self.have.get("role_name"))
+                        self.have.get("role_name")
+                    )
 
                 return {"error_message": error_message}
 
         self.status = "failed"
         self.msg = "The specified version '{0}' does not have the 'delete_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("dnac_version"))
+            self.payload.get("dnac_version")
+        )
         self.log(self.msg, "ERROR")
         self.check_return_status()
 
@@ -3198,17 +4091,31 @@ class UserandRole(DnacBase):
 
             if role_exist:
                 self.status = "success"
-                self.msg = "The requested role {0} is present in the Cisco Catalyst Center and its creation has been verified.".format(role_name)
+                self.msg = "The requested role {0} is present in the Cisco Catalyst Center and its creation has been verified.".format(
+                    role_name
+                )
                 self.log(self.msg, "INFO")
             else:
-                self.log("The playbook input for role {0} does not align with the Cisco Catalyst Center, indicating that the \
-                         merge task may not have executed successfully.".format(role_name), "INFO")
+                self.log(
+                    "The playbook input for role {0} does not align with the Cisco Catalyst Center, indicating that the \
+                         merge task may not have executed successfully.".format(
+                        role_name
+                    ),
+                    "INFO",
+                )
 
             desired_role = self.generate_role_payload(self.want, "update")
-            (require_update, updated_role_info) = self.role_requires_update(self.have["current_role_config"], desired_role)
+            (require_update, updated_role_info) = self.role_requires_update(
+                self.have["current_role_config"], desired_role
+            )
             if not require_update:
-                self.log("The update for role {0} has been successfully verified. The updated info - {1}".format(role_name, updated_role_info), "INFO")
-                self. status = "success"
+                self.log(
+                    "The update for role {0} has been successfully verified. The updated info - {1}".format(
+                        role_name, updated_role_info
+                    ),
+                    "INFO",
+                )
+                self.status = "success"
 
         if "username" in config or "email" in config:
             self.get_have(config)
@@ -3221,16 +4128,30 @@ class UserandRole(DnacBase):
 
             if user_exist:
                 self.status = "success"
-                self.msg = "The requested user {0} is present in the Cisco Catalyst Center and its creation has been verified.".format(user_name)
+                self.msg = "The requested user {0} is present in the Cisco Catalyst Center and its creation has been verified.".format(
+                    user_name
+                )
                 self.log(self.msg, "INFO")
             else:
-                self.log("The playbook input for user {0} does not align with the Cisco Catalyst Center, indicating that \
-                         the merge task may not have executed successfully.".format(user_name), "INFO")
+                self.log(
+                    "The playbook input for user {0} does not align with the Cisco Catalyst Center, indicating that \
+                         the merge task may not have executed successfully.".format(
+                        user_name
+                    ),
+                    "INFO",
+                )
 
-            (require_update, updated_user_info) = self.user_requires_update(self.have["current_user_config"], self.have["current_role_id_config"])
+            (require_update, updated_user_info) = self.user_requires_update(
+                self.have["current_user_config"], self.have["current_role_id_config"]
+            )
             if not require_update:
-                self.log("The update for user {0} has been successfully verified. The updated info - {1}".format(user_name, updated_user_info), "INFO")
-                self. status = "success"
+                self.log(
+                    "The update for user {0} has been successfully verified. The updated info - {1}".format(
+                        user_name, updated_user_info
+                    ),
+                    "INFO",
+                )
+                self.status = "success"
 
         return self
 
@@ -3260,12 +4181,19 @@ class UserandRole(DnacBase):
             if not role_exist:
                 self.status = "success"
                 msg = "The requested role {0} has already been deleted from the Cisco Catalyst Center and this has been \
-                    successfully verified.".format(str(self.want.get("role_name")))
+                    successfully verified.".format(
+                    str(self.want.get("role_name"))
+                )
                 self.log(msg, "INFO")
                 return self
 
-            self.log("Mismatch between the playbook input for role {0} and the Cisco Catalyst Center indicates that the deletion was \
-                     not executed successfully.".format(str(self.want.get("role_name"))), "INFO")
+            self.log(
+                "Mismatch between the playbook input for role {0} and the Cisco Catalyst Center indicates that the deletion was \
+                     not executed successfully.".format(
+                    str(self.want.get("role_name"))
+                ),
+                "INFO",
+            )
 
         if "username" in config or "email" in config:
             self.get_have(config)
@@ -3277,12 +4205,19 @@ class UserandRole(DnacBase):
             if not user_exist:
                 self.status = "success"
                 msg = "The requested user {0} has already been deleted from the Cisco Catalyst Center and this has been \
-                    successfully verified.".format(str(self.want.get("username")))
+                    successfully verified.".format(
+                    str(self.want.get("username"))
+                )
                 self.log(msg, "INFO")
                 return self
 
-            self.log("Mismatch between the playbook input for user {0} and the Cisco Catalyst Center indicates that the deletion \
-                     was not executed successfully.".format(str(self.want.get("username"))), "INFO")
+            self.log(
+                "Mismatch between the playbook input for user {0} and the Cisco Catalyst Center indicates that the deletion \
+                     was not executed successfully.".format(
+                    str(self.want.get("username"))
+                ),
+                "INFO",
+            )
 
         return self
 
@@ -3310,55 +4245,89 @@ class UserandRole(DnacBase):
             update_action = "updated"
 
         if self.created_user:
-            create_user_msg = "User(s) '{0}' {1} successfully in Cisco Catalyst Center.".format("', '".join(self.created_user), update_action)
+            create_user_msg = (
+                "User(s) '{0}' {1} successfully in Cisco Catalyst Center.".format(
+                    "', '".join(self.created_user), update_action
+                )
+            )
             result_msg_list.append(create_user_msg)
 
         if self.updated_user:
-            update_user_msg = "User(s) '{0}' updated successfully in Cisco Catalyst Center.".format("', '".join(self.updated_user))
+            update_user_msg = (
+                "User(s) '{0}' updated successfully in Cisco Catalyst Center.".format(
+                    "', '".join(self.updated_user)
+                )
+            )
             result_msg_list.append(update_user_msg)
 
         if self.no_update_user:
-            no_update_user_msg = "User(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_user))
+            no_update_user_msg = (
+                "User(s) '{0}' need no update in Cisco Catalyst Center.".format(
+                    "', '".join(self.no_update_user)
+                )
+            )
             no_update_list.append(no_update_user_msg)
 
         if self.payload.get("state") == "deleted":
             if self.deleted_user:
-                delete_user_msg = "User(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_user))
+                delete_user_msg = "User(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(
+                    "', '".join(self.deleted_user)
+                )
                 result_msg_list.append(delete_user_msg)
 
         if self.created_role:
-            create_role_msg = "Role(s) '{0}' created successfully in Cisco Catalyst Center.".format("', '".join(self.created_role))
+            create_role_msg = (
+                "Role(s) '{0}' created successfully in Cisco Catalyst Center.".format(
+                    "', '".join(self.created_role)
+                )
+            )
             result_msg_list.append(create_role_msg)
 
         if self.updated_role:
-            update_role_msg = "Role(s) '{0}' updated successfully in Cisco Catalyst Center.".format("', '".join(self.updated_role))
+            update_role_msg = (
+                "Role(s) '{0}' updated successfully in Cisco Catalyst Center.".format(
+                    "', '".join(self.updated_role)
+                )
+            )
             result_msg_list.append(update_role_msg)
 
         if self.no_update_role:
-            no_update_role_msg = "Role(s) '{0}' need no update in Cisco Catalyst Center.".format("', '".join(self.no_update_role))
+            no_update_role_msg = (
+                "Role(s) '{0}' need no update in Cisco Catalyst Center.".format(
+                    "', '".join(self.no_update_role)
+                )
+            )
             no_update_list.append(no_update_role_msg)
 
         if self.deleted_role:
-            delete_role_msg = "Role(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_role))
+            delete_role_msg = "Role(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(
+                "', '".join(self.deleted_role)
+            )
             result_msg_list.append(delete_role_msg)
 
         if self.no_deleted_user:
             no_delete_user_msg = (
                 "The specified user '{0}' does not exist in Cisco Catalyst Center. "
-                "Please provide a valid 'username' or 'email' for user deletion.".format("', '".join(self.no_deleted_user))
+                "Please provide a valid 'username' or 'email' for user deletion.".format(
+                    "', '".join(self.no_deleted_user)
+                )
             )
             no_update_list.append(no_delete_user_msg)
 
         if self.no_deleted_role:
             no_delete_role_msg = (
                 "The specified role '{0}' does not exist in Cisco Catalyst Center. "
-                "Please provide a valid 'role_name' for user deletion.".format("', '".join(self.no_deleted_role))
+                "Please provide a valid 'role_name' for user deletion.".format(
+                    "', '".join(self.no_deleted_role)
+                )
             )
             no_update_list.append(no_delete_role_msg)
 
         if result_msg_list and no_update_list:
             self.result["changed"] = True
-            self.msg = "{0} {1}".format(" ".join(result_msg_list), " ".join(no_update_list))
+            self.msg = "{0} {1}".format(
+                " ".join(result_msg_list), " ".join(no_update_list)
+            )
         elif result_msg_list:
             self.result["changed"] = True
             self.msg = " ".join(result_msg_list)
@@ -3385,6 +4354,7 @@ class UserandRole(DnacBase):
             - It handles nested dictionaries and lists, converting all keys in each dictionary found. Lists containing dictionaries
               are recursively processed to ensure all contained dictionaries have their keys converted.
         """
+
         def to_camel_case(snake_str):
             """
             Helper function to convert snake to camel case.
@@ -3425,7 +4395,9 @@ class UserandRole(DnacBase):
             - If `config_verify` is enabled, it verifies that the changes have been correctly applied.
         """
         if config_type in self.payload.get("config"):
-            self.validate_input_yml(self.payload.get("config").get(config_type)).check_return_status()
+            self.validate_input_yml(
+                self.payload.get("config").get(config_type)
+            ).check_return_status()
             config_verify = self.payload.get("config_verify")
 
             for config in self.validated_config:
@@ -3439,42 +4411,43 @@ class UserandRole(DnacBase):
 
 
 def main():
-    """ main entry point for module execution
-    """
+    """main entry point for module execution"""
     # Basic Ansible type check or assign default.
-    user_role_details = {"dnac_host": {"required": True, "type": "str"},
-                         "dnac_port": {"type": "str", "default": "443"},
-                         "dnac_username": {"type": "str", "default": "admin", 'aliases': ['user']},
-                         "dnac_password": {"type": "str", "no_log": True},
-                         "dnac_verify": {"type": "bool", "default": "True"},
-                         "dnac_version": {"type": "str", "default": "2.2.3.3"},
-                         "dnac_debug": {"type": "bool", "default": False},
-                         "dnac_log": {"type": "bool", "default": False},
-                         "dnac_log_level": {"type": "str", "default": "WARNING"},
-                         "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
-                         "config_verify": {"type": "bool", "default": False},
-                         "dnac_log_append": {"type": "bool", "default": True},
-                         "dnac_api_task_timeout": {"type": "int", "default": 1200},
-                         "dnac_task_poll_interval": {"type": "int", "default": 2},
-                         "config": {"required": True, "type": "dict"},
-                         "validate_response_schema": {"type": "bool", "default": True},
-                         "state": {"default": "merged", "choices": ["merged", "deleted"]},
-                         }
+    user_role_details = {
+        "dnac_host": {"required": True, "type": "str"},
+        "dnac_port": {"type": "str", "default": "443"},
+        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "dnac_password": {"type": "str", "no_log": True},
+        "dnac_verify": {"type": "bool", "default": "True"},
+        "dnac_version": {"type": "str", "default": "2.2.3.3"},
+        "dnac_debug": {"type": "bool", "default": False},
+        "dnac_log": {"type": "bool", "default": False},
+        "dnac_log_level": {"type": "str", "default": "WARNING"},
+        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
+        "config_verify": {"type": "bool", "default": False},
+        "dnac_log_append": {"type": "bool", "default": True},
+        "dnac_api_task_timeout": {"type": "int", "default": 1200},
+        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "config": {"required": True, "type": "dict"},
+        "validate_response_schema": {"type": "bool", "default": True},
+        "state": {"default": "merged", "choices": ["merged", "deleted"]},
+    }
 
-    module = AnsibleModule(
-        argument_spec=user_role_details,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=user_role_details, supports_check_mode=True)
 
     ccc_user_role = UserandRole(module)
     state = ccc_user_role.params.get("state")
 
-    if ccc_user_role.compare_dnac_versions(ccc_user_role.get_ccc_version(), "2.3.5.3") < 0:
+    if (
+        ccc_user_role.compare_dnac_versions(ccc_user_role.get_ccc_version(), "2.3.5.3")
+        < 0
+    ):
         ccc_user_role.msg = (
             "The specified version '{0}' does not support the user and role workflow feature. Supported versions start from '2.3.5.3' onwards. "
             "Version '2.3.5.3' introduces APIs for creating and updating users, as well as retrieving users and roles. "
             "Version '2.3.7.6' expands support to include APIs for creating, updating, retrieving, and deleting both users and roles.".format(
-                ccc_user_role.get_ccc_version())
+                ccc_user_role.get_ccc_version()
+            )
         )
         ccc_user_role.status = "failed"
         ccc_user_role.check_return_status()

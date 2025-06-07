@@ -6,7 +6,7 @@
   gather_facts: false
   tasks:
     - name: Update layer 3 virtual networks v1
-      cisco.dnac.sda_layer3_virtual_networks_v1:
+      cisco.dnac.sda_layer3_virtual_networks:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -20,7 +20,7 @@
       register: result
 
     - name: Create layer 3 virtual networks v1
-      cisco.dnac.sda_layer3_virtual_networks_v1:
+      cisco.dnac.sda_layer3_virtual_networks:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"

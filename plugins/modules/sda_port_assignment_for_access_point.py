@@ -1,20 +1,27 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sda_port_assignment_for_access_point
-short_description: Resource module for Sda Port Assignment For Access Point
+short_description: Resource module for Sda Port Assignment
+  For Access Point
 description:
-  - This module represents an alias of the module sda_port_assignment_for_access_point_v1
+  - Manage operations create and delete of the resource
+    Sda Port Assignment For Access Point.
+  - Add Port assignment for access point in SDA Fabric.
+  - Delete Port assignment for access point in SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   authenticateTemplateName:
-    description: Authenticate TemplateName associated to Fabric Site.
+    description: Authenticate TemplateName associated
+      to Fabric Site.
     type: str
     version_added: 4.0.0
   dataIpAddressPoolName:
@@ -40,23 +47,25 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddPortAssignmentForAccessPointInSDAFabricV1
-    description: Complete reference of the AddPortAssignmentForAccessPointInSDAFabricV1
+  - name: Cisco DNA Center documentation for SDA AddPortAssignmentForAccessPointInSDAFabric
+    description: Complete reference of the AddPortAssignmentForAccessPointInSDAFabric
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-access-point-in-sda-fabric
-  - name: Cisco DNA Center documentation for SDA DeletePortAssignmentForAccessPointInSDAFabricV1
-    description: Complete reference of the DeletePortAssignmentForAccessPointInSDAFabricV1
+    link: https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-access-point-in-sda-fabric
+  - name: Cisco DNA Center documentation for SDA DeletePortAssignmentForAccessPointInSDAFabric
+    description: Complete reference of the DeletePortAssignmentForAccessPointInSDAFabric
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-access-point-in-sda-fabric
+    link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-access-point-in-sda-fabric
 notes:
-  - SDK Method used are sda.Sda.add_port_assignment_for_access_point, sda.Sda.delete_port_assignment_for_access_point,
-  - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/access-point,
+  - SDK Method used are
+    sda.Sda.add_port_assignment_for_access_point,
+    sda.Sda.delete_port_assignment_for_access_point,
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/hostonboarding/access-point,
     delete /dna/intent/api/v1/business/sda/hostonboarding/access-point,
-  - It should be noted that this module is an alias of sda_port_assignment_for_access_point_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.sda_port_assignment_for_access_point:
     dnac_host: "{{dnac_host}}"

@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: platform_release_summary_info
-short_description: Information module for Platform Release Summary Info
+short_description: Information module for Platform Release
+  Summary
 description:
-  - This module represents an alias of the module platform_release_summary_v1_info
+  - Get all Platform Release Summary. - > Provides information
+    such as API version, mandatory core packages for
+    installation or upgrade, optional packages, Cisco
+    Catalyst Center name and version, supported direct
+    updates, and tenant ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,17 +27,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Platform Configuration CiscoCatalystCenterReleaseSummaryV1
-    description: Complete reference of the CiscoCatalystCenterReleaseSummaryV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-release-summary
+  - name: Cisco DNA Center documentation for Platform
+      Configuration CiscoCatalystCenterReleaseSummary
+    description: Complete reference of the CiscoCatalystCenterReleaseSummary
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-release-summary
 notes:
-  - SDK Method used are platform_configuration.PlatformConfiguration.release_summary,
-  - Paths used are get /dna/intent/api/v1/dnac-release,
-  - It should be noted that this module is an alias of platform_release_summary_v1_info
+  - SDK Method used are
+    platform_configuration.PlatformConfiguration.release_summary,
+  - Paths used are
+    get /dna/intent/api/v1/dnac-release,
 """
+
 EXAMPLES = r"""
-- name: Get all Platform Release Summary Info
+---
+- name: Get all Platform Release Summary
   cisco.dnac.platform_release_summary_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

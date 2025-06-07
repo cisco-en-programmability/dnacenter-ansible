@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: app_policy_queuing_profile_count_info
-short_description: Information module for App Policy Queuing Profile Count Info
+short_description: Information module for App Policy
+  Queuing Profile Count
 description:
-  - This module represents an alias of the module app_policy_queuing_profile_count_v1_info
+  - Get all App Policy Queuing Profile Count.
+  - Get the number of all existing application policy
+    queuing profile.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +25,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyQueuingProfileCountV1
-    description: Complete reference of the GetApplicationPolicyQueuingProfileCountV1
+  - name: Cisco DNA Center documentation for Application
+      Policy GetApplicationPolicyQueuingProfileCount
+    description: Complete reference of the GetApplicationPolicyQueuingProfileCount
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-application-policy-queuing-profile-count
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-queuing-profile-count
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_policy_queuing_profile_count_v1,
-  - Paths used are get /dna/intent/api/v1/app-policy-queuing-profile-count,
-  - It should be noted that this module is an alias of app_policy_queuing_profile_count_v1_info
+    application_policy.ApplicationPolicy.get_application_policy_queuing_profile_count,
+  - Paths used are
+    get /dna/intent/api/v1/app-policy-queuing-profile-count,
 """
+
 EXAMPLES = r"""
-- name: Get all App Policy Queuing Profile Count Info
+---
+- name: Get all App Policy Queuing Profile Count
   cisco.dnac.app_policy_queuing_profile_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: security_threats_summary
-short_description: Resource module for Security Threats Summary
+short_description: Resource module for Security Threats
+  Summary
 description:
-  - This module represents an alias of the module security_threats_summary_v1
+  - Manage operation create of the resource Security
+    Threats Summary.
+  - The Threat Summary for the Rogues and aWIPS.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,11 +40,14 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 notes:
-  - SDK Method used are devices.Devices.threat_summary_v1,
-  - Paths used are post /dna/intent/api/v1/security/threats/summary,
-  - It should be noted that this module is an alias of security_threats_summary_v1
+  - SDK Method used are
+    devices.Devices.threat_summary,
+  - Paths used are
+    post /dna/intent/api/v1/security/threats/summary,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.security_threats_summary:
     dnac_host: "{{dnac_host}}"

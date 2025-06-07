@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: snmpv2_write_community_credential
-short_description: Resource module for Snmpv2 Write Community Credential
+short_description: Resource module for Snmpv2 Write
+  Community Credential
 description:
-  - This module represents an alias of the module snmpv2_write_community_credential_v1
+  - Manage operations create and update of the resource
+    Snmpv2 Write Community Credential.
+  - Adds global SNMP write community.
+  - Updates global SNMP write community.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -17,7 +23,8 @@ options:
     description: Comments to identify the credential.
     type: str
   credentialType:
-    description: Credential type to identify the application that uses the credential.
+    description: Credential type to identify the application
+      that uses the credential.
     type: str
   description:
     description: Name/Description of the credential.
@@ -26,25 +33,34 @@ options:
     description: Credential UUID.
     type: str
   writeCommunity:
-    description: SNMP write community. NO!$DATA!$ for no value change.
+    description: SNMP write community. NO!$DATA!$ for
+      no value change.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Discovery CreateSNMPWriteCommunityV1
-    description: Complete reference of the CreateSNMPWriteCommunityV1 API.
+  - name: Cisco DNA Center documentation for Discovery
+      CreateSNMPWriteCommunity
+    description: Complete reference of the CreateSNMPWriteCommunity
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-snmp-write-community
-  - name: Cisco DNA Center documentation for Discovery UpdateSNMPWriteCommunityV1
-    description: Complete reference of the UpdateSNMPWriteCommunityV1 API.
+  - name: Cisco DNA Center documentation for Discovery
+      UpdateSNMPWriteCommunity
+    description: Complete reference of the UpdateSNMPWriteCommunity
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!update-snmp-write-community
 notes:
-  - SDK Method used are discovery.Discovery.create_snmp_write_community_v1, discovery.Discovery.update_snmp_write_community_v1,
-  - Paths used are post /dna/intent/api/v1/global-credential/snmpv2-write-community,
+  - SDK Method used are
+    discovery.Discovery.create_snmp_write_community,
+    discovery.Discovery.update_snmp_write_community,
+  - Paths used are
+    post /dna/intent/api/v1/global-credential/snmpv2-write-community,
     put /dna/intent/api/v1/global-credential/snmpv2-write-community,
-  - It should be noted that this module is an alias of snmpv2_write_community_credential_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.snmpv2_write_community_credential:
     dnac_host: "{{dnac_host}}"

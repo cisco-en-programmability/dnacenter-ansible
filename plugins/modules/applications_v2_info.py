@@ -1,11 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: applications_v2_info
-short_description: Information module for Applications V2
+short_description: Information module for Applications
+  V2
 description:
   - Get all Applications V2.
   - Get application/s by offset/limit or by name.
@@ -19,7 +22,8 @@ options:
     type: dict
   attributes:
     description:
-      - Attributes query parameter. Attributes to retrieve, valid value application.
+      - Attributes query parameter. Attributes to retrieve,
+        valid value application.
     type: str
   name:
     description:
@@ -27,28 +31,35 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. The starting point or index from where the paginated
-        results should begin.
+      - Offset query parameter. The starting point or
+        index from where the paginated results should
+        begin.
     type: float
   limit:
     description:
       - >
-        Limit query parameter. The limit which is the maximum number of items to include
-        in a single page of
-        results, max value 500.
+        Limit query parameter. The limit which is the
+        maximum number of items to include in a single
+        page of results, max value 500.
     type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Application Policy GetApplicationsV2
-    description: Complete reference of the GetApplicationsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-applications
+  - name: Cisco DNA Center documentation for Application
+      Policy GetApplicationsV2
+    description: Complete reference of the GetApplicationsV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-applications-v-2
 notes:
-  - SDK Method used are application_policy.ApplicationPolicy.get_applications_v2,
-  - Paths used are get /dna/intent/api/v2/applications,
+  - SDK Method used are
+    application_policy.ApplicationPolicy.get_applications_v2,
+  - Paths used are
+    get /dna/intent/api/v2/applications,
 """
+
 EXAMPLES = r"""
+---
 - name: Get all Applications V2
   cisco.dnac.applications_v2_info:
     dnac_host: "{{dnac_host}}"

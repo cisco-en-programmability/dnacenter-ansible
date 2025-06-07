@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: images_site_wise_product_names_info
-short_description: Information module for Images Site Wise Product Names Info
+short_description: Information module for Images Site
+  Wise Product Names
 description:
-  - This module represents an alias of the module images_site_wise_product_names_v1_info
+  - Get all Images Site Wise Product Names. - > Returns
+    a list of network device product names and associated
+    sites for a given image identifier. Refer `/dna/intent/api/v1/images`
+    API for obtaining `imageId`.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,71 +24,76 @@ options:
     type: dict
   imageId:
     description:
-      - ImageId path parameter. Software image identifier. Refer `/dna/intent/api/v1/images`
-        API for obtaining `imageId`.
+      - ImageId path parameter. Software image identifier.
+        Refer `/dna/intent/api/v1/images` API for obtaining
+        `imageId`.
     type: str
   productName:
     description:
       - >
-        ProductName query parameter. Filter with network device product name. Supports
-        partial case-insensitive
-        search. A minimum of 3 characters is required for the search.
+        ProductName query parameter. Filter with network
+        device product name. Supports partial case-insensitive
+        search. A minimum of 3 characters is required
+        for the search.
     type: str
   productId:
     description:
-      - ProductId query parameter. Filter with product ID (PID).
+      - ProductId query parameter. Filter with product
+        ID (PID).
     type: str
   recommended:
     description:
       - >
-        Recommended query parameter. Filter with recommended source. If `CISCO` then
-        the network device product
-        assigned was recommended by Cisco and `USER` then the user has manually assigned.
-        Available values CISCO,
-        USER.
+        Recommended query parameter. Filter with recommended
+        source. If `CISCO` then the network device product
+        assigned was recommended by Cisco and `USER` then
+        the user has manually assigned. Available values
+        CISCO, USER.
     type: str
   assigned:
     description:
       - >
-        Assigned query parameter. Filter with the assigned/unassigned, `ASSIGNED`
-        option will filter network device
-        products that are associated with the given image. The `NOT_ASSIGNED` option
-        will filter network device
-        products that have not yet been associated with the given image but apply
-        to it. Available values ASSIGNED,
-        NOT_ASSIGNED.
+        Assigned query parameter. Filter with the assigned/unassigned,
+        `ASSIGNED` option will filter network device
+        products that are associated with the given
+        image. The `NOT_ASSIGNED` option will filter
+        network device products that have not yet been
+        associated with the given image but apply to
+        it. Available values ASSIGNED, NOT_ASSIGNED.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to show for this page; the first
-        record is numbered 1. The minimum
-        value is 1.
+        Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1. The minimum value is 1.
     type: float
   limit:
     description:
       - >
-        Limit query parameter. The number of records to show for this page. The minimum
-        and maximum values are 1 and
-        500, respectively.
+        Limit query parameter. The number of records
+        to show for this page. The minimum and maximum
+        values are 1 and 500, respectively.
     type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesNetworkDeviceProductNamesAssignedToASoftwareImageV1
-    description: Complete reference of the RetrievesNetworkDeviceProductNamesAssignedToASoftwareImageV1
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) RetrievesNetworkDeviceProductNamesAssignedToASoftwareImage
+    description: Complete reference of the RetrievesNetworkDeviceProductNamesAssignedToASoftwareImage
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-network-device-product-names-assigned-to-a-software-image
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-network-device-product-names-assigned-to-a-software-image
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.retrieves_network_device_product_names_assigned_to_a_software_image_v1,
-  - Paths used are get /dna/intent/api/v1/images/{imageId}/siteWiseProductNames,
-  - It should be noted that this module is an alias of images_site_wise_product_names_v1_info
+    software_image_management_swim.SoftwareImageManagementSwim.retrieves_network_device_product_names_assigned_to_a_software_image,
+  - Paths used are
+    get /dna/intent/api/v1/images/{imageId}/siteWiseProductNames,
 """
+
 EXAMPLES = r"""
-- name: Get all Images Site Wise Product Names Info
+---
+- name: Get all Images Site Wise Product Names
   cisco.dnac.images_site_wise_product_names_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

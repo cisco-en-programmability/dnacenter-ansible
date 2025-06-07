@@ -1,13 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_info
-short_description: Information module for Network Device Info
+short_description: Information module for Network Device
 description:
-  - This module represents an alias of the module network_device_v1_info
+  - Get all Network Device.
+  - Get Network Device by id.
+  - Returns list of network devices based on filter
+    criteria such as management IP address, mac address,
+    hostname, etc.
+  - Returns the network device details for the given
+    device ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -169,10 +177,10 @@ options:
   id:
     description:
       - >
-        Id query parameter. Accepts comma separated ids and return list of network-devices
-        for the given ids. If
-        invalid or not-found ids are provided, null entry will be returned in the
-        list.
+        Id query parameter. Accepts comma separated
+        ids and return list of network-devices for the
+        given ids. If invalid or not-found ids are provided,
+        null entry will be returned in the list.
     type: str
   deviceSupportLevel:
     description:
@@ -180,30 +188,40 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. Offset >= 1 X gives results from Xth device onwards.
+      - Offset query parameter. Offset >= 1 X gives
+        results from Xth device onwards.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page. Min 1,
-        Max 500.
+      - Limit query parameter. The number of records
+        to show for this page. Min 1, Max 500.
     type: int
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetDeviceByIDV1
-    description: Complete reference of the GetDeviceByIDV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      GetDeviceByID
+    description: Complete reference of the GetDeviceByID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
-  - name: Cisco DNA Center documentation for Devices GetDeviceListV1
-    description: Complete reference of the GetDeviceListV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      GetDeviceList
+    description: Complete reference of the GetDeviceList
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-list
 notes:
-  - SDK Method used are devices.Devices.get_device_by_id_v1, devices.Devices.get_device_list_v1,
-  - Paths used are get /dna/intent/api/v1/network-device, get /dna/intent/api/v1/network-device/{id},
-  - It should be noted that this module is an alias of network_device_v1_info
+  - SDK Method used are
+    devices.Devices.get_device_by_id,
+    devices.Devices.get_device_list,
+  - Paths used are
+    get /dna/intent/api/v1/network-device,
+    get /dna/intent/api/v1/network-device/{id},
 """
+
 EXAMPLES = r"""
-- name: Get all Network Device Info
+---
+- name: Get all Network Device
   cisco.dnac.network_device_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -248,7 +266,7 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-- name: Get Network Device Info by id
+- name: Get Network Device by id
   cisco.dnac.network_device_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

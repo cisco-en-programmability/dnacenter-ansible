@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_ap_profiles_count_info
-short_description: Information module for Wireless Settings Ap Profiles Count Info
+short_description: Information module for Wireless Settings
+  Ap Profiles Count
 description:
-  - This module represents an alias of the module wireless_settings_ap_profiles_count_v1_info
+  - Get all Wireless Settings Ap Profiles Count.
+  - This API returns the total number of AP Profiles
+    available.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,16 +25,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetAPProfilesCountV1
-    description: Complete reference of the GetAPProfilesCountV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      GetAPProfilesCount
+    description: Complete reference of the GetAPProfilesCount
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ap-profiles-count
 notes:
-  - SDK Method used are wireless.Wireless.get_ap_profiles_count_v1,
-  - Paths used are get /dna/intent/api/v1/wirelessSettings/apProfiles/count,
-  - It should be noted that this module is an alias of wireless_settings_ap_profiles_count_v1_info
+  - SDK Method used are
+    wireless.Wireless.get_ap_profiles_count,
+  - Paths used are
+    get /dna/intent/api/v1/wirelessSettings/apProfiles/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Wireless Settings Ap Profiles Count Info
+---
+- name: Get all Wireless Settings Ap Profiles Count
   cisco.dnac.wireless_settings_ap_profiles_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

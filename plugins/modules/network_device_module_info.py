@@ -1,13 +1,27 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_module_info
-short_description: Information module for Network Device Module Info
+short_description: Information module for Network Device
+  Module
 description:
-  - This module represents an alias of the module network_device_module_v1_info
+  - Get all Network Device Module.
+  - Get Network Device Module by id.
+  - Returns Module info by 'module id'. - > Returns
+    modules by specified device id. The API returns
+    a paginated response based on 'limit' and 'offset'
+    parameters, allowing up to 500 records per page.
+    'limit' specifies the number of records, and 'offset'
+    sets the starting point using 1-based indexing.
+    Use /dna/intent/api/v1/network-device/module/count
+    API to get the total record count. For data sets
+    over 500 records, make multiple calls, adjusting
+    'limit' and 'offset' to retrieve all records incrementally.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,8 +36,8 @@ options:
     type: str
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page. Min 1,
-        Max 500.
+      - Limit query parameter. The number of records
+        to show for this page. Min 1, Max 500.
     type: int
   offset:
     description:
@@ -57,19 +71,28 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetModuleInfoByIdV1
-    description: Complete reference of the GetModuleInfoByIdV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      GetModuleInfoById
+    description: Complete reference of the GetModuleInfoById
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-module-info-by-id
-  - name: Cisco DNA Center documentation for Devices GetModulesV1
-    description: Complete reference of the GetModulesV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      GetModules
+    description: Complete reference of the GetModules
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-modules
 notes:
-  - SDK Method used are devices.Devices.get_module_info_by_id_v1, devices.Devices.get_modules_v1,
-  - Paths used are get /dna/intent/api/v1/network-device/module, get /dna/intent/api/v1/network-device/module/{id},
-  - It should be noted that this module is an alias of network_device_module_v1_info
+  - SDK Method used are
+    devices.Devices.get_module_info_by_id,
+    devices.Devices.get_modules,
+  - Paths used are
+    get /dna/intent/api/v1/network-device/module,
+    get /dna/intent/api/v1/network-device/module/{id},
 """
+
 EXAMPLES = r"""
-- name: Get all Network Device Module Info
+---
+- name: Get all Network Device Module
   cisco.dnac.network_device_module_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -87,7 +110,7 @@ EXAMPLES = r"""
     partNumberList: []
     operationalStateCodeList: []
   register: result
-- name: Get Network Device Module Info by id
+- name: Get Network Device Module by id
   cisco.dnac.network_device_module_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

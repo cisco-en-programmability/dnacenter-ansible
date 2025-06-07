@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: task_info
-short_description: Information module for Task Info
+short_description: Information module for Task
 description:
-  - This module represents an alias of the module task_v1_info
+  - Get all Task.
+  - Get Task by id.
+  - Returns a task by specified id.
+  - Returns tasks based on filter criteria.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,60 +23,70 @@ options:
     type: dict
   startTime:
     description:
-      - StartTime query parameter. This is the epoch start time from which tasks need
-        to be fetched.
+      - StartTime query parameter. This is the epoch
+        start time from which tasks need to be fetched.
     type: str
   endTime:
     description:
-      - EndTime query parameter. This is the epoch end time upto which audit records
-        need to be fetched.
+      - EndTime query parameter. This is the epoch end
+        time upto which audit records need to be fetched.
     type: str
   data:
     description:
-      - Data query parameter. Fetch tasks that contains this data.
+      - Data query parameter. Fetch tasks that contains
+        this data.
     type: str
   errorCode:
     description:
-      - ErrorCode query parameter. Fetch tasks that have this error code.
+      - ErrorCode query parameter. Fetch tasks that
+        have this error code.
     type: str
   serviceType:
     description:
-      - ServiceType query parameter. Fetch tasks with this service type.
+      - ServiceType query parameter. Fetch tasks with
+        this service type.
     type: str
   username:
     description:
-      - Username query parameter. Fetch tasks with this username.
+      - Username query parameter. Fetch tasks with this
+        username.
     type: str
   progress:
     description:
-      - Progress query parameter. Fetch tasks that contains this progress.
+      - Progress query parameter. Fetch tasks that contains
+        this progress.
     type: str
   isError:
     description:
-      - IsError query parameter. Fetch tasks ended as success or failure. Valid values
-        true, false.
+      - IsError query parameter. Fetch tasks ended as
+        success or failure. Valid values true, false.
     type: str
   failureReason:
     description:
-      - FailureReason query parameter. Fetch tasks that contains this failure reason.
+      - FailureReason query parameter. Fetch tasks that
+        contains this failure reason.
     type: str
   parentId:
     description:
-      - ParentId query parameter. Fetch tasks that have this parent Id.
+      - ParentId query parameter. Fetch tasks that have
+        this parent Id.
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first
-        record is numbered 1.
+      - Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1.
     type: float
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page;The minimum
-        is 1, and the maximum is 500.
+      - Limit query parameter. The number of records
+        to show for this page;The minimum is 1, and
+        the maximum is 500.
     type: float
   sortBy:
     description:
-      - SortBy query parameter. Sort results by this field.
+      - SortBy query parameter. Sort results by this
+        field.
     type: str
   order:
     description:
@@ -85,19 +100,27 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Task GetTaskByIdV1
-    description: Complete reference of the GetTaskByIdV1 API.
+  - name: Cisco DNA Center documentation for Task GetTaskById
+    description: Complete reference of the GetTaskById
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-task-by-id
-  - name: Cisco DNA Center documentation for Task GetTasksOperationalTasksV1
-    description: Complete reference of the GetTasksOperationalTasksV1 API.
+  - name: Cisco DNA Center documentation for Task GetTasksOperationalTasks
+    description: Complete reference of the GetTasksOperationalTasks
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tasks-operational-tasks
 notes:
-  - SDK Method used are task.Task.get_task_by_id_v1, task.Task.get_tasks_operational_tasks_v1,
-  - Paths used are get /dna/intent/api/v1/task, get /dna/intent/api/v1/task/{taskId},
-  - It should be noted that this module is an alias of task_v1_info
+  - SDK Method used are
+    task.Task.get_task_by_id,
+    task.Task.get_tasks_operational_tasks,
+  - Paths used are
+    get /dna/intent/api/v1/task,
+    get
+    /dna/intent/api/v1/task/{taskId},
 """
+
 EXAMPLES = r"""
-- name: Get all Task Info
+---
+- name: Get all Task
   cisco.dnac.task_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -122,7 +145,7 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
-- name: Get Task Info by id
+- name: Get Task by id
   cisco.dnac.task_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

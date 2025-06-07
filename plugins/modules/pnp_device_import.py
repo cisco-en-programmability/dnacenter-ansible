@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: pnp_device_import
 short_description: Resource module for Pnp Device Import
 description:
-  - This module represents an alias of the module pnp_device_import_v1
+  - Manage operation create of the resource Pnp Device
+    Import.
+  - Add devices to PnP in bulk.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -132,15 +136,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ImportDevicesInBulkV1
-    description: Complete reference of the ImportDevicesInBulkV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) ImportDevicesInBulk
+    description: Complete reference of the ImportDevicesInBulk
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!import-devices-in-bulk
 notes:
-  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk_v1,
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/import,
-  - It should be noted that this module is an alias of pnp_device_import_v1
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk,
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/import,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.pnp_device_import:
     dnac_host: "{{dnac_host}}"

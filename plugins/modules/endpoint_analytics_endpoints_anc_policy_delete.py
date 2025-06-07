@@ -1,36 +1,47 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_endpoints_anc_policy_delete
-short_description: Resource module for Endpoint Analytics Endpoints Anc Policy Delete
+short_description: Resource module for Endpoint Analytics
+  Endpoints Anc-Policy Delete
 description:
-  - This module represents an alias of the module endpoint_analytics_endpoints_anc_policy_delete_v1
+  - Manage operation delete of the resource Endpoint
+    Analytics Endpoints Anc-Policy Delete.
+  - Revokes given ANC policy from the endpoint.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   epId:
-    description: EpId path parameter. Unique identifier for the endpoint.
+    description: EpId path parameter. Unique identifier
+      for the endpoint.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint Analytics RevokeANCPolicyV1
-    description: Complete reference of the RevokeANCPolicyV1 API.
+  - name: Cisco DNA Center documentation for AI Endpoint
+      Analytics RevokeANCPolicy
+    description: Complete reference of the RevokeANCPolicy
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!revoke-anc-policy
 notes:
-  - SDK Method used are a_i_endpoint_analytics.AIEndpointAnalytics.revoke_anc_policy_v1,
-  - Paths used are delete /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,
-  - It should be noted that this module is an alias of endpoint_analytics_endpoints_anc_policy_delete_v1
+  - SDK Method used are
+    ai_endpoint_analytics.AiEndpointAnalytics.revoke_anc_policy,
+  - Paths used are
+    delete /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,
 """
+
 EXAMPLES = r"""
+---
 - name: Delete all
-  cisco.dnac.endpoint_analytics_endpoints_anc_policy_delete:
+  cisco.dnac.endpoint_analytics_endpoints_anc-policy_delete:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

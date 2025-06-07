@@ -7,7 +7,7 @@
 
   tasks:
     - name: Test
-      cisco.dnac.event_webhook_v1:
+      cisco.dnac.event_webhook:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

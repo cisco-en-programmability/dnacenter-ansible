@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: floors_upload_image
-short_description: Resource module for Floors Upload Image
+short_description: Resource module for Floors Upload
+  Image
 description:
-  - This module represents an alias of the module floors_upload_image_v2
+  - Manage operation create of the resource Floors Upload
+    Image.
+  - Uploads floor image.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,15 +25,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Site Design UploadsFloorImageV2
-    description: Complete reference of the UploadsFloorImageV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!uploads-floor-image
+  - name: Cisco DNA Center documentation for Site Design
+      UploadsFloorImageV2
+    description: Complete reference of the UploadsFloorImageV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!uploads-floor-image-v-2
 notes:
-  - SDK Method used are site_design.SiteDesign.uploads_floor_image_v2,
-  - Paths used are post /dna/intent/api/v2/floors/{id}/uploadImage,
-  - It should be noted that this module is an alias of floors_upload_image_v2
+  - SDK Method used are
+    site_design.SiteDesign.uploads_floor_image_v2,
+  - Paths used are
+    post /dna/intent/api/v2/floors/{id}/uploadImage,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.floors_upload_image:
     dnac_host: "{{dnac_host}}"

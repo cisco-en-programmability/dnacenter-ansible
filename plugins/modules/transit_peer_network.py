@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: transit_peer_network
-short_description: Resource module for Transit Peer Network
+short_description: Resource module for Transit Peer
+  Network
 description:
-  - This module represents an alias of the module transit_peer_network_v1
+  - Manage operations create and delete of the resource
+    Transit Peer Network.
+  - Add Transit Peer Network in SD-Access.
+  - Delete Transit Peer Network from SD-Access.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,15 +37,18 @@ options:
         elements: dict
         suboptions:
           deviceManagementIpAddress:
-            description: Device Management Ip Address of provisioned device.
+            description: Device Management Ip Address
+              of provisioned device.
             type: str
           siteNameHierarchy:
-            description: Site Name Hierarchy where device is provisioned.
+            description: Site Name Hierarchy where device
+              is provisioned.
             type: str
         type: list
     type: dict
   transitPeerNetworkName:
-    description: TransitPeerNetworkName query parameter. Transit Peer Network Name.
+    description: TransitPeerNetworkName query parameter.
+      Transit Peer Network Name.
     type: str
   transitPeerNetworkType:
     description: Transit Peer Network Type.
@@ -48,19 +57,25 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddTransitPeerNetworkV1
-    description: Complete reference of the AddTransitPeerNetworkV1 API.
+  - name: Cisco DNA Center documentation for SDA AddTransitPeerNetwork
+    description: Complete reference of the AddTransitPeerNetwork
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!add-transit-peer-network
-  - name: Cisco DNA Center documentation for SDA DeleteTransitPeerNetworkV1
-    description: Complete reference of the DeleteTransitPeerNetworkV1 API.
+  - name: Cisco DNA Center documentation for SDA DeleteTransitPeerNetwork
+    description: Complete reference of the DeleteTransitPeerNetwork
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-transit-peer-network
 notes:
-  - SDK Method used are sda.Sda.add_transit_peer_network_v1, sda.Sda.delete_transit_peer_network_v1,
-  - Paths used are post /dna/intent/api/v1/business/sda/transit-peer-network, delete
-    /dna/intent/api/v1/business/sda/transit-peer-network,
-  - It should be noted that this module is an alias of transit_peer_network_v1
+  - SDK Method used are
+    sda.Sda.add_transit_peer_network,
+    sda.Sda.delete_transit_peer_network,
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/transit-peer-network,
+    delete /dna/intent/api/v1/business/sda/transit-peer-network,
 """
+
 EXAMPLES = r"""
+---
 - name: Delete all
   cisco.dnac.transit_peer_network:
     dnac_host: "{{dnac_host}}"

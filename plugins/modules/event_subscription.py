@@ -1,13 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: event_subscription
 short_description: Resource module for Event Subscription
 description:
-  - This module represents an alias of the module event_subscription_v1
+  - Manage operations create, update and delete of the
+    resource Event Subscription. - > Subscribe SubscriptionEndpoint
+    to list of registered events. Deprecated since Guardian
+    release. Alternative POST /intent/api/v1/event/subscription/rest.
+  - Delete EventSubscriptions. - > Update SubscriptionEndpoint
+    to list of registered events. Deprecated since Guardian
+    release. Alternative PUT /intent/api/v1/event/subscription/rest.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -40,7 +48,8 @@ options:
                 type: list
             type: list
           eventIds:
-            description: Event Ids (Comma separated event ids).
+            description: Event Ids (Comma separated
+              event ids).
             elements: str
             type: list
           severities:
@@ -68,13 +77,15 @@ options:
         elements: dict
         suboptions:
           instanceId:
-            description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
+            description: (From Get Rest/Webhook Subscription
+              Details --> pick instanceId).
             type: str
           subscriptionDetails:
             description: Event Subscription's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Connector Type (Must be REST).
+                description: Connector Type (Must be
+                  REST).
                 type: str
             type: dict
         type: list
@@ -86,30 +97,42 @@ options:
         type: str
     type: list
   subscriptions:
-    description: Subscriptions query parameter. List of EventSubscriptionId's for
-      removal.
+    description: Subscriptions query parameter. List
+      of EventSubscriptionId's for removal.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Event Management CreateEventSubscriptionsV1
-    description: Complete reference of the CreateEventSubscriptionsV1 API.
+  - name: Cisco DNA Center documentation for Event Management
+      CreateEventSubscriptions
+    description: Complete reference of the CreateEventSubscriptions
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-event-subscriptions
-  - name: Cisco DNA Center documentation for Event Management DeleteEventSubscriptionsV1
-    description: Complete reference of the DeleteEventSubscriptionsV1 API.
+  - name: Cisco DNA Center documentation for Event Management
+      DeleteEventSubscriptions
+    description: Complete reference of the DeleteEventSubscriptions
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-event-subscriptions
-  - name: Cisco DNA Center documentation for Event Management UpdateEventSubscriptionsV1
-    description: Complete reference of the UpdateEventSubscriptionsV1 API.
+  - name: Cisco DNA Center documentation for Event Management
+      UpdateEventSubscriptions
+    description: Complete reference of the UpdateEventSubscriptions
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!update-event-subscriptions
 notes:
-  - SDK Method used are event_management.EventManagement.create_event_subscriptions_v1,
-    event_management.EventManagement.delete_event_subscriptions_v1, event_management.EventManagement.update_event_subscriptions_v1,
-  - Paths used are post /dna/intent/api/v1/event/subscription, delete /dna/intent/api/v1/event/subscription,
-    put /dna/intent/api/v1/event/subscription,
-  - It should be noted that this module is an alias of event_subscription_v1
+  - SDK Method used are
+    event_management.EventManagement.create_event_subscriptions,
+    event_management.EventManagement.delete_event_subscriptions,
+    event_management.EventManagement.update_event_subscriptions,
+  - Paths used are
+    post /dna/intent/api/v1/event/subscription,
+    delete /dna/intent/api/v1/event/subscription,
+    put
+    /dna/intent/api/v1/event/subscription,
 """
+
 EXAMPLES = r"""
+---
 - name: Delete all
   cisco.dnac.event_subscription:
     dnac_host: "{{dnac_host}}"

@@ -1,26 +1,36 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template_import_template
-short_description: Resource module for Configuration Template Import Template
+short_description: Resource module for Configuration
+  Template Import Template
 description:
-  - This module represents an alias of the module configuration_template_import_template_v1
+  - Manage operation create of the resource Configuration
+    Template Import Template.
+  - Imports the templates provided in the DTO by project
+    Name.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   doVersion:
-    description: DoVersion query parameter. If this flag is true then it creates a
-      new version of the template with the imported contents in case if the templates
-      already exists. " If this flag is false and if template already exists, then
-      operation fails with 'Template already exists' error.
+    description: DoVersion query parameter. If this
+      flag is true then it creates a new version of
+      the template with the imported contents in case
+      if the templates already exists. " If this flag
+      is false and if template already exists, then
+      operation fails with 'Template already exists'
+      error.
     type: bool
   payload:
-    description: Configuration Template Import Template's payload.
+    description: Configuration Template Import Template's
+      payload.
     elements: dict
     suboptions:
       author:
@@ -30,7 +40,8 @@ options:
         description: Is it composite template.
         type: bool
       containingTemplates:
-        description: Configuration Template Import Template's containingTemplates.
+        description: Configuration Template Import Template's
+          containingTemplates.
         elements: dict
         suboptions:
           composite:
@@ -40,7 +51,8 @@ options:
             description: Description of template.
             type: str
           deviceTypes:
-            description: Configuration Template Import Template's deviceTypes.
+            description: Configuration Template Import
+              Template's deviceTypes.
             elements: dict
             suboptions:
               productFamily:
@@ -57,7 +69,8 @@ options:
             description: UUID of template.
             type: str
           language:
-            description: Template language (JINJA or VELOCITY).
+            description: Template language (JINJA or
+              VELOCITY).
             type: str
           name:
             description: Name of template.
@@ -66,23 +79,27 @@ options:
             description: Project name.
             type: str
           rollbackTemplateParams:
-            description: Configuration Template Import Template's rollbackTemplateParams.
+            description: Configuration Template Import
+              Template's rollbackTemplateParams.
             elements: dict
             suboptions:
               binding:
                 description: Bind to source.
                 type: str
               customOrder:
-                description: CustomOrder of template param.
+                description: CustomOrder of template
+                  param.
                 type: int
               dataType:
                 description: Datatype of template param.
                 type: str
               defaultValue:
-                description: Default value of template param.
+                description: Default value of template
+                  param.
                 type: str
               description:
-                description: Description of template param.
+                description: Description of template
+                  param.
                 type: str
               displayName:
                 description: Display name of param.
@@ -115,7 +132,8 @@ options:
                 description: Provider.
                 type: str
               range:
-                description: Configuration Template Import Template's range.
+                description: Configuration Template
+                  Import Template's range.
                 elements: dict
                 suboptions:
                   id:
@@ -132,7 +150,8 @@ options:
                 description: Is param required.
                 type: bool
               selection:
-                description: Configuration Template Import Template's selection.
+                description: Configuration Template
+                  Import Template's selection.
                 suboptions:
                   defaultSelectedValues:
                     description: Default selection values.
@@ -142,7 +161,8 @@ options:
                     description: UUID of selection.
                     type: str
                   selectionType:
-                    description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                    description: Type of selection(SINGLE_SELECT
+                      or MULTI_SELECT).
                     type: str
                   selectionValues:
                     description: Selection values.
@@ -150,7 +170,8 @@ options:
                 type: dict
             type: list
           tags:
-            description: Configuration Template Import Template's tags.
+            description: Configuration Template Import
+              Template's tags.
             elements: dict
             suboptions:
               id:
@@ -164,23 +185,27 @@ options:
             description: Template content.
             type: str
           templateParams:
-            description: Configuration Template Import Template's templateParams.
+            description: Configuration Template Import
+              Template's templateParams.
             elements: dict
             suboptions:
               binding:
                 description: Bind to source.
                 type: str
               customOrder:
-                description: CustomOrder of template param.
+                description: CustomOrder of template
+                  param.
                 type: int
               dataType:
                 description: Datatype of template param.
                 type: str
               defaultValue:
-                description: Default value of template param.
+                description: Default value of template
+                  param.
                 type: str
               description:
-                description: Description of template param.
+                description: Description of template
+                  param.
                 type: str
               displayName:
                 description: Display name of param.
@@ -213,7 +238,8 @@ options:
                 description: Provider.
                 type: str
               range:
-                description: Configuration Template Import Template's range.
+                description: Configuration Template
+                  Import Template's range.
                 elements: dict
                 suboptions:
                   id:
@@ -230,7 +256,8 @@ options:
                 description: Is param required.
                 type: bool
               selection:
-                description: Configuration Template Import Template's selection.
+                description: Configuration Template
+                  Import Template's selection.
                 suboptions:
                   defaultSelectedValues:
                     description: Default selection values.
@@ -240,7 +267,8 @@ options:
                     description: UUID of selection.
                     type: str
                   selectionType:
-                    description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                    description: Type of selection(SINGLE_SELECT
+                      or MULTI_SELECT).
                     type: str
                   selectionValues:
                     description: Selection values.
@@ -261,7 +289,8 @@ options:
         description: Description of template.
         type: str
       deviceTypes:
-        description: Configuration Template Import Template's deviceTypes.
+        description: Configuration Template Import Template's
+          deviceTypes.
         elements: dict
         suboptions:
           productFamily:
@@ -275,7 +304,8 @@ options:
             type: str
         type: list
       failurePolicy:
-        description: Define failure policy if template provisioning fails.
+        description: Define failure policy if template
+          provisioning fails.
         type: str
       id:
         description: UUID of template.
@@ -305,7 +335,8 @@ options:
         description: Rollback template content.
         type: str
       rollbackTemplateParams:
-        description: Configuration Template Import Template's rollbackTemplateParams.
+        description: Configuration Template Import Template's
+          rollbackTemplateParams.
         elements: dict
         suboptions:
           binding:
@@ -354,7 +385,8 @@ options:
             description: Provider.
             type: str
           range:
-            description: Configuration Template Import Template's range.
+            description: Configuration Template Import
+              Template's range.
             elements: dict
             suboptions:
               id:
@@ -371,7 +403,8 @@ options:
             description: Is param required.
             type: bool
           selection:
-            description: Configuration Template Import Template's selection.
+            description: Configuration Template Import
+              Template's selection.
             suboptions:
               defaultSelectedValues:
                 description: Default selection values.
@@ -381,7 +414,8 @@ options:
                 description: UUID of selection.
                 type: str
               selectionType:
-                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                description: Type of selection(SINGLE_SELECT
+                  or MULTI_SELECT).
                 type: str
               selectionValues:
                 description: Selection values.
@@ -398,7 +432,8 @@ options:
         description: Applicable device software version.
         type: str
       tags:
-        description: Configuration Template Import Template's tags.
+        description: Configuration Template Import Template's
+          tags.
         elements: dict
         suboptions:
           id:
@@ -412,7 +447,8 @@ options:
         description: Template content.
         type: str
       templateParams:
-        description: Configuration Template Import Template's templateParams.
+        description: Configuration Template Import Template's
+          templateParams.
         elements: dict
         suboptions:
           binding:
@@ -461,7 +497,8 @@ options:
             description: Provider.
             type: str
           range:
-            description: Configuration Template Import Template's range.
+            description: Configuration Template Import
+              Template's range.
             elements: dict
             suboptions:
               id:
@@ -478,7 +515,8 @@ options:
             description: Is param required.
             type: bool
           selection:
-            description: Configuration Template Import Template's selection.
+            description: Configuration Template Import
+              Template's selection.
             suboptions:
               defaultSelectedValues:
                 description: Default selection values.
@@ -488,7 +526,8 @@ options:
                 description: UUID of selection.
                 type: str
               selectionType:
-                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                description: Type of selection(SINGLE_SELECT
+                  or MULTI_SELECT).
                 type: str
               selectionValues:
                 description: Selection values.
@@ -496,13 +535,16 @@ options:
             type: dict
         type: list
       validationErrors:
-        description: Configuration Template Import Template's validationErrors.
+        description: Configuration Template Import Template's
+          validationErrors.
         suboptions:
           rollbackTemplateErrors:
-            description: Validation or design conflicts errors of rollback template.
+            description: Validation or design conflicts
+              errors of rollback template.
             type: dict
           templateErrors:
-            description: Validation or design conflicts errors.
+            description: Validation or design conflicts
+              errors.
             type: dict
           templateId:
             description: UUID of template.
@@ -516,24 +558,27 @@ options:
         type: str
     type: list
   projectName:
-    description: ProjectName path parameter. Project name to create template under
-      the project.
+    description: ProjectName path parameter. Project
+      name to create template under the project.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Templates ImportsTheTemplatesProvidedV1
-    description: Complete reference of the ImportsTheTemplatesProvidedV1 API.
+  - name: Cisco DNA Center documentation for Configuration
+      Templates ImportsTheTemplatesProvided
+    description: Complete reference of the ImportsTheTemplatesProvided
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!imports-the-templates-provided
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.imports_the_templates_provided_v1,
-  - Paths used are post
-    /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
-  - It should be noted that this module is an alias of configuration_template_import_template_v1
+    configuration_templates.ConfigurationTemplates.imports_the_templates_provided,
+  - Paths used are
+    post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.configuration_template_import_template:
     dnac_host: "{{dnac_host}}"

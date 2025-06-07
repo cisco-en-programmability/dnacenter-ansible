@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: system_health_info
-short_description: Information module for System Health Info
+short_description: Information module for System Health
 description:
-  - This module represents an alias of the module system_health_v1_info
+  - Get all System Health.
+  - This API retrieves the latest system events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,50 +21,57 @@ options:
     type: dict
   summary:
     description:
-      - Summary query parameter. Fetch the latest high severity event.
+      - Summary query parameter. Fetch the latest high
+        severity event.
     type: bool
   domain:
     description:
       - >
-        Domain query parameter. Fetch system events with this domain. Possible values
-        of domain are listed here
-        /dna/platform/app/consumer-portal/developer-toolkit/events.
+        Domain query parameter. Fetch system events
+        with this domain. Possible values of domain
+        are listed here /dna/platform/app/consumer-portal/developer-toolkit/events.
     type: str
   subdomain:
     description:
       - >
-        Subdomain query parameter. Fetch system events with this subdomain. Possible
-        values of subdomain are listed
-        here /dna/platform/app/consumer-portal/developer-toolkit/events.
+        Subdomain query parameter. Fetch system events
+        with this subdomain. Possible values of subdomain
+        are listed here /dna/platform/app/consumer-portal/developer-toolkit/events.
     type: str
   limit:
     description:
       - >
-        Limit query parameter. Specifies the maximum number of system health events
-        to return per page. Must be an
-        integer between 1 and 50, inclusive.
+        Limit query parameter. Specifies the maximum
+        number of system health events to return per
+        page. Must be an integer between 1 and 50, inclusive.
     type: float
   offset:
     description:
       - >
-        Offset query parameter. Specifies the starting point for the list of system
-        health events to return. Must be
-        an integer greater than or equal to 0.
+        Offset query parameter. Specifies the starting
+        point for the list of system health events to
+        return. Must be an integer greater than or equal
+        to 0.
     type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Health and Performance SystemHealthAPIV1
-    description: Complete reference of the SystemHealthAPIV1 API.
+  - name: Cisco DNA Center documentation for Health
+      and Performance SystemHealthAPI
+    description: Complete reference of the SystemHealthAPI
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!system-health-api
 notes:
-  - SDK Method used are health_and_performance.HealthAndPerformance.system_health,
-  - Paths used are get /dna/intent/api/v1/diagnostics/system/health,
-  - It should be noted that this module is an alias of system_health_v1_info
+  - SDK Method used are
+    health_and_performance.HealthAndPerformance.system_health,
+  - Paths used are
+    get /dna/intent/api/v1/diagnostics/system/health,
 """
+
 EXAMPLES = r"""
-- name: Get all System Health Info
+---
+- name: Get all System Health
   cisco.dnac.system_health_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
