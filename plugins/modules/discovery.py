@@ -208,20 +208,6 @@ options:
   snmpRwCommunityDesc:
     description: Description for SNMP RW community.
     type: str
-  snmpRoCommunity:
-    description: SNMP RO community of the devices to
-      be discovered.
-    type: str
-  snmpRoCommunityDesc:
-    description: Description for SNMP RO community.
-    type: str
-  snmpRwCommunity:
-    description: SNMP RW community of the devices to
-      be discovered.
-    type: str
-  snmpRwCommunityDesc:
-    description: Description for SNMP RW community.
-    type: str
   snmpUserName:
     description: SNMP username of the device.
     type: str
@@ -230,10 +216,6 @@ options:
     type: str
   timeout:
     description: Time to wait for device response.
-    type: int
-  timeout:
-    description: Time to wait for device response in
-      seconds.
     type: int
   updateMgmtIp:
     description: Updates Management IP if multiple IPs
