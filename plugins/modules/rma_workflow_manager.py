@@ -851,7 +851,7 @@ class DeviceReplacement(DnacBase):
                     "serial_number": device_info.get("serialNumber"),
                     "device_name": device_info.get("hostname"),
                     "platform_id": device_info.get("pid"),
-                    "is_pnp_device": true,
+                    "is_pnp_device": True,
                 }
 
                 if device_param_list:

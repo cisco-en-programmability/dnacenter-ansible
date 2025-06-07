@@ -232,10 +232,10 @@ options:
       when set to true.
     type: bool
   l3AuthType:
-    description: "L3 Authentication Type. When 'wlanType'
-      is 'Enterprise', "l3AuthType" is optional and
-      defaults to 'open' if not specified. If 'wlanType'
-      is 'Guest' then 'l3AuthType' is mandatory."
+    description: 'L3 Authentication Type. When *wlanType*
+      is *Enterprise*, *l3AuthType* is optional and
+      defaults to *open* if not specified. If *wlanType*
+      is *Guest* then *l3AuthType* is mandatory.'
     type: str
   managementFrameProtectionClientprotection:
     description: Management Frame Protection Client.

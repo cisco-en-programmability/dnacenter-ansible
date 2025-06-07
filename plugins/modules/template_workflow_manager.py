@@ -2574,7 +2574,7 @@ class Template(DnacBase):
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=False,
-                params={"projectNames": project_name, "un_committed": true},
+                params={"projectNames": project_name, "un_committed": True},
             )
             self.log(
                 "Received Response from 'gets_the_templates_available' for 'project_name': '{0}' is {1}".format(
