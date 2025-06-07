@@ -238,12 +238,6 @@ options:
       At least one AAA/PSN server is required to enable
       Radius Profiling.'
     type: bool
-  isRadiusProfilingEnabled:
-    description: '''true'' if Radius profiling needs
-      to be enabled, defaults to ''false'' if not specified.
-      At least one AAA/PSN server is required to enable
-      Radius Profiling.'
-    type: bool
   isRandomMacFilterEnabled:
     description: Deny clients using randomized MAC addresses
       when set to true.
