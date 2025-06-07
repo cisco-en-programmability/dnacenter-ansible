@@ -51,7 +51,7 @@ options:
           deviceSiteNameHierarchy:
             description: "Site name hierarchy for the
               device, must be a child site of the discoveredDeviceSiteNameHierarchy
-              or same if it’s not area type."
+              or same if it's not area type."
             type: str
         type: list
       discoveryLevel:

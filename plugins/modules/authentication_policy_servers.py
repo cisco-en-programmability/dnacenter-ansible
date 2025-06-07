@@ -15,17 +15,17 @@ description:
     to add AAA/ISE server access configuration. Protocol
     can be configured as either RADIUS OR TACACS OR
     RADIUS_TACACS. If configuring Cisco ISE server,
-    after configuration, use ‘Cisco ISE Server Integration
-    Status' Intent API to check the integration status.
+    after configuration, use "Cisco ISE Server Integration
+    Status" Intent API to check the integration status.
     Based on integration status, if require use 'Accept
     Cisco ISE Server Certificate for Cisco ISE Server
     Integration' Intent API to accept the Cisco ISE
     certificate for Cisco ISE server integration, then
-    use again ‘Cisco ISE Server Integration Status'
+    use again "Cisco ISE Server Integration Status"
     Intent API to check the integration status.
   - API to delete AAA/ISE server access configuration.
     - > API to edit AAA/ISE server access configuration.
-    After edit, use ‘Cisco ISE Server Integration Status'
+    After edit, use "Cisco ISE Server Integration Status"
     Intent API to check the integration status.
 version_added: '3.1.0'
 extends_documentation_fragment:

@@ -15,7 +15,7 @@ description:
     Virtual Network by providing the unique Virtual
     Network id in the url path. Layer 2 Virtual Networks
     are only included in health reporting for EVPN protocol
-    deployments. The special Layer 3 VN called ‘INFRA_VN'
+    deployments. The special Layer 3 VN called "INFRA_VN"
     is also not included for user access through Assurance
     virtualNetworkHealthSummaries APIS.
 version_added: '6.17.0'
