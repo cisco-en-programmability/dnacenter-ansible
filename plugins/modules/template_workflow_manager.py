@@ -1533,6 +1533,8 @@ class Template(DnacBase):
         self.accepted_languages = ["JINJA", "VELOCITY"]
         self.export_template = []
         self.max_timeout = self.params.get('dnac_api_task_timeout')
+        self.template_created, self.no_update_template, self.template_updated = [], [], []
+        self.project_created, self.template_committed =  [], []
         self.result['response'] = [
             {"configurationTemplate": {"response": {}, "msg": {}}},
             {"export": {"response": {}}},
@@ -2607,11 +2609,13 @@ class Template(DnacBase):
 
         if is_create_project:
             params_key = project_params
+            self.project_created.append(project_params.get('name'))
             name = "project: {0}".format(project_params.get('name'))
             validation_string = "Successfully created project"
             creation_value = "create_project"
         else:
             params_key = template_params
+            self.template_created.append(template_params.get('name'))
             name = "template: {0}".format(template_params.get('name'))
             validation_string = "Successfully created template"
             creation_value = "create_template"
@@ -2887,6 +2891,7 @@ class Template(DnacBase):
         self.result['response'][0].get("configurationTemplate")['msg'] = self.msg
         self.log("Task details for 'version_template': {0}".format(task_details), "DEBUG")
         self.result['response'][0].get("configurationTemplate")['response'] = task_details if task_details else response
+        self.template_committed.append(template_name)
 
         if not self.result['response'][0].get("configurationTemplate").get('msg'):
             self.msg = "Error while versioning the template '{0}'.".format(template_name)
@@ -3018,6 +3023,7 @@ class Template(DnacBase):
 
             if not self.requires_update():
                 # Template does not need update
+                self.no_update_template.append(current_template_name)
                 self.result['response'][0].get("configurationTemplate").update({
                     'response': self.have_template.get("template"),
                     'msg': "Template does not need update"
@@ -3026,7 +3032,7 @@ class Template(DnacBase):
                 # Check whether the above template is committed or not
                 is_commit = configuration_templates.get("commit", True)
                 if is_commit and is_template_un_committed:
-                    self.commit_the_template(template_id, current_template_name)
+                    self.commit_the_template(template_id, current_template_name).check_return_status()
                     self.log("Template '{0}' committed successfully in the Cisco Catalyst Center.".format(current_template_name), "INFO")
                 return self
 
@@ -3049,6 +3055,7 @@ class Template(DnacBase):
                 return self
 
             success_msg = "Successfully updated the configuration template '{0}' in Cisco Catalyst Center".format(template_name)
+            self.template_updated.append(template_name)
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
             self.result['response'] = copy.deepcopy(current_response)
             self.log("Updating existing template '{0}'."
@@ -3064,7 +3071,7 @@ class Template(DnacBase):
         is_commit = configuration_templates.get("commit", True)
         if is_commit:
             name = self.want.get("template_params").get("name")
-            self.commit_the_template(template_id, name)
+            self.commit_the_template(template_id, name).check_return_status()
             self.log("Template '{0}' committed successfully in the Cisco Catalyst Center.".format(name), "INFO")
 
         return self
@@ -4032,6 +4039,58 @@ class Template(DnacBase):
 
         return device_ids
 
+    def update_template_projects_message(self):
+        """
+        Updates the result message and change status based on the outcomes of project and template operations.
+
+        Args:
+            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
+  
+        Returns:
+            object: Returns the current instance (`self`) with updated `result` and `msg` fields.
+
+        Description:
+            This method checks various internal flags (such as whether a project or template was created, updated,
+            or committed) and builds a descriptive message accordingly. It updates the result dictionary with a
+            `changed` flag and constructs a human-readable summary message about the performed operations.
+            The message is stored in `self.msg`, and the result is logged via `set_operation_result`.
+        """
+
+        self.result["changed"] = False
+        result_msg_list = []
+        if self.project_created:
+            create_project_msg = "Project '{0}' created successfully in the Cisco Catalyst Center.".format(self.project_created)
+            result_msg_list.append(create_project_msg)
+        
+        if self.template_created:
+            create_template_msg = "Template '{0}' created successfully in the Cisco Catalyst Center.".format(self.template_created)
+            result_msg_list.append(create_template_msg)
+
+        if self.template_updated:
+            update_template_msg = "Template '{0}' updated successfully in the Cisco Catalyst Center.".format(self.template_updated)
+            result_msg_list.append(update_template_msg)
+
+        if self.no_update_template:
+            no_update_template_msg = (
+                "No changes detected in the template '{0}' so not updating it in the Cisco Catalyst Center."
+            ).format(self.no_update_template)
+            result_msg_list.append(no_update_template_msg)
+
+        if self.template_committed:
+            commit_template_msg = "Template '{0}' committed successfully in the Cisco Catalyst Center.".format(self.template_committed)
+            result_msg_list.append(commit_template_msg)
+
+        if (
+            self.project_created or self.template_created or self.template_updated
+            or self.template_committed
+        ):
+            self.result["changed"] = True
+
+        self.msg = " ".join(result_msg_list)
+        self.set_operation_result("success", self.result["changed"], self.msg, "INFO")
+
+        return self
+
     def get_diff_merged(self, config):
         """
         Update/Create templates and projects in CCC with fields provided in Cisco Catalyst Center.
@@ -4051,6 +4110,7 @@ class Template(DnacBase):
         configuration_templates = config.get("configuration_templates")
         if configuration_templates:
             self.update_configuration_templates(config, configuration_templates).check_return_status()
+            self.update_template_projects_message().check_return_status()
 
         _import = config.get("import")
         if _import:

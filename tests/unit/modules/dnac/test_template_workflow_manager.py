@@ -151,9 +151,9 @@ class TestDnacTemplateWorkflow(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get("response")[0].get("configurationTemplate").get("msg"),
-            "Given template 'UT template' committed successfully in the Cisco Catalyst Center.",
+        self.assertIn(
+            "created successfully",
+            result.get('msg')
         )
 
     def test_update_template_playbook_case_2(self):
@@ -171,9 +171,9 @@ class TestDnacTemplateWorkflow(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get("response")[0].get("configurationTemplate").get("msg"),
-            "Given template 'UT template' committed successfully in the Cisco Catalyst Center.",
+        self.assertIn(
+            "committed successfully",
+            result.get('msg')
         )
 
     def test_delete_template_playbook_case_3(self):
