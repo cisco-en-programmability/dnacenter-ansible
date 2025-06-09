@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_dynamic_interface_info
-short_description: Information module for Wireless Dynamic Interface Info
+short_description: Information module for Wireless Dynamic
+  Interface
 description:
-  - This module represents an alias of the module wireless_dynamic_interface_v1_info
+  - Get all Wireless Dynamic Interface.
+  - Get one or all dynamic interfaces.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,24 +23,29 @@ options:
   interface_name:
     description:
       - >
-        Interface-name query parameter. Dynamic-interface name, if not specified all
-        the existing dynamic interfaces
-        will be retrieved.
+        Interface-name query parameter. Dynamic-interface
+        name, if not specified all the existing dynamic
+        interfaces will be retrieved.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetDynamicInterfaceV1
-    description: Complete reference of the GetDynamicInterfaceV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      GetDynamicInterface
+    description: Complete reference of the GetDynamicInterface
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-dynamic-interface
 notes:
-  - SDK Method used are wireless.Wireless.get_dynamic_interface_v1,
-  - Paths used are get /dna/intent/api/v1/wireless/dynamic-interface,
-  - It should be noted that this module is an alias of wireless_dynamic_interface_v1_info
+  - SDK Method used are
+    wireless.Wireless.get_dynamic_interface,
+  - Paths used are
+    get /dna/intent/api/v1/wireless/dynamic-interface,
 """
+
 EXAMPLES = r"""
-- name: Get all Wireless Dynamic Interface Info
+---
+- name: Get all Wireless Dynamic Interface
   cisco.dnac.wireless_dynamic_interface_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

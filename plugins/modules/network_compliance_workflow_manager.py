@@ -4,120 +4,155 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform Network Compliance Operations on devices in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
-__author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan, Sonali Deepthi Kesali")
+__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan, Sonali Deepthi Kesali"
 DOCUMENTATION = r"""
 ---
 module: network_compliance_workflow_manager
-short_description: Network Compliance module for managing network compliance tasks
-  on reachable device(s) in Cisco Catalyst Center.
+short_description: Network Compliance module for managing
+  network compliance tasks on reachable device(s) in
+  Cisco Catalyst Center.
 description:
-  - Perform compliance checks or sync configurations on reachable devices using IP
-    Address(s) or Site.
-  - API to perform full compliance checks or specific category checks on reachable
-    device(s).
+  - Perform compliance checks or sync configurations
+    on reachable devices using IP Address(s) or Site.
+  - API to perform full compliance checks or specific
+    category checks on reachable device(s).
   - API to sync device configuration on device(s).
 version_added: "6.14.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan (@madhansansel) Sonali Deepthi
-  (@skesali)
+author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan
+  (@madhansansel) Sonali Deepthi (@skesali)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying
-      the playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center config after applying the playbook config.
     type: bool
     default: false
   state:
-    description: State of Cisco Catalyst Center after module completion.
+    description: State of Cisco Catalyst Center after
+      module completion.
     type: str
     choices: [merged]
     default: merged
   config:
-    description: List of device details for running a compliance check or synchronizing
-      device configuration.
+    description: List of device details for running
+      a compliance check or synchronizing device configuration.
     type: list
     elements: dict
     required: true
     suboptions:
       ip_address_list:
-        description: List of IP addresses of devices to run a compliance check on
-          or synchronize device configurations. Either "ip_address_list" or "site_name"
-          is required for module to execute. If both "site_name" and "ip_address_list"
-          are provided, operations are performed on devices that are present in both
-          the "ip_address_list" and the specified site. (e.g. ["204.1.2.2", "204.1.2.5",
-          "204.1.2.4"])
+        description: List of IP addresses of devices
+          to run a compliance check on or synchronize
+          device configurations. Either "ip_address_list"
+          or "site_name" is required for module to execute.
+          If both "site_name" and "ip_address_list"
+          are provided, operations are performed on
+          devices that are present in both the "ip_address_list"
+          and the specified site. (e.g. ["204.1.2.2",
+          "204.1.2.5", "204.1.2.4"])
         type: list
         elements: str
       site_name:
-        description: When "site_name" is specified, the module executes the operation
-          on all the devices located within the specified site. This is a string value
-          that should represent the complete hierarchical path of the site. Either
-          "site_name" or "ip_address_list" is required for module to execute. If both
-          "site_name" and "ip_address_list" are provided, operations are performed
-          on devices that are present in both the "ip_address_list" and the specified
+        description: When "site_name" is specified,
+          the module executes the operation on all the
+          devices located within the specified site.
+          This is a string value that should represent
+          the complete hierarchical path of the site.
+          Either "site_name" or "ip_address_list" is
+          required for module to execute. If both "site_name"
+          and "ip_address_list" are provided, operations
+          are performed on devices that are present
+          in both the "ip_address_list" and the specified
           site. (e.g. "Global/USA/San Francisco/Building_2/floor_1")
         type: str
       run_compliance:
-        description: Determines if a full compliance check should be triggered on
-          the devices specified in the "ip_address_list" and/or "site_name". if it
-          is True then compliance will be triggered for all categories. If it is False
-          then compliance will be not be triggered even if run_compliance categories
-          are provided. Note - This operation cannot be performed on Access Points
-          (APs) and if APs are provided, they will be skipped.
+        description: Determines if a full compliance
+          check should be triggered on the devices specified
+          in the "ip_address_list" and/or "site_name".
+          if it is True then compliance will be triggered
+          for all categories. If it is False then compliance
+          will be not be triggered even if run_compliance
+          categories are provided. Note - This operation
+          cannot be performed on Access Points (APs)
+          and if APs are provided, they will be skipped.
         type: bool
         default: true
       run_compliance_batch_size:
-        description: Specifies the number of devices to be included in a single batch
-          for compliance operations. This parameter is crucial for optimizing performance
-          during large-scale compliance checks. By processing devices in manageable
-          batches, the system can enhance the speed and efficiency of the operation,
-          reducing the overall time required and minimizing the risk of overloading
-          system resources. Adjusting this parameter allows for a balance between
-          throughput and resource utilization, ensuring smooth and effective compliance
-          management. Note - Having a higher value for run_compliance_batch_size may
-          cause errors due to the increased load on the system.
+        description: Specifies the number of devices
+          to be included in a single batch for compliance
+          operations. This parameter is crucial for
+          optimizing performance during large-scale
+          compliance checks. By processing devices in
+          manageable batches, the system can enhance
+          the speed and efficiency of the operation,
+          reducing the overall time required and minimizing
+          the risk of overloading system resources.
+          Adjusting this parameter allows for a balance
+          between throughput and resource utilization,
+          ensuring smooth and effective compliance management.
+          Note - Having a higher value for run_compliance_batch_size
+          may cause errors due to the increased load
+          on the system.
         type: int
         default: 100
       run_compliance_categories:
-        description: Specifying compliance categories allows you to trigger compliance
-          checks only for the mentioned categories. Category can have one or more
-          values from among the options "INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT",
-          "EOX", "NETWORK_SETTINGS". Category "INTENT" is mapped to compliance types
-          "NETWORK_SETTINGS", "NETWORK_PROFILE", "WORKFLOW", "FABRIC", "APPLICATION_VISIBILITY".
-          If "run_compliance" is False then compliance will be not be triggered even
-          if "run_compliance_categories" are provided. (e.g. ["INTENT", "RUNNING_CONFIG",
+        description: Specifying compliance categories
+          allows you to trigger compliance checks only
+          for the mentioned categories. Category can
+          have one or more values from among the options
+          "INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT",
+          "EOX", "NETWORK_SETTINGS". Category "INTENT"
+          is mapped to compliance types "NETWORK_SETTINGS",
+          "NETWORK_PROFILE", "WORKFLOW", "FABRIC", "APPLICATION_VISIBILITY".
+          If "run_compliance" is False then compliance
+          will be not be triggered even if "run_compliance_categories"
+          are provided. (e.g. ["INTENT", "RUNNING_CONFIG",
           "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS"])
         type: list
         elements: str
       sync_device_config:
-        description: Determines whether to synchronize the device configuration on
-          the devices specified in the "ip_address_list" and/or "site_name". Sync
-          device configuration, primarily addresses the status of the `RUNNING_CONFIG`.
-          If set to True, and if `RUNNING_CONFIG` status is non-compliant this operation
-          would commit device running configuration to startup by issuing "write memory"
-          to device. Note - This operation cannot be performed on Access Points (APs)
-          and if APs are provided, they will be skipped.
+        description: Determines whether to synchronize
+          the device configuration on the devices specified
+          in the "ip_address_list" and/or "site_name".
+          Sync device configuration, primarily addresses
+          the status of the `RUNNING_CONFIG`. If set
+          to True, and if `RUNNING_CONFIG` status is
+          non-compliant this operation would commit
+          device running configuration to startup by
+          issuing "write memory" to device. Note - This
+          operation cannot be performed on Access Points
+          (APs) and if APs are provided, they will be
+          skipped.
         type: bool
         default: false
 requirements:
   - dnacentersdk == 2.7.0
   - python >= 3.9
 notes:
-  - SDK Methods used are compliance.Compliance.run_compliance compliance.Compliance.commit_device_configuration
-    task.Task.get_task_by_id task.Task.get_task_details_by_id task.Task.get_tasks
-    compliance.Compliance.compliance_details_of_device devices.Devices.get_device_list
-    devices.Devices.get_device_by_id site.Site.get_site site.Site.get_membership site_design.Site_design.get_sites
+  - SDK Methods used are compliance.Compliance.run_compliance
+    compliance.Compliance.commit_device_configuration
+    task.Task.get_task_by_id task.Task.get_task_details_by_id
+    task.Task.get_tasks compliance.Compliance.compliance_details_of_device
+    devices.Devices.get_device_list devices.Devices.get_device_by_id
+    site.Site.get_site site.Site.get_membership site_design.Site_design.get_sites
     site_design.Site_design.get_site_assigned_network_devices
-  - Paths used are post /dna/intent/api/v1/compliance/ post /dna/intent/api/v1/network-device-config/write-memory
+  - Paths used are
+    post /dna/intent/api/v1/compliance/
+    post /dna/intent/api/v1/network-device-config/write-memory
     get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/compliance/${deviceUuid}/detail
-    get /dna/intent/api/v1/membership/${siteId} get /dna/intent/api/v1/site get /dna/intent/api/v1/networkDevices/assignedToSite
-    get /dna/intent/api/v1/sites get /dna/intent/api/v1/tasks/${id}/detail get /dna/intent/api/v1/tasks
-    get /dna/intent/api/v1/network-device/${id} get /dna/intent/api/v1/network-device
+    get /dna/intent/api/v1/membership/${siteId} get
+    /dna/intent/api/v1/site get /dna/intent/api/v1/networkDevices/assignedToSite
+    get /dna/intent/api/v1/sites get /dna/intent/api/v1/tasks/${id}/detail
+    get /dna/intent/api/v1/tasks get /dna/intent/api/v1/network-device/${id}
+    get /dna/intent/api/v1/network-device
 """
 EXAMPLES = r"""
-- name: Run Compliance check on device(s) using IP address list (run_compliance
-    by default is True)
+---
+- name: Run Compliance check on device(s) using IP address
+    list (run_compliance by default is True)
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -130,7 +165,8 @@ EXAMPLES = r"""
     dnac_log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
-- name: Run Compliance check on device(s) using IP address list
+- name: Run Compliance check on device(s) using IP address
+    list
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -158,7 +194,8 @@ EXAMPLES = r"""
     config:
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
-- name: Run Compliance check on device(s) using both IP address list and Site
+- name: Run Compliance check on device(s) using both
+    IP address list and Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -173,8 +210,8 @@ EXAMPLES = r"""
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
-- name: Run Compliance check with specific categories on device(s) using IP address
-    list
+- name: Run Compliance check with specific categories
+    on device(s) using IP address list
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -189,7 +226,8 @@ EXAMPLES = r"""
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         run_compliance: true
         run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
-- name: Run Compliance check with specific categories on device(s) using Site
+- name: Run Compliance check with specific categories
+    on device(s) using Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -204,8 +242,8 @@ EXAMPLES = r"""
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
         run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
-- name: Run Compliance check with specific categories on device(s) using both IP
-    address list and Site
+- name: Run Compliance check with specific categories
+    on device(s) using both IP address list and Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -221,7 +259,8 @@ EXAMPLES = r"""
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
         run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
-- name: Sync Device Configuration on device(s) using IP address list
+- name: Sync Device Configuration on device(s) using
+    IP address list
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -236,7 +275,8 @@ EXAMPLES = r"""
       - site_name: "Global"
         sync_device_config: true
         run_compliance: false
-- name: Sync Device Configuration on device(s) using Site
+- name: Sync Device Configuration on device(s) using
+    Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -251,7 +291,8 @@ EXAMPLES = r"""
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         sync_device_config: true
         run_compliance: false
-- name: Sync Device Configuration on device(s) using both IP address list and Site
+- name: Sync Device Configuration on device(s) using
+    both IP address list and Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -267,8 +308,8 @@ EXAMPLES = r"""
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
         sync_device_config: true
         run_compliance: false
-- name: Run Compliance and Sync Device Configuration using both IP address list
-    and Site
+- name: Run Compliance and Sync Device Configuration
+    using both IP address list and Site
   cisco.dnac.network_compliance_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -335,7 +376,7 @@ sample_response_3:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts
+    validate_list_of_dicts,
 )
 
 
@@ -384,15 +425,21 @@ class NetworkCompliance(DnacBase):
             "ip_address_list": {"type": "list", "elements": "str", "required": False},
             "site_name": {"type": "str", "required": False},
             "run_compliance": {"type": "bool", "required": False, "default": True},
-            "run_compliance_categories": {"type": "list", "elements": "str", "required": False},
-            "run_compliance_batch_size": {"type": "int", "required": False, "default": 100},
+            "run_compliance_categories": {
+                "type": "list",
+                "elements": "str",
+                "required": False,
+            },
+            "run_compliance_batch_size": {
+                "type": "int",
+                "required": False,
+                "default": 100,
+            },
             "sync_device_config": {"type": "bool", "required": False, "default": False},
         }
 
         # Validate device params
-        valid_temp, invalid_params = validate_list_of_dicts(
-            self.config, temp_spec
-        )
+        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
@@ -402,7 +449,9 @@ class NetworkCompliance(DnacBase):
 
         self.validated_config = valid_temp
 
-        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(str(valid_temp))
+        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
+            str(valid_temp)
+        )
         self.log(self.msg, "INFO")
         self.status = "success"
 
@@ -418,7 +467,12 @@ class NetworkCompliance(DnacBase):
             If any address is found to be invalid, it logs an error message and fails.
             After validating all IP addresses, it logs a success message.
         """
-        self.log("Validating the IP addresses in the ip_address_list: {0}".format(ip_address_list), "DEBUG")
+        self.log(
+            "Validating the IP addresses in the ip_address_list: {0}".format(
+                ip_address_list
+            ),
+            "DEBUG",
+        )
 
         for ip in ip_address_list:
             if not self.is_valid_ipv4(ip):
@@ -427,7 +481,12 @@ class NetworkCompliance(DnacBase):
                 self.module.fail_json(self.msg)
 
         ip_address_list_str = ", ".join(ip_address_list)
-        self.log("Successfully validated the IP address(es): {0}".format(ip_address_list_str), "DEBUG")
+        self.log(
+            "Successfully validated the IP address(es): {0}".format(
+                ip_address_list_str
+            ),
+            "DEBUG",
+        )
 
     def validate_iplist_and_site_name(self, ip_address_list, site_name):
         """
@@ -441,21 +500,31 @@ class NetworkCompliance(DnacBase):
         Raises:
             SystemExit: If neither `ip_address_list` nor `site_name` is provided, the function logs an error message and exits the process.
         """
-        self.log("Validating 'ip_address_list': '{0}' or 'site_name': '{1}'".format(ip_address_list, site_name), "DEBUG")
+        self.log(
+            "Validating 'ip_address_list': '{0}' or 'site_name': '{1}'".format(
+                ip_address_list, site_name
+            ),
+            "DEBUG",
+        )
 
         # Check if IP address list or hostname is provided
         if not any([ip_address_list, site_name]):
             self.msg = "Error: Neither 'ip_address_list' nor 'site_name' was provided. Provided values: 'ip_address_list': {0}, 'site_name': {1}.".format(
-                ip_address_list, site_name)
+                ip_address_list, site_name
+            )
             self.fail_and_exit(self.msg)
 
         # Validate if valid ip_addresses in the ip_address_list
         if ip_address_list:
             self.validate_ip4_address_list(ip_address_list)
 
-        self.log("Validation successful: Provided IP address list or Site name is valid")
+        self.log(
+            "Validation successful: Provided IP address list or Site name is valid"
+        )
 
-    def validate_compliance_operation(self, run_compliance, run_compliance_categories, sync_device_config):
+    def validate_compliance_operation(
+        self, run_compliance, run_compliance_categories, sync_device_config
+    ):
         """
         Validates if any network compliance operation is requested.
         Args:
@@ -470,7 +539,7 @@ class NetworkCompliance(DnacBase):
             "run_compliance={0}, run_compliance_categories={1}, sync_device_config={2}".format(
                 run_compliance, run_compliance_categories, sync_device_config
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not any([run_compliance, run_compliance_categories, sync_device_config]):
@@ -491,15 +560,37 @@ class NetworkCompliance(DnacBase):
         Raises:
             Exception: If invalid categories are provided, raises an exception with a message.
         """
-        self.log("Validating the provided run compliance categories: {0}".format(run_compliance_categories), "DEBUG")
+        self.log(
+            "Validating the provided run compliance categories: {0}".format(
+                run_compliance_categories
+            ),
+            "DEBUG",
+        )
 
-        valid_categories = ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT", "EOX", "NETWORK_SETTINGS"]
-        if not all(category.upper() in valid_categories for category in run_compliance_categories):
+        valid_categories = [
+            "INTENT",
+            "RUNNING_CONFIG",
+            "IMAGE",
+            "PSIRT",
+            "EOX",
+            "NETWORK_SETTINGS",
+        ]
+        if not all(
+            category.upper() in valid_categories
+            for category in run_compliance_categories
+        ):
             valid_categories_str = ", ".join(valid_categories)
-            self.msg = "Invalid category provided. Valid categories are {0}.".format(valid_categories_str)
+            self.msg = "Invalid category provided. Valid categories are {0}.".format(
+                valid_categories_str
+            )
             self.fail_and_exit(self.msg)
 
-        self.log("Validation successful: valid run compliance categorites provided: {0}".format(run_compliance_categories), "DEBUG")
+        self.log(
+            "Validation successful: valid run compliance categorites provided: {0}".format(
+                run_compliance_categories
+            ),
+            "DEBUG",
+        )
 
     def validate_params(self, config):
         """
@@ -522,16 +613,22 @@ class NetworkCompliance(DnacBase):
         self.log(
             "Extracted parameters - IP Address List: {0}, Site Name: {1}, Run Compliance: {2}, "
             "Run Compliance Categories: {3}, Sync Device Config: {4}".format(
-                ip_address_list, site_name, run_compliance, run_compliance_categories, sync_device_config
+                ip_address_list,
+                site_name,
+                run_compliance,
+                run_compliance_categories,
+                sync_device_config,
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate either ip_address_list OR site_name is present
         self.validate_iplist_and_site_name(ip_address_list, site_name)
 
         # Validate if a network compliance operation is present
-        self.validate_compliance_operation(run_compliance, run_compliance_categories, sync_device_config)
+        self.validate_compliance_operation(
+            run_compliance, run_compliance_categories, sync_device_config
+        )
 
         # Validate the categories if provided
         if run_compliance_categories:
@@ -539,7 +636,9 @@ class NetworkCompliance(DnacBase):
 
         self.log("Validation completed for configuration: {0}".format(config), "INFO")
 
-    def get_run_compliance_params(self, mgmt_ip_to_instance_id_map, run_compliance, run_compliance_categories):
+    def get_run_compliance_params(
+        self, mgmt_ip_to_instance_id_map, run_compliance, run_compliance_categories
+    ):
         """
         Validate and prepare parameters for running compliance checks.
         Args:
@@ -562,7 +661,9 @@ class NetworkCompliance(DnacBase):
 
         # Create run_compliance_params
         if run_compliance:
-            run_compliance_params["deviceUuids"] = list(mgmt_ip_to_instance_id_map.values())
+            run_compliance_params["deviceUuids"] = list(
+                mgmt_ip_to_instance_id_map.values()
+            )
             run_compliance_params["triggerFull"] = not bool(run_compliance_categories)
             if run_compliance_categories:
                 run_compliance_params["categories"] = run_compliance_categories
@@ -571,14 +672,17 @@ class NetworkCompliance(DnacBase):
         if run_compliance_params:
             device_in_progress = set()
 
-            response = self.get_compliance_report(run_compliance_params, mgmt_ip_to_instance_id_map)
+            response = self.get_compliance_report(
+                run_compliance_params, mgmt_ip_to_instance_id_map
+            )
 
             if not response:
                 ip_address_list_str = ", ".join(list(mgmt_ip_to_instance_id_map.keys()))
                 self.msg = (
                     "Error occurred when retrieving Compliance Report to identify if there are "
-                    "devices with 'IN_PROGRESS' status. This is required on device(s): {0}"
-                    .format(ip_address_list_str)
+                    "devices with 'IN_PROGRESS' status. This is required on device(s): {0}".format(
+                        ip_address_list_str
+                    )
                 )
                 self.fail_and_exit(self.msg)
 
@@ -590,18 +694,28 @@ class NetworkCompliance(DnacBase):
 
             self.log(
                 "Number of devices with Compliance Status 'IN_PROGRESS': {0}. Device UUIDs: {1}".format(
-                    len(device_in_progress), list(device_in_progress)), "DEBUG"
+                    len(device_in_progress), list(device_in_progress)
+                ),
+                "DEBUG",
             )
             if device_in_progress:
                 # Update run_compliance_params to exclude devices with 'IN_PROGRESS' status
-                run_compliance_params["deviceUuids"] = [device_id for device_id in mgmt_ip_to_instance_id_map.values() if device_id not in device_in_progress]
-                msg = "Excluding 'IN_PROGRESS' devices from compliance check. Updated run_compliance_params: {0}".format(run_compliance_params)
+                run_compliance_params["deviceUuids"] = [
+                    device_id
+                    for device_id in mgmt_ip_to_instance_id_map.values()
+                    if device_id not in device_in_progress
+                ]
+                msg = "Excluding 'IN_PROGRESS' devices from compliance check. Updated run_compliance_params: {0}".format(
+                    run_compliance_params
+                )
                 self.log(msg, "DEBUG")
 
         self.log("run_compliance_params: {0}".format(run_compliance_params), "DEBUG")
         return run_compliance_params
 
-    def get_sync_device_config_params(self, mgmt_ip_to_instance_id_map, categorized_devices):
+    def get_sync_device_config_params(
+        self, mgmt_ip_to_instance_id_map, categorized_devices
+    ):
         """
         Generates parameters for syncing device configurations, excluding compliant and other categorized devices.
         Args:
@@ -615,8 +729,11 @@ class NetworkCompliance(DnacBase):
             The excluded devices' IPs are logged and added to the `skipped_sync_device_configs_list`. The updated list of device IDs to be synced
             is returned.
         """
-        self.log("Entering get_sync_device_config_params method with mgmt_ip_to_instance_id_map: {0}, categorized_devices: {1}".format(
-            mgmt_ip_to_instance_id_map, categorized_devices), "DEBUG"
+        self.log(
+            "Entering get_sync_device_config_params method with mgmt_ip_to_instance_id_map: {0}, categorized_devices: {1}".format(
+                mgmt_ip_to_instance_id_map, categorized_devices
+            ),
+            "DEBUG",
         )
 
         sync_device_config_params = {
@@ -627,23 +744,51 @@ class NetworkCompliance(DnacBase):
         compliant_device_ips = categorized_devices.get("COMPLIANT", {}).keys()
         excluded_device_ips = set(other_device_ips) | set(compliant_device_ips)
 
-        self.log("Identified other device IPs: {0}".format(", ".join(other_device_ips)), "DEBUG")
-        self.log("Identified compliant device IPs: {0}".format(", ".join(compliant_device_ips)), "DEBUG")
-        self.log("Identified excluded device IPs: {0}".format(", ".join(excluded_device_ips)), "DEBUG")
+        self.log(
+            "Identified other device IPs: {0}".format(", ".join(other_device_ips)),
+            "DEBUG",
+        )
+        self.log(
+            "Identified compliant device IPs: {0}".format(
+                ", ".join(compliant_device_ips)
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Identified excluded device IPs: {0}".format(
+                ", ".join(excluded_device_ips)
+            ),
+            "DEBUG",
+        )
 
         if excluded_device_ips:
             self.skipped_sync_device_configs_list.extend(excluded_device_ips)
-            excluded_device_uuids = [mgmt_ip_to_instance_id_map[ip] for ip in excluded_device_ips if ip in mgmt_ip_to_instance_id_map]
+            excluded_device_uuids = [
+                mgmt_ip_to_instance_id_map[ip]
+                for ip in excluded_device_ips
+                if ip in mgmt_ip_to_instance_id_map
+            ]
             sync_device_config_params["deviceId"] = [
-                device_id for device_id in mgmt_ip_to_instance_id_map.values()
+                device_id
+                for device_id in mgmt_ip_to_instance_id_map.values()
                 if device_id not in excluded_device_uuids
             ]
             excluded_device_ips_str = ", ".join(excluded_device_ips)
-            msg = "Skipping these devices because their compliance status is not 'NON_COMPLIANT': {0}".format(excluded_device_ips_str)
+            msg = "Skipping these devices because their compliance status is not 'NON_COMPLIANT': {0}".format(
+                excluded_device_ips_str
+            )
             self.log(msg, "WARNING")
-            self.log("Updated 'sync_device_config_params' parameters: {0}".format(sync_device_config_params), "DEBUG")
+            self.log(
+                "Updated 'sync_device_config_params' parameters: {0}".format(
+                    sync_device_config_params
+                ),
+                "DEBUG",
+            )
 
-        self.log("Final sync_device_config_params: {0}".format(sync_device_config_params), "DEBUG")
+        self.log(
+            "Final sync_device_config_params: {0}".format(sync_device_config_params),
+            "DEBUG",
+        )
         return sync_device_config_params
 
     def get_device_list_params(self, ip_address_list):
@@ -658,12 +803,20 @@ class NetworkCompliance(DnacBase):
             names required by Cisco Catalyst Center.
             It returns a dictionary of these mapped parameters which can be used to query devices based on the provided filters.
         """
-        self.log("Entering get_device_list_params method with ip_address_list: {0}".format(ip_address_list), "DEBUG")
+        self.log(
+            "Entering get_device_list_params method with ip_address_list: {0}".format(
+                ip_address_list
+            ),
+            "DEBUG",
+        )
 
         # Initialize an empty dictionary to store the mapped parameters
         get_device_list_params = {"management_ip_address": ip_address_list}
 
-        self.log("Generated get_device_list_params: {0}".format(get_device_list_params), "DEBUG")
+        self.log(
+            "Generated get_device_list_params: {0}".format(get_device_list_params),
+            "DEBUG",
+        )
         return get_device_list_params
 
     def get_device_ids_from_ip(self, get_device_list_params):
@@ -678,7 +831,12 @@ class NetworkCompliance(DnacBase):
             mapped to their instance IDs.
             Logs detailed information about the number of devices processed, skipped, and the final list of devices available for configuration backup.
         """
-        self.log("Entering 'get_device_ids_from_ip' method with parameters: {0}".format(get_device_list_params), "DEBUG")
+        self.log(
+            "Entering 'get_device_ids_from_ip' method with parameters: {0}".format(
+                get_device_list_params
+            ),
+            "DEBUG",
+        )
 
         mgmt_ip_to_instance_id_map = {}
         processed_device_count = 0
@@ -689,23 +847,29 @@ class NetworkCompliance(DnacBase):
             limit = 500
             while True:
                 # Update params with current offset and limit
-                get_device_list_params.update({
-                    "offset": offset,
-                    "limit": limit
-                })
+                get_device_list_params.update({"offset": offset, "limit": limit})
 
                 # Query Cisco Catalyst Center for device information using the parameters
                 response = self.dnac._exec(
                     family="devices",
                     function="get_device_list",
                     op_modifies=False,
-                    params=get_device_list_params
+                    params=get_device_list_params,
                 )
-                self.log("Response received post 'get_device_list' API call with offset {0}: {1}".format(offset, str(response)), "DEBUG")
+                self.log(
+                    "Response received post 'get_device_list' API call with offset {0}: {1}".format(
+                        offset, str(response)
+                    ),
+                    "DEBUG",
+                )
 
                 # Check if a valid response is received
                 if not response.get("response"):
-                    self.log("Exiting the loop because no devices were returned after increasing the offset. Current offset: {0}".format(offset))
+                    self.log(
+                        "Exiting the loop because no devices were returned after increasing the offset. Current offset: {0}".format(
+                            offset
+                        )
+                    )
                     break  # Exit loop if no devices are returned
 
                 response = response.get("response")
@@ -723,23 +887,24 @@ class NetworkCompliance(DnacBase):
                             device_ip,
                             reachability_status,
                             collection_status,
-                            device_family
+                            device_family,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     # Check if the device is reachable and managed
-                    if reachability_status == "Reachable" and collection_status in ["In Progress", "Managed"]:
+                    if reachability_status == "Reachable" and collection_status in [
+                        "In Progress",
+                        "Managed",
+                    ]:
                         # Skip Unified AP devices
-                        if device_family != "Unified AP" :
+                        if device_family != "Unified AP":
                             mgmt_ip_to_instance_id_map[device_ip] = device_id
                         else:
                             skipped_device_count += 1
                             self.skipped_run_compliance_devices_list.append(device_ip)
                             self.skipped_sync_device_configs_list.append(device_ip)
-                            msg = (
-                                "Skipping device {0} as its family is: {1}.".format(
-                                    device_ip, device_family
-                                )
+                            msg = "Skipping device {0} as its family is: {1}.".format(
+                                device_ip, device_family
                             )
                             self.log(msg, "INFO")
 
@@ -747,16 +912,19 @@ class NetworkCompliance(DnacBase):
                         self.skipped_run_compliance_devices_list.append(device_ip)
                         self.skipped_sync_device_configs_list.append(device_ip)
                         skipped_device_count += 1
-                        msg = (
-                            "Skipping device {0} as its status is {1} or its collectionStatus is {2}.".format(
-                                device_ip, reachability_status, collection_status
-                            )
+                        msg = "Skipping device {0} as its status is {1} or its collectionStatus is {2}.".format(
+                            device_ip, reachability_status, collection_status
                         )
                         self.log(msg, "INFO")
 
                 # Check if the response size is less than the limit
                 if len(response) < limit:
-                    self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
+                    self.log(
+                        "Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(
+                            limit
+                        ),
+                        "DEBUG",
+                    )
                     break
 
                 # Increment offset for next batch
@@ -769,18 +937,38 @@ class NetworkCompliance(DnacBase):
                     self.skipped_sync_device_configs_list.append(ip)
 
             # Log the total number of devices processed and skipped
-            self.log("Total number of devices received: {0}".format(processed_device_count), "INFO")
-            self.log("Number of devices that are Unreachable or APs: {0}".format(skipped_device_count), "INFO")
-            self.log("Config Backup Operation can be performed on the following filtered devices: {0}".format(len(mgmt_ip_to_instance_id_map)), "INFO")
+            self.log(
+                "Total number of devices received: {0}".format(processed_device_count),
+                "INFO",
+            )
+            self.log(
+                "Number of devices that are Unreachable or APs: {0}".format(
+                    skipped_device_count
+                ),
+                "INFO",
+            )
+            self.log(
+                "Config Backup Operation can be performed on the following filtered devices: {0}".format(
+                    len(mgmt_ip_to_instance_id_map)
+                ),
+                "INFO",
+            )
 
         except Exception as e:
             # Log an error message if any exception occurs during the process
-            self.msg = "Error fetching device IDs from Cisco Catalyst Center. Error details: {0}".format(str(e))
+            self.msg = "Error fetching device IDs from Cisco Catalyst Center. Error details: {0}".format(
+                str(e)
+            )
             self.fail_and_exit(self.msg)
 
         # Log an error if no reachable devices are found
         if not mgmt_ip_to_instance_id_map:
-            self.log("No reachable devices found among the provided parameters: {0}".format(mgmt_ip_to_instance_id_map), "ERROR")
+            self.log(
+                "No reachable devices found among the provided parameters: {0}".format(
+                    mgmt_ip_to_instance_id_map
+                ),
+                "ERROR",
+            )
 
         return mgmt_ip_to_instance_id_map
 
@@ -797,15 +985,27 @@ class NetworkCompliance(DnacBase):
             This method queries Cisco Catalyst Center to retrieve the unique device IDs associated with devices having the
             specified IP addresses or belonging to the specified site.
         """
-        self.log("Entering get_device_id_list with args: ip_address_list={0}, site_name={1}".format(
-            ip_address_list, site_name), "DEBUG")
+        self.log(
+            "Entering get_device_id_list with args: ip_address_list={0}, site_name={1}".format(
+                ip_address_list, site_name
+            ),
+            "DEBUG",
+        )
 
         # Initialize a dictionary to store management IP addresses and their corresponding device IDs
         mgmt_ip_to_instance_id_map = {}
 
         if ip_address_list:
-            self.log("Starting retrieval of device IDs for IP addresses: {0}".format(", ".join(ip_address_list)), "DEBUG")
-            self.log("Initial size of IP address list: {0}".format(len(ip_address_list)), "DEBUG")
+            self.log(
+                "Starting retrieval of device IDs for IP addresses: {0}".format(
+                    ", ".join(ip_address_list)
+                ),
+                "DEBUG",
+            )
+            self.log(
+                "Initial size of IP address list: {0}".format(len(ip_address_list)),
+                "DEBUG",
+            )
 
             # Split the IP address list into batches of 200
             batch_size = 200
@@ -815,20 +1015,41 @@ class NetworkCompliance(DnacBase):
             self.log(
                 "Calculating total number of batches. "
                 "IP address list length: {0}, Batch size: {1}. "
-                "Computed total batches: {2}".format(len(ip_address_list), batch_size, total_batches),
-                "INFO"
+                "Computed total batches: {2}".format(
+                    len(ip_address_list), batch_size, total_batches
+                ),
+                "INFO",
             )
-            for batch_number, i in enumerate(range(0, len(ip_address_list), batch_size), start=1):
-                ip_batch = ip_address_list[i:i + batch_size]
-                self.log("Processing batch {0} of {1}: IP addresses: {2}".format(batch_number, total_batches, ", ".join(ip_batch)), "DEBUG")
+            for batch_number, i in enumerate(
+                range(0, len(ip_address_list), batch_size), start=1
+            ):
+                ip_batch = ip_address_list[i : i + batch_size]
+                self.log(
+                    "Processing batch {0} of {1}: IP addresses: {2}".format(
+                        batch_number, total_batches, ", ".join(ip_batch)
+                    ),
+                    "DEBUG",
+                )
 
                 # Get device list parameters for the current batch
                 get_device_list_params = self.get_device_list_params(ip_batch)
-                self.log("Device list parameters for batch {0}: {1}".format(batch_number, get_device_list_params), "DEBUG")
+                self.log(
+                    "Device list parameters for batch {0}: {1}".format(
+                        batch_number, get_device_list_params
+                    ),
+                    "DEBUG",
+                )
 
                 # Retrieve device IDs for the current batch
-                iplist_mgmt_ip_to_instance_id_map = self.get_device_ids_from_ip(get_device_list_params)
-                self.log("Retrieved device IDs for batch {0}: {1}".format(batch_number, iplist_mgmt_ip_to_instance_id_map), "DEBUG")
+                iplist_mgmt_ip_to_instance_id_map = self.get_device_ids_from_ip(
+                    get_device_list_params
+                )
+                self.log(
+                    "Retrieved device IDs for batch {0}: {1}".format(
+                        batch_number, iplist_mgmt_ip_to_instance_id_map
+                    ),
+                    "DEBUG",
+                )
 
                 # Update the main map with the results from the current batch
                 mgmt_ip_to_instance_id_map.update(iplist_mgmt_ip_to_instance_id_map)
@@ -838,7 +1059,9 @@ class NetworkCompliance(DnacBase):
         # Check if both site name and IP address list are provided
         if site_name:
             self.log("Retrieving device IDs for site: {0}".format(site_name), "DEBUG")
-            site_mgmt_ip_to_instance_id_map, skipped_devices_list = self.get_reachable_devices_from_site(site_name)
+            site_mgmt_ip_to_instance_id_map, skipped_devices_list = (
+                self.get_reachable_devices_from_site(site_name)
+            )
             self.skipped_run_compliance_devices_list.extend(skipped_devices_list)
             self.skipped_sync_device_configs_list.extend(skipped_devices_list)
             mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
@@ -875,8 +1098,12 @@ class NetworkCompliance(DnacBase):
         msg = None
 
         # Validate if sync is required
-        self.log("Compliance Report for {0} operation for device(s) {1} : {2}".format(
-            task_name, list(mgmt_ip_to_instance_id_map.keys()), response), "INFO")
+        self.log(
+            "Compliance Report for {0} operation for device(s) {1} : {2}".format(
+                task_name, list(mgmt_ip_to_instance_id_map.keys()), response
+            ),
+            "INFO",
+        )
 
         # Categorize the devices based on status - "COMPLIANT", "NON_COMPLIANT", "OTHER"(status other than COMPLIANT and NON_COMPLIANT)
         categorized_devices = {"COMPLIANT": {}, "NON_COMPLIANT": {}, "OTHER": {}}
@@ -889,11 +1116,20 @@ class NetworkCompliance(DnacBase):
             else:
                 categorized_devices["OTHER"][ip_address] = compliance_type
 
-        self.log("Device(s) Categorized based on Compliance status: {0}".format(categorized_devices), "INFO")
+        self.log(
+            "Device(s) Categorized based on Compliance status: {0}".format(
+                categorized_devices
+            ),
+            "INFO",
+        )
 
         # Validate if all devices are "COMPLIANT" - then sync not required
-        if len(categorized_devices["COMPLIANT"]) + len(categorized_devices["OTHER"]) == len(mgmt_ip_to_instance_id_map):
-            compliant_device_ips_str = ", ".join(list(mgmt_ip_to_instance_id_map.keys()))
+        if len(categorized_devices["COMPLIANT"]) + len(
+            categorized_devices["OTHER"]
+        ) == len(mgmt_ip_to_instance_id_map):
+            compliant_device_ips_str = ", ".join(
+                list(mgmt_ip_to_instance_id_map.keys())
+            )
             msg = (
                 "Device(s) with IP address(es): {0} are already compliant with the RUNNING_CONFIG compliance type. "
                 "Therefore, the task '{1}' is not required."
@@ -902,7 +1138,9 @@ class NetworkCompliance(DnacBase):
 
         return required, msg, categorized_devices
 
-    def get_compliance_details_of_device(self, compliance_details_of_device_params, device_ip):
+    def get_compliance_details_of_device(
+        self, compliance_details_of_device_params, device_ip
+    ):
         """
         Retrieve compliance details for a specific device.
         This function makes an API call to fetch compliance details for a given device
@@ -915,17 +1153,31 @@ class NetworkCompliance(DnacBase):
             dict or None: The response from the compliance details API call if successful,
                           None if an error occurs or no response is received.
         """
-        self.log("Attempting to retrieve Compliance details for device: '{0}'".format(device_ip), "INFO")
-        response = self.execute_get_request("compliance", "compliance_details_of_device", compliance_details_of_device_params)
+        self.log(
+            "Attempting to retrieve Compliance details for device: '{0}'".format(
+                device_ip
+            ),
+            "INFO",
+        )
+        response = self.execute_get_request(
+            "compliance",
+            "compliance_details_of_device",
+            compliance_details_of_device_params,
+        )
         if response:
-            self.log("Sucessfully retrieved Compliance details for device: '{0}'".format(device_ip), "INFO")
+            self.log(
+                "Sucessfully retrieved Compliance details for device: '{0}'".format(
+                    device_ip
+                ),
+                "INFO",
+            )
             return response.get("response")
         else:
             self.log(
                 "No Compliance details retrieved for device: '{0}' with parameters: {1}".format(
                     device_ip, compliance_details_of_device_params
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -959,7 +1211,12 @@ class NetworkCompliance(DnacBase):
                     break
 
             if device_ip is None:
-                self.log("Device UUID: {0} not found in mgmt_ip_to_instance_id_map: {1}".format(device_uuid, mgmt_ip_to_instance_id_map), "DEBUG")
+                self.log(
+                    "Device UUID: {0} not found in mgmt_ip_to_instance_id_map: {1}".format(
+                        device_uuid, mgmt_ip_to_instance_id_map
+                    ),
+                    "DEBUG",
+                )
                 continue
 
             # Add the device IP to the device list
@@ -976,7 +1233,9 @@ class NetworkCompliance(DnacBase):
                     compliance_details_of_device_params["device_uuid"] = device_uuid
                     compliance_details_of_device_params["diff_list"] = True
 
-                    response = self.get_compliance_details_of_device(compliance_details_of_device_params, device_ip)
+                    response = self.get_compliance_details_of_device(
+                        compliance_details_of_device_params, device_ip
+                    )
                     if response:
                         final_response[device_ip].extend(response)
 
@@ -984,14 +1243,18 @@ class NetworkCompliance(DnacBase):
                 # Fetch compliance details for the device without specific category
                 compliance_details_of_device_params["device_uuid"] = device_uuid
                 compliance_details_of_device_params["diff_list"] = True
-                response = self.get_compliance_details_of_device(compliance_details_of_device_params, device_ip)
+                response = self.get_compliance_details_of_device(
+                    compliance_details_of_device_params, device_ip
+                )
                 if response:
                     final_response[device_ip].extend(response)
 
         # If no compliance details were found, update the result with an error message
         if not final_response:
             device_list_str = ", ".join(device_list)
-            self.msg = "No Compliance Details found for the devices: {0}".format(device_list_str)
+            self.msg = "No Compliance Details found for the devices: {0}".format(
+                device_list_str
+            )
             self.fail_and_exit(self.msg)
 
         return final_response
@@ -1018,22 +1281,42 @@ class NetworkCompliance(DnacBase):
         batches_dict = {}
 
         if len(device_uuids) > batch_size:
-            batches = [device_uuids[i:i + batch_size] for i in range(0, len(device_uuids), batch_size)]
+            batches = [
+                device_uuids[i : i + batch_size]
+                for i in range(0, len(device_uuids), batch_size)
+            ]
         else:
             batches = [device_uuids]
-        self.log("Created {0} batch(es) for run compliance operation: {1}".format(len(batches), batches), "DEBUG")
+        self.log(
+            "Created {0} batch(es) for run compliance operation: {1}".format(
+                len(batches), batches
+            ),
+            "DEBUG",
+        )
 
         for idx, batch in enumerate(batches):
-            self.log("Executing 'run_compliance' operation on batch: {0} - {1}".format(idx, batch), "DEBUG")
+            self.log(
+                "Executing 'run_compliance' operation on batch: {0} - {1}".format(
+                    idx, batch
+                ),
+                "DEBUG",
+            )
             batch_params = run_compliance_params.copy()
             batch_params["deviceUuids"] = batch
             self.log("Batch {0} Parameters: {1}".format(idx, batch_params), "DEBUG")
 
-            task_id = self.get_taskid_post_api_call("compliance", "run_compliance", batch_params)
+            task_id = self.get_taskid_post_api_call(
+                "compliance", "run_compliance", batch_params
+            )
             if task_id:
                 batches_dict[idx] = {"task_id": task_id, "batch_params": batch_params}
             else:
-                self.log("No response received from the 'run_compliance' API call for batch: {0}.".format(batch_params), "ERROR")
+                self.log(
+                    "No response received from the 'run_compliance' API call for batch: {0}.".format(
+                        batch_params
+                    ),
+                    "ERROR",
+                )
 
         return batches_dict
 
@@ -1050,7 +1333,9 @@ class NetworkCompliance(DnacBase):
             If an error occurs during the API call, it will be caught and logged.
         """
         # Make an API call to synchronize device configuration
-        return self.get_taskid_post_api_call("compliance", "commit_device_configuration", sync_device_config_params)
+        return self.get_taskid_post_api_call(
+            "compliance", "commit_device_configuration", sync_device_config_params
+        )
 
     def handle_error(self, task_name, mgmt_ip_to_instance_id_map, failure_reason=None):
         """
@@ -1066,11 +1351,15 @@ class NetworkCompliance(DnacBase):
         ip_address_list_str = ", ".join(list(mgmt_ip_to_instance_id_map.keys()))
         if failure_reason:
             self.msg = "An error occurred while performing {0} on device(s): {1}. The operation failed due to the following reason: {2}".format(
-                task_name, ip_address_list_str, failure_reason)
+                task_name, ip_address_list_str, failure_reason
+            )
         # If no failure reason is provided, generate a generic error message
         else:
-            self.msg = "An error occurred while performing {0} on device(s): {1}".format(
-                task_name, ip_address_list_str)
+            self.msg = (
+                "An error occurred while performing {0} on device(s): {1}".format(
+                    task_name, ip_address_list_str
+                )
+            )
 
         # Update the result with failure status and log the error message
         self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1096,37 +1385,48 @@ class NetworkCompliance(DnacBase):
         for idx, batch_info in batches_dict.items():
             task_id = batch_info["task_id"]
             device_ids = batch_info["batch_params"]["deviceUuids"]
-            success_msg = (
-                "{0} Task with Task ID: '{1}' for batch number: '{2}' with {3} devices: {4} is successful."
-                .format(task_name, task_id, idx, len(device_ids), device_ids)
+            success_msg = "{0} Task with Task ID: '{1}' for batch number: '{2}' with {3} devices: {4} is successful.".format(
+                task_name, task_id, idx, len(device_ids), device_ids
             )
 
             # Get task status for the current batch
             if self.dnac_version <= self.version_2_3_5_3:
-                failure_msg = (
-                    "{0} Task with Task ID: '{1}' Failed for batch number: '{2}' with {3} devices: {4}."
-                    .format(task_name, task_id, idx, len(device_ids), device_ids)
+                failure_msg = "{0} Task with Task ID: '{1}' Failed for batch number: '{2}' with {3} devices: {4}.".format(
+                    task_name, task_id, idx, len(device_ids), device_ids
                 )
                 progress_validation = "report has been generated successfully"
-                self.get_task_status_from_task_by_id(task_id, task_name, failure_msg, success_msg, progress_validation=progress_validation)
+                self.get_task_status_from_task_by_id(
+                    task_id,
+                    task_name,
+                    failure_msg,
+                    success_msg,
+                    progress_validation=progress_validation,
+                )
             else:
                 self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
             task_status = self.status
-            self.log("The task status of batch: {0} with task id: {1} is {2}".format(idx, task_id, task_status), "INFO")
+            self.log(
+                "The task status of batch: {0} with task id: {1} is {2}".format(
+                    idx, task_id, task_status
+                ),
+                "INFO",
+            )
 
             # Store the result for the current batch
             batch_result = {
                 "task_id": task_id,
                 "batch_params": batch_info["batch_params"],
                 "task_status": task_status,
-                "msg": success_msg
+                "msg": success_msg,
             }
 
             # Append the current batch result to the batches_result list
             batches_result.append(batch_result)
 
-        self.log("Collective result of all batches: {0}".format(batches_result), "DEBUG")
+        self.log(
+            "Collective result of all batches: {0}".format(batches_result), "DEBUG"
+        )
         return batches_result
 
     def validate_batch_result(self, batches_result, retried_batches=None):
@@ -1163,20 +1463,33 @@ class NetworkCompliance(DnacBase):
                     self.log(
                         "Batch for device(s) {0} has already been retried with batch size of 1 and failed. "
                         "Stopping recursion.".format(device_ids_str),
-                        "ERROR"
+                        "ERROR",
                     )
                     continue
 
-                self.log("Re-running compliance check for batch {0} with batch_result: {1} ".format(batch, batches_result), "WARNING")
+                self.log(
+                    "Re-running compliance check for batch {0} with batch_result: {1} ".format(
+                        batch, batches_result
+                    ),
+                    "WARNING",
+                )
                 # Re-run the compliance check for the failed batch with batch size of 1
                 retried_batches.add(device_ids)
                 batches_dict = self.run_compliance(batch_params, batch_size=1)
                 batches_result = self.get_batches_result(batches_dict)
 
                 # Recursively validate the batch results and append the successful device IDs
-                successful_devices.extend(self.validate_batch_result(batches_result, retried_batches=retried_batches))
-        msg = ("The results of all batches have been validated, and the compliance checks "
-               "were successfully executed on following devices: {0}".format(successful_devices))
+                successful_devices.extend(
+                    self.validate_batch_result(
+                        batches_result, retried_batches=retried_batches
+                    )
+                )
+        msg = (
+            "The results of all batches have been validated, and the compliance checks "
+            "were successfully executed on following devices: {0}".format(
+                successful_devices
+            )
+        )
         self.log(msg, "DEBUG")
 
         return successful_devices
@@ -1208,7 +1521,7 @@ class NetworkCompliance(DnacBase):
 
             # Check each compliance type's status
             for item in compliance_data:
-                if item['status'] != "COMPLIANT":
+                if item["status"] != "COMPLIANT":
                     is_compliant = False
                     break
 
@@ -1242,7 +1555,12 @@ class NetworkCompliance(DnacBase):
         batches_result = self.get_batches_result(batches_dict)
         successful_devices = self.validate_batch_result(batches_result)
         successful_devices_str = ", ".join(successful_devices)
-        self.log("{0} successful on device(s): {1}".format(task_name, successful_devices_str), "DEBUG")
+        self.log(
+            "{0} successful on device(s): {1}".format(
+                task_name, successful_devices_str
+            ),
+            "DEBUG",
+        )
 
         # Reverse the mgmt_ip_to_instance_id_map to map device IDs to IPs
         id_to_ip_map = {v: k for k, v in mgmt_ip_to_instance_id_map.items()}
@@ -1254,45 +1572,83 @@ class NetworkCompliance(DnacBase):
             for device_id in batch["batch_params"]["deviceUuids"]
         ]
         unsuccessful_devices = list(set(all_device_ids) - set(successful_devices))
-        unsuccessful_ips = [id_to_ip_map[device_id] for device_id in unsuccessful_devices if device_id in id_to_ip_map]
+        unsuccessful_ips = [
+            id_to_ip_map[device_id]
+            for device_id in unsuccessful_devices
+            if device_id in id_to_ip_map
+        ]
 
         final_msg = {}
 
         if successful_devices:
-            successful_ips = [id_to_ip_map[device_id] for device_id in successful_devices if device_id in id_to_ip_map]
+            successful_ips = [
+                id_to_ip_map[device_id]
+                for device_id in successful_devices
+                if device_id in id_to_ip_map
+            ]
 
             successful_devices_params = self.want.get("run_compliance_params").copy()
             successful_devices_params["deviceUuids"] = successful_devices
-            compliance_report = self.get_compliance_report(successful_devices_params, mgmt_ip_to_instance_id_map)
-            self.log("Compliance Report for device on which compliance operation was successful: {0}".format(compliance_report), "INFO")
+            compliance_report = self.get_compliance_report(
+                successful_devices_params, mgmt_ip_to_instance_id_map
+            )
+            self.log(
+                "Compliance Report for device on which compliance operation was successful: {0}".format(
+                    compliance_report
+                ),
+                "INFO",
+            )
 
-            compliant_devices, non_compliant_devices = self.get_compliant_non_compliant_devices(compliance_report)
-            self.log("{0} Succeeded for following device(s): {1}".format(task_name, successful_ips), "INFO")
+            compliant_devices, non_compliant_devices = (
+                self.get_compliant_non_compliant_devices(compliance_report)
+            )
+            self.log(
+                "{0} Succeeded for following device(s): {1}".format(
+                    task_name, successful_ips
+                ),
+                "INFO",
+            )
             final_msg["{0} Succeeded for following device(s)".format(task_name)] = {
                 "Total Devices Checked": len(successful_ips),
                 # "success_devices": successful_ips,
                 "Compliant Devices": len(compliant_devices),
-                "Non-Compliant Devices": len(non_compliant_devices)
+                "Non-Compliant Devices": len(non_compliant_devices),
             }
 
         if unsuccessful_ips:
-            self.log("{0} Failed for following device(s): {1}".format(task_name, unsuccessful_ips), "ERROR")
+            self.log(
+                "{0} Failed for following device(s): {1}".format(
+                    task_name, unsuccessful_ips
+                ),
+                "ERROR",
+            )
             final_msg["{0} Failed for following device(s)".format(task_name)] = {
                 "failed_count": len(unsuccessful_ips),
-                "failed_devices": unsuccessful_ips
+                "failed_devices": unsuccessful_ips,
             }
 
         self.msg = final_msg
 
         # Determine the final operation result
         if successful_devices and unsuccessful_devices:
-            self.log("Partial success: Some devices were successful, but others failed.", "DEBUG")
-            self.set_operation_result("failed", True, self.msg, "ERROR", additional_info=compliance_report)
+            self.log(
+                "Partial success: Some devices were successful, but others failed.",
+                "DEBUG",
+            )
+            self.set_operation_result(
+                "failed", True, self.msg, "ERROR", additional_info=compliance_report
+            )
         elif successful_devices:
-            self.log("Operation successful: All devices processed successfully.", "DEBUG")
-            self.set_operation_result("success", True, self.msg, "INFO", additional_info=compliance_report)
+            self.log(
+                "Operation successful: All devices processed successfully.", "DEBUG"
+            )
+            self.set_operation_result(
+                "success", True, self.msg, "INFO", additional_info=compliance_report
+            )
         elif unsuccessful_devices:
-            self.log("Operation failed: No devices were processed successfully.", "DEBUG")
+            self.log(
+                "Operation failed: No devices were processed successfully.", "DEBUG"
+            )
             self.set_operation_result("failed", True, self.msg, "ERROR")
         else:
             self.log("No devices to process.", "INFO")
@@ -1314,24 +1670,37 @@ class NetworkCompliance(DnacBase):
             It continuously checks the task status until completion, updating the result accordingly.
         """
         task_name = "Sync Device Configuration"
-        self.log("Entering '{0}' with task_id: '{1}' and mgmt_ip_to_instance_id_map: {2}".format(
-            task_name, task_id, mgmt_ip_to_instance_id_map), "INFO"
+        self.log(
+            "Entering '{0}' with task_id: '{1}' and mgmt_ip_to_instance_id_map: {2}".format(
+                task_name, task_id, mgmt_ip_to_instance_id_map
+            ),
+            "INFO",
         )
         msg = {}
 
         # Retrieve the parameters for sync device config
         sync_device_config_params = self.want.get("sync_device_config_params")
-        self.log("Sync device config parameters: {0}".format(sync_device_config_params), "DEBUG")
+        self.log(
+            "Sync device config parameters: {0}".format(sync_device_config_params),
+            "DEBUG",
+        )
 
         # Extract the list of device IDs from sync_device_config_params
         device_ids = sync_device_config_params.get("deviceId")
         self.log("Device IDs for synchronization: {0}".format(device_ids), "DEBUG")
 
         # Create device_ip_list by mapping the device IDs back to their corresponding IP addresses
-        device_ip_list = [ip for ip, device_id in mgmt_ip_to_instance_id_map.items() if device_id in device_ids]
+        device_ip_list = [
+            ip
+            for ip, device_id in mgmt_ip_to_instance_id_map.items()
+            if device_id in device_ids
+        ]
         self.log("Device IPs to synchronize: {0}".format(device_ip_list), "DEBUG")
 
-        msg["{0} Succeeded for following device(s)".format(task_name)] = {"success_count": len(device_ip_list), "success_devices": device_ip_list}
+        msg["{0} Succeeded for following device(s)".format(task_name)] = {
+            "success_count": len(device_ip_list),
+            "success_devices": device_ip_list,
+        }
 
         # Retrieve and return the task status using the provided task ID
         return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
@@ -1366,18 +1735,28 @@ class NetworkCompliance(DnacBase):
         """
         # Get compliance details before running sync_device_config
         compliance_details_before = self.want.get("compliance_details")
-        self.log("Compliance details before running sync_device_config: {0}".format(compliance_details_before), "INFO")
+        self.log(
+            "Compliance details before running sync_device_config: {0}".format(
+                compliance_details_before
+            ),
+            "INFO",
+        )
 
         # Get compliance details after running sync_device_config
         compliance_details_after = self.get_compliance_report(
             self.want.get("compliance_detail_params_sync"),
-            self.want.get("mgmt_ip_to_instance_id_map")
+            self.want.get("mgmt_ip_to_instance_id_map"),
         )
         if not compliance_details_after:
             self.msg = "Error occurred when Retrieving Compliance Details after for verifying configuration."
             self.fail_and_exit(self.msg)
 
-        self.log("Compliance details after running sync_device_config: {0}.".format(compliance_details_after), "INFO")
+        self.log(
+            "Compliance details after running sync_device_config: {0}.".format(
+                compliance_details_after
+            ),
+            "INFO",
+        )
 
         # Get the device IDs to check
         sync_device_ids = self.want.get("sync_device_config_params").get("deviceId", [])
@@ -1385,7 +1764,7 @@ class NetworkCompliance(DnacBase):
             self.log(
                 "No device IDs found in sync_device_config_params, Sync Device Configuration "
                 "operation may not have been performed.",
-                "WARNING"
+                "WARNING",
             )
             return self
 
@@ -1397,40 +1776,74 @@ class NetworkCompliance(DnacBase):
         self.log("Device IDs to check: {0}".format(sync_device_ids), "DEBUG")
         for device_id in sync_device_ids:
             # Find the corresponding IP address from the mgmt_ip_to_instance_id_map
-            ip_address = next((ip for ip, id in self.want.get("mgmt_ip_to_instance_id_map").items() if id == device_id), None)
-            self.log("Found IP address for device ID {0}: {1}".format(device_id, ip_address), "DEBUG")
+            ip_address = next(
+                (
+                    ip
+                    for ip, id in self.want.get("mgmt_ip_to_instance_id_map").items()
+                    if id == device_id
+                ),
+                None,
+            )
+            self.log(
+                "Found IP address for device ID {0}: {1}".format(device_id, ip_address),
+                "DEBUG",
+            )
             if ip_address:
-                self.log("Checking compliance status for device ID: {0}".format(device_id), "DEBUG")
+                self.log(
+                    "Checking compliance status for device ID: {0}".format(device_id),
+                    "DEBUG",
+                )
                 # Get the status before
                 compliance_before = compliance_details_before.get(ip_address, [])
                 if compliance_before:
                     all_statuses_before.append(compliance_before[0]["status"])
                 else:
-                    self.log("No compliance details found for device IP: {0} before synchronization.".format(ip_address), "DEBUG")
+                    self.log(
+                        "No compliance details found for device IP: {0} before synchronization.".format(
+                            ip_address
+                        ),
+                        "DEBUG",
+                    )
                 # Get the status after
                 compliance_after = compliance_details_after.get(ip_address, [])
                 if compliance_after:
                     all_statuses_after.append(compliance_after[0]["status"])
                 else:
-                    self.log("No compliance details found for device IP: {0} after synchronization.".format(ip_address), "DEBUG")
+                    self.log(
+                        "No compliance details found for device IP: {0} after synchronization.".format(
+                            ip_address
+                        ),
+                        "DEBUG",
+                    )
 
-                self.log("Compliance statuses before synchronization: {0}".format(all_statuses_before), "DEBUG")
-                self.log("Compliance statuses after synchronization: {0}".format(all_statuses_after), "DEBUG")
+                self.log(
+                    "Compliance statuses before synchronization: {0}".format(
+                        all_statuses_before
+                    ),
+                    "DEBUG",
+                )
+                self.log(
+                    "Compliance statuses after synchronization: {0}".format(
+                        all_statuses_after
+                    ),
+                    "DEBUG",
+                )
 
             else:
-                self.log("No IP address found for device ID: {0}".format(device_id), "DEBUG")
+                self.log(
+                    "No IP address found for device ID: {0}".format(device_id), "DEBUG"
+                )
 
         # Check if all statuses changed from "NON_COMPLIANT" to "COMPLIANT"
-        if (
-            all(all_status == "NON_COMPLIANT" for all_status in all_statuses_before) and
-            all(all_status == "COMPLIANT" for all_status in all_statuses_after)
-        ):
+        if all(
+            all_status == "NON_COMPLIANT" for all_status in all_statuses_before
+        ) and all(all_status == "COMPLIANT" for all_status in all_statuses_after):
             self.log("Verified the success of the Sync Device Configuration operation.")
         else:
             self.log(
                 "Sync Device Configuration operation may have been unsuccessful "
                 "since not all devices have 'COMPLIANT' status after the operation.",
-                "WARNING"
+                "WARNING",
             )
 
     def get_want(self, config):
@@ -1457,7 +1870,9 @@ class NetworkCompliance(DnacBase):
         # Remove Duplicates from list
         if ip_address_list:
             ip_address_list = list(set(ip_address_list))
-            self.log("Deduplicated IP address list: {0}".format(ip_address_list), "DEBUG")
+            self.log(
+                "Deduplicated IP address list: {0}".format(ip_address_list), "DEBUG"
+            )
         site_name = config.get("site_name")
 
         run_compliance = config.get("run_compliance")
@@ -1469,10 +1884,15 @@ class NetworkCompliance(DnacBase):
 
         # Retrieve device ID list
         mgmt_ip_to_instance_id_map = self.get_device_id_list(ip_address_list, site_name)
-        self.log("Management IP to Instance ID Map: {0}".format(mgmt_ip_to_instance_id_map), "DEBUG")
+        self.log(
+            "Management IP to Instance ID Map: {0}".format(mgmt_ip_to_instance_id_map),
+            "DEBUG",
+        )
 
         # Run Compliance Paramters
-        run_compliance_params = self.get_run_compliance_params(mgmt_ip_to_instance_id_map, run_compliance, run_compliance_categories)
+        run_compliance_params = self.get_run_compliance_params(
+            mgmt_ip_to_instance_id_map, run_compliance, run_compliance_categories
+        )
 
         # Sync Device Configuration Parameters
         if sync_device_config:
@@ -1480,40 +1900,68 @@ class NetworkCompliance(DnacBase):
             if self.dnac_version > self.version_2_3_5_3:
                 compliance_detail_params_sync = {
                     "deviceUuids": list(mgmt_ip_to_instance_id_map.values()),
-                    "categories": ["RUNNING_CONFIG"]
+                    "categories": ["RUNNING_CONFIG"],
                 }
-                self.log("Retrieving compliance report with parameters: {0}".format(compliance_detail_params_sync), "DEBUG")
-                response = self.get_compliance_report(compliance_detail_params_sync, mgmt_ip_to_instance_id_map)
-                self.log("Response from get_compliance_report: {0}".format(response), "DEBUG")
+                self.log(
+                    "Retrieving compliance report with parameters: {0}".format(
+                        compliance_detail_params_sync
+                    ),
+                    "DEBUG",
+                )
+                response = self.get_compliance_report(
+                    compliance_detail_params_sync, mgmt_ip_to_instance_id_map
+                )
+                self.log(
+                    "Response from get_compliance_report: {0}".format(response), "DEBUG"
+                )
                 if not response:
-                    ip_address_list_str = ", ".join(list(mgmt_ip_to_instance_id_map.keys()))
+                    ip_address_list_str = ", ".join(
+                        list(mgmt_ip_to_instance_id_map.keys())
+                    )
                     self.msg = "Error occurred when retrieving Compliance Report to identify if Sync Device Config Operation "
-                    self.msg += "is required on device(s): {0}".format(ip_address_list_str)
+                    self.msg += "is required on device(s): {0}".format(
+                        ip_address_list_str
+                    )
                     self.fail_and_exit(self.msg)
 
                 compliance_details = response
-                sync_required, self.msg, categorized_devices = self.is_sync_required(response, mgmt_ip_to_instance_id_map)
-                self.log("Is Sync Requied: {0} -- Message: {1}".format(sync_required, self.msg), "DEBUG")
+                sync_required, self.msg, categorized_devices = self.is_sync_required(
+                    response, mgmt_ip_to_instance_id_map
+                )
+                self.log(
+                    "Is Sync Requied: {0} -- Message: {1}".format(
+                        sync_required, self.msg
+                    ),
+                    "DEBUG",
+                )
                 if sync_required:
-                    sync_device_config_params = self.get_sync_device_config_params(mgmt_ip_to_instance_id_map, categorized_devices)
+                    sync_device_config_params = self.get_sync_device_config_params(
+                        mgmt_ip_to_instance_id_map, categorized_devices
+                    )
                     self.log(
                         "Sync Device Configuration operation is required for provided parameters in the Cisco Catalyst Center."
-                        "therefore setting 'sync_device_config_params' - {0}.".format(sync_device_config_params),
-                        "DEBUG"
+                        "therefore setting 'sync_device_config_params' - {0}.".format(
+                            sync_device_config_params
+                        ),
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "Sync Device Configuration operation is not required for provided parameters in the Cisco Catalyst Center."
                         "therefore not setting the 'sync_device_config_params'",
-                        "INFO"
+                        "INFO",
                     )
-                    self.skipped_sync_device_configs_list.extend(list(mgmt_ip_to_instance_id_map.keys()))
+                    self.skipped_sync_device_configs_list.extend(
+                        list(mgmt_ip_to_instance_id_map.keys())
+                    )
             else:
                 self.msg = (
                     "The specified Cisco Catalyst Center version: '{0}' does not support the Sync Device Config operation. "
                     "Supported version start '2.3.7.6' onwards. Version '2.3.5.3' introduces APIs for "
                     "performing Compliance Checks. Version '2.3.7.6' expands support to include APIs "
-                    "for Compliance Checks and Sync Device Config operations.".format(self.get_ccc_version())
+                    "for Compliance Checks and Sync Device Config operations.".format(
+                        self.get_ccc_version()
+                    )
                 )
                 self.fail_and_exit(self.msg)
 
@@ -1527,7 +1975,7 @@ class NetworkCompliance(DnacBase):
             run_compliance_batch_size=config.get("run_compliance_batch_size"),
             sync_device_config_params=sync_device_config_params,
             compliance_detail_params_sync=compliance_detail_params_sync,
-            compliance_details=compliance_details
+            compliance_details=compliance_details,
         )
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
@@ -1548,8 +1996,14 @@ class NetworkCompliance(DnacBase):
         self.log("Starting 'get_diff_merged' operation.", "INFO")
 
         action_map = {
-            "run_compliance_params": (self.run_compliance, self.get_compliance_task_status),
-            "sync_device_config_params": (self.sync_device_config, self.get_sync_config_task_status)
+            "run_compliance_params": (
+                self.run_compliance,
+                self.get_compliance_task_status,
+            ),
+            "sync_device_config_params": (
+                self.sync_device_config,
+                self.get_sync_config_task_status,
+            ),
         }
 
         # Check if all action_map keys are missing in self.want
@@ -1566,43 +2020,82 @@ class NetworkCompliance(DnacBase):
             req_action_param = self.want.get(action_param)
             # Execute the action and check its status
             if req_action_param:
-                self.log("Executing action function: {0} with params: {1}".format(action_func.__name__, req_action_param), "INFO")
+                self.log(
+                    "Executing action function: {0} with params: {1}".format(
+                        action_func.__name__, req_action_param
+                    ),
+                    "INFO",
+                )
                 if action_param == "run_compliance_params":
                     batch_size = self.want.get("run_compliance_batch_size")
-                    result_task_id = action_func(self.want.get(action_param), batch_size=batch_size)
+                    result_task_id = action_func(
+                        self.want.get(action_param), batch_size=batch_size
+                    )
                 else:
                     result_task_id = action_func(self.want.get(action_param))
 
                 if not result_task_id:
-                    self.msg = "An error occurred while retrieving the task_id of the {0} operation.".format(action_func.__name__)
+                    self.msg = "An error occurred while retrieving the task_id of the {0} operation.".format(
+                        action_func.__name__
+                    )
                     self.set_operation_result("failed", False, self.msg, "CRITICAL")
                 else:
-                    self.log("Task Id: {0} returned from the action function: {1}".format(result_task_id, action_func.__name__), "DEBUG")
-                    status_func(result_task_id, self.want.get("mgmt_ip_to_instance_id_map")).check_return_status()
+                    self.log(
+                        "Task Id: {0} returned from the action function: {1}".format(
+                            result_task_id, action_func.__name__
+                        ),
+                        "DEBUG",
+                    )
+                    status_func(
+                        result_task_id, self.want.get("mgmt_ip_to_instance_id_map")
+                    ).check_return_status()
                     result = self.msg
                     result_details.update(result)
 
         if config.get("sync_device_config"):
-            skipped_sync_device_configs_list = set(self.skipped_sync_device_configs_list)
+            skipped_sync_device_configs_list = set(
+                self.skipped_sync_device_configs_list
+            )
             if skipped_sync_device_configs_list:
-                self.log("Sync Device Configuration skipped for devices: {0}".format(skipped_sync_device_configs_list), "DEBUG")
-                result_details["Sync Device Configuration operation Skipped for following device(s)"] = {
+                self.log(
+                    "Sync Device Configuration skipped for devices: {0}".format(
+                        skipped_sync_device_configs_list
+                    ),
+                    "DEBUG",
+                )
+                result_details[
+                    "Sync Device Configuration operation Skipped for following device(s)"
+                ] = {
                     "skipped_count": len(skipped_sync_device_configs_list),
-                    "skipped_devices": skipped_sync_device_configs_list
+                    "skipped_devices": skipped_sync_device_configs_list,
                 }
 
-        skipped_run_compliance_devices_list = set(self.skipped_run_compliance_devices_list)
+        skipped_run_compliance_devices_list = set(
+            self.skipped_run_compliance_devices_list
+        )
         if skipped_run_compliance_devices_list:
-            self.log("Run Compliance Check skipped for devices: {0}".format(skipped_run_compliance_devices_list), "DEBUG")
+            self.log(
+                "Run Compliance Check skipped for devices: {0}".format(
+                    skipped_run_compliance_devices_list
+                ),
+                "DEBUG",
+            )
             result_details["Run Compliance Check Skipped for following device(s)"] = {
                 "skipped_count": len(skipped_run_compliance_devices_list),
-                "skipped_devices": skipped_run_compliance_devices_list
+                "skipped_devices": skipped_run_compliance_devices_list,
             }
 
         final_status, is_changed = self.process_final_result(final_status_list)
         self.msg = result_details
-        self.log("Completed 'get_diff_merged' operation with final status: {0}, is_changed: {1}".format(final_status, is_changed), "INFO")
-        self.set_operation_result(final_status, is_changed, self.msg, "INFO", self.result.get("response"))
+        self.log(
+            "Completed 'get_diff_merged' operation with final status: {0}, is_changed: {1}".format(
+                final_status, is_changed
+            ),
+            "INFO",
+        )
+        self.set_operation_result(
+            final_status, is_changed, self.msg, "INFO", self.result.get("response")
+        )
         return self
 
     def verify_diff_merged(self, config):
@@ -1624,12 +2117,19 @@ class NetworkCompliance(DnacBase):
         run_compliance_params = self.want.get("run_compliance_params")
 
         if sync_device_config_params:
-            self.log("Starting verification of Sync Device Configuration operation.", "INFO")
+            self.log(
+                "Starting verification of Sync Device Configuration operation.", "INFO"
+            )
             self.verify_sync_device_config()
-            self.log("Completed verification of Sync Device Configuration operation.", "INFO")
+            self.log(
+                "Completed verification of Sync Device Configuration operation.", "INFO"
+            )
 
         if run_compliance_params:
-            self.log("Verification of configuration is not required for Run Compliance operation!", "INFO")
+            self.log(
+                "Verification of configuration is not required for Run Compliance operation!",
+                "INFO",
+            )
 
         self.log("Completed 'verify_diff_merged' operation.", "INFO")
         return self
@@ -1641,40 +2141,48 @@ def main():
     """
 
     # Define the specification for the module"s arguments
-    element_spec = {"dnac_host": {"required": True, "type": "str"},
-                    "dnac_port": {"type": "str", "default": "443"},
-                    "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-                    "dnac_password": {"type": "str", "no_log": True},
-                    "dnac_verify": {"type": "bool", "default": "True"},
-                    "dnac_version": {"type": "str", "default": "2.2.3.3"},
-                    "dnac_debug": {"type": "bool", "default": False},
-                    "dnac_log_level": {"type": "str", "default": "WARNING"},
-                    "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
-                    "dnac_log_append": {"type": "bool", "default": True},
-                    "dnac_log": {"type": "bool", "default": False},
-                    "validate_response_schema": {"type": "bool", "default": True},
-                    "config_verify": {"type": "bool", "default": False},
-                    "dnac_api_task_timeout": {"type": "int", "default": 1200},
-                    "dnac_task_poll_interval": {"type": "int", "default": 2},
-                    "config": {"required": True, "type": "list", "elements": "dict"},
-                    "state": {"default": "merged", "choices": ["merged"]}
-                    }
+    element_spec = {
+        "dnac_host": {"required": True, "type": "str"},
+        "dnac_port": {"type": "str", "default": "443"},
+        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "dnac_password": {"type": "str", "no_log": True},
+        "dnac_verify": {"type": "bool", "default": "True"},
+        "dnac_version": {"type": "str", "default": "2.2.3.3"},
+        "dnac_debug": {"type": "bool", "default": False},
+        "dnac_log_level": {"type": "str", "default": "WARNING"},
+        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
+        "dnac_log_append": {"type": "bool", "default": True},
+        "dnac_log": {"type": "bool", "default": False},
+        "validate_response_schema": {"type": "bool", "default": True},
+        "config_verify": {"type": "bool", "default": False},
+        "dnac_api_task_timeout": {"type": "int", "default": 1200},
+        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "config": {"required": True, "type": "list", "elements": "dict"},
+        "state": {"default": "merged", "choices": ["merged"]},
+    }
 
     # Initialize the Ansible module with the provided argument specifications
-    module = AnsibleModule(argument_spec=element_spec,
-                           supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 
     # Initialize the NetworkCompliance object with the module
     ccc_network_compliance = NetworkCompliance(module)
 
-    if ccc_network_compliance.compare_dnac_versions(ccc_network_compliance.get_ccc_version(), "2.3.7.6") < 0:
+    if (
+        ccc_network_compliance.compare_dnac_versions(
+            ccc_network_compliance.get_ccc_version(), "2.3.7.6"
+        )
+        < 0
+    ):
         ccc_network_compliance.msg = (
             "The specified version '{0}' does not support the  'Network Compliance' Operations. Supported versions start "
             "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for running Compliance checks on devices and"
-            " Syncing device configurations."
-            .format(ccc_network_compliance.get_ccc_version())
+            " Syncing device configurations.".format(
+                ccc_network_compliance.get_ccc_version()
+            )
         )
-        ccc_network_compliance.set_operation_result("failed", False, ccc_network_compliance.msg, "ERROR").check_return_status()
+        ccc_network_compliance.set_operation_result(
+            "failed", False, ccc_network_compliance.msg, "ERROR"
+        ).check_return_status()
 
     # Get the state parameter from the provided parameters
     state = ccc_network_compliance.params.get("state")
@@ -1696,7 +2204,9 @@ def main():
         ccc_network_compliance.get_want(config).check_return_status()
         ccc_network_compliance.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            ccc_network_compliance.verify_diff_state_apply[state](config).check_return_status()
+            ccc_network_compliance.verify_diff_state_apply[state](
+                config
+            ).check_return_status()
 
     # Exit with the result obtained from the NetworkCompliance object
     module.exit_json(**ccc_network_compliance.result)

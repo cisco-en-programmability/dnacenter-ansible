@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: site_create
 short_description: Resource module for Site Create
 description:
-  - This module represents an alias of the module site_create_v1
+  - Manage operation create of the resource Site Create.
+  - Creates site with area/building/floor with specified
+    hierarchy.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -26,29 +30,34 @@ options:
             description: Name of the area (eg Area1).
             type: str
           parentName:
-            description: Parent hierarchical name (Example Global/USA/CA).
+            description: Parent hierarchical name (Example
+              Global/USA/CA).
             type: str
         type: dict
       building:
         description: Site Create's building.
         suboptions:
           address:
-            description: Address of the building to be created.
+            description: Address of the building to
+              be created.
             type: str
           country:
             description: Country (eg United States).
             type: str
           latitude:
-            description: Latitude coordinate of the building (eg 37.338).
+            description: Latitude coordinate of the
+              building (eg 37.338).
             type: float
           longitude:
-            description: Longitude coordinate of the building (eg -121.832).
+            description: Longitude coordinate of the
+              building (eg -121.832).
             type: float
           name:
             description: Name of the building (eg building1).
             type: str
           parentName:
-            description: Parent hierarchical name (Example Global/USA/CA/SantaClara).
+            description: Parent hierarchical name (Example
+              Global/USA/CA/SantaClara).
             type: str
         type: dict
       floor:
@@ -58,41 +67,51 @@ options:
             description: Floor number. (eg 5).
             type: float
           height:
-            description: Height of the floor. Unit of measure is ft. (eg 15).
+            description: Height of the floor. Unit of
+              measure is ft. (eg 15).
             type: float
           length:
-            description: Length of the floor. Unit of measure is ft. (eg 100).
+            description: Length of the floor. Unit of
+              measure is ft. (eg 100).
             type: float
           name:
             description: Name of the floor (eg floor-1).
             type: str
           parentName:
-            description: Parent hierarchical name (Example Global/USA/CA/SantaClara/Academic).
+            description: Parent hierarchical name (Example
+              Global/USA/CA/SantaClara/Academic).
             type: str
           rfModel:
-            description: Type of floor (eg Cubes And Walled Offices0.
+            description: Type of floor (eg Cubes And
+              Walled Offices0.
             type: str
           width:
-            description: Width of the floor. Unit of measure is ft. (eg 100).
+            description: Width of the floor. Unit of
+              measure is ft. (eg 100).
             type: float
         type: dict
     type: dict
   type:
-    description: Type of site to create (eg area, building, floor).
+    description: Type of site to create (eg area, building,
+      floor).
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Sites CreateSiteV1
-    description: Complete reference of the CreateSiteV1 API.
+  - name: Cisco DNA Center documentation for Sites CreateSite
+    description: Complete reference of the CreateSite
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-site
 notes:
-  - SDK Method used are sites.Sites.create_site_v1,
-  - Paths used are post /dna/intent/api/v1/site,
-  - It should be noted that this module is an alias of site_create_v1
+  - SDK Method used are
+    sites.Sites.create_site,
+  - Paths used are
+    post /dna/intent/api/v1/site,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.site_create:
     dnac_host: "{{dnac_host}}"

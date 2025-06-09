@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: templates_template_id_versions_count_info
-short_description: Information module for Templates Template Id Versions Count Info
+short_description: Information module for Templates
+  Template Id Versions Count
 description:
-  - This module represents an alias of the module templates_template_id_versions_count_v1_info
+  - Get all Templates Template Id Versions Count.
+  - Get the count of a template's version information.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,34 +23,39 @@ options:
   templateId:
     description:
       - >
-        TemplateId path parameter. The id of the template to get versions of, retrieveable
-        from `GET
-        /dna/intent/api/v1/templates`.
+        TemplateId path parameter. The id of the template
+        to get versions of, retrieveable from `GET /dna/intent/api/v1/templates`.
     type: str
   versionNumber:
     description:
-      - VersionNumber query parameter. Filter response to only get the template version
-        that matches this version number.
+      - VersionNumber query parameter. Filter response
+        to only get the template version that matches
+        this version number.
     type: int
   latestVersion:
     description:
-      - LatestVersion query parameter. Filter response to only include the latest
-        version of a template.
+      - LatestVersion query parameter. Filter response
+        to only include the latest version of a template.
     type: bool
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Templates GetTemplateVersionsCountV1
-    description: Complete reference of the GetTemplateVersionsCountV1 API.
+  - name: Cisco DNA Center documentation for Configuration
+      Templates GetTemplateVersionsCount
+    description: Complete reference of the GetTemplateVersionsCount
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-template-versions-count
 notes:
-  - SDK Method used are configuration_templates.ConfigurationTemplates.get_template_versions_count_v1,
-  - Paths used are get /dna/intent/api/v1/templates/{templateId}/versions/count,
-  - It should be noted that this module is an alias of templates_template_id_versions_count_v1_info
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.get_template_versions_count,
+  - Paths used are
+    get /dna/intent/api/v1/templates/{templateId}/versions/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Templates Template Id Versions Count Info
+---
+- name: Get all Templates Template Id Versions Count
   cisco.dnac.templates_template_id_versions_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
