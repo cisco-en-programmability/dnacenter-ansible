@@ -2240,7 +2240,10 @@ class AssuranceSettings(DnacBase):
 
             for issue in system_issue:
                 if issue.get("displayName") == name and (not description or issue.get("description") == description):
-                    if issue_setting.get("issue_enabled") is False and (issue_setting.get("threshold_value") or issue_setting.get("priority")) :
+                    if not issue_setting.get("issue_enabled") and (
+                        issue_setting.get("threshold_value") != issue.get("threshold_value") or
+                        issue_setting.get("priority") != issue.get("priority")
+                    ):
                         self.msg = "For disabled issues, threshold and priority values can't be updated '{0}'.".format(name)
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
