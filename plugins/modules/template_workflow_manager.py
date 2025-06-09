@@ -1534,7 +1534,7 @@ class Template(DnacBase):
         self.export_template = []
         self.max_timeout = self.params.get('dnac_api_task_timeout')
         self.template_created, self.no_update_template, self.template_updated = [], [], []
-        self.project_created, self.template_committed =  [], []
+        self.project_created, self.template_committed = [], []
         self.result['response'] = [
             {"configurationTemplate": {"response": {}, "msg": {}}},
             {"export": {"response": {}}},
@@ -4045,7 +4045,7 @@ class Template(DnacBase):
 
         Args:
             self (object): An instance of the class used for interacting with Cisco Catalyst Center.
-  
+
         Returns:
             object: Returns the current instance (`self`) with updated `result` and `msg` fields.
 
@@ -4061,7 +4061,7 @@ class Template(DnacBase):
         if self.project_created:
             create_project_msg = "Project '{0}' created successfully in the Cisco Catalyst Center.".format(self.project_created)
             result_msg_list.append(create_project_msg)
-        
+
         if self.template_created:
             create_template_msg = "Template '{0}' created successfully in the Cisco Catalyst Center.".format(self.template_created)
             result_msg_list.append(create_template_msg)
