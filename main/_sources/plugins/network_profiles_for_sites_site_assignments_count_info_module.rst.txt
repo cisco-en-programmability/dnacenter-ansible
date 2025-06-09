@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_profiles_for_sites_site_assignments_count_info module -- Information module for Network Profiles For Sites Site Assignments Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_profiles_for_sites_site_assignments_count_info module -- Information module for Network Profiles For Sites Site Assignments Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_profiles\_for\_sites\_site\_assignments\_count\_v1\_info
+- Get all Network Profiles For Sites Site Assignments Count.
+- Retrieves the count of sites that the given network profile for sites is assigned to.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -500,9 +501,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.retrieves\_the\_count\_of\_sites\_that\_the\_given\_network\_profile\_for\_sites\_is\_assigned\_to\_v1,
+   - SDK Method used are site\_design.SiteDesign.retrieves\_the\_count\_of\_sites\_that\_the\_given\_network\_profile\_for\_sites\_is\_assigned\_to,
    - Paths used are get /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/count,
-   - It should be noted that this module is an alias of network\_profiles\_for\_sites\_site\_assignments\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -514,8 +514,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-sites-that-the-given-network-profile-for-sites-is-assigned-to>`_
-       Complete reference of the RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1 API.
+   `Cisco DNA Center documentation for Site Design RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedTo <https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-sites-that-the-given-network-profile-for-sites-is-assigned-to>`_
+       Complete reference of the RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedTo API.
 
 .. Examples
 
@@ -525,7 +525,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Profiles For Sites Site Assignments Count Info
+    ---
+    - name: Get all Network Profiles For Sites Site Assignments
+        Count
       cisco.dnac.network_profiles_for_sites_site_assignments_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.authentication_import_certificate_p12 module -- Resource module for A
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module authentication\_import\_certificate\_p12\_v1
+- Manage operation create of the resource Authentication Import Certificate P12.
+- This API enables a user to import a PKCS12 certificate bundle for the controller and/or disaster recovery.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -396,7 +397,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -412,21 +413,21 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-listOfUsers/description"></div>
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-p12FilePath"></div>
 
-      .. _ansible_collections.cisco.dnac.authentication_import_certificate_p12_module__parameter-listofusers/description:
+      .. _ansible_collections.cisco.dnac.authentication_import_certificate_p12_module__parameter-p12filepath:
 
       .. rst-class:: ansible-option-title
 
-      **description**
+      **p12FilePath**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-listOfUsers/description" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-p12FilePath" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -438,15 +439,14 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-cell">
 
-      Authentication Import Certificate P12's listOfUsers.
+      P12 file absolute path.
 
 
       .. raw:: html
 
         </div>
-
 
   * - .. raw:: html
 
@@ -568,9 +568,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are authentication\_management.AuthenticationManagement.import\_certificate\_p12\_v1,
+   - SDK Method used are authentication\_management.AuthenticationManagement.import\_certificate\_p12,
    - Paths used are post /dna/intent/api/v1/certificate-p12,
-   - It should be noted that this module is an alias of authentication\_import\_certificate\_p12\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,8 +581,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Authentication Management ImportCertificateP12V1 <https://developer.cisco.com/docs/dna-center/#!import-certificate-p-12>`_
-       Complete reference of the ImportCertificateP12V1 API.
+   `Cisco DNA Center documentation for Authentication Management ImportCertificateP12 <https://developer.cisco.com/docs/dna-center/#!import-certificate-p-12>`_
+       Complete reference of the ImportCertificateP12 API.
 
 .. Examples
 
@@ -593,6 +592,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.authentication_import_certificate_p12:
         dnac_host: "{{dnac_host}}"
@@ -603,6 +603,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         listOfUsers: []
+        p12FilePath: /tmp/uploads/Test-242.p12
         p12Password: string
         pkPassword: string
 

@@ -1,0 +1,1918 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.sda_fabric_multicast_workflow_manager module -- Manage SDA fabric multicast in Cisco Catalyst Center.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.sda_fabric_multicast_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.31.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Perform operations on SDA fabric multicast configurations and the replication mode.
+- Manages the multicast configurations like Source Specific Multicast (SSM) and Any Source Multicast(ASM).
+- Manages the replication mode of the multicast configuration associated with the L3 Virtual Network.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.10.2
+- python \>= 3.9
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list of SDA fabric multicast configurations associated with fabric sites.
+
+      Each entry in the list represents multicast settings for a specific fabric site.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_multicast**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration details for SDA fabric multicast configurations associated with a fabric site.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/asm"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/asm:
+
+      .. rst-class:: ansible-option-title
+
+      **asm**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/asm" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      PIM Any-Source Multicast (PIM-ASM) allows receivers to join a multicast group without specifying a particular source.
+
+      The root of the multicast tree is the Rendezvous Point (RP), which forwards multicast traffic to receivers.
+
+      Either SSM or ASM must be provided when configuring multicast for the fabric site.
+
+      When the state is 'deleted' and if the asm is provided, only the asm ranges will be removed.
+
+      If removing ASM ranges, ensure that SSM configurations are also present.
+
+      To delete the entire multicast configuration, provide only the 'fabric\_name' and 'layer3\_virtual\_network'.
+
+      To delete only the SSM or ASM configurations, provide the respective 'ssm' or 'asm' parameter.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/asm/ex_rp_ipv4_address"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/asm/ex_rp_ipv4_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ex_rp_ipv4_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/asm/ex_rp_ipv4_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IPv4 address of the external RP when the RP device location is set to 'EXTERNAL'.
+
+      Either 'ex\_rp\_ipv4\_address' or 'ex\_rp\_ipv6\_address' is required when adding the multicast configuration.
+
+      If both 'ex\_rp\_ipv4\_address' and 'ex\_rp\_ipv6\_address' are provided, 'ex\_rp\_ipv4\_address' takes priority. The second address can be provided as the next element in the list if needed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/asm/ex_rp_ipv6_address"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/asm/ex_rp_ipv6_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ex_rp_ipv6_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/asm/ex_rp_ipv6_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This refers to the IPv6 address of the External RP when the RP Device Location is set to EXTERNAL.
+
+      Either 'ex\_rp\_ipv4\_address' or 'ex\_rp\_ipv6\_address' is mandatory while adding the multicast configurations to the fabric site.
+
+      If both the 'ex\_rp\_ipv4\_address' and 'ex\_rp\_ipv6\_address' is passed, 'ex\_rp\_ipv4\_address' will given priority. Provide either one in an element and carry over the other to the next element of the list.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/asm/ipv4_asm_ranges"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/asm/ipv4_asm_ranges:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv4_asm_ranges**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/asm/ipv4_asm_ranges" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A range used exclusively for Any-Source Multicast (ASM), where receivers specify both the source (S) and the group (G) for receiving multicast traffic.
+
+      Either 'is\_default\_v4\_rp' or 'ipv4\_asm\_ranges' must be provided when 'ex\_rp\_ipv4\_address' is used.
+
+      The 'ipv4\_asm\_ranges' takes priority over 'is\_default\_v4\_rp' if both are provided.
+
+      The ranges provided for 'ipv4\_asm\_ranges' should not overlap with the ranges provided for 'ipv4\_ssm\_ranges' or any other external IP ranges.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/asm/ipv6_asm_ranges"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/asm/ipv6_asm_ranges:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv6_asm_ranges**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/asm/ipv6_asm_ranges" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A range used exclusively for Any-Source Multicast (ASM), where receivers specify both the source (S) and the group (G) for receiving multicast traffic.
+
+      Either 'is\_default\_v6\_rp' or 'ipv6\_asm\_ranges' must be provided when 'ex\_rp\_ipv6\_address' is used.
+
+      The 'ipv6\_asm\_ranges' takes priority over 'is\_default\_v6\_rp' if both are provided.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/asm/is_default_v4_rp"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/asm/is_default_v4_rp:
+
+      .. rst-class:: ansible-option-title
+
+      **is_default_v4_rp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/asm/is_default_v4_rp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A flag that indicates whether the IPv4 RP is the default RP for the multicast domain.
+
+      If set to 'true', this RP is used for all multicast groups that do not have a specific RP assigned.
+
+      Either 'is\_default\_v4\_rp' or 'ipv4\_asm\_ranges' must be provided when 'ex\_rp\_ipv4\_address' is used.
+
+      The 'ipv4\_asm\_ranges' will take priority over 'is\_default\_v4\_rp' if both are specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/asm/is_default_v6_rp"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/asm/is_default_v6_rp:
+
+      .. rst-class:: ansible-option-title
+
+      **is_default_v6_rp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/asm/is_default_v6_rp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A flag that indicates whether the IPv6 RP is the default RP for the multicast domain.
+
+      If set to 'true', this RP is used for all multicast groups that do not have a specific RP assigned.
+
+      Either 'is\_default\_v6\_rp' or 'ipv6\_asm\_ranges' must be provided when 'ex\_rp\_ipv6\_address' is used.
+
+      The 'ipv6\_asm\_ranges' will take priority over 'is\_default\_v6\_rp' if both are specified.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/asm/network_device_ips"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/asm/network_device_ips:
+
+      .. rst-class:: ansible-option-title
+
+      **network_device_ips**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/asm/network_device_ips" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the IP addresses of devices within the SD-Access fabric to be used as the RP.
+
+      A maximum of two device IPs can be provided.
+
+      All the device IPs provided should be provisioned to the fabric site.
+
+      For Edge node RPs, only one device should be provided.
+
+      If using a Single Stack reserved pool, only one device should be provided.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/asm/rp_device_location"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/asm/rp_device_location:
+
+      .. rst-class:: ansible-option-title
+
+      **rp_device_location**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/asm/rp_device_location" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the location of the Rendezvous Point (RP) in the multicast network.
+
+      Mandatory parameter when configuring ASM.
+
+      When the location is 'FABRIC', the RP is within the SD-Access fabric (typically on a Border, Control Plane, or Edge node).
+
+      When the location is 'EXTERNAL', the RP is outside the SD-Access fabric, requiring interconnectivity between the fabric and external multicast networks.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"EXTERNAL"`
+      - :ansible-option-choices-entry:`"FABRIC"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/fabric_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/fabric_name:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/fabric_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the SDA fabric site.
+
+      Mandatory parameter for all operations under fabric\_multicast.
+
+      The fabric site must already exist before configuring multicast settings.
+
+      A Fabric Site is composed of networking devices operating in SD-Access Fabric roles.
+
+      A fabric site consists of networking devices operating in SD-Access Fabric roles, including Border Nodes, Control Plane Nodes, Edge Nodes, Fabric Wireless LAN Controllers, and Fabric Wireless Access Points.
+
+      A Fabric sites may also include Fabric Wireless LAN Controllers and Fabric Wireless Access Points.
+
+      Updating this field is not allowed.
+
+      To delete the entire multicast configuration, provide only the 'fabric\_name' and 'layer3\_virtual\_network'.
+
+      To delete only SSM or ASM configurations, provide the corresponding 'ssm' and/or 'asm' fields.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/ip_pool_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/ip_pool_name:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_pool_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/ip_pool_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the IP address pool allocated for communication between the SDA fabric and external networks.
+
+      Denotes the IP address range allocated for communication between the SDA fabric and external networks.
+
+      Mandatory parameter while adding the multicast configuration to the fabric site.
+
+      When multicast is enabled in the fabric site, each device operating as a Border Node or Edge Node is provisioned with an IP address per Virtual Network, used for multicast signaling.
+
+      The IP pool must be reserved in the fabric site before multicast configuration.
+
+      Updating this field is not allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/layer3_virtual_network"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/layer3_virtual_network:
+
+      .. rst-class:: ansible-option-title
+
+      **layer3_virtual_network**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/layer3_virtual_network" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the Layer 3 Virtual Network (L3VN) associated with the multicast configuration.
+
+      A L3VN is a logically isolated network that enables IP routing between different subnets while maintaining separation from other virtual networks.
+
+      Mandatory parameter for all operations under fabric\_multicast.
+
+      The Layer 3 Virtual Network must be created and associated with the fabric site and its fabric zones before configuring multicast.
+
+      The created L3 Virtual Network should be associated with the fabric site and its fabric zones.
+
+      Updating this field is not allowed after creation.
+
+      To delete the entire multicast configuration, provide only the 'fabric\_name' and 'layer3\_virtual\_network'.
+
+      To delete only the SSM or ASM configurations, provide the corresponding 'ssm' and/or 'asm' fields.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/replication_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/replication_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **replication_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/replication_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies how multicast traffic is replicated within the fabric site. Two replication modes are supported: Native Multicast and Headend Replication. Native Multicast forwards multicast traffic using traditional multicast routing protocols such as PIM,
+            building
+          distribution trees to efficiently deliver traffic to multiple receivers. Headend Replication replicates multicast packets at the source node without using multicast routing protocols. Mandatory parameter while adding the multicast configuration to the fabric site.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"NATIVE\_MULTICAST"`
+      - :ansible-option-choices-entry:`"HEADEND\_REPLICATION"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/ssm"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/ssm:
+
+      .. rst-class:: ansible-option-title
+
+      **ssm**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/ssm" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      PIM Source-Specific Multicast (PIM-SSM) configures the multicast tree with the source as the root.
+
+      Either SSM or ASM is mandatory when adding multicast configurations to the fabric site.
+
+      When the state is set to 'deleted' and SSM is provided, only the SSM ranges will be removed.
+
+      When removing SSM ranges, ASM configurations must be present.
+
+      To delete the entire multicast configuration, provide only the 'fabric\_name' and 'layer3\_virtual\_network'.
+
+      To delete only the SSM or ASM configurations, provide the respective 'ssm' or 'asm' parameter.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_multicast/ssm/ipv4_ssm_ranges"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config/fabric_multicast/ssm/ipv4_ssm_ranges:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv4_ssm_ranges**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_multicast/ssm/ipv4_ssm_ranges" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IPv4 range for Source-Specific Multicast (SSM), where receivers specify both the multicast group (G) and the source (S) for receiving traffic, enhancing security and efficiency.
+
+      Mandatory parameter when the ssm is provided.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The state of Cisco Catalyst Center after module completion.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are site\_design.SiteDesign.get\_sites, network\_settings.NetworkSettings.get\_reserve\_ip\_subpool, devices.Devices.get\_device\_list, sda.Sda.get\_layer3\_virtual\_networks, sda.Sda.get\_fabric\_sites, sda.Sda.get\_fabric\_zones, sda.Sda.get\_provisioned\_devices, sda.Sda.get\_multicast\_virtual\_networks\_v1, sda.Sda.get\_multicast\_v1, sda.Sda.add\_multicast\_virtual\_networks\_v1, sda.Sda.update\_multicast\_v1, sda.Sda.update\_multicast\_virtual\_networks\_v1, sda.Sda.delete\_multicast\_virtual\_network\_by\_id\_v1, task.Task.get\_tasks\_by\_id, task.Task.get\_task\_details\_by\_id,
+   - Paths used are get /dna/intent/api/v1/sites get /dna/intent/api/v1/reserve-ip-subpool get /dna/intent/api/v1/network-device get /dna/intent/api/v1/sda/layer3VirtualNetworks get /dna/intent/api/v1/sda/fabricSites get /dna/intent/api/v1/sda/fabricZones get /dna/intent/api/v1/sda/provisionDevices get /dna/intent/api/v1/sda/multicast/virtualNetworks get /dna/intent/api/v1/sda/multicast post /dna/intent/api/v1/sda/multicast/virtualNetworks put /dna/intent/api/v1/sda/multicast put /dna/intent/api/v1/sda/multicast/virtualNetworks delete /dna/intent/api/v1/sda/multicast/virtualNetworks/${id} get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Configure the SDA multicast on a L3 virtual
+        network under a fabric site
+      cisco.dnac.sda_fabric_multicast_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - fabric_multicast:
+              - fabric_name: "Global/USA/SAN JOSE"
+                layer3_virtual_network: "L3_VN_MUL_1"
+                replication_mode: NATIVE_MULTICAST
+                ip_pool_name: ip_pool_dual_mul
+                ssm:
+                  ipv4_ssm_ranges:
+                    - "225.0.0.0/8"
+                    - "226.0.0.0/8"
+                asm:
+                  - rp_device_location: "FABRIC"
+                    network_device_ips:
+                      - "204.1.2.3"
+                    is_default_v4_rp: true
+    - name: Update the ssm configuration on a L3 virtual
+        network under a fabric site
+      cisco.dnac.sda_fabric_multicast_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - fabric_multicast:
+              - fabric_name: "Global/USA/SAN JOSE"
+                layer3_virtual_network: "L3_VN_MUL_1"
+                ssm:
+                  ipv4_ssm_ranges:
+                    - "227.0.0.0/8"
+    - name: Update the asm configuration on a L3 virtual
+        network under a fabric site
+      cisco.dnac.sda_fabric_multicast_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - fabric_multicast:
+              - fabric_name: "Global/USA/SAN JOSE"
+                layer3_virtual_network: "L3_VN_MUL_1"
+                asm:
+                  - rp_device_location: "EXTERNAL"
+                    ex_rp_ipv4_address: "10.0.0.1"
+                    ipv4_asm_ranges:
+                      - "232.0.0.0/8"
+                      - "233.0.0.0/8"
+                    ex_rp_ipv6_address: "2001::1"
+                    ipv6_asm_ranges:
+                      - "FF01::/64"
+                      - "FF02::/64"
+                  - rp_device_location: "EXTERNAL"
+                    ex_rp_ipv4_address: "10.0.0.2"
+                    ipv4_asm_ranges:
+                      - "234.0.0.0/8"
+                      - "235.0.0.0/8"
+                    ex_rp_ipv6_address: "2001::2"
+                    ipv6_asm_ranges:
+                      - "FF02::/64"
+                      - "FF04::/64"
+    - name: Update the replication mode of the SDA multicast
+        configurations under a fabric site
+      cisco.dnac.sda_fabric_multicast_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - fabric_multicast:
+              - fabric_name: "Global/USA/SAN JOSE"
+                layer3_virtual_network: "L3_VN_MUL_1"
+                replication_mode: "HEADEND_REPLICATION"
+    - name: Delete the source '226.0.0.0/8' from the ssm
+        multicast configuration
+      cisco.dnac.sda_fabric_multicast_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config_verify: true
+        config:
+          - fabric_multicast:
+              - fabric_name: "Global/USA/SAN JOSE"
+                layer3_virtual_network: "L3_VN_MUL_1"
+                ssm:
+                  ipv4_ssm_ranges:
+                    - "226.0.0.0/8"
+    - name: Delete the RP '10.0.0.1' from the asm multicast
+        configuration
+      cisco.dnac.sda_fabric_multicast_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config_verify: true
+        config:
+          - fabric_multicast:
+              - fabric_name: "Global/USA/SAN JOSE"
+                layer3_virtual_network: "L3_VN_MUL_1"
+                asm:
+                  - rp_device_location: "EXTERNAL"
+                    ex_rp_ipv4_address: "10.0.0.1"
+    - name: Delete the SDA multicast configurations of the
+        L3 virtual network from the fabric site.
+      cisco.dnac.sda_fabric_multicast_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config_verify: true
+        config:
+          - fabric_multicast:
+              - fabric_name: "Global/USA/SAN JOSE"
+                layer3_virtual_network: "L3_VN_MUL_1"
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_1"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__return-response_1:
+
+      .. rst-class:: ansible-option-title
+
+      **response_1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_1" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_2"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__return-response_2:
+
+      .. rst-class:: ansible-option-title
+
+      **response_2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_2" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_3"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__return-response_3:
+
+      .. rst-class:: ansible-option-title
+
+      **response_3**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_3" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_4"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module__return-response_4:
+
+      .. rst-class:: ansible-option-title
+
+      **response_4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_4" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel) Archit Soni (@koderchit)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

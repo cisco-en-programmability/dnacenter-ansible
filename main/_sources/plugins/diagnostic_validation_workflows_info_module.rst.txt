@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.diagnostic_validation_workflows_info module -- Information module for Diagnostic Validation Workflows Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.diagnostic_validation_workflows_info module -- Information module for Diagnostic Validation Workflows
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module diagnostic\_validation\_workflows\_v1\_info
+- Get all Diagnostic Validation Workflows.
+- Get Diagnostic Validation Workflows by id. - \> Retrieves the workflows that have been successfully submitted and are currently available. This is sorted by \`submitTime\`.
+- Retrieves workflow details for a workflow id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -671,9 +673,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are health\_and\_performance.HealthAndPerformance.retrieves\_the\_list\_of\_validation\_workflows\_v1, health\_and\_performance.HealthAndPerformance.retrieves\_validation\_workflow\_details\_v1,
+   - SDK Method used are health\_and\_performance.HealthAndPerformance.retrieves\_the\_list\_of\_validation\_workflows, health\_and\_performance.HealthAndPerformance.retrieves\_validation\_workflow\_details,
    - Paths used are get /dna/intent/api/v1/diagnosticValidationWorkflows, get /dna/intent/api/v1/diagnosticValidationWorkflows/{id},
-   - It should be noted that this module is an alias of diagnostic\_validation\_workflows\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -685,10 +686,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Health and Performance RetrievesTheListOfValidationWorkflowsV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows>`_
-       Complete reference of the RetrievesTheListOfValidationWorkflowsV1 API.
-   `Cisco DNA Center documentation for Health and Performance RetrievesValidationWorkflowDetailsV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details>`_
-       Complete reference of the RetrievesValidationWorkflowDetailsV1 API.
+   `Cisco DNA Center documentation for Health and Performance RetrievesTheListOfValidationWorkflows <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows>`_
+       Complete reference of the RetrievesTheListOfValidationWorkflows API.
+   `Cisco DNA Center documentation for Health and Performance RetrievesValidationWorkflowDetails <https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details>`_
+       Complete reference of the RetrievesValidationWorkflowDetails API.
 
 .. Examples
 
@@ -698,7 +699,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Diagnostic Validation Workflows Info
+    ---
+    - name: Get all Diagnostic Validation Workflows
       cisco.dnac.diagnostic_validation_workflows_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -714,7 +716,7 @@ Examples
         offset: 0
         limit: 0
       register: result
-    - name: Get Diagnostic Validation Workflows Info by id
+    - name: Get Diagnostic Validation Workflows by id
       cisco.dnac.diagnostic_validation_workflows_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

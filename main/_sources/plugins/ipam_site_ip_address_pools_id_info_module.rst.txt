@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.ipam_site_ip_address_pools_id_info module -- Information module for Ipam Site Ip Address Pools Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.ipam_site_ip_address_pools_id_info module -- Information module for Ipam Site Ip Address Pools Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module ipam\_site\_ip\_address\_pools\_id\_v1\_info
+- Get Ipam Site Ip Address Pools Id by id. - \> Retrieves an IP address subpool, which reserves address space from a global pool or global pools for a particular site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.retrieves\_an\_ip\_address\_subpool\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.retrieves\_an\_ip\_address\_subpool,
    - Paths used are get /dna/intent/api/v1/ipam/siteIpAddressPools/{id},
-   - It should be noted that this module is an alias of ipam\_site\_ip\_address\_pools\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings RetrievesAnIPAddressSubpoolV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-an-ip-address-subpool>`_
-       Complete reference of the RetrievesAnIPAddressSubpoolV1 API.
+   `Cisco DNA Center documentation for Network Settings RetrievesAnIPAddressSubpool <https://developer.cisco.com/docs/dna-center/#!retrieves-an-ip-address-subpool>`_
+       Complete reference of the RetrievesAnIPAddressSubpool API.
 
 .. Examples
 
@@ -524,7 +523,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Ipam Site Ip Address Pools Id Info by id
+    ---
+    - name: Get Ipam Site Ip Address Pools Id by id
       cisco.dnac.ipam_site_ip_address_pools_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

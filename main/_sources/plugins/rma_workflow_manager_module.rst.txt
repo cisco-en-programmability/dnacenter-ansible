@@ -42,7 +42,7 @@ cisco.dnac.rma_workflow_manager module -- Manage device replacement workflows in
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1218,7 +1218,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: RMA workflow for faulty device replacement using device names
+    ---
+    - name: RMA workflow for faulty device replacement using
+        device names
       cisco.dnac.rma_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -1239,7 +1241,8 @@ Examples
           - faulty_device_name: "SJ-EN-9300.cisco.local"
             replacement_device_name: "SJ-EN-9300.cisco-1.local"
       register: result
-    - name: RMA workflow for faulty device replacement using IP addresses
+    - name: RMA workflow for faulty device replacement using
+        IP addresses
       cisco.dnac.rma_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -1260,7 +1263,8 @@ Examples
           - faulty_device_ip_address: "204.192.3.40"
             replacement_device_ip_address: "204.1.2.5"
       register: result
-    - name: RMA workflow for faulty device replacement using serial numbers
+    - name: RMA workflow for faulty device replacement using
+        serial numbers
       cisco.dnac.rma_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -1281,7 +1285,8 @@ Examples
           - faulty_device_serial_number: "FJC2327U0S2"
             replacement_device_serial_number: "FCW2225C020"
       register: result
-    - name: RMA workflow for unmark faulty device using device names
+    - name: RMA workflow for unmark faulty device using
+        device names
       cisco.dnac.rma_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -1301,7 +1306,8 @@ Examples
         config:
           - faulty_device_name: "SJ-EN-9300.cisco.local"
       register: result
-    - name: RMA workflow for unmark faulty device using IP addresses
+    - name: RMA workflow for unmark faulty device using
+        IP addresses
       cisco.dnac.rma_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -1321,7 +1327,8 @@ Examples
         config:
           - faulty_device_ip_address: 204.1.2.9
       register: result
-    - name: RMA workflow for unmark faulty device using serial numbers
+    - name: RMA workflow for unmark faulty device using
+        serial numbers
       cisco.dnac.rma_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -1341,7 +1348,8 @@ Examples
         config:
           - faulty_device_serial_number: "FJC2327U0S2"
       register: result
-    - name: RMA workflow for unmark faulty device using all
+    - name: RMA workflow for unmark faulty device using
+        all
       cisco.dnac.rma_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"

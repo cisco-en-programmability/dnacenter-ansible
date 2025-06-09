@@ -42,7 +42,7 @@ cisco.dnac.itsm_integration_events_failed module -- Resource module for Itsm Int
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module itsm\_integration\_events\_failed\_v1
+- Manage operation create of the resource Itsm Integration Events Failed. - \> Allows retry of multiple failed ITSM event instances. The retry request payload can be given as a list of strings "instance1","instance2","instance3",.. A minimum of one instance Id is mandatory. The list of failed event instance Ids can be retrieved using the 'Get Failed ITSM Events' API in the 'instanceId' attribute.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +465,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are itsm.Itsm.retry\_integration\_events\_v1,
+   - SDK Method used are itsm.Itsm.retry\_integration\_events,
    - Paths used are post /dna/intent/api/v1/integration/events,
-   - It should be noted that this module is an alias of itsm\_integration\_events\_failed\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for ITSM RetryIntegrationEventsV1 <https://developer.cisco.com/docs/dna-center/#!retry-integration-events>`_
-       Complete reference of the RetryIntegrationEventsV1 API.
+   `Cisco DNA Center documentation for ITSM RetryIntegrationEvents <https://developer.cisco.com/docs/dna-center/#!retry-integration-events>`_
+       Complete reference of the RetryIntegrationEvents API.
 
 .. Examples
 
@@ -490,6 +489,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.itsm_integration_events_failed:
         dnac_host: "{{dnac_host}}"

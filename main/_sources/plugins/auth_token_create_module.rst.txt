@@ -42,7 +42,7 @@ cisco.dnac.auth_token_create module -- Resource module for Auth Token Create
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module auth\_token\_create\_v1
+- Manage operation create of the resource Auth Token Create. - \> API to obtain an access token, which remains valid for 1 hour. The token obtained using this API is required to be set as value to the X-Auth-Token HTTP Header for all API calls to Cisco DNA Center.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -431,9 +431,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are authentication.Authentication.authentication\_api\_v1,
+   - SDK Method used are authentication.Authentication.authentication\_api,
    - Paths used are post /dna/system/api/v1/auth/token,
-   - It should be noted that this module is an alias of auth\_token\_create\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -445,8 +444,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Authentication AuthenticationAPIV1 <https://developer.cisco.com/docs/dna-center/#!authentication-api>`_
-       Complete reference of the AuthenticationAPIV1 API.
+   `Cisco DNA Center documentation for Authentication AuthenticationAPI <https://developer.cisco.com/docs/dna-center/#!authentication-api>`_
+       Complete reference of the AuthenticationAPI API.
 
 .. Examples
 
@@ -456,6 +455,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.auth_token_create:
         dnac_host: "{{dnac_host}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.ipam_global_ip_address_pools_id_info module -- Information module for Ipam Global Ip Address Pools Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.ipam_global_ip_address_pools_id_info module -- Information module for Ipam Global Ip Address Pools Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module ipam\_global\_ip\_address\_pools\_id\_v1\_info
+- Get Ipam Global Ip Address Pools Id by id. - \> Retrieves a global IP address pool. Global pools are not associated with any particular site, but may have portions of their address space reserved by site-specific subpools.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.retrieves\_a\_global\_ip\_address\_pool\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.retrieves\_a\_global\_ip\_address\_pool,
    - Paths used are get /dna/intent/api/v1/ipam/globalIpAddressPools/{id},
-   - It should be noted that this module is an alias of ipam\_global\_ip\_address\_pools\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings RetrievesAGlobalIPAddressPoolV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-a-global-ip-address-pool>`_
-       Complete reference of the RetrievesAGlobalIPAddressPoolV1 API.
+   `Cisco DNA Center documentation for Network Settings RetrievesAGlobalIPAddressPool <https://developer.cisco.com/docs/dna-center/#!retrieves-a-global-ip-address-pool>`_
+       Complete reference of the RetrievesAGlobalIPAddressPool API.
 
 .. Examples
 
@@ -524,7 +523,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Ipam Global Ip Address Pools Id Info by id
+    ---
+    - name: Get Ipam Global Ip Address Pools Id by id
       cisco.dnac.ipam_global_ip_address_pools_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

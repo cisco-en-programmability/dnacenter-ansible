@@ -42,7 +42,7 @@ cisco.dnac.event_snmp_config module -- Resource module for Event Snmp Config
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module event\_snmp\_config\_v1
+- Manage operations create and update of the resource Event Snmp Config.
+- Create SNMP Destination.
+- Update SNMP Destination.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -873,9 +875,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are event\_management.EventManagement.create\_snmp\_destination\_v1, event\_management.EventManagement.update\_snmp\_destination\_v1,
+   - SDK Method used are event\_management.EventManagement.create\_snmp\_destination, event\_management.EventManagement.update\_snmp\_destination,
    - Paths used are post /dna/intent/api/v1/event/snmp-config, put /dna/intent/api/v1/event/snmp-config,
-   - It should be noted that this module is an alias of event\_snmp\_config\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -887,10 +888,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Event Management CreateSNMPDestinationV1 <https://developer.cisco.com/docs/dna-center/#!create-snmp-destination>`_
-       Complete reference of the CreateSNMPDestinationV1 API.
-   `Cisco DNA Center documentation for Event Management UpdateSNMPDestinationV1 <https://developer.cisco.com/docs/dna-center/#!update-snmp-destination>`_
-       Complete reference of the UpdateSNMPDestinationV1 API.
+   `Cisco DNA Center documentation for Event Management CreateSNMPDestination <https://developer.cisco.com/docs/dna-center/#!create-snmp-destination>`_
+       Complete reference of the CreateSNMPDestination API.
+   `Cisco DNA Center documentation for Event Management UpdateSNMPDestination <https://developer.cisco.com/docs/dna-center/#!update-snmp-destination>`_
+       Complete reference of the UpdateSNMPDestination API.
 
 .. Examples
 
@@ -900,6 +901,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.event_snmp_config:
         dnac_host: "{{dnac_host}}"

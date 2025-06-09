@@ -42,7 +42,7 @@ cisco.dnac.network_devices_query module -- Resource module for Network Devices Q
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_devices\_query\_v1
+- Manage operation create of the resource Network Devices Query. - \> Gets the list of Network Devices based on the provided complex filters and aggregation functions. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceNetworkDevices-2.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -978,9 +978,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.gets\_the\_list\_of\_network\_devices\_based\_on\_the\_provided\_complex\_filters\_and\_aggregation\_functions\_v1,
+   - SDK Method used are devices.Devices.gets\_the\_list\_of\_network\_devices\_based\_on\_the\_provided\_complex\_filters\_and\_aggregation\_functions,
    - Paths used are post /dna/data/api/v1/networkDevices/query,
-   - It should be noted that this module is an alias of network\_devices\_query\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -992,8 +991,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 <https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions>`_
-       Complete reference of the GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 API.
+   `Cisco DNA Center documentation for Devices GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions <https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions>`_
+       Complete reference of the GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions API.
 
 .. Examples
 
@@ -1003,6 +1002,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.network_devices_query:
         dnac_host: "{{dnac_host}}"

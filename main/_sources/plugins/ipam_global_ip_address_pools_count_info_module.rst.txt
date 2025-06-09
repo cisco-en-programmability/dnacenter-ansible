@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.ipam_global_ip_address_pools_count_info module -- Information module for Ipam Global Ip Address Pools Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.ipam_global_ip_address_pools_count_info module -- Information module for Ipam Global Ip Address Pools Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module ipam\_global\_ip\_address\_pools\_count\_v1\_info
+- Get all Ipam Global Ip Address Pools Count. - \> Counts global IP address pools. Global pools are not associated with any particular site, but may have portions of their address space reserved by site-specific subpools.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +465,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.counts\_global\_ip\_address\_pools\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.counts\_global\_ip\_address\_pools,
    - Paths used are get /dna/intent/api/v1/ipam/globalIpAddressPools/count,
-   - It should be noted that this module is an alias of ipam\_global\_ip\_address\_pools\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings CountsGlobalIPAddressPoolsV1 <https://developer.cisco.com/docs/dna-center/#!counts-global-ip-address-pools>`_
-       Complete reference of the CountsGlobalIPAddressPoolsV1 API.
+   `Cisco DNA Center documentation for Network Settings CountsGlobalIPAddressPools <https://developer.cisco.com/docs/dna-center/#!counts-global-ip-address-pools>`_
+       Complete reference of the CountsGlobalIPAddressPools API.
 
 .. Examples
 
@@ -490,7 +489,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Ipam Global Ip Address Pools Count Info
+    ---
+    - name: Get all Ipam Global Ip Address Pools Count
       cisco.dnac.ipam_global_ip_address_pools_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

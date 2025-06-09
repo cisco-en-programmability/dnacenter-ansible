@@ -42,7 +42,7 @@ cisco.dnac.site_kpi_summaries_query module -- Resource module for Site Kpi Summa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module site\_kpi\_summaries\_query\_v1
+- Manage operation create of the resource Site Kpi Summaries Query. - \> Returns site analytics for all child sites of given parent site. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- SiteKpiSummaries-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -944,9 +944,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.get\_site\_analytics\_for\_the\_child\_sites\_of\_given\_parent\_site\_and\_other\_filters\_v1,
+   - SDK Method used are sites.Sites.get\_site\_analytics\_for\_the\_child\_sites\_of\_given\_parent\_site\_and\_other\_filters,
    - Paths used are post /dna/data/api/v1/siteKpiSummaries/query,
-   - It should be noted that this module is an alias of site\_kpi\_summaries\_query\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -958,8 +957,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFiltersV1 <https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-the-child-sites-of-given-parent-site-and-other-filters>`_
-       Complete reference of the GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFiltersV1 API.
+   `Cisco DNA Center documentation for Sites GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFilters <https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-the-child-sites-of-given-parent-site-and-other-filters>`_
+       Complete reference of the GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFilters API.
 
 .. Examples
 
@@ -969,6 +968,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.site_kpi_summaries_query:
         dnac_host: "{{dnac_host}}"

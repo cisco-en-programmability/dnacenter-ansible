@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.security_advisories_results_trend_info module -- Information module for Security Advisories Results Trend Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.security_advisories_results_trend_info module -- Information module for Security Advisories Results Trend
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_advisories\_results\_trend\_v1\_info
+- Get all Security Advisories Results Trend.
+- Get security advisories results trend over time. The default sort is by scan time descending.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -476,6 +477,7 @@ Parameters
         <div class="ansible-option-cell">
 
       Offset query parameter. The first record to show for this page; the first record is numbered 1. Default value is 1.
+          
 
 
       .. raw:: html
@@ -568,9 +570,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.get\_security\_advisories\_results\_trend\_over\_time\_v1,
+   - SDK Method used are compliance.Compliance.get\_security\_advisories\_results\_trend\_over\_time,
    - Paths used are get /dna/intent/api/v1/securityAdvisories/resultsTrend,
-   - It should be noted that this module is an alias of security\_advisories\_results\_trend\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,8 +583,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance GetSecurityAdvisoriesResultsTrendOverTimeV1 <https://developer.cisco.com/docs/dna-center/#!get-security-advisories-results-trend-over-time>`_
-       Complete reference of the GetSecurityAdvisoriesResultsTrendOverTimeV1 API.
+   `Cisco DNA Center documentation for Compliance GetSecurityAdvisoriesResultsTrendOverTime <https://developer.cisco.com/docs/dna-center/#!get-security-advisories-results-trend-over-time>`_
+       Complete reference of the GetSecurityAdvisoriesResultsTrendOverTime API.
 
 .. Examples
 
@@ -593,7 +594,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Security Advisories Results Trend Info
+    ---
+    - name: Get all Security Advisories Results Trend
       cisco.dnac.security_advisories_results_trend_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

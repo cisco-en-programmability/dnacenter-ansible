@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_import module -- Resource module for Pnp Device Import
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module pnp\_device\_import\_v1
+- Manage operation create of the resource Pnp Device Import.
+- Add devices to PnP in bulk.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1657,9 +1658,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.import\_devices\_in\_bulk\_v1,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.import\_devices\_in\_bulk,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/import,
-   - It should be noted that this module is an alias of pnp\_device\_import\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1671,8 +1671,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) ImportDevicesInBulkV1 <https://developer.cisco.com/docs/dna-center/#!import-devices-in-bulk>`_
-       Complete reference of the ImportDevicesInBulkV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) ImportDevicesInBulk <https://developer.cisco.com/docs/dna-center/#!import-devices-in-bulk>`_
+       Complete reference of the ImportDevicesInBulk API.
 
 .. Examples
 
@@ -1682,6 +1682,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.pnp_device_import:
         dnac_host: "{{dnac_host}}"

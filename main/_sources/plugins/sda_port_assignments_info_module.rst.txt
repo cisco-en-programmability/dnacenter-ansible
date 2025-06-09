@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_port_assignments_info module -- Information module for Sda Port Assignments Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_port_assignments_info module -- Information module for Sda Port Assignments
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_port\_assignments\_v1\_info
+- Get all Sda Port Assignments.
+- Returns a list of port assignments that match the provided query parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -553,6 +554,41 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nativeVlanId"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_port_assignments_info_module__parameter-nativevlanid:
+
+      .. rst-class:: ansible-option-title
+
+      **nativeVlanId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nativeVlanId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      NativeVlanId query parameter. Native VLAN of the port assignment, this option is only applicable to TRUNKING\_DEVICE connectedDeviceType.(VLAN must be between 1 and 4094. In cases value not set when connectedDeviceType is TRUNKING\_DEVICE, default value will be '1').
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-networkDeviceId"></div>
 
       .. _ansible_collections.cisco.dnac.sda_port_assignments_info_module__parameter-networkdeviceid:
@@ -704,9 +740,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_port\_assignments\_v1,
+   - SDK Method used are sda.Sda.get\_port\_assignments,
    - Paths used are get /dna/intent/api/v1/sda/portAssignments,
-   - It should be noted that this module is an alias of sda\_port\_assignments\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -718,8 +753,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetPortAssignmentsV1 <https://developer.cisco.com/docs/dna-center/#!get-port-assignments>`_
-       Complete reference of the GetPortAssignmentsV1 API.
+   `Cisco DNA Center documentation for SDA GetPortAssignments <https://developer.cisco.com/docs/dna-center/#!get-port-assignments>`_
+       Complete reference of the GetPortAssignments API.
 
 .. Examples
 
@@ -729,7 +764,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Port Assignments Info
+    ---
+    - name: Get all Sda Port Assignments
       cisco.dnac.sda_port_assignments_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -744,6 +780,7 @@ Examples
         interfaceName: string
         dataVlanName: string
         voiceVlanName: string
+        nativeVlanId: 0
         offset: 0
         limit: 0
       register: result
@@ -807,7 +844,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"authenticateTemplateName": "string", "connectedDeviceType": "string", "dataVlanName": "string", "fabricId": "string", "id": "string", "interfaceDescription": "string", "interfaceName": "string", "networkDeviceId": "string", "securityGroupName": "string", "voiceVlanName": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"allowedVlanRanges": "string", "authenticateTemplateName": "string", "connectedDeviceType": "string", "dataVlanName": "string", "fabricId": "string", "id": "string", "interfaceDescription": "string", "interfaceName": "string", "nativeVlanId": 0, "networkDeviceId": "string", "securityGroupName": "string", "voiceVlanName": "string"}], "version": "string"}`
 
 
       .. raw:: html

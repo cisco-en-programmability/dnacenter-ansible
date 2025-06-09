@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.icap_capture_files_count_info module -- Information module for Icap Capture Files Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.icap_capture_files_count_info module -- Information module for Icap Capture Files Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module icap\_capture\_files\_count\_v1\_info
+- Get all Icap Capture Files Count. - \> Retrieves the total number of packet capture files matching the specified criteria. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-icap-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -637,9 +637,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.retrieves\_the\_total\_number\_of\_packet\_capture\_files\_matching\_specified\_criteria\_v1,
+   - SDK Method used are sensors.Sensors.retrieves\_the\_total\_number\_of\_packet\_capture\_files\_matching\_specified\_criteria,
    - Paths used are get /dna/data/api/v1/icap/captureFiles/count,
-   - It should be noted that this module is an alias of icap\_capture\_files\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -651,8 +650,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sensors RetrievesTheTotalNumberOfPacketCaptureFilesMatchingSpecifiedCriteriaV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-packet-capture-files-matching-specified-criteria>`_
-       Complete reference of the RetrievesTheTotalNumberOfPacketCaptureFilesMatchingSpecifiedCriteriaV1 API.
+   `Cisco DNA Center documentation for Sensors RetrievesTheTotalNumberOfPacketCaptureFilesMatchingSpecifiedCriteria <https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-packet-capture-files-matching-specified-criteria>`_
+       Complete reference of the RetrievesTheTotalNumberOfPacketCaptureFilesMatchingSpecifiedCriteria API.
 
 .. Examples
 
@@ -662,7 +661,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Icap Capture Files Count Info
+    ---
+    - name: Get all Icap Capture Files Count
       cisco.dnac.icap_capture_files_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

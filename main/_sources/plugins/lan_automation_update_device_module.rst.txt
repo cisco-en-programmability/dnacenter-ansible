@@ -42,7 +42,7 @@ cisco.dnac.lan_automation_update_device module -- Resource module for Lan Automa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module lan\_automation\_update\_device\_v1
+- Manage operation update of the resource Lan Automation Update Device. - \> Invoke this API to perform a DAY-N update on LAN Automation-related devices. Supported features include Loopback0 IP update, hostname update, link addition, and link deletion.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -645,7 +645,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the IP LAN Pool, required for Link Add should be from discovery site of source and destination device.
+      Name of the IP LAN Pool, required for Link Add should be from discovery site of source and destination device. It is optional for Link Delete.
 
 
       .. raw:: html
@@ -876,9 +876,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_device\_update\_v1,
+   - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_device\_update,
    - Paths used are put /dna/intent/api/v1/lan-automation/updateDevice,
-   - It should be noted that this module is an alias of lan\_automation\_update\_device\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -890,8 +889,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for LAN Automation LANAutomationDeviceUpdateV1 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-device-update>`_
-       Complete reference of the LANAutomationDeviceUpdateV1 API.
+   `Cisco DNA Center documentation for LAN Automation LANAutomationDeviceUpdate <https://developer.cisco.com/docs/dna-center/#!l-an-automation-device-update>`_
+       Complete reference of the LANAutomationDeviceUpdate API.
 
 .. Examples
 
@@ -901,6 +900,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.lan_automation_update_device:
         dnac_host: "{{dnac_host}}"

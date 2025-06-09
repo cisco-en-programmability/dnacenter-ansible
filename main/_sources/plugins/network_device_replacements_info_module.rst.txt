@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_replacements_info module -- Information module for Network Device Replacements Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_replacements_info module -- Information module for Network Device Replacements
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_replacements\_v1\_info
+- Get all Network Device Replacements. - \> Retrieve the list of device replacements with replacement details. Filters can be applied based on faulty device name, faulty device platform, faulty device serial number, replacement device platform, replacement device serial number, device replacement status, device family.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -842,9 +842,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_replacement.DeviceReplacement.retrieve\_the\_status\_of\_all\_the\_device\_replacement\_workflows\_v1,
+   - SDK Method used are device\_replacement.DeviceReplacement.retrieve\_the\_status\_of\_all\_the\_device\_replacement\_workflows,
    - Paths used are get /dna/intent/api/v1/networkDeviceReplacements,
-   - It should be noted that this module is an alias of network\_device\_replacements\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -856,8 +855,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Replacement RetrieveTheStatusOfAllTheDeviceReplacementWorkflowsV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-all-the-device-replacement-workflows>`_
-       Complete reference of the RetrieveTheStatusOfAllTheDeviceReplacementWorkflowsV1 API.
+   `Cisco DNA Center documentation for Device Replacement RetrieveTheStatusOfAllTheDeviceReplacementWorkflows <https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-all-the-device-replacement-workflows>`_
+       Complete reference of the RetrieveTheStatusOfAllTheDeviceReplacementWorkflows API.
 
 .. Examples
 
@@ -867,7 +866,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Replacements Info
+    ---
+    - name: Get all Network Device Replacements
       cisco.dnac.network_device_replacements_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_maintenance_schedules_info module -- Information module for Network Device Maintenance Schedules Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_maintenance_schedules_info module -- Information module for Network Device Maintenance Schedules
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_maintenance\_schedules\_v1\_info
+- Get all Network Device Maintenance Schedules. - \> This API retrieves a list of scheduled maintenance windows for network devices based on filter parameters. Each maintenance window is composed of a start schedule and end schedule, both of which have unique identifiers \`startId\` and \`endId\`. These identifiers can be used to fetch the status of the start schedule and end schedule using the \`GET /dna/intent/api/v1/activities/{id}\` API. Completed maintenance schedules are automatically removed from the system after two weeks. The API returns a paginated response based on 'limit' and 'offset' parameters, allowing up to 500 records per page. 'limit' specifies the number of records, and 'offset' sets the starting point using 1-based indexing. Use '/dna/intent/api/v1/networkDeviceMaintenanceSchedules/count' API to get the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -670,9 +670,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.retrieve\_scheduled\_maintenance\_windows\_for\_network\_devices\_v1,
+   - SDK Method used are devices.Devices.retrieve\_scheduled\_maintenance\_windows\_for\_network\_devices,
    - Paths used are get /dna/intent/api/v1/networkDeviceMaintenanceSchedules,
-   - It should be noted that this module is an alias of network\_device\_maintenance\_schedules\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -684,8 +683,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices RetrieveScheduledMaintenanceWindowsForNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-scheduled-maintenance-windows-for-network-devices>`_
-       Complete reference of the RetrieveScheduledMaintenanceWindowsForNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Devices RetrieveScheduledMaintenanceWindowsForNetworkDevices <https://developer.cisco.com/docs/dna-center/#!retrieve-scheduled-maintenance-windows-for-network-devices>`_
+       Complete reference of the RetrieveScheduledMaintenanceWindowsForNetworkDevices API.
 
 .. Examples
 
@@ -695,7 +694,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Maintenance Schedules Info
+    ---
+    - name: Get all Network Device Maintenance Schedules
       cisco.dnac.network_device_maintenance_schedules_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

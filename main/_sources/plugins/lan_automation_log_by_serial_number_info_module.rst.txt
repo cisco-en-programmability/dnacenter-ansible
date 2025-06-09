@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.lan_automation_log_by_serial_number_info module -- Information module for Lan Automation Log By Serial Number Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.lan_automation_log_by_serial_number_info module -- Information module for Lan Automation Log By Serial Number
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module lan\_automation\_log\_by\_serial\_number\_v1\_info
+- Get Lan Automation Log By Serial Number by id. - \> Invoke this API to get the LAN Automation session logs for individual devices based on the given LAN Automation session id and device serial number.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -568,9 +568,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_logs\_for\_individual\_devices\_v1,
+   - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_logs\_for\_individual\_devices,
    - Paths used are get /dna/intent/api/v1/lan-automation/log/{id}/{serialNumber},
-   - It should be noted that this module is an alias of lan\_automation\_log\_by\_serial\_number\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,8 +581,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for LAN Automation LANAutomationLogsForIndividualDevicesV1 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-logs-for-individual-devices>`_
-       Complete reference of the LANAutomationLogsForIndividualDevicesV1 API.
+   `Cisco DNA Center documentation for LAN Automation LANAutomationLogsForIndividualDevices <https://developer.cisco.com/docs/dna-center/#!l-an-automation-logs-for-individual-devices>`_
+       Complete reference of the LANAutomationLogsForIndividualDevices API.
 
 .. Examples
 
@@ -593,7 +592,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Lan Automation Log By Serial Number Info by id
+    ---
+    - name: Get Lan Automation Log By Serial Number by id
       cisco.dnac.lan_automation_log_by_serial_number_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

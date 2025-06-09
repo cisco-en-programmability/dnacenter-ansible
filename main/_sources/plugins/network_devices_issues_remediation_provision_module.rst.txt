@@ -42,7 +42,7 @@ cisco.dnac.network_devices_issues_remediation_provision module -- Resource modul
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_devices\_issues\_remediation\_provision\_v1
+- Manage operation create of the resource Network Devices Issues Remediation Provision. - \> Remediates configuration compliance issues. Compliance issues related to 'Routing', 'HA Remediation', 'Software Image', 'Securities Advisories', 'SD-Access Unsupported Configuration', 'Workflow', etc. Will not be addressed by this API.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +465,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.compliance\_remediation\_v1,
+   - SDK Method used are compliance.Compliance.compliance\_remediation,
    - Paths used are post /dna/intent/api/v1/compliance/networkDevices/{id}/issues/remediation/provision,
-   - It should be noted that this module is an alias of network\_devices\_issues\_remediation\_provision\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance ComplianceRemediationV1 <https://developer.cisco.com/docs/dna-center/#!compliance-remediation>`_
-       Complete reference of the ComplianceRemediationV1 API.
+   `Cisco DNA Center documentation for Compliance ComplianceRemediation <https://developer.cisco.com/docs/dna-center/#!compliance-remediation>`_
+       Complete reference of the ComplianceRemediation API.
 
 .. Examples
 
@@ -490,6 +489,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.network_devices_issues_remediation_provision:
         dnac_host: "{{dnac_host}}"

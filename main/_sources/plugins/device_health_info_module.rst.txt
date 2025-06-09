@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.device_health_info module -- Information module for Device Health Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.device_health_info module -- Information module for Device Health
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module device\_health\_v1\_info
+- Get all Device Health. - \> Intent API for accessing DNA Assurance Device object for generating reports, creating dashboards or creating additional value added services.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -703,9 +703,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.devices\_v1,
+   - SDK Method used are devices.Devices.devices,
    - Paths used are get /dna/intent/api/v1/device-health,
-   - It should be noted that this module is an alias of device\_health\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -717,8 +716,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices DevicesV1 <https://developer.cisco.com/docs/dna-center/#!devices>`_
-       Complete reference of the DevicesV1 API.
+   `Cisco DNA Center documentation for Devices Devices <https://developer.cisco.com/docs/dna-center/#!api-devices-devices>`_
+       Complete reference of the Devices API.
 
 .. Examples
 
@@ -728,7 +727,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Device Health Info
+    ---
+    - name: Get all Device Health
       cisco.dnac.device_health_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

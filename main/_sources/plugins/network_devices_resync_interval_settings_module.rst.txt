@@ -42,7 +42,7 @@ cisco.dnac.network_devices_resync_interval_settings module -- Resource module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_devices\_resync\_interval\_settings\_v1
+- Manage operation update of the resource Network Devices Resync Interval Settings. - \> Updates the resync interval in minutes globally for devices which do not have custom resync interval. To override this setting for all network devices refer to /networkDevices/resyncIntervalSettings/override .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +465,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.update\_global\_resync\_interval\_v1,
+   - SDK Method used are devices.Devices.update\_global\_resync\_interval,
    - Paths used are put /dna/intent/api/v1/networkDevices/resyncIntervalSettings,
-   - It should be noted that this module is an alias of network\_devices\_resync\_interval\_settings\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices UpdateGlobalResyncIntervalV1 <https://developer.cisco.com/docs/dna-center/#!update-global-resync-interval>`_
-       Complete reference of the UpdateGlobalResyncIntervalV1 API.
+   `Cisco DNA Center documentation for Devices UpdateGlobalResyncInterval <https://developer.cisco.com/docs/dna-center/#!update-global-resync-interval>`_
+       Complete reference of the UpdateGlobalResyncInterval API.
 
 .. Examples
 
@@ -490,6 +489,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.network_devices_resync_interval_settings:
         dnac_host: "{{dnac_host}}"

@@ -42,7 +42,7 @@ cisco.dnac.inventory_workflow_manager module -- Resource module for Network Devi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3606,8 +3606,7 @@ Notes
 
 .. note::
    - SDK Method used are devices.Devices.add\_device, devices.Devices.delete\_device\_by\_id, devices.Devices.sync\_devices,
-   - Paths used are post /dna/intent/api/v1/network-device, delete /dna/intent/api/v1/network-device/{id}, put /dna/intent/api/v1/network-device,
-   - Removed 'managementIpAddress' options in v4.3.0.
+   - Paths used are post /dna/intent/api/v1/network-device, delete /dna/intent/api/v1/network-device/{id}, put /dna/intent/api/v1/network-device, - Removed 'managementIpAddress' options in v4.3.0.
    - Renamed argument 'ip\_address' to 'ip\_address\_list' option in v6.12.0.
    - Removed 'serial\_number', 'device\_added', 'role\_source', options in v6.12.0.
    - Added 'add\_user\_defined\_field', 'update\_interface\_details', 'export\_device\_list' options in v6.13.1.
@@ -3643,6 +3642,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Add new device in Inventory with full credentials
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -3680,8 +3680,8 @@ Examples
             snmp_version: v3
             type: NETWORK_DEVICE
             username: cisco
-    - name: Add new Compute device in Inventory with full credentials.Inputs needed
-        for Compute Device
+    - name: Add new Compute device in Inventory with full
+        credentials.Inputs needed for Compute Device
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -3711,8 +3711,8 @@ Examples
             compute_device: true
             username: cisco
             type: "COMPUTE_DEVICE"
-    - name: Add new Meraki device in Inventory with full credentials.Inputs needed for
-        Meraki Device.
+    - name: Add new Meraki device in Inventory with full
+        credentials.Inputs needed for Meraki Device.
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -3727,8 +3727,8 @@ Examples
         config:
           - http_password: "test"
             type: "MERAKI_DASHBOARD"
-    - name: Add new Firepower Management device in Inventory with full credentials.Input
-        needed to add Device.
+    - name: Add new Firepower Management device in Inventory
+        with full credentials.Input needed to add Device.
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -3748,8 +3748,8 @@ Examples
             http_password: "test"
             http_port: "443"
             type: "FIREPOWER_MANAGEMENT_SYSTEM"
-    - name: Add new Third Party device in Inventory with full credentials.Input needed
-        to add Device.
+    - name: Add new Third Party device in Inventory with
+        full credentials.Input needed to add Device.
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -3796,7 +3796,8 @@ Examples
             enable_password: newtest1233
             type: NETWORK_DEVICE
             credential_update: true
-    - name: Update new management IP address of device in inventory
+    - name: Update new management IP address of device in
+        inventory
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -3816,7 +3817,8 @@ Examples
             update_mgmt_ipaddresslist:
               - exist_mgmt_ipaddress: "1.1.1.1"
                 new_mgmt_ipaddress: "12.12.12.12"
-    - name: Associate Wired Devices to site and Provisioned it in Inventory
+    - name: Associate Wired Devices to site and Provisioned
+        it in Inventory
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -3872,14 +3874,16 @@ Examples
               - "204.1.2.2"
               - "204.1.2.3"
             update_interface_details:
-              description: "Testing for updating interface details"
+              description: "Testing for updating interface
+                details"
               admin_status: "UP"
               vlan_id: 23
               voice_vlan_id: 45
               deployment_mode: "Deploy"
               interface_name: ["GigabitEthernet1/0/11", FortyGigabitEthernet1/1/1]
               clear_mac_address_table: true
-    - name: Export Device Details in a CSV file Interface details with IP Address
+    - name: Export Device Details in a CSV file Interface
+        details with IP Address
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -3940,7 +3944,6 @@ Examples
               - "204.1.2.3"
             device_resync: true
             force_sync: false
-
     - name: Reboot AP Devices with IP Addresses
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -3958,8 +3961,8 @@ Examples
               - "204.1.2.2"
               - "204.1.2.3"
             reboot_device: true
-
-    - name: Schedule the maintenance for the devices for one time.
+    - name: Schedule the maintenance for the devices for
+        one time.
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -3976,12 +3979,13 @@ Examples
               - device_ips:
                   - "204.1.2.2"
                   - "204.1.2.3"
-                description: "Schedule maintenance for 2 devices"
+                description: "Schedule maintenance for 2
+                  devices"
                 start_time: "2025-04-05 10:30:00"
                 end_time: "2025-04-05 11:30:00"
                 time_zone: "Asia/Kolkata"
-
-    - name: Schedule the maintenance for the devices with recurrence interval and recurrence end time.
+    - name: Schedule the maintenance for the devices with
+        recurrence interval and recurrence end time.
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -3998,13 +4002,13 @@ Examples
               - device_ips:
                   - "204.1.2.2"
                   - "204.1.2.3"
-                description: "Schedule maintenance for 2 devices"
+                description: "Schedule maintenance for 2
+                  devices"
                 start_time: "2025-04-05 10:30:00"
                 end_time: "2025-04-05 11:30:00"
                 ime_zone: "Asia/Kolkata"
                 recurrence_end_time: "2025-04-10 11:40:00"
                 recurrence_interval: 2
-
     - name: Update the maintenance schedule for the devices.
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -4022,13 +4026,13 @@ Examples
               - device_ips:
                   - "204.1.2.2"
                   - "204.1.2.3"
-                description: "Updated description for maintenance of 2 devices"
+                description: "Updated description for maintenance
+                  of 2 devices"
                 start_time: "2025-04-05 10:30:00"
                 end_time: "2025-04-05 11:30:00"
                 time_zone: "Asia/Kolkata"
                 recurrence_end_time: "2025-04-10 11:40:00"
                 recurrence_interval: 1
-
     - name: Delete Provision/Unprovision Devices by IP Address
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -4046,8 +4050,8 @@ Examples
               - "204.1.2.2"
               - "204.1.2.3"
             clean_config: false
-
-    - name: Delete Provision/Unprovision network devices along with configuration
+    - name: Delete Provision/Unprovision network devices
+        along with configuration
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -4064,7 +4068,6 @@ Examples
               - "204.1.2.2"
               - "204.1.2.3"
             clean_config: true
-
     - name: Delete Global User Defined Field with name
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -4083,7 +4086,6 @@ Examples
               - "204.1.2.3"
             add_user_defined_field:
               - name: "Test123"
-
     - name: Delete the maintenance schedule for the devices.
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{ dnac_host }}"

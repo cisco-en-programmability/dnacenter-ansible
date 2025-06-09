@@ -42,7 +42,7 @@ cisco.dnac.sites_telemetry_settings module -- Resource module for Sites Telemetr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sites\_telemetry\_settings\_v1
+- Manage operation update of the resource Sites Telemetry Settings. - \> Sets telemetry settings for the given site; \`null\` values indicate that the setting will be inherited from the parent site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -928,17 +928,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-wiredDataCollection/enableWiredDataCollectio"></div>
+        <div class="ansibleOptionAnchor" id="parameter-wiredDataCollection/enableWiredDataCollection"></div>
 
-      .. _ansible_collections.cisco.dnac.sites_telemetry_settings_module__parameter-wireddatacollection/enablewireddatacollectio:
+      .. _ansible_collections.cisco.dnac.sites_telemetry_settings_module__parameter-wireddatacollection/enablewireddatacollection:
 
       .. rst-class:: ansible-option-title
 
-      **enableWiredDataCollectio**
+      **enableWiredDataCollection**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-wiredDataCollection/enableWiredDataCollectio" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-wiredDataCollection/enableWiredDataCollection" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1055,9 +1055,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.set\_telemetry\_settings\_for\_a\_site\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.set\_telemetry\_settings\_for\_a\_site,
    - Paths used are put /dna/intent/api/v1/sites/{id}/telemetrySettings,
-   - It should be noted that this module is an alias of sites\_telemetry\_settings\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1069,8 +1068,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings SetTelemetrySettingsForASiteV1 <https://developer.cisco.com/docs/dna-center/#!set-telemetry-settings-for-a-site>`_
-       Complete reference of the SetTelemetrySettingsForASiteV1 API.
+   `Cisco DNA Center documentation for Network Settings SetTelemetrySettingsForASite <https://developer.cisco.com/docs/dna-center/#!set-telemetry-settings-for-a-site>`_
+       Complete reference of the SetTelemetrySettingsForASite API.
 
 .. Examples
 
@@ -1080,6 +1079,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.sites_telemetry_settings:
         dnac_host: "{{dnac_host}}"
@@ -1106,7 +1106,7 @@ Examples
             - string
           useBuiltinSyslogServer: true
         wiredDataCollection:
-          enableWiredDataCollectio: true
+          enableWiredDataCollection: true
         wirelessTelemetry:
           enableWirelessTelemetry: true
 

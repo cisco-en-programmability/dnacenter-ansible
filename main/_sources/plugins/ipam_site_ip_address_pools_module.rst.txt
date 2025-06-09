@@ -42,7 +42,7 @@ cisco.dnac.ipam_site_ip_address_pools module -- Resource module for Ipam Site Ip
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module ipam\_site\_ip\_address\_pools\_v1
+- Manage operation create of the resource Ipam Site Ip Address Pools. - \> Reserves creates an IP address subpool, which reserves address space from a global pool or global pools for a particular site and it's child sites. A subpool must be either an IPv4 or dual-stack pool, with \`ipV4AddressSpace\` and optionally \`ipV6AddressSpace\` properties specified.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1401,9 +1401,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.reservecreate\_ip\_address\_subpools\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.reservecreate\_ip\_address\_subpools,
    - Paths used are post /dna/intent/api/v1/ipam/siteIpAddressPools,
-   - It should be noted that this module is an alias of ipam\_site\_ip\_address\_pools\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1415,8 +1414,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings ReservecreateIPAddressSubpoolsV1 <https://developer.cisco.com/docs/dna-center/#!reservecreate-ip-address-subpools>`_
-       Complete reference of the ReservecreateIPAddressSubpoolsV1 API.
+   `Cisco DNA Center documentation for Network Settings ReservecreateIPAddressSubpools <https://developer.cisco.com/docs/dna-center/#!reservecreate-ip-address-subpools>`_
+       Complete reference of the ReservecreateIPAddressSubpools API.
 
 .. Examples
 
@@ -1426,6 +1425,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.ipam_site_ip_address_pools:
         dnac_host: "{{dnac_host}}"

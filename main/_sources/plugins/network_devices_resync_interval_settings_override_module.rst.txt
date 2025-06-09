@@ -42,7 +42,7 @@ cisco.dnac.network_devices_resync_interval_settings_override module -- Resource 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_devices\_resync\_interval\_settings\_override\_v1
+- Manage operation create of the resource Network Devices Resync Interval Settings Override. - \> Overrides the global resync interval on all network devices. This essentially removes device specific intervals if set.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -431,9 +431,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.override\_resync\_interval\_v1,
+   - SDK Method used are devices.Devices.override\_resync\_interval,
    - Paths used are post /dna/intent/api/v1/networkDevices/resyncIntervalSettings/override,
-   - It should be noted that this module is an alias of network\_devices\_resync\_interval\_settings\_override\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -445,8 +444,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices OverrideResyncIntervalV1 <https://developer.cisco.com/docs/dna-center/#!override-resync-interval>`_
-       Complete reference of the OverrideResyncIntervalV1 API.
+   `Cisco DNA Center documentation for Devices OverrideResyncInterval <https://developer.cisco.com/docs/dna-center/#!override-resync-interval>`_
+       Complete reference of the OverrideResyncInterval API.
 
 .. Examples
 
@@ -456,6 +455,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.network_devices_resync_interval_settings_override:
         dnac_host: "{{dnac_host}}"

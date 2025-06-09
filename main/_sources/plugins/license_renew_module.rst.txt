@@ -42,7 +42,7 @@ cisco.dnac.license_renew module -- Resource module for License Renew
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module license\_renew\_v1
+- Manage operation create of the resource License Renew.
+- Renews license registration and authorization status of the system with Cisco Smart Software Manager CSSM .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -431,9 +432,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.smart\_licensing\_renew\_operation\_v1,
+   - SDK Method used are licenses.Licenses.smart\_licensing\_renew\_operation,
    - Paths used are post /dna/system/api/v1/license/renew,
-   - It should be noted that this module is an alias of license\_renew\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -445,8 +445,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses SmartLicensingRenewOperationV1 <https://developer.cisco.com/docs/dna-center/#!smart-licensing-renew-operation>`_
-       Complete reference of the SmartLicensingRenewOperationV1 API.
+   `Cisco DNA Center documentation for Licenses SmartLicensingRenewOperation <https://developer.cisco.com/docs/dna-center/#!smart-licensing-renew-operation>`_
+       Complete reference of the SmartLicensingRenewOperation API.
 
 .. Examples
 
@@ -456,6 +456,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.license_renew:
         dnac_host: "{{dnac_host}}"

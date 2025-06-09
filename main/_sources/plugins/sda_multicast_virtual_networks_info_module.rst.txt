@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_multicast_virtual_networks_info module -- Information module for Sda Multicast Virtual Networks Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_multicast_virtual_networks_info module -- Information module for Sda Multicast Virtual Networks
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_multicast\_virtual\_networks\_v1\_info
+- Get all Sda Multicast Virtual Networks.
+- Returns a list of multicast configurations for virtual networks that match the provided query parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -602,9 +603,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_multicast\_virtual\_networks\_v1,
+   - SDK Method used are sda.Sda.get\_multicast\_virtual\_networks,
    - Paths used are get /dna/intent/api/v1/sda/multicast/virtualNetworks,
-   - It should be noted that this module is an alias of sda\_multicast\_virtual\_networks\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -616,8 +616,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetMulticastVirtualNetworksV1 <https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-networks>`_
-       Complete reference of the GetMulticastVirtualNetworksV1 API.
+   `Cisco DNA Center documentation for SDA GetMulticastVirtualNetworks <https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-networks>`_
+       Complete reference of the GetMulticastVirtualNetworks API.
 
 .. Examples
 
@@ -627,7 +627,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Multicast Virtual Networks Info
+    ---
+    - name: Get all Sda Multicast Virtual Networks
       cisco.dnac.sda_multicast_virtual_networks_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

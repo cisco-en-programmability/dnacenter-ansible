@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.license_last_operation_status_info module -- Information module for License Last Operation Status Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.license_last_operation_status_info module -- Information module for License Last Operation Status
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module license\_last\_operation\_status\_v1\_info
+- Get all License Last Operation Status.
+- Retrieves the status of the last system licensing operation.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.system\_licensing\_last\_operation\_status\_v1,
+   - SDK Method used are licenses.Licenses.system\_licensing\_last\_operation\_status,
    - Paths used are get /dna/system/api/v1/license/lastOperationStatus,
-   - It should be noted that this module is an alias of license\_last\_operation\_status\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses SystemLicensingLastOperationStatusV1 <https://developer.cisco.com/docs/dna-center/#!system-licensing-last-operation-status>`_
-       Complete reference of the SystemLicensingLastOperationStatusV1 API.
+   `Cisco DNA Center documentation for Licenses SystemLicensingLastOperationStatus <https://developer.cisco.com/docs/dna-center/#!system-licensing-last-operation-status>`_
+       Complete reference of the SystemLicensingLastOperationStatus API.
 
 .. Examples
 
@@ -490,7 +490,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all License Last Operation Status Info
+    ---
+    - name: Get all License Last Operation Status
       cisco.dnac.license_last_operation_status_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

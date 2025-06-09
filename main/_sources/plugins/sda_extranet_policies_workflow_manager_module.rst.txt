@@ -42,7 +42,7 @@ cisco.dnac.sda_extranet_policies_workflow_manager module -- SDA Extranet Policie
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -998,6 +998,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create Extranet Policy
       cisco.dnac.sda_extranet_policies_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1047,7 +1048,8 @@ Examples
           - extranet_policy_name: "test_extranet_policy_1"
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_4"]
-    - name: Update existing Extranet Policy with Fabric Site(s) specified
+    - name: Update existing Extranet Policy with Fabric
+        Site(s) specified
       cisco.dnac.sda_extranet_policies_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

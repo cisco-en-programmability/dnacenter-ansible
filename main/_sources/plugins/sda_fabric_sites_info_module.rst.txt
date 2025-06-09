@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_sites_info module -- Information module for Sda Fabric Sites Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_sites_info module -- Information module for Sda Fabric Sites
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_fabric\_sites\_v1\_info
+- Get all Sda Fabric Sites.
+- Returns a list of fabric sites that match the provided query parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -602,9 +603,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_fabric\_sites\_v1,
+   - SDK Method used are sda.Sda.get\_fabric\_sites,
    - Paths used are get /dna/intent/api/v1/sda/fabricSites,
-   - It should be noted that this module is an alias of sda\_fabric\_sites\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -616,8 +616,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetFabricSitesV1 <https://developer.cisco.com/docs/dna-center/#!get-fabric-sites>`_
-       Complete reference of the GetFabricSitesV1 API.
+   `Cisco DNA Center documentation for SDA GetFabricSites <https://developer.cisco.com/docs/dna-center/#!get-fabric-sites>`_
+       Complete reference of the GetFabricSites API.
 
 .. Examples
 
@@ -627,7 +627,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Fabric Sites Info
+    ---
+    - name: Get all Sda Fabric Sites
       cisco.dnac.sda_fabric_sites_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.event_webhook module -- Resource module for Event Webhook
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module event\_webhook\_v1
+- Manage operations create and update of the resource Event Webhook.
+- Create Webhook Destination.
+- Update Webhook Destination.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -864,9 +866,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are event\_management.EventManagement.create\_webhook\_destination\_v1, event\_management.EventManagement.update\_webhook\_destination\_v1,
+   - SDK Method used are event\_management.EventManagement.create\_webhook\_destination, event\_management.EventManagement.update\_webhook\_destination,
    - Paths used are post /dna/intent/api/v1/event/webhook, put /dna/intent/api/v1/event/webhook,
-   - It should be noted that this module is an alias of event\_webhook\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -878,10 +879,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Event Management CreateWebhookDestinationV1 <https://developer.cisco.com/docs/dna-center/#!create-webhook-destination>`_
-       Complete reference of the CreateWebhookDestinationV1 API.
-   `Cisco DNA Center documentation for Event Management UpdateWebhookDestinationV1 <https://developer.cisco.com/docs/dna-center/#!update-webhook-destination>`_
-       Complete reference of the UpdateWebhookDestinationV1 API.
+   `Cisco DNA Center documentation for Event Management CreateWebhookDestination <https://developer.cisco.com/docs/dna-center/#!create-webhook-destination>`_
+       Complete reference of the CreateWebhookDestination API.
+   `Cisco DNA Center documentation for Event Management UpdateWebhookDestination <https://developer.cisco.com/docs/dna-center/#!update-webhook-destination>`_
+       Complete reference of the UpdateWebhookDestination API.
 
 .. Examples
 
@@ -891,6 +892,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.event_webhook:
         dnac_host: "{{dnac_host}}"

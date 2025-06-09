@@ -42,7 +42,7 @@ cisco.dnac.sda_host_port_onboarding_workflow_manager module -- Manage host port 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1700,8 +1700,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Add port assignments, port channels and wireless ssids for a specific fabric
-        site
+    ---
+    - name: Add port assignments, port channels and wireless
+        ssids for a specific fabric site
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1715,7 +1716,8 @@ Examples
         state: merged
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San
+              Jose/BLDG23"
             port_assignments:
               # Create TRUNKING DEVICE
               - interface_name: "FortyGigabitEthernet1/1/1"
@@ -1751,7 +1753,9 @@ Examples
               - interface_names: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]
                 connected_device_type: "TRUNK"
                 protocol: "ON"
-              - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47", "TenGigabitEthernet1/0/48"]
+              - interface_names: ["TenGigabitEthernet1/0/45",
+                                  "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47",
+                                  "TenGigabitEthernet1/0/48"]
                 connected_device_type: "TRUNK"
                 protocol: "LACP"
               - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
@@ -1764,7 +1768,8 @@ Examples
               - interface_names: ["TenGigabitEthernet1/1/7", "TenGigabitEthernet1/1/8"]
                 connected_device_type: "EXTENDED_NODE"
                 protocol: "PAGP"
-                port_channel_description: "extended node port channel"
+                port_channel_description: "extended node
+                  port channel"
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
@@ -1773,8 +1778,8 @@ Examples
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
                     security_group_name: "Developers"
-    - name: Update port assignments, port channels and wireless ssids for a specific
-        fabric site
+    - name: Update port assignments, port channels and wireless
+        ssids for a specific fabric site
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1788,18 +1793,21 @@ Examples
         state: merged
         config:
           - hostname: "DC-T-9300.cisco.local"
-            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San
+              Jose/BLDG23"
             port_assignments:
               # update - add interface_description
               - interface_name: "FortyGigabitEthernet1/1/1"
                 connected_device_type: "TRUNKING_DEVICE"
-                interface_description: "Trunk Port at interface 111"
+                interface_description: "Trunk Port at interface
+                  111"
               # update - update the interface_description
               - interface_name: "FortyGigabitEthernet2/1/2"
                 connected_device_type: "ACCESS_POINT"
                 data_vlan_name: "AG_VLAN_23"
                 authentication_template_name: "No Authentication"
-                interface_description: "Access Point Port at 212"
+                interface_description: "Access Point Port
+                  at 212"
               # update - change data vlan
               - interface_name: "GigabitEthernet1/1/4"
                 connected_device_type: "USER_DEVICE"
@@ -1818,7 +1826,9 @@ Examples
                 connected_device_type: "TRUNK"
                 protocol: "ON"
               # update - add interface and description
-              - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39", "TenGigabitEthernet1/0/41"]
+              - interface_names: ["TenGigabitEthernet1/0/37",
+                                  "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39",
+                                  "TenGigabitEthernet1/0/41"]
                 connected_device_type: "TRUNK"
                 port_channel_description: "Trunk port channel"
               # update - remove interface from the port channel
@@ -1843,8 +1853,8 @@ Examples
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
-    - name: Add or Update just wireless ssid mappings for a specific fabric site (IP/Hostname
-        not required)
+    - name: Add or Update just wireless ssid mappings for
+        a specific fabric site (IP/Hostname not required)
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1857,7 +1867,8 @@ Examples
         dnac_log_level: "{{dnac_log_level}}"
         state: merged
         config:
-          - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+          - fabric_site_name_hierarchy: "Global/USA/San
+              Jose/BLDG23"
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
@@ -1867,8 +1878,8 @@ Examples
                 ssid_details:
                   - ssid_name: "guest_ssid_1"
                     security_group_name: "Guests"
-    - name: Delete ALL port assignments, port channels and wireless SSID mappings from
-        a fabric site
+    - name: Delete ALL port assignments, port channels and
+        wireless SSID mappings from a fabric site
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1882,8 +1893,26 @@ Examples
         state: deleted
         config:
           - hostname: "DC-T-9300.cisco.local"
-            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
-    - name: Delete ALL port assignments, port channels and wireless SSID mappings from
+            fabric_site_name_hierarchy: "Global/USA/San
+              Jose/BLDG23"
+    - name: Delete ALL port assignments, port channels and
+        wireless SSID mappings from a fabric site
+      cisco.dnac.sda_host_port_onboarding_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: deleted
+        config:
+          - ip_address: "204.1.2.2"
+            fabric_site_name_hierarchy: "Global/USA/San
+              Jose/BLDG23"
+    - name: Delete just ALL wireless SSIDs mappings from
         a fabric site
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1897,23 +1926,10 @@ Examples
         dnac_log_level: "{{dnac_log_level}}"
         state: deleted
         config:
-          - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
-    - name: Delete just ALL wireless SSIDs mappings from a fabric site
-      cisco.dnac.sda_host_port_onboarding_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: deleted
-        config:
-          - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
-    - name: Delete specific port assignments, port channels and wireless SSID mappings
+          - fabric_site_name_hierarchy: "Global/USA/San
+              Jose/BLDG23"
+    - name: Delete specific port assignments, port channels
+        and wireless SSID mappings
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1927,13 +1943,15 @@ Examples
         state: deleted
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San
+              Jose/BLDG23"
             port_assignments:
               - interface_name: "FortyGigabitEthernet2/1/2"
                 connected_device_type: "ACCESS_POINT"
                 data_vlan_name: "AG_VLAN_23"
                 authentication_template_name: "No Authentication"
-                interface_description: "Access Point Port at 212"
+                interface_description: "Access Point Port
+                  at 212"
             port_channels:
               - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
                 connected_device_type: "TRUNK"
@@ -1945,7 +1963,8 @@ Examples
                 ssid_details:
                   - ssid_name: "open1-iac"
                     security_group_name: "Guests"
-    - name: Delete specific port assignments, port channels and wireless SSID mappings
+    - name: Delete specific port assignments, port channels
+        and wireless SSID mappings
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1959,7 +1978,8 @@ Examples
         state: deleted
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San
+              Jose/BLDG23"
             port_assignments:
               - interface_name: "FortyGigabitEthernet1/1/1"
               - interface_name: "FortyGigabitEthernet1/1/2"
@@ -1968,14 +1988,17 @@ Examples
               - interface_name: "TenGigabitEthernet1/0/38"
               - interface_name: "TenGigabitEthernet1/0/39"
             port_channels:
-              - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47", "TenGigabitEthernet1/0/48"]
+              - interface_names: ["TenGigabitEthernet1/0/45",
+                                  "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47",
+                                  "TenGigabitEthernet1/0/48"]
               - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
-    - name: Delete all wireless SSIDs mapped to specific VLANs
+    - name: Delete all wireless SSIDs mapped to specific
+        VLANs
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1989,7 +2012,8 @@ Examples
         state: deleted
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San
+              Jose/BLDG23"
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
               - vlan_name: "IAC-VLAN-3"
@@ -2007,7 +2031,8 @@ Examples
         state: deleted
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San
+              Jose/BLDG23"
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.license_setting_info module -- Information module for License Setting Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.license_setting_info module -- Information module for License Setting
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module license\_setting\_v1\_info
+- Get all License Setting. - \> Retrieves license setting - Default smart account id and virtual account id for auto registration of devices for smart license flow. If default smart account is not configured, 'defaultSmartAccountId' is 'null'. Similarly, if auto registration of devices for smart license flow is not enabled, 'autoRegistrationVirtualAccountId' is 'null'. For smart proxy connection mode, 'autoRegistrationVirtualAccountId' is always 'null'.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +465,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.retrieve\_license\_setting\_v1,
+   - SDK Method used are licenses.Licenses.retrieve\_license\_setting,
    - Paths used are get /dna/intent/api/v1/licenseSetting,
-   - It should be noted that this module is an alias of license\_setting\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses RetrieveLicenseSettingV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-license-setting>`_
-       Complete reference of the RetrieveLicenseSettingV1 API.
+   `Cisco DNA Center documentation for Licenses RetrieveLicenseSetting <https://developer.cisco.com/docs/dna-center/#!retrieve-license-setting>`_
+       Complete reference of the RetrieveLicenseSetting API.
 
 .. Examples
 
@@ -490,7 +489,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all License Setting Info
+    ---
+    - name: Get all License Setting
       cisco.dnac.license_setting_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

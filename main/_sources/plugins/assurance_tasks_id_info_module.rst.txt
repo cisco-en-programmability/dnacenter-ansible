@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.assurance_tasks_id_info module -- Information module for Assurance Tasks Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.assurance_tasks_id_info module -- Information module for Assurance Tasks Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module assurance\_tasks\_id\_v1\_info
+- Get Assurance Tasks Id by id. - \> returns a task given a specific task id For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-AssuranceTasks-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are task.Task.retrieve\_a\_specific\_assurance\_task\_by\_id\_v1,
+   - SDK Method used are task.Task.retrieve\_a\_specific\_assurance\_task\_by\_id,
    - Paths used are get /dna/data/api/v1/assuranceTasks/{id},
-   - It should be noted that this module is an alias of assurance\_tasks\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Task RetrieveASpecificAssuranceTaskByIdV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-assurance-task-by-id>`_
-       Complete reference of the RetrieveASpecificAssuranceTaskByIdV1 API.
+   `Cisco DNA Center documentation for Task RetrieveASpecificAssuranceTaskById <https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-assurance-task-by-id>`_
+       Complete reference of the RetrieveASpecificAssuranceTaskById API.
 
 .. Examples
 
@@ -524,7 +523,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Assurance Tasks Id Info by id
+    ---
+    - name: Get Assurance Tasks Id by id
       cisco.dnac.assurance_tasks_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

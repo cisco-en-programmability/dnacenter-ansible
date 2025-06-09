@@ -42,7 +42,7 @@ cisco.dnac.users_external_authentication module -- Resource module for Users Ext
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module users\_external\_authentication\_v1
+- Manage operation create of the resource Users External Authentication.
+- Enable or disable external authentication in the System.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -473,9 +474,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are user\_and\_roles.UserandRoles.manage\_external\_authentication\_setting\_api\_v1,
+   - SDK Method used are userand\_roles.UserandRoles.manage\_external\_authentication\_setting\_api,
    - Paths used are post /dna/system/api/v1/users/external-authentication,
-   - It should be noted that this module is an alias of users\_external\_authentication\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -487,8 +487,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for User and Roles ManageExternalAuthenticationSettingAPIV1 <https://developer.cisco.com/docs/dna-center/#!manage-external-authentication-setting-api>`_
-       Complete reference of the ManageExternalAuthenticationSettingAPIV1 API.
+   `Cisco DNA Center documentation for User and Roles ManageExternalAuthenticationSettingAPI <https://developer.cisco.com/docs/dna-center/#!manage-external-authentication-setting-api>`_
+       Complete reference of the ManageExternalAuthenticationSettingAPI API.
 
 .. Examples
 
@@ -498,6 +498,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.users_external_authentication:
         dnac_host: "{{dnac_host}}"

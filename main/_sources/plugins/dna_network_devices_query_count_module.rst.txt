@@ -42,7 +42,7 @@ cisco.dnac.dna_network_devices_query_count module -- Resource module for Dna Net
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module dna\_network\_devices\_query\_count\_v1
+- Manage operation create of the resource Dna Network Devices Query Count. - \> Gets the total number Network Devices based on the provided complex filters and aggregation functions. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceNetworkDevices-2.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -636,9 +636,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.gets\_the\_total\_number\_network\_devices\_based\_on\_the\_provided\_complex\_filters\_and\_aggregation\_functions\_v1,
+   - SDK Method used are devices.Devices.gets\_the\_total\_number\_network\_devices\_based\_on\_the\_provided\_complex\_filters\_and\_aggregation\_functions,
    - Paths used are post /dna/data/api/v1/networkDevices/query/count,
-   - It should be noted that this module is an alias of dna\_network\_devices\_query\_count\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -650,8 +649,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetsTheTotalNumberNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 <https://developer.cisco.com/docs/dna-center/#!gets-the-total-number-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions>`_
-       Complete reference of the GetsTheTotalNumberNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 API.
+   `Cisco DNA Center documentation for Devices GetsTheTotalNumberNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions <https://developer.cisco.com/docs/dna-center/#!gets-the-total-number-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions>`_
+       Complete reference of the GetsTheTotalNumberNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions API.
 
 .. Examples
 
@@ -661,6 +660,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.dna_network_devices_query_count:
         dnac_host: "{{dnac_host}}"

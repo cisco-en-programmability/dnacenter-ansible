@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.site_kpi_summaries_top_n_analytics module -- Resource module for Site Kpi Summaries Top N Analytics
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.site_kpi_summaries_top_n_analytics module -- Resource module for Sitekpisummaries Topnanalytics
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module site\_kpi\_summaries\_top\_n\_analytics\_v1
+- Manage operation create of the resource Sitekpisummaries Topnanalytics. - \> Gets the Top N entites related based on site analytics for a given kpi type. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- SiteKpiSummaries-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -704,9 +704,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.submit\_request\_for\_top\_n\_entities\_related\_to\_site\_analytics\_v1,
+   - SDK Method used are sites.Sites.submit\_request\_for\_top\_n\_entities\_related\_to\_site\_analytics,
    - Paths used are post /dna/data/api/v1/siteKpiSummaries/topNAnalytics,
-   - It should be noted that this module is an alias of site\_kpi\_summaries\_top\_n\_analytics\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -718,8 +717,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites SubmitRequestForTopNEntitiesRelatedToSiteAnalyticsV1 <https://developer.cisco.com/docs/dna-center/#!submit-request-for-top-n-entities-related-to-site-analytics>`_
-       Complete reference of the SubmitRequestForTopNEntitiesRelatedToSiteAnalyticsV1 API.
+   `Cisco DNA Center documentation for Sites SubmitRequestForTopNEntitiesRelatedToSiteAnalytics <https://developer.cisco.com/docs/dna-center/#!submit-request-for-top-n-entities-related-to-site-analytics>`_
+       Complete reference of the SubmitRequestForTopNEntitiesRelatedToSiteAnalytics API.
 
 .. Examples
 
@@ -729,8 +728,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
-      cisco.dnac.site_kpi_summaries_top_n_analytics:
+      cisco.dnac.siteKpiSummaries_topNAnalytics:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

@@ -42,7 +42,7 @@ cisco.dnac.system_issue_definitions_id module -- Resource module for System Issu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module system\_issue\_definitions\_id\_v1
+- Manage operation update of the resource System Issue Definitions Id.
+- Update issue trigger threshold, priority for the given id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -617,9 +618,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.issue\_trigger\_definition\_update\_v1,
+   - SDK Method used are issues.Issues.issue\_trigger\_definition\_update,
    - Paths used are put /dna/intent/api/v1/systemIssueDefinitions/{id},
-   - It should be noted that this module is an alias of system\_issue\_definitions\_id\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -631,8 +631,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Issues IssueTriggerDefinitionUpdateV1 <https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update>`_
-       Complete reference of the IssueTriggerDefinitionUpdateV1 API.
+   `Cisco DNA Center documentation for Issues IssueTriggerDefinitionUpdate <https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update>`_
+       Complete reference of the IssueTriggerDefinitionUpdate API.
 
 .. Examples
 
@@ -642,6 +642,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update by id
       cisco.dnac.system_issue_definitions_id:
         dnac_host: "{{dnac_host}}"

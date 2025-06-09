@@ -42,7 +42,7 @@ cisco.dnac.cisco_imcs module -- Resource module for Cisco Imcs
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module cisco\_imcs\_v1
+- Manage operation create of the resource Cisco Imcs. - \> This API adds a Cisco Integrated Management Controller IMC configuration to a Cisco Catalyst Center node, identified by its \`nodeId\`. Obtain the \`nodeId\` from the \`id\` attribute in the response of the \`/dna/intent/api/v1/nodes-config\` API.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -567,9 +567,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are cisco\_i\_m\_c.CiscoIMC.adds\_cisco\_i\_m\_c\_configuration\_to\_a\_catalyst\_center\_node\_v1,
+   - SDK Method used are cisco\_i\_m\_c.CiscoIMC.adds\_cisco\_i\_m\_c\_configuration\_to\_a\_catalyst\_center\_node,
    - Paths used are post /dna/system/api/v1/ciscoImcs,
-   - It should be noted that this module is an alias of cisco\_imcs\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,8 +580,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Cisco IMC AddsCiscoIMCConfigurationToACatalystCenterNodeV1 <https://developer.cisco.com/docs/dna-center/#!adds-cisco-imc-configuration-to-a-catalyst-center-node>`_
-       Complete reference of the AddsCiscoIMCConfigurationToACatalystCenterNodeV1 API.
+   `Cisco DNA Center documentation for Cisco IMC AddsCiscoIMCConfigurationToACatalystCenterNode <https://developer.cisco.com/docs/dna-center/#!adds-cisco-imc-configuration-to-a-catalyst-center-node>`_
+       Complete reference of the AddsCiscoIMCConfigurationToACatalystCenterNode API.
 
 .. Examples
 
@@ -592,6 +591,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.cisco_imcs:
         dnac_host: "{{dnac_host}}"

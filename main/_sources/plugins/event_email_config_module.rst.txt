@@ -42,7 +42,7 @@ cisco.dnac.event_email_config module -- Resource module for Event Email Config
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module event\_email\_config\_v1
+- Manage operations create and update of the resource Event Email Config.
+- Create Email Destination.
+- Update Email Destination.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -977,9 +979,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are event\_management.EventManagement.create\_email\_destination\_v1, event\_management.EventManagement.update\_email\_destination\_v1,
+   - SDK Method used are event\_management.EventManagement.create\_email\_destination, event\_management.EventManagement.update\_email\_destination,
    - Paths used are post /dna/intent/api/v1/event/email-config, put /dna/intent/api/v1/event/email-config,
-   - It should be noted that this module is an alias of event\_email\_config\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -991,10 +992,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Event Management CreateEmailDestinationV1 <https://developer.cisco.com/docs/dna-center/#!create-email-destination>`_
-       Complete reference of the CreateEmailDestinationV1 API.
-   `Cisco DNA Center documentation for Event Management UpdateEmailDestinationV1 <https://developer.cisco.com/docs/dna-center/#!update-email-destination>`_
-       Complete reference of the UpdateEmailDestinationV1 API.
+   `Cisco DNA Center documentation for Event Management CreateEmailDestination <https://developer.cisco.com/docs/dna-center/#!create-email-destination>`_
+       Complete reference of the CreateEmailDestination API.
+   `Cisco DNA Center documentation for Event Management UpdateEmailDestination <https://developer.cisco.com/docs/dna-center/#!update-email-destination>`_
+       Complete reference of the UpdateEmailDestination API.
 
 .. Examples
 
@@ -1004,6 +1005,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.event_email_config:
         dnac_host: "{{dnac_host}}"

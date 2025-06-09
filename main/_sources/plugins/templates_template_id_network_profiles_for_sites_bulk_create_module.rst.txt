@@ -42,7 +42,7 @@ cisco.dnac.templates_template_id_network_profiles_for_sites_bulk_create module -
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module templates\_template\_id\_network\_profiles\_for\_sites\_bulk\_create\_v1
+- Manage operation create of the resource Templates Template Id Network Profiles For Sites Bulk Create.
+- Attaches a list of network profiles to the Day-N CLI template by passing the profile IDs and template ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -396,7 +397,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=list`
 
       .. raw:: html
 
@@ -406,7 +407,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Root.
+      Templates Template Id Network Profiles For Sites Bulk Create's items.
 
 
       .. raw:: html
@@ -534,9 +535,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.attach\_a\_list\_of\_network\_profiles\_to\_a\_day\_n\_cli\_template\_v1,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.attach\_a\_list\_of\_network\_profiles\_to\_a\_day\_n\_cli\_template,
    - Paths used are post /dna/intent/api/v1/templates/{templateId}/networkProfilesForSites/bulk,
-   - It should be noted that this module is an alias of templates\_template\_id\_network\_profiles\_for\_sites\_bulk\_create\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -548,8 +548,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Templates AttachAListOfNetworkProfilesToADayNCLITemplateV1 <https://developer.cisco.com/docs/dna-center/#!attach-a-list-of-network-profiles-to-a-day-ncli-template>`_
-       Complete reference of the AttachAListOfNetworkProfilesToADayNCLITemplateV1 API.
+   `Cisco DNA Center documentation for Configuration Templates AttachAListOfNetworkProfilesToADayNCLITemplate <https://developer.cisco.com/docs/dna-center/#!attach-a-list-of-network-profiles-to-a-day-ncli-template>`_
+       Complete reference of the AttachAListOfNetworkProfilesToADayNCLITemplate API.
 
 .. Examples
 
@@ -559,6 +559,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.templates_template_id_network_profiles_for_sites_bulk_create:
         dnac_host: "{{dnac_host}}"
@@ -569,7 +570,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         items:
-          - profileId: string
+          - - profileId: string
         templateId: string
 
 

@@ -42,7 +42,7 @@ cisco.dnac.device_replacement_deploy module -- Resource module for Device Replac
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module device\_replacement\_deploy\_v1
+- Manage operation create of the resource Device Replacement Deploy. - \> API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and images.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_replacement.DeviceReplacement.deploy\_device\_replacement\_workflow\_v1,
+   - SDK Method used are device\_replacement.DeviceReplacement.deploy\_device\_replacement\_workflow,
    - Paths used are post /dna/intent/api/v1/device-replacement/workflow,
-   - It should be noted that this module is an alias of device\_replacement\_deploy\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Replacement DeployDeviceReplacementWorkflowV1 <https://developer.cisco.com/docs/dna-center/#!deploy-device-replacement-workflow>`_
-       Complete reference of the DeployDeviceReplacementWorkflowV1 API.
+   `Cisco DNA Center documentation for Device Replacement DeployDeviceReplacementWorkflow <https://developer.cisco.com/docs/dna-center/#!deploy-device-replacement-workflow>`_
+       Complete reference of the DeployDeviceReplacementWorkflow API.
 
 .. Examples
 
@@ -524,6 +523,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.device_replacement_deploy:
         dnac_host: "{{dnac_host}}"

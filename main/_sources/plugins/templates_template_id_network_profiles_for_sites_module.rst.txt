@@ -42,7 +42,7 @@ cisco.dnac.templates_template_id_network_profiles_for_sites module -- Resource m
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module templates\_template\_id\_network\_profiles\_for\_sites\_v1
+- Manage operation create of the resource Templates Template Id Network Profiles For Sites.
+- Attaches a network profile to a Day-N CLI template by passing the profile ID and template ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.attach\_network\_profile\_to\_a\_day\_n\_cli\_template\_v1,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.attach\_network\_profile\_to\_a\_day\_n\_cli\_template,
    - Paths used are post /dna/intent/api/v1/templates/{templateId}/networkProfilesForSites,
-   - It should be noted that this module is an alias of templates\_template\_id\_network\_profiles\_for\_sites\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Templates AttachNetworkProfileToADayNCLITemplateV1 <https://developer.cisco.com/docs/dna-center/#!attach-network-profile-to-a-day-ncli-template>`_
-       Complete reference of the AttachNetworkProfileToADayNCLITemplateV1 API.
+   `Cisco DNA Center documentation for Configuration Templates AttachNetworkProfileToADayNCLITemplate <https://developer.cisco.com/docs/dna-center/#!attach-network-profile-to-a-day-ncli-template>`_
+       Complete reference of the AttachNetworkProfileToADayNCLITemplate API.
 
 .. Examples
 
@@ -524,6 +524,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.templates_template_id_network_profiles_for_sites:
         dnac_host: "{{dnac_host}}"

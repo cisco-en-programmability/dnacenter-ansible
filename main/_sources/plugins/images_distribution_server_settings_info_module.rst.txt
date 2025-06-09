@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.images_distribution_server_settings_info module -- Information module for Images Distribution Server Settings Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.images_distribution_server_settings_info module -- Information module for Images Distribution Server Settings
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module images\_distribution\_server\_settings\_v1\_info
+- Get all Images Distribution Server Settings. - \> Retrieve the list of remote image distribution servers. There can be up to two remote servers.Product always acts as local distribution server, and it is not part of this API response.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +465,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieve\_image\_distribution\_servers\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieve\_image\_distribution\_servers,
    - Paths used are get /dna/intent/api/v1/images/distributionServerSettings,
-   - It should be noted that this module is an alias of images\_distribution\_server\_settings\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveImageDistributionServersV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-image-distribution-servers>`_
-       Complete reference of the RetrieveImageDistributionServersV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveImageDistributionServers <https://developer.cisco.com/docs/dna-center/#!retrieve-image-distribution-servers>`_
+       Complete reference of the RetrieveImageDistributionServers API.
 
 .. Examples
 
@@ -490,7 +489,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Images Distribution Server Settings Info
+    ---
+    - name: Get all Images Distribution Server Settings
       cisco.dnac.images_distribution_server_settings_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

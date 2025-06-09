@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_bugs_results_network_devices_count_info module -- Information module for Network Bugs Results Network Devices Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_bugs_results_network_devices_count_info module -- Information module for Network Bugs Results Network Devices Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_bugs\_results\_network\_devices\_count\_v1\_info
+- Get all Network Bugs Results Network Devices Count.
+- Get count of network bug devices.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -603,9 +604,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.get\_count\_of\_network\_bug\_devices\_v1,
+   - SDK Method used are compliance.Compliance.get\_count\_of\_network\_bug\_devices,
    - Paths used are get /dna/intent/api/v1/networkBugs/results/networkDevices/count,
-   - It should be noted that this module is an alias of network\_bugs\_results\_network\_devices\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -617,8 +617,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance GetCountOfNetworkBugDevicesV1 <https://developer.cisco.com/docs/dna-center/#!get-count-of-network-bug-devices>`_
-       Complete reference of the GetCountOfNetworkBugDevicesV1 API.
+   `Cisco DNA Center documentation for Compliance GetCountOfNetworkBugDevices <https://developer.cisco.com/docs/dna-center/#!get-count-of-network-bug-devices>`_
+       Complete reference of the GetCountOfNetworkBugDevices API.
 
 .. Examples
 
@@ -628,7 +628,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Bugs Results Network Devices Count Info
+    ---
+    - name: Get all Network Bugs Results Network Devices
+        Count
       cisco.dnac.network_bugs_results_network_devices_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

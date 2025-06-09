@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_count_info module -- Information module for Network Device Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_count_info module -- Information module for Network Device Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_count\_v1\_info
+- Get all Network Device Count.
+- Get Network Device Count by id. - \> Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname and location name.
+- Returns the interface count for the given device.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -637,7 +639,6 @@ Notes
 .. note::
    - SDK Method used are devices.Devices.get\_device\_count, devices.Devices.get\_device\_interface\_count\_by\_id,
    - Paths used are get /dna/intent/api/v1/interface/network-device/{deviceId}/count, get /dna/intent/api/v1/network-device/count,
-   - It should be noted that this module is an alias of network\_device\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -649,10 +650,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetDeviceCountKnowYourNetworkV1 <https://developer.cisco.com/docs/dna-center/#!get-device-count-know-your-network>`_
-       Complete reference of the GetDeviceCountKnowYourNetworkV1 API.
-   `Cisco DNA Center documentation for Devices GetDeviceInterfaceCountV1 <https://developer.cisco.com/docs/dna-center/#!get-device-interface-count>`_
-       Complete reference of the GetDeviceInterfaceCountV1 API.
+   `Cisco DNA Center documentation for Devices GetDeviceCountKnowYourNetwork <https://developer.cisco.com/docs/dna-center/#!get-device-count-know-your-network>`_
+       Complete reference of the GetDeviceCountKnowYourNetwork API.
+   `Cisco DNA Center documentation for Devices GetDeviceInterfaceCount <https://developer.cisco.com/docs/dna-center/#!get-device-interface-count>`_
+       Complete reference of the GetDeviceInterfaceCount API.
 
 .. Examples
 
@@ -662,7 +663,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Count Info
+    ---
+    - name: Get all Network Device Count
       cisco.dnac.network_device_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -677,7 +679,7 @@ Examples
         macAddress: []
         locationName: []
       register: result
-    - name: Get Network Device Count Info by id
+    - name: Get Network Device Count by id
       cisco.dnac.network_device_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

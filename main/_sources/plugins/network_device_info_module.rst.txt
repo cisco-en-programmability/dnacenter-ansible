@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_info module -- Information module for Network Device Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_info module -- Information module for Network Device
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_v1\_info
+- Get all Network Device.
+- Get Network Device by id.
+- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc.
+- Returns the network device details for the given device ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1622,9 +1625,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_device\_by\_id\_v1, devices.Devices.get\_device\_list\_v1,
+   - SDK Method used are devices.Devices.get\_device\_by\_id, devices.Devices.get\_device\_list,
    - Paths used are get /dna/intent/api/v1/network-device, get /dna/intent/api/v1/network-device/{id},
-   - It should be noted that this module is an alias of network\_device\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1636,10 +1638,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetDeviceByIDV1 <https://developer.cisco.com/docs/dna-center/#!get-device-by-id>`_
-       Complete reference of the GetDeviceByIDV1 API.
-   `Cisco DNA Center documentation for Devices GetDeviceListV1 <https://developer.cisco.com/docs/dna-center/#!get-device-list>`_
-       Complete reference of the GetDeviceListV1 API.
+   `Cisco DNA Center documentation for Devices GetDeviceByID <https://developer.cisco.com/docs/dna-center/#!get-device-by-id>`_
+       Complete reference of the GetDeviceByID API.
+   `Cisco DNA Center documentation for Devices GetDeviceList <https://developer.cisco.com/docs/dna-center/#!get-device-list>`_
+       Complete reference of the GetDeviceList API.
 
 .. Examples
 
@@ -1649,7 +1651,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Info
+    ---
+    - name: Get all Network Device
       cisco.dnac.network_device_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1694,7 +1697,7 @@ Examples
         offset: 0
         limit: 0
       register: result
-    - name: Get Network Device Info by id
+    - name: Get Network Device by id
       cisco.dnac.network_device_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

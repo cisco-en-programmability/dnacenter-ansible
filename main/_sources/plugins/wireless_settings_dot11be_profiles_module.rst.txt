@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_settings_dot11be_profiles module -- Resource module for Wireless Settings Dot11Be Profiles
+cisco.dnac.wireless_settings_dot11be_profiles module -- Resource module for Wireless Settings Dot11be Profiles
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_dot11be\_profiles\_v1
+- Manage operations create, update and delete of the resource Wireless Settings Dot11be Profiles. - \> This API allows the user to create a 802.11be Profile.Catalyst Center will push this profile to device's "default-dot11be-profile".Also please note , 802.11be Profile is supported only on IOS-XE controllers since device version 17.15. - \> This API allows the user to delete a 802.11be Profile,if the 802.11be Profile is not mapped to any Wireless Network Profile.
+- This API allows the user to update a 802.11be Profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -709,9 +710,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_a80211be\_profile\_v1, wireless.Wireless.delete\_a80211be\_profile\_v1, wireless.Wireless.update80211be\_profile\_v1,
+   - SDK Method used are wireless.Wireless.create\_a80211be\_profile, wireless.Wireless.delete\_a80211be\_profile, wireless.Wireless.update80211be\_profile,
    - Paths used are post /dna/intent/api/v1/wirelessSettings/dot11beProfiles, delete /dna/intent/api/v1/wirelessSettings/dot11beProfiles/{id}, put /dna/intent/api/v1/wirelessSettings/dot11beProfiles/{id},
-   - It should be noted that this module is an alias of wireless\_settings\_dot11be\_profiles\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -723,12 +723,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless CreateA80211beProfileV1 <https://developer.cisco.com/docs/dna-center/#!create-a-80-21-1be-profile>`_
-       Complete reference of the CreateA80211beProfileV1 API.
-   `Cisco DNA Center documentation for Wireless DeleteA80211beProfileV1 <https://developer.cisco.com/docs/dna-center/#!delete-a-80-21-1be-profile>`_
-       Complete reference of the DeleteA80211beProfileV1 API.
-   `Cisco DNA Center documentation for Wireless Update80211beProfileV1 <https://developer.cisco.com/docs/dna-center/#!update-80-21-1be-profile>`_
-       Complete reference of the Update80211beProfileV1 API.
+   `Cisco DNA Center documentation for Wireless CreateA80211beProfile <https://developer.cisco.com/docs/dna-center/#!create-a-80-21-1be-profile>`_
+       Complete reference of the CreateA80211beProfile API.
+   `Cisco DNA Center documentation for Wireless DeleteA80211beProfile <https://developer.cisco.com/docs/dna-center/#!delete-a-80-21-1be-profile>`_
+       Complete reference of the DeleteA80211beProfile API.
+   `Cisco DNA Center documentation for Wireless Update80211beProfile <https://developer.cisco.com/docs/dna-center/#!update-80-21-1be-profile>`_
+       Complete reference of the Update80211beProfile API.
 
 .. Examples
 
@@ -738,6 +738,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.wireless_settings_dot11be_profiles:
         dnac_host: "{{dnac_host}}"

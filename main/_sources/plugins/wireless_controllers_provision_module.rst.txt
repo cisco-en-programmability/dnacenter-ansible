@@ -42,7 +42,7 @@ cisco.dnac.wireless_controllers_provision module -- Resource module for Wireless
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_controllers\_provision\_v1
+- Manage operation create of the resource Wireless Controllers Provision.
+- This API is used to provision wireless controller.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -488,6 +489,281 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplatesOverridenAttributes"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_provision_module__parameter-featuretemplatesoverridenattributes:
+
+      .. rst-class:: ansible-option-title
+
+      **featureTemplatesOverridenAttributes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureTemplatesOverridenAttributes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Provision's featureTemplatesOverridenAttributes.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplatesOverridenAttributes/editFeatureTemplates"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_provision_module__parameter-featuretemplatesoverridenattributes/editfeaturetemplates:
+
+      .. rst-class:: ansible-option-title
+
+      **editFeatureTemplates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureTemplatesOverridenAttributes/editFeatureTemplates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Controllers Provision's editFeatureTemplates.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/additionalIdentifiers"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_provision_module__parameter-featuretemplatesoverridenattributes/editfeaturetemplates/additionalidentifiers:
+
+      .. rst-class:: ansible-option-title
+
+      **additionalIdentifiers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/additionalIdentifiers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Controllers Provision's additionalIdentifiers.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/additionalIdentifiers/siteUuid"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_provision_module__parameter-featuretemplatesoverridenattributes/editfeaturetemplates/additionalidentifiers/siteuuid:
+
+      .. rst-class:: ansible-option-title
+
+      **siteUuid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/additionalIdentifiers/siteUuid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Site UUID. This must be provided if \`featureTemplateId\` belongs to \`Flex Configuration\` feature template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/additionalIdentifiers/wlanProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_provision_module__parameter-featuretemplatesoverridenattributes/editfeaturetemplates/additionalidentifiers/wlanprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **wlanProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/additionalIdentifiers/wlanProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      WLAN Profile Name. This must be passed if \`featureTemplateId\` belongs to \`Advanced SSID Configuration\` Feature Template.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/attributes"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_provision_module__parameter-featuretemplatesoverridenattributes/editfeaturetemplates/attributes:
+
+      .. rst-class:: ansible-option-title
+
+      **attributes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/attributes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This dynamic map should contain attribute name and overridden value of respective Feature Template whose \`featureTemplateId\`. List of attributes applicable to given \`featureTemplateId\` can be retrieved from its GET API call /dna/intent/api/v1/featureTemplates/wireless/\<featureTemplateName\>/featureTemplateId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/excludedAttributes"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_provision_module__parameter-featuretemplatesoverridenattributes/editfeaturetemplates/excludedattributes:
+
+      .. rst-class:: ansible-option-title
+
+      **excludedAttributes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/excludedAttributes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of attributes which will NOT be provisioned.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/featureTemplateId"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_provision_module__parameter-featuretemplatesoverridenattributes/editfeaturetemplates/featuretemplateid:
+
+      .. rst-class:: ansible-option-title
+
+      **featureTemplateId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureTemplatesOverridenAttributes/editFeatureTemplates/featureTemplateId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Feature Template ID.
+
+
+      .. raw:: html
+
+        </div>
+
+
 
   * - .. raw:: html
 
@@ -933,9 +1209,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.wireless\_controller\_provision\_v1,
+   - SDK Method used are wireless.Wireless.wireless\_controller\_provision,
    - Paths used are post /dna/intent/api/v1/wirelessControllers/{deviceId}/provision,
-   - It should be noted that this module is an alias of wireless\_controllers\_provision\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -947,8 +1222,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless WirelessControllerProvisionV1 <https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision>`_
-       Complete reference of the WirelessControllerProvisionV1 API.
+   `Cisco DNA Center documentation for Wireless WirelessControllerProvision <https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision>`_
+       Complete reference of the WirelessControllerProvision API.
 
 .. Examples
 
@@ -958,6 +1233,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.wireless_controllers_provision:
         dnac_host: "{{dnac_host}}"
@@ -970,6 +1246,15 @@ Examples
         apAuthorizationListName: string
         authorizeMeshAndNonMeshAccessPoints: true
         deviceId: string
+        featureTemplatesOverridenAttributes:
+          editFeatureTemplates:
+            - additionalIdentifiers:
+                siteUuid: string
+                wlanProfileName: string
+              attributes: {}
+              excludedAttributes:
+                - string
+              featureTemplateId: string
         interfaces:
           - interfaceGateway: string
             interfaceIPAddress: string

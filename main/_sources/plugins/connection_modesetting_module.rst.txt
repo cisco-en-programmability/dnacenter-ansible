@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.connection_modesetting module -- Resource module for Connection Modesetting
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.connection_modesetting module -- Resource module for Connection Mode Setting
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module connection\_modesetting\_v1
+- Manage operation update of the resource Connection Mode Setting.
+- Update Cisco Smart Software Manager CSSM connection mode for the system.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -636,9 +637,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.update\_c\_s\_s\_m\_connection\_mode\_v1,
+   - SDK Method used are licenses.Licenses.update\_c\_s\_s\_m\_connection\_mode,
    - Paths used are put /dna/intent/api/v1/connectionModeSetting,
-   - It should be noted that this module is an alias of connection\_modesetting\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -650,8 +650,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses UpdateCSSMConnectionModeV1 <https://developer.cisco.com/docs/dna-center/#!update-cssm-connection-mode>`_
-       Complete reference of the UpdateCSSMConnectionModeV1 API.
+   `Cisco DNA Center documentation for Licenses UpdateCSSMConnectionMode <https://developer.cisco.com/docs/dna-center/#!update-cssm-connection-mode>`_
+       Complete reference of the UpdateCSSMConnectionMode API.
 
 .. Examples
 
@@ -661,8 +661,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
-      cisco.dnac.connection_modesetting:
+      cisco.dnac.connection_mode_setting:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

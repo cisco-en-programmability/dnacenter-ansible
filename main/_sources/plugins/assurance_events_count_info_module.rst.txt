@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.assurance_events_count_info module -- Information module for Assurance Events Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.assurance_events_count_info module -- Information module for Assurance Events Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module assurance\_events\_count\_v1\_info
+- Get all Assurance Events Count. - \> API to fetch the count of assurance events that match the filter criteria. Please refer to the 'API Support Documentation' section to understand which fields are supported. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceEvents-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -615,7 +615,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      NetworkDeviceId query parameter. The list of Network Device Uuids. (Ex. \`6bef213c-19ca-4170-8375-b694e251101c\`) Examples \`networkDeviceId=6bef213c-19ca-4170-8375-b694e251101c\` (single networkDeviceId requested) \`networkDeviceId=6bef213c-19ca-4170-8375- b694e251101c&networkDeviceId=32219612-819e-4b5e-a96b-cf22aca13dd9&networkDeviceId=2541e9a7-b80d-4955-8aa2- 79b233318ba0\` (multiple networkDeviceId requested).
+      NetworkDeviceId query parameter. The list of Network Device Uuids. (Ex. \`6bef213c-19ca-4170-8375-b694e251101c\`) Examples \`networkDeviceId=6bef213c-19ca-4170-8375-b694e251101c\` (single networkDeviceId requested) \`networkDeviceId=6bef213c-19ca-4170-8375- b694e251101c&networkDeviceId=32219612-819e-4b5e-a96b-cf22aca13dd9&networkDeviceId=2541e9a7-b80d-4955- 8aa2-79b233318ba0\` (multiple networkDeviceId requested).
           
 
 
@@ -720,7 +720,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting from Global site UUID and ending with the specific site UUID. (Ex. \`globalUuid/areaUuid/buildingUuid/floorUuid\`) This field supports wildcard asterisk (\`\*\`) character search support. E.g. \`\*uuid\*, \*uuid, uuid\*\` Examples \`?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid \`(single siteHierarchyId requested) \`?siteHiera rchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globalUuid/areaUuid2/buildingUuid2/floorUu id2\` (multiple siteHierarchyId requested).
+      SiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting from Global site UUID and ending with the specific site UUID. (Ex. \`globalUuid/areaUuid/buildingUuid/floorUuid\`) This field supports wildcard asterisk (\`\*\`) character search support. E.g. \`\*uuid\*, \*uuid, uuid\*\` Examples \`?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid \`(single siteHierarchyId requested) \`?siteH ierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globalUuid/areaUuid2/buildingUuid2 /floorUuid2\` (multiple siteHierarchyId requested).
           
 
 
@@ -850,9 +850,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.count\_the\_number\_of\_events\_v1,
+   - SDK Method used are devices.Devices.count\_the\_number\_of\_events,
    - Paths used are get /dna/data/api/v1/assuranceEvents/count,
-   - It should be noted that this module is an alias of assurance\_events\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -864,8 +863,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices CountTheNumberOfEventsV1 <https://developer.cisco.com/docs/dna-center/#!count-the-number-of-events>`_
-       Complete reference of the CountTheNumberOfEventsV1 API.
+   `Cisco DNA Center documentation for Devices CountTheNumberOfEvents <https://developer.cisco.com/docs/dna-center/#!count-the-number-of-events>`_
+       Complete reference of the CountTheNumberOfEvents API.
 
 .. Examples
 
@@ -875,7 +874,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Assurance Events Count Info
+    ---
+    - name: Get all Assurance Events Count
       cisco.dnac.assurance_events_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

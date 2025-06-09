@@ -42,7 +42,7 @@ cisco.dnac.network_devices_summary_analytics module -- Resource module for Netwo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_devices\_summary\_analytics\_v1
+- Manage operation create of the resource Network Devices Summary Analytics. - \> Gets the summary analytics data related to network devices based on the provided input data. This endpoint helps to obtain the consolidated insights into the performance and status of the monitored network devices. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceNetworkDevices-2.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1013,9 +1013,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.gets\_the\_summary\_analytics\_data\_related\_to\_network\_devices\_v1,
+   - SDK Method used are devices.Devices.gets\_the\_summary\_analytics\_data\_related\_to\_network\_devices,
    - Paths used are post /dna/data/api/v1/networkDevices/summaryAnalytics,
-   - It should be noted that this module is an alias of network\_devices\_summary\_analytics\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1027,8 +1026,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetsTheSummaryAnalyticsDataRelatedToNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!gets-the-summary-analytics-data-related-to-network-devices>`_
-       Complete reference of the GetsTheSummaryAnalyticsDataRelatedToNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Devices GetsTheSummaryAnalyticsDataRelatedToNetworkDevices <https://developer.cisco.com/docs/dna-center/#!gets-the-summary-analytics-data-related-to-network-devices>`_
+       Complete reference of the GetsTheSummaryAnalyticsDataRelatedToNetworkDevices API.
 
 .. Examples
 
@@ -1038,6 +1037,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.network_devices_summary_analytics:
         dnac_host: "{{dnac_host}}"

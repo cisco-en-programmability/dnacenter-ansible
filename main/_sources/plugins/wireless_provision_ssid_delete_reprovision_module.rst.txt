@@ -42,7 +42,7 @@ cisco.dnac.wireless_provision_ssid_delete_reprovision module -- Resource module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_provision\_ssid\_delete\_reprovision\_v1
+- Manage operation delete of the resource Wireless Provision Ssid Delete Reprovision.
+- Removes SSID or WLAN from the network profile, reprovision the devices and deletes the SSID or WLAN from DNA Center.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -533,9 +534,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.delete\_ssid\_and\_provision\_it\_to\_devices\_v1,
+   - SDK Method used are wireless.Wireless.delete\_ssid\_and\_provision\_it\_to\_devices,
    - Paths used are delete /dna/intent/api/v1/business/ssid/{ssidName}/{managedAPLocations},
-   - It should be noted that this module is an alias of wireless\_provision\_ssid\_delete\_reprovision\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless DeleteSSIDAndProvisionItToDevicesV1 <https://developer.cisco.com/docs/dna-center/#!delete-ssid-and-provision-it-to-devices>`_
-       Complete reference of the DeleteSSIDAndProvisionItToDevicesV1 API.
+   `Cisco DNA Center documentation for Wireless DeleteSSIDAndProvisionItToDevices <https://developer.cisco.com/docs/dna-center/#!delete-ssid-and-provision-it-to-devices>`_
+       Complete reference of the DeleteSSIDAndProvisionItToDevices API.
 
 .. Examples
 
@@ -558,6 +558,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Delete by id
       cisco.dnac.wireless_provision_ssid_delete_reprovision:
         dnac_host: "{{dnac_host}}"

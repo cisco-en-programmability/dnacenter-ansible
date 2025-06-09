@@ -42,7 +42,7 @@ cisco.dnac.network_profile_wireless_workflow_manager module -- Resource module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1541,7 +1541,6 @@ Examples
                     vlan_id: 3002
                 day_n_templates:
                   - "Wireless_Controller_Config"
-
         - name: Update wireless network profile
           cisco.dnac.network_profile_wireless_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -1577,8 +1576,8 @@ Examples
                     vlan_id: 2002
                 day_n_templates:
                   - "Wireless_Controller_Config"
-
-        - name: Delete wireless profile from Cisco Catalyst Center.
+        - name: Delete wireless profile from Cisco Catalyst
+            Center.
           cisco.dnac.network_profile_wireless_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"

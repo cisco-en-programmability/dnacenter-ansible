@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.system_performance_historical_info module -- Information module for System Performance Historical Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.system_performance_historical_info module -- Information module for System Performance Historical
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module system\_performance\_historical\_v1\_info
+- Get all System Performance Historical. - \> Retrieves the average values of cluster key performance indicators KPIs , like CPU utilization, memory utilization or network rates grouped by time intervals within a specified time range. The data will be available from the past 24 hours.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -571,7 +571,6 @@ Notes
 .. note::
    - SDK Method used are health\_and\_performance.HealthAndPerformance.system\_performance\_historical,
    - Paths used are get /dna/intent/api/v1/diagnostics/system/performance/history,
-   - It should be noted that this module is an alias of system\_performance\_historical\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -583,8 +582,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Health and Performance SystemPerformanceHistoricalAPIV1 <https://developer.cisco.com/docs/dna-center/#!system-performance-historical-api>`_
-       Complete reference of the SystemPerformanceHistoricalAPIV1 API.
+   `Cisco DNA Center documentation for Health and Performance SystemPerformanceHistoricalAPI <https://developer.cisco.com/docs/dna-center/#!system-performance-historical-api>`_
+       Complete reference of the SystemPerformanceHistoricalAPI API.
 
 .. Examples
 
@@ -594,7 +593,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all System Performance Historical Info
+    ---
+    - name: Get all System Performance Historical
       cisco.dnac.system_performance_historical_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

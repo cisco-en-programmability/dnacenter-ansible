@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.event_subscription_details_email_info module -- Information module for Event Subscription Details Email Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.event_subscription_details_email_info module -- Information module for Event Subscription Details Email
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module event\_subscription\_details\_email\_v1\_info
+- Get all Event Subscription Details Email.
+- Gets the list of subscription details for specified connectorType.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -543,6 +544,7 @@ Parameters
         <div class="ansible-option-cell">
 
       Offset query parameter. The number of Email Subscription detail's to offset in the resultset whose default value 0.
+          
 
 
       .. raw:: html
@@ -669,9 +671,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are event\_management.EventManagement.get\_email\_subscription\_details\_v1,
+   - SDK Method used are event\_management.EventManagement.get\_email\_subscription\_details,
    - Paths used are get /dna/intent/api/v1/event/subscription-details/email,
-   - It should be noted that this module is an alias of event\_subscription\_details\_email\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -683,8 +684,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Event Management GetEmailSubscriptionDetailsV1 <https://developer.cisco.com/docs/dna-center/#!get-email-subscription-details>`_
-       Complete reference of the GetEmailSubscriptionDetailsV1 API.
+   `Cisco DNA Center documentation for Event Management GetEmailSubscriptionDetails <https://developer.cisco.com/docs/dna-center/#!get-email-subscription-details>`_
+       Complete reference of the GetEmailSubscriptionDetails API.
 
 .. Examples
 
@@ -694,7 +695,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Event Subscription Details Email Info
+    ---
+    - name: Get all Event Subscription Details Email
       cisco.dnac.event_subscription_details_email_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

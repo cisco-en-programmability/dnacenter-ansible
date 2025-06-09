@@ -42,7 +42,7 @@ cisco.dnac.network_devices_unassign_from_site_apply module -- Resource module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_devices\_unassign\_from\_site\_apply\_v1
+- Manage operation create of the resource Network Devices Unassign From Site Apply. - \> Unassign unprovisioned network devices from their site. If device controllability is enabled, it will be triggered once device unassigned from site successfully. Device Controllability can be enabled/disabled using \`/dna/intent/api/v1/networkDevices/deviceControllability/settings\`.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +465,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.unassign\_network\_devices\_from\_sites\_v1,
+   - SDK Method used are site\_design.SiteDesign.unassign\_network\_devices\_from\_sites,
    - Paths used are post /dna/intent/api/v1/networkDevices/unassignFromSite/apply,
-   - It should be noted that this module is an alias of network\_devices\_unassign\_from\_site\_apply\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design UnassignNetworkDevicesFromSitesV1 <https://developer.cisco.com/docs/dna-center/#!unassign-network-devices-from-sites>`_
-       Complete reference of the UnassignNetworkDevicesFromSitesV1 API.
+   `Cisco DNA Center documentation for Site Design UnassignNetworkDevicesFromSites <https://developer.cisco.com/docs/dna-center/#!unassign-network-devices-from-sites>`_
+       Complete reference of the UnassignNetworkDevicesFromSites API.
 
 .. Examples
 
@@ -490,6 +489,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.network_devices_unassign_from_site_apply:
         dnac_host: "{{dnac_host}}"

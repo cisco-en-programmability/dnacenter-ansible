@@ -42,7 +42,7 @@ cisco.dnac.buildings module -- Resource module for Buildings
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module buildings\_v2
+- Manage operations create, update and delete of the resource Buildings.
+- Creates a building in the network hierarchy under area. - \> Deletes building in the network hierarchy. This operations fails if there are any floors for this building, or if there are any devices assigned to this building.
+- Updates a building in the network hierarchy.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -671,7 +673,6 @@ Notes
 .. note::
    - SDK Method used are site\_design.SiteDesign.creates\_a\_building\_v2, site\_design.SiteDesign.deletes\_a\_building\_v2, site\_design.SiteDesign.updates\_a\_building\_v2,
    - Paths used are post /dna/intent/api/v2/buildings, delete /dna/intent/api/v2/buildings/{id}, put /dna/intent/api/v2/buildings/{id},
-   - It should be noted that this module is an alias of buildings\_v2
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -683,11 +684,11 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design CreatesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!creates-a-building>`_
+   `Cisco DNA Center documentation for Site Design CreatesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!creates-a-building-v-2>`_
        Complete reference of the CreatesABuildingV2 API.
-   `Cisco DNA Center documentation for Site Design DeletesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!deletes-a-building>`_
+   `Cisco DNA Center documentation for Site Design DeletesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!deletes-a-building-v-2>`_
        Complete reference of the DeletesABuildingV2 API.
-   `Cisco DNA Center documentation for Site Design UpdatesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!updates-a-building>`_
+   `Cisco DNA Center documentation for Site Design UpdatesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!updates-a-building-v-2>`_
        Complete reference of the UpdatesABuildingV2 API.
 
 .. Examples
@@ -698,6 +699,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.buildings:
         dnac_host: "{{dnac_host}}"

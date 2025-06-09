@@ -42,7 +42,7 @@ cisco.dnac.sensor_test_run module -- Resource module for Sensor Test Run
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sensor\_test\_run\_v1
+- Manage operation update of the resource Sensor Test Run.
+- Intent API to run a deployed SENSOR test.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.run\_now\_sensor\_test\_v1,
+   - SDK Method used are sensors.Sensors.run\_now\_sensor\_test,
    - Paths used are put /dna/intent/api/v1/sensor-run-now,
-   - It should be noted that this module is an alias of sensor\_test\_run\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sensors RunNowSensorTestV1 <https://developer.cisco.com/docs/dna-center/#!run-now-sensor-test>`_
-       Complete reference of the RunNowSensorTestV1 API.
+   `Cisco DNA Center documentation for Sensors RunNowSensorTest <https://developer.cisco.com/docs/dna-center/#!run-now-sensor-test>`_
+       Complete reference of the RunNowSensorTest API.
 
 .. Examples
 
@@ -490,6 +490,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.sensor_test_run:
         dnac_host: "{{dnac_host}}"

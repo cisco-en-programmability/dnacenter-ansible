@@ -42,7 +42,7 @@ cisco.dnac.sites_image_distribution_settings module -- Resource module for Sites
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sites\_image\_distribution\_settings\_v1
+- Manage operation update of the resource Sites Image Distribution Settings. - \> Set image distribution settings for a site; \`null\` values indicate that the setting will be inherited from the parent site; empty objects \`{}\` indicate that the settings is unset.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -474,8 +474,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      This field holds an array of unique identifiers representing image distribution servers. Use /intent/api/v1/images/distributionServerSettings" to find the Image distribution server ID. Max 2. Use SFTP servers to act as image distribution servers. A distributed SWIM architecture, using suitably located SFTP servers, can help support large-scale device software image upgrades and conserve WAN bandwidth.
-          
+      This field holds an array of unique identifiers representing image distribution servers. Use '/intent/api/v1/images/distributionServerSettings' to find the Image distribution server Id. Max 2. Use SFTP servers to act as image distribution servers. A distributed SWIM architecture, using suitably located SFTP servers, can help support large-scale device software image upgrades and conserve WAN bandwidth.
 
 
       .. raw:: html
@@ -535,9 +534,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.set\_image\_distribution\_settings\_for\_a\_site\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.set\_image\_distribution\_settings\_for\_a\_site,
    - Paths used are put /dna/intent/api/v1/sites/{id}/imageDistributionSettings,
-   - It should be noted that this module is an alias of sites\_image\_distribution\_settings\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -549,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings SetImageDistributionSettingsForASiteV1 <https://developer.cisco.com/docs/dna-center/#!set-image-distribution-settings-for-a-site>`_
-       Complete reference of the SetImageDistributionSettingsForASiteV1 API.
+   `Cisco DNA Center documentation for Network Settings SetImageDistributionSettingsForASite <https://developer.cisco.com/docs/dna-center/#!set-image-distribution-settings-for-a-site>`_
+       Complete reference of the SetImageDistributionSettingsForASite API.
 
 .. Examples
 
@@ -560,6 +558,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.sites_image_distribution_settings:
         dnac_host: "{{dnac_host}}"

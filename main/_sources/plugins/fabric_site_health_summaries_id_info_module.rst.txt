@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.fabric_site_health_summaries_id_info module -- Information module for Fabric Site Health Summaries Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.fabric_site_health_summaries_id_info module -- Information module for Fabric Site Health Summaries Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module fabric\_site\_health\_summaries\_id\_v1\_info
+- Get Fabric Site Health Summaries Id by id.
+- Get Fabric site health summary for a specific fabric site by providing the unique fabric site id in the url path.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -639,9 +640,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.read\_fabric\_sites\_with\_health\_summary\_from\_id\_v1,
+   - SDK Method used are sda.Sda.read\_fabric\_sites\_with\_health\_summary\_from\_id,
    - Paths used are get /dna/data/api/v1/fabricSiteHealthSummaries/{id},
-   - It should be noted that this module is an alias of fabric\_site\_health\_summaries\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -653,8 +653,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA ReadFabricSitesWithHealthSummaryFromIdV1 <https://developer.cisco.com/docs/dna-center/#!read-fabric-sites-with-health-summary-from-id>`_
-       Complete reference of the ReadFabricSitesWithHealthSummaryFromIdV1 API.
+   `Cisco DNA Center documentation for SDA ReadFabricSitesWithHealthSummaryFromId <https://developer.cisco.com/docs/dna-center/#!read-fabric-sites-with-health-summary-from-id>`_
+       Complete reference of the ReadFabricSitesWithHealthSummaryFromId API.
 
 .. Examples
 
@@ -664,7 +664,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Fabric Site Health Summaries Id Info by id
+    ---
+    - name: Get Fabric Site Health Summaries Id by id
       cisco.dnac.fabric_site_health_summaries_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -740,7 +741,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"aaaStatusFairHealthDeviceCount": 0, "aaaStatusGoodHealthDeviceCount": 0, "aaaStatusGoodHealthPercentage": 0, "aaaStatusPoorHealthDeviceCount": 0, "aaaStatusTotalHealthDeviceCount": 0, "associatedL2VnCount": 0, "associatedL3VnCount": 0, "bgpBgpSiteFairHealthDeviceCount": 0, "bgpBgpSiteGoodHealthDeviceCount": 0, "bgpBgpSiteGoodHealthPercentage": 0, "bgpBgpSitePoorHealthDeviceCount": 0, "bgpBgpSiteTotalHealthDeviceCount": 0, "bgpEvpnFairHealthDeviceCount": 0, "bgpEvpnGoodHealthDeviceCount": 0, "bgpEvpnGoodHealthPercentage": {}, "bgpEvpnPoorHealthDeviceCount": 0, "bgpEvpnTotalHealthDeviceCount": 0, "bgpPeerInfraVnFairHealthDeviceCount": 0, "bgpPeerInfraVnGoodHealthDeviceCount": 0, "bgpPeerInfraVnPoorHealthDeviceCount": 0, "bgpPeerInfraVnScoreGoodHealthPercentage": 0, "bgpPeerInfraVnTotalHealthDeviceCount": 0, "bgpPubsubSiteFairHealthDeviceCount": 0, "bgpPubsubSiteGoodHealthDeviceCount": 0, "bgpPubsubSiteGoodHealthPercentage": 0, "bgpPubsubSitePoorHealthDeviceCount": 0, "bgpPubsubSiteTotalHealthDeviceCount": 0, "borderToControlPlaneFairHealthDeviceCount": 0, "borderToControlPlaneGoodHealthDeviceCount": 0, "borderToControlPlaneGoodHealthPercentage": 0, "borderToControlPlanePoorHealthDeviceCount": 0, "borderToControlPlaneTotalHealthDeviceCount": 0, "connectivityFairHealthDeviceCount": 0, "connectivityGoodHealthDeviceCount": 0, "connectivityGoodHealthPercentage": 0, "connectivityPoorHealthDeviceCount": 0, "connectivityTotalHealthDeviceCount": 0, "controlPlaneFairHealthDeviceCount": 0, "controlPlaneGoodHealthDeviceCount": 0, "controlPlaneGoodHealthPercentage": 0, "controlPlanePoorHealthDeviceCount": 0, "controlPlaneTotalHealthDeviceCount": 0, "ctsEnvDataDownloadFairHealthDeviceCount": 0, "ctsEnvDataDownloadGoodHealthDeviceCount": 0, "ctsEnvDataDownloadGoodHealthPercentage": 0, "ctsEnvDataDownloadPoorHealthDeviceCount": 0, "ctsEnvDataDownloadTotalHealthDeviceCount": 0, "fairHealthDeviceCount": 0, "goodHealthDeviceCount": 0, "goodHealthPercentage": 0, "id": "string", "infraFairHealthDeviceCount": 0, "infraGoodHealthDeviceCount": 0, "infraGoodHealthPercentage": 0, "infraPoorHealthDeviceCount": 0, "infraTotalHealthDeviceCount": 0, "lispSessionFairHealthDeviceCount": 0, "lispSessionGoodHealthDeviceCount": 0, "lispSessionGoodHealthPercentage": 0, "lispSessionPoorHealthDeviceCount": 0, "lispSessionTotalHealthDeviceCount": 0, "name": "string", "networkProtocol": "string", "peerScoreFairHealthDeviceCount": 0, "peerScoreGoodHealthDeviceCount": 0, "peerScoreGoodHealthPercentage": {}, "peerScorePoorHealthDeviceCount": 0, "peerScoreTotalHealthDeviceCount": 0, "poorHealthDeviceCount": 0, "portChannelFairHealthDeviceCount": 0, "portChannelGoodHealthDeviceCount": 0, "portChannelGoodHealthPercentage": 0, "portChannelPoorHealthDeviceCount": 0, "portChannelTotalHealthDeviceCount": 0, "pubsubInfraVnFairHealthDeviceCount": 0, "pubsubInfraVnGoodHealthDeviceCount": 0, "pubsubInfraVnGoodHealthPercentage": 0, "pubsubInfraVnPoorHealthDeviceCount": 0, "pubsubInfraVnTotalHealthDeviceCount": 0, "totalDeviceCount": 0}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"aaaStatusFairHealthDeviceCount": 0, "aaaStatusGoodHealthDeviceCount": 0, "aaaStatusGoodHealthPercentage": 0, "aaaStatusPoorHealthDeviceCount": 0, "aaaStatusTotalHealthDeviceCount": 0, "associatedL2VnCount": 0, "associatedL3VnCount": 0, "bgpBgpSiteFairHealthDeviceCount": 0, "bgpBgpSiteGoodHealthDeviceCount": 0, "bgpBgpSiteGoodHealthPercentage": 0, "bgpBgpSitePoorHealthDeviceCount": 0, "bgpBgpSiteTotalHealthDeviceCount": 0, "bgpEvpnFairHealthDeviceCount": 0, "bgpEvpnGoodHealthDeviceCount": 0, "bgpEvpnGoodHealthPercentage": 0, "bgpEvpnPoorHealthDeviceCount": 0, "bgpEvpnTotalHealthDeviceCount": 0, "bgpPeerInfraVnFairHealthDeviceCount": 0, "bgpPeerInfraVnGoodHealthDeviceCount": 0, "bgpPeerInfraVnPoorHealthDeviceCount": 0, "bgpPeerInfraVnScoreGoodHealthPercentage": 0, "bgpPeerInfraVnTotalHealthDeviceCount": 0, "bgpPubsubSiteFairHealthDeviceCount": 0, "bgpPubsubSiteGoodHealthDeviceCount": 0, "bgpPubsubSiteGoodHealthPercentage": 0, "bgpPubsubSitePoorHealthDeviceCount": 0, "bgpPubsubSiteTotalHealthDeviceCount": 0, "borderToControlPlaneFairHealthDeviceCount": 0, "borderToControlPlaneGoodHealthDeviceCount": 0, "borderToControlPlaneGoodHealthPercentage": 0, "borderToControlPlanePoorHealthDeviceCount": 0, "borderToControlPlaneTotalHealthDeviceCount": 0, "connectivityFairHealthDeviceCount": 0, "connectivityGoodHealthDeviceCount": 0, "connectivityGoodHealthPercentage": 0, "connectivityPoorHealthDeviceCount": 0, "connectivityTotalHealthDeviceCount": 0, "controlPlaneFairHealthDeviceCount": 0, "controlPlaneGoodHealthDeviceCount": 0, "controlPlaneGoodHealthPercentage": 0, "controlPlanePoorHealthDeviceCount": 0, "controlPlaneTotalHealthDeviceCount": 0, "ctsEnvDataDownloadFairHealthDeviceCount": 0, "ctsEnvDataDownloadGoodHealthDeviceCount": 0, "ctsEnvDataDownloadGoodHealthPercentage": 0, "ctsEnvDataDownloadPoorHealthDeviceCount": 0, "ctsEnvDataDownloadTotalHealthDeviceCount": 0, "fairHealthDeviceCount": 0, "goodHealthDeviceCount": 0, "goodHealthPercentage": 0, "id": "string", "infraFairHealthDeviceCount": 0, "infraGoodHealthDeviceCount": 0, "infraGoodHealthPercentage": 0, "infraPoorHealthDeviceCount": 0, "infraTotalHealthDeviceCount": 0, "lispSessionFairHealthDeviceCount": 0, "lispSessionGoodHealthDeviceCount": 0, "lispSessionGoodHealthPercentage": 0, "lispSessionPoorHealthDeviceCount": 0, "lispSessionTotalHealthDeviceCount": 0, "name": "string", "networkProtocol": "string", "peerScoreFairHealthDeviceCount": 0, "peerScoreGoodHealthDeviceCount": 0, "peerScoreGoodHealthPercentage": 0, "peerScorePoorHealthDeviceCount": 0, "peerScoreTotalHealthDeviceCount": 0, "poorHealthDeviceCount": 0, "portChannelFairHealthDeviceCount": 0, "portChannelGoodHealthDeviceCount": 0, "portChannelGoodHealthPercentage": 0, "portChannelPoorHealthDeviceCount": 0, "portChannelTotalHealthDeviceCount": 0, "pubsubInfraVnFairHealthDeviceCount": 0, "pubsubInfraVnGoodHealthDeviceCount": 0, "pubsubInfraVnGoodHealthPercentage": 0, "pubsubInfraVnPoorHealthDeviceCount": 0, "pubsubInfraVnTotalHealthDeviceCount": 0, "totalDeviceCount": 0, "totalHealthDeviceCount": 0}, "version": "string"}`
 
 
       .. raw:: html

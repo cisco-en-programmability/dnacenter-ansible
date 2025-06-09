@@ -42,7 +42,7 @@ cisco.dnac.lan_automation_workflow_manager module -- Automate network discovery,
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2242,7 +2242,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Start a LAN Automation session without waiting for it to finish
+    ---
+    - name: Start a LAN Automation session without waiting
+        for it to finish
       cisco.dnac.lan_automation_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2256,7 +2258,8 @@ Examples
         state: merged
         config:
           - lan_automation:
-              discovered_device_site_name_hierarchy: "Global/USA/SAN JOSE"
+              discovered_device_site_name_hierarchy: "Global/USA/SAN
+                JOSE"
               peer_device_management_ip_address: "204.1.1.2"
               primary_device_management_ip_address: "204.1.1.1"
               primary_device_interface_names:
@@ -2276,16 +2279,18 @@ Examples
               discovery_devices:
                 - device_serial_number: "FJC27172JDW"
                   device_host_name: "SR-LAN-9300-IM1"
-                  device_site_name_hierarchy: "Global/USA/SAN JOSE/BLD23"
+                  device_site_name_hierarchy: "Global/USA/SAN
+                    JOSE/BLD23"
                   device_management_ip_address: "204.1.1.10"
                 - device_serial_number: "FJC2721261A"
                   device_host_name: "SR-LAN-9300-IM2"
-                  device_site_name_hierarchy: "Global/USA/SAN JOSE/BLD20"
+                  device_site_name_hierarchy: "Global/USA/SAN
+                    JOSE/BLD20"
                   device_management_ip_address: "204.1.1.11"
               launch_and_wait: false
               pnp_authorization: false
-    - name: Start a LAN Automation session with device authorization and waiting for
-        the task to complete
+    - name: Start a LAN Automation session with device authorization
+        and waiting for the task to complete
       cisco.dnac.lan_automation_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2299,7 +2304,8 @@ Examples
         state: merged
         config:
           - lan_automation:
-              discovered_device_site_name_hierarchy: "Global/USA/SAN JOSE"
+              discovered_device_site_name_hierarchy: "Global/USA/SAN
+                JOSE"
               peer_device_management_ip_address: "204.1.1.2"
               primary_device_management_ip_address: "204.1.1.1"
               primary_device_interface_names:
@@ -2319,11 +2325,13 @@ Examples
               discovery_devices:
                 - device_serial_number: "FJC27172JDW"
                   device_host_name: "SR-LAN-9300-IM1"
-                  device_site_name_hierarchy: "Global/USA/SAN JOSE/BLD23"
+                  device_site_name_hierarchy: "Global/USA/SAN
+                    JOSE/BLD23"
                   device_management_ip_address: "204.1.1.10"
                 - device_serial_number: "FJC2721261A"
                   device_host_name: "SR-LAN-9300-IM2"
-                  device_site_name_hierarchy: "Global/USA/SAN JOSE/BLD20"
+                  device_site_name_hierarchy: "Global/USA/SAN
+                    JOSE/BLD20"
                   device_management_ip_address: "204.1.1.11"
               launch_and_wait: true
               pnp_authorization: true
@@ -2344,7 +2352,8 @@ Examples
         state: deleted
         config:
           - lan_automation:
-              discovered_device_site_name_hierarchy: "Global/USA/SAN JOSE"
+              discovered_device_site_name_hierarchy: "Global/USA/SAN
+                JOSE"
               primary_device_management_ip_address: "204.1.1.1"
     - name: Update loopback for LAN Automated devices
       cisco.dnac.lan_automation_workflow_manager:
@@ -2423,7 +2432,8 @@ Examples
                 source_device_interface_name: "HundredGigE1/0/2"
                 destination_device_management_ip_address: "204.1.1.4"
                 destination_device_interface_name: "HundredGigE1/0/5"
-    - name: Apply loopback and hostname updates for LAN Automated devices
+    - name: Apply loopback and hostname updates for LAN
+        Automated devices
       cisco.dnac.lan_automation_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

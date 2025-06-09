@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.role_permissions_info module -- Information module for Role Permissions Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.role_permissions_info module -- Information module for Role Permissions
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module role\_permissions\_v1\_info
+- Get all Role Permissions.
+- Get permissions for a role in the system.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are user\_and\_roles.UserandRoles.get\_permissions\_api\_v1,
+   - SDK Method used are userand\_roles.UserandRoles.get\_permissions\_api,
    - Paths used are get /dna/system/api/v1/role/permissions,
-   - It should be noted that this module is an alias of role\_permissions\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for User and Roles GetPermissionsAPIV1 <https://developer.cisco.com/docs/dna-center/#!get-permissions-api>`_
-       Complete reference of the GetPermissionsAPIV1 API.
+   `Cisco DNA Center documentation for User and Roles GetPermissionsAPI <https://developer.cisco.com/docs/dna-center/#!get-permissions-api>`_
+       Complete reference of the GetPermissionsAPI API.
 
 .. Examples
 
@@ -490,7 +490,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Role Permissions Info
+    ---
+    - name: Get all Role Permissions
       cisco.dnac.role_permissions_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

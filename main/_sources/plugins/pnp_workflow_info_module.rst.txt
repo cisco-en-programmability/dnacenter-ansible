@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.pnp_workflow_info module -- Information module for Pnp Workflow Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.pnp_workflow_info module -- Information module for Pnp Workflow
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module pnp\_workflow\_v1\_info
+- Get all Pnp Workflow.
+- Get Pnp Workflow by id.
+- Returns a workflow specified by id. - \> Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -705,9 +707,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.get\_workflow\_by\_id\_v1, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_workflows\_v1,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.get\_workflow\_by\_id, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_workflows,
    - Paths used are get /dna/intent/api/v1/onboarding/pnp-workflow, get /dna/intent/api/v1/onboarding/pnp-workflow/{id},
-   - It should be noted that this module is an alias of pnp\_workflow\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -719,10 +720,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowByIdV1 <https://developer.cisco.com/docs/dna-center/#!get-workflow-by-id>`_
-       Complete reference of the GetWorkflowByIdV1 API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowsV1 <https://developer.cisco.com/docs/dna-center/#!get-workflows>`_
-       Complete reference of the GetWorkflowsV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowById <https://developer.cisco.com/docs/dna-center/#!get-workflow-by-id>`_
+       Complete reference of the GetWorkflowById API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflows <https://developer.cisco.com/docs/dna-center/#!get-workflows>`_
+       Complete reference of the GetWorkflows API.
 
 .. Examples
 
@@ -732,7 +733,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Pnp Workflow Info
+    ---
+    - name: Get all Pnp Workflow
       cisco.dnac.pnp_workflow_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -749,7 +751,7 @@ Examples
         type: []
         name: []
       register: result
-    - name: Get Pnp Workflow Info by id
+    - name: Get Pnp Workflow by id
       cisco.dnac.pnp_workflow_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

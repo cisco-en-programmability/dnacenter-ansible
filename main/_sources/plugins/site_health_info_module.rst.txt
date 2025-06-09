@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.site_health_info module -- Information module for Site Health Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.site_health_info module -- Information module for Site Health
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module site\_health\_v1\_info
+- Get all Site Health.
+- Returns Overall Health information for all sites.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -601,9 +602,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.get\_site\_health\_v1,
+   - SDK Method used are sites.Sites.get\_site\_health,
    - Paths used are get /dna/intent/api/v1/site-health,
-   - It should be noted that this module is an alias of site\_health\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -615,8 +615,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites GetSiteHealthV1 <https://developer.cisco.com/docs/dna-center/#!get-site-health>`_
-       Complete reference of the GetSiteHealthV1 API.
+   `Cisco DNA Center documentation for Sites GetSiteHealth <https://developer.cisco.com/docs/dna-center/#!get-site-health>`_
+       Complete reference of the GetSiteHealth API.
 
 .. Examples
 
@@ -626,7 +626,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Site Health Info
+    ---
+    - name: Get all Site Health
       cisco.dnac.site_health_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

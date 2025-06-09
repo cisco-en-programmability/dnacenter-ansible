@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_ap_authorization_lists_id module -- Resource module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_ap\_authorization\_lists\_id\_v1
+- Manage operations update and delete of the resource Wireless Settings Ap Authorization Lists Id.
+- This API allows the user to delete an AP Authorization List.
+- This API allows the user to update an AP Authorization List.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -755,9 +757,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.delete\_ap\_authorization\_list\_v1, wireless.Wireless.update\_ap\_authorization\_list\_v1,
+   - SDK Method used are wireless.Wireless.delete\_ap\_authorization\_list, wireless.Wireless.update\_ap\_authorization\_list,
    - Paths used are delete /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id}, put /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id},
-   - It should be noted that this module is an alias of wireless\_settings\_ap\_authorization\_lists\_id\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -769,10 +770,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless DeleteAPAuthorizationListV1 <https://developer.cisco.com/docs/dna-center/#!delete-ap-authorization-list>`_
-       Complete reference of the DeleteAPAuthorizationListV1 API.
-   `Cisco DNA Center documentation for Wireless UpdateAPAuthorizationListV1 <https://developer.cisco.com/docs/dna-center/#!update-ap-authorization-list>`_
-       Complete reference of the UpdateAPAuthorizationListV1 API.
+   `Cisco DNA Center documentation for Wireless DeleteAPAuthorizationList <https://developer.cisco.com/docs/dna-center/#!delete-ap-authorization-list>`_
+       Complete reference of the DeleteAPAuthorizationList API.
+   `Cisco DNA Center documentation for Wireless UpdateAPAuthorizationList <https://developer.cisco.com/docs/dna-center/#!update-ap-authorization-list>`_
+       Complete reference of the UpdateAPAuthorizationList API.
 
 .. Examples
 
@@ -782,6 +783,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Delete by id
       cisco.dnac.wireless_settings_ap_authorization_lists_id:
         dnac_host: "{{dnac_host}}"

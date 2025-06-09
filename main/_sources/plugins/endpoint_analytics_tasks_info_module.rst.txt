@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.endpoint_analytics_tasks_info module -- Information module for Endpoint Analytics Tasks Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.endpoint_analytics_tasks_info module -- Information module for Endpoint Analytics Tasks
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module endpoint\_analytics\_tasks\_v1\_info
+- Get Endpoint Analytics Tasks by id. - \> Fetches the details of backend task. Task is typically created by making call to some other API that takes longer time to execute.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.get\_task\_details\_v1,
+   - SDK Method used are ai\_endpoint\_analytics.AiEndpointAnalytics.get\_task\_details,
    - Paths used are get /dna/intent/api/v1/endpoint-analytics/tasks/{taskId},
-   - It should be noted that this module is an alias of endpoint\_analytics\_tasks\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for AI Endpoint Analytics GetTaskDetailsV1 <https://developer.cisco.com/docs/dna-center/#!get-task-details>`_
-       Complete reference of the GetTaskDetailsV1 API.
+   `Cisco DNA Center documentation for AI Endpoint Analytics GetTaskDetails <https://developer.cisco.com/docs/dna-center/#!get-task-details>`_
+       Complete reference of the GetTaskDetails API.
 
 .. Examples
 
@@ -524,7 +523,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Endpoint Analytics Tasks Info by id
+    ---
+    - name: Get Endpoint Analytics Tasks by id
       cisco.dnac.endpoint_analytics_tasks_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

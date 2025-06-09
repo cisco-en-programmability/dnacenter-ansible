@@ -42,7 +42,7 @@ cisco.dnac.clients_query module -- Resource module for Clients Query
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module clients\_query\_v1
+- Manage operation create of the resource Clients Query. - \> Retrieves the list of clients by applying complex filters while also supporting aggregate attributes. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- clients1-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1047,9 +1047,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are clients.Clients.retrieves\_the\_list\_of\_clients\_by\_applying\_complex\_filters\_while\_also\_supporting\_aggregate\_attributes\_v1,
+   - SDK Method used are clients.Clients.retrieves\_the\_list\_of\_clients\_by\_applying\_complex\_filters\_while\_also\_supporting\_aggregate\_attributes,
    - Paths used are post /dna/data/api/v1/clients/query,
-   - It should be noted that this module is an alias of clients\_query\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1061,8 +1060,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Clients RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributesV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-by-applying-complex-filters-while-also-supporting-aggregate-attributes>`_
-       Complete reference of the RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributesV1 API.
+   `Cisco DNA Center documentation for Clients RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributes <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-by-applying-complex-filters-while-also-supporting-aggregate-attributes>`_
+       Complete reference of the RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributes API.
 
 .. Examples
 
@@ -1072,6 +1071,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.clients_query:
         dnac_host: "{{dnac_host}}"

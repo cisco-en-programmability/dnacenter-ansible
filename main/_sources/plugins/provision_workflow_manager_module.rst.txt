@@ -42,7 +42,7 @@ cisco.dnac.provision_workflow_manager module -- Resource module for provision re
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1723,6 +1723,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Provision a wireless device to a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1744,8 +1745,8 @@ Examples
                 interface_name: Vlan1866
                 interface_ip_address: 204.192.6.200
                 interface_gateway: 204.192.6.1
-
-    - name: Provision a wireless device to a site for version - 2.3.7.6
+    - name: Provision a wireless device to a site for version
+        - 2.3.7.6
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1772,7 +1773,6 @@ Examples
             rolling_ap_upgrade:
               enable_rolling_ap_upgrade: false
               ap_reboot_percentage: 5
-
     - name: Provision a wired device to a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1787,7 +1787,6 @@ Examples
         config:
           - site_name_hierarchy: Global/USA/San Francisco/BGL_18
             management_ip_address: 204.192.3.40
-
     - name: Re-Provision a wired device to a site forcefully
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1803,7 +1802,6 @@ Examples
           - site_name_hierarchy: Global/USA/San Francisco/BGL_18
             management_ip_address: 204.192.3.40
             force_provisioning: true
-
     - name: Assign a wired device to a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1819,7 +1817,6 @@ Examples
           - site_name_hierarchy: Global/USA/San Francisco/BGL_18
             management_ip_address: 204.192.3.40
             provisioning: false
-
     - name: Provision a wireless device to a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1837,7 +1834,6 @@ Examples
             management_ip_address: 204.192.12.201
             managed_ap_locations:
               - Global/USA/RTP/BLD11/BLD11_FLOOR1
-
     - name: Unprovision a device from a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1852,7 +1848,6 @@ Examples
         config_verify: true
         config:
           - management_ip_address: 204.1.2.2
-
     - name: Unprovision a device from a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1868,15 +1863,16 @@ Examples
         config:
           - management_ip_address: 204.1.2.2
             clean_config: true
-
-    - name: Configure application telemetry for network devices on Cisco Catalyst Center
+    - name: Configure application telemetry for network
+        devices on Cisco Catalyst Center
       hosts: localhost
       connection: local
       gather_facts: false
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Enable application telemetry on specified network devices
+        - name: Enable application telemetry on specified
+            network devices
           cisco.dnac.provision_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -1897,15 +1893,16 @@ Examples
                     telemetry: enable
                     wlan_mode: LOCAL
                     include_guest_ssid: true
-
-    - name: Configure application telemetry for network devices on Cisco Catalyst Center
+    - name: Configure application telemetry for network
+        devices on Cisco Catalyst Center
       hosts: localhost
       connection: local
       gather_facts: false
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Disable application telemetry on specified network devices
+        - name: Disable application telemetry on specified
+            network devices
           cisco.dnac.provision_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"

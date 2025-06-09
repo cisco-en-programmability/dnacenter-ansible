@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabrics_vlan_to_ssids_fabric_id_info module -- Information module for Sda Fabrics Vlan To Ssids Fabric Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabrics_vlan_to_ssids_fabric_id_info module -- Information module for Sda Fabrics Vlan To Ssids Fabric Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_fabrics\_vlan\_to\_ssids\_fabric\_id\_v1\_info
+- Get all Sda Fabrics Vlan To Ssids Fabric Id. - \> Retrieve the VLANs and SSIDs mapped to the VLAN, within a Fabric Site. The 'fabricId' represents the Fabric ID of a particular Fabric Site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -568,9 +568,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are fabric\_wireless.FabricWireless.retrieve\_the\_vlans\_and\_ssids\_mapped\_to\_the\_vlan\_within\_a\_fabric\_site\_v1,
+   - SDK Method used are fabric\_wireless.FabricWireless.retrieve\_the\_vlans\_and\_ssids\_mapped\_to\_the\_vlan\_within\_a\_fabric\_site,
    - Paths used are get /dna/intent/api/v1/sda/fabrics/{fabricId}/vlanToSsids,
-   - It should be noted that this module is an alias of sda\_fabrics\_vlan\_to\_ssids\_fabric\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,8 +581,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Fabric Wireless RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSiteV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-the-vla-ns-and-ssi-ds-mapped-to-the-vlan-within-a-fabric-site>`_
-       Complete reference of the RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSiteV1 API.
+   `Cisco DNA Center documentation for Fabric Wireless RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSite <https://developer.cisco.com/docs/dna-center/#!retrieve-the-vla-ns-and-ssi-ds-mapped-to-the-vlan-within-a-fabric-site>`_
+       Complete reference of the RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSite API.
 
 .. Examples
 
@@ -593,7 +592,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Fabrics Vlan To Ssids Fabric Id Info
+    ---
+    - name: Get all Sda Fabrics Vlan To Ssids Fabric Id
       cisco.dnac.sda_fabrics_vlan_to_ssids_fabric_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

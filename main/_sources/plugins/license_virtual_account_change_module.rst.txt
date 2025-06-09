@@ -42,7 +42,7 @@ cisco.dnac.license_virtual_account_change module -- Resource module for License 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module license\_virtual\_account\_change\_v1
+- Manage operation create of the resource License Virtual Account Change.
+- Transfer devices from one virtual account to another within same smart account.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -533,9 +534,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.change\_virtual\_account\_v1,
+   - SDK Method used are licenses.Licenses.change\_virtual\_account,
    - Paths used are post /dna/intent/api/v1/licenses/smartAccount/{smart\_account\_id}/virtualAccount/{virtual\_account\_name}/device/transfer,
-   - It should be noted that this module is an alias of license\_virtual\_account\_change\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses ChangeVirtualAccountV1 <https://developer.cisco.com/docs/dna-center/#!change-virtual-account>`_
-       Complete reference of the ChangeVirtualAccountV1 API.
+   `Cisco DNA Center documentation for Licenses ChangeVirtualAccount <https://developer.cisco.com/docs/dna-center/#!change-virtual-account>`_
+       Complete reference of the ChangeVirtualAccount API.
 
 .. Examples
 
@@ -558,6 +558,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.license_virtual_account_change:
         dnac_host: "{{dnac_host}}"

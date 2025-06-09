@@ -42,7 +42,7 @@ cisco.dnac.disassociate_site_to_network_profile module -- Resource module for Di
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module disassociate\_site\_to\_network\_profile\_v1
+- Manage operation delete of the resource Disassociate Site To Network Profile.
+- Disassociate a Site from a Network Profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.disassociate\_v1,
+   - SDK Method used are site\_design.SiteDesign.disassociate,
    - Paths used are delete /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId},
-   - It should be noted that this module is an alias of disassociate\_site\_to\_network\_profile\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design DisassociateV1 <https://developer.cisco.com/docs/dna-center/#!disassociate>`_
-       Complete reference of the DisassociateV1 API.
+   `Cisco DNA Center documentation for Site Design Disassociate <https://developer.cisco.com/docs/dna-center/#!disassociate>`_
+       Complete reference of the Disassociate API.
 
 .. Examples
 
@@ -524,6 +524,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Delete by id
       cisco.dnac.disassociate_site_to_network_profile:
         dnac_host: "{{dnac_host}}"

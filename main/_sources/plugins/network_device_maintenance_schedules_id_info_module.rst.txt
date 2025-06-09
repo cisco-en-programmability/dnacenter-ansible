@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_maintenance_schedules_id_info module -- Information module for Network Device Maintenance Schedules Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_maintenance_schedules_id_info module -- Information module for Network Device Maintenance Schedules Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_maintenance\_schedules\_id\_v1\_info
+- Get Network Device Maintenance Schedules Id by id.
+- API to retrieve the maintenance schedule information for the given id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.retrieves\_the\_maintenance\_schedule\_information\_v1,
+   - SDK Method used are devices.Devices.retrieves\_the\_maintenance\_schedule\_information,
    - Paths used are get /dna/intent/api/v1/networkDeviceMaintenanceSchedules/{id},
-   - It should be noted that this module is an alias of network\_device\_maintenance\_schedules\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices RetrievesTheMaintenanceScheduleInformationV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-maintenance-schedule-information>`_
-       Complete reference of the RetrievesTheMaintenanceScheduleInformationV1 API.
+   `Cisco DNA Center documentation for Devices RetrievesTheMaintenanceScheduleInformation <https://developer.cisco.com/docs/dna-center/#!retrieves-the-maintenance-schedule-information>`_
+       Complete reference of the RetrievesTheMaintenanceScheduleInformation API.
 
 .. Examples
 
@@ -524,7 +524,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Network Device Maintenance Schedules Id Info by id
+    ---
+    - name: Get Network Device Maintenance Schedules Id
+        by id
       cisco.dnac.network_device_maintenance_schedules_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

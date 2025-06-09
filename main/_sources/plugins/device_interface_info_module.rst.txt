@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.device_interface_info module -- Information module for Device Interface Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.device_interface_info module -- Information module for Device Interface
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module device\_interface\_v1\_info
+- Get all Device Interface.
+- Get Device Interface by id. - \> Returns all available interfaces. This endpoint can return a maximum of 500 interfaces. The API returns a paginated response based on 'limit' and 'offset' parameters, allowing up to 500 records per page. 'limit' specifies the number of records, and 'offset' sets the starting point using 1-based indexing. Use '/dna/intent/api/v1/interface/count' to get the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
+- Returns the interface for the given interface ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -635,9 +637,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_all\_interfaces\_v1, devices.Devices.get\_interface\_by\_id\_v1,
+   - SDK Method used are devices.Devices.get\_all\_interfaces, devices.Devices.get\_interface\_by\_id,
    - Paths used are get /dna/intent/api/v1/interface, get /dna/intent/api/v1/interface/{id},
-   - It should be noted that this module is an alias of device\_interface\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -649,10 +650,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetAllInterfacesV1 <https://developer.cisco.com/docs/dna-center/#!get-all-interfaces>`_
-       Complete reference of the GetAllInterfacesV1 API.
-   `Cisco DNA Center documentation for Devices GetInterfaceByIdV1 <https://developer.cisco.com/docs/dna-center/#!get-interface-by-id>`_
-       Complete reference of the GetInterfaceByIdV1 API.
+   `Cisco DNA Center documentation for Devices GetAllInterfaces <https://developer.cisco.com/docs/dna-center/#!get-all-interfaces>`_
+       Complete reference of the GetAllInterfaces API.
+   `Cisco DNA Center documentation for Devices GetInterfaceById <https://developer.cisco.com/docs/dna-center/#!get-interface-by-id>`_
+       Complete reference of the GetInterfaceById API.
 
 .. Examples
 
@@ -662,7 +663,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Device Interface Info
+    ---
+    - name: Get all Device Interface
       cisco.dnac.device_interface_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -677,7 +679,7 @@ Examples
         lastInputTime: string
         lastOutputTime: string
       register: result
-    - name: Get Device Interface Info by id
+    - name: Get Device Interface by id
       cisco.dnac.device_interface_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.assurance_get_sensor_test_results_info module -- Information module for Assurance Get Sensor Test Results Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.assurance_get_sensor_test_results_info module -- Information module for Assurance Get Sensor Test Results
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module assurance\_get\_sensor\_test\_results\_v1\_info
+- Get all Assurance Get Sensor Test Results.
+- Intent API to get SENSOR test result summary.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -602,9 +603,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.sensor\_test\_results\_v1,
+   - SDK Method used are wireless.Wireless.sensor\_test\_results,
    - Paths used are get /dna/intent/api/v1/AssuranceGetSensorTestResults,
-   - It should be noted that this module is an alias of assurance\_get\_sensor\_test\_results\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -616,8 +616,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless SensorTestResultsV1 <https://developer.cisco.com/docs/dna-center/#!sensor-test-results>`_
-       Complete reference of the SensorTestResultsV1 API.
+   `Cisco DNA Center documentation for Wireless SensorTestResults <https://developer.cisco.com/docs/dna-center/#!sensor-test-results>`_
+       Complete reference of the SensorTestResults API.
 
 .. Examples
 
@@ -627,7 +627,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Assurance Get Sensor Test Results Info
+    ---
+    - name: Get all Assurance Get Sensor Test Results
       cisco.dnac.assurance_get_sensor_test_results_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

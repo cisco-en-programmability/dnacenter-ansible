@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_count_info module -- Information module for Sda Fabric Devices Layer2 Handoffs Sda Transits Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_count_info module -- Information module for Sda Fabricdevices Layer2handoffs Sdatransits Count
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_fabric\_devices\_layer2\_handoffs\_sda\_transits\_count\_v1\_info
+- Get all Sda Fabricdevices Layer2handoffs Sdatransits Count.
+- Returns the count of layer 3 handoffs with sda transit of fabric devices that match the provided query parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -533,9 +534,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit\_count\_v1,
+   - SDK Method used are sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit\_count,
    - Paths used are get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits/count,
-   - It should be noted that this module is an alias of sda\_fabric\_devices\_layer2\_handoffs\_sda\_transits\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithSdaTransitCountV1 <https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-sda-transit-count>`_
-       Complete reference of the GetFabricDevicesLayer3HandoffsWithSdaTransitCountV1 API.
+   `Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithSdaTransitCount <https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-sda-transit-count>`_
+       Complete reference of the GetFabricDevicesLayer3HandoffsWithSdaTransitCount API.
 
 .. Examples
 
@@ -558,8 +558,10 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Fabric Devices Layer2 Handoffs Sda Transits Count Info
-      cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_count_info:
+    ---
+    - name: Get all Sda Fabricdevices Layer2handoffs Sdatransits
+        Count
+      cisco.dnac.sda_fabricDevices_layer2Handoffs_sdaTransits_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

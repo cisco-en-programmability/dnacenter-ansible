@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.buildings_info module -- Information module for Buildings Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.buildings_info module -- Information module for Buildings
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module buildings\_v2\_info
+- Get Buildings by id.
+- Gets a building in the network hierarchy.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -501,7 +502,6 @@ Notes
 .. note::
    - SDK Method used are site\_design.SiteDesign.gets\_a\_building\_v2,
    - Paths used are get /dna/intent/api/v2/buildings/{id},
-   - It should be noted that this module is an alias of buildings\_v2\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,7 +513,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design GetsABuildingV2 <https://developer.cisco.com/docs/dna-center/#!gets-a-building>`_
+   `Cisco DNA Center documentation for Site Design GetsABuildingV2 <https://developer.cisco.com/docs/dna-center/#!gets-a-building-v-2>`_
        Complete reference of the GetsABuildingV2 API.
 
 .. Examples
@@ -524,7 +524,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Buildings Info by id
+    ---
+    - name: Get Buildings by id
       cisco.dnac.buildings_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -596,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"address": "string", "country": "string", "latitude": 0, "longitude": 0, "name": "string", "parentId": "string", "type": "string"}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"address": "string", "country": "string", "id": "string", "latitude": 0, "longitude": 0, "name": "string", "nameHierarchy": "string", "parentId": "string", "siteHierarchyId": "string", "type": "string"}}`
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.tags_network_devices_members_associations_query module -- Resource mo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module tags\_network\_devices\_members\_associations\_query\_v1
+- Manage operation create of the resource Tags Network Devices Members Associations Query. - \> Fetches the tags associated with the given network device \`ids\`. Devices that don't have any tags associated will not be included in the response. A tag is a user-defined or system-defined construct to group resources. When a device is tagged, it is called a member of the tag. \`ids\` can be fetched via \`/dna/intent/api/v1/network-device\` API.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +465,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are tag.Tag.query\_the\_tags\_associated\_with\_network\_devices\_v1,
+   - SDK Method used are tag.Tag.query\_the\_tags\_associated\_with\_network\_devices,
    - Paths used are post /dna/intent/api/v1/tags/networkDevices/membersAssociations/query,
-   - It should be noted that this module is an alias of tags\_network\_devices\_members\_associations\_query\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Tag QueryTheTagsAssociatedWithNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!query-the-tags-associated-with-network-devices>`_
-       Complete reference of the QueryTheTagsAssociatedWithNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Tag QueryTheTagsAssociatedWithNetworkDevices <https://developer.cisco.com/docs/dna-center/#!query-the-tags-associated-with-network-devices>`_
+       Complete reference of the QueryTheTagsAssociatedWithNetworkDevices API.
 
 .. Examples
 
@@ -490,6 +489,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.tags_network_devices_members_associations_query:
         dnac_host: "{{dnac_host}}"

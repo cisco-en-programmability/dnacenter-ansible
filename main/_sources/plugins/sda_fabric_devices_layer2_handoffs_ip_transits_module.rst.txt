@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits module -- Resource module for Sda Fabric Devices Layer2 Handoffs Ip Transits
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits module -- Resource module for Sda Fabricdevices Layer2handoffs Iptransits
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,11 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_fabric\_devices\_layer2\_handoffs\_ip\_transits\_v1
+- Manage operations create, update and delete of the resource Sda Fabricdevices Layer2handoffs Iptransits.
+- Adds layer 3 handoffs with ip transit in fabric devices based on user input.
+- Deletes a layer 3 handoff with ip transit of a fabric device by id.
+- Deletes layer 3 handoffs with ip transit of a fabric device based on user input.
+- Updates layer 3 handoffs with ip transit of fabric devices based on user input.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -976,9 +980,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit\_v1, sda.Sda.delete\_fabric\_device\_layer3\_handoff\_with\_ip\_transit\_by\_id\_v1, sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit\_v1,
+   - SDK Method used are sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.delete\_fabric\_device\_layer3\_handoff\_with\_ip\_transit\_by\_id, sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit,
    - Paths used are post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits, delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits, delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/{id}, put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits,
-   - It should be noted that this module is an alias of sda\_fabric\_devices\_layer2\_handoffs\_ip\_transits\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -990,14 +993,14 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithIpTransitV1 <https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-ip-transit>`_
-       Complete reference of the AddFabricDevicesLayer3HandoffsWithIpTransitV1 API.
-   `Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffWithIpTransitByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoff-with-ip-transit-by-id>`_
-       Complete reference of the DeleteFabricDeviceLayer3HandoffWithIpTransitByIdV1 API.
-   `Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithIpTransitV1 <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-ip-transit>`_
-       Complete reference of the DeleteFabricDeviceLayer3HandoffsWithIpTransitV1 API.
-   `Cisco DNA Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithIpTransitV1 <https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-ip-transit>`_
-       Complete reference of the UpdateFabricDevicesLayer3HandoffsWithIpTransitV1 API.
+   `Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithIpTransit <https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-ip-transit>`_
+       Complete reference of the AddFabricDevicesLayer3HandoffsWithIpTransit API.
+   `Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffWithIpTransitById <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoff-with-ip-transit-by-id>`_
+       Complete reference of the DeleteFabricDeviceLayer3HandoffWithIpTransitById API.
+   `Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithIpTransit <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-ip-transit>`_
+       Complete reference of the DeleteFabricDeviceLayer3HandoffsWithIpTransit API.
+   `Cisco DNA Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithIpTransit <https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-ip-transit>`_
+       Complete reference of the UpdateFabricDevicesLayer3HandoffsWithIpTransit API.
 
 .. Examples
 
@@ -1007,8 +1010,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
-      cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
+      cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1031,7 +1035,7 @@ Examples
             virtualNetworkName: string
             vlanId: 0
     - name: Update all
-      cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
+      cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1055,7 +1059,7 @@ Examples
             virtualNetworkName: string
             vlanId: 0
     - name: Delete all
-      cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
+      cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1067,7 +1071,7 @@ Examples
         fabricId: string
         networkDeviceId: string
     - name: Delete by id
-      cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits:
+      cisco.dnac.sda_fabricDevices_layer2Handoffs_ipTransits:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

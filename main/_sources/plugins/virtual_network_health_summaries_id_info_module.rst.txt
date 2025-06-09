@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.virtual_network_health_summaries_id_info module -- Information module for Virtual Network Health Summaries Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.virtual_network_health_summaries_id_info module -- Information module for Virtual Network Health Summaries Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module virtual\_network\_health\_summaries\_id\_v1\_info
+- Get Virtual Network Health Summaries Id by id. - \> Get health summary for a specific Virtual Network by providing the unique virtual networks id in the url path. L2 Virtual Networks are only included in health reporting for EVPN protocol deployments. The special Layer 3 VN called "INFRA\_VN" is also not included for user access through Assurance virtualNetworkHealthSummaries APIS. Please find INFRA\_VN related health metrics under /data/api/v1/fabricSiteHealthSummaries Ex attributes "pubsubInfraVnGoodHealthPercentage" and "bgpPeerInfraVnScoreGoodHealthPercentage" .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -638,9 +638,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.read\_virtual\_network\_with\_its\_health\_summary\_from\_id\_v1,
+   - SDK Method used are sda.Sda.read\_virtual\_network\_with\_its\_health\_summary\_from\_id,
    - Paths used are get /dna/data/api/v1/virtualNetworkHealthSummaries/{id},
-   - It should be noted that this module is an alias of virtual\_network\_health\_summaries\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -652,8 +651,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA ReadVirtualNetworkWithItsHealthSummaryFromIdV1 <https://developer.cisco.com/docs/dna-center/#!read-virtual-network-with-its-health-summary-from-id>`_
-       Complete reference of the ReadVirtualNetworkWithItsHealthSummaryFromIdV1 API.
+   `Cisco DNA Center documentation for SDA ReadVirtualNetworkWithItsHealthSummaryFromId <https://developer.cisco.com/docs/dna-center/#!read-virtual-network-with-its-health-summary-from-id>`_
+       Complete reference of the ReadVirtualNetworkWithItsHealthSummaryFromId API.
 
 .. Examples
 
@@ -663,7 +662,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Virtual Network Health Summaries Id Info by id
+    ---
+    - name: Get Virtual Network Health Summaries Id by id
       cisco.dnac.virtual_network_health_summaries_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -739,7 +739,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"associatedL3Vn": {}, "bgpPeerFairHealthDeviceCount": 0, "bgpPeerGoodHealthDeviceCount": 0, "bgpPeerGoodHealthPercentage": 0, "bgpPeerNoHealthDeviceCount": 0, "bgpPeerPoorHealthDeviceCount": 0, "bgpPeerTotalDeviceCount": 0, "fairHealthDeviceCount": 0, "goodHealthDeviceCount": 0, "goodHealthPercentage": 0, "id": "string", "internetAvailFairHealthDeviceCount": 0, "internetAvailGoodHealthDeviceCount": 0, "internetAvailGoodHealthPercentage": 0, "internetAvailNoHealthDeviceCount": 0, "internetAvailPoorHealthDeviceCount": 0, "internetAvailTotalDeviceCount": 0, "layer": {}, "multiCastFairHealthDeviceCount": 0, "multiCastGoodHealthDeviceCount": 0, "multiCastGoodHealthPercentage": {}, "multiCastNoHealthDeviceCount": 0, "multiCastPoorHealthDeviceCount": 0, "multiCastTotalDeviceCount": 0, "name": "string", "networkProtocol": "string", "noHealthDeviceCount": 0, "poorHealthDeviceCount": 0, "pubsubSessionFairHealthDeviceCount": 0, "pubsubSessionGoodHealthDeviceCount": 0, "pubsubSessionGoodHealthPercentage": 0, "pubsubSessionNoHealthDeviceCount": 0, "pubsubSessionPoorHealthDeviceCount": 0, "pubsubSessionTotalDeviceCount": 0, "totalDeviceCount": 0, "totalEndpoints": 0, "totalFabricSites": 0, "vlan": {}, "vnExitFairHealthDeviceCount": 0, "vnExitGoodHealthDeviceCount": 0, "vnExitHealthPercentage": 0, "vnExitNoHealthDeviceCount": 0, "vnExitPoorHealthDeviceCount": 0, "vnExitTotalDeviceCount": 0, "vnFabricControlPlaneFairHealthDeviceCount": 0, "vnFabricControlPlaneGoodHealthDeviceCount": 0, "vnFabricControlPlaneGoodHealthPercentage": 0, "vnFabricControlPlaneNoHealthDeviceCount": 0, "vnFabricControlPlanePoorHealthDeviceCount": 0, "vnFabricControlPlaneTotalDeviceCount": 0, "vnServicesFairHealthDeviceCount": 0, "vnServicesGoodHealthDeviceCount": 0, "vnServicesHealthPercentage": 0, "vnServicesNoHealthDeviceCount": 0, "vnServicesPoorHealthDeviceCount": 0, "vnServicesTotalDeviceCount": 0, "vnStatusFairHealthDeviceCount": 0, "vnStatusGoodHealthDeviceCount": 0, "vnStatusHealthPercentage": {}, "vnStatusNoHealthDeviceCount": 0, "vnStatusPoorHealthDeviceCount": 0, "vnStatusTotalDeviceCount": 0, "vniFairHealthDeviceCount": 0, "vniGoodHealthDeviceCount": 0, "vniGoodHealthPercentage": {}, "vniNoHealthDeviceCount": 0, "vniPoorHealthDeviceCount": 0, "vniTotalDeviceCount": 0, "vnid": 0}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"associatedL3Vn": "string", "bgpPeerFairHealthDeviceCount": 0, "bgpPeerGoodHealthDeviceCount": 0, "bgpPeerGoodHealthPercentage": 0, "bgpPeerNoHealthDeviceCount": 0, "bgpPeerPoorHealthDeviceCount": 0, "bgpPeerTotalDeviceCount": 0, "fairHealthDeviceCount": 0, "goodHealthDeviceCount": 0, "goodHealthPercentage": 0, "id": "string", "internetAvailFairHealthDeviceCount": 0, "internetAvailGoodHealthDeviceCount": 0, "internetAvailGoodHealthPercentage": 0, "internetAvailNoHealthDeviceCount": 0, "internetAvailPoorHealthDeviceCount": 0, "internetAvailTotalDeviceCount": 0, "layer": "string", "multiCastFairHealthDeviceCount": 0, "multiCastGoodHealthDeviceCount": 0, "multiCastGoodHealthPercentage": 0, "multiCastPoorHealthDeviceCount": 0, "multiCastTotalDeviceCount": 0, "name": "string", "networkProtocol": "string", "noHealthDeviceCount": 0, "poorHealthDeviceCount": 0, "pubsubSessionFairHealthDeviceCount": 0, "pubsubSessionGoodHealthDeviceCount": 0, "pubsubSessionGoodHealthPercentage": 0, "pubsubSessionNoHealthDeviceCount": 0, "pubsubSessionPoorHealthDeviceCount": 0, "pubsubSessionTotalDeviceCount": 0, "totalEndpoints": 0, "totalFabricSites": 0, "totalHealthDeviceCount": 0, "vlan": "string", "vnExitFairHealthDeviceCount": 0, "vnExitGoodHealthDeviceCount": 0, "vnExitHealthPercentage": 0, "vnExitNoHealthDeviceCount": 0, "vnExitPoorHealthDeviceCount": 0, "vnExitTotalDeviceCount": 0, "vnFabricControlPlaneFairHealthDeviceCount": 0, "vnFabricControlPlaneGoodHealthDeviceCount": 0, "vnFabricControlPlaneGoodHealthPercentage": 0, "vnFabricControlPlaneNoHealthDeviceCount": 0, "vnFabricControlPlanePoorHealthDeviceCount": 0, "vnFabricControlPlaneTotalDeviceCount": 0, "vnServicesFairHealthDeviceCount": 0, "vnServicesGoodHealthDeviceCount": 0, "vnServicesHealthPercentage": 0, "vnServicesNoHealthDeviceCount": 0, "vnServicesPoorHealthDeviceCount": 0, "vnServicesTotalDeviceCount": 0, "vnStatusFairHealthDeviceCount": 0, "vnStatusGoodHealthDeviceCount": 0, "vnStatusHealthPercentage": 0, "vnStatusNoHealthDeviceCount": 0, "vnStatusPoorHealthDeviceCount": 0, "vnStatusTotalDeviceCount": 0, "vniFairHealthDeviceCount": 0, "vniGoodHealthDeviceCount": 0, "vniGoodHealthPercentage": 0, "vniNoHealthDeviceCount": 0, "vniPoorHealthDeviceCount": 0, "vniTotalDeviceCount": 0, "vnid": "string"}, "version": "string"}`
 
 
       .. raw:: html

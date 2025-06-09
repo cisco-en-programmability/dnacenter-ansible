@@ -42,7 +42,7 @@ cisco.dnac.floors module -- Resource module for Floors
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module floors\_v2
+- Manage operations create, update and delete of the resource Floors.
+- Create a floor in the network hierarchy under building.
+- Deletes a floor from the network hierarchy. This operations fails if there are any devices assigned to this floor.
+- Updates a floor in the network hierarchy.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -739,7 +742,6 @@ Notes
 .. note::
    - SDK Method used are site\_design.SiteDesign.creates\_a\_floor\_v2, site\_design.SiteDesign.deletes\_a\_floor\_v2, site\_design.SiteDesign.updates\_a\_floor\_v2,
    - Paths used are post /dna/intent/api/v2/floors, delete /dna/intent/api/v2/floors/{id}, put /dna/intent/api/v2/floors/{id},
-   - It should be noted that this module is an alias of floors\_v2
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -751,11 +753,11 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design CreatesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!creates-a-floor>`_
+   `Cisco DNA Center documentation for Site Design CreatesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!creates-a-floor-v-2>`_
        Complete reference of the CreatesAFloorV2 API.
-   `Cisco DNA Center documentation for Site Design DeletesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!deletes-a-floor>`_
+   `Cisco DNA Center documentation for Site Design DeletesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!deletes-a-floor-v-2>`_
        Complete reference of the DeletesAFloorV2 API.
-   `Cisco DNA Center documentation for Site Design UpdatesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!updates-a-floor>`_
+   `Cisco DNA Center documentation for Site Design UpdatesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!updates-a-floor-v-2>`_
        Complete reference of the UpdatesAFloorV2 API.
 
 .. Examples
@@ -766,6 +768,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.floors:
         dnac_host: "{{dnac_host}}"

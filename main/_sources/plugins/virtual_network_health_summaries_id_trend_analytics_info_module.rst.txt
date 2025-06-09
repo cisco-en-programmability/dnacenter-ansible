@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.virtual_network_health_summaries_id_trend_analytics_info module -- Information module for Virtual Network Health Summaries Id Trend Analytics Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.virtual_network_health_summaries_id_trend_analytics_info module -- Information module for Virtual Network Health Summaries Id Trend Analytics
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module virtual\_network\_health\_summaries\_id\_trend\_analytics\_v1\_info
+- Get all Virtual Network Health Summaries Id Trend Analytics. - \> Get health time series for a specific Virtual Network by providing the unique Virtual Network id in the url path. Layer 2 Virtual Networks are only included in health reporting for EVPN protocol deployments. The special Layer 3 VN called "INFRA\_VN" is also not included for user access through Assurance virtualNetworkHealthSummaries APIS.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -741,9 +741,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.the\_trend\_analytics\_data\_for\_a\_virtual\_network\_in\_the\_specified\_time\_range\_v1,
+   - SDK Method used are sda.Sda.the\_trend\_analytics\_data\_for\_a\_virtual\_network\_in\_the\_specified\_time\_range,
    - Paths used are get /dna/data/api/v1/virtualNetworkHealthSummaries/{id}/trendAnalytics,
-   - It should be noted that this module is an alias of virtual\_network\_health\_summaries\_id\_trend\_analytics\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -755,8 +754,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA TheTrendAnalyticsDataForAVirtualNetworkInTheSpecifiedTimeRangeV1 <https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-a-virtual-network-in-the-specified-time-range>`_
-       Complete reference of the TheTrendAnalyticsDataForAVirtualNetworkInTheSpecifiedTimeRangeV1 API.
+   `Cisco DNA Center documentation for SDA TheTrendAnalyticsDataForAVirtualNetworkInTheSpecifiedTimeRange <https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-a-virtual-network-in-the-specified-time-range>`_
+       Complete reference of the TheTrendAnalyticsDataForAVirtualNetworkInTheSpecifiedTimeRange API.
 
 .. Examples
 
@@ -766,7 +765,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Virtual Network Health Summaries Id Trend Analytics Info
+    ---
+    - name: Get all Virtual Network Health Summaries Id
+        Trend Analytics
       cisco.dnac.virtual_network_health_summaries_id_trend_analytics_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -845,7 +846,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"limit": 0, "offset": 0, "timeSortOrder": "string"}, "response": [{"attributes": [{"name": "string", "value": 0}], "timestamp": 0}], "version": 0}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "timeSortOrder": "string"}, "response": [{"attributes": [{"name": "string", "value": 0}], "timestamp": 0}], "version": "string"}`
 
 
       .. raw:: html

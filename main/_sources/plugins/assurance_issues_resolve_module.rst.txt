@@ -42,7 +42,7 @@ cisco.dnac.assurance_issues_resolve module -- Resource module for Assurance Issu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module assurance\_issues\_resolve\_v1
+- Manage operation create of the resource Assurance Issues Resolve. - \> Resolves the given list of issues. The response contains the list of issues which were successfully resolved as well as the issues which are failed to resolve. After this API returns success response, it may take few seconds for the issue status to be updated if the system is heavily loaded. Please use \`GET /dna/data/api/v1/assuranceIssues/{id}\` API to fetch the details of a particular issue and verify \`updatedTime\`. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesLifecycle-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.resolve\_the\_given\_lists\_of\_issues\_v1,
+   - SDK Method used are issues.Issues.resolve\_the\_given\_lists\_of\_issues,
    - Paths used are post /dna/intent/api/v1/assuranceIssues/resolve,
-   - It should be noted that this module is an alias of assurance\_issues\_resolve\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Issues ResolveTheGivenListsOfIssuesV1 <https://developer.cisco.com/docs/dna-center/#!resolve-the-given-lists-of-issues>`_
-       Complete reference of the ResolveTheGivenListsOfIssuesV1 API.
+   `Cisco DNA Center documentation for Issues ResolveTheGivenListsOfIssues <https://developer.cisco.com/docs/dna-center/#!resolve-the-given-lists-of-issues>`_
+       Complete reference of the ResolveTheGivenListsOfIssues API.
 
 .. Examples
 
@@ -524,6 +523,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.assurance_issues_resolve:
         dnac_host: "{{dnac_host}}"

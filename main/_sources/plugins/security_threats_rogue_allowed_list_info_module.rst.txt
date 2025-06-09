@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.security_threats_rogue_allowed_list_info module -- Information module for Security Threats Rogue Allowed List Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.security_threats_rogue_allowed_list_info module -- Information module for Security Threats Rogue Allowed-List
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_threats\_rogue\_allowed\_list\_v1\_info
+- Get all Security Threats Rogue Allowed-List.
+- Intent API to fetch all the allowed mac addresses in the system.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -534,9 +535,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_allowed\_mac\_address\_v1,
+   - SDK Method used are devices.Devices.get\_allowed\_mac\_address,
    - Paths used are get /dna/intent/api/v1/security/threats/rogue/allowed-list,
-   - It should be noted that this module is an alias of security\_threats\_rogue\_allowed\_list\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -548,8 +548,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetAllowedMacAddressV1 <https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address>`_
-       Complete reference of the GetAllowedMacAddressV1 API.
+   `Cisco DNA Center documentation for Devices GetAllowedMacAddress <https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address>`_
+       Complete reference of the GetAllowedMacAddress API.
 
 .. Examples
 
@@ -559,8 +559,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Security Threats Rogue Allowed List Info
-      cisco.dnac.security_threats_rogue_allowed_list_info:
+    ---
+    - name: Get all Security Threats Rogue Allowed-List
+      cisco.dnac.security_threats_rogue_allowed-list_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

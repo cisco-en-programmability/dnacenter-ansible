@@ -42,7 +42,7 @@ cisco.dnac.pnp_virtual_account_deregister module -- Resource module for Pnp Virt
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module pnp\_virtual\_account\_deregister\_v1
+- Manage operation delete of the resource Pnp Virtual Account Deregister. - \> Deregisters the specified smart account & virtual account info and the associated device information from the PnP System & database. The devices associated with the deregistered virtual account are removed from the PnP database as well. The response payload contains the deregistered smart & virtual account information.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.deregister\_virtual\_account\_v1,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.deregister\_virtual\_account,
    - Paths used are delete /dna/intent/api/v1/onboarding/pnp-settings/vacct,
-   - It should be noted that this module is an alias of pnp\_virtual\_account\_deregister\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) DeregisterVirtualAccountV1 <https://developer.cisco.com/docs/dna-center/#!deregister-virtual-account>`_
-       Complete reference of the DeregisterVirtualAccountV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) DeregisterVirtualAccount <https://developer.cisco.com/docs/dna-center/#!deregister-virtual-account>`_
+       Complete reference of the DeregisterVirtualAccount API.
 
 .. Examples
 
@@ -524,6 +523,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Delete all
       cisco.dnac.pnp_virtual_account_deregister:
         dnac_host: "{{dnac_host}}"

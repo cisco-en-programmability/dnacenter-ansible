@@ -42,7 +42,7 @@ cisco.dnac.application_visibility_network_devices_enable_app_telemetry module --
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module application\_visibility\_network\_devices\_enable\_app\_telemetry\_v1
+- Manage operation create of the resource Application Visibility Network Devices Enable App Telemetry. - \> This API can be used to enable application telemetry feature on multiple network devices. Request payload should include the list of network devices where application telemetry has to be enabled. For wireless controllers, it also needs the WLAN modes / SSID details to be included for enablement.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -576,9 +576,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.enable\_application\_telemetry\_feature\_on\_multiple\_network\_devices\_v1,
+   - SDK Method used are application\_policy.ApplicationPolicy.enable\_application\_telemetry\_feature\_on\_multiple\_network\_devices,
    - Paths used are post /dna/intent/api/v1/applicationVisibility/networkDevices/enableAppTelemetry,
-   - It should be noted that this module is an alias of application\_visibility\_network\_devices\_enable\_app\_telemetry\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -590,8 +589,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy EnableApplicationTelemetryFeatureOnMultipleNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!enable-application-telemetry-feature-on-multiple-network-devices>`_
-       Complete reference of the EnableApplicationTelemetryFeatureOnMultipleNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Application Policy EnableApplicationTelemetryFeatureOnMultipleNetworkDevices <https://developer.cisco.com/docs/dna-center/#!enable-application-telemetry-feature-on-multiple-network-devices>`_
+       Complete reference of the EnableApplicationTelemetryFeatureOnMultipleNetworkDevices API.
 
 .. Examples
 
@@ -601,6 +600,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.application_visibility_network_devices_enable_app_telemetry:
         dnac_host: "{{dnac_host}}"

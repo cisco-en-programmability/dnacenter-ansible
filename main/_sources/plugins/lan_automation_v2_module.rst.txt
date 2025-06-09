@@ -42,7 +42,7 @@ cisco.dnac.lan_automation_v2 module -- Resource module for Lan Automation V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Lan Automation V2.
-- Invoke V2 LAN Automation Start API, which supports optional auto-stop processing feature based on the provided timeout or a specific device list, or both. The stop processing will be executed automatically when either of the cases is satisfied, without specifically calling the stop API. The V2 API behaves similarly to V1 if no timeout or device list is provided, and the user needs to call the stop API for LAN Automation stop processing. With the V2 API, the user can also specify the level up to which the devices can be LAN automated.
-
+- Manage operation create of the resource Lan Automation V2. - \> Invoke V2 LAN Automation Start API, which supports optional auto-stop processing feature based on the provided timeout or a specific device list, or both. The stop processing will be executed automatically when either of the cases is satisfied, without specifically calling the stop API. The V2 API behaves similarly to V1 if no timeout or device list is provided, and the user needs to call the stop API for LAN Automation stop processing. With the V2 API, the user can also specify the level up to which the devices can be LAN automated.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -612,7 +610,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site name hierarchy for the device, must be a child site of the discoveredDeviceSiteNameHierarchy or same if its not area type.
+      Site name hierarchy for the device, must be a child site of the discoveredDeviceSiteNameHierarchy or same if it's not area type.
 
 
       .. raw:: html
@@ -1145,7 +1143,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for LAN Automation LANAutomationStartV2 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-start>`_
+   `Cisco DNA Center documentation for LAN Automation LANAutomationStartV2 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-start-v-2>`_
        Complete reference of the LANAutomationStartV2 API.
 
 .. Examples
@@ -1156,6 +1154,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.lan_automation_v2:
         dnac_host: "{{dnac_host}}"

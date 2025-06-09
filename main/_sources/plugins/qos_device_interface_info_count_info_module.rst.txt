@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.qos_device_interface_info_count_info module -- Information module for Qos Device Interface Info Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.qos_device_interface_info_count_info module -- Information module for Qos Device Interface Info Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module qos\_device\_interface\_info\_count\_v1\_info
+- Get all Qos Device Interface Info Count.
+- Get the number of all existing qos device interface infos group by network device id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.get\_qos\_device\_interface\_info\_count\_v1,
+   - SDK Method used are application\_policy.ApplicationPolicy.get\_qos\_device\_interface\_info\_count,
    - Paths used are get /dna/intent/api/v1/qos-device-interface-info-count,
-   - It should be noted that this module is an alias of qos\_device\_interface\_info\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy GetQosDeviceInterfaceInfoCountV1 <https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info-count>`_
-       Complete reference of the GetQosDeviceInterfaceInfoCountV1 API.
+   `Cisco DNA Center documentation for Application Policy GetQosDeviceInterfaceInfoCount <https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info-count>`_
+       Complete reference of the GetQosDeviceInterfaceInfoCount API.
 
 .. Examples
 
@@ -490,7 +490,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Qos Device Interface Info Count Info
+    ---
+    - name: Get all Qos Device Interface Info Count
       cisco.dnac.qos_device_interface_info_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

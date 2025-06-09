@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.flexible_report_schedules_info module -- Information module for Flexible Report Schedules Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.flexible_report_schedules_info module -- Information module for Flexible Report Schedules
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module flexible\_report\_schedules\_v1\_info
+- Get all Flexible Report Schedules.
+- Get all flexible report schedules.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are reports.Reports.get\_all\_flexible\_report\_schedules\_v1,
+   - SDK Method used are reports.Reports.get\_all\_flexible\_report\_schedules,
    - Paths used are get /dna/data/api/v1/flexible-report/schedules,
-   - It should be noted that this module is an alias of flexible\_report\_schedules\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Reports GetAllFlexibleReportSchedulesV1 <https://developer.cisco.com/docs/dna-center/#!get-all-flexible-report-schedules>`_
-       Complete reference of the GetAllFlexibleReportSchedulesV1 API.
+   `Cisco DNA Center documentation for Reports GetAllFlexibleReportSchedules <https://developer.cisco.com/docs/dna-center/#!get-all-flexible-report-schedules>`_
+       Complete reference of the GetAllFlexibleReportSchedules API.
 
 .. Examples
 
@@ -490,7 +490,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Flexible Report Schedules Info
+    ---
+    - name: Get all Flexible Report Schedules
       cisco.dnac.flexible_report_schedules_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

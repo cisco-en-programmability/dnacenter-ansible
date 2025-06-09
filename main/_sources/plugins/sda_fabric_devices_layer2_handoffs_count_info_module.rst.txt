@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_devices_layer2_handoffs_count_info module -- Information module for Sda Fabric Devices Layer2 Handoffs Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_devices_layer2_handoffs_count_info module -- Information module for Sda Fabricdevices Layer2handoffs Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_fabric\_devices\_layer2\_handoffs\_count\_v1\_info
+- Get all Sda Fabricdevices Layer2handoffs Count.
+- Returns the count of layer 2 handoffs of fabric devices that match the provided query parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -533,9 +534,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_fabric\_devices\_layer2\_handoffs\_count\_v1,
+   - SDK Method used are sda.Sda.get\_fabric\_devices\_layer2\_handoffs\_count,
    - Paths used are get /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/count,
-   - It should be noted that this module is an alias of sda\_fabric\_devices\_layer2\_handoffs\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetFabricDevicesLayer2HandoffsCountV1 <https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-2-handoffs-count>`_
-       Complete reference of the GetFabricDevicesLayer2HandoffsCountV1 API.
+   `Cisco DNA Center documentation for SDA GetFabricDevicesLayer2HandoffsCount <https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-2-handoffs-count>`_
+       Complete reference of the GetFabricDevicesLayer2HandoffsCount API.
 
 .. Examples
 
@@ -558,8 +558,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Fabric Devices Layer2 Handoffs Count Info
-      cisco.dnac.sda_fabric_devices_layer2_handoffs_count_info:
+    ---
+    - name: Get all Sda Fabricdevices Layer2handoffs Count
+      cisco.dnac.sda_fabricDevices_layer2Handoffs_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.security_threats_rogue_allowed_list module -- Resource module for Security Threats Rogue Allowed List
+cisco.dnac.security_threats_rogue_allowed_list module -- Resource module for Security Threats Rogue Allowed-List
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_threats\_rogue\_allowed\_list\_v1
+- Manage operations create and delete of the resource Security Threats Rogue Allowed-List.
+- Intent API to add the threat mac address to allowed list.
+- Intent API to remove the threat mac address from allowed list.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -568,9 +570,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.add\_allowed\_mac\_address\_v1, devices.Devices.remove\_allowed\_mac\_address\_v1,
+   - SDK Method used are devices.Devices.add\_allowed\_mac\_address, devices.Devices.remove\_allowed\_mac\_address,
    - Paths used are post /dna/intent/api/v1/security/threats/rogue/allowed-list, delete /dna/intent/api/v1/security/threats/rogue/allowed-list/{macAddress},
-   - It should be noted that this module is an alias of security\_threats\_rogue\_allowed\_list\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,10 +583,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices AddAllowedMacAddressV1 <https://developer.cisco.com/docs/dna-center/#!add-allowed-mac-address>`_
-       Complete reference of the AddAllowedMacAddressV1 API.
-   `Cisco DNA Center documentation for Devices RemoveAllowedMacAddressV1 <https://developer.cisco.com/docs/dna-center/#!remove-allowed-mac-address>`_
-       Complete reference of the RemoveAllowedMacAddressV1 API.
+   `Cisco DNA Center documentation for Devices AddAllowedMacAddress <https://developer.cisco.com/docs/dna-center/#!add-allowed-mac-address>`_
+       Complete reference of the AddAllowedMacAddress API.
+   `Cisco DNA Center documentation for Devices RemoveAllowedMacAddress <https://developer.cisco.com/docs/dna-center/#!remove-allowed-mac-address>`_
+       Complete reference of the RemoveAllowedMacAddress API.
 
 .. Examples
 
@@ -595,8 +596,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
-      cisco.dnac.security_threats_rogue_allowed_list:
+      cisco.dnac.security_threats_rogue_allowed-list:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -609,7 +611,7 @@ Examples
           - category: 0
             macAddress: string
     - name: Delete by id
-      cisco.dnac.security_threats_rogue_allowed_list:
+      cisco.dnac.security_threats_rogue_allowed-list:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

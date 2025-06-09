@@ -42,7 +42,7 @@ cisco.dnac.fabrics_fabric_id_switch_wireless_setting_reload module -- Resource m
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module fabrics\_fabric\_id\_switch\_wireless\_setting\_reload\_v1
+- Manage operation create of the resource Fabrics Fabric Id Switch Wireless Setting Reload. - \> This API is used to reload switches after disabling wireless to remove the wireless-controller configuration on the device. When wireless is disabled on a switch, all wireless configurations are removed except for the wireless-controller configuration. To completely remove the wireless-controller configuration, you can use this API. Please note that using this API will cause a reload of the devices. This API should only be used for devices that have wireless disabled but still have the 'wireless-controller' configuration present. The reload payload can have a maximum of two switches as only two switches can have a wireless role in a fabric site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are fabric\_wireless.FabricWireless.reload\_switch\_for\_wireless\_controller\_cleanup\_v1,
+   - SDK Method used are fabric\_wireless.FabricWireless.reload\_switch\_for\_wireless\_controller\_cleanup,
    - Paths used are post /dna/intent/api/v1/sda/fabrics/{fabricId}/switchWirelessSetting/reload,
-   - It should be noted that this module is an alias of fabrics\_fabric\_id\_switch\_wireless\_setting\_reload\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Fabric Wireless ReloadSwitchForWirelessControllerCleanupV1 <https://developer.cisco.com/docs/dna-center/#!reload-switch-for-wireless-controller-cleanup>`_
-       Complete reference of the ReloadSwitchForWirelessControllerCleanupV1 API.
+   `Cisco DNA Center documentation for Fabric Wireless ReloadSwitchForWirelessControllerCleanup <https://developer.cisco.com/docs/dna-center/#!reload-switch-for-wireless-controller-cleanup>`_
+       Complete reference of the ReloadSwitchForWirelessControllerCleanup API.
 
 .. Examples
 
@@ -524,6 +523,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.fabrics_fabric_id_switch_wireless_setting_reload:
         dnac_host: "{{dnac_host}}"

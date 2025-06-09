@@ -42,7 +42,7 @@ cisco.dnac.site_v2_info module -- Information module for Site V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Site V2.
-- API to get sites by site-name-hierarchy or siteId or type. List all sites if these parameters are not given as an input.
-
+- Get all Site V2. - \> API to get sites by site-name-hierarchy or siteId or type. List all sites if these parameters are not given as an input.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -544,7 +542,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. Offset starting index for pagination.
+      Offset query parameter. Offset/starting index for pagination.
 
 
       .. raw:: html
@@ -650,7 +648,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites GetSiteV2 <https://developer.cisco.com/docs/dna-center/#!get-site>`_
+   `Cisco DNA Center documentation for Sites GetSiteV2 <https://developer.cisco.com/docs/dna-center/#!get-site-v-2>`_
        Complete reference of the GetSiteV2 API.
 
 .. Examples
@@ -661,6 +659,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Get all Site V2
       cisco.dnac.site_v2_info:
         dnac_host: "{{dnac_host}}"

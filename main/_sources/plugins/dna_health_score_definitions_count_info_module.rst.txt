@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.dna_health_score_definitions_count_info module -- Information module for Dna Health Score Definitions Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.dna_health_score_definitions_count_info module -- Information module for Dna Health Score Definitions Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module dna\_health\_score\_definitions\_count\_v1\_info
+- Get all Dna Health Score Definitions Count. - \> Get the count of health score definitions based on provided filters. Supported filters are id, name and overall health include status. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -578,9 +578,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_the\_count\_of\_health\_score\_definitions\_based\_on\_provided\_filters\_v1,
+   - SDK Method used are devices.Devices.get\_the\_count\_of\_health\_score\_definitions\_based\_on\_provided\_filters,
    - Paths used are get /dna/intent/api/v1/healthScoreDefinitions/count,
-   - It should be noted that this module is an alias of dna\_health\_score\_definitions\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -592,8 +591,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetTheCountOfHealthScoreDefinitionsBasedOnProvidedFiltersV1 <https://developer.cisco.com/docs/dna-center/#!get-the-count-of-health-score-definitions-based-on-provided-filters>`_
-       Complete reference of the GetTheCountOfHealthScoreDefinitionsBasedOnProvidedFiltersV1 API.
+   `Cisco DNA Center documentation for Devices GetTheCountOfHealthScoreDefinitionsBasedOnProvidedFilters <https://developer.cisco.com/docs/dna-center/#!get-the-count-of-health-score-definitions-based-on-provided-filters>`_
+       Complete reference of the GetTheCountOfHealthScoreDefinitionsBasedOnProvidedFilters API.
 
 .. Examples
 
@@ -603,7 +602,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Dna Health Score Definitions Count Info
+    ---
+    - name: Get all Dna Health Score Definitions Count
       cisco.dnac.dna_health_score_definitions_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

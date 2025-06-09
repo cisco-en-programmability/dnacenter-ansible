@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_settings_interfaces_info module -- Information module for Wireless Settings Interfaces Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_settings_interfaces_info module -- Information module for Wireless Settings Interfaces
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_interfaces\_v1\_info
+- Get all Wireless Settings Interfaces.
+- Get Wireless Settings Interfaces by id.
+- This API allows the user to get all Interfaces.
+- This API allows the user to get an interface by ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -636,9 +639,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_interface\_by\_id\_v1, wireless.Wireless.get\_interfaces\_v1,
+   - SDK Method used are wireless.Wireless.get\_interface\_by\_id, wireless.Wireless.get\_interfaces,
    - Paths used are get /dna/intent/api/v1/wirelessSettings/interfaces, get /dna/intent/api/v1/wirelessSettings/interfaces/{id},
-   - It should be noted that this module is an alias of wireless\_settings\_interfaces\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -650,10 +652,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetInterfaceByIDV1 <https://developer.cisco.com/docs/dna-center/#!get-interface-by-id>`_
-       Complete reference of the GetInterfaceByIDV1 API.
-   `Cisco DNA Center documentation for Wireless GetInterfacesV1 <https://developer.cisco.com/docs/dna-center/#!get-interfaces>`_
-       Complete reference of the GetInterfacesV1 API.
+   `Cisco DNA Center documentation for Wireless GetInterfaceByID <https://developer.cisco.com/docs/dna-center/#!get-interface-by-id>`_
+       Complete reference of the GetInterfaceByID API.
+   `Cisco DNA Center documentation for Wireless GetInterfaces <https://developer.cisco.com/docs/dna-center/#!get-interfaces>`_
+       Complete reference of the GetInterfaces API.
 
 .. Examples
 
@@ -663,7 +665,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Settings Interfaces Info
+    ---
+    - name: Get all Wireless Settings Interfaces
       cisco.dnac.wireless_settings_interfaces_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -678,7 +681,7 @@ Examples
         interfaceName: string
         vlanId: 0
       register: result
-    - name: Get Wireless Settings Interfaces Info by id
+    - name: Get Wireless Settings Interfaces by id
       cisco.dnac.wireless_settings_interfaces_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

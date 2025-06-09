@@ -42,7 +42,7 @@ cisco.dnac.floors_floor_id_access_point_positions_bulk_change module -- Resource
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module floors\_floor\_id\_access\_point\_positions\_bulk\_change\_v2
+- Manage operation create of the resource Floors Floor Id Access Point Positions Bulk Change.
+- Position or reposition the Access Points on the map.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -879,7 +880,6 @@ Notes
 .. note::
    - SDK Method used are site\_design.SiteDesign.edit\_the\_access\_points\_positions\_v2,
    - Paths used are post /dna/intent/api/v2/floors/{floorId}/accessPointPositions/bulkChange,
-   - It should be noted that this module is an alias of floors\_floor\_id\_access\_point\_positions\_bulk\_change\_v2
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -891,7 +891,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design EditTheAccessPointsPositionsV2 <https://developer.cisco.com/docs/dna-center/#!edit-the-access-points-positions>`_
+   `Cisco DNA Center documentation for Site Design EditTheAccessPointsPositionsV2 <https://developer.cisco.com/docs/dna-center/#!edit-the-access-points-positions-v-2>`_
        Complete reference of the EditTheAccessPointsPositionsV2 API.
 
 .. Examples
@@ -902,6 +902,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.floors_floor_id_access_point_positions_bulk_change:
         dnac_host: "{{dnac_host}}"

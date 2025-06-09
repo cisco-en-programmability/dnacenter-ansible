@@ -42,7 +42,7 @@ cisco.dnac.icap_settings_deploy module -- Resource module for Icap Settings Depl
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module icap\_settings\_deploy\_v1
+- Manage operation create of the resource Icap Settings Deploy. - \> Deploys the given ICAP intent without preview and approval. The response body contains a task object with a taskId and a URL for more information about the task. The deployment status of this ICAP intent can be found in the output of the URL. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-ICAP\_APIs-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -806,9 +806,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.deploys\_the\_given\_i\_cap\_configuration\_intent\_without\_preview\_and\_approve\_v1,
+   - SDK Method used are sensors.Sensors.deploys\_the\_given\_i\_cap\_configuration\_intent\_without\_preview\_and\_approve,
    - Paths used are post /dna/intent/api/v1/icapSettings/deploy,
-   - It should be noted that this module is an alias of icap\_settings\_deploy\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -820,8 +819,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sensors DeploysTheGivenICAPConfigurationIntentWithoutPreviewAndApproveV1 <https://developer.cisco.com/docs/dna-center/#!deploys-the-given-icap-configuration-intent-without-preview-and-approve>`_
-       Complete reference of the DeploysTheGivenICAPConfigurationIntentWithoutPreviewAndApproveV1 API.
+   `Cisco DNA Center documentation for Sensors DeploysTheGivenICAPConfigurationIntentWithoutPreviewAndApprove <https://developer.cisco.com/docs/dna-center/#!deploys-the-given-icap-configuration-intent-without-preview-and-approve>`_
+       Complete reference of the DeploysTheGivenICAPConfigurationIntentWithoutPreviewAndApprove API.
 
 .. Examples
 
@@ -831,6 +830,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.icap_settings_deploy:
         dnac_host: "{{dnac_host}}"

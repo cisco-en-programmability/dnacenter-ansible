@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.event_webhook_info module -- Information module for Event Webhook Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.event_webhook_info module -- Information module for Event Webhook
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module event\_webhook\_v1\_info
+- Get all Event Webhook.
+- Get Webhook Destination.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -635,9 +636,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are event\_management.EventManagement.get\_webhook\_destination\_v1,
+   - SDK Method used are event\_management.EventManagement.get\_webhook\_destination,
    - Paths used are get /dna/intent/api/v1/event/webhook,
-   - It should be noted that this module is an alias of event\_webhook\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -649,8 +649,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Event Management GetWebhookDestinationV1 <https://developer.cisco.com/docs/dna-center/#!get-webhook-destination>`_
-       Complete reference of the GetWebhookDestinationV1 API.
+   `Cisco DNA Center documentation for Event Management GetWebhookDestination <https://developer.cisco.com/docs/dna-center/#!get-webhook-destination>`_
+       Complete reference of the GetWebhookDestination API.
 
 .. Examples
 
@@ -660,7 +660,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Event Webhook Info
+    ---
+    - name: Get all Event Webhook
       cisco.dnac.event_webhook_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

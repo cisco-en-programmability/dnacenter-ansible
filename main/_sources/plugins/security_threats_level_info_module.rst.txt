@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.security_threats_level_info module -- Information module for Security Threats Level Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.security_threats_level_info module -- Information module for Security Threats Level
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_threats\_level\_v1\_info
+- Get all Security Threats Level.
+- Intent API to fetch all threat levels defined.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_threat\_levels\_v1,
+   - SDK Method used are devices.Devices.get\_threat\_levels,
    - Paths used are get /dna/intent/api/v1/security/threats/level,
-   - It should be noted that this module is an alias of security\_threats\_level\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -483,7 +483,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Security Threats Level Info
+    ---
+    - name: Get all Security Threats Level
       cisco.dnac.security_threats_level_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

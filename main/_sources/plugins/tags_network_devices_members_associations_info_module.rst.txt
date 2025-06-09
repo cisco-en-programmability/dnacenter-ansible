@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.tags_network_devices_members_associations_info module -- Information module for Tags Network Devices Members Associations Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.tags_network_devices_members_associations_info module -- Information module for Tags Network Devices Members Associations
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module tags\_network\_devices\_members\_associations\_v1\_info
+- Get all Tags Network Devices Members Associations. - \> Fetches the tags associated with network devices. Devices that don't have any tags associated will not be included in the response. A tag is a user-defined or system-defined construct to group resources. When a device is tagged, it is called a member of the tag.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -533,9 +533,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are tag.Tag.retrieve\_tags\_associated\_with\_network\_devices\_v1,
+   - SDK Method used are tag.Tag.retrieve\_tags\_associated\_with\_network\_devices,
    - Paths used are get /dna/intent/api/v1/tags/networkDevices/membersAssociations,
-   - It should be noted that this module is an alias of tags\_network\_devices\_members\_associations\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +546,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Tag RetrieveTagsAssociatedWithNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-tags-associated-with-network-devices>`_
-       Complete reference of the RetrieveTagsAssociatedWithNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Tag RetrieveTagsAssociatedWithNetworkDevices <https://developer.cisco.com/docs/dna-center/#!retrieve-tags-associated-with-network-devices>`_
+       Complete reference of the RetrieveTagsAssociatedWithNetworkDevices API.
 
 .. Examples
 
@@ -558,7 +557,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Tags Network Devices Members Associations Info
+    ---
+    - name: Get all Tags Network Devices Members Associations
       cisco.dnac.tags_network_devices_members_associations_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

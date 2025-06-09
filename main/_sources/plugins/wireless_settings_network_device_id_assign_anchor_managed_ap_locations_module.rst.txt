@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_network_device_id_assign_anchor_managed_ap_location
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_network\_device\_id\_assign\_anchor\_managed\_ap\_locations\_v1
+- Manage operation create of the resource Wireless Settings Network Device Id Assign Anchor Managed Ap Locations. - \> This API allows user to assign Anchor Managed AP Locations for WLC by device ID. The payload should always be a complete list. The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.assign\_anchor\_managed\_ap\_locations\_for\_w\_l\_c\_v1,
+   - SDK Method used are wireless.Wireless.assign\_anchor\_managed\_ap\_locations\_for\_w\_l\_c,
    - Paths used are post /dna/intent/api/v1/wirelessSettings/{networkDeviceId}/assignAnchorManagedApLocations,
-   - It should be noted that this module is an alias of wireless\_settings\_network\_device\_id\_assign\_anchor\_managed\_ap\_locations\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless AssignAnchorManagedAPLocationsForWLCV1 <https://developer.cisco.com/docs/dna-center/#!assign-anchor-managed-ap-locations-for-wlc>`_
-       Complete reference of the AssignAnchorManagedAPLocationsForWLCV1 API.
+   `Cisco DNA Center documentation for Wireless AssignAnchorManagedAPLocationsForWLC <https://developer.cisco.com/docs/dna-center/#!assign-anchor-managed-ap-locations-for-wlc>`_
+       Complete reference of the AssignAnchorManagedAPLocationsForWLC API.
 
 .. Examples
 
@@ -524,6 +523,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.wireless_settings_network_device_id_assign_anchor_managed_ap_locations:
         dnac_host: "{{dnac_host}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.endpoint_analytics_profiling_rules module -- Resource module for Endpoint Analytics Profiling Rules
+cisco.dnac.endpoint_analytics_profiling_rules module -- Resource module for Endpoint Analytics Profiling-Rules
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module endpoint\_analytics\_profiling\_rules\_v1
+- Manage operations create, update and delete of the resource Endpoint Analytics Profiling-Rules.
+- Creates profiling rule from the request body.
+- Deletes the profiling rule for the given 'ruleId'.
+- Updates the profiling rule for the given 'ruleId'.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -363,7 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -1368,9 +1371,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.create\_a\_profiling\_rule\_v1, a\_i\_endpoint\_analytics.AIEndpointAnalytics.delete\_an\_existing\_profiling\_rule\_v1, a\_i\_endpoint\_analytics.AIEndpointAnalytics.update\_an\_existing\_profiling\_rule\_v1,
+   - SDK Method used are ai\_endpoint\_analytics.AiEndpointAnalytics.create\_a\_profiling\_rule, ai\_endpoint\_analytics.AiEndpointAnalytics.delete\_an\_existing\_profiling\_rule, ai\_endpoint\_analytics.AiEndpointAnalytics.update\_an\_existing\_profiling\_rule,
    - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules, delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}, put /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
-   - It should be noted that this module is an alias of endpoint\_analytics\_profiling\_rules\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1386,8 +1388,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
-      cisco.dnac.endpoint_analytics_profiling_rules:
+      cisco.dnac.endpoint_analytics_profiling-rules:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1404,7 +1407,7 @@ Examples
             operator: string
             value: string
           conditionGroup:
-            - string
+            - {}
           operator: string
           type: string
         isDeleted: true
@@ -1430,7 +1433,7 @@ Examples
         usedAttributes:
           - string
     - name: Update by id
-      cisco.dnac.endpoint_analytics_profiling_rules:
+      cisco.dnac.endpoint_analytics_profiling-rules:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1447,7 +1450,7 @@ Examples
             operator: string
             value: string
           conditionGroup:
-            - string
+            - {}
           operator: string
           type: string
         isDeleted: true
@@ -1473,7 +1476,7 @@ Examples
         usedAttributes:
           - string
     - name: Delete by id
-      cisco.dnac.endpoint_analytics_profiling_rules:
+      cisco.dnac.endpoint_analytics_profiling-rules:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

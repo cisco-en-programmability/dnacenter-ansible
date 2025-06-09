@@ -42,7 +42,7 @@ cisco.dnac.cisco_imcs_id module -- Resource module for Cisco Imcs Id
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module cisco\_imcs\_id\_v1
+- Manage operations update and delete of the resource Cisco Imcs Id. - \> This API removes a specific Cisco Integrated Management Controller IMC configuration from a Catalyst Center node using the provided identifier. - \> This API updates the Cisco Integrated Management Controller IMC configuration for a Catalyst Center node, identified by the specified ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -567,9 +567,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are cisco\_i\_m\_c.CiscoIMC.deletes\_the\_cisco\_i\_m\_c\_configuration\_for\_a\_catalyst\_center\_node\_v1, cisco\_i\_m\_c.CiscoIMC.updates\_the\_cisco\_i\_m\_c\_configuration\_for\_a\_catalyst\_center\_node\_v1,
+   - SDK Method used are cisco\_i\_m\_c.CiscoIMC.deletes\_the\_cisco\_i\_m\_c\_configuration\_for\_a\_catalyst\_center\_node, cisco\_i\_m\_c.CiscoIMC.updates\_the\_cisco\_i\_m\_c\_configuration\_for\_a\_catalyst\_center\_node,
    - Paths used are delete /dna/system/api/v1/ciscoImcs/{id}, put /dna/system/api/v1/ciscoImcs/{id},
-   - It should be noted that this module is an alias of cisco\_imcs\_id\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,10 +580,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Cisco IMC DeletesTheCiscoIMCConfigurationForACatalystCenterNodeV1 <https://developer.cisco.com/docs/dna-center/#!deletes-the-cisco-imc-configuration-for-a-catalyst-center-node>`_
-       Complete reference of the DeletesTheCiscoIMCConfigurationForACatalystCenterNodeV1 API.
-   `Cisco DNA Center documentation for Cisco IMC UpdatesTheCiscoIMCConfigurationForACatalystCenterNodeV1 <https://developer.cisco.com/docs/dna-center/#!updates-the-cisco-imc-configuration-for-a-catalyst-center-node>`_
-       Complete reference of the UpdatesTheCiscoIMCConfigurationForACatalystCenterNodeV1 API.
+   `Cisco DNA Center documentation for Cisco IMC DeletesTheCiscoIMCConfigurationForACatalystCenterNode <https://developer.cisco.com/docs/dna-center/#!deletes-the-cisco-imc-configuration-for-a-catalyst-center-node>`_
+       Complete reference of the DeletesTheCiscoIMCConfigurationForACatalystCenterNode API.
+   `Cisco DNA Center documentation for Cisco IMC UpdatesTheCiscoIMCConfigurationForACatalystCenterNode <https://developer.cisco.com/docs/dna-center/#!updates-the-cisco-imc-configuration-for-a-catalyst-center-node>`_
+       Complete reference of the UpdatesTheCiscoIMCConfigurationForACatalystCenterNode API.
 
 .. Examples
 
@@ -594,6 +593,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Delete by id
       cisco.dnac.cisco_imcs_id:
         dnac_host: "{{dnac_host}}"

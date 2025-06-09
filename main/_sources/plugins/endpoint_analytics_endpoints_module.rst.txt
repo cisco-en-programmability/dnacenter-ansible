@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_endpoints module -- Resource module for Endpoint A
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module endpoint\_analytics\_endpoints\_v1
+- Manage operations create, update and delete of the resource Endpoint Analytics Endpoints.
+- Register a new endpoint in the system.
+- Deletes the endpoint for the given unique identifier 'epId'.
+- Update attributes of a registered endpoint.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -601,9 +604,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.delete\_an\_endpoint\_v1, a\_i\_endpoint\_analytics.AIEndpointAnalytics.register\_an\_endpoint\_v1, a\_i\_endpoint\_analytics.AIEndpointAnalytics.update\_a\_registered\_endpoint\_v1,
+   - SDK Method used are ai\_endpoint\_analytics.AiEndpointAnalytics.delete\_an\_endpoint, ai\_endpoint\_analytics.AiEndpointAnalytics.register\_an\_endpoint, ai\_endpoint\_analytics.AiEndpointAnalytics.update\_a\_registered\_endpoint,
    - Paths used are post /dna/intent/api/v1/endpoint-analytics/endpoints, delete /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}, put /dna/intent/api/v1/endpoint-analytics/endpoints/{epId},
-   - It should be noted that this module is an alias of endpoint\_analytics\_endpoints\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -615,12 +617,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for AI Endpoint Analytics RegisterAnEndpointV1 <https://developer.cisco.com/docs/dna-center/#!register-an-endpoint>`_
-       Complete reference of the RegisterAnEndpointV1 API.
-   `Cisco DNA Center documentation for AI Endpoint Analytics DeleteAnEndpointV1 <https://developer.cisco.com/docs/dna-center/#!delete-an-endpoint>`_
-       Complete reference of the DeleteAnEndpointV1 API.
-   `Cisco DNA Center documentation for AI Endpoint Analytics UpdateARegisteredEndpointV1 <https://developer.cisco.com/docs/dna-center/#!update-a-registered-endpoint>`_
-       Complete reference of the UpdateARegisteredEndpointV1 API.
+   `Cisco DNA Center documentation for AI Endpoint Analytics RegisterAnEndpoint <https://developer.cisco.com/docs/dna-center/#!register-an-endpoint>`_
+       Complete reference of the RegisterAnEndpoint API.
+   `Cisco DNA Center documentation for AI Endpoint Analytics DeleteAnEndpoint <https://developer.cisco.com/docs/dna-center/#!delete-an-endpoint>`_
+       Complete reference of the DeleteAnEndpoint API.
+   `Cisco DNA Center documentation for AI Endpoint Analytics UpdateARegisteredEndpoint <https://developer.cisco.com/docs/dna-center/#!update-a-registered-endpoint>`_
+       Complete reference of the UpdateARegisteredEndpoint API.
 
 .. Examples
 
@@ -630,6 +632,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.endpoint_analytics_endpoints:
         dnac_host: "{{dnac_host}}"

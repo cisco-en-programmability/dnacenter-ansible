@@ -42,7 +42,7 @@ cisco.dnac.site_health_summaries_summary_analytics module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module site\_health\_summaries\_summary\_analytics\_v1
+- Manage operation create of the resource Site Health Summaries Summary Analytics. - \> Query an aggregated summary of all site health This API provides the latest health data from a given \`endTime\` If data is not ready for the provided endTime, the request will fail, and the error message will indicate the recommended endTime to use to retrieve a complete data set. This behavior may occur if the provided endTime=currentTime, since we are not a real time system. When \`endTime\` is not provided, the API returns the latest data. This API also provides issue data. The \`startTime\` query param can be used to specify the beginning point of time range to retrieve the active issue counts in. When this param is not provided, the default \`startTime\` will be 24 hours before endTime.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -703,9 +703,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.query\_an\_aggregated\_summary\_of\_site\_health\_data\_v1,
+   - SDK Method used are sites.Sites.query\_an\_aggregated\_summary\_of\_site\_health\_data,
    - Paths used are post /dna/data/api/v1/siteHealthSummaries/summaryAnalytics,
-   - It should be noted that this module is an alias of site\_health\_summaries\_summary\_analytics\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -717,8 +716,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites QueryAnAggregatedSummaryOfSiteHealthDataV1 <https://developer.cisco.com/docs/dna-center/#!query-an-aggregated-summary-of-site-health-data>`_
-       Complete reference of the QueryAnAggregatedSummaryOfSiteHealthDataV1 API.
+   `Cisco DNA Center documentation for Sites QueryAnAggregatedSummaryOfSiteHealthData <https://developer.cisco.com/docs/dna-center/#!query-an-aggregated-summary-of-site-health-data>`_
+       Complete reference of the QueryAnAggregatedSummaryOfSiteHealthData API.
 
 .. Examples
 
@@ -728,6 +727,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.site_health_summaries_summary_analytics:
         dnac_host: "{{dnac_host}}"

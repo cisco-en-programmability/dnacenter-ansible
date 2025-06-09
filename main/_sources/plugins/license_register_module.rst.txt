@@ -42,7 +42,7 @@ cisco.dnac.license_register module -- Resource module for License Register
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module license\_register\_v1
+- Manage operation create of the resource License Register.
+- Registers the system with Cisco Smart Software Manager CSSM .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.system\_licensing\_registration\_v1,
+   - SDK Method used are licenses.Licenses.system\_licensing\_registration,
    - Paths used are post /dna/system/api/v1/license/register,
-   - It should be noted that this module is an alias of license\_register\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses SystemLicensingRegistrationV1 <https://developer.cisco.com/docs/dna-center/#!system-licensing-registration>`_
-       Complete reference of the SystemLicensingRegistrationV1 API.
+   `Cisco DNA Center documentation for Licenses SystemLicensingRegistration <https://developer.cisco.com/docs/dna-center/#!system-licensing-registration>`_
+       Complete reference of the SystemLicensingRegistration API.
 
 .. Examples
 
@@ -524,6 +524,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.license_register:
         dnac_host: "{{dnac_host}}"

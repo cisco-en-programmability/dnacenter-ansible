@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.ipam_site_ip_address_pools_info module -- Information module for Ipam Site Ip Address Pools Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.ipam_site_ip_address_pools_info module -- Information module for Ipam Site Ip Address Pools
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module ipam\_site\_ip\_address\_pools\_v1\_info
+- Get all Ipam Site Ip Address Pools.
+- Retrieves IP address subpools, which reserve address space from a global pool or global pools .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -440,7 +441,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+      Limit query parameter. The number of records to show for this page; the minimum is 1, and the maximum is 500.
 
 
       .. raw:: html
@@ -636,9 +637,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.retrieves\_ip\_address\_subpools\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.retrieves\_ip\_address\_subpools,
    - Paths used are get /dna/intent/api/v1/ipam/siteIpAddressPools,
-   - It should be noted that this module is an alias of ipam\_site\_ip\_address\_pools\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -650,8 +650,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings RetrievesIPAddressSubpoolsV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-ip-address-subpools>`_
-       Complete reference of the RetrievesIPAddressSubpoolsV1 API.
+   `Cisco DNA Center documentation for Network Settings RetrievesIPAddressSubpools <https://developer.cisco.com/docs/dna-center/#!retrieves-ip-address-subpools>`_
+       Complete reference of the RetrievesIPAddressSubpools API.
 
 .. Examples
 
@@ -661,7 +661,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Ipam Site Ip Address Pools Info
+    ---
+    - name: Get all Ipam Site Ip Address Pools
       cisco.dnac.ipam_site_ip_address_pools_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

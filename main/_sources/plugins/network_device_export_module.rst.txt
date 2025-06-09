@@ -42,7 +42,7 @@ cisco.dnac.network_device_export module -- Resource module for Network Device Ex
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_export\_v1
+- Manage operation create of the resource Network Device Export.
+- Exports the selected network device to a file.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -567,9 +568,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.export\_device\_list\_v1,
+   - SDK Method used are devices.Devices.export\_device\_list,
    - Paths used are post /dna/intent/api/v1/network-device/file,
-   - It should be noted that this module is an alias of network\_device\_export\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,8 +581,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices ExportDeviceListV1 <https://developer.cisco.com/docs/dna-center/#!export-device-list>`_
-       Complete reference of the ExportDeviceListV1 API.
+   `Cisco DNA Center documentation for Devices ExportDeviceList <https://developer.cisco.com/docs/dna-center/#!export-device-list>`_
+       Complete reference of the ExportDeviceList API.
 
 .. Examples
 
@@ -592,6 +592,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.network_device_export:
         dnac_host: "{{dnac_host}}"

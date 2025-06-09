@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.assurance_tasks_info module -- Information module for Assurance Tasks Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.assurance_tasks_info module -- Information module for Assurance Tasks
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module assurance\_tasks\_v1\_info
+- Get all Assurance Tasks.
+- returns all existing tasks in a paginated list.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -636,9 +637,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are task.Task.retrieve\_a\_list\_of\_assurance\_tasks\_v1,
+   - SDK Method used are task.Task.retrieve\_a\_list\_of\_assurance\_tasks,
    - Paths used are get /dna/data/api/v1/assuranceTasks,
-   - It should be noted that this module is an alias of assurance\_tasks\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -650,8 +650,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Task RetrieveAListOfAssuranceTasksV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-a-list-of-assurance-tasks>`_
-       Complete reference of the RetrieveAListOfAssuranceTasksV1 API.
+   `Cisco DNA Center documentation for Task RetrieveAListOfAssuranceTasks <https://developer.cisco.com/docs/dna-center/#!retrieve-a-list-of-assurance-tasks>`_
+       Complete reference of the RetrieveAListOfAssuranceTasks API.
 
 .. Examples
 
@@ -661,7 +661,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Assurance Tasks Info
+    ---
+    - name: Get all Assurance Tasks
       cisco.dnac.assurance_tasks_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

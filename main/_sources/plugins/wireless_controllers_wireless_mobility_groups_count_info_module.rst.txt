@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_controllers_wireless_mobility_groups_count_info module -- Information module for Wireless Controllers Wireless Mobility Groups Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_controllers_wireless_mobility_groups_count_info module -- Information module for Wireless Controllers Wireless Mobility Groups Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_controllers\_wireless\_mobility\_groups\_count\_v1\_info
+- Get all Wireless Controllers Wireless Mobility Groups Count.
+- Retrieves count of mobility groups configured.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_mobility\_groups\_count\_v1,
+   - SDK Method used are wireless.Wireless.get\_mobility\_groups\_count,
    - Paths used are get /dna/intent/api/v1/wirelessControllers/wirelessMobilityGroups/count,
-   - It should be noted that this module is an alias of wireless\_controllers\_wireless\_mobility\_groups\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetMobilityGroupsCountV1 <https://developer.cisco.com/docs/dna-center/#!get-mobility-groups-count>`_
-       Complete reference of the GetMobilityGroupsCountV1 API.
+   `Cisco DNA Center documentation for Wireless GetMobilityGroupsCount <https://developer.cisco.com/docs/dna-center/#!get-mobility-groups-count>`_
+       Complete reference of the GetMobilityGroupsCount API.
 
 .. Examples
 
@@ -490,7 +490,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Controllers Wireless Mobility Groups Count Info
+    ---
+    - name: Get all Wireless Controllers Wireless Mobility
+        Groups Count
       cisco.dnac.wireless_controllers_wireless_mobility_groups_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.device_details_info module -- Information module for Device Details Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.device_details_info module -- Information module for Device Details
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module device\_details\_v1\_info
+- Get all Device Details. - \> Returns detailed Network Device information retrieved by Mac Address, Device Name or UUID for any given point of time.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -567,9 +567,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_device\_detail\_v1,
+   - SDK Method used are devices.Devices.get\_device\_detail,
    - Paths used are get /dna/intent/api/v1/device-detail,
-   - It should be noted that this module is an alias of device\_details\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,8 +580,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetDeviceDetailV1 <https://developer.cisco.com/docs/dna-center/#!get-device-detail>`_
-       Complete reference of the GetDeviceDetailV1 API.
+   `Cisco DNA Center documentation for Devices GetDeviceDetail <https://developer.cisco.com/docs/dna-center/#!get-device-detail>`_
+       Complete reference of the GetDeviceDetail API.
 
 .. Examples
 
@@ -592,7 +591,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Device Details Info
+    ---
+    - name: Get all Device Details
       cisco.dnac.device_details_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

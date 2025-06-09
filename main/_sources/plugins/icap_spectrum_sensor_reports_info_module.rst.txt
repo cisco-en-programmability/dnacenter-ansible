@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.icap_spectrum_sensor_reports_info module -- Information module for Icap Spectrum Sensor Reports Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.icap_spectrum_sensor_reports_info module -- Information module for Icap Spectrum Sensor Reports
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module icap\_spectrum\_sensor\_reports\_v1\_info
+- Get all Icap Spectrum Sensor Reports. - \> Retrieves the spectrum sensor reports sent by WLC for provided AP Mac. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-icap-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -707,9 +707,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.retrieves\_the\_spectrum\_sensor\_reports\_sent\_by\_w\_l\_c\_for\_provided\_ap\_mac\_v1,
+   - SDK Method used are sensors.Sensors.retrieves\_the\_spectrum\_sensor\_reports\_sent\_by\_w\_l\_c\_for\_provided\_ap\_mac,
    - Paths used are get /dna/data/api/v1/icap/spectrumSensorReports,
-   - It should be noted that this module is an alias of icap\_spectrum\_sensor\_reports\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -721,8 +720,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sensors RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMacV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-spectrum-sensor-reports-sent-by-wlc-for-provided-ap-mac>`_
-       Complete reference of the RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMacV1 API.
+   `Cisco DNA Center documentation for Sensors RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMac <https://developer.cisco.com/docs/dna-center/#!retrieves-the-spectrum-sensor-reports-sent-by-wlc-for-provided-ap-mac>`_
+       Complete reference of the RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMac API.
 
 .. Examples
 
@@ -732,7 +731,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Icap Spectrum Sensor Reports Info
+    ---
+    - name: Get all Icap Spectrum Sensor Reports
       cisco.dnac.icap_spectrum_sensor_reports_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

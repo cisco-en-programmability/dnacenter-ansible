@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_anchor_groups_id module -- Resource module for Wire
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_anchor\_groups\_id\_v1
+- Manage operations update and delete of the resource Wireless Settings Anchor Groups Id.
+- This API allows the user to delete an AnchorGroup by specifying the AnchorGroup ID.
+- This API allows the user to update an AnchorGroup.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -814,9 +816,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.delete\_anchor\_group\_by\_id\_v1, wireless.Wireless.update\_anchor\_group\_v1,
+   - SDK Method used are wireless.Wireless.delete\_anchor\_group\_by\_id, wireless.Wireless.update\_anchor\_group,
    - Paths used are delete /dna/intent/api/v1/wirelessSettings/anchorGroups/{id}, put /dna/intent/api/v1/wirelessSettings/anchorGroups/{id},
-   - It should be noted that this module is an alias of wireless\_settings\_anchor\_groups\_id\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -828,10 +829,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless DeleteAnchorGroupByIDV1 <https://developer.cisco.com/docs/dna-center/#!delete-anchor-group-by-id>`_
-       Complete reference of the DeleteAnchorGroupByIDV1 API.
-   `Cisco DNA Center documentation for Wireless UpdateAnchorGroupV1 <https://developer.cisco.com/docs/dna-center/#!update-anchor-group>`_
-       Complete reference of the UpdateAnchorGroupV1 API.
+   `Cisco DNA Center documentation for Wireless DeleteAnchorGroupByID <https://developer.cisco.com/docs/dna-center/#!delete-anchor-group-by-id>`_
+       Complete reference of the DeleteAnchorGroupByID API.
+   `Cisco DNA Center documentation for Wireless UpdateAnchorGroup <https://developer.cisco.com/docs/dna-center/#!update-anchor-group>`_
+       Complete reference of the UpdateAnchorGroup API.
 
 .. Examples
 
@@ -841,6 +842,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Delete by id
       cisco.dnac.wireless_settings_anchor_groups_id:
         dnac_host: "{{dnac_host}}"

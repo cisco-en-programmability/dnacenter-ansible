@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.platform_release_summary_info module -- Information module for Platform Release Summary Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.platform_release_summary_info module -- Information module for Platform Release Summary
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module platform\_release\_summary\_v1\_info
+- Get all Platform Release Summary. - \> Provides information such as API version, mandatory core packages for installation or upgrade, optional packages, Cisco Catalyst Center name and version, supported direct updates, and tenant ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -467,7 +467,6 @@ Notes
 .. note::
    - SDK Method used are platform\_configuration.PlatformConfiguration.release\_summary,
    - Paths used are get /dna/intent/api/v1/dnac-release,
-   - It should be noted that this module is an alias of platform\_release\_summary\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Platform Configuration CiscoCatalystCenterReleaseSummaryV1 <https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-release-summary>`_
-       Complete reference of the CiscoCatalystCenterReleaseSummaryV1 API.
+   `Cisco DNA Center documentation for Platform Configuration CiscoCatalystCenterReleaseSummary <https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-release-summary>`_
+       Complete reference of the CiscoCatalystCenterReleaseSummary API.
 
 .. Examples
 
@@ -490,7 +489,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Platform Release Summary Info
+    ---
+    - name: Get all Platform Release Summary
       cisco.dnac.platform_release_summary_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_sites_zones_workflow_manager module -- Manage fabric site(
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1562,7 +1562,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create a fabric site for SDA with the specified name.
+    ---
+    - name: Create a fabric site for SDA with the specified
+        name.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1579,7 +1581,8 @@ Examples
               - site_name_hierarchy: "Global/Test_SDA/Bld1"
                 authentication_profile: "Closed Authentication"
                 is_pub_sub_enabled: false
-    - name: Update a fabric site for SDA with the specified name.
+    - name: Update a fabric site for SDA with the specified
+        name.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1595,7 +1598,8 @@ Examples
           - fabric_sites:
               - site_name_hierarchy: "Global/Test_SDA/Bld1"
                 authentication_profile: "Open Authentication"
-    - name: Update a fabric zone for SDA with the specified name.
+    - name: Update a fabric zone for SDA with the specified
+        name.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1629,7 +1633,8 @@ Examples
               - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
                 fabric_type: "fabric_zone"
                 authentication_profile: "Open Authentication"
-    - name: Apply all the pending sda fabric events to the given site.
+    - name: Apply all the pending sda fabric events to the
+        given site.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1646,7 +1651,8 @@ Examples
               - site_name_hierarchy: "Global/Test_SDA/Bld1"
                 authentication_profile: "Open Authentication"
                 apply_pending_events: true
-    - name: Set up Pre-Authentication ACL for Low Impact Profile
+    - name: Set up Pre-Authentication ACL for Low Impact
+        Profile
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1683,7 +1689,8 @@ Examples
                       - action: "PERMIT"
                         protocol: "UDP"
                         port: "domain"
-    - name: Update/customise authentication profile template for fabric site/zone.
+    - name: Update/customise authentication profile template
+        for fabric site/zone.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1706,7 +1713,8 @@ Examples
                   dot1x_fallback_timeout: 28
                   wake_on_lan: false
                   number_of_hosts: "Single"
-    - name: Deleting/removing fabric site from sda from Cisco Catalyst Center
+    - name: Deleting/removing fabric site from sda from
+        Cisco Catalyst Center
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1721,7 +1729,8 @@ Examples
         config:
           - fabric_sites:
               - site_name_hierarchy: "Global/Test_SDA/Bld1"
-    - name: Deleting/removing fabric zone from sda from Cisco Catalyst Center
+    - name: Deleting/removing fabric zone from sda from
+        Cisco Catalyst Center
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

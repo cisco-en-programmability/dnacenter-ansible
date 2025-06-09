@@ -42,7 +42,7 @@ cisco.dnac.wireless_access_points_provision module -- Resource module for Wirele
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_access\_points\_provision\_v1
+- Manage operation create of the resource Wireless Access Points Provision. - \> This API is used to provision Access Points. Prerequisite Access Point has to be assigned to the site using the API /dna/intent/api/v1/networkDevices/assignToSite/apply.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -450,6 +450,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-networkDevices/beamState"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_access_points_provision_module__parameter-networkdevices/beamstate:
+
+      .. rst-class:: ansible-option-title
+
+      **beamState**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-networkDevices/beamState" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Beam State (Applicable only for CW9179F AP models).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-networkDevices/deviceId"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_access_points_provision_module__parameter-networkdevices/deviceid:
@@ -636,9 +670,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.ap\_provision\_v1,
+   - SDK Method used are wireless.Wireless.ap\_provision,
    - Paths used are post /dna/intent/api/v1/wirelessAccessPoints/provision,
-   - It should be noted that this module is an alias of wireless\_access\_points\_provision\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -650,8 +683,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless APProvisionV1 <https://developer.cisco.com/docs/dna-center/#!a-p-provision>`_
-       Complete reference of the APProvisionV1 API.
+   `Cisco DNA Center documentation for Wireless APProvision <https://developer.cisco.com/docs/dna-center/#!a-p-provision>`_
+       Complete reference of the APProvision API.
 
 .. Examples
 
@@ -661,6 +694,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.wireless_access_points_provision:
         dnac_host: "{{dnac_host}}"
@@ -672,7 +706,8 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         apZoneName: string
         networkDevices:
-          - deviceId: string
+          - beamState: string
+            deviceId: string
             meshRole: string
         rfProfileName: string
         siteId: string

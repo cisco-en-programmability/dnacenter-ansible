@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_anycast_gateways_info module -- Information module for Sda Anycast Gateways Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_anycast_gateways_info module -- Information module for Sda Anycast Gateways
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_anycast\_gateways\_v1\_info
+- Get all Sda Anycast Gateways.
+- Returns a list of anycast gateways that match the provided query parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -739,9 +740,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_anycast\_gateways\_v1,
+   - SDK Method used are sda.Sda.get\_anycast\_gateways,
    - Paths used are get /dna/intent/api/v1/sda/anycastGateways,
-   - It should be noted that this module is an alias of sda\_anycast\_gateways\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -753,8 +753,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetAnycastGatewaysV1 <https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways>`_
-       Complete reference of the GetAnycastGatewaysV1 API.
+   `Cisco DNA Center documentation for SDA GetAnycastGateways <https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways>`_
+       Complete reference of the GetAnycastGateways API.
 
 .. Examples
 
@@ -764,7 +764,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Anycast Gateways Info
+    ---
+    - name: Get all Sda Anycast Gateways
       cisco.dnac.sda_anycast_gateways_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -843,7 +844,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"fabricId": "string", "id": "string", "ipPoolName": "string", "isCriticalPool": true, "isGroupBasedPolicyEnforcementEnabled": true, "isIntraSubnetRoutingEnabled": true, "isIpDirectedBroadcast": true, "isLayer2FloodingEnabled": true, "isMultipleIpToMacAddresses": true, "isSupplicantBasedExtendedNodeOnboarding": true, "isWirelessPool": true, "poolType": "string", "securityGroupName": "string", "tcpMssAdjustment": 0, "trafficType": "string", "virtualNetworkName": "string", "vlanId": 0, "vlanName": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"fabricId": "string", "id": "string", "ipPoolName": "string", "isCriticalPool": true, "isGroupBasedPolicyEnforcementEnabled": true, "isIntraSubnetRoutingEnabled": true, "isIpDirectedBroadcast": true, "isLayer2FloodingEnabled": true, "isMultipleIpToMacAddresses": true, "isResourceGuardEnabled": true, "isSupplicantBasedExtendedNodeOnboarding": true, "isWirelessFloodingEnabled": true, "isWirelessPool": true, "layer2FloodingAddress": "string", "layer2FloodingAddressAssignment": "string", "poolType": "string", "securityGroupName": "string", "tcpMssAdjustment": 0, "trafficType": "string", "virtualNetworkName": "string", "vlanId": 0, "vlanName": "string"}], "version": "string"}`
 
 
       .. raw:: html
