@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sites_profile_assignments_info module -- Information module for Sites Profile Assignments Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sites_profile_assignments_info module -- Information module for Sites Profile Assignments
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sites\_profile\_assignments\_v1\_info
+- Get all Sites Profile Assignments. - \> Retrieves the list of profiles that the given site has been assigned. These profiles may either be directly assigned to this site, or were assigned to a parent site and have been inherited.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -567,9 +567,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.retrieves\_the\_list\_of\_network\_profiles\_that\_the\_given\_site\_has\_been\_assigned\_v1,
+   - SDK Method used are site\_design.SiteDesign.retrieves\_the\_list\_of\_network\_profiles\_that\_the\_given\_site\_has\_been\_assigned,
    - Paths used are get /dna/intent/api/v1/sites/{siteId}/profileAssignments,
-   - It should be noted that this module is an alias of sites\_profile\_assignments\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,8 +580,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design RetrievesTheListOfNetworkProfilesThatTheGivenSiteHasBeenAssignedV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-profiles-that-the-given-site-has-been-assigned>`_
-       Complete reference of the RetrievesTheListOfNetworkProfilesThatTheGivenSiteHasBeenAssignedV1 API.
+   `Cisco DNA Center documentation for Site Design RetrievesTheListOfNetworkProfilesThatTheGivenSiteHasBeenAssigned <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-profiles-that-the-given-site-has-been-assigned>`_
+       Complete reference of the RetrievesTheListOfNetworkProfilesThatTheGivenSiteHasBeenAssigned API.
 
 .. Examples
 
@@ -592,7 +591,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sites Profile Assignments Info
+    ---
+    - name: Get all Sites Profile Assignments
       cisco.dnac.sites_profile_assignments_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

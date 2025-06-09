@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.endpoint_analytics_endpoints_anc_policy_update module -- Resource module for Endpoint Analytics Endpoints Anc Policy Update
+cisco.dnac.endpoint_analytics_endpoints_anc_policy_update module -- Resource module for Endpoint Analytics Endpoints Anc-Policy Update
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module endpoint\_analytics\_endpoints\_anc\_policy\_update\_v1
+- Manage operation update of the resource Endpoint Analytics Endpoints Anc-Policy Update.
+- Applies given ANC policy to the endpoint.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -602,9 +603,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.apply\_anc\_policy\_v1,
+   - SDK Method used are ai\_endpoint\_analytics.AiEndpointAnalytics.apply\_anc\_policy,
    - Paths used are put /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,
-   - It should be noted that this module is an alias of endpoint\_analytics\_endpoints\_anc\_policy\_update\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -616,8 +616,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for AI Endpoint Analytics ApplyANCPolicyV1 <https://developer.cisco.com/docs/dna-center/#!apply-anc-policy>`_
-       Complete reference of the ApplyANCPolicyV1 API.
+   `Cisco DNA Center documentation for AI Endpoint Analytics ApplyANCPolicy <https://developer.cisco.com/docs/dna-center/#!apply-anc-policy>`_
+       Complete reference of the ApplyANCPolicy API.
 
 .. Examples
 
@@ -627,8 +627,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
-      cisco.dnac.endpoint_analytics_endpoints_anc_policy_update:
+      cisco.dnac.endpoint_analytics_endpoints_anc-policy_update:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

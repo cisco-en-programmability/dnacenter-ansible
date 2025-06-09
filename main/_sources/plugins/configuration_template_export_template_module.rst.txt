@@ -42,7 +42,7 @@ cisco.dnac.configuration_template_export_template module -- Resource module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module configuration\_template\_export\_template\_v1
+- Manage operation create of the resource Configuration Template Export Template.
+- Exports the templates for given templateIds.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -467,7 +468,6 @@ Notes
 .. note::
    - SDK Method used are configuration\_templates.ConfigurationTemplates.export\_templates,
    - Paths used are post /dna/intent/api/v1/template-programmer/template/exporttemplates,
-   - It should be noted that this module is an alias of configuration\_template\_export\_template\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Templates ExportsTheTemplatesForAGivenCriteriaV1 <https://developer.cisco.com/docs/dna-center/#!exports-the-templates-for-a-given-criteria>`_
-       Complete reference of the ExportsTheTemplatesForAGivenCriteriaV1 API.
+   `Cisco DNA Center documentation for Configuration Templates ExportsTheTemplatesForAGivenCriteria <https://developer.cisco.com/docs/dna-center/#!exports-the-templates-for-a-given-criteria>`_
+       Complete reference of the ExportsTheTemplatesForAGivenCriteria API.
 
 .. Examples
 
@@ -490,6 +490,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.configuration_template_export_template:
         dnac_host: "{{dnac_host}}"

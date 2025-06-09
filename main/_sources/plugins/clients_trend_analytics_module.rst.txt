@@ -42,7 +42,7 @@ cisco.dnac.clients_trend_analytics module -- Resource module for Clients Trend A
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module clients\_trend\_analytics\_v1
+- Manage operation create of the resource Clients Trend Analytics. - \> Retrieves the trend analytics of client data for the specified time range. The data will be grouped based on the given trend time interval. This API facilitates obtaining consolidated insights into the performance and status of the clients over the specified start and end time. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-clients1-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1012,9 +1012,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are clients.Clients.retrieves\_the\_trend\_analytics\_data\_related\_to\_clients\_v1,
+   - SDK Method used are clients.Clients.retrieves\_the\_trend\_analytics\_data\_related\_to\_clients,
    - Paths used are post /dna/data/api/v1/clients/trendAnalytics,
-   - It should be noted that this module is an alias of clients\_trend\_analytics\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1026,8 +1025,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Clients RetrievesTheTrendAnalyticsDataRelatedToClientsV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-trend-analytics-data-related-to-clients>`_
-       Complete reference of the RetrievesTheTrendAnalyticsDataRelatedToClientsV1 API.
+   `Cisco DNA Center documentation for Clients RetrievesTheTrendAnalyticsDataRelatedToClients <https://developer.cisco.com/docs/dna-center/#!retrieves-the-trend-analytics-data-related-to-clients>`_
+       Complete reference of the RetrievesTheTrendAnalyticsDataRelatedToClients API.
 
 .. Examples
 
@@ -1037,6 +1036,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.clients_trend_analytics:
         dnac_host: "{{dnac_host}}"

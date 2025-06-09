@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_controllers_wireless_mobility_groups_info module -- Information module for Wireless Controllers Wireless Mobility Groups Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_controllers_wireless_mobility_groups_info module -- Information module for Wireless Controllers Wireless Mobility Groups
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_controllers\_wireless\_mobility\_groups\_v1\_info
+- Get all Wireless Controllers Wireless Mobility Groups. - \> Retrieve configured mobility groups if no Network Device Id is provided as a query parameter. If a Network Device Id is given and a mobility group is configured for it, return the configured details; otherwise, return the default values from the device.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -500,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_mobility\_groups\_v1,
+   - SDK Method used are wireless.Wireless.get\_mobility\_groups,
    - Paths used are get /dna/intent/api/v1/wirelessControllers/wirelessMobilityGroups,
-   - It should be noted that this module is an alias of wireless\_controllers\_wireless\_mobility\_groups\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -514,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetMobilityGroupsV1 <https://developer.cisco.com/docs/dna-center/#!get-mobility-groups>`_
-       Complete reference of the GetMobilityGroupsV1 API.
+   `Cisco DNA Center documentation for Wireless GetMobilityGroups <https://developer.cisco.com/docs/dna-center/#!get-mobility-groups>`_
+       Complete reference of the GetMobilityGroups API.
 
 .. Examples
 
@@ -525,7 +524,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Controllers Wireless Mobility Groups Info
+    ---
+    - name: Get all Wireless Controllers Wireless Mobility
+        Groups
       cisco.dnac.wireless_controllers_wireless_mobility_groups_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

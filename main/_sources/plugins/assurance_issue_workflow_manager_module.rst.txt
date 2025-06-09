@@ -42,7 +42,7 @@ cisco.dnac.assurance_issue_workflow_manager module -- Resource module for managi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -310,9 +310,12 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Defines the action to be taken on the issue. Possible values:
-            resolution: Resolves the issue.
-            ignore: Ignores the issue.
-            command\_execution: Executes commands to address the issue.
+            resolution:
+          Resolves the issue.
+            ignore:
+          Ignores the issue.
+            command\_execution:
+          Executes commands to address the issue.
           
 
 
@@ -348,10 +351,12 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       A filter to select issues based on their status. Acceptable values are:
-            ACTIVE: The issue is currently open.
-            RESOLVED: The issue has been resolved.
-            IGNORED: The issue has been ignored.
-          type: str required: false
+            ACTIVE:
+          The issue is currently open.
+            RESOLVED:
+          The issue has been resolved.
+            IGNORED:
+          The issue has been ignored. type: str required: false
           
 
 
@@ -457,11 +462,12 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       A filter to select issues based on their priority. Acceptable values are:
-            - P1 (Highest Priority)
+            - P1 (Highest
+          Priority)
             - P2
             - P3
-            - P4 (Lowest Priority)
-          type: str required: false
+            - P4 (Lowest
+          Priority) type: str required: false
           
 
 
@@ -637,7 +643,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the type of device to which the issue configuration applies. For example, choices: - ROUTER - SWITCH\_AND\_HUB - UNIFIED\_AP - WIRELESS\_CLIENT - WIRED\_CLIENT - CONTROLLER - THIRD\_PARTY\_DEVICE - APPLICATION - SENSOR
+      Specifies the type of device to which the issue configuration applies. For example, choices: - ROUTER - SWITCH\_AND\_HUB - UNIFIED\_AP - WIRELESS\_CLIENT - WIRED\_CLIENT - WIRELESS\_CONTROLLER - THIRD\_PARTY\_DEVICE - APPLICATION - SENSOR
           
 
 
@@ -2263,7 +2269,8 @@ Examples
             config:
               - assurance_user_defined_issue_settings:
                   - name: High CPU Usage Alert
-                    description: Triggers an alert when CPU usage exceeds threshold
+                    description: Triggers an alert when
+                      CPU usage exceeds threshold
                     rules:
                       - severity: Warning
                         facility: redundancy
@@ -2274,7 +2281,6 @@ Examples
                     is_enabled: false
                     priority: P1
                     is_notification_enabled: false
-
         - name: update issue settings
           cisco.dnac.assurance_issue_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -2304,7 +2310,6 @@ Examples
                     is_enabled: false
                     priority: P1
                     is_notification_enabled: false
-
         - name: Delete issue settings
           cisco.dnac.assurance_issue_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -2321,7 +2326,6 @@ Examples
             config:
               - assurance_user_defined_issue_settings:
                   - name: High CPU Usage Alert
-
     - hosts: dnac_servers
       vars_files:
         - credentials.yml
@@ -2344,14 +2348,14 @@ Examples
             config_verify: true
             config:
               - assurance_system_issue_settings:
-                  - name: "Assurance telemetry status is poor"
+                  - name: "Assurance telemetry status is
+                      poor"
                     description: RF Noise (5GHz)
                     device_type: WIRED_CLIENT
                     synchronize_to_health_threshold: true
                     priority: P1
                     issue_enabled: false
                     threshold_value: -10
-
     - hosts: dnac_servers
       vars_files:
         - credentials.yml
@@ -2374,7 +2378,8 @@ Examples
             config_verify: true
             config:
               - assurance_issue:
-                  - issue_name: Fabric BGP session status is down with Peer Device  # required field
+                  - issue_name: Fabric BGP session status
+                      is down with Peer Device  # required field
                     issue_process_type: resolution  # required field
                     start_datetime: "2024-12-11 16:00:00"  # optional field
                     end_datetime: "2024-12-11 18:30:00"  # optional field
@@ -2384,7 +2389,6 @@ Examples
                     issue_status: ACTIVE  # optional field
                     mac_address: e4:38:7e:42:bc:40  # optional field
                     network_device_ip_address: 204.1.2.4  # optional field
-
         - name: Ignoring issues
           cisco.dnac.assurance_issue_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -2401,7 +2405,8 @@ Examples
             config_verify: true
             config:
               - assurance_issue:
-                  - issue_name: Fabric BGP session status is down with Peer Device  # required field
+                  - issue_name: Fabric BGP session status
+                      is down with Peer Device  # required field
                     issue_process_type: ignore  # required field
                     start_datetime: "2024-12-11 16:00:00"  # optional field
                     end_datetime: "2024-12-11 18:30:00"  # optional field
@@ -2411,7 +2416,6 @@ Examples
                     issue_status: ACTIVE  # optional field
                     mac_address: e4:38:7e:42:bc:40  # optional field
                     network_device_ip_address: 204.1.2.4  # optional field
-
         - name: Execute suggested commands
           cisco.dnac.assurance_issue_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -2428,7 +2432,8 @@ Examples
             config_verify: true
             config:
               - assurance_issue:
-                  - issue_name: Fabric BGP session status is down with Peer Device  # required field
+                  - issue_name: Fabric BGP session status
+                      is down with Peer Device  # required field
                     issue_process_type: command_execution  # required field
                     start_datetime: "2024-12-11 16:00:00"  # optional field
                     end_datetime: "2024-12-11 18:30:00"  # optional field

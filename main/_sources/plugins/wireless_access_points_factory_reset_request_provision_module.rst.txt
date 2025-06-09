@@ -42,7 +42,7 @@ cisco.dnac.wireless_access_points_factory_reset_request_provision module -- Reso
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_access\_points\_factory\_reset\_request\_provision\_v1
+- Manage operation create of the resource Wireless Access Points Factory Reset Request Provision. - \> This API is used to factory reset Access Points. It is supported for maximum 100 Access Points per request. Factory reset clears all configurations from the Access Points. After factory reset the Access Point may become unreachable from the currently associated Wireless Controller and may or may not join back the same controller.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -507,9 +507,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.factory\_reset\_access\_points\_v1,
+   - SDK Method used are wireless.Wireless.factory\_reset\_access\_points,
    - Paths used are post /dna/intent/api/v1/wirelessAccessPoints/factoryResetRequest/provision,
-   - It should be noted that this module is an alias of wireless\_access\_points\_factory\_reset\_request\_provision\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -521,8 +520,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless FactoryResetAccessPointsV1 <https://developer.cisco.com/docs/dna-center/#!factory-reset-access-points>`_
-       Complete reference of the FactoryResetAccessPointsV1 API.
+   `Cisco DNA Center documentation for Wireless FactoryResetAccessPoints <https://developer.cisco.com/docs/dna-center/#!factory-reset-access-points>`_
+       Complete reference of the FactoryResetAccessPoints API.
 
 .. Examples
 
@@ -532,6 +531,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.wireless_access_points_factory_reset_request_provision:
         dnac_host: "{{dnac_host}}"

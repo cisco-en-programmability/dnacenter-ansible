@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.security_threats_type_info module -- Information module for Security Threats Type Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.security_threats_type_info module -- Information module for Security Threats Type
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_threats\_type\_v1\_info
+- Get all Security Threats Type.
+- Intent API to fetch all threat types defined.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_threat\_types\_v1,
+   - SDK Method used are devices.Devices.get\_threat\_types,
    - Paths used are get /dna/intent/api/v1/security/threats/type,
-   - It should be noted that this module is an alias of security\_threats\_type\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -483,7 +483,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Security Threats Type Info
+    ---
+    - name: Get all Security Threats Type
       cisco.dnac.security_threats_type_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

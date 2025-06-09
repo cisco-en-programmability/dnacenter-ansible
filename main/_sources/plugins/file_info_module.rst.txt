@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.file_info module -- Information module for File Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.file_info module -- Information module for File
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module file\_v1\_info
+- Get File by id.
+- Downloads a file specified by fileId.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -106,6 +107,40 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dirPath"></div>
+
+      .. _ansible_collections.cisco.dnac.file_info_module__parameter-dirpath:
+
+      .. rst-class:: ansible-option-title
+
+      **dirPath**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dirPath" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Directory absolute path. Defaults to the current working directory.
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -416,6 +451,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filename"></div>
+
+      .. _ansible_collections.cisco.dnac.file_info_module__parameter-filename:
+
+      .. rst-class:: ansible-option-title
+
+      **filename**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filename" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The filename used to save the download file.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-headers"></div>
 
       .. _ansible_collections.cisco.dnac.file_info_module__parameter-headers:
@@ -441,6 +510,48 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-saveFile"></div>
+
+      .. _ansible_collections.cisco.dnac.file_info_module__parameter-savefile:
+
+      .. rst-class:: ansible-option-title
+
+      **saveFile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-saveFile" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable or disable automatic file creation of raw response.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -501,7 +612,6 @@ Notes
 .. note::
    - SDK Method used are file.File.download\_a\_file\_by\_fileid,
    - Paths used are get /dna/intent/api/v1/file/{fileId},
-   - It should be noted that this module is an alias of file\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +623,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for File DownloadAFileByFileIdV1 <https://developer.cisco.com/docs/dna-center/#!download-a-file-by-file-id>`_
-       Complete reference of the DownloadAFileByFileIdV1 API.
+   `Cisco DNA Center documentation for File DownloadAFileByFileId <https://developer.cisco.com/docs/dna-center/#!download-a-file-by-file-id>`_
+       Complete reference of the DownloadAFileByFileId API.
 
 .. Examples
 
@@ -524,7 +634,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get File Info by id
+    ---
+    - name: Get File by id
       cisco.dnac.file_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

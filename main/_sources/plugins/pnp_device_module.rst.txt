@@ -42,7 +42,7 @@ cisco.dnac.pnp_device module -- Resource module for Pnp Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module pnp\_device\_v1
+- Manage operations create, update and delete of the resource Pnp Device.
+- Adds a device to the PnP database.
+- Deletes specified device from PnP database.
+- Updates device details specified by device id in PnP database.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1622,9 +1625,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_device, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_device\_by\_id\_from\_pnp\_v1, device\_onboarding\_pnp.DeviceOnboardingPnp.update\_device\_v1,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_device, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_device\_by\_id\_from\_pnp, device\_onboarding\_pnp.DeviceOnboardingPnp.update\_device,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-device, delete /dna/intent/api/v1/onboarding/pnp-device/{id}, put /dna/intent/api/v1/onboarding/pnp-device/{id},
-   - It should be noted that this module is an alias of pnp\_device\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1636,12 +1638,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) AddDeviceV1 <https://developer.cisco.com/docs/dna-center/#!add-device>`_
-       Complete reference of the AddDeviceV1 API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnPV1 <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p>`_
-       Complete reference of the DeleteDeviceByIdFromPnPV1 API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDeviceV1 <https://developer.cisco.com/docs/dna-center/#!update-device>`_
-       Complete reference of the UpdateDeviceV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) AddDevice <https://developer.cisco.com/docs/dna-center/#!add-device-2>`_
+       Complete reference of the AddDevice API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnP <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p>`_
+       Complete reference of the DeleteDeviceByIdFromPnP API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDevice <https://developer.cisco.com/docs/dna-center/#!update-device>`_
+       Complete reference of the UpdateDevice API.
 
 .. Examples
 
@@ -1651,6 +1653,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.pnp_device:
         dnac_host: "{{dnac_host}}"

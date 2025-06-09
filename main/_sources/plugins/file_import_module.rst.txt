@@ -42,7 +42,7 @@ cisco.dnac.file_import module -- Resource module for File Import
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module file\_import\_v1
+- Manage operation create of the resource File Import.
+- Uploads a new file within a specific nameSpace.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -382,6 +383,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filePath"></div>
+
+      .. _ansible_collections.cisco.dnac.file_import_module__parameter-filepath:
+
+      .. rst-class:: ansible-option-title
+
+      **filePath**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filePath" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      File absolute path.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-nameSpace"></div>
 
       .. _ansible_collections.cisco.dnac.file_import_module__parameter-namespace:
@@ -465,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are file.File.upload\_file\_v1,
+   - SDK Method used are file.File.upload\_file,
    - Paths used are post /dna/intent/api/v1/file/{nameSpace},
-   - It should be noted that this module is an alias of file\_import\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for File UploadFileV1 <https://developer.cisco.com/docs/dna-center/#!upload-file>`_
-       Complete reference of the UploadFileV1 API.
+   `Cisco DNA Center documentation for File UploadFile <https://developer.cisco.com/docs/dna-center/#!upload-file>`_
+       Complete reference of the UploadFile API.
 
 .. Examples
 
@@ -490,6 +524,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.file_import:
         dnac_host: "{{dnac_host}}"
@@ -499,6 +534,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        filePath: /tmp/uploads/Test-242.bin
         nameSpace: string
 
 

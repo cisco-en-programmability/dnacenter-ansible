@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.endpoint_analytics_endpoints_count_info module -- Information module for Endpoint Analytics Endpoints Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.endpoint_analytics_endpoints_count_info module -- Information module for Endpoint Analytics Endpoints Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module endpoint\_analytics\_endpoints\_count\_v1\_info
+- Get all Endpoint Analytics Endpoints Count.
+- Fetch the total count of endpoints that match the given filter criteria.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1225,9 +1226,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.fetch\_the\_count\_of\_endpoints\_v1,
+   - SDK Method used are ai\_endpoint\_analytics.AiEndpointAnalytics.fetch\_the\_count\_of\_endpoints,
    - Paths used are get /dna/intent/api/v1/endpoint-analytics/endpoints/count,
-   - It should be noted that this module is an alias of endpoint\_analytics\_endpoints\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1239,8 +1239,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for AI Endpoint Analytics FetchTheCountOfEndpointsV1 <https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints>`_
-       Complete reference of the FetchTheCountOfEndpointsV1 API.
+   `Cisco DNA Center documentation for AI Endpoint Analytics FetchTheCountOfEndpoints <https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints>`_
+       Complete reference of the FetchTheCountOfEndpoints API.
 
 .. Examples
 
@@ -1250,7 +1250,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Endpoint Analytics Endpoints Count Info
+    ---
+    - name: Get all Endpoint Analytics Endpoints Count
       cisco.dnac.endpoint_analytics_endpoints_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

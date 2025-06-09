@@ -42,7 +42,7 @@ cisco.dnac.network_device module -- Resource module for Network Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_v1
+- Manage operations create, update and delete of the resource Network Device.
+- Adds the device with given credential. - \> This API allows any network device that is not currently provisioned to be removed from the inventory. Important Devices currently provisioned cannot be deleted. To delete a provisioned device, the device must be first deprovisioned. - \> Update the credentials, management IP address of a given device or a set of devices in Catalyst Center and trigger an inventory sync.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1147,7 +1148,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMP Read Community of the device. If snmpVersion is v2, at least one of snmpROCommunity and snmpRWCommunity is required.
+      SNMP Read Community of the device. If snmpVersion is v2, at least one of snmpROCommunity and snmpRwCommunity is required.
 
 
       .. raw:: html
@@ -1157,17 +1158,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunity"></div>
+        <div class="ansibleOptionAnchor" id="parameter-snmpRwCommunity"></div>
 
       .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmprwcommunity:
 
       .. rst-class:: ansible-option-title
 
-      **snmpRWCommunity**
+      **snmpRwCommunity**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-snmpRWCommunity" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-snmpRwCommunity" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1181,7 +1182,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMP Write Community of the device. If snmpVersion is v2, at least one of snmpROCommunity and snmpRWCommunity is required.
+      SNMP Write Community of the device. If snmpVersion is v2, at least one of snmpROCommunity and snmpRwCommunity is required.
 
 
       .. raw:: html
@@ -1513,10 +1514,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.add\_device, devices.Devices.delete\_device\_by\_id\_v1, devices.Devices.sync\_devices,
-   - Paths used are post /dna/intent/api/v1/network-device, delete /dna/intent/api/v1/network-device/{id}, put /dna/intent/api/v1/network-device,
-   - It should be noted that this module is an alias of network\_device\_v1
-   - Removed 'managementIpAddress' options in v4.3.0.
+   - SDK Method used are devices.Devices.add\_device, devices.Devices.delete\_device\_by\_id, devices.Devices.sync\_devices,
+   - Paths used are post /dna/intent/api/v1/network-device, delete /dna/intent/api/v1/network-device/{id}, put /dna/intent/api/v1/network-device, - Removed 'managementIpAddress' options in v4.3.0.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1528,12 +1527,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices AddDeviceKnowYourNetworkV1 <https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network>`_
-       Complete reference of the AddDeviceKnowYourNetworkV1 API.
-   `Cisco DNA Center documentation for Devices DeleteDeviceByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id>`_
-       Complete reference of the DeleteDeviceByIdV1 API.
-   `Cisco DNA Center documentation for Devices UpdateDeviceDetailsV1 <https://developer.cisco.com/docs/dna-center/#!update-device-details>`_
-       Complete reference of the UpdateDeviceDetailsV1 API.
+   `Cisco DNA Center documentation for Devices AddDeviceKnowYourNetwork <https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network>`_
+       Complete reference of the AddDeviceKnowYourNetwork API.
+   `Cisco DNA Center documentation for Devices DeleteDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id>`_
+       Complete reference of the DeleteDeviceById API.
+   `Cisco DNA Center documentation for Devices UpdateDeviceDetails <https://developer.cisco.com/docs/dna-center/#!update-device-details>`_
+       Complete reference of the UpdateDeviceDetails API.
 
 .. Examples
 
@@ -1543,6 +1542,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.network_device:
         dnac_host: "{{dnac_host}}"
@@ -1574,7 +1574,7 @@ Examples
         snmpPrivPassphrase: string
         snmpPrivProtocol: string
         snmpROCommunity: string
-        snmpRWCommunity: string
+        snmpRwCommunity: string
         snmpRetry: 0
         snmpTimeout: 0
         snmpUserName: string
@@ -1612,7 +1612,7 @@ Examples
         snmpPrivPassphrase: string
         snmpPrivProtocol: string
         snmpROCommunity: string
-        snmpRWCommunity: string
+        snmpRwCommunity: string
         snmpRetry: 0
         snmpTimeout: 0
         snmpUserName: string

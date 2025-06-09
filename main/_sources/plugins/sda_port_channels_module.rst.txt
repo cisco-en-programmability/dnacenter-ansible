@@ -42,7 +42,7 @@ cisco.dnac.sda_port_channels module -- Resource module for Sda Port Channels
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,11 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_port\_channels\_v1
+- Manage operations create, update and delete of the resource Sda Port Channels.
+- Adds port channels based on user input.
+- Deletes a port channel based on id.
+- Deletes port channels based on user input.
+- Updates port channels based on user input.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -552,6 +556,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/allowedVlanRanges"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_port_channels_module__parameter-payload/allowedvlanranges:
+
+      .. rst-class:: ansible-option-title
+
+      **allowedVlanRanges**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/allowedVlanRanges" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Allowed VLAN of the port channel, this option is only applicable to TRUNK connectedDeviceType. (VLAN must be between 1 and 4094 (Ex 100,200,300-400) or 'all'. In cases value not set when connectedDeviceType is TRUNK, default value will be 'all').
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/connectedDeviceType"></div>
 
       .. _ansible_collections.cisco.dnac.sda_port_channels_module__parameter-payload/connecteddevicetype:
@@ -679,6 +717,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Interface names for this port channel (Maximum 16 ports for LACP protocol, Maximum 8 ports for PAGP and ON protocol).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/nativeVlanId"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_port_channels_module__parameter-payload/nativevlanid:
+
+      .. rst-class:: ansible-option-title
+
+      **nativeVlanId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/nativeVlanId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Native VLAN of the port channel, this option is only applicable to TRUNK connectedDeviceType. (VLAN must be between 1 and 4094. In cases value not set when connectedDeviceType is TRUNK, default value will be 1).
 
 
       .. raw:: html
@@ -874,9 +946,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_port\_channels\_v1, sda.Sda.delete\_port\_channel\_by\_id\_v1, sda.Sda.update\_port\_channels\_v1,
+   - SDK Method used are sda.Sda.add\_port\_channels, sda.Sda.delete\_port\_channel\_by\_id, sda.Sda.update\_port\_channels,
    - Paths used are post /dna/intent/api/v1/sda/portChannels, delete /dna/intent/api/v1/sda/portChannels, delete /dna/intent/api/v1/sda/portChannels/{id}, put /dna/intent/api/v1/sda/portChannels,
-   - It should be noted that this module is an alias of sda\_port\_channels\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -888,14 +959,14 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddPortChannelsV1 <https://developer.cisco.com/docs/dna-center/#!add-port-channels>`_
-       Complete reference of the AddPortChannelsV1 API.
-   `Cisco DNA Center documentation for SDA DeletePortChannelByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-port-channel-by-id>`_
-       Complete reference of the DeletePortChannelByIdV1 API.
-   `Cisco DNA Center documentation for SDA DeletePortChannelsV1 <https://developer.cisco.com/docs/dna-center/#!delete-port-channels>`_
-       Complete reference of the DeletePortChannelsV1 API.
-   `Cisco DNA Center documentation for SDA UpdatePortChannelsV1 <https://developer.cisco.com/docs/dna-center/#!update-port-channels>`_
-       Complete reference of the UpdatePortChannelsV1 API.
+   `Cisco DNA Center documentation for SDA AddPortChannels <https://developer.cisco.com/docs/dna-center/#!add-port-channels>`_
+       Complete reference of the AddPortChannels API.
+   `Cisco DNA Center documentation for SDA DeletePortChannelById <https://developer.cisco.com/docs/dna-center/#!delete-port-channel-by-id>`_
+       Complete reference of the DeletePortChannelById API.
+   `Cisco DNA Center documentation for SDA DeletePortChannels <https://developer.cisco.com/docs/dna-center/#!delete-port-channels>`_
+       Complete reference of the DeletePortChannels API.
+   `Cisco DNA Center documentation for SDA UpdatePortChannels <https://developer.cisco.com/docs/dna-center/#!update-port-channels>`_
+       Complete reference of the UpdatePortChannels API.
 
 .. Examples
 
@@ -905,6 +976,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.sda_port_channels:
         dnac_host: "{{dnac_host}}"
@@ -916,11 +988,13 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-          - connectedDeviceType: string
+          - allowedVlanRanges: string
+            connectedDeviceType: string
             description: string
             fabricId: string
             interfaceNames:
               - string
+            nativeVlanId: 0
             networkDeviceId: string
             protocol: string
     - name: Update all
@@ -934,12 +1008,14 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-          - connectedDeviceType: string
+          - allowedVlanRanges: string
+            connectedDeviceType: string
             description: string
             fabricId: string
             id: string
             interfaceNames:
               - string
+            nativeVlanId: 0
             networkDeviceId: string
             portChannelName: string
             protocol: string

@@ -42,7 +42,7 @@ cisco.dnac.sda_fabrics_vlan_to_ssids_fabric_id module -- Resource module for Sda
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_fabrics\_vlan\_to\_ssids\_fabric\_id\_v1
+- Manage operation update of the resource Sda Fabrics Vlan To Ssids Fabric Id. - \> Add, update, or remove SSID mappings to a VLAN. If the payload doesn't contain a 'vlanName' which has SSIDs mapping done earlier then all the mapped SSIDs of the 'vlanName' is cleared. The request must include all SSIDs currently mapped to a VLAN, as determined by the response from the GET operation for the same fabricId used in the request. If an already-mapped SSID is not included in the payload, its mapping will be removed by this API. Conversely, if a new SSID is provided, it will be added to the Mapping. Ensure that any new SSID added is a Fabric SSID. This API can also be used to add a VLAN and associate the relevant SSIDs with it. The 'vlanName' must be 'Fabric Wireless Enabled' and should be part of the Fabric Site representing 'Fabric ID' specified in the API request.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -637,9 +637,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are fabric\_wireless.FabricWireless.add\_update\_or\_remove\_ssid\_mapping\_to\_a\_vlan\_v1,
+   - SDK Method used are fabric\_wireless.FabricWireless.add\_update\_or\_remove\_ssid\_mapping\_to\_a\_vlan,
    - Paths used are put /dna/intent/api/v1/sda/fabrics/{fabricId}/vlanToSsids,
-   - It should be noted that this module is an alias of sda\_fabrics\_vlan\_to\_ssids\_fabric\_id\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -651,8 +650,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Fabric Wireless AddUpdateOrRemoveSSIDMappingToAVLANV1 <https://developer.cisco.com/docs/dna-center/#!add-update-or-remove-ssid-mapping-to-avlan>`_
-       Complete reference of the AddUpdateOrRemoveSSIDMappingToAVLANV1 API.
+   `Cisco DNA Center documentation for Fabric Wireless AddUpdateOrRemoveSSIDMappingToAVLAN <https://developer.cisco.com/docs/dna-center/#!add-update-or-remove-ssid-mapping-to-avlan>`_
+       Complete reference of the AddUpdateOrRemoveSSIDMappingToAVLAN API.
 
 .. Examples
 
@@ -662,6 +661,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.sda_fabrics_vlan_to_ssids_fabric_id:
         dnac_host: "{{dnac_host}}"

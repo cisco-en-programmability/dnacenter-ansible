@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.floors_floor_id_planned_access_point_positions_count_info module -- Information module for Floors Floor Id Planned Access Point Positions Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.floors_floor_id_planned_access_point_positions_count_info module -- Information module for Floors Floor Id Planned Access Point Positions Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module floors\_floor\_id\_planned\_access\_point\_positions\_count\_v2\_info
+- Get all Floors Floor Id Planned Access Point Positions Count.
+- Retrieve all Planned Access Points Positions count designated for a specific floor.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -603,7 +604,6 @@ Notes
 .. note::
    - SDK Method used are site\_design.SiteDesign.get\_planned\_access\_points\_positions\_count\_v2,
    - Paths used are get /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/count,
-   - It should be noted that this module is an alias of floors\_floor\_id\_planned\_access\_point\_positions\_count\_v2\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -615,7 +615,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design GetPlannedAccessPointsPositionsCountV2 <https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions-count>`_
+   `Cisco DNA Center documentation for Site Design GetPlannedAccessPointsPositionsCountV2 <https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions-count-v-2>`_
        Complete reference of the GetPlannedAccessPointsPositionsCountV2 API.
 
 .. Examples
@@ -626,7 +626,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Floors Floor Id Planned Access Point Positions Count Info
+    ---
+    - name: Get all Floors Floor Id Planned Access Point
+        Positions Count
       cisco.dnac.floors_floor_id_planned_access_point_positions_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

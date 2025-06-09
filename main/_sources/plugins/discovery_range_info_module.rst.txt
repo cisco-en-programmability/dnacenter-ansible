@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.discovery_range_info module -- Information module for Discovery Range Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.discovery_range_info module -- Information module for Discovery Range
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module discovery\_range\_v1\_info
+- Get all Discovery Range.
+- Returns the discoveries by specified range.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -533,9 +534,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are discovery.Discovery.get\_discoveries\_by\_range\_v1,
+   - SDK Method used are discovery.Discovery.get\_discoveries\_by\_range,
    - Paths used are get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn},
-   - It should be noted that this module is an alias of discovery\_range\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Discovery GetDiscoveriesByRangeV1 <https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range>`_
-       Complete reference of the GetDiscoveriesByRangeV1 API.
+   `Cisco DNA Center documentation for Discovery GetDiscoveriesByRange <https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range>`_
+       Complete reference of the GetDiscoveriesByRange API.
 
 .. Examples
 
@@ -558,7 +558,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Discovery Range Info
+    ---
+    - name: Get all Discovery Range
       cisco.dnac.discovery_range_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -631,7 +632,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"attributeInfo": {}, "cdpLevel": 0, "deviceIds": "string", "discoveryCondition": "string", "discoveryStatus": "string", "discoveryType": "string", "enablePasswordList": "string", "globalCredentialIdList": ["string"], "httpReadCredential": {"comments": "string", "credentialType": "string", "description": "string", "id": "string", "instanceTenantId": "string", "instanceUuid": "string", "password": "string", "port": 0, "secure": true, "username": "string"}, "httpWriteCredential": {"comments": "string", "credentialType": "string", "description": "string", "id": "string", "instanceTenantId": "string", "instanceUuid": "string", "password": "string", "port": 0, "secure": true, "username": "string"}, "id": "string", "ipAddressList": "string", "ipFilterList": "string", "isAutoCdp": true, "lldpLevel": 0, "name": "string", "netconfPort": "string", "numDevices": 0, "parentDiscoveryId": "string", "passwordList": "string", "preferredMgmtIPMethod": "string", "protocolOrder": "string", "retryCount": 0, "snmpAuthPassphrase": "string", "snmpAuthProtocol": "string", "snmpMode": "string", "snmpPrivPassphrase": "string", "snmpPrivProtocol": "string", "snmpRoCommunity": "string", "snmpRoCommunityDesc": "string", "snmpRwCommunity": "string", "snmpRwCommunityDesc": "string", "snmpUserName": "string", "timeOut": 0, "updateMgmtIp": true, "userNameList": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"attributeInfo": {}, "cdpLevel": 0, "deviceIds": "string", "discoveryCondition": "string", "discoveryStatus": "string", "discoveryType": "string", "enablePasswordList": "string", "globalCredentialIdList": ["string"], "httpReadCredential": {"comments": "string", "credentialType": "string", "description": "string", "id": "string", "instanceTenantId": "string", "instanceUuid": "string", "password": "string", "port": 0, "secure": true, "username": "string"}, "httpWriteCredential": {"comments": "string", "credentialType": "string", "description": "string", "id": "string", "instanceTenantId": "string", "instanceUuid": "string", "password": "string", "port": 0, "secure": true, "username": "string"}, "id": "string", "ipAddressList": "string", "ipFilterList": "string", "isAutoCdp": true, "lldpLevel": 0, "name": "string", "netconfPort": "string", "numDevices": 0, "parentDiscoveryId": "string", "passwordList": "string", "preferredMgmtIPMethod": "string", "protocolOrder": "string", "retryCount": 0, "snmpAuthPassphrase": "string", "snmpAuthProtocol": "string", "snmpMode": "string", "snmpPrivPassphrase": "string", "snmpPrivProtocol": "string", "snmpRoCommunity": "string", "snmpRoCommunityDesc": "string", "snmpRwCommunity": "string", "snmpRwCommunityDesc": "string", "snmpUserName": "string", "timeout": 0, "updateMgmtIp": true, "userNameList": "string"}], "version": "string"}`
 
 
       .. raw:: html

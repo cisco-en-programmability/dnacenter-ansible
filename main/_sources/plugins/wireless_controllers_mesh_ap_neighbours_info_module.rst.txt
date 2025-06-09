@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_controllers_mesh_ap_neighbours_info module -- Information module for Wireless Controllers Mesh Ap Neighbours Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_controllers_mesh_ap_neighbours_info module -- Information module for Wireless Controllers Mesh Ap Neighbours
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_controllers\_mesh\_ap\_neighbours\_v1\_info
+- Get all Wireless Controllers Mesh Ap Neighbours.
+- Retrieves all Mesh accesspoint Neighbours details whether child, parent, etc.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -570,9 +571,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_mesh\_ap\_neighbours\_v1,
+   - SDK Method used are wireless.Wireless.get\_mesh\_ap\_neighbours,
    - Paths used are get /dna/intent/api/v1/wirelessControllers/meshApNeighbours,
-   - It should be noted that this module is an alias of wireless\_controllers\_mesh\_ap\_neighbours\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -584,8 +584,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetMeshApNeighboursV1 <https://developer.cisco.com/docs/dna-center/#!get-mesh-ap-neighbours>`_
-       Complete reference of the GetMeshApNeighboursV1 API.
+   `Cisco DNA Center documentation for Wireless GetMeshApNeighbours <https://developer.cisco.com/docs/dna-center/#!get-mesh-ap-neighbours>`_
+       Complete reference of the GetMeshApNeighbours API.
 
 .. Examples
 
@@ -595,7 +595,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Controllers Mesh Ap Neighbours Info
+    ---
+    - name: Get all Wireless Controllers Mesh Ap Neighbours
       cisco.dnac.wireless_controllers_mesh_ap_neighbours_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -669,7 +670,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"apName": "string", "ethernetMacAddress": "string", "id": "string", "meshRole": "string", "neighbourMacAddress": "string", "neighbourType": "string", "wlcIpAddress": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"apName": "string", "ethernetMacAddress": "string", "id": "string", "meshRole": "string", "neighbourApName": "string", "neighbourMacAddress": "string", "neighbourType": "string", "wlcIpAddress": "string"}`
 
 
       .. raw:: html

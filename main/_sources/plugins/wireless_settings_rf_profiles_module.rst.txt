@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_rf_profiles module -- Resource module for Wireless 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_rf\_profiles\_v1
+- Manage operations create, update and delete of the resource Wireless Settings Rf Profiles.
+- This API allows the user to create a custom RF Profile.
+- This API allows the user to delete a custom RF Profile.
+- This API allows the user to update a custom RF Profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -967,17 +970,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraProperties"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraPropertiesC"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/fraproperties:
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/frapropertiesc:
 
       .. rst-class:: ansible-option-title
 
-      **fraProperties**
+      **fraPropertiesC**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraProperties" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraPropertiesC" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -991,7 +994,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wireless Settings Rf Profiles's fraProperties.
+      Wireless Settings Rf Profiles's fraPropertiesC.
 
 
       .. raw:: html
@@ -1001,9 +1004,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraProperties/clientResetCount"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraPropertiesC/clientResetCount"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/fraproperties/clientresetcount:
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/frapropertiesc/clientresetcount:
 
       .. rst-class:: ansible-option-title
 
@@ -1011,7 +1014,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraProperties/clientResetCount" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraPropertiesC/clientResetCount" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1035,9 +1038,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraProperties/clientUtilizationThreshold"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraPropertiesC/clientUtilizationThreshold"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/fraproperties/clientutilizationthreshold:
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/frapropertiesc/clientutilizationthreshold:
 
       .. rst-class:: ansible-option-title
 
@@ -1045,7 +1048,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraProperties/clientUtilizationThreshold" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraPropertiesC/clientUtilizationThreshold" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2590,17 +2593,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraPropertiesA"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/fraproperties:
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/frapropertiesa:
 
       .. rst-class:: ansible-option-title
 
-      **fraProperties**
+      **fraPropertiesA**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraPropertiesA" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2614,7 +2617,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wireless Settings Rf Profiles's fraProperties.
+      Wireless Settings Rf Profiles's fraPropertiesA.
 
 
       .. raw:: html
@@ -2624,9 +2627,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties/clientAware"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraPropertiesA/clientAware"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/fraproperties/clientaware:
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/frapropertiesa/clientaware:
 
       .. rst-class:: ansible-option-title
 
@@ -2634,7 +2637,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties/clientAware" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraPropertiesA/clientAware" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2666,9 +2669,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties/clientReset"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraPropertiesA/clientReset"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/fraproperties/clientreset:
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/frapropertiesa/clientreset:
 
       .. rst-class:: ansible-option-title
 
@@ -2676,7 +2679,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties/clientReset" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraPropertiesA/clientReset" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2700,9 +2703,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties/clientSelect"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraPropertiesA/clientSelect"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/fraproperties/clientselect:
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/frapropertiesa/clientselect:
 
       .. rst-class:: ansible-option-title
 
@@ -2710,7 +2713,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties/clientSelect" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraPropertiesA/clientSelect" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -4163,9 +4166,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_rf\_profile\_v1, wireless.Wireless.delete\_rf\_profile\_v1, wireless.Wireless.update\_rf\_profile\_v1,
+   - SDK Method used are wireless.Wireless.create\_rf\_profile, wireless.Wireless.delete\_rf\_profile, wireless.Wireless.update\_rf\_profile,
    - Paths used are post /dna/intent/api/v1/wirelessSettings/rfProfiles, delete /dna/intent/api/v1/wirelessSettings/rfProfiles/{id}, put /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
-   - It should be noted that this module is an alias of wireless\_settings\_rf\_profiles\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -4177,12 +4179,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless CreateRFProfileV1 <https://developer.cisco.com/docs/dna-center/#!create-rf-profile>`_
-       Complete reference of the CreateRFProfileV1 API.
-   `Cisco DNA Center documentation for Wireless DeleteRFProfileV1 <https://developer.cisco.com/docs/dna-center/#!delete-rf-profile>`_
-       Complete reference of the DeleteRFProfileV1 API.
-   `Cisco DNA Center documentation for Wireless UpdateRFProfileV1 <https://developer.cisco.com/docs/dna-center/#!update-rf-profile>`_
-       Complete reference of the UpdateRFProfileV1 API.
+   `Cisco DNA Center documentation for Wireless CreateRFProfile <https://developer.cisco.com/docs/dna-center/#!create-rf-profile>`_
+       Complete reference of the CreateRFProfile API.
+   `Cisco DNA Center documentation for Wireless DeleteRFProfile <https://developer.cisco.com/docs/dna-center/#!delete-rf-profile>`_
+       Complete reference of the DeleteRFProfile API.
+   `Cisco DNA Center documentation for Wireless UpdateRFProfile <https://developer.cisco.com/docs/dna-center/#!update-rf-profile>`_
+       Complete reference of the UpdateRFProfile API.
 
 .. Examples
 
@@ -4192,6 +4194,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.wireless_settings_rf_profiles:
         dnac_host: "{{dnac_host}}"
@@ -4217,7 +4220,7 @@ Examples
           dataRates: string
           discoveryFrames6GHz: string
           enableStandardPowerService: true
-          fraProperties:
+          fraPropertiesC:
             clientResetCount: 0
             clientUtilizationThreshold: 0
           mandatoryDataRates: string
@@ -4261,7 +4264,7 @@ Examples
             chdVoiceRssiThreshold: 0
           customRxSopThreshold: 0
           dataRates: string
-          fraProperties:
+          fraPropertiesA:
             clientAware: true
             clientReset: 0
             clientSelect: 0
@@ -4341,7 +4344,7 @@ Examples
           dataRates: string
           discoveryFrames6GHz: string
           enableStandardPowerService: true
-          fraProperties:
+          fraPropertiesC:
             clientResetCount: 0
             clientUtilizationThreshold: 0
           mandatoryDataRates: string
@@ -4385,7 +4388,7 @@ Examples
             chdVoiceRssiThreshold: 0
           customRxSopThreshold: 0
           dataRates: string
-          fraProperties:
+          fraPropertiesA:
             clientAware: true
             clientReset: 0
             clientSelect: 0

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_summary_info module -- Information module for Network Device Summary Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_summary_info module -- Information module for Network Device Summary
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_summary\_v1\_info
+- Get all Network Device Summary.
+- Returns brief summary of device info for the given device Id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_device\_summary\_v1,
+   - SDK Method used are devices.Devices.get\_device\_summary,
    - Paths used are get /dna/intent/api/v1/network-device/{id}/brief,
-   - It should be noted that this module is an alias of network\_device\_summary\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetDeviceSummaryV1 <https://developer.cisco.com/docs/dna-center/#!get-device-summary>`_
-       Complete reference of the GetDeviceSummaryV1 API.
+   `Cisco DNA Center documentation for Devices GetDeviceSummary <https://developer.cisco.com/docs/dna-center/#!get-device-summary>`_
+       Complete reference of the GetDeviceSummary API.
 
 .. Examples
 
@@ -524,7 +524,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Summary Info
+    ---
+    - name: Get all Network Device Summary
       cisco.dnac.network_device_summary_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

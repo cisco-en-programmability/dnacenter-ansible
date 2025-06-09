@@ -42,7 +42,7 @@ cisco.dnac.sda_port_assignments module -- Resource module for Sda Port Assignmen
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,11 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_port\_assignments\_v1
+- Manage operations create, update and delete of the resource Sda Port Assignments.
+- Adds port assignments based on user input.
+- Deletes a port assignment based on id.
+- Deletes port assignments based on user input.
+- Updates port assignments based on user input.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -586,6 +590,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/allowedVlanRanges"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_port_assignments_module__parameter-payload/allowedvlanranges:
+
+      .. rst-class:: ansible-option-title
+
+      **allowedVlanRanges**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/allowedVlanRanges" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Allowed VLAN of the port assignment, this option is only applicable to TRUNKING\_DEVICE connectedDeviceType. (VLAN must be between 1 and 4094 (Ex 100,200,300-400) or 'all'. In cases value not set when connectedDeviceType is TRUNKING\_DEVICE, default value will be 'all').
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/authenticateTemplateName"></div>
 
       .. _ansible_collections.cisco.dnac.sda_port_assignments_module__parameter-payload/authenticatetemplatename:
@@ -790,6 +828,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/nativeVlanId"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_port_assignments_module__parameter-payload/nativevlanid:
+
+      .. rst-class:: ansible-option-title
+
+      **nativeVlanId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/nativeVlanId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Integer example 1 Native VLAN of the port assignment, this option is only applicable to TRUNKING\_DEVICE connectedDeviceType. (VLAN must be between 1 and 4094. In cases value not set when connectedDeviceType is TRUNKING\_DEVICE, default value will be 1).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkDeviceId"></div>
 
       .. _ansible_collections.cisco.dnac.sda_port_assignments_module__parameter-payload/networkdeviceid:
@@ -976,9 +1048,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_port\_assignments\_v1, sda.Sda.delete\_port\_assignment\_by\_id\_v1, sda.Sda.update\_port\_assignments\_v1,
+   - SDK Method used are sda.Sda.add\_port\_assignments, sda.Sda.delete\_port\_assignment\_by\_id, sda.Sda.update\_port\_assignments,
    - Paths used are post /dna/intent/api/v1/sda/portAssignments, delete /dna/intent/api/v1/sda/portAssignments, delete /dna/intent/api/v1/sda/portAssignments/{id}, put /dna/intent/api/v1/sda/portAssignments,
-   - It should be noted that this module is an alias of sda\_port\_assignments\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -990,14 +1061,14 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddPortAssignmentsV1 <https://developer.cisco.com/docs/dna-center/#!add-port-assignments>`_
-       Complete reference of the AddPortAssignmentsV1 API.
-   `Cisco DNA Center documentation for SDA DeletePortAssignmentByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-by-id>`_
-       Complete reference of the DeletePortAssignmentByIdV1 API.
-   `Cisco DNA Center documentation for SDA DeletePortAssignmentsV1 <https://developer.cisco.com/docs/dna-center/#!delete-port-assignments>`_
-       Complete reference of the DeletePortAssignmentsV1 API.
-   `Cisco DNA Center documentation for SDA UpdatePortAssignmentsV1 <https://developer.cisco.com/docs/dna-center/#!update-port-assignments>`_
-       Complete reference of the UpdatePortAssignmentsV1 API.
+   `Cisco DNA Center documentation for SDA AddPortAssignments <https://developer.cisco.com/docs/dna-center/#!add-port-assignments>`_
+       Complete reference of the AddPortAssignments API.
+   `Cisco DNA Center documentation for SDA DeletePortAssignmentById <https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-by-id>`_
+       Complete reference of the DeletePortAssignmentById API.
+   `Cisco DNA Center documentation for SDA DeletePortAssignments <https://developer.cisco.com/docs/dna-center/#!delete-port-assignments>`_
+       Complete reference of the DeletePortAssignments API.
+   `Cisco DNA Center documentation for SDA UpdatePortAssignments <https://developer.cisco.com/docs/dna-center/#!update-port-assignments>`_
+       Complete reference of the UpdatePortAssignments API.
 
 .. Examples
 
@@ -1007,6 +1078,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.sda_port_assignments:
         dnac_host: "{{dnac_host}}"
@@ -1018,12 +1090,14 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-          - authenticateTemplateName: string
+          - allowedVlanRanges: string
+            authenticateTemplateName: string
             connectedDeviceType: string
             dataVlanName: string
             fabricId: string
             interfaceDescription: string
             interfaceName: string
+            nativeVlanId: 0
             networkDeviceId: string
             securityGroupName: string
             voiceVlanName: string
@@ -1038,13 +1112,15 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-          - authenticateTemplateName: string
+          - allowedVlanRanges: string
+            authenticateTemplateName: string
             connectedDeviceType: string
             dataVlanName: string
             fabricId: string
             id: string
             interfaceDescription: string
             interfaceName: string
+            nativeVlanId: 0
             networkDeviceId: string
             scalableGroupName: string
             voiceVlanName: string

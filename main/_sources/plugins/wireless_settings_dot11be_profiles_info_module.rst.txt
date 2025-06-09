@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_settings_dot11be_profiles_info module -- Information module for Wireless Settings Dot11Be Profiles Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_settings_dot11be_profiles_info module -- Information module for Wireless Settings Dot11be Profiles
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_dot11be\_profiles\_v1\_info
+- Get all Wireless Settings Dot11be Profiles.
+- Get Wireless Settings Dot11be Profiles by id.
+- This API allows the user to get 802.11be Profile by ID.
+- This API allows the user to get 802.11be Profiles configured under Wireless Settings.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -812,9 +815,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get80211be\_profile\_by\_id\_v1, wireless.Wireless.get80211be\_profiles\_v1,
+   - SDK Method used are wireless.Wireless.get80211be\_profile\_by\_id, wireless.Wireless.get80211be\_profiles,
    - Paths used are get /dna/intent/api/v1/wirelessSettings/dot11beProfiles, get /dna/intent/api/v1/wirelessSettings/dot11beProfiles/{id},
-   - It should be noted that this module is an alias of wireless\_settings\_dot11be\_profiles\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -826,10 +828,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless Get80211beProfileByIDV1 <https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id>`_
-       Complete reference of the Get80211beProfileByIDV1 API.
-   `Cisco DNA Center documentation for Wireless Get80211beProfilesV1 <https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles>`_
-       Complete reference of the Get80211beProfilesV1 API.
+   `Cisco DNA Center documentation for Wireless Get80211beProfileByID <https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id>`_
+       Complete reference of the Get80211beProfileByID API.
+   `Cisco DNA Center documentation for Wireless Get80211beProfiles <https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles>`_
+       Complete reference of the Get80211beProfiles API.
 
 .. Examples
 
@@ -839,7 +841,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Settings Dot11Be Profiles Info
+    ---
+    - name: Get all Wireless Settings Dot11be Profiles
       cisco.dnac.wireless_settings_dot11be_profiles_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -858,7 +861,7 @@ Examples
         isMuMimoDownLink: true
         isOfDmaMultiRu: true
       register: result
-    - name: Get Wireless Settings Dot11Be Profiles Info by id
+    - name: Get Wireless Settings Dot11be Profiles by id
       cisco.dnac.wireless_settings_dot11be_profiles_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

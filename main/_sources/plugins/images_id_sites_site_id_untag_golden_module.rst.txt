@@ -42,7 +42,7 @@ cisco.dnac.images_id_sites_site_id_untag_golden module -- Resource module for Im
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module images\_id\_sites\_site\_id\_untag\_golden\_v1
+- Manage operation create of the resource Images Id Sites Site Id Untag Golden. - \> Untag the golden images specifically designed for a particular device type or supervisor engine module. Conditions for untagging the golden image.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -635,9 +635,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.untagging\_golden\_image\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.untagging\_golden\_image,
    - Paths used are post /dna/intent/api/v1/images/{id}/sites/{siteId}/untagGolden,
-   - It should be noted that this module is an alias of images\_id\_sites\_site\_id\_untag\_golden\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -649,8 +648,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) UntaggingGoldenImageV1 <https://developer.cisco.com/docs/dna-center/#!untagging-golden-image>`_
-       Complete reference of the UntaggingGoldenImageV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) UntaggingGoldenImage <https://developer.cisco.com/docs/dna-center/#!untagging-golden-image>`_
+       Complete reference of the UntaggingGoldenImage API.
 
 .. Examples
 
@@ -660,6 +659,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.images_id_sites_site_id_untag_golden:
         dnac_host: "{{dnac_host}}"

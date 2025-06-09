@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.images_addon_images_count_info module -- Information module for Images Addon Images Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.images_addon_images_count_info module -- Information module for Images Addon Images Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module images\_addon\_images\_count\_v1\_info
+- Get all Images Addon Images Count. - \> Count of add-on images available for the given software image identifier, \`id\` can be obtained from the response of API /dna/intent/api/v1/images?hasAddonImages=true .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.returns\_count\_of\_add\_on\_images\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.returns\_count\_of\_add\_on\_images,
    - Paths used are get /dna/intent/api/v1/images/{id}/addonImages/count,
-   - It should be noted that this module is an alias of images\_addon\_images\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsCountOfAddOnImagesV1 <https://developer.cisco.com/docs/dna-center/#!returns-count-of-add-on-images>`_
-       Complete reference of the ReturnsCountOfAddOnImagesV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsCountOfAddOnImages <https://developer.cisco.com/docs/dna-center/#!returns-count-of-add-on-images>`_
+       Complete reference of the ReturnsCountOfAddOnImages API.
 
 .. Examples
 
@@ -524,7 +523,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Images Addon Images Count Info
+    ---
+    - name: Get all Images Addon Images Count
       cisco.dnac.images_addon_images_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

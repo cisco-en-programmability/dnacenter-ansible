@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_maintenance_schedules_count_info module -- Information module for Network Device Maintenance Schedules Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_maintenance_schedules_count_info module -- Information module for Network Device Maintenance Schedules Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_maintenance\_schedules\_count\_v1\_info
+- Get all Network Device Maintenance Schedules Count.
+- Retrieve the total count of all scheduled maintenance windows for network devices.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -534,9 +535,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.retrieve\_the\_total\_number\_of\_scheduled\_maintenance\_windows\_v1,
+   - SDK Method used are devices.Devices.retrieve\_the\_total\_number\_of\_scheduled\_maintenance\_windows,
    - Paths used are get /dna/intent/api/v1/networkDeviceMaintenanceSchedules/count,
-   - It should be noted that this module is an alias of network\_device\_maintenance\_schedules\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -548,8 +548,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices RetrieveTheTotalNumberOfScheduledMaintenanceWindowsV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-the-total-number-of-scheduled-maintenance-windows>`_
-       Complete reference of the RetrieveTheTotalNumberOfScheduledMaintenanceWindowsV1 API.
+   `Cisco DNA Center documentation for Devices RetrieveTheTotalNumberOfScheduledMaintenanceWindows <https://developer.cisco.com/docs/dna-center/#!retrieve-the-total-number-of-scheduled-maintenance-windows>`_
+       Complete reference of the RetrieveTheTotalNumberOfScheduledMaintenanceWindows API.
 
 .. Examples
 
@@ -559,7 +559,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Maintenance Schedules Count Info
+    ---
+    - name: Get all Network Device Maintenance Schedules
+        Count
       cisco.dnac.network_device_maintenance_schedules_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

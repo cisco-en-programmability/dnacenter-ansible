@@ -42,7 +42,7 @@ cisco.dnac.lan_automation_update_v2 module -- Resource module for Lan Automation
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation update of the resource Lan Automation Update V2.
-- Invoke this API to stop LAN Automation and update device parameters such as Loopback0 IP address and/or hostname discovered in the current session.
-
+- Manage operation update of the resource Lan Automation Update V2. - \> Invoke this API to stop LAN Automation and update device parameters such as Loopback0 IP address and/or hostname discovered in the current session.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -617,7 +615,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV2 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices>`_
+   `Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV2 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices-v-2>`_
        Complete reference of the LANAutomationStopAndUpdateDevicesV2 API.
 
 .. Examples
@@ -628,6 +626,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update by id
       cisco.dnac.lan_automation_update_v2:
         dnac_host: "{{dnac_host}}"

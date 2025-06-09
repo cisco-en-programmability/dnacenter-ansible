@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.pnp_device_info module -- Information module for Pnp Device Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.pnp_device_info module -- Information module for Pnp Device
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module pnp\_device\_v1\_info
+- Get all Pnp Device.
+- Get Pnp Device by id.
+- Returns device details specified by device id. - \> Returns list of devices from Plug & Play based on filter criteria. Returns 50 devices by default. This endpoint supports Pagination and Sorting.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1121,9 +1123,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_by\_id\_v1, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_list,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_by\_id, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_list,
    - Paths used are get /dna/intent/api/v1/onboarding/pnp-device, get /dna/intent/api/v1/onboarding/pnp-device/{id},
-   - It should be noted that this module is an alias of pnp\_device\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1135,10 +1136,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceByIdV1 <https://developer.cisco.com/docs/dna-center/#!get-device-by-id>`_
-       Complete reference of the GetDeviceByIdV1 API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceListSiteManagementV1 <https://developer.cisco.com/docs/dna-center/#!get-device-list-site-management>`_
-       Complete reference of the GetDeviceListSiteManagementV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceById <https://developer.cisco.com/docs/dna-center/#!get-device-by-id>`_
+       Complete reference of the GetDeviceById API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceListSiteManagement <https://developer.cisco.com/docs/dna-center/#!get-device-list-site-management>`_
+       Complete reference of the GetDeviceListSiteManagement API.
 
 .. Examples
 
@@ -1148,7 +1149,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Pnp Device Info
+    ---
+    - name: Get all Pnp Device
       cisco.dnac.pnp_device_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1177,7 +1179,7 @@ Examples
         hostname: string
         siteName: string
       register: result
-    - name: Get Pnp Device Info by id
+    - name: Get Pnp Device by id
       cisco.dnac.pnp_device_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

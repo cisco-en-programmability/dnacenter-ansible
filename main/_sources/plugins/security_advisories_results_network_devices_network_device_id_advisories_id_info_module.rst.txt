@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.security_advisories_results_network_devices_network_device_id_advisories_id_info module -- Information module for Security Advisories Results Network Devices Network Device Id Advisories Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.security_advisories_results_network_devices_network_device_id_advisories_id_info module -- Information module for Security Advisories Results Network Devices Network Device Id Advisories Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_advisories\_results\_network\_devices\_network\_device\_id\_advisories\_id\_v1\_info
+- Get Security Advisories Results Network Devices Network Device Id Advisories Id by id.
+- Get security advisory affecting the network device by device Id and advisory id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -533,9 +534,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.get\_security\_advisory\_affecting\_the\_network\_device\_by\_device\_id\_and\_advisory\_id\_v1,
+   - SDK Method used are compliance.Compliance.get\_security\_advisory\_affecting\_the\_network\_device\_by\_device\_id\_and\_advisory\_id,
    - Paths used are get /dna/intent/api/v1/securityAdvisories/results/networkDevices/{networkDeviceId}/advisories/{id},
-   - It should be noted that this module is an alias of security\_advisories\_results\_network\_devices\_network\_device\_id\_advisories\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance GetSecurityAdvisoryAffectingTheNetworkDeviceByDeviceIdAndAdvisoryIdV1 <https://developer.cisco.com/docs/dna-center/#!get-security-advisory-affecting-the-network-device-by-device-id-and-advisory-id>`_
-       Complete reference of the GetSecurityAdvisoryAffectingTheNetworkDeviceByDeviceIdAndAdvisoryIdV1 API.
+   `Cisco DNA Center documentation for Compliance GetSecurityAdvisoryAffectingTheNetworkDeviceByDeviceIdAndAdvisoryId <https://developer.cisco.com/docs/dna-center/#!get-security-advisory-affecting-the-network-device-by-device-id-and-advisory-id>`_
+       Complete reference of the GetSecurityAdvisoryAffectingTheNetworkDeviceByDeviceIdAndAdvisoryId API.
 
 .. Examples
 
@@ -558,8 +558,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Security Advisories Results Network Devices Network Device Id Advisories
-        Id Info by id
+    ---
+    - name: Get Security Advisories Results Network Devices
+        Network Device Id Advisories Id by id
       cisco.dnac.security_advisories_results_network_devices_network_device_id_advisories_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

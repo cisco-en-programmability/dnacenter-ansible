@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.product_names_info module -- Information module for Product Names Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.product_names_info module -- Information module for Product Names
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module product\_names\_v1\_info
+- Get all Product Names.
+- Get Product Names by name.
+- Get the list of network device product names, their ordinal, and the support PIDs based on filter criteria.
+- Get the network device product name, its ordinal, and supported PIDs.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -638,9 +641,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieve\_network\_device\_product\_name\_v1, software\_image\_management\_swim.SoftwareImageManagementSwim.retrieves\_the\_list\_of\_network\_device\_product\_names\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieve\_network\_device\_product\_name, software\_image\_management\_swim.SoftwareImageManagementSwim.retrieves\_the\_list\_of\_network\_device\_product\_names,
    - Paths used are get /dna/intent/api/v1/productNames, get /dna/intent/api/v1/productNames/{productNameOrdinal},
-   - It should be noted that this module is an alias of product\_names\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -652,10 +654,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductNameV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-name>`_
-       Complete reference of the RetrieveNetworkDeviceProductNameV1 API.
-   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNamesV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-device-product-names>`_
-       Complete reference of the RetrievesTheListOfNetworkDeviceProductNamesV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductName <https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-name>`_
+       Complete reference of the RetrieveNetworkDeviceProductName API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNames <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-device-product-names>`_
+       Complete reference of the RetrievesTheListOfNetworkDeviceProductNames API.
 
 .. Examples
 
@@ -665,7 +667,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Product Names Info
+    ---
+    - name: Get all Product Names
       cisco.dnac.product_names_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -680,7 +683,7 @@ Examples
         offset: 0
         limit: 0
       register: result
-    - name: Get Product Names Info by name
+    - name: Get Product Names by name
       cisco.dnac.product_names_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.swim_intent module -- Intent module for SWIM related functions
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2506,8 +2506,7 @@ Notes
 
 .. note::
    - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.import\_software\_image\_via\_url, software\_image\_management\_swim.SoftwareImageManagementSwim.tag\_as\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_distribution, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_activation,
-   - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device,
-   - Added the parameter 'dnac\_api\_task\_timeout', 'dnac\_task\_poll\_interval' options in v6.13.2.
+   - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, - Added the parameter 'dnac\_api\_task\_timeout', 'dnac\_task\_poll\_interval' options in v6.13.2.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -2523,7 +2522,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Import an image from a URL, tag it as golden and load it on device
+    ---
+    - name: Import an image from a URL, tag it as golden
+        and load it on device
       cisco.dnac.swim_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2544,7 +2545,8 @@ Examples
             tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: ACCESS
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               site_name: Global/USA/San Francisco/BGL_18
               tagging: true
             image_distribution_details:
@@ -2576,10 +2578,12 @@ Examples
             tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: ACCESS
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               site_name: Global/USA/San Francisco/BGL_18
               tagging: true
-    - name: Tag the given image as golden and load it on device
+    - name: Tag the given image as golden and load it on
+        device
       cisco.dnac.swim_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2594,10 +2598,12 @@ Examples
           - tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: ACCESS
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               site_name: Global/USA/San Francisco/BGL_18
               tagging: true
-    - name: Un-tagged the given image as golden and load it on device
+    - name: Un-tagged the given image as golden and load
+        it on device
       cisco.dnac.swim_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2612,11 +2618,12 @@ Examples
           - tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: ACCESS
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               site_name: Global/USA/San Francisco/BGL_18
               tagging: false
-    - name: Distribute the given image on devices associated to that site with specified
-        role.
+    - name: Distribute the given image on devices associated
+        to that site with specified role.
       cisco.dnac.swim_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2633,9 +2640,10 @@ Examples
               site_name: Global/USA/San Francisco/BGL_18
               device_role: ALL
               device_family_name: Switches and Hubs
-              device_series_name: Cisco Catalyst 9300 Series Switches
-    - name: Activate the given image on devices associated to that site with specified
-        role.
+              device_series_name: Cisco Catalyst 9300 Series
+                Switches
+    - name: Activate the given image on devices associated
+        to that site with specified role.
       cisco.dnac.swim_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2652,7 +2660,8 @@ Examples
               site_name: Global/USA/San Francisco/BGL_18
               device_role: ALL
               device_family_name: Switches and Hubs
-              device_series_name: Cisco Catalyst 9300 Series Switches
+              device_series_name: Cisco Catalyst 9300 Series
+                Switches
               scehdule_validate: false
               activate_lower_image_version: true
               distribute_if_needed: true

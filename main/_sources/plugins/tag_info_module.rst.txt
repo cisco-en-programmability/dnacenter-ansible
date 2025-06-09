@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.tag_info module -- Information module for Tag Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.tag_info module -- Information module for Tag
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module tag\_v1\_info
+- Get all Tag.
+- Get Tag by id.
+- Returns tag specified by Id.
+- Returns the tags for given filter criteria.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -875,9 +878,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are tag.Tag.get\_tag\_by\_id\_v1, tag.Tag.get\_tag\_v1,
+   - SDK Method used are tag.Tag.get\_tag, tag.Tag.get\_tag\_by\_id,
    - Paths used are get /dna/intent/api/v1/tag, get /dna/intent/api/v1/tag/{id},
-   - It should be noted that this module is an alias of tag\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -889,10 +891,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Tag GetTagByIdV1 <https://developer.cisco.com/docs/dna-center/#!get-tag-by-id>`_
-       Complete reference of the GetTagByIdV1 API.
-   `Cisco DNA Center documentation for Tag GetTagV1 <https://developer.cisco.com/docs/dna-center/#!get-tag>`_
-       Complete reference of the GetTagV1 API.
+   `Cisco DNA Center documentation for Tag GetTag <https://developer.cisco.com/docs/dna-center/#!get-tag>`_
+       Complete reference of the GetTag API.
+   `Cisco DNA Center documentation for Tag GetTagById <https://developer.cisco.com/docs/dna-center/#!get-tag-by-id>`_
+       Complete reference of the GetTagById API.
 
 .. Examples
 
@@ -902,7 +904,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Tag Info
+    ---
+    - name: Get all Tag
       cisco.dnac.tag_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -924,7 +927,7 @@ Examples
         order: string
         systemTag: string
       register: result
-    - name: Get Tag Info by id
+    - name: Get Tag by id
       cisco.dnac.tag_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

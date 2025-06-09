@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.field_notices_results_network_devices_network_device_id_notices_info module -- Information module for Field Notices Results Network Devices Network Device Id Notices Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.field_notices_results_network_devices_network_device_id_notices_info module -- Information module for Field Notices Results Network Devices Network Device Id Notices
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module field\_notices\_results\_network\_devices\_network\_device\_id\_notices\_v1\_info
+- Get all Field Notices Results Network Devices Network Device Id Notices.
+- Get field notices affecting the network device.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -544,6 +545,7 @@ Parameters
         <div class="ansible-option-cell">
 
       Offset query parameter. The first record to show for this page; the first record is numbered 1. Default value is 1.
+          
 
 
       .. raw:: html
@@ -705,9 +707,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.get\_field\_notices\_affecting\_the\_network\_device\_v1,
+   - SDK Method used are compliance.Compliance.get\_field\_notices\_affecting\_the\_network\_device,
    - Paths used are get /dna/intent/api/v1/fieldNotices/results/networkDevices/{networkDeviceId}/notices,
-   - It should be noted that this module is an alias of field\_notices\_results\_network\_devices\_network\_device\_id\_notices\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -719,8 +720,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance GetFieldNoticesAffectingTheNetworkDeviceV1 <https://developer.cisco.com/docs/dna-center/#!get-field-notices-affecting-the-network-device>`_
-       Complete reference of the GetFieldNoticesAffectingTheNetworkDeviceV1 API.
+   `Cisco DNA Center documentation for Compliance GetFieldNoticesAffectingTheNetworkDevice <https://developer.cisco.com/docs/dna-center/#!get-field-notices-affecting-the-network-device>`_
+       Complete reference of the GetFieldNoticesAffectingTheNetworkDevice API.
 
 .. Examples
 
@@ -730,8 +731,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Field Notices Results Network Devices Network Device Id Notices
-        Info
+    ---
+    - name: Get all Field Notices Results Network Devices
+        Network Device Id Notices
       cisco.dnac.field_notices_results_network_devices_network_device_id_notices_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

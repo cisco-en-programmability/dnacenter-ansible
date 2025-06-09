@@ -42,7 +42,7 @@ cisco.dnac.assurance_device_health_score_settings_workflow_manager module -- Res
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -209,7 +209,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Specifies the device family to which the health score applies.
-            required: true
+            required:
+          true
             choices:
               - ROUTER
               - SWITCH\_AND\_HUB
@@ -296,87 +297,163 @@ Parameters
 
       The name of the Key Performance Indicator (KPI) to be monitored (e.g., LINK ERROR). Must be one of the valid KPI names for the specified device family. choices:
             ROUTER:
-                - BGP Session from Border to Control Plane (BGP)
-                - BGP Session from Border to Control Plane (PubSub)
-                - BGP Session from Border to Peer Node for INFRA VN
-                - BGP Session from Border to Peer Node
-                - BGP Session from Border to Transit Control Plane
-                - BGP Session to Spine
-                - Cisco TrustSec environment data download status
-                - CPU Utilization
-                - Extended Node Connectivity
-                - Fabric Control Plane Reachability
-                - Fabric Multicast RP Reachability
-                - Inter-device Link Availability
-                - Internet Availability
-                - Link Discard
-                - Link Error
-                - Link Utilization
-                - LISP Session from Border to Transit Site Control Plane
-                - LISP Session Status
-                - Memory Utilization
-                - Peer Status
-                - Pub-Sub Session from Border to Transit Site Control Plane
-                - Pub-Sub Session Status for INFRA VN
-                - Pub-Sub Session Status
-                - Remote Internet Availability
-                - VNI Status
+                -
+          BGP Session from Border to Control Plane (BGP)
+                -
+          BGP Session from Border to Control Plane (PubSub)
+                -
+          BGP Session from Border to Peer Node for INFRA VN
+                -
+          BGP Session from Border to Peer Node
+                -
+          BGP Session from Border to Transit Control Plane
+                -
+          BGP Session to Spine
+                -
+          Cisco TrustSec environment data download status
+                -
+          CPU Utilization
+                -
+          Extended Node Connectivity
+                -
+          Fabric Control Plane Reachability
+                -
+          Fabric Multicast RP Reachability
+                -
+          Inter-device Link Availability
+                -
+          Internet Availability
+                -
+          Link Discard
+                -
+          Link Error
+                -
+          Link Utilization
+                -
+          LISP Session from Border to Transit Site Control Plane
+                -
+          LISP Session Status
+                -
+          Memory Utilization
+                -
+          Peer Status
+                -
+          Pub-Sub Session from Border to Transit Site Control Plane
+                -
+          Pub-Sub Session Status for INFRA VN
+                -
+          Pub-Sub Session Status
+                -
+          Remote Internet Availability
+                -
+          VNI Status
             SWITCH\_AND\_HUB:
-                - AAA server reachability
-                - BGP Session from Border to Control Plane (BGP)
-                - BGP Session from Border to Control Plane (PubSub)
-                - BGP Session from Border to Peer Node for INFRA VN
-                - BGP Session from Border to Peer Node
-                - BGP Session from Border to Transit Control Plane
-                - BGP Session to Spine
-                - Cisco TrustSec environment data download status
-                - CPU Utilization
-                - Extended Node Connectivity
-                - Fabric Control Plane Reachability
-                - Fabric Multicast RP Reachability
-                - Inter-device Link Availability
-                - Internet Availability
-                - Link Discard
-                - Link Error
-                - LISP Session from Border to Transit Site Control Plane
-                - LISP Session Status
-                - Memory Utilization
-                - Peer Status
-                - Pub-Sub Session from Border to Transit Site Control Plane
-                - Pub-Sub Session Status for INFRA VN
-                - Pub-Sub Session Status
-                - Remote Internet Availability
-                - VNI Status
+                -
+          AAA server reachability
+                -
+          BGP Session from Border to Control Plane (BGP)
+                -
+          BGP Session from Border to Control Plane (PubSub)
+                -
+          BGP Session from Border to Peer Node for INFRA VN
+                -
+          BGP Session from Border to Peer Node
+                -
+          BGP Session from Border to Transit Control Plane
+                -
+          BGP Session to Spine
+                -
+          Cisco TrustSec environment data download status
+                -
+          CPU Utilization
+                -
+          Extended Node Connectivity
+                -
+          Fabric Control Plane Reachability
+                -
+          Fabric Multicast RP Reachability
+                -
+          Inter-device Link Availability
+                -
+          Internet Availability
+                -
+          Link Discard
+                -
+          Link Error
+                -
+          LISP Session from Border to Transit Site Control Plane
+                -
+          LISP Session Status
+                -
+          Memory Utilization
+                -
+          Peer Status
+                -
+          Pub-Sub Session from Border to Transit Site Control Plane
+                -
+          Pub-Sub Session Status for INFRA VN
+                -
+          Pub-Sub Session Status
+                -
+          Remote Internet Availability
+                -
+          VNI Status
             WIRELESS\_CONTROLLER:
-                - Fabric Control Plane Reachability
-                - Free Mbuf
-                - Free Timer
-                - Link Error
-                - LISP Session Status
-                - Memory Utilization
-                - Packet Pool
-                - WQE Pool
+                -
+          Fabric Control Plane Reachability
+                -
+          Free Mbuf
+                -
+          Free Timer
+                -
+          Link Error
+                -
+          LISP Session Status
+                -
+          Memory Utilization
+                -
+          Packet Pool
+                -
+          WQE Pool
             UNIFIED\_AP:
-                - Air Quality 2.4 GHz
-                - Air Quality 5 GHz
-                - Air Quality 6 GHz
-                - CPU Utilization
-                - Interference 2.4 GHz
-                - Interference 5 GHz
-                - Interference 6 GHz
-                - Link Error
-                - Memory Utilization
-                - Noise 2.4 GHz
-                - Noise 5 GHz
-                - Noise 6 GHz
-                - RF Utilization 2.4 GHz
-                - RF Utilization 5 GHz
-                - RF Utilization 6 GHz
+                -
+          Air Quality 2.4 GHz
+                -
+          Air Quality 5 GHz
+                -
+          Air Quality 6 GHz
+                -
+          CPU Utilization
+                -
+          Interference 2.4 GHz
+                -
+          Interference 5 GHz
+                -
+          Interference 6 GHz
+                -
+          Link Error
+                -
+          Memory Utilization
+                -
+          Noise 2.4 GHz
+                -
+          Noise 5 GHz
+                -
+          Noise 6 GHz
+                -
+          RF Utilization 2.4 GHz
+                -
+          RF Utilization 5 GHz
+                -
+          RF Utilization 6 GHz
             WIRELESS\_CLIENT:
-                - Connectivity RSSI
-                - Connectivity SNR
+                -
+          Connectivity RSSI
+                -
+          Connectivity SNR
             WIRED\_CLIENT:
-                - Link Error
+                -
+          Link Error
           
 
 
@@ -1178,7 +1255,6 @@ Examples
                     include_for_overall_health: true  # required field
                     threshold_value: 90
                     synchronize_to_issue_threshold: false
-
     - hosts: dnac_servers
       vars_files:
         - credentials.yml
@@ -1206,7 +1282,6 @@ Examples
                     include_for_overall_health: true  # required field
                     threshold_value: 60
                     synchronize_to_issue_threshold: false
-
     - hosts: dnac_servers
       vars_files:
         - credentials.yml

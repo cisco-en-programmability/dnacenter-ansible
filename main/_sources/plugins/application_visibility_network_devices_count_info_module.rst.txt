@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.application_visibility_network_devices_count_info module -- Information module for Application Visibility Network Devices Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.application_visibility_network_devices_count_info module -- Information module for Application Visibility Network Devices Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module application\_visibility\_network\_devices\_count\_v1\_info
+- Get all Application Visibility Network Devices Count.
+- This API retrieves the count of network devices for the given application visibility status filters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -849,9 +850,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.retrieve\_the\_count\_of\_network\_devices\_for\_the\_given\_application\_visibility\_status\_filters\_v1,
+   - SDK Method used are application\_policy.ApplicationPolicy.retrieve\_the\_count\_of\_network\_devices\_for\_the\_given\_application\_visibility\_status\_filters,
    - Paths used are get /dna/intent/api/v1/applicationVisibility/networkDevices/count,
-   - It should be noted that this module is an alias of application\_visibility\_network\_devices\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -863,8 +863,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy RetrieveTheCountOfNetworkDevicesForTheGivenApplicationVisibilityStatusFiltersV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-network-devices-for-the-given-application-visibility-status-filters>`_
-       Complete reference of the RetrieveTheCountOfNetworkDevicesForTheGivenApplicationVisibilityStatusFiltersV1 API.
+   `Cisco DNA Center documentation for Application Policy RetrieveTheCountOfNetworkDevicesForTheGivenApplicationVisibilityStatusFilters <https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-network-devices-for-the-given-application-visibility-status-filters>`_
+       Complete reference of the RetrieveTheCountOfNetworkDevicesForTheGivenApplicationVisibilityStatusFilters API.
 
 .. Examples
 
@@ -874,7 +874,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Application Visibility Network Devices Count Info
+    ---
+    - name: Get all Application Visibility Network Devices
+        Count
       cisco.dnac.application_visibility_network_devices_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

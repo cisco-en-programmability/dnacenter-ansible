@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.fabric_site_health_summaries_id_trend_analytics_info module -- Information module for Fabric Site Health Summaries Id Trend Analytics Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.fabric_site_health_summaries_id_trend_analytics_info module -- Information module for Fabric Site Health Summaries Id Trend Analytics
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module fabric\_site\_health\_summaries\_id\_trend\_analytics\_v1\_info
+- Get all Fabric Site Health Summaries Id Trend Analytics. - \> Get health time series for a specific Fabric Site by providing the unique Fabric site id in the url path. The data will be grouped based on the specified trend time interval. If startTime and endTime are not provided, the API defaults to the last 24 hours.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -741,9 +741,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.the\_trend\_analytics\_data\_for\_a\_fabric\_site\_in\_the\_specified\_time\_range\_v1,
+   - SDK Method used are sda.Sda.the\_trend\_analytics\_data\_for\_a\_fabric\_site\_in\_the\_specified\_time\_range,
    - Paths used are get /dna/data/api/v1/fabricSiteHealthSummaries/{id}/trendAnalytics,
-   - It should be noted that this module is an alias of fabric\_site\_health\_summaries\_id\_trend\_analytics\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -755,8 +754,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA TheTrendAnalyticsDataForAFabricSiteInTheSpecifiedTimeRangeV1 <https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-a-fabric-site-in-the-specified-time-range>`_
-       Complete reference of the TheTrendAnalyticsDataForAFabricSiteInTheSpecifiedTimeRangeV1 API.
+   `Cisco DNA Center documentation for SDA TheTrendAnalyticsDataForAFabricSiteInTheSpecifiedTimeRange <https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-a-fabric-site-in-the-specified-time-range>`_
+       Complete reference of the TheTrendAnalyticsDataForAFabricSiteInTheSpecifiedTimeRange API.
 
 .. Examples
 
@@ -766,7 +765,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Fabric Site Health Summaries Id Trend Analytics Info
+    ---
+    - name: Get all Fabric Site Health Summaries Id Trend
+        Analytics
       cisco.dnac.fabric_site_health_summaries_id_trend_analytics_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -845,7 +846,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"limit": 0, "offset": 0, "timeSortOrder": "string"}, "response": [{"attributes": [{"name": "string", "value": 0}], "timestamp": 0}], "version": 0}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "timestampOrder": "string"}, "response": [{"attributes": [{"name": "string", "value": 0}], "timestamp": 0}], "version": "string"}`
 
 
       .. raw:: html

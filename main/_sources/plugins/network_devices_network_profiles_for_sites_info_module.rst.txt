@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_devices_network_profiles_for_sites_info module -- Information module for Network Devices Network Profiles For Sites Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_devices_network_profiles_for_sites_info module -- Information module for Network Devices Network Profiles For Sites
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_devices\_network\_profiles\_for\_sites\_v1\_info
+- Get all Network Devices Network Profiles For Sites.
+- Get Network Devices Network Profiles For Sites by id.
+- Retrieves a network profile for sites by id.
+- Retrieves the list of network profiles for sites.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -669,9 +672,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.retrieve\_a\_network\_profile\_for\_sites\_by\_id\_v1, site\_design.SiteDesign.retrieves\_the\_list\_of\_network\_profiles\_for\_sites\_v1,
+   - SDK Method used are site\_design.SiteDesign.retrieve\_a\_network\_profile\_for\_sites\_by\_id, site\_design.SiteDesign.retrieves\_the\_list\_of\_network\_profiles\_for\_sites,
    - Paths used are get /dna/intent/api/v1/networkProfilesForSites, get /dna/intent/api/v1/networkProfilesForSites/{id},
-   - It should be noted that this module is an alias of network\_devices\_network\_profiles\_for\_sites\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -683,10 +685,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design RetrieveANetworkProfileForSitesByIdV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-a-network-profile-for-sites-by-id>`_
-       Complete reference of the RetrieveANetworkProfileForSitesByIdV1 API.
-   `Cisco DNA Center documentation for Site Design RetrievesTheListOfNetworkProfilesForSitesV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-profiles-for-sites>`_
-       Complete reference of the RetrievesTheListOfNetworkProfilesForSitesV1 API.
+   `Cisco DNA Center documentation for Site Design RetrieveANetworkProfileForSitesById <https://developer.cisco.com/docs/dna-center/#!retrieve-a-network-profile-for-sites-by-id>`_
+       Complete reference of the RetrieveANetworkProfileForSitesById API.
+   `Cisco DNA Center documentation for Site Design RetrievesTheListOfNetworkProfilesForSites <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-profiles-for-sites>`_
+       Complete reference of the RetrievesTheListOfNetworkProfilesForSites API.
 
 .. Examples
 
@@ -696,7 +698,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Devices Network Profiles For Sites Info
+    ---
+    - name: Get all Network Devices Network Profiles For
+        Sites
       cisco.dnac.network_devices_network_profiles_for_sites_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -712,7 +716,8 @@ Examples
         order: string
         type: string
       register: result
-    - name: Get Network Devices Network Profiles For Sites Info by id
+    - name: Get Network Devices Network Profiles For Sites
+        by id
       cisco.dnac.network_devices_network_profiles_for_sites_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

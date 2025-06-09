@@ -42,7 +42,7 @@ cisco.dnac.floors_floor_id_planned_access_point_positions_assign_access_point_po
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module floors\_floor\_id\_planned\_access\_point\_positions\_assign\_access\_point\_positions\_v2
+- Manage operation create of the resource Floors Floor Id Planned Access Point Positions Assign Access Point Positions.
+- Assign Planned Access Points to operations ones.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -570,7 +571,6 @@ Notes
 .. note::
    - SDK Method used are site\_design.SiteDesign.assign\_planned\_access\_points\_to\_operations\_ones\_v2,
    - Paths used are post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/assignAccessPointPositions,
-   - It should be noted that this module is an alias of floors\_floor\_id\_planned\_access\_point\_positions\_assign\_access\_point\_positions\_v2
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,7 +582,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnesV2 <https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones>`_
+   `Cisco DNA Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnesV2 <https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones-v-2>`_
        Complete reference of the AssignPlannedAccessPointsToOperationsOnesV2 API.
 
 .. Examples
@@ -593,6 +593,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.floors_floor_id_planned_access_point_positions_assign_access_point_positions:
         dnac_host: "{{dnac_host}}"

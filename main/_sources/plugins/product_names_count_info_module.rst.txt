@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.product_names_count_info module -- Information module for Product Names Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.product_names_count_info module -- Information module for Product Names Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module product\_names\_count\_v1\_info
+- Get all Product Names Count.
+- Count of product names based on filter criteria.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -534,9 +535,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.count\_of\_network\_product\_names\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.count\_of\_network\_product\_names,
    - Paths used are get /dna/intent/api/v1/productNames/count,
-   - It should be noted that this module is an alias of product\_names\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -548,8 +548,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkProductNamesV1 <https://developer.cisco.com/docs/dna-center/#!count-of-network-product-names>`_
-       Complete reference of the CountOfNetworkProductNamesV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkProductNames <https://developer.cisco.com/docs/dna-center/#!count-of-network-product-names>`_
+       Complete reference of the CountOfNetworkProductNames API.
 
 .. Examples
 
@@ -559,7 +559,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Product Names Count Info
+    ---
+    - name: Get all Product Names Count
       cisco.dnac.product_names_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.license_device_license_details_info module -- Information module for License Device License Details Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.license_device_license_details_info module -- Information module for License Device License Details
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module license\_device\_license\_details\_v1\_info
+- Get all License Device License Details.
+- Get detailed license information of a device.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.device\_license\_details\_v1,
+   - SDK Method used are licenses.Licenses.device\_license\_details,
    - Paths used are get /dna/intent/api/v1/licenses/device/{device\_uuid}/details,
-   - It should be noted that this module is an alias of license\_device\_license\_details\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses DeviceLicenseDetailsV1 <https://developer.cisco.com/docs/dna-center/#!device-license-details>`_
-       Complete reference of the DeviceLicenseDetailsV1 API.
+   `Cisco DNA Center documentation for Licenses DeviceLicenseDetails <https://developer.cisco.com/docs/dna-center/#!device-license-details>`_
+       Complete reference of the DeviceLicenseDetails API.
 
 .. Examples
 
@@ -524,7 +524,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all License Device License Details Info
+    ---
+    - name: Get all License Device License Details
       cisco.dnac.license_device_license_details_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -596,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"access\_points": [{"ap\_type": "string", "count": "string"}], "chassis\_details": {"board\_serial\_number": "string", "modules": [{"id": 0, "module\_name": "string", "module\_type": "string", "serial\_number": "string"}], "port": 0, "supervisor\_cards": [{"serial\_number": "string", "status": "string", "supervisor\_card\_type": "string"}]}, "device\_name": "string", "device\_type": "string", "device\_uuid": "string", "dna\_level": "string", "evaluation\_license\_expiry": "string", "feature\_license": ["string"], "has\_sup\_cards": true, "ip\_address": "string", "is\_license\_expired": true, "is\_stacked\_device": true, "license\_mode": "string", "mac\_address": "string", "model": "string", "network\_license": "string", "site": "string", "sntc\_status": "string", "software\_version": "string", "stacked\_devices": [{"id": 0, "mac\_address": "string", "role": "string", "serial\_number": "string"}], "udi": "string", "virtual\_account\_name": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`[{}]`
 
 
       .. raw:: html

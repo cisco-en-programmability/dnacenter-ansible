@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.site_kpi_summaries_trend_analytics_info module -- Information module for Site Kpi Summaries Trend Analytics Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.site_kpi_summaries_trend_analytics_info module -- Information module for Site Kpi Summaries Trend Analytics
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module site\_kpi\_summaries\_trend\_analytics\_v1\_info
+- Get all Site Kpi Summaries Trend Analytics. - \> Gets site analytics trend data for the given task id. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst- center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-SiteKpiSummaries-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -500,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.get\_site\_analytics\_trend\_data\_for\_the\_given\_task\_id\_v1,
+   - SDK Method used are sites.Sites.get\_site\_analytics\_trend\_data\_for\_the\_given\_task\_id,
    - Paths used are get /dna/data/api/v1/siteKpiSummaries/trendAnalytics,
-   - It should be noted that this module is an alias of site\_kpi\_summaries\_trend\_analytics\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -514,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites GetSiteAnalyticsTrendDataForTheGivenTaskIdV1 <https://developer.cisco.com/docs/dna-center/#!get-site-analytics-trend-data-for-the-given-task-id>`_
-       Complete reference of the GetSiteAnalyticsTrendDataForTheGivenTaskIdV1 API.
+   `Cisco DNA Center documentation for Sites GetSiteAnalyticsTrendDataForTheGivenTaskId <https://developer.cisco.com/docs/dna-center/#!get-site-analytics-trend-data-for-the-given-task-id>`_
+       Complete reference of the GetSiteAnalyticsTrendDataForTheGivenTaskId API.
 
 .. Examples
 
@@ -525,7 +524,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Site Kpi Summaries Trend Analytics Info
+    ---
+    - name: Get all Site Kpi Summaries Trend Analytics
       cisco.dnac.site_kpi_summaries_trend_analytics_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

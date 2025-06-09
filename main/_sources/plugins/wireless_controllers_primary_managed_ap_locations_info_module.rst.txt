@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_controllers_primary_managed_ap_locations_info module -- Information module for Wireless Controllers Primary Managed Ap Locations Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_controllers_primary_managed_ap_locations_info module -- Information module for Wireless Controllers Primary Managed Ap Locations
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_controllers\_primary\_managed\_ap\_locations\_v1\_info
+- Get all Wireless Controllers Primary Managed Ap Locations.
+- Retrieves all the details of Primary Managed AP locations associated with the specific Wireless Controller.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -569,9 +570,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_primary\_managed\_ap\_locations\_for\_specific\_wireless\_controller\_v1,
+   - SDK Method used are wireless.Wireless.get\_primary\_managed\_ap\_locations\_for\_specific\_wireless\_controller,
    - Paths used are get /dna/intent/api/v1/wirelessControllers/{networkDeviceId}/primaryManagedApLocations,
-   - It should be noted that this module is an alias of wireless\_controllers\_primary\_managed\_ap\_locations\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -583,8 +583,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetPrimaryManagedAPLocationsForSpecificWirelessControllerV1 <https://developer.cisco.com/docs/dna-center/#!get-primary-managed-ap-locations-for-specific-wireless-controller>`_
-       Complete reference of the GetPrimaryManagedAPLocationsForSpecificWirelessControllerV1 API.
+   `Cisco DNA Center documentation for Wireless GetPrimaryManagedAPLocationsForSpecificWirelessController <https://developer.cisco.com/docs/dna-center/#!get-primary-managed-ap-locations-for-specific-wireless-controller>`_
+       Complete reference of the GetPrimaryManagedAPLocationsForSpecificWirelessController API.
 
 .. Examples
 
@@ -594,7 +594,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Controllers Primary Managed Ap Locations Info
+    ---
+    - name: Get all Wireless Controllers Primary Managed
+        Ap Locations
       cisco.dnac.wireless_controllers_primary_managed_ap_locations_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -668,7 +670,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"managedApLocations": [{"siteId": "string", "siteNameHierarchy": "string"}]}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"managedApLocations": [{"siteId": "string", "siteNameHierarchy": "string"}]}, "version": "string"}`
 
 
       .. raw:: html

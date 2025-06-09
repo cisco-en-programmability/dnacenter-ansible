@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices module -- Resource module for Sda Fabric Devices
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,11 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_fabric\_devices\_v1
+- Manage operations create, update and delete of the resource Sda Fabric Devices.
+- Adds fabric devices based on user input.
+- Deletes a fabric device based on id.
+- Deletes fabric devices based on user input.
+- Updates fabric devices based on user input.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1028,9 +1032,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_fabric\_devices\_v1, sda.Sda.delete\_fabric\_device\_by\_id\_v1, sda.Sda.update\_fabric\_devices\_v1,
+   - SDK Method used are sda.Sda.add\_fabric\_devices, sda.Sda.delete\_fabric\_device\_by\_id, sda.Sda.update\_fabric\_devices,
    - Paths used are post /dna/intent/api/v1/sda/fabricDevices, delete /dna/intent/api/v1/sda/fabricDevices, delete /dna/intent/api/v1/sda/fabricDevices/{id}, put /dna/intent/api/v1/sda/fabricDevices,
-   - It should be noted that this module is an alias of sda\_fabric\_devices\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1042,14 +1045,14 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddFabricDevicesV1 <https://developer.cisco.com/docs/dna-center/#!add-fabric-devices>`_
-       Complete reference of the AddFabricDevicesV1 API.
-   `Cisco DNA Center documentation for SDA DeleteFabricDeviceByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-by-id>`_
-       Complete reference of the DeleteFabricDeviceByIdV1 API.
-   `Cisco DNA Center documentation for SDA DeleteFabricDevicesV1 <https://developer.cisco.com/docs/dna-center/#!delete-fabric-devices>`_
-       Complete reference of the DeleteFabricDevicesV1 API.
-   `Cisco DNA Center documentation for SDA UpdateFabricDevicesV1 <https://developer.cisco.com/docs/dna-center/#!update-fabric-devices>`_
-       Complete reference of the UpdateFabricDevicesV1 API.
+   `Cisco DNA Center documentation for SDA AddFabricDevices <https://developer.cisco.com/docs/dna-center/#!add-fabric-devices>`_
+       Complete reference of the AddFabricDevices API.
+   `Cisco DNA Center documentation for SDA DeleteFabricDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-by-id>`_
+       Complete reference of the DeleteFabricDeviceById API.
+   `Cisco DNA Center documentation for SDA DeleteFabricDevices <https://developer.cisco.com/docs/dna-center/#!delete-fabric-devices>`_
+       Complete reference of the DeleteFabricDevices API.
+   `Cisco DNA Center documentation for SDA UpdateFabricDevices <https://developer.cisco.com/docs/dna-center/#!update-fabric-devices>`_
+       Complete reference of the UpdateFabricDevices API.
 
 .. Examples
 
@@ -1059,6 +1062,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.sda_fabric_devices:
         dnac_host: "{{dnac_host}}"

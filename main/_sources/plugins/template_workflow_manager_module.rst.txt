@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3509,6 +3509,50 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/copy_config"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/copy_config:
+
+      .. rst-class:: ansible-option-title
+
+      **copy_config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/copy_config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A boolean flag that specifies whether the device's running configuration should be copied to the startup configuration after applying the template.
+
+      If set to 'true', the updated configuration will be saved to the startup configuration. be copied to the start up config from the device before applying the template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/device_details"></div>
 
       .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/device_details:
@@ -3794,6 +3838,145 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/resource_parameters"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/resource_parameters:
+
+      .. rst-class:: ansible-option-title
+
+      **resource_parameters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/resource_parameters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of configuration parameters required for provisioning resources in the system. These parameters define specific settings or details that must be supplied when deploying templates. If the template uses system variables (variables prefixed with \_\_, (e.g., \_\_device), the corresponding resource parameters must be provided to ensure successful deployment.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/resource_parameters/resource_scope"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/resource_parameters/resource_scope:
+
+      .. rst-class:: ansible-option-title
+
+      **resource_scope**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/resource_parameters/resource_scope" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the scope in which the resource parameter is to be provisioned.
+
+      Possible enum values are - - RUNTIME - A parameter with a runtime scope is provided at the time of deployment. These values are dynamic and may change with each deployment, as they are based on the specific context of the deployment. - DESIGN - A parameter with a design scope is defined during the design phase of the template. These values are static after template creation and remain consistent across deployments.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/resource_parameters/resource_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/resource_parameters/resource_type:
+
+      .. rst-class:: ansible-option-title
+
+      **resource_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/resource_parameters/resource_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The type of the resource param that is to be provisioned during template deployment - Specifies the type of the resource parameter to be provisioned during template deployment. - Possible enum values are - - MANAGED\_DEVICE\_UUID - Used when the parameter value is the UUID of the device. - MANAGED\_DEVICE\_IP - Used when the parameter value is the device's IP address. - MANAGED\_DEVICE\_HOSTNAME - Used when the parameter value is the device's hostname. - SITE\_UUID - Used when the parameter value is the UUID of a site. - MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of managed access points within the network. - SECONDARY\_MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of secondary or backup managed access points. - SSID\_NAME - Used when the parameter value is the name of a wireless network. - POLICY\_PROFILE - Used when the parameter value is a set of policies that can be applied to network devices or users.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/resource_parameters/resource_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/resource_parameters/resource_value:
+
+      .. rst-class:: ansible-option-title
+
+      **resource_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/resource_parameters/resource_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The actual value of the resource param to be provisioned.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -8565,6 +8748,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create a new template.
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -8715,8 +8899,97 @@ Examples
               do_version: false
               project_name: string
               template_file: string
-    - name: Deploy the given template to the devices based on site specific details
-        and other filtering mode
+    - name: Creating a JINJA-based template to configure
+        access VLAN and interfaces on Catalyst 9300
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: true
+        config:
+          - configuration_templates:
+              author: Test_User
+              composite: false
+              custom_params_order: true
+              description: Template to configure access
+                VLAN and access interfaces
+              device_types:
+                - product_family: Switches and Hubs
+                  product_series: Cisco Catalyst 9300 Series
+                    Switches
+              failure_policy: ABORT_TARGET_ON_ERROR
+              language: JINJA
+              template_name: PnP-Upstream-SW1
+              project_name: access_vlan_template_9300_switches
+              project_description: This project contains
+                all the templates for Access Switches
+              software_type: IOS-XE
+              template_content: |
+                {% raw %}
+                vlan {{ vlan }}
+                interface {{ interface }}
+                no shutdown
+                switchport access vlan {{ vlan }}
+                switchport mode access
+                description {{ interface_description }}
+                {% endraw %}
+              version: "1.0"
+    - name: Creating a VELOCITY-based Fusion Router template
+        for Catalyst 3850 switches
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: true
+        config:
+          - configuration_templates:
+              template_name: "Fusion Router Config"
+              description: "VELOCITY template to configure
+                L3 handoff and loopback on Catalyst 3850"
+              project_name: "Network Configuration Templates"
+              tags: []
+              author: admin
+              device_types:
+                - product_family: "Switches and Hubs"
+                  product_series: "Cisco Catalyst 3850 Series
+                    Ethernet Stackable Switch"
+              software_type: IOS-XE
+              language: VELOCITY
+              failure_policy: ABORT_TARGET_ON_ERROR
+              template_content: |
+                ! L3handoff Vlan
+                vlan $VLANID
+                hostname  Old$__device.hostname
+                interface Loopback0
+                ip address $LOOPBACKIP 255.255.255.255
+                ipv6 address $LOOPBACKIPV6
+                ipv6 enable
+                ipv6 nd other-config-flag
+                ipv6 dhcp server EMPPool
+                ! L3handdoff interface for provider VN
+                interface Vlan$VLANID
+                description L3handoff $VLANID
+                ip address $interfaceIP 255.255.255.252
+                ip route-cache same-interface
+                ipv6 address $interfaceIPV6
+                ipv6 enable
+                ipv6 tcp adjust-mss 1400
+    - name: Deploy the given template to the devices based
+        on site specific details and other filtering mode
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -8742,7 +9015,8 @@ Examples
             site_provisioning_details:
               - site_name: "Global/Bangalore/Building14/Floor1"
                 device_family: "Switches and Hubs"
-    - name: Deploy the given template to the devices based on device specific details
+    - name: Deploy the given template to the devices based
+        on device specific details
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -8767,7 +9041,38 @@ Examples
                 param_value: "testvlan31"
             device_details:
               device_ips: ["10.1.2.1", "10.2.3.4"]
-    - name: Delete the given project or template from the Cisco Catalyst Center
+    - name: Deploy template to the devices using resource
+        parameters and copying config
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: true
+        config:
+          deploy_template:
+            project_name: "Sample_Project"
+            template_name: "Sample Template"
+            force_push: true
+            template_parameters:
+              - param_name: "vlan_id"
+                param_value: "1431"
+              - param_name: "vlan_name"
+                param_value: "testvlan31"
+            resource_parameters:
+              - resource_type: "MANAGED_DEVICE_IP"
+                resource_scope: "RUNTIME"
+            device_details:
+              device_ips: ["10.1.2.1", "10.2.3.4"]
+            copy_config: true
+    - name: Delete the given project or template from the
+        Cisco Catalyst Center
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

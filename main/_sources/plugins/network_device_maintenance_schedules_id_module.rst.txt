@@ -42,7 +42,7 @@ cisco.dnac.network_device_maintenance_schedules_id module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_maintenance\_schedules\_id\_v1
+- Manage operations update and delete of the resource Network Device Maintenance Schedules Id. - \> API to delete maintenance schedule by id. Deletion is allowed if the maintenance window is in the \`UPCOMING\`, \`COMPLETED\`, or \`FAILED\` state. Deletion of maintenance schedule is not allowed if the maintenance window is currently \`IN\_PROGRESS\`. To delete the maintenance schedule while it is \`IN\_PROGRESS\`, first exit the current maintenance window using \`PUT /dna/intent/api/v1/networkDeviceMaintenanceSchedules/{id}\` API, and then proceed to delete the maintenance schedule. - \> API to update the maintenance schedule for the network devices. The \`maintenanceSchedule\` can be updated only if the \`status\` value is \`UPCOMING\` or \`IN\_PROGRESS\`. User can exit \`IN\_PROGRESS\` maintenance window by setting the \`endTime\` to -1. This will update the endTime to the current time and exit the maintenance window immediately. When exiting the maintenance window, only the endTime will be updated while other parameters remain read-only.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -739,9 +739,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.delete\_maintenance\_schedule\_v1, devices.Devices.updates\_the\_maintenance\_schedule\_information\_v1,
+   - SDK Method used are devices.Devices.delete\_maintenance\_schedule, devices.Devices.updates\_the\_maintenance\_schedule\_information,
    - Paths used are delete /dna/intent/api/v1/networkDeviceMaintenanceSchedules/{id}, put /dna/intent/api/v1/networkDeviceMaintenanceSchedules/{id},
-   - It should be noted that this module is an alias of network\_device\_maintenance\_schedules\_id\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -753,10 +752,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices DeleteMaintenanceScheduleV1 <https://developer.cisco.com/docs/dna-center/#!delete-maintenance-schedule>`_
-       Complete reference of the DeleteMaintenanceScheduleV1 API.
-   `Cisco DNA Center documentation for Devices UpdatesTheMaintenanceScheduleInformationV1 <https://developer.cisco.com/docs/dna-center/#!updates-the-maintenance-schedule-information>`_
-       Complete reference of the UpdatesTheMaintenanceScheduleInformationV1 API.
+   `Cisco DNA Center documentation for Devices DeleteMaintenanceSchedule <https://developer.cisco.com/docs/dna-center/#!delete-maintenance-schedule>`_
+       Complete reference of the DeleteMaintenanceSchedule API.
+   `Cisco DNA Center documentation for Devices UpdatesTheMaintenanceScheduleInformation <https://developer.cisco.com/docs/dna-center/#!updates-the-maintenance-schedule-information>`_
+       Complete reference of the UpdatesTheMaintenanceScheduleInformation API.
 
 .. Examples
 
@@ -766,6 +765,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update by id
       cisco.dnac.network_device_maintenance_schedules_id:
         dnac_host: "{{dnac_host}}"

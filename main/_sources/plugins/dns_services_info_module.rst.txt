@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.dns_services_info module -- Information module for Dns Services Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.dns_services_info module -- Information module for Dns Services
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module dns\_services\_v1\_info
+- Get all Dns Services. - \> Retrieves the list of DNS Services and offers basic filtering and sorting capabilities. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- DNSServices-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -169,7 +169,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      DeviceSiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting from Global site UUID and ending with the specific site UUID. (Ex. \`globalUuid/areaUuid/buildingUuid/floorUuid\`) This field supports wildcard asterisk (\`\*\`) character search support. E.g. \`\*uuid\*, \*uuid, uuid\*\` Examples \`?deviceSiteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid \`(single siteHierarchyId requested) \`?dev iceSiteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid&deviceSiteHierarchyId=globalUuid/areaUuid2/bui ldingUuid2/floorUuid2\` (multiple siteHierarchyIds requested).
+      DeviceSiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting from Global site UUID and ending with the specific site UUID. (Ex. \`globalUuid/areaUuid/buildingUuid/floorUuid\`) This field supports wildcard asterisk (\`\*\`) character search support. E.g. \`\*uuid\*, \*uuid, uuid\*\` Examples \`?deviceSiteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid \`(single siteHierarchyId requested) \` ?deviceSiteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid&deviceSiteHierarchyId=globalUuid/areaU uid2/buildingUuid2/floorUuid2\` (multiple siteHierarchyIds requested).
           
 
 
@@ -847,9 +847,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.retrieves\_the\_list\_of\_d\_n\_s\_services\_for\_given\_parameters\_v1,
+   - SDK Method used are devices.Devices.retrieves\_the\_list\_of\_d\_n\_s\_services\_for\_given\_parameters,
    - Paths used are get /dna/data/api/v1/dnsServices,
-   - It should be noted that this module is an alias of dns\_services\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -861,8 +860,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices RetrievesTheListOfDNSServicesForGivenParametersV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-dns-services-for-given-parameters>`_
-       Complete reference of the RetrievesTheListOfDNSServicesForGivenParametersV1 API.
+   `Cisco DNA Center documentation for Devices RetrievesTheListOfDNSServicesForGivenParameters <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-dns-services-for-given-parameters>`_
+       Complete reference of the RetrievesTheListOfDNSServicesForGivenParameters API.
 
 .. Examples
 
@@ -872,7 +871,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Dns Services Info
+    ---
+    - name: Get all Dns Services
       cisco.dnac.dns_services_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.sda_authentication_profiles module -- Resource module for Sda Authent
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_authentication\_profiles\_v1
+- Manage operation update of the resource Sda Authentication Profiles.
+- Updates an authentication profile based on user input.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -628,6 +629,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/isVoiceVlanEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/isvoicevlanenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isVoiceVlanEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/isVoiceVlanEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable/disable Voice Vlan.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/numberOfHosts"></div>
 
       .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/numberofhosts:
@@ -1036,9 +1079,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.update\_authentication\_profile\_v1,
+   - SDK Method used are sda.Sda.update\_authentication\_profile,
    - Paths used are put /dna/intent/api/v1/sda/authenticationProfiles,
-   - It should be noted that this module is an alias of sda\_authentication\_profiles\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1050,8 +1092,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA UpdateAuthenticationProfileV1 <https://developer.cisco.com/docs/dna-center/#!update-authentication-profile>`_
-       Complete reference of the UpdateAuthenticationProfileV1 API.
+   `Cisco DNA Center documentation for SDA UpdateAuthenticationProfile <https://developer.cisco.com/docs/dna-center/#!update-authentication-profile>`_
+       Complete reference of the UpdateAuthenticationProfile API.
 
 .. Examples
 
@@ -1061,6 +1103,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.sda_authentication_profiles:
         dnac_host: "{{dnac_host}}"
@@ -1078,6 +1121,7 @@ Examples
             fabricId: string
             id: string
             isBpduGuardEnabled: true
+            isVoiceVlanEnabled: true
             numberOfHosts: string
             preAuthAcl:
               accessContracts:

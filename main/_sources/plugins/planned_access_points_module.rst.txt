@@ -42,7 +42,7 @@ cisco.dnac.planned_access_points module -- Resource module for Planned Access Po
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module planned\_access\_points\_v1
+- Manage operations create, update and delete of the resource Planned Access Points. - \> Allows creation of a new planned access point on an existing floor map including its planned radio and antenna details. Use the Get variant of this API to fetch any existing planned access points for the floor. The payload to create a planned access point is in the same format, albeit a single object instead of a list, of that API. - \> Allow to delete a planned access point from an existing floor map including its planned radio and antenna details. Use the Get variant of this API to fetch the existing planned access points for the floor. The instanceUUID listed in each of the planned access point attributes acts as the path param input to this API to delete that specific instance. - \> Allows updating a planned access point on an existing floor map including its planned radio and antenna details. Use the Get variant of this API to fetch the existing planned access points for the floor. The payload to update a planned access point is in the same format, albeit a single object instead of a list, of that API.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1847,9 +1847,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.create\_planned\_access\_point\_for\_floor\_v1, devices.Devices.delete\_planned\_access\_point\_for\_floor\_v1, devices.Devices.update\_planned\_access\_point\_for\_floor\_v1,
+   - SDK Method used are devices.Devices.create\_planned\_access\_point\_for\_floor, devices.Devices.delete\_planned\_access\_point\_for\_floor, devices.Devices.update\_planned\_access\_point\_for\_floor,
    - Paths used are post /dna/intent/api/v1/floors/{floorId}/planned-access-points, delete /dna/intent/api/v1/floors/{floorId}/planned-access-points/{plannedAccessPointUuid}, put /dna/intent/api/v1/floors/{floorId}/planned-access-points,
-   - It should be noted that this module is an alias of planned\_access\_points\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1861,12 +1860,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices CreatePlannedAccessPointForFloorV1 <https://developer.cisco.com/docs/dna-center/#!create-planned-access-point-for-floor>`_
-       Complete reference of the CreatePlannedAccessPointForFloorV1 API.
-   `Cisco DNA Center documentation for Devices DeletePlannedAccessPointForFloorV1 <https://developer.cisco.com/docs/dna-center/#!delete-planned-access-point-for-floor>`_
-       Complete reference of the DeletePlannedAccessPointForFloorV1 API.
-   `Cisco DNA Center documentation for Devices UpdatePlannedAccessPointForFloorV1 <https://developer.cisco.com/docs/dna-center/#!update-planned-access-point-for-floor>`_
-       Complete reference of the UpdatePlannedAccessPointForFloorV1 API.
+   `Cisco DNA Center documentation for Devices CreatePlannedAccessPointForFloor <https://developer.cisco.com/docs/dna-center/#!create-planned-access-point-for-floor>`_
+       Complete reference of the CreatePlannedAccessPointForFloor API.
+   `Cisco DNA Center documentation for Devices DeletePlannedAccessPointForFloor <https://developer.cisco.com/docs/dna-center/#!delete-planned-access-point-for-floor>`_
+       Complete reference of the DeletePlannedAccessPointForFloor API.
+   `Cisco DNA Center documentation for Devices UpdatePlannedAccessPointForFloor <https://developer.cisco.com/docs/dna-center/#!update-planned-access-point-for-floor>`_
+       Complete reference of the UpdatePlannedAccessPointForFloor API.
 
 .. Examples
 
@@ -1876,6 +1875,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.planned_access_points:
         dnac_host: "{{dnac_host}}"

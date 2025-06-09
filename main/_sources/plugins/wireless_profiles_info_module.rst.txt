@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_profiles_info module -- Information module for Wireless Profiles Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_profiles_info module -- Information module for Wireless Profiles
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_profiles\_v1\_info
+- Get all Wireless Profiles.
+- Get Wireless Profiles by id.
+- This API allows the user to get a Wireless Network Profile by ID.
+- This API allows the user to get all Wireless Network Profiles.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -602,9 +605,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_wireless\_profile\_by\_id\_v1, wireless.Wireless.get\_wireless\_profiles\_v1,
+   - SDK Method used are wireless.Wireless.get\_wireless\_profile\_by\_id, wireless.Wireless.get\_wireless\_profiles,
    - Paths used are get /dna/intent/api/v1/wirelessProfiles, get /dna/intent/api/v1/wirelessProfiles/{id},
-   - It should be noted that this module is an alias of wireless\_profiles\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -616,10 +618,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetWirelessProfileByIDV1 <https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-by-id>`_
-       Complete reference of the GetWirelessProfileByIDV1 API.
-   `Cisco DNA Center documentation for Wireless GetWirelessProfilesV1 <https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles>`_
-       Complete reference of the GetWirelessProfilesV1 API.
+   `Cisco DNA Center documentation for Wireless GetWirelessProfileByID <https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-by-id>`_
+       Complete reference of the GetWirelessProfileByID API.
+   `Cisco DNA Center documentation for Wireless GetWirelessProfiles <https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles>`_
+       Complete reference of the GetWirelessProfiles API.
 
 .. Examples
 
@@ -629,7 +631,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Profiles Info
+    ---
+    - name: Get all Wireless Profiles
       cisco.dnac.wireless_profiles_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -643,7 +646,7 @@ Examples
         offset: 0
         wirelessProfileName: string
       register: result
-    - name: Get Wireless Profiles Info by id
+    - name: Get Wireless Profiles by id
       cisco.dnac.wireless_profiles_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -715,7 +718,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"additionalInterfaces": ["string"], "apZones": [{"apZoneName": "string", "rfProfileName": "string", "ssids": ["string"]}], "id": "string", "ssidDetails": [{"anchorGroupName": "string", "dot11beProfileId": "string", "enableFabric": true, "flexConnect": {"enableFlexConnect": true, "localToVlan": 0}, "interfaceName": "string", "policyProfileName": "string", "ssidName": "string", "vlanGroupName": "string", "wlanProfileName": "string"}], "wirelessProfileName": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"additionalInterfaces": ["string"], "apZones": [{"apZoneName": "string", "rfProfileName": "string", "ssids": ["string"]}], "featureTemplates": [{"id": "string", "ssids": ["string"]}], "id": "string", "ssidDetails": [{"anchorGroupName": "string", "dot11beProfileId": "string", "enableFabric": true, "flexConnect": {"enableFlexConnect": true, "localToVlan": 0}, "interfaceName": "string", "policyProfileName": "string", "ssidName": "string", "vlanGroupName": "string", "wlanProfileName": "string"}], "wirelessProfileName": "string"}, "version": "string"}`
 
 
       .. raw:: html

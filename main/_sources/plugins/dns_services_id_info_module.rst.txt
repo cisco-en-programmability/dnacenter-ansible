@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.dns_services_id_info module -- Information module for Dns Services Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.dns_services_id_info module -- Information module for Dns Services Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module dns\_services\_id\_v1\_info
+- Get Dns Services Id by id. - \> Retrieves the details of the DNS Service matching the given id. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- DNSServices-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -570,9 +570,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.retrieves\_the\_details\_of\_a\_specific\_d\_n\_s\_service\_matching\_the\_id\_of\_the\_service\_v1,
+   - SDK Method used are devices.Devices.retrieves\_the\_details\_of\_a\_specific\_d\_n\_s\_service\_matching\_the\_id\_of\_the\_service,
    - Paths used are get /dna/data/api/v1/dnsServices/{id},
-   - It should be noted that this module is an alias of dns\_services\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -584,8 +583,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices RetrievesTheDetailsOfASpecificDNSServiceMatchingTheIdOfTheServiceV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-details-of-a-specific-dns-service-matching-the-id-of-the-service>`_
-       Complete reference of the RetrievesTheDetailsOfASpecificDNSServiceMatchingTheIdOfTheServiceV1 API.
+   `Cisco DNA Center documentation for Devices RetrievesTheDetailsOfASpecificDNSServiceMatchingTheIdOfTheService <https://developer.cisco.com/docs/dna-center/#!retrieves-the-details-of-a-specific-dns-service-matching-the-id-of-the-service>`_
+       Complete reference of the RetrievesTheDetailsOfASpecificDNSServiceMatchingTheIdOfTheService API.
 
 .. Examples
 
@@ -595,7 +594,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Dns Services Id Info by id
+    ---
+    - name: Get Dns Services Id by id
       cisco.dnac.dns_services_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_config_info module -- Information module for Network Device Config Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_config_info module -- Information module for Network Device Config
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.network_device_config_info module -- Information module for Network D
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 3.1.0
+New in cisco.dnac 6.14.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_config\_v1\_info
+- Get all Network Device Config . - \> Returns the historical device configurations running configuration , startup configuration , vlan if applicable by specified criteria.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -106,6 +106,110 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createdBy"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_config_info_module__parameter-createdby:
+
+      .. rst-class:: ansible-option-title
+
+      **createdBy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createdBy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      CreatedBy query parameter. Comma separated values for createdBy - SCHEDULED, USER, CONFIG\_CHANGE\_EVENT, SCHEDULED\_FIRST\_TIME, DR\_CALL\_BACK, PRE\_DEPLOY.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createdTime"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_config_info_module__parameter-createdtime:
+
+      .. rst-class:: ansible-option-title
+
+      **createdTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createdTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      CreatedTime query parameter. Supported with logical filters GT,GTE,LT,LTE & BT time in milliseconds (epoc format).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_config_info_module__parameter-deviceid:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-deviceId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      DeviceId query parameter. Comma separated device id for example cf35b0a1-407f-412f-b2f4-f0c3156695f9,aaa38191-0c22-4158-befd-779a09d7cec1. If device id is not provided it will fetch for all devices.
+          
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -382,6 +486,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-fileType"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_config_info_module__parameter-filetype:
+
+      .. rst-class:: ansible-option-title
+
+      **fileType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-fileType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      FileType query parameter. Config File Type can be RUNNINGCONFIG or STARTUPCONFIG.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-headers"></div>
 
       .. _ansible_collections.cisco.dnac.network_device_config_info_module__parameter-headers:
@@ -416,21 +554,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-networkDeviceId"></div>
+        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_config_info_module__parameter-networkdeviceid:
+      .. _ansible_collections.cisco.dnac.network_device_config_info_module__parameter-limit:
 
       .. rst-class:: ansible-option-title
 
-      **networkDeviceId**
+      **limit**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-networkDeviceId" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -440,7 +578,42 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      NetworkDeviceId path parameter.
+      Limit query parameter. The number of records to be retrieved defaults to 500 if not specified, with a maximum allowed limit of 500.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+
+      .. _ansible_collections.cisco.dnac.network_device_config_info_module__parameter-offset:
+
+      .. rst-class:: ansible-option-title
+
+      **offset**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Offset query parameter.
 
 
       .. raw:: html
@@ -499,9 +672,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_device\_config\_by\_id\_v1, devices.Devices.get\_device\_config\_for\_all\_devices\_v1,
-   - Paths used are get /dna/intent/api/v1/network-device/config, get /dna/intent/api/v1/network-device/{networkDeviceId}/config,
-   - It should be noted that this module is an alias of network\_device\_config\_v1\_info
+   - SDK Method used are configuration\_archive.ConfigurationArchive.get\_configuration\_archive\_details,
+   - Paths used are get /dna/intent/api/v1/network-device-config,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,10 +685,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetDeviceConfigByIdV1 <https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id>`_
-       Complete reference of the GetDeviceConfigByIdV1 API.
-   `Cisco DNA Center documentation for Devices GetDeviceConfigForAllDevicesV1 <https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices>`_
-       Complete reference of the GetDeviceConfigForAllDevicesV1 API.
+   `Cisco DNA Center documentation for Configuration Archive GetConfigurationArchiveDetails <https://developer.cisco.com/docs/dna-center/#!get-configuration-archive-details>`_
+       Complete reference of the GetConfigurationArchiveDetails API.
 
 .. Examples
 
@@ -526,8 +696,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Config Info
-      cisco.dnac.network_device_config_info:
+    ---
+    - name: Get all Network Device Config
+      cisco.dnac.network_device_config__info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -536,18 +707,12 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
-      register: result
-    - name: Get Network Device Config Info by id
-      cisco.dnac.network_device_config_info:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
-        networkDeviceId: string
+        deviceId: string
+        fileType: string
+        createdTime: string
+        createdBy: string
+        offset: 0
+        limit: 0
       register: result
 
 
@@ -589,7 +754,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -609,7 +774,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": "string", "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"ipAddress\\": \\"string\\",\\n    \\"deviceId\\": \\"string\\",\\n    \\"versions\\": [\\n      {\\n        \\"files\\": [\\n          {\\n            \\"fileType\\": \\"string\\",\\n            \\"fileId\\": \\"string\\",\\n            \\"downloadPath\\": \\"string\\"\\n          }\\n        ],\\n        \\"createdBy\\": \\"string\\",\\n        \\"configChangeType\\": \\"string\\",\\n        \\"syslogConfigEventDto\\": [\\n          {\\n            \\"userName\\": \\"string\\",\\n            \\"deviceUuid\\": \\"string\\",\\n            \\"outOfBand\\": true,\\n            \\"configMethod\\": \\"string\\",\\n            \\"terminalName\\": \\"string\\",\\n            \\"loginIpAddress\\": \\"string\\",\\n            \\"processName\\": \\"string\\",\\n            \\"syslogTime\\": 0\\n          }\\n        ],\\n        \\"createdTime\\": 0,\\n        \\"startupRunningStatus\\": \\"string\\",\\n        \\"id\\": \\"string\\",\\n        \\"tags\\": [\\n          \\"string\\"\\n        ],\\n        \\"lastUpdatedTime\\": 0\\n      }\\n    ],\\n    \\"deviceName\\": \\"string\\"\\n  }\\n]\\n"`
 
 
       .. raw:: html

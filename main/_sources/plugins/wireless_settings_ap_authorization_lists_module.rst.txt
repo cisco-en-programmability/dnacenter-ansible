@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_ap_authorization_lists module -- Resource module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_ap\_authorization\_lists\_v1
+- Manage operation create of the resource Wireless Settings Ap Authorization Lists.
+- This API allows the user to create an AP Authorization List.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -721,9 +722,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_ap\_authorization\_list\_v1,
+   - SDK Method used are wireless.Wireless.create\_ap\_authorization\_list,
    - Paths used are post /dna/intent/api/v1/wirelessSettings/apAuthorizationLists,
-   - It should be noted that this module is an alias of wireless\_settings\_ap\_authorization\_lists\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -735,8 +735,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless CreateAPAuthorizationListV1 <https://developer.cisco.com/docs/dna-center/#!create-ap-authorization-list>`_
-       Complete reference of the CreateAPAuthorizationListV1 API.
+   `Cisco DNA Center documentation for Wireless CreateAPAuthorizationList <https://developer.cisco.com/docs/dna-center/#!create-ap-authorization-list>`_
+       Complete reference of the CreateAPAuthorizationList API.
 
 .. Examples
 
@@ -746,6 +746,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.wireless_settings_ap_authorization_lists:
         dnac_host: "{{dnac_host}}"

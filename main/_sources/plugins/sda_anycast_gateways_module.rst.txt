@@ -42,7 +42,7 @@ cisco.dnac.sda_anycast_gateways module -- Resource module for Sda Anycast Gatewa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_anycast\_gateways\_v1
+- Manage operations create, update and delete of the resource Sda Anycast Gateways.
+- Adds anycast gateways based on user input.
+- Deletes an anycast gateway based on id.
+- Updates anycast gateways based on user input.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -618,7 +621,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Enable/disable Group-Based Policy Enforcement (applicable only to INFRA\_VN; defaults to false).
+      Enable/disable Group-Based Policy Enforcement (defaults to false when using INFRA\_VN; defaults to true for other VNs; can only be modified when using INFRA\_VN).
 
 
       .. rst-class:: ansible-option-line
@@ -804,6 +807,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/isResourceGuardEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_anycast_gateways_module__parameter-payload/isresourceguardenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isResourceGuardEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/isResourceGuardEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable/disable Resource Guard (not applicable to INFRA\_VN).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/isSupplicantBasedExtendedNodeOnboarding"></div>
 
       .. _ansible_collections.cisco.dnac.sda_anycast_gateways_module__parameter-payload/issupplicantbasedextendednodeonboarding:
@@ -829,6 +874,48 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Enable/disable Supplicant-Based Extended Node Onboarding (applicable only to INFRA\_VN requests; must not be null when poolType is EXTENDED\_NODE).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/isWirelessFloodingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_anycast_gateways_module__parameter-payload/iswirelessfloodingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isWirelessFloodingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/isWirelessFloodingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable/disable wireless flooding (not applicable to INFRA\_VN; can only be true when isWirelessPool is true).
 
 
       .. rst-class:: ansible-option-line
@@ -879,6 +966,74 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/layer2FloodingAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_anycast_gateways_module__parameter-payload/layer2floodingaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **layer2FloodingAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/layer2FloodingAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The flooding address to use for layer 2 flooding. The IP address must be in the 239.0.0.0/8 range. This property is applicable only when the flooding address source is set to "CUSTOM".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/layer2FloodingAddressAssignment"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_anycast_gateways_module__parameter-payload/layer2floodingaddressassignment:
+
+      .. rst-class:: ansible-option-title
+
+      **layer2FloodingAddressAssignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/layer2FloodingAddressAssignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The source of the flooding address for layer 2 flooding. Layer 2 flooding must be enabled to configure this property. "SHARED" means that the anycast gateway will inherit the flooding address from the fabric. "CUSTOM" allows the anycast gateway to use a different flooding address (not applicable to INFRA\_VN; defaults to "SHARED").
 
 
       .. raw:: html
@@ -1176,9 +1331,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_anycast\_gateways\_v1, sda.Sda.delete\_anycast\_gateway\_by\_id\_v1, sda.Sda.update\_anycast\_gateways\_v1,
+   - SDK Method used are sda.Sda.add\_anycast\_gateways, sda.Sda.delete\_anycast\_gateway\_by\_id, sda.Sda.update\_anycast\_gateways,
    - Paths used are post /dna/intent/api/v1/sda/anycastGateways, delete /dna/intent/api/v1/sda/anycastGateways/{id}, put /dna/intent/api/v1/sda/anycastGateways,
-   - It should be noted that this module is an alias of sda\_anycast\_gateways\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1190,12 +1344,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddAnycastGatewaysV1 <https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways>`_
-       Complete reference of the AddAnycastGatewaysV1 API.
-   `Cisco DNA Center documentation for SDA DeleteAnycastGatewayByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id>`_
-       Complete reference of the DeleteAnycastGatewayByIdV1 API.
-   `Cisco DNA Center documentation for SDA UpdateAnycastGatewaysV1 <https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways>`_
-       Complete reference of the UpdateAnycastGatewaysV1 API.
+   `Cisco DNA Center documentation for SDA AddAnycastGateways <https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways>`_
+       Complete reference of the AddAnycastGateways API.
+   `Cisco DNA Center documentation for SDA DeleteAnycastGatewayById <https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id>`_
+       Complete reference of the DeleteAnycastGatewayById API.
+   `Cisco DNA Center documentation for SDA UpdateAnycastGateways <https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways>`_
+       Complete reference of the UpdateAnycastGateways API.
 
 .. Examples
 
@@ -1205,6 +1359,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.sda_anycast_gateways:
         dnac_host: "{{dnac_host}}"
@@ -1225,8 +1380,12 @@ Examples
             isIpDirectedBroadcast: true
             isLayer2FloodingEnabled: true
             isMultipleIpToMacAddresses: true
+            isResourceGuardEnabled: true
             isSupplicantBasedExtendedNodeOnboarding: true
+            isWirelessFloodingEnabled: true
             isWirelessPool: true
+            layer2FloodingAddress: string
+            layer2FloodingAddressAssignment: string
             poolType: string
             securityGroupName: string
             tcpMssAdjustment: 0
@@ -1254,8 +1413,12 @@ Examples
             isIpDirectedBroadcast: true
             isLayer2FloodingEnabled: true
             isMultipleIpToMacAddresses: true
+            isResourceGuardEnabled: true
             isSupplicantBasedExtendedNodeOnboarding: true
+            isWirelessFloodingEnabled: true
             isWirelessPool: true
+            layer2FloodingAddress: string
+            layer2FloodingAddressAssignment: string
             poolType: string
             securityGroupName: string
             tcpMssAdjustment: 0

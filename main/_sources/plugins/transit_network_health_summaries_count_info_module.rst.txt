@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.transit_network_health_summaries_count_info module -- Information module for Transit Network Health Summaries Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.transit_network_health_summaries_count_info module -- Information module for Transit Network Health Summaries Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module transit\_network\_health\_summaries\_count\_v1\_info
+- Get all Transit Network Health Summaries Count.
+- Get a count of transit networks. Use available query parameters to get the count of a subset of transit networks.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -570,9 +571,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.read\_transit\_networks\_count\_v1,
+   - SDK Method used are sda.Sda.read\_transit\_networks\_count,
    - Paths used are get /dna/data/api/v1/transitNetworkHealthSummaries/count,
-   - It should be noted that this module is an alias of transit\_network\_health\_summaries\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -584,8 +584,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA ReadTransitNetworksCountV1 <https://developer.cisco.com/docs/dna-center/#!read-transit-networks-count>`_
-       Complete reference of the ReadTransitNetworksCountV1 API.
+   `Cisco DNA Center documentation for SDA ReadTransitNetworksCount <https://developer.cisco.com/docs/dna-center/#!read-transit-networks-count>`_
+       Complete reference of the ReadTransitNetworksCount API.
 
 .. Examples
 
@@ -595,7 +595,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Transit Network Health Summaries Count Info
+    ---
+    - name: Get all Transit Network Health Summaries Count
       cisco.dnac.transit_network_health_summaries_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -649,7 +650,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -669,7 +670,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"errorCode\\": 0,\\n    \\"message\\": \\"string\\",\\n    \\"detail\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
 
 
       .. raw:: html

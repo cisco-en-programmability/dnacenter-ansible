@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.topology_layer_2_info module -- Information module for Topology Layer 2 Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.topology_layer_2_info module -- Information module for Topology Layer 2
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module topology\_layer\_2\_v1\_info
+- Get Topology Layer 2 by id.
+- Returns Layer 2 network topology by specified VLAN ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are topology.Topology.get\_topology\_details\_v1,
+   - SDK Method used are topology.Topology.get\_topology\_details,
    - Paths used are get /dna/intent/api/v1/topology/l2/{vlanID},
-   - It should be noted that this module is an alias of topology\_layer\_2\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Topology GetTopologyDetailsV1 <https://developer.cisco.com/docs/dna-center/#!get-topology-details>`_
-       Complete reference of the GetTopologyDetailsV1 API.
+   `Cisco DNA Center documentation for Topology GetTopologyDetails <https://developer.cisco.com/docs/dna-center/#!get-topology-details>`_
+       Complete reference of the GetTopologyDetails API.
 
 .. Examples
 
@@ -524,7 +524,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Topology Layer 2 Info by id
+    ---
+    - name: Get Topology Layer 2 by id
       cisco.dnac.topology_layer_2_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

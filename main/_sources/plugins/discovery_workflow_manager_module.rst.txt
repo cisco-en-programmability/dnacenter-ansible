@@ -42,7 +42,7 @@ cisco.dnac.discovery_workflow_manager module -- A resource module for handling d
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3100,8 +3100,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Execute discovery of devices with both global credentials and discovery
-        specific credentials
+    ---
+    - name: Execute discovery of devices with both global
+        credentials and discovery specific credentials
       cisco.dnac.discovery_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3115,7 +3116,8 @@ Examples
         state: merged
         config_verify: true
         config:
-          - discovery_name: Discovery with both global and job specific credentials
+          - discovery_name: Discovery with both global and
+              job specific credentials
             discovery_type: RANGE
             ip_address_list:
               - 201.1.1.1-201.1.1.100
@@ -3177,7 +3179,8 @@ Examples
             protocol_order: ssh
             retry: 5
             timeout: 3
-    - name: Execute discovery of devices with discovery specific credentials only
+    - name: Execute discovery of devices with discovery
+        specific credentials only
       cisco.dnac.discovery_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3191,7 +3194,8 @@ Examples
         state: merged
         config_verify: true
         config:
-          - discovery_name: Single with discovery specific credentials only
+          - discovery_name: Single with discovery specific
+              credentials only
             discovery_type: SINGLE
             ip_address_list:
               - 204.1.1.10
@@ -3230,7 +3234,8 @@ Examples
             protocol_order: ssh
             retry: 5
             timeout: 3
-    - name: Execute discovery of devices with global credentials only
+    - name: Execute discovery of devices with global credentials
+        only
       cisco.dnac.discovery_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3244,7 +3249,8 @@ Examples
         state: merged
         config_verify: true
         config:
-          - discovery_name: CDP with global credentials only
+          - discovery_name: CDP with global credentials
+              only
             discovery_type: CDP
             ip_address_list:
               - 204.1.1.1
@@ -3275,7 +3281,8 @@ Examples
             protocol_order: ssh
             retry: 5
             timeout: 3
-    - name: Execute discovery of devices with all the global credentials (max 5 allowed)
+    - name: Execute discovery of devices with all the global
+        credentials (max 5 allowed)
       cisco.dnac.discovery_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.tags_network_devices_members_associations_bulk module -- Resource mod
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module tags\_network\_devices\_members\_associations\_bulk\_v1
+- Manage operation update of the resource Tags Network Devices Members Associations Bulk. - \> Updates the tags associated with the devices. A tag is a user-defined or system-defined construct to group resources. When a device is tagged, it is called a member of the tag. A tag can be created by using this POST \`/dna/intent/api/v1/tag\` API.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -569,9 +569,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are tag.Tag.update\_tags\_associated\_with\_the\_network\_devices\_v1,
+   - SDK Method used are tag.Tag.update\_tags\_associated\_with\_the\_network\_devices,
    - Paths used are put /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk,
-   - It should be noted that this module is an alias of tags\_network\_devices\_members\_associations\_bulk\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -583,8 +582,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Tag UpdateTagsAssociatedWithTheNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!update-tags-associated-with-the-network-devices>`_
-       Complete reference of the UpdateTagsAssociatedWithTheNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Tag UpdateTagsAssociatedWithTheNetworkDevices <https://developer.cisco.com/docs/dna-center/#!update-tags-associated-with-the-network-devices>`_
+       Complete reference of the UpdateTagsAssociatedWithTheNetworkDevices API.
 
 .. Examples
 
@@ -594,6 +593,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.tags_network_devices_members_associations_bulk:
         dnac_host: "{{dnac_host}}"

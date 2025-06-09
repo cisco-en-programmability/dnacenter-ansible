@@ -42,7 +42,7 @@ cisco.dnac.network_profile_switching_workflow_manager module -- Resource module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -995,7 +995,6 @@ Examples
                 site_names:
                   - "Global/Chennai"
                   - "Global/Abc"
-
         - name: Update network profile for switch
           cisco.dnac.network_profile_switching_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -1019,8 +1018,8 @@ Examples
                   - "Global/India/Chennai/Main_Office"
                   - "Global/India/Madurai/Branch_Office"
                   - "Global/USA/San Francisco/Regional_HQ"
-
-        - name: Delete switching profile for devices from specified sites
+        - name: Delete switching profile for devices from
+            specified sites
           cisco.dnac.network_profile_switching_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"

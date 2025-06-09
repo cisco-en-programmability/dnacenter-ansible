@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.task_info module -- Information module for Task Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.task_info module -- Information module for Task
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module task\_v1\_info
+- Get all Task.
+- Get Task by id.
+- Returns a task by specified id.
+- Returns tasks based on filter criteria.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -975,9 +978,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are task.Task.get\_task\_by\_id\_v1, task.Task.get\_tasks\_operational\_tasks\_v1,
+   - SDK Method used are task.Task.get\_task\_by\_id, task.Task.get\_tasks\_operational\_tasks,
    - Paths used are get /dna/intent/api/v1/task, get /dna/intent/api/v1/task/{taskId},
-   - It should be noted that this module is an alias of task\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -989,10 +991,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Task GetTaskByIdV1 <https://developer.cisco.com/docs/dna-center/#!get-task-by-id>`_
-       Complete reference of the GetTaskByIdV1 API.
-   `Cisco DNA Center documentation for Task GetTasksOperationalTasksV1 <https://developer.cisco.com/docs/dna-center/#!get-tasks-operational-tasks>`_
-       Complete reference of the GetTasksOperationalTasksV1 API.
+   `Cisco DNA Center documentation for Task GetTaskById <https://developer.cisco.com/docs/dna-center/#!get-task-by-id>`_
+       Complete reference of the GetTaskById API.
+   `Cisco DNA Center documentation for Task GetTasksOperationalTasks <https://developer.cisco.com/docs/dna-center/#!get-tasks-operational-tasks>`_
+       Complete reference of the GetTasksOperationalTasks API.
 
 .. Examples
 
@@ -1002,7 +1004,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Task Info
+    ---
+    - name: Get all Task
       cisco.dnac.task_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1027,7 +1030,7 @@ Examples
         sortBy: string
         order: string
       register: result
-    - name: Get Task Info by id
+    - name: Get Task by id
       cisco.dnac.task_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

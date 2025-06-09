@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.custom_issue_definitions_info module -- Information module for Custom Issue Definitions Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.custom_issue_definitions_info module -- Information module for Custom Issue Definitions
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module custom\_issue\_definitions\_v1\_info
+- Get all Custom Issue Definitions.
+- Get Custom Issue Definitions by id. - \> Get the custom issue definition for the given custom issue definition Id. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml. - \> Retrieve the existing syslog-based custom issue definitions. The supported filters are id, name, profileId, definition enable status, priority, severity, facility and mnemonic. The issue definition configurations may vary across profiles, hence specifying the profile Id in the query parameter is important and the default profile is global.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -886,9 +887,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.get\_all\_the\_custom\_issue\_definitions\_based\_on\_the\_given\_filters\_v1, issues.Issues.get\_the\_custom\_issue\_definition\_for\_the\_given\_custom\_issue\_definition\_id\_v1,
+   - SDK Method used are issues.Issues.get\_all\_the\_custom\_issue\_definitions\_based\_on\_the\_given\_filters, issues.Issues.get\_the\_custom\_issue\_definition\_for\_the\_given\_custom\_issue\_definition\_id,
    - Paths used are get /dna/intent/api/v1/customIssueDefinitions, get /dna/intent/api/v1/customIssueDefinitions/{id},
-   - It should be noted that this module is an alias of custom\_issue\_definitions\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -900,10 +900,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Issues GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1 <https://developer.cisco.com/docs/dna-center/#!get-all-the-custom-issue-definitions-based-on-the-given-filters>`_
-       Complete reference of the GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1 API.
-   `Cisco DNA Center documentation for Issues GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1 <https://developer.cisco.com/docs/dna-center/#!get-the-custom-issue-definition-for-the-given-custom-issue-definition-id>`_
-       Complete reference of the GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1 API.
+   `Cisco DNA Center documentation for Issues GetAllTheCustomIssueDefinitionsBasedOnTheGivenFilters <https://developer.cisco.com/docs/dna-center/#!get-all-the-custom-issue-definitions-based-on-the-given-filters>`_
+       Complete reference of the GetAllTheCustomIssueDefinitionsBasedOnTheGivenFilters API.
+   `Cisco DNA Center documentation for Issues GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionId <https://developer.cisco.com/docs/dna-center/#!get-the-custom-issue-definition-for-the-given-custom-issue-definition-id>`_
+       Complete reference of the GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionId API.
 
 .. Examples
 
@@ -913,7 +913,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Custom Issue Definitions Info
+    ---
+    - name: Get all Custom Issue Definitions
       cisco.dnac.custom_issue_definitions_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -936,7 +937,7 @@ Examples
         sortBy: string
         order: string
       register: result
-    - name: Get Custom Issue Definitions Info by id
+    - name: Get Custom Issue Definitions by id
       cisco.dnac.custom_issue_definitions_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

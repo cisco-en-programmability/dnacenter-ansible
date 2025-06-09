@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.field_notices_trials_info module -- Information module for Field Notices Trials Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.field_notices_trials_info module -- Information module for Field Notices Trials
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module field\_notices\_trials\_v1\_info
+- Get all Field Notices Trials.
+- Get trial details for field notices detection on network devices.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.get\_trial\_details\_for\_field\_notices\_detection\_on\_network\_devices\_v1,
+   - SDK Method used are compliance.Compliance.get\_trial\_details\_for\_field\_notices\_detection\_on\_network\_devices,
    - Paths used are get /dna/intent/api/v1/fieldNotices/trials,
-   - It should be noted that this module is an alias of field\_notices\_trials\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance GetTrialDetailsForFieldNoticesDetectionOnNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-field-notices-detection-on-network-devices>`_
-       Complete reference of the GetTrialDetailsForFieldNoticesDetectionOnNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Compliance GetTrialDetailsForFieldNoticesDetectionOnNetworkDevices <https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-field-notices-detection-on-network-devices>`_
+       Complete reference of the GetTrialDetailsForFieldNoticesDetectionOnNetworkDevices API.
 
 .. Examples
 
@@ -490,7 +490,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Field Notices Trials Info
+    ---
+    - name: Get all Field Notices Trials
       cisco.dnac.field_notices_trials_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.sensor_test_template_edit module -- Resource module for Sensor Test T
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sensor\_test\_template\_edit\_v1
+- Manage operation update of the resource Sensor Test Template Edit.
+- Intent API to deploy, schedule, or edit and existing SENSOR test template.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -7465,9 +7466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.edit\_sensor\_test\_template\_v1,
+   - SDK Method used are sensors.Sensors.edit\_sensor\_test\_template,
    - Paths used are put /dna/intent/api/v1/AssuranceScheduleSensorTest,
-   - It should be noted that this module is an alias of sensor\_test\_template\_edit\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -7479,8 +7479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sensors EditSensorTestTemplateV1 <https://developer.cisco.com/docs/dna-center/#!edit-sensor-test-template>`_
-       Complete reference of the EditSensorTestTemplateV1 API.
+   `Cisco DNA Center documentation for Sensors EditSensorTestTemplate <https://developer.cisco.com/docs/dna-center/#!edit-sensor-test-template>`_
+       Complete reference of the EditSensorTestTemplate API.
 
 .. Examples
 
@@ -7490,6 +7490,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.sensor_test_template_edit:
         dnac_host: "{{dnac_host}}"

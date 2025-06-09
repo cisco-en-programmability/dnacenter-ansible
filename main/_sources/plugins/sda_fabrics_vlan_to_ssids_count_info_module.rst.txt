@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabrics_vlan_to_ssids_count_info module -- Information module for Sda Fabrics Vlan To Ssids Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabrics_vlan_to_ssids_count_info module -- Information module for Sda Fabrics Vlan To Ssids Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_fabrics\_vlan\_to\_ssids\_count\_v1\_info
+- Get all Sda Fabrics Vlan To Ssids Count.
+- Return the count of all the fabric site which has SSID to IP Pool mapping.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are fabric\_wireless.FabricWireless.return\_the\_count\_of\_all\_the\_fabric\_site\_which\_has\_ssid\_to\_ip\_pool\_mapping\_v1,
+   - SDK Method used are fabric\_wireless.FabricWireless.return\_the\_count\_of\_all\_the\_fabric\_site\_which\_has\_ssid\_to\_ip\_pool\_mapping,
    - Paths used are get /dna/intent/api/v1/sda/fabrics/vlanToSsids/count,
-   - It should be noted that this module is an alias of sda\_fabrics\_vlan\_to\_ssids\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Fabric Wireless ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMappingV1 <https://developer.cisco.com/docs/dna-center/#!return-the-count-of-all-the-fabric-site-which-has-ssid-to-ip-pool-mapping>`_
-       Complete reference of the ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMappingV1 API.
+   `Cisco DNA Center documentation for Fabric Wireless ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMapping <https://developer.cisco.com/docs/dna-center/#!return-the-count-of-all-the-fabric-site-which-has-ssid-to-ip-pool-mapping>`_
+       Complete reference of the ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMapping API.
 
 .. Examples
 
@@ -490,7 +490,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Fabrics Vlan To Ssids Count Info
+    ---
+    - name: Get all Sda Fabrics Vlan To Ssids Count
       cisco.dnac.sda_fabrics_vlan_to_ssids_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

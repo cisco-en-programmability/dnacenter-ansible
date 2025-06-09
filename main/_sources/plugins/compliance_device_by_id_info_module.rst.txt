@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.compliance_device_by_id_info module -- Information module for Compliance Device By Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.compliance_device_by_id_info module -- Information module for Compliance Device By Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module compliance\_device\_by\_id\_v1\_info
+- Get all Compliance Device By Id.
+- Return compliance detailed report for a device.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -689,9 +690,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.compliance\_details\_of\_device\_v1,
+   - SDK Method used are compliance.Compliance.compliance\_details\_of\_device,
    - Paths used are get /dna/intent/api/v1/compliance/{deviceUuid}/detail,
-   - It should be noted that this module is an alias of compliance\_device\_by\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -703,8 +703,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance ComplianceDetailsOfDeviceV1 <https://developer.cisco.com/docs/dna-center/#!compliance-details-of-device>`_
-       Complete reference of the ComplianceDetailsOfDeviceV1 API.
+   `Cisco DNA Center documentation for Compliance ComplianceDetailsOfDevice <https://developer.cisco.com/docs/dna-center/#!compliance-details-of-device>`_
+       Complete reference of the ComplianceDetailsOfDevice API.
 
 .. Examples
 
@@ -714,7 +714,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Compliance Device By Id Info
+    ---
+    - name: Get all Compliance Device By Id
       cisco.dnac.compliance_device_by_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

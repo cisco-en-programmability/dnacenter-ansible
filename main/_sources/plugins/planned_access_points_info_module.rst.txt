@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.planned_access_points_info module -- Information module for Planned Access Points Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.planned_access_points_info module -- Information module for Planned Access Points
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module planned\_access\_points\_v1\_info
+- Get all Planned Access Points.
+- Provides a list of Planned Access Points for the Floor it is requested for.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -610,9 +611,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_planned\_access\_points\_for\_floor\_v1,
+   - SDK Method used are devices.Devices.get\_planned\_access\_points\_for\_floor,
    - Paths used are get /dna/intent/api/v1/floors/{floorId}/planned-access-points,
-   - It should be noted that this module is an alias of planned\_access\_points\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -624,8 +624,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetPlannedAccessPointsForFloorV1 <https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-floor>`_
-       Complete reference of the GetPlannedAccessPointsForFloorV1 API.
+   `Cisco DNA Center documentation for Devices GetPlannedAccessPointsForFloor <https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-floor>`_
+       Complete reference of the GetPlannedAccessPointsForFloor API.
 
 .. Examples
 
@@ -635,7 +635,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Planned Access Points Info
+    ---
+    - name: Get all Planned Access Points
       cisco.dnac.planned_access_points_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

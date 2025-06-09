@@ -42,7 +42,7 @@ cisco.dnac.wireless_accespoint_configuration module -- Resource module for Wirel
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_accespoint\_configuration\_v1
+- Manage operation create of the resource Wireless Accespoint Configuration. - \> User can configure multiple access points with required options using this intent API. This API does not support configuration of CleanAir or SI for IOS-XE devices with version greater than or equal to 17.9.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1312,7 +1312,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configure the antenna gain on the specified radio for an access point by setting a decimal value (in dBi). To configure "antennaGain", set "antennaPatternName" value to "other".
+      Configure the antenna gain on the specified radio for an access point by setting a decimal value (in dBi). To configure "antennaGain", set "antennaPatternName" value to "other". The External Antenna Gain value will be applied in 0.5 dBi increments on the controller. Therefore, the value entered will be multiplied by 2 to configure the absolute gain value. AntennaGain should be in range of 0-20.
 
 
       .. raw:: html
@@ -1954,7 +1954,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configure the band on the specified radio for an access point for 2.4 GHz, set "RADIO24"; for 5 GHz, set "RADIO5". Any other string is invalid, including empty string.
+      Configure the band on the specified radio for an access point for 2.4 GHz, set "RADIO24"; for 5 GHz, set "RADIO5"; for 6 GHz, set "RADIO6". Any other string is invalid, including empty string.
 
 
       .. raw:: html
@@ -2288,9 +2288,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.configure\_access\_points\_v1,
+   - SDK Method used are wireless.Wireless.configure\_access\_points,
    - Paths used are post /dna/intent/api/v1/wireless/accesspoint-configuration,
-   - It should be noted that this module is an alias of wireless\_accespoint\_configuration\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -2302,8 +2301,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless ConfigureAccessPointsV1 <https://developer.cisco.com/docs/dna-center/#!configure-access-points>`_
-       Complete reference of the ConfigureAccessPointsV1 API.
+   `Cisco DNA Center documentation for Wireless ConfigureAccessPoints <https://developer.cisco.com/docs/dna-center/#!configure-access-points>`_
+       Complete reference of the ConfigureAccessPoints API.
 
 .. Examples
 
@@ -2313,6 +2312,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.wireless_accespoint_configuration:
         dnac_host: "{{dnac_host}}"

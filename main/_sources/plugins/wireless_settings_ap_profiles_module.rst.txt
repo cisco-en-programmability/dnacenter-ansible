@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_ap_profiles module -- Resource module for Wireless 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_ap\_profiles\_v1
+- Manage operation create of the resource Wireless Settings Ap Profiles.
+- This API allows the user to create a custom AP Profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -344,7 +345,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -354,7 +355,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Start and End date of the duration setting, applicable for MONTHLY schedulers.
+      Start and End date of the duration setting, applicable for MONTHLY schedulers. Values must be between 1 and 31.
 
 
       .. raw:: html
@@ -378,7 +379,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -388,7 +389,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Applies every week on the selected days.
+      Applies every week on the selected days. Ex "sunday","saturday","tuesday","wednesday","thu...
 
 
       .. raw:: html
@@ -1044,7 +1045,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Password for 802.1X authentication. AP dot1x password length should not exceed 120.
+      Password for 802.1X authentication. Length must be 8-120 characters.
 
 
       .. raw:: html
@@ -1978,9 +1979,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_ap\_profile\_v1,
+   - SDK Method used are wireless.Wireless.create\_ap\_profile,
    - Paths used are post /dna/intent/api/v1/wirelessSettings/apProfiles,
-   - It should be noted that this module is an alias of wireless\_settings\_ap\_profiles\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1992,8 +1992,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless CreateAPProfileV1 <https://developer.cisco.com/docs/dna-center/#!create-ap-profile>`_
-       Complete reference of the CreateAPProfileV1 API.
+   `Cisco DNA Center documentation for Wireless CreateAPProfile <https://developer.cisco.com/docs/dna-center/#!create-ap-profile>`_
+       Complete reference of the CreateAPProfile API.
 
 .. Examples
 
@@ -2003,6 +2003,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.wireless_settings_ap_profiles:
         dnac_host: "{{dnac_host}}"
@@ -2019,8 +2020,10 @@ Examples
         awipsForensicEnabled: true
         calendarPowerProfiles:
           duration:
-            schedulerDate: string
-            schedulerDay: string
+            schedulerDate:
+              - string
+            schedulerDay:
+              - string
             schedulerEndTime: string
             schedulerStartTime: string
           powerProfileName: string

@@ -42,7 +42,7 @@ cisco.dnac.golden_image_create module -- Resource module for Golden Image Create
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module golden\_image\_create\_v1
+- Manage operation create of the resource Golden Image Create.
+- Golden Tag image. Set siteId as -1 for Global site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -567,9 +568,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.tag\_as\_golden\_image\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.tag\_as\_golden\_image,
    - Paths used are post /dna/intent/api/v1/image/importation/golden,
-   - It should be noted that this module is an alias of golden\_image\_create\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,8 +581,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) TagAsGoldenImageV1 <https://developer.cisco.com/docs/dna-center/#!tag-as-golden-image>`_
-       Complete reference of the TagAsGoldenImageV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) TagAsGoldenImage <https://developer.cisco.com/docs/dna-center/#!tag-as-golden-image>`_
+       Complete reference of the TagAsGoldenImage API.
 
 .. Examples
 
@@ -592,6 +592,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.golden_image_create:
         dnac_host: "{{dnac_host}}"

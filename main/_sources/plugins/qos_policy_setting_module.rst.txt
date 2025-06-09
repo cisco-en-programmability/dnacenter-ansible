@@ -42,7 +42,7 @@ cisco.dnac.qos_policy_setting module -- Resource module for Qos Policy Setting
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module qos\_policy\_setting\_v1
+- Manage operation update of the resource Qos Policy Setting.
+- API to update the application QoS policy setting.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -473,9 +474,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.updates\_the\_application\_qo\_s\_policy\_setting\_v1,
+   - SDK Method used are application\_policy.ApplicationPolicy.updates\_the\_application\_qo\_s\_policy\_setting,
    - Paths used are put /dna/intent/api/v1/qosPolicySetting,
-   - It should be noted that this module is an alias of qos\_policy\_setting\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -487,8 +487,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy UpdatesTheApplicationQoSPolicySettingV1 <https://developer.cisco.com/docs/dna-center/#!updates-the-application-qo-s-policy-setting>`_
-       Complete reference of the UpdatesTheApplicationQoSPolicySettingV1 API.
+   `Cisco DNA Center documentation for Application Policy UpdatesTheApplicationQoSPolicySetting <https://developer.cisco.com/docs/dna-center/#!updates-the-application-qo-s-policy-setting>`_
+       Complete reference of the UpdatesTheApplicationQoSPolicySetting API.
 
 .. Examples
 
@@ -498,6 +498,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.qos_policy_setting:
         dnac_host: "{{dnac_host}}"

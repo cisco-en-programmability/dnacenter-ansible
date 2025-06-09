@@ -42,7 +42,7 @@ cisco.dnac.sites_aaa_settings module -- Resource module for Sites Aaa Settings
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sites\_aaa\_settings\_v1
+- Manage operation update of the resource Sites Aaa Settings. - \> Set AAA settings for a site; \`null\` values indicate that the settings will be inherited from the parent site; empty objects \`{}\` indicate that the settings is unset.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -943,9 +943,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.set\_aaa\_settings\_for\_a\_site\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.set\_aaa\_settings\_for\_a\_site,
    - Paths used are put /dna/intent/api/v1/sites/{id}/aaaSettings,
-   - It should be noted that this module is an alias of sites\_aaa\_settings\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -957,8 +956,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings SetAAASettingsForASiteV1 <https://developer.cisco.com/docs/dna-center/#!set-aaa-settings-for-a-site>`_
-       Complete reference of the SetAAASettingsForASiteV1 API.
+   `Cisco DNA Center documentation for Network Settings SetAAASettingsForASite <https://developer.cisco.com/docs/dna-center/#!set-aaa-settings-for-a-site>`_
+       Complete reference of the SetAAASettingsForASite API.
 
 .. Examples
 
@@ -968,6 +967,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.sites_aaa_settings:
         dnac_host: "{{dnac_host}}"

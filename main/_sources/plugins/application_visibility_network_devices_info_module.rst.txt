@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.application_visibility_network_devices_info module -- Information module for Application Visibility Network Devices Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.application_visibility_network_devices_info module -- Information module for Application Visibility Network Devices
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module application\_visibility\_network\_devices\_v1\_info
+- Get all Application Visibility Network Devices. - \> This API retrieves the list of network devices with their application visibility status. The list can be filtered using the query parameters. Multiple filters can be applied.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -755,6 +755,7 @@ Parameters
         <div class="ansible-option-cell">
 
       Offset query parameter. The first record to show for this page; the first record is numbered 1. Default value is 1.
+          
 
 
       .. raw:: html
@@ -986,9 +987,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.retrieve\_the\_list\_of\_network\_devices\_with\_their\_application\_visibility\_status\_v1,
+   - SDK Method used are application\_policy.ApplicationPolicy.retrieve\_the\_list\_of\_network\_devices\_with\_their\_application\_visibility\_status,
    - Paths used are get /dna/intent/api/v1/applicationVisibility/networkDevices,
-   - It should be noted that this module is an alias of application\_visibility\_network\_devices\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1000,8 +1000,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy RetrieveTheListOfNetworkDevicesWithTheirApplicationVisibilityStatusV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-the-list-of-network-devices-with-their-application-visibility-status>`_
-       Complete reference of the RetrieveTheListOfNetworkDevicesWithTheirApplicationVisibilityStatusV1 API.
+   `Cisco DNA Center documentation for Application Policy RetrieveTheListOfNetworkDevicesWithTheirApplicationVisibilityStatus <https://developer.cisco.com/docs/dna-center/#!retrieve-the-list-of-network-devices-with-their-application-visibility-status>`_
+       Complete reference of the RetrieveTheListOfNetworkDevicesWithTheirApplicationVisibilityStatus API.
 
 .. Examples
 
@@ -1011,7 +1011,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Application Visibility Network Devices Info
+    ---
+    - name: Get all Application Visibility Network Devices
       cisco.dnac.application_visibility_network_devices_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

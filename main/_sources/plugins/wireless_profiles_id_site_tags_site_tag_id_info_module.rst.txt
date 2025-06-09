@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_profiles_id_site_tags_site_tag_id_info module -- Information module for Wireless Profiles Id Site Tags Site Tag Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_profiles_id_site_tags_site_tag_id_info module -- Information module for Wireless Profiles Id Site Tags Site Tag Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_profiles\_id\_site\_tags\_site\_tag\_id\_v1\_info
+- Get Wireless Profiles Id Site Tags Site Tag Id by id. - \> This endpoint retrieves the details of a specific \`Site Tag\` associated with a given \`Wireless Profile\`. This API requires the \`id\` of the \`Wireless Profile\` and the \`siteTagId\` of the \`Site Tag\`.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -533,9 +533,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.retrieve\_a\_specific\_site\_tag\_for\_a\_wireless\_profile\_v1,
+   - SDK Method used are wireless.Wireless.retrieve\_a\_specific\_site\_tag\_for\_a\_wireless\_profile,
    - Paths used are get /dna/intent/api/v1/wirelessProfiles/{id}/siteTags/{siteTagId},
-   - It should be noted that this module is an alias of wireless\_profiles\_id\_site\_tags\_site\_tag\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +546,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless RetrieveASpecificSiteTagForAWirelessProfileV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-site-tag-for-a-wireless-profile>`_
-       Complete reference of the RetrieveASpecificSiteTagForAWirelessProfileV1 API.
+   `Cisco DNA Center documentation for Wireless RetrieveASpecificSiteTagForAWirelessProfile <https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-site-tag-for-a-wireless-profile>`_
+       Complete reference of the RetrieveASpecificSiteTagForAWirelessProfile API.
 
 .. Examples
 
@@ -558,7 +557,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Wireless Profiles Id Site Tags Site Tag Id Info by id
+    ---
+    - name: Get Wireless Profiles Id Site Tags Site Tag
+        Id by id
       cisco.dnac.wireless_profiles_id_site_tags_site_tag_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

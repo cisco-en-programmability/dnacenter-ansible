@@ -42,7 +42,7 @@ cisco.dnac.icap_settings_configuration_models module -- Resource module for Icap
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module icap\_settings\_configuration\_models\_v1
+- Manage operation create of the resource Icap Settings Configuration Models. - \> This creates an ICAP configuration intent for preview approval. The intent is not deployed to the device until further preview-approve APIs are applied. This API is the first step in the preview-approve workflow, which consists of several APIs. Skipping any API in the process is not recommended for a complete preview-approve use case. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-ICAP\_APIs-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -806,9 +806,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.creates\_an\_i\_cap\_configuration\_intent\_for\_preview\_approve\_v1,
+   - SDK Method used are sensors.Sensors.creates\_an\_i\_cap\_configuration\_intent\_for\_preview\_approve,
    - Paths used are post /dna/intent/api/v1/icapSettings/configurationModels,
-   - It should be noted that this module is an alias of icap\_settings\_configuration\_models\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -820,8 +819,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sensors CreatesAnICAPConfigurationIntentForPreviewApproveV1 <https://developer.cisco.com/docs/dna-center/#!creates-an-icap-configuration-intent-for-preview-approve>`_
-       Complete reference of the CreatesAnICAPConfigurationIntentForPreviewApproveV1 API.
+   `Cisco DNA Center documentation for Sensors CreatesAnICAPConfigurationIntentForPreviewApprove <https://developer.cisco.com/docs/dna-center/#!creates-an-icap-configuration-intent-for-preview-approve>`_
+       Complete reference of the CreatesAnICAPConfigurationIntentForPreviewApprove API.
 
 .. Examples
 
@@ -831,6 +830,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.icap_settings_configuration_models:
         dnac_host: "{{dnac_host}}"

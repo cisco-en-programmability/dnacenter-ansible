@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_pending_fabric_events_info module -- Information module for Sda Pending Fabric Events Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_pending_fabric_events_info module -- Information module for Sda Pending Fabric Events
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_pending\_fabric\_events\_v1\_info
+- Get all Sda Pending Fabric Events.
+- Returns a list of pending fabric events that match the provided query parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -568,9 +569,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_pending\_fabric\_events\_v1,
+   - SDK Method used are sda.Sda.get\_pending\_fabric\_events,
    - Paths used are get /dna/intent/api/v1/sda/pendingFabricEvents,
-   - It should be noted that this module is an alias of sda\_pending\_fabric\_events\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,8 +582,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetPendingFabricEventsV1 <https://developer.cisco.com/docs/dna-center/#!get-pending-fabric-events>`_
-       Complete reference of the GetPendingFabricEventsV1 API.
+   `Cisco DNA Center documentation for SDA GetPendingFabricEvents <https://developer.cisco.com/docs/dna-center/#!get-pending-fabric-events>`_
+       Complete reference of the GetPendingFabricEvents API.
 
 .. Examples
 
@@ -593,7 +593,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Pending Fabric Events Info
+    ---
+    - name: Get all Sda Pending Fabric Events
       cisco.dnac.sda_pending_fabric_events_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

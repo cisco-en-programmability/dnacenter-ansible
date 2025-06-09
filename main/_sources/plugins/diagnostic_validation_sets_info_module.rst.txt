@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.diagnostic_validation_sets_info module -- Information module for Diagnostic Validation Sets Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.diagnostic_validation_sets_info module -- Information module for Diagnostic Validation Sets
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module diagnostic\_validation\_sets\_v1\_info
+- Get all Diagnostic Validation Sets.
+- Get Diagnostic Validation Sets by id.
+- Retrieves all the validation sets and optionally the contained validations.
+- Retrieves validation details for the given validation set id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -534,9 +537,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are health\_and\_performance.HealthAndPerformance.retrieves\_all\_the\_validation\_sets\_v1, health\_and\_performance.HealthAndPerformance.retrieves\_validation\_details\_for\_a\_validation\_set\_v1,
+   - SDK Method used are health\_and\_performance.HealthAndPerformance.retrieves\_all\_the\_validation\_sets, health\_and\_performance.HealthAndPerformance.retrieves\_validation\_details\_for\_a\_validation\_set,
    - Paths used are get /dna/intent/api/v1/diagnosticValidationSets, get /dna/intent/api/v1/diagnosticValidationSets/{id},
-   - It should be noted that this module is an alias of diagnostic\_validation\_sets\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -548,10 +550,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Health and Performance RetrievesAllTheValidationSetsV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets>`_
-       Complete reference of the RetrievesAllTheValidationSetsV1 API.
-   `Cisco DNA Center documentation for Health and Performance RetrievesValidationDetailsForAValidationSetV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-validation-details-for-a-validation-set>`_
-       Complete reference of the RetrievesValidationDetailsForAValidationSetV1 API.
+   `Cisco DNA Center documentation for Health and Performance RetrievesAllTheValidationSets <https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets>`_
+       Complete reference of the RetrievesAllTheValidationSets API.
+   `Cisco DNA Center documentation for Health and Performance RetrievesValidationDetailsForAValidationSet <https://developer.cisco.com/docs/dna-center/#!retrieves-validation-details-for-a-validation-set>`_
+       Complete reference of the RetrievesValidationDetailsForAValidationSet API.
 
 .. Examples
 
@@ -561,7 +563,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Diagnostic Validation Sets Info
+    ---
+    - name: Get all Diagnostic Validation Sets
       cisco.dnac.diagnostic_validation_sets_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -573,7 +576,7 @@ Examples
         headers: "{{my_headers | from_json}}"
         view: string
       register: result
-    - name: Get Diagnostic Validation Sets Info by id
+    - name: Get Diagnostic Validation Sets by id
       cisco.dnac.diagnostic_validation_sets_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

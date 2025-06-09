@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_border_device_info module -- Information module for Sda Fabric Border Device Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_border_device_info module -- Information module for Sda Fabric Border Device
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_fabric\_border\_device\_v1\_info
+- Get all Sda Fabric Border Device.
+- Get border device detail from SDA Fabric.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -504,7 +505,6 @@ Notes
 .. note::
    - SDK Method used are sda.Sda.gets\_border\_device\_detail,
    - Paths used are get /dna/intent/api/v1/business/sda/border-device,
-   - It should be noted that this module is an alias of sda\_fabric\_border\_device\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -516,8 +516,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetBorderDeviceDetailFromSDAFabricV1 <https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric>`_
-       Complete reference of the GetBorderDeviceDetailFromSDAFabricV1 API.
+   `Cisco DNA Center documentation for SDA GetBorderDeviceDetailFromSDAFabric <https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric>`_
+       Complete reference of the GetBorderDeviceDetailFromSDAFabric API.
 
 .. Examples
 
@@ -527,7 +527,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Fabric Border Device Info
+    ---
+    - name: Get all Sda Fabric Border Device
       cisco.dnac.sda_fabric_border_device_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.application_policy_application_set module -- Resource module for Appl
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module application\_policy\_application\_set\_v2
+- Manage operations create and delete of the resource Application Policy Application Set.
+- Create new custom application set/s.
+- Delete existing custom application set by id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -740,7 +742,6 @@ Notes
 .. note::
    - SDK Method used are application\_policy.ApplicationPolicy.create\_application\_sets\_v2, application\_policy.ApplicationPolicy.delete\_application\_set\_v2,
    - Paths used are post /dna/intent/api/v2/application-policy-application-set, delete /dna/intent/api/v2/application-policy-application-set/{id},
-   - It should be noted that this module is an alias of application\_policy\_application\_set\_v2
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -752,9 +753,9 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy CreateApplicationSetsV2 <https://developer.cisco.com/docs/dna-center/#!create-application-sets>`_
+   `Cisco DNA Center documentation for Application Policy CreateApplicationSetsV2 <https://developer.cisco.com/docs/dna-center/#!create-application-sets-v-2>`_
        Complete reference of the CreateApplicationSetsV2 API.
-   `Cisco DNA Center documentation for Application Policy DeleteApplicationSetV2 <https://developer.cisco.com/docs/dna-center/#!delete-application-set>`_
+   `Cisco DNA Center documentation for Application Policy DeleteApplicationSetV2 <https://developer.cisco.com/docs/dna-center/#!delete-application-set-v-2>`_
        Complete reference of the DeleteApplicationSetV2 API.
 
 .. Examples
@@ -765,6 +766,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.application_policy_application_set:
         dnac_host: "{{dnac_host}}"

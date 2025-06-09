@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_port_assignments_count_info module -- Information module for Sda Port Assignments Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_port_assignments_count_info module -- Information module for Sda Port Assignments Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_port\_assignments\_count\_v1\_info
+- Get all Sda Port Assignments Count.
+- Returns the count of port assignments that match the provided query parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -635,9 +636,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_port\_assignment\_count\_v1,
+   - SDK Method used are sda.Sda.get\_port\_assignment\_count,
    - Paths used are get /dna/intent/api/v1/sda/portAssignments/count,
-   - It should be noted that this module is an alias of sda\_port\_assignments\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -649,8 +649,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetPortAssignmentCountV1 <https://developer.cisco.com/docs/dna-center/#!get-port-assignment-count>`_
-       Complete reference of the GetPortAssignmentCountV1 API.
+   `Cisco DNA Center documentation for SDA GetPortAssignmentCount <https://developer.cisco.com/docs/dna-center/#!get-port-assignment-count>`_
+       Complete reference of the GetPortAssignmentCount API.
 
 .. Examples
 
@@ -660,7 +660,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Port Assignments Count Info
+    ---
+    - name: Get all Sda Port Assignments Count
       cisco.dnac.sda_port_assignments_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

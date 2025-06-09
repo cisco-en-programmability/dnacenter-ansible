@@ -42,7 +42,7 @@ cisco.dnac.event_syslog_config module -- Resource module for Event Syslog Config
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module event\_syslog\_config\_v1
+- Manage operations create and update of the resource Event Syslog Config.
+- Create Syslog Destination.
+- Update Syslog Destination.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -635,9 +637,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are event\_management.EventManagement.create\_syslog\_destination\_v1, event\_management.EventManagement.update\_syslog\_destination\_v1,
+   - SDK Method used are event\_management.EventManagement.create\_syslog\_destination, event\_management.EventManagement.update\_syslog\_destination,
    - Paths used are post /dna/intent/api/v1/event/syslog-config, put /dna/intent/api/v1/event/syslog-config,
-   - It should be noted that this module is an alias of event\_syslog\_config\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -649,10 +650,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Event Management CreateSyslogDestinationV1 <https://developer.cisco.com/docs/dna-center/#!create-syslog-destination>`_
-       Complete reference of the CreateSyslogDestinationV1 API.
-   `Cisco DNA Center documentation for Event Management UpdateSyslogDestinationV1 <https://developer.cisco.com/docs/dna-center/#!update-syslog-destination>`_
-       Complete reference of the UpdateSyslogDestinationV1 API.
+   `Cisco DNA Center documentation for Event Management CreateSyslogDestination <https://developer.cisco.com/docs/dna-center/#!create-syslog-destination>`_
+       Complete reference of the CreateSyslogDestination API.
+   `Cisco DNA Center documentation for Event Management UpdateSyslogDestination <https://developer.cisco.com/docs/dna-center/#!update-syslog-destination>`_
+       Complete reference of the UpdateSyslogDestination API.
 
 .. Examples
 
@@ -662,6 +663,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.event_syslog_config:
         dnac_host: "{{dnac_host}}"

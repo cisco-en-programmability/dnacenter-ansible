@@ -42,7 +42,7 @@ cisco.dnac.discovery module -- Resource module for Discovery
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module discovery\_v1
+- Manage operations create, update and delete of the resource Discovery.
+- Initiates discovery with the given parameters.
+- Stops all the discoveries and removes them. - \> Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- Stops or starts an existing discovery.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -2278,17 +2281,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-timeOut"></div>
+        <div class="ansibleOptionAnchor" id="parameter-timeout"></div>
 
       .. _ansible_collections.cisco.dnac.discovery_module__parameter-timeout:
 
       .. rst-class:: ansible-option-title
 
-      **timeOut**
+      **timeout**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-timeOut" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-timeout" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2437,9 +2440,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are discovery.Discovery.delete\_discovery\_by\_id\_v1, discovery.Discovery.start\_discovery\_v1, discovery.Discovery.updates\_discovery\_by\_id,
+   - SDK Method used are discovery.Discovery.delete\_discovery\_by\_id, discovery.Discovery.start\_discovery, discovery.Discovery.updates\_discovery\_by\_id,
    - Paths used are post /dna/intent/api/v1/discovery, delete /dna/intent/api/v1/discovery, delete /dna/intent/api/v1/discovery/{id}, put /dna/intent/api/v1/discovery,
-   - It should be noted that this module is an alias of discovery\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -2451,14 +2453,14 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Discovery StartDiscoveryV1 <https://developer.cisco.com/docs/dna-center/#!start-discovery>`_
-       Complete reference of the StartDiscoveryV1 API.
-   `Cisco DNA Center documentation for Discovery DeleteAllDiscoveryV1 <https://developer.cisco.com/docs/dna-center/#!delete-all-discovery>`_
-       Complete reference of the DeleteAllDiscoveryV1 API.
-   `Cisco DNA Center documentation for Discovery DeleteDiscoveryByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id>`_
-       Complete reference of the DeleteDiscoveryByIdV1 API.
-   `Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedIdV1 <https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id>`_
-       Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedIdV1 API.
+   `Cisco DNA Center documentation for Discovery StartDiscovery <https://developer.cisco.com/docs/dna-center/#!start-discovery>`_
+       Complete reference of the StartDiscovery API.
+   `Cisco DNA Center documentation for Discovery DeleteAllDiscovery <https://developer.cisco.com/docs/dna-center/#!delete-all-discovery>`_
+       Complete reference of the DeleteAllDiscovery API.
+   `Cisco DNA Center documentation for Discovery DeleteDiscoveryById <https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id>`_
+       Complete reference of the DeleteDiscoveryById API.
+   `Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedId <https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id>`_
+       Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedId API.
 
 .. Examples
 
@@ -2468,6 +2470,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Delete all
       cisco.dnac.discovery:
         dnac_host: "{{dnac_host}}"
@@ -2542,7 +2545,7 @@ Examples
         snmpRwCommunity: string
         snmpRwCommunityDesc: string
         snmpUserName: string
-        timeOut: 0
+        timeout: 0
         updateMgmtIp: true
         userNameList: string
     - name: Create
@@ -2593,7 +2596,7 @@ Examples
         snmpRwCommunityDesc: string
         snmpUserName: string
         snmpVersion: string
-        timeOut: 0
+        timeout: 0
         userNameList:
           - string
     - name: Delete by id

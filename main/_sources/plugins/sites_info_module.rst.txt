@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sites_info module -- Information module for Sites Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sites_info module -- Information module for Sites
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sites\_v1\_info
+- Get all Sites.
+- Get sites.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -669,9 +670,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.get\_sites\_v1,
+   - SDK Method used are site\_design.SiteDesign.get\_sites,
    - Paths used are get /dna/intent/api/v1/sites,
-   - It should be noted that this module is an alias of sites\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -683,8 +683,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design GetSitesV1 <https://developer.cisco.com/docs/dna-center/#!get-sites>`_
-       Complete reference of the GetSitesV1 API.
+   `Cisco DNA Center documentation for Site Design GetSites <https://developer.cisco.com/docs/dna-center/#!get-sites>`_
+       Complete reference of the GetSites API.
 
 .. Examples
 
@@ -694,7 +694,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sites Info
+    ---
+    - name: Get all Sites
       cisco.dnac.sites_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -771,7 +772,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"address": "string", "country": "string", "floorNumber": 0, "height": 0, "id": "string", "latitude": 0, "length": 0, "longitude": 0, "name": "string", "nameHierarchy": "string", "parentId": "string", "rfModel": "string", "type": "string", "unitsOfMeasure": "string", "width": 0}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"address": "string", "country": "string", "floorNumber": 0, "height": 0, "id": "string", "latitude": 0, "length": 0, "longitude": 0, "name": "string", "nameHierarchy": "string", "parentId": "string", "rfModel": "string", "siteHierarchyId": "string", "type": "string", "unitsOfMeasure": "string", "width": 0}], "version": "string"}`
 
 
       .. raw:: html

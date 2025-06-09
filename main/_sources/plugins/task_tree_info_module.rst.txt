@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.task_tree_info module -- Information module for Task Tree Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.task_tree_info module -- Information module for Task Tree
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module task\_tree\_v1\_info
+- Get all Task Tree.
+- Returns a task with its children tasks by based on their id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are task.Task.get\_task\_tree\_v1,
+   - SDK Method used are task.Task.get\_task\_tree,
    - Paths used are get /dna/intent/api/v1/task/{taskId}/tree,
-   - It should be noted that this module is an alias of task\_tree\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Task GetTaskTreeV1 <https://developer.cisco.com/docs/dna-center/#!get-task-tree>`_
-       Complete reference of the GetTaskTreeV1 API.
+   `Cisco DNA Center documentation for Task GetTaskTree <https://developer.cisco.com/docs/dna-center/#!get-task-tree>`_
+       Complete reference of the GetTaskTree API.
 
 .. Examples
 
@@ -524,7 +524,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Task Tree Info
+    ---
+    - name: Get all Task Tree
       cisco.dnac.task_tree_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -596,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"additionalStatusURL": "string", "data": "string", "endTime": 0, "errorCode": "string", "errorKey": "string", "failureReason": "string", "id": "string", "instanceTenantId": "string", "isError": true, "lastUpdate": 0, "operationIdList": ["string"], "parentId": "string", "progress": "string", "rootId": "string", "serviceType": "string", "startTime": 0, "username": "string", "version": 0}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"additionalStatusURL": "string", "data": "string", "endTime": 0, "errorCode": "string", "errorKey": "string", "failureReason": "string", "id": "string", "instanceTenantId": "string", "isError": true, "lastUpdate": 0, "operationIdList": {}, "parentId": "string", "progress": "string", "rootId": "string", "serviceType": "string", "startTime": 0, "username": "string", "version": 0}], "version": "string"}`
 
 
       .. raw:: html

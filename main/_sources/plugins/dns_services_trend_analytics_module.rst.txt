@@ -42,7 +42,7 @@ cisco.dnac.dns_services_trend_analytics module -- Resource module for Dns Servic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module dns\_services\_trend\_analytics\_v1
+- Manage operation create of the resource Dns Services Trend Analytics. - \> Gets the trend analytics data related to DNS Services based on given filters and group by field. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- DNSServices-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1080,9 +1080,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_trend\_analytics\_data\_of\_d\_n\_s\_services\_for\_given\_set\_of\_complex\_filters\_v1,
+   - SDK Method used are devices.Devices.get\_trend\_analytics\_data\_of\_d\_n\_s\_services\_for\_given\_set\_of\_complex\_filters,
    - Paths used are post /dna/data/api/v1/dnsServices/trendAnalytics,
-   - It should be noted that this module is an alias of dns\_services\_trend\_analytics\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1094,8 +1093,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetTrendAnalyticsDataOfDNSServicesForGivenSetOfComplexFiltersV1 <https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-dns-services-for-given-set-of-complex-filters>`_
-       Complete reference of the GetTrendAnalyticsDataOfDNSServicesForGivenSetOfComplexFiltersV1 API.
+   `Cisco DNA Center documentation for Devices GetTrendAnalyticsDataOfDNSServicesForGivenSetOfComplexFilters <https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-dns-services-for-given-set-of-complex-filters>`_
+       Complete reference of the GetTrendAnalyticsDataOfDNSServicesForGivenSetOfComplexFilters API.
 
 .. Examples
 
@@ -1105,6 +1104,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.dns_services_trend_analytics:
         dnac_host: "{{dnac_host}}"

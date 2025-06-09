@@ -1,0 +1,3022 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id module -- Resource module for Feature Templates Wireless Advanced Ssidconfigurations Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.18.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operations update and delete of the resource Feature Templates Wireless Advanced Ssidconfigurations Id.
+- This API allows users to delete a specific Advanced SSID configuration feature template by Id.
+- This API allows users to update the details of a specific Advanced SSID configuration feature template by ID.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-designName"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-designname:
+
+      .. rst-class:: ansible-option-title
+
+      **designName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-designName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Design Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes:
+
+      .. rst-class:: ansible-option-title
+
+      **featureAttributes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Feature Templates Wireless Advanced Ssidconfigurations Id's featureAttributes.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/advertisePCAnalyticsSupport"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/advertisepcanalyticssupport:
+
+      .. rst-class:: ansible-option-title
+
+      **advertisePCAnalyticsSupport**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/advertisePCAnalyticsSupport" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Advertise PC Analytics Support.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/advertiseSupport"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/advertisesupport:
+
+      .. rst-class:: ansible-option-title
+
+      **advertiseSupport**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/advertiseSupport" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Advertise Support.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/aironetIESupport"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/aironetiesupport:
+
+      .. rst-class:: ansible-option-title
+
+      **aironetIESupport**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/aironetIESupport" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Aironet IE Enable.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/callSnooping"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/callsnooping:
+
+      .. rst-class:: ansible-option-title
+
+      **callSnooping**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/callSnooping" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Call Snooping.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/deferPriority0"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/deferpriority0:
+
+      .. rst-class:: ansible-option-title
+
+      **deferPriority0**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/deferPriority0" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defer Priority0.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/deferPriority1"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/deferpriority1:
+
+      .. rst-class:: ansible-option-title
+
+      **deferPriority1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/deferPriority1" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defer Priority1.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/deferPriority2"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/deferpriority2:
+
+      .. rst-class:: ansible-option-title
+
+      **deferPriority2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/deferPriority2" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defer Priority2.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/deferPriority3"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/deferpriority3:
+
+      .. rst-class:: ansible-option-title
+
+      **deferPriority3**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/deferPriority3" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defer Priority3.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/deferPriority4"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/deferpriority4:
+
+      .. rst-class:: ansible-option-title
+
+      **deferPriority4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/deferPriority4" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defer Priority4.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/deferPriority5"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/deferpriority5:
+
+      .. rst-class:: ansible-option-title
+
+      **deferPriority5**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/deferPriority5" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defer Priority5.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/deferPriority6"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/deferpriority6:
+
+      .. rst-class:: ansible-option-title
+
+      **deferPriority6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/deferPriority6" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defer Priority6.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/deferPriority7"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/deferpriority7:
+
+      .. rst-class:: ansible-option-title
+
+      **deferPriority7**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/deferPriority7" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defer Priority7.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/dhcpOpt82RemoteIDSubOption"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/dhcpopt82remoteidsuboption:
+
+      .. rst-class:: ansible-option-title
+
+      **dhcpOpt82RemoteIDSubOption**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/dhcpOpt82RemoteIDSubOption" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DHCP Option82 Remote ID suboption.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/dhcpRequired"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/dhcprequired:
+
+      .. rst-class:: ansible-option-title
+
+      **dhcpRequired**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/dhcpRequired" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dynamic Host Configuration Protocol (DHCP) Required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/dhcpServer"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/dhcpserver:
+
+      .. rst-class:: ansible-option-title
+
+      **dhcpServer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/dhcpServer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dynamic Host Configuration Protocol (DHCP) Server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/dot11ax"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/dot11ax:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11ax**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/dot11ax" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      802.11ax Status.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/dot11vBSSMaxIdleProtected"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/dot11vbssmaxidleprotected:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11vBSSMaxIdleProtected**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/dot11vBSSMaxIdleProtected" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11v Basic Service Set (Bss) Max Idle Protected.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/downlinkMuMimo"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/downlinkmumimo:
+
+      .. rst-class:: ansible-option-title
+
+      **downlinkMuMimo**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/downlinkMuMimo" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Downlink multi-user, multiple input, multiple output (MU-MIMO).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/downlinkOfdma"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/downlinkofdma:
+
+      .. rst-class:: ansible-option-title
+
+      **downlinkOfdma**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/downlinkOfdma" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Downlink orthogonal frequency-division multiple access (OFDMA).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/dtimPeriod24GHz"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/dtimperiod24ghz:
+
+      .. rst-class:: ansible-option-title
+
+      **dtimPeriod24GHz**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/dtimPeriod24GHz" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Delivery Traffic Indication Map (DTIM) Period 2.4GhZ Band (1-255).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/dtimPeriod5GHz"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/dtimperiod5ghz:
+
+      .. rst-class:: ansible-option-title
+
+      **dtimPeriod5GHz**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/dtimPeriod5GHz" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Delivery Traffic Indication Map (DTIM) Period 5GhZ Band (1-255).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/dualBandNeighborList"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/dualbandneighborlist:
+
+      .. rst-class:: ansible-option-title
+
+      **dualBandNeighborList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/dualBandNeighborList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Neighbor List Dual Band.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/fastlaneASR"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/fastlaneasr:
+
+      .. rst-class:: ansible-option-title
+
+      **fastlaneASR**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/fastlaneASR" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Fastlane Advanced Scheduling Request (ASR).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/fastTransitionReassociationTimeout"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/fasttransitionreassociationtimeout:
+
+      .. rst-class:: ansible-option-title
+
+      **fastTransitionReassociationTimeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/fastTransitionReassociationTimeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Reassociation Timeout time.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/flexLocalAuth"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/flexlocalauth:
+
+      .. rst-class:: ansible-option-title
+
+      **flexLocalAuth**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/flexLocalAuth" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      FlexConnect Local Authentication.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/idleThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/idlethreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **idleThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/idleThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Idle threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/ipMacBinding"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/ipmacbinding:
+
+      .. rst-class:: ansible-option-title
+
+      **ipMacBinding**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/ipMacBinding" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP Mac Binding.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/ipSourceGuard"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/ipsourceguard:
+
+      .. rst-class:: ansible-option-title
+
+      **ipSourceGuard**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/ipSourceGuard" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP Source Guard.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/loadBalancing"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/loadbalancing:
+
+      .. rst-class:: ansible-option-title
+
+      **loadBalancing**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/loadBalancing" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Load Balance Enable.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/maxClients"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/maxclients:
+
+      .. rst-class:: ansible-option-title
+
+      **maxClients**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/maxClients" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      For physical 9800 series controllers, valid ranges are - 0-5000 for 9800-L series - 0-32000 for 9800-40 series - 0-64000 for 9800-80 series For 9800-CL series controllers, valid ranges are - 0-10000 for Small (S) VM - 0-32000 for Medium (M) VM - 0-64000 for Large (L) VM For Embedded Wireless Controller and Mobility Express, the valid range is 0-2000. For the 9300 platform, the valid range is 0-4000. For the AireOS platform, valid ranges are - 0-3000 for 3500 series - 0-20000 for 5500 series - 0-64000 for 8500 series.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/maxClientsPerAp"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/maxclientsperap:
+
+      .. rst-class:: ansible-option-title
+
+      **maxClientsPerAp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/maxClientsPerAp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Max client Per AP Per WLAN.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/maxClientsPerRadio"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/maxclientsperradio:
+
+      .. rst-class:: ansible-option-title
+
+      **maxClientsPerRadio**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/maxClientsPerRadio" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Max client Per AP radio Per WLAN.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/mDNSMode"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/mdnsmode:
+
+      .. rst-class:: ansible-option-title
+
+      **mDNSMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/mDNSMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Multicast Domain Name Services (mDNS) Mode.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/mediaStreamMulticastDirect"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/mediastreammulticastdirect:
+
+      .. rst-class:: ansible-option-title
+
+      **mediaStreamMulticastDirect**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/mediaStreamMulticastDirect" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Media Stream Multicast Direct.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/multicastBuffer"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/multicastbuffer:
+
+      .. rst-class:: ansible-option-title
+
+      **multicastBuffer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/multicastBuffer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Multicast Buffer Enabled.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/multicastBufferValue"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/multicastbuffervalue:
+
+      .. rst-class:: ansible-option-title
+
+      **multicastBufferValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/multicastBufferValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Multicast Buffer Value.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/muMimo11ac"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/mumimo11ac:
+
+      .. rst-class:: ansible-option-title
+
+      **muMimo11ac**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/muMimo11ac" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Multi-user, multiple input, multiple output (Mu Mimo) 11ac.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/opportunisticKeyCaching"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/opportunistickeycaching:
+
+      .. rst-class:: ansible-option-title
+
+      **opportunisticKeyCaching**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/opportunisticKeyCaching" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Opportunistic Key Caching.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/passiveClient"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/passiveclient:
+
+      .. rst-class:: ansible-option-title
+
+      **passiveClient**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/passiveClient" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Passive Client.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/peer2peerblocking"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/peer2peerblocking:
+
+      .. rst-class:: ansible-option-title
+
+      **peer2peerblocking**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/peer2peerblocking" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Peer-to-Peer Blocking.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/predictionOptimization"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/predictionoptimization:
+
+      .. rst-class:: ansible-option-title
+
+      **predictionOptimization**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/predictionOptimization" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Assisted Roaming Prediction Optimization.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/radiusNacState"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/radiusnacstate:
+
+      .. rst-class:: ansible-option-title
+
+      **radiusNacState**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/radiusNacState" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Network Admission Control(NAC-Radius).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/scanDeferTime"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/scandefertime:
+
+      .. rst-class:: ansible-option-title
+
+      **scanDeferTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/scanDeferTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Scan Defer Time.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/sendBeaconOnAssociation"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/sendbeacononassociation:
+
+      .. rst-class:: ansible-option-title
+
+      **sendBeaconOnAssociation**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/sendBeaconOnAssociation" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Client Scan Report On Association.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/sendBeaconOnRoam"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/sendbeacononroam:
+
+      .. rst-class:: ansible-option-title
+
+      **sendBeaconOnRoam**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/sendBeaconOnRoam" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Client Scan Report On Roam.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/sendDisassociate"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/senddisassociate:
+
+      .. rst-class:: ansible-option-title
+
+      **sendDisassociate**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/sendDisassociate" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Send Disassociate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/sent486Busy"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/sent486busy:
+
+      .. rst-class:: ansible-option-title
+
+      **sent486Busy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/sent486Busy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Send 486 Busy.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/shareDataWithClient"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/sharedatawithclient:
+
+      .. rst-class:: ansible-option-title
+
+      **shareDataWithClient**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/shareDataWithClient" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Share Data with Client.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/targetWakeupTime"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/targetwakeuptime:
+
+      .. rst-class:: ansible-option-title
+
+      **targetWakeupTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/targetWakeupTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      BSS Target Wake Up Time.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/universalAPAdmin"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/universalapadmin:
+
+      .. rst-class:: ansible-option-title
+
+      **universalAPAdmin**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/universalAPAdmin" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Universal Admin.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/uplinkMuMimo"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/uplinkmumimo:
+
+      .. rst-class:: ansible-option-title
+
+      **uplinkMuMimo**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/uplinkMuMimo" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Uplink multi-user, multiple input, multiple output (MU-MIMO).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/uplinkOfdma"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/uplinkofdma:
+
+      .. rst-class:: ansible-option-title
+
+      **uplinkOfdma**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/uplinkOfdma" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Uplink orthogonal frequency-division multiple access (OFDMA).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/vlanCentralSwitching"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/vlancentralswitching:
+
+      .. rst-class:: ansible-option-title
+
+      **vlanCentralSwitching**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/vlanCentralSwitching" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      VLAN Central Switching.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/wifiAllianceAgileMultiband"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/wifiallianceagilemultiband:
+
+      .. rst-class:: ansible-option-title
+
+      **wifiAllianceAgileMultiband**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/wifiAllianceAgileMultiband" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wi-Fi Alliance Agile Multiband.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/wifiToCellularSteering"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/wifitocellularsteering:
+
+      .. rst-class:: ansible-option-title
+
+      **wifiToCellularSteering**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/wifiToCellularSteering" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wifi To Cellular Steering.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-featureAttributes/wmmPolicy"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-featureattributes/wmmpolicy:
+
+      .. rst-class:: ansible-option-title
+
+      **wmmPolicy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-featureAttributes/wmmPolicy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wi-Fi Multimedia (WMM) Policy.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Advanced SSID Configuration Feature Template Id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-unlockedAttributes"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-unlockedattributes:
+
+      .. rst-class:: ansible-option-title
+
+      **unlockedAttributes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-unlockedAttributes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Attributes unlocked in design can be changed at device provision time. \`Note \` unlockedAttributes can only contain the attributes defined under featureAttributes.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are wireless.Wireless.delete\_advanced\_ssid\_configuration\_feature\_template, wireless.Wireless.update\_advanced\_ssid\_configuration\_feature\_template,
+   - Paths used are delete /dna/intent/api/v1/featureTemplates/wireless/advancedSSIDConfigurations/{id}, put /dna/intent/api/v1/featureTemplates/wireless/advancedSSIDConfigurations/{id},
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Wireless DeleteAdvancedSSIDConfigurationFeatureTemplate <https://developer.cisco.com/docs/dna-center/#!delete-advanced-ssid-configuration-feature-template>`_
+       Complete reference of the DeleteAdvancedSSIDConfigurationFeatureTemplate API.
+   `Cisco DNA Center documentation for Wireless UpdateAdvancedSSIDConfigurationFeatureTemplate <https://developer.cisco.com/docs/dna-center/#!update-advanced-ssid-configuration-feature-template>`_
+       Complete reference of the UpdateAdvancedSSIDConfigurationFeatureTemplate API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Delete by id
+      cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        designName: string
+        featureAttributes:
+          advertisePCAnalyticsSupport: true
+          advertiseSupport: true
+          aironetIESupport: true
+          callSnooping: true
+          deferPriority0: true
+          deferPriority1: true
+          deferPriority2: true
+          deferPriority3: true
+          deferPriority4: true
+          deferPriority5: true
+          deferPriority6: true
+          deferPriority7: true
+          dhcpOpt82RemoteIDSubOption: true
+          dhcpRequired: true
+          dhcpServer: string
+          dot11ax: true
+          dot11vBSSMaxIdleProtected: true
+          downlinkMuMimo: true
+          downlinkOfdma: true
+          dtimPeriod24GHz: 0
+          dtimPeriod5GHz: 0
+          dualBandNeighborList: true
+          fastTransitionReassociationTimeout: 0
+          fastlaneASR: true
+          flexLocalAuth: true
+          idleThreshold: 0
+          ipMacBinding: true
+          ipSourceGuard: true
+          loadBalancing: true
+          mDNSMode: string
+          maxClients: 0
+          maxClientsPerAp: 0
+          maxClientsPerRadio: 0
+          mediaStreamMulticastDirect: true
+          muMimo11ac: true
+          multicastBuffer: true
+          multicastBufferValue: 0
+          opportunisticKeyCaching: true
+          passiveClient: true
+          peer2peerblocking: string
+          predictionOptimization: true
+          radiusNacState: true
+          scanDeferTime: 0
+          sendBeaconOnAssociation: true
+          sendBeaconOnRoam: true
+          sendDisassociate: true
+          sent486Busy: true
+          shareDataWithClient: true
+          targetWakeupTime: true
+          universalAPAdmin: true
+          uplinkMuMimo: true
+          uplinkOfdma: true
+          vlanCentralSwitching: true
+          wifiAllianceAgileMultiband: true
+          wifiToCellularSteering: true
+          wmmPolicy: string
+        id: string
+        unlockedAttributes:
+          - string
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.feature_templates_wireless_advanced_ssidconfigurations_id_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

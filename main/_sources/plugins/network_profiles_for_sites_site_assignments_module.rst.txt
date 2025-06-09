@@ -42,7 +42,7 @@ cisco.dnac.network_profiles_for_sites_site_assignments module -- Resource module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_profiles\_for\_sites\_site\_assignments\_v1
+- Manage operations create and delete of the resource Network Profiles For Sites Site Assignments.
+- Assigns a given network profile for sites to a given site. Also assigns the profile to child sites. - \> Unassigns a given network profile for sites from a site. The profile must be removed from parent sites first, otherwise this operation will not ulimately unassign the profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.assign\_a\_network\_profile\_for\_sites\_to\_the\_given\_site\_v1, site\_design.SiteDesign.unassigns\_a\_network\_profile\_for\_sites\_from\_a\_site\_v1,
+   - SDK Method used are site\_design.SiteDesign.assign\_a\_network\_profile\_for\_sites\_to\_the\_given\_site, site\_design.SiteDesign.unassigns\_a\_network\_profile\_for\_sites\_from\_a\_site,
    - Paths used are post /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments, delete /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/{id},
-   - It should be noted that this module is an alias of network\_profiles\_for\_sites\_site\_assignments\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,10 +513,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design AssignANetworkProfileForSitesToTheGivenSiteV1 <https://developer.cisco.com/docs/dna-center/#!assign-a-network-profile-for-sites-to-the-given-site>`_
-       Complete reference of the AssignANetworkProfileForSitesToTheGivenSiteV1 API.
-   `Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromASiteV1 <https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-a-site>`_
-       Complete reference of the UnassignsANetworkProfileForSitesFromASiteV1 API.
+   `Cisco DNA Center documentation for Site Design AssignANetworkProfileForSitesToTheGivenSite <https://developer.cisco.com/docs/dna-center/#!assign-a-network-profile-for-sites-to-the-given-site>`_
+       Complete reference of the AssignANetworkProfileForSitesToTheGivenSite API.
+   `Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromASite <https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-a-site>`_
+       Complete reference of the UnassignsANetworkProfileForSitesFromASite API.
 
 .. Examples
 
@@ -526,6 +526,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.network_profiles_for_sites_site_assignments:
         dnac_host: "{{dnac_host}}"

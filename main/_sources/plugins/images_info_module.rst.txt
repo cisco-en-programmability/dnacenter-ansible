@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.images_info module -- Information module for Images Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.images_info module -- Information module for Images
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module images\_v1\_info
+- Get all Images. - \> A list of available images for the specified site is provided. The default value of the site is set to global. The list includes images that have been imported onto the disk, as well as the latest and suggested images from Cisco.com.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -917,9 +917,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.returns\_list\_of\_software\_images\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.returns\_list\_of\_software\_images,
    - Paths used are get /dna/intent/api/v1/images,
-   - It should be noted that this module is an alias of images\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -931,8 +930,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsListOfSoftwareImagesV1 <https://developer.cisco.com/docs/dna-center/#!returns-list-of-software-images>`_
-       Complete reference of the ReturnsListOfSoftwareImagesV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsListOfSoftwareImages <https://developer.cisco.com/docs/dna-center/#!returns-list-of-software-images>`_
+       Complete reference of the ReturnsListOfSoftwareImages API.
 
 .. Examples
 
@@ -942,7 +941,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Images Info
+    ---
+    - name: Get all Images
       cisco.dnac.images_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

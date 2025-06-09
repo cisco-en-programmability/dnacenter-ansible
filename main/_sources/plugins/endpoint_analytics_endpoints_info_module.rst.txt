@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.endpoint_analytics_endpoints_info module -- Information module for Endpoint Analytics Endpoints Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.endpoint_analytics_endpoints_info module -- Information module for Endpoint Analytics Endpoints
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module endpoint\_analytics\_endpoints\_v1\_info
+- Get all Endpoint Analytics Endpoints.
+- Get Endpoint Analytics Endpoints by id.
+- Fetches details of the endpoint for the given unique identifier 'epId'. - \> Query the endpoints, optionally using various filter and pagination criteria. 'GET /endpoints/count' API can be used to find out the total number of endpoints matching the filter criteria.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1432,9 +1434,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.get\_endpoint\_details\_v1, a\_i\_endpoint\_analytics.AIEndpointAnalytics.query\_the\_endpoints\_v1,
+   - SDK Method used are ai\_endpoint\_analytics.AiEndpointAnalytics.get\_endpoint\_details, ai\_endpoint\_analytics.AiEndpointAnalytics.query\_the\_endpoints,
    - Paths used are get /dna/intent/api/v1/endpoint-analytics/endpoints, get /dna/intent/api/v1/endpoint-analytics/endpoints/{epId},
-   - It should be noted that this module is an alias of endpoint\_analytics\_endpoints\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1446,10 +1447,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for AI Endpoint Analytics GetEndpointDetailsV1 <https://developer.cisco.com/docs/dna-center/#!get-endpoint-details>`_
-       Complete reference of the GetEndpointDetailsV1 API.
-   `Cisco DNA Center documentation for AI Endpoint Analytics QueryTheEndpointsV1 <https://developer.cisco.com/docs/dna-center/#!query-the-endpoints>`_
-       Complete reference of the QueryTheEndpointsV1 API.
+   `Cisco DNA Center documentation for AI Endpoint Analytics GetEndpointDetails <https://developer.cisco.com/docs/dna-center/#!get-endpoint-details>`_
+       Complete reference of the GetEndpointDetails API.
+   `Cisco DNA Center documentation for AI Endpoint Analytics QueryTheEndpoints <https://developer.cisco.com/docs/dna-center/#!query-the-endpoints>`_
+       Complete reference of the QueryTheEndpoints API.
 
 .. Examples
 
@@ -1459,7 +1460,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Endpoint Analytics Endpoints Info
+    ---
+    - name: Get all Endpoint Analytics Endpoints
       cisco.dnac.endpoint_analytics_endpoints_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1496,7 +1498,7 @@ Examples
         order: string
         include: string
       register: result
-    - name: Get Endpoint Analytics Endpoints Info by id
+    - name: Get Endpoint Analytics Endpoints by id
       cisco.dnac.endpoint_analytics_endpoints_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_config_files_id_info module -- Information module for Network Device Config Files Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_config_files_id_info module -- Information module for Network Device Config Files Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_config\_files\_id\_v1\_info
+- Get Network Device Config Files Id by id.
+- Retrieves the details of a specific network device configuration file using the \`id\`.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -500,9 +501,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_archive.ConfigurationArchive.get\_configuration\_file\_details\_by\_id\_v1,
+   - SDK Method used are configuration\_archive.ConfigurationArchive.get\_configuration\_file\_details\_by\_id,
    - Paths used are get /dna/intent/api/v1/networkDeviceConfigFiles/{id},
-   - It should be noted that this module is an alias of network\_device\_config\_files\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -514,8 +514,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Archive GetConfigurationFileDetailsByIDV1 <https://developer.cisco.com/docs/dna-center/#!get-configuration-file-details-by-id>`_
-       Complete reference of the GetConfigurationFileDetailsByIDV1 API.
+   `Cisco DNA Center documentation for Configuration Archive GetConfigurationFileDetailsByID <https://developer.cisco.com/docs/dna-center/#!get-configuration-file-details-by-id>`_
+       Complete reference of the GetConfigurationFileDetailsByID API.
 
 .. Examples
 
@@ -525,7 +525,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Network Device Config Files Id Info by id
+    ---
+    - name: Get Network Device Config Files Id by id
       cisco.dnac.network_device_config_files_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

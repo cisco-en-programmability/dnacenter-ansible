@@ -42,7 +42,7 @@ cisco.dnac.sda_transit_networks module -- Resource module for Sda Transit Networ
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_transit\_networks\_v1
+- Manage operations create, update and delete of the resource Sda Transit Networks.
+- Adds transit networks based on user input.
+- Updates transit networks based on user input.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -698,6 +700,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/siteId"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_transit_networks_module__parameter-payload/siteid:
+
+      .. rst-class:: ansible-option-title
+
+      **siteId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/siteId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ID of the site of this transit network. The transit network will be anchored at this Site. Only Fabric Sites within this Site location can associate their borders with this transit network. Additionally, the Transit Control Plane Devices must be located within the transit network's Site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/type"></div>
 
       .. _ansible_collections.cisco.dnac.sda_transit_networks_module__parameter-payload/type:
@@ -782,9 +818,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_transit\_networks\_v1, sda.Sda.update\_transit\_networks\_v1,
+   - SDK Method used are sda.Sda.add\_transit\_networks, sda.Sda.update\_transit\_networks,
    - Paths used are post /dna/intent/api/v1/sda/transitNetworks, put /dna/intent/api/v1/sda/transitNetworks,
-   - It should be noted that this module is an alias of sda\_transit\_networks\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -796,10 +831,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddTransitNetworksV1 <https://developer.cisco.com/docs/dna-center/#!add-transit-networks>`_
-       Complete reference of the AddTransitNetworksV1 API.
-   `Cisco DNA Center documentation for SDA UpdateTransitNetworksV1 <https://developer.cisco.com/docs/dna-center/#!update-transit-networks>`_
-       Complete reference of the UpdateTransitNetworksV1 API.
+   `Cisco DNA Center documentation for SDA AddTransitNetworks <https://developer.cisco.com/docs/dna-center/#!add-transit-networks>`_
+       Complete reference of the AddTransitNetworks API.
+   `Cisco DNA Center documentation for SDA UpdateTransitNetworks <https://developer.cisco.com/docs/dna-center/#!update-transit-networks>`_
+       Complete reference of the UpdateTransitNetworks API.
 
 .. Examples
 
@@ -809,6 +844,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update all
       cisco.dnac.sda_transit_networks:
         dnac_host: "{{dnac_host}}"
@@ -829,6 +865,7 @@ Examples
               controlPlaneNetworkDeviceIds:
                 - string
               isMulticastOverTransitEnabled: true
+            siteId: string
             type: string
     - name: Create
       cisco.dnac.sda_transit_networks:
@@ -849,6 +886,7 @@ Examples
               controlPlaneNetworkDeviceIds:
                 - string
               isMulticastOverTransitEnabled: true
+            siteId: string
             type: string
 
 

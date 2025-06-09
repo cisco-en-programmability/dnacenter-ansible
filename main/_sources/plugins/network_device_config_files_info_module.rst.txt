@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_config_files_info module -- Information module for Network Device Config Files Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_config_files_info module -- Information module for Network Device Config Files
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_config\_files\_v1\_info
+- Get all Network Device Config Files. - \> Retrieves the list of network device configuration file details, sorted by createdTime in descending order. Use /intent/api/v1/networkDeviceConfigFiles/{id}/downloadMasked to download masked configurations, or /intent/api/v1/networkDeviceConfigFiles/{id}/downloadUnmasked for unmasked configurations.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -638,9 +638,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_archive.ConfigurationArchive.get\_network\_device\_configuration\_file\_details\_v1,
+   - SDK Method used are configuration\_archive.ConfigurationArchive.get\_network\_device\_configuration\_file\_details,
    - Paths used are get /dna/intent/api/v1/networkDeviceConfigFiles,
-   - It should be noted that this module is an alias of network\_device\_config\_files\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -652,8 +651,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Archive GetNetworkDeviceConfigurationFileDetailsV1 <https://developer.cisco.com/docs/dna-center/#!get-network-device-configuration-file-details>`_
-       Complete reference of the GetNetworkDeviceConfigurationFileDetailsV1 API.
+   `Cisco DNA Center documentation for Configuration Archive GetNetworkDeviceConfigurationFileDetails <https://developer.cisco.com/docs/dna-center/#!get-network-device-configuration-file-details>`_
+       Complete reference of the GetNetworkDeviceConfigurationFileDetails API.
 
 .. Examples
 
@@ -663,7 +662,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Config Files Info
+    ---
+    - name: Get all Network Device Config Files
       cisco.dnac.network_device_config_files_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

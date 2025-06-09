@@ -42,7 +42,7 @@ cisco.dnac.execute_suggested_actions_commands module -- Resource module for Exec
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module execute\_suggested\_actions\_commands\_v1
+- Manage operation create of the resource Execute Suggested Actions Commands. - \> This API fetches the issue details and suggested actions for an issue, given the Issue Id, executes the commands associated with the suggested actions to remediate the issue.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.execute\_suggested\_actions\_commands\_v1,
+   - SDK Method used are issues.Issues.execute\_suggested\_actions\_commands,
    - Paths used are post /dna/intent/api/v1/execute-suggested-actions-commands,
-   - It should be noted that this module is an alias of execute\_suggested\_actions\_commands\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Issues ExecuteSuggestedActionsCommandsV1 <https://developer.cisco.com/docs/dna-center/#!execute-suggested-actions-commands>`_
-       Complete reference of the ExecuteSuggestedActionsCommandsV1 API.
+   `Cisco DNA Center documentation for Issues ExecuteSuggestedActionsCommands <https://developer.cisco.com/docs/dna-center/#!execute-suggested-actions-commands>`_
+       Complete reference of the ExecuteSuggestedActionsCommands API.
 
 .. Examples
 
@@ -524,6 +523,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.execute_suggested_actions_commands:
         dnac_host: "{{dnac_host}}"
@@ -575,7 +575,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -595,7 +595,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["[\\n  {\\n    \\"actionInfo\\": \\"string\\"", "\\n    \\"stepsCount\\": 0", "\\n    \\"entityId\\": \\"string\\"", "\\n    \\"hostname\\": \\"string\\"", "\\n    \\"stepsDescription\\": \\"string\\"", "\\n    \\"command\\": \\"string\\"", "\\n    \\"commandOutput\\": {}\\n  }\\n]\\n"]`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{}`
 
 
       .. raw:: html

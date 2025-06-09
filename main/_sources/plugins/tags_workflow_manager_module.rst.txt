@@ -42,7 +42,7 @@ cisco.dnac.tags_workflow_manager module -- Create/ Update/ Delete Tag(s) and Tag
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1981,8 +1981,19 @@ Notes
    - If \`force\_delete\` is set to \`true\` in deleted state, the tag will be forcibly removed from all associated devices and ports, and the tag will be deleted.
    - In device\_rules and port\_rules, rules with the same rule\_name are ORed together, while rules with different rule\_name values are ANDed together.
    - Each device or interface can have a maximum of 500 tags assigned.
-   - SDK Methods used are tags.Tag.add\_members\_to\_the\_tag tags.Tag.create\_tag tags.Tag.delete\_tag devices.Devices.get\_device\_list devices.Devices.get\_interface\_details site\_design.SiteDesign.get\_sites site\_design.SiteDesign.get\_site\_assigned\_network\_devices tags.Tag.get\_tag tags.Tag.get\_tag\_members\_by\_id tags.Tag.query\_the\_tags\_associated\_with\_network\_devices tags.Tag.query\_the\_tags\_associated\_with\_interfaces tags.Tag.update\_tag tags.Tag.update\_tags\_associated\_with\_the\_interfaces tags.Tag.update\_tags\_associated\_with\_the\_network\_devices
-     - SDK Paths used are /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tag /dna/intent/api/v1/tag/${id} /dna/intent/api/v1/network-device /dna/intent/api/v1/interface/network-device/${deviceId}/interface-name /dna/intent/api/v1/sites /dna/intent/api/v1/networkDevices/assignedToSite /dna/intent/api/v1/tag /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tags/networkDevices/membersAssociations/query /dna/intent/api/v1/tags/interfaces/membersAssociations/query /dna/intent/api/v1/tag /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk /dna/intent/api/v1/tags/interfaces/membersAssociations/bulk
+   - SDK Methods used are tags.Tag.add\_members\_to\_the\_tag tags.Tag.create\_tag tags.Tag.delete\_tag
+     devices.Devices.get\_device\_list devices.Devices.get\_interface\_details site\_design.SiteDesign.get\_sites
+     site\_design.SiteDesign.get\_site\_assigned\_network\_devices tags.Tag.get\_tag tags.Tag.get\_tag\_members\_by\_id
+     tags.Tag.query\_the\_tags\_associated\_with\_network\_devices tags.Tag.query\_the\_tags\_associated\_with\_interfaces
+     tags.Tag.update\_tag tags.Tag.update\_tags\_associated\_with\_the\_interfaces
+     tags.Tag.update\_tags\_associated\_with\_the\_network\_devices
+     - SDK Paths used are /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tag /dna/intent/api/v1/tag/${id}
+     /dna/intent/api/v1/network-device /dna/intent/api/v1/interface/network-device/${deviceId}/interface-name
+     /dna/intent/api/v1/sites /dna/intent/api/v1/networkDevices/assignedToSite /dna/intent/api/v1/tag
+     /dna/intent/api/v1/tag/${id}/member /dna/intent/api/v1/tags/networkDevices/membersAssociations/query
+     /dna/intent/api/v1/tags/interfaces/membersAssociations/query /dna/intent/api/v1/tag
+     /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk
+     /dna/intent/api/v1/tags/interfaces/membersAssociations/bulk
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -1998,6 +2009,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     # For creating/updating a tag
     - name: Create a tag with description.
       hosts: dnac_servers
@@ -2024,18 +2036,19 @@ Examples
             config:
               - tag:
                   name: Server_Connected_Devices_and_Ports
-                  description: "Tag for devices and interfaces connected to servers"
-
-
+                  description: "Tag for devices and interfaces
+                    connected to servers"
     # For creating/updating a tag with device rules.
-    - name: Create a tag for border devices in the 9300 series.
+    - name: Create a tag for border devices in the 9300
+        series.
       hosts: dnac_servers
       vars_files:
         - credentials.yml
       gather_facts: false
       connection: local
       tasks:
-        - name: Create a tag for border devices in the 9300 series.
+        - name: Create a tag for border devices in the 9300
+            series.
           cisco.dnac.tags_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -2053,7 +2066,8 @@ Examples
             config:
               - tag:
                   name: Border_9300_Tag
-                  description: Tag for border devices belonging to the Cisco Catalyst 9300 family.
+                  description: Tag for border devices belonging
+                    to the Cisco Catalyst 9300 family.
                   device_rules:
                     rule_descriptions:
                       - rule_name: device_name
@@ -2064,17 +2078,17 @@ Examples
                         search_pattern: ends_with
                         value: 9300
                         operation: ILIKE
-
-
     # For creating/updating a tag with port rules.
-    - name: Create a tag for high-speed server-connected interfaces.
+    - name: Create a tag for high-speed server-connected
+        interfaces.
       hosts: dnac_servers
       vars_files:
         - credentials.yml
       gather_facts: false
       connection: local
       tasks:
-        - name: Create a tag for high-speed server-connected interfaces.
+        - name: Create a tag for high-speed server-connected
+            interfaces.
           cisco.dnac.tags_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -2092,7 +2106,8 @@ Examples
             config:
               - tag:
                   name: HighSpeed_Server_Interfaces
-                  description: Tag for 10G interfaces connected to servers.
+                  description: Tag for 10G interfaces connected
+                    to servers.
                   port_rules:
                     scope_description:
                       scope_category: TAG
@@ -2108,17 +2123,17 @@ Examples
                         search_pattern: contains
                         value: TenGigabitEthernet1/0/1
                         operation: ILIKE
-
-
     # For updating the scope description of a tag with port rules:
-    - name: Update scope description for tagged server-connected interfaces.
+    - name: Update scope description for tagged server-connected
+        interfaces.
       hosts: dnac_servers
       vars_files:
         - credentials.yml
       gather_facts: false
       connection: local
       tasks:
-        - name: Update scope description for tagged server-connected interfaces.
+        - name: Update scope description for tagged server-connected
+            interfaces.
           cisco.dnac.tags_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -2136,24 +2151,26 @@ Examples
             config:
               - tag:
                   name: Server_Connected_Interfaces
-                  description: Tag for interfaces on devices connected to servers, scoped to specific sites.
+                  description: Tag for interfaces on devices
+                    connected to servers, scoped to specific
+                    sites.
                   port_rules:
                     scope_description:
                       scope_category: SITE
                       scope_members:
                         - Global/USA
                         - Global/INDIA
-
-
     # For updating rule descriptions of a tag with port rules:
-    - name: Update port rule descriptions for server-connected interfaces.
+    - name: Update port rule descriptions for server-connected
+        interfaces.
       hosts: dnac_servers
       vars_files:
         - credentials.yml
       gather_facts: false
       connection: local
       tasks:
-        - name: Update port rule descriptions for server-connected interfaces.
+        - name: Update port rule descriptions for server-connected
+            interfaces.
           cisco.dnac.tags_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -2171,7 +2188,8 @@ Examples
             config:
               - tag:
                   name: Server_Connected_Interfaces
-                  description: Tag for interfaces on devices connected to servers.
+                  description: Tag for interfaces on devices
+                    connected to servers.
                   port_rules:
                     rule_descriptions:
                       - rule_name: speed
@@ -2182,10 +2200,7 @@ Examples
                         search_pattern: equals
                         value: TenGigabitEthernet1/0/1
                         operation: ILIKE
-
-
     # To assign tags to devices/ports (Remove port_names list to assign tags to devices.)
-
     - name: Assign tags to devices or interfaces.
       hosts: dnac_servers
       vars_files:
@@ -2252,17 +2267,17 @@ Examples
                         - SAD055006NE
                         - SAD04350EEU
                         - SAD055108C2
-
-
     # To assign tags to devices or ports under specific sites (Remove port_namesto assign tags to devices only.)
-    - name: Assign tags to devices or interfaces within a specific site.
+    - name: Assign tags to devices or interfaces within
+        a specific site.
       hosts: dnac_servers
       vars_files:
         - credentials.yml
       gather_facts: false
       connection: local
       tasks:
-        - name: Assign tags to devices or interfaces within a specific site.
+        - name: Assign tags to devices or interfaces within
+            a specific site.
           cisco.dnac.tags_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -2293,8 +2308,6 @@ Examples
                   site_details:
                     - site_names:
                         - Global/INDIA
-
-
     # Deleting a tag.
     - name: Delete a Tag.
       hosts: dnac_servers
@@ -2321,8 +2334,6 @@ Examples
             config:
               - tag:
                   name: Server_Connected_Devices
-
-
     # Force Deleting a tag.
     # It will remove all the dynamic and static members from the tag and delete the tag.
     - name: Force delete a Tag.
@@ -2351,16 +2362,17 @@ Examples
               - tag:
                   name: Server_Connected_Devices
                   force_delete: true
-
     # For deleting rule descriptions of a tag with device rules.
-    - name: Delete rule description of a tag with device rules
+    - name: Delete rule description of a tag with device
+        rules
       hosts: dnac_servers
       vars_files:
         - credentials.yml
       gather_facts: false
       connection: local
       tasks:
-        - name: Delete rule description of a tag with device rules
+        - name: Delete rule description of a tag with device
+            rules
           cisco.dnac.tags_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -2384,8 +2396,6 @@ Examples
                         search_pattern: ends_with
                         value: 9300
                         operation: ILIKE
-
-
     # For deleting scope members of a tag with port rules.
     - name: Delete scope members of a tag with port rules
       hosts: dnac_servers
@@ -2394,7 +2404,8 @@ Examples
       gather_facts: false
       connection: local
       tasks:
-        - name: Delete scope members of a tag with port rules
+        - name: Delete scope members of a tag with port
+            rules
           cisco.dnac.tags_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -2412,23 +2423,24 @@ Examples
             config:
               - tag:
                   name: Catalyst_Site_Tag
-                  description: Tag for managing site-based configurations
+                  description: Tag for managing site-based
+                    configurations
                   port_rules:
                     scope_description:
                       scope_category: SITE
                       scope_members:
                         - Global/INDIA
-
-
     # For deleting rule descriptions of a tag with port rules.
-    - name: Delete rule descriptions of a tag with port rules
+    - name: Delete rule descriptions of a tag with port
+        rules
       hosts: dnac_servers
       vars_files:
         - credentials.yml
       gather_facts: false
       connection: local
       tasks:
-        - name: Delete rule descriptions of a tag with port rules
+        - name: Delete rule descriptions of a tag with port
+            rules
           cisco.dnac.tags_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -2446,7 +2458,8 @@ Examples
             config:
               - tag:
                   name: Catalyst_Port_Tag
-                  description: Tag for high-speed ports and interface rules
+                  description: Tag for high-speed ports
+                    and interface rules
                   port_rules:
                     rule_descriptions:
                       - rule_name: speed
@@ -2457,8 +2470,6 @@ Examples
                         search_pattern: contains
                         value: tengig/1/0/1
                         operation: ILIKE
-
-
     # For Deleting tags from devices/ports (Remove port_names to delete tags from devices)
     - name: Delete tags from members.
       hosts: dnac_servers
@@ -2518,7 +2529,6 @@ Examples
                       serial_numbers:
                         - SAD055006NE
                         - SAD04350EEU
-
     #  For deleting tags from devices/ports under specific sites (Remove port_names to delete tags from devices)
     - name: Delete tags from members within a specific sites.
       hosts: dnac_servers
@@ -2527,7 +2537,8 @@ Examples
       gather_facts: false
       connection: local
       tasks:
-        - name: Delete tags from members within a specific sites.
+        - name: Delete tags from members within a specific
+            sites.
           cisco.dnac.tags_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"

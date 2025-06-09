@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.application_sets_info module -- Information module for Application Sets Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.application_sets_info module -- Information module for Application Sets
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module application\_sets\_v1\_info
+- Get all Application Sets.
+- Get appllication-sets by offset/limit or by name.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -567,9 +568,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.get\_application\_sets\_v1,
+   - SDK Method used are application\_policy.ApplicationPolicy.get\_application\_sets,
    - Paths used are get /dna/intent/api/v1/application-policy-application-set,
-   - It should be noted that this module is an alias of application\_sets\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,8 +581,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy GetApplicationSetsV1 <https://developer.cisco.com/docs/dna-center/#!get-application-sets>`_
-       Complete reference of the GetApplicationSetsV1 API.
+   `Cisco DNA Center documentation for Application Policy GetApplicationSets <https://developer.cisco.com/docs/dna-center/#!get-application-sets>`_
+       Complete reference of the GetApplicationSets API.
 
 .. Examples
 
@@ -592,7 +592,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Application Sets Info
+    ---
+    - name: Get all Application Sets
       cisco.dnac.application_sets_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

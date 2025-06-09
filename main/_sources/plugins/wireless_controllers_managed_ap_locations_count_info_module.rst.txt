@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_controllers_managed_ap_locations_count_info module -- Information module for Wireless Controllers Managed Ap Locations Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_controllers_managed_ap_locations_count_info module -- Information module for Wireless Controllers Managed Ap Locations Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_controllers\_managed\_ap\_locations\_count\_v1\_info
+- Get all Wireless Controllers Managed Ap Locations Count. - \> Retrieves the count of Managed AP locations, including Primary Managed AP Locations, Secondary Managed AP Locations, and Anchor Managed AP Locations, associated with the specific Wireless Controller.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -500,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_managed\_ap\_locations\_count\_for\_specific\_wireless\_controller\_v1,
+   - SDK Method used are wireless.Wireless.get\_managed\_ap\_locations\_count\_for\_specific\_wireless\_controller,
    - Paths used are get /dna/intent/api/v1/wirelessControllers/{networkDeviceId}/managedApLocations/count,
-   - It should be noted that this module is an alias of wireless\_controllers\_managed\_ap\_locations\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -514,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetManagedAPLocationsCountForSpecificWirelessControllerV1 <https://developer.cisco.com/docs/dna-center/#!get-managed-ap-locations-count-for-specific-wireless-controller>`_
-       Complete reference of the GetManagedAPLocationsCountForSpecificWirelessControllerV1 API.
+   `Cisco DNA Center documentation for Wireless GetManagedAPLocationsCountForSpecificWirelessController <https://developer.cisco.com/docs/dna-center/#!get-managed-ap-locations-count-for-specific-wireless-controller>`_
+       Complete reference of the GetManagedAPLocationsCountForSpecificWirelessController API.
 
 .. Examples
 
@@ -525,7 +524,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Controllers Managed Ap Locations Count Info
+    ---
+    - name: Get all Wireless Controllers Managed Ap Locations
+        Count
       cisco.dnac.wireless_controllers_managed_ap_locations_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

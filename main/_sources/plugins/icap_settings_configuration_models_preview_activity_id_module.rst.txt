@@ -42,7 +42,7 @@ cisco.dnac.icap_settings_configuration_models_preview_activity_id module -- Reso
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module icap\_settings\_configuration\_models\_preview\_activity\_id\_v1
+- Manage operation delete of the resource Icap Settings Configuration Models Preview Activity Id. - \> Discard the ICAP configuration intent by activity ID, which was returned in TaskResponse's property "taskId" at the beginning of the preview-approve workflow. Discarding the intent can only be applied to intent activities that have not been deployed.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +465,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.discards\_the\_i\_cap\_configuration\_intent\_by\_activity\_id\_v1,
+   - SDK Method used are sensors.Sensors.discards\_the\_i\_cap\_configuration\_intent\_by\_activity\_id,
    - Paths used are delete /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId},
-   - It should be noted that this module is an alias of icap\_settings\_configuration\_models\_preview\_activity\_id\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sensors DiscardsTheICAPConfigurationIntentByActivityIDV1 <https://developer.cisco.com/docs/dna-center/#!discards-the-icap-configuration-intent-by-activity-id>`_
-       Complete reference of the DiscardsTheICAPConfigurationIntentByActivityIDV1 API.
+   `Cisco DNA Center documentation for Sensors DiscardsTheICAPConfigurationIntentByActivityID <https://developer.cisco.com/docs/dna-center/#!discards-the-icap-configuration-intent-by-activity-id>`_
+       Complete reference of the DiscardsTheICAPConfigurationIntentByActivityID API.
 
 .. Examples
 
@@ -490,6 +489,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Delete by id
       cisco.dnac.icap_settings_configuration_models_preview_activity_id:
         dnac_host: "{{dnac_host}}"

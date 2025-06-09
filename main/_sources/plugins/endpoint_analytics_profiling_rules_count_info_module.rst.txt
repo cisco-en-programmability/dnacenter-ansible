@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.endpoint_analytics_profiling_rules_count_info module -- Information module for Endpoint Analytics Profiling Rules Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.endpoint_analytics_profiling_rules_count_info module -- Information module for Endpoint Analytics Profiling-Rules Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module endpoint\_analytics\_profiling\_rules\_count\_v1\_info
+- Get all Endpoint Analytics Profiling-Rules Count. - \> This API fetches the count of profiling rules based on the filter values provided in the query parameters. The filter parameters are same as that of 'GET /profiling-rules' API, excluding the pagination and sort parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -541,9 +541,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.get\_count\_of\_profiling\_rules\_v1,
+   - SDK Method used are ai\_endpoint\_analytics.AiEndpointAnalytics.get\_count\_of\_profiling\_rules,
    - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules/count,
-   - It should be noted that this module is an alias of endpoint\_analytics\_profiling\_rules\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -559,8 +558,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Endpoint Analytics Profiling Rules Count Info
-      cisco.dnac.endpoint_analytics_profiling_rules_count_info:
+    ---
+    - name: Get all Endpoint Analytics Profiling-Rules Count
+      cisco.dnac.endpoint_analytics_profiling-rules_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

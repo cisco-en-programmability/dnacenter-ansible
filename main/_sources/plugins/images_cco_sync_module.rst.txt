@@ -42,7 +42,7 @@ cisco.dnac.images_cco_sync module -- Resource module for Images Cco Sync
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module images\_cco\_sync\_v1
+- Manage operation create of the resource Images Cco Sync. - \> Initiating the synchronization of the software images from Cisco.com. The latest and suggested images will be retrieved, along with the corresponding product name and PIDs for imported and retrieved images from Cisco.com. Once the task is completed, the API \`/intent/api/v1/images?imported=false\` will display all the images fetched from Cisco.com.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -431,9 +431,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.initiates\_sync\_of\_software\_images\_from\_cisco\_com\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.initiates\_sync\_of\_software\_images\_from\_cisco\_com,
    - Paths used are post /dna/intent/api/v1/images/ccoSync,
-   - It should be noted that this module is an alias of images\_cco\_sync\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -445,8 +444,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) InitiatesSyncOfSoftwareImagesFromCiscoComV1 <https://developer.cisco.com/docs/dna-center/#!initiates-sync-of-software-images-from-cisco-com>`_
-       Complete reference of the InitiatesSyncOfSoftwareImagesFromCiscoComV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) InitiatesSyncOfSoftwareImagesFromCiscoCom <https://developer.cisco.com/docs/dna-center/#!initiates-sync-of-software-images-from-cisco-com>`_
+       Complete reference of the InitiatesSyncOfSoftwareImagesFromCiscoCom API.
 
 .. Examples
 
@@ -456,6 +455,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.images_cco_sync:
         dnac_host: "{{dnac_host}}"

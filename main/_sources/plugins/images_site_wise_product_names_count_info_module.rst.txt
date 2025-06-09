@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.images_site_wise_product_names_count_info module -- Information module for Images Site Wise Product Names Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.images_site_wise_product_names_count_info module -- Information module for Images Site Wise Product Names Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module images\_site\_wise\_product\_names\_count\_v1\_info
+- Get all Images Site Wise Product Names Count. - \> Returns count of assigned network device product for a given image identifier. Refer \`/dna/intent/api/v1/images\` API for obtaining \`imageId\`.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -638,9 +638,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieves\_the\_count\_of\_assigned\_network\_device\_products\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieves\_the\_count\_of\_assigned\_network\_device\_products,
    - Paths used are get /dna/intent/api/v1/images/{imageId}/siteWiseProductNames/count,
-   - It should be noted that this module is an alias of images\_site\_wise\_product\_names\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -652,8 +651,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheCountOfAssignedNetworkDeviceProductsV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-assigned-network-device-products>`_
-       Complete reference of the RetrievesTheCountOfAssignedNetworkDeviceProductsV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheCountOfAssignedNetworkDeviceProducts <https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-assigned-network-device-products>`_
+       Complete reference of the RetrievesTheCountOfAssignedNetworkDeviceProducts API.
 
 .. Examples
 
@@ -663,7 +662,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Images Site Wise Product Names Count Info
+    ---
+    - name: Get all Images Site Wise Product Names Count
       cisco.dnac.images_site_wise_product_names_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

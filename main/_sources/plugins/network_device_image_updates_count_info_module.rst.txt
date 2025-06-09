@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_image_updates_count_info module -- Information module for Network Device Image Updates Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_image_updates_count_info module -- Information module for Network Device Image Updates Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_image\_updates\_count\_v1\_info
+- Get all Network Device Image Updates Count.
+- Returns the count of network device image updates based on the given filter criteria.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -474,7 +475,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      HostName query parameter. Host name of the network device for the image update. Supports case-insensitive partial search.
+      HostName query parameter. Host name of the network device for the image update. Supports case- insensitive partial search.
           
 
 
@@ -772,9 +773,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.count\_of\_network\_device\_image\_updates\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.count\_of\_network\_device\_image\_updates,
    - Paths used are get /dna/intent/api/v1/networkDeviceImageUpdates/count,
-   - It should be noted that this module is an alias of network\_device\_image\_updates\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -786,8 +786,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkDeviceImageUpdatesV1 <https://developer.cisco.com/docs/dna-center/#!count-of-network-device-image-updates>`_
-       Complete reference of the CountOfNetworkDeviceImageUpdatesV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkDeviceImageUpdates <https://developer.cisco.com/docs/dna-center/#!count-of-network-device-image-updates>`_
+       Complete reference of the CountOfNetworkDeviceImageUpdates API.
 
 .. Examples
 
@@ -797,7 +797,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Image Updates Count Info
+    ---
+    - name: Get all Network Device Image Updates Count
       cisco.dnac.network_device_image_updates_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

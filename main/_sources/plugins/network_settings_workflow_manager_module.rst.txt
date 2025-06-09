@@ -42,7 +42,7 @@ cisco.dnac.network_settings_workflow_manager module -- Resource module for IP Ad
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -526,11 +526,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Includes both the Generic Ip Pool and Tunnel Ip Pool. Generic - Used for general purpose within the network such as device
-                    management or communication between the network devices.
-          Tunnel - Designated for the tunnel interfaces to encapsulate packets
-                   within the network protocol. It is used in VPN connections,
-                   GRE tunnels, or other types of overlay networks.
+      Includes both the Generic Ip Pool and Tunnel Ip Pool. Generic - Used for general purpose within the network such as device management or communication between the network devices. Tunnel - Designated for the tunnel interfaces to encapsulate packets within the network protocol. It is used in VPN connections, GRE tunnels, or other types of overlay networks.
           
 
 
@@ -3811,6 +3807,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create global pool
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3863,7 +3860,8 @@ Examples
                 ipv6_global_pool: string
                 ipv6_subnet: string
                 slaac_support: true
-    - name: Create reserve an ip pool using global pool name
+    - name: Create reserve an ip pool using global pool
+        name
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3962,7 +3960,8 @@ Examples
                   syslog_server:
                     configure_dnac_ip: true
                     ip_addresses: list
-    - name: Adding the network_aaa and client_and_endpoint_aaa AAA server
+    - name: Adding the network_aaa and client_and_endpoint_aaa
+        AAA server
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3989,7 +3988,8 @@ Examples
                     primary_server_address: string
                     secondary_server_address: string
                     protocol: string
-    - name: Adding the network_aaa and client_and_endpoint_aaa ISE server
+    - name: Adding the network_aaa and client_and_endpoint_aaa
+        ISE server
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

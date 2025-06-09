@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_layer3_virtual_networks_info module -- Information module for Sda Layer3 Virtual Networks Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_layer3_virtual_networks_info module -- Information module for Sda Layer3virtualnetworks
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_layer3\_virtual\_networks\_v1\_info
+- Get all Sda Layer3virtualnetworks.
+- Returns a list of layer 3 virtual networks that match the provided query parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -636,9 +637,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_layer3\_virtual\_networks\_v1,
+   - SDK Method used are sda.Sda.get\_layer3\_virtual\_networks,
    - Paths used are get /dna/intent/api/v1/sda/layer3VirtualNetworks,
-   - It should be noted that this module is an alias of sda\_layer3\_virtual\_networks\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -650,8 +650,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetLayer3VirtualNetworksV1 <https://developer.cisco.com/docs/dna-center/#!get-layer-3-virtual-networks>`_
-       Complete reference of the GetLayer3VirtualNetworksV1 API.
+   `Cisco DNA Center documentation for SDA GetLayer3VirtualNetworks <https://developer.cisco.com/docs/dna-center/#!get-layer-3-virtual-networks>`_
+       Complete reference of the GetLayer3VirtualNetworks API.
 
 .. Examples
 
@@ -661,8 +661,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Layer3 Virtual Networks Info
-      cisco.dnac.sda_layer3_virtual_networks_info:
+    ---
+    - name: Get all Sda Layer3virtualnetworks
+      cisco.dnac.sda_layer3VirtualNetworks_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

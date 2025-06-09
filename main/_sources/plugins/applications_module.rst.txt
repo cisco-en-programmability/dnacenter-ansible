@@ -42,7 +42,7 @@ cisco.dnac.applications module -- Resource module for Applications
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module applications\_v1
+- Manage operations create, update and delete of the resource Applications.
+- Create new Custom application.
+- Delete existing application by its id.
+- Edit the attributes of an existing application.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1387,9 +1390,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.create\_application\_v1, application\_policy.ApplicationPolicy.delete\_application\_v1, application\_policy.ApplicationPolicy.edit\_application\_v1,
+   - SDK Method used are application\_policy.ApplicationPolicy.create\_application, application\_policy.ApplicationPolicy.delete\_application, application\_policy.ApplicationPolicy.edit\_application,
    - Paths used are post /dna/intent/api/v1/applications, delete /dna/intent/api/v1/applications, put /dna/intent/api/v1/applications,
-   - It should be noted that this module is an alias of applications\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1401,12 +1403,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy CreateApplicationV1 <https://developer.cisco.com/docs/dna-center/#!create-application>`_
-       Complete reference of the CreateApplicationV1 API.
-   `Cisco DNA Center documentation for Application Policy DeleteApplicationV1 <https://developer.cisco.com/docs/dna-center/#!delete-application>`_
-       Complete reference of the DeleteApplicationV1 API.
-   `Cisco DNA Center documentation for Application Policy EditApplicationV1 <https://developer.cisco.com/docs/dna-center/#!edit-application>`_
-       Complete reference of the EditApplicationV1 API.
+   `Cisco DNA Center documentation for Application Policy CreateApplication <https://developer.cisco.com/docs/dna-center/#!create-application>`_
+       Complete reference of the CreateApplication API.
+   `Cisco DNA Center documentation for Application Policy DeleteApplication <https://developer.cisco.com/docs/dna-center/#!delete-application>`_
+       Complete reference of the DeleteApplication API.
+   `Cisco DNA Center documentation for Application Policy EditApplication <https://developer.cisco.com/docs/dna-center/#!edit-application>`_
+       Complete reference of the EditApplication API.
 
 .. Examples
 
@@ -1416,6 +1418,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.applications:
         dnac_host: "{{dnac_host}}"

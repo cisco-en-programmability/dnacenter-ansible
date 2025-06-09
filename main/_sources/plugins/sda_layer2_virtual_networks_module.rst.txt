@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_layer2_virtual_networks module -- Resource module for Sda Layer2 Virtual Networks
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_layer2_virtual_networks module -- Resource module for Sda Layer2virtualnetworks
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,11 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_layer2\_virtual\_networks\_v1
+- Manage operations create, update and delete of the resource Sda Layer2virtualnetworks.
+- Adds layer 2 virtual networks based on user input.
+- Deletes a layer 2 virtual network based on id.
+- Deletes layer 2 virtual networks based on user input.
+- Updates layer 2 virtual networks based on user input.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -670,6 +674,158 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/isResourceGuardEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_layer2_virtual_networks_module__parameter-payload/isresourceguardenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isResourceGuardEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/isResourceGuardEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set to true to enable Resource Guard.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/isWirelessFloodingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_layer2_virtual_networks_module__parameter-payload/iswirelessfloodingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isWirelessFloodingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/isWirelessFloodingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set to true to enable wireless flooding. If there is an associated layer 3 virtual network, wireless flooding will default to false and can only be true when fabric-enabled wireless is also true. If there is no associated layer 3 virtual network, wireless flooding will match fabric-enabled wireless.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/layer2FloodingAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_layer2_virtual_networks_module__parameter-payload/layer2floodingaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **layer2FloodingAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/layer2FloodingAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The flooding address to use for layer 2 flooding. The IP address must be in the 239.0.0.0/8 range. This property is applicable only when the flooding address source is set to "CUSTOM".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/layer2FloodingAddressAssignment"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_layer2_virtual_networks_module__parameter-payload/layer2floodingaddressassignment:
+
+      .. rst-class:: ansible-option-title
+
+      **layer2FloodingAddressAssignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/layer2FloodingAddressAssignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The source of the flooding address for layer 2 flooding. "SHARED" means that the layer 2 virtual network will inherit the flooding address from the fabric. "CUSTOM" allows the layer 2 virtual network to use a different flooding address (defaults to "SHARED").
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/trafficType"></div>
 
       .. _ansible_collections.cisco.dnac.sda_layer2_virtual_networks_module__parameter-payload/traffictype:
@@ -924,9 +1080,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_layer2\_virtual\_networks\_v1, sda.Sda.delete\_layer2\_virtual\_network\_by\_id\_v1, sda.Sda.update\_layer2\_virtual\_networks\_v1,
+   - SDK Method used are sda.Sda.add\_layer2\_virtual\_networks, sda.Sda.delete\_layer2\_virtual\_network\_by\_id, sda.Sda.update\_layer2\_virtual\_networks,
    - Paths used are post /dna/intent/api/v1/sda/layer2VirtualNetworks, delete /dna/intent/api/v1/sda/layer2VirtualNetworks, delete /dna/intent/api/v1/sda/layer2VirtualNetworks/{id}, put /dna/intent/api/v1/sda/layer2VirtualNetworks,
-   - It should be noted that this module is an alias of sda\_layer2\_virtual\_networks\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -938,14 +1093,14 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddLayer2VirtualNetworksV1 <https://developer.cisco.com/docs/dna-center/#!add-layer-2-virtual-networks>`_
-       Complete reference of the AddLayer2VirtualNetworksV1 API.
-   `Cisco DNA Center documentation for SDA DeleteLayer2VirtualNetworkByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-network-by-id>`_
-       Complete reference of the DeleteLayer2VirtualNetworkByIdV1 API.
-   `Cisco DNA Center documentation for SDA DeleteLayer2VirtualNetworksV1 <https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-networks>`_
-       Complete reference of the DeleteLayer2VirtualNetworksV1 API.
-   `Cisco DNA Center documentation for SDA UpdateLayer2VirtualNetworksV1 <https://developer.cisco.com/docs/dna-center/#!update-layer-2-virtual-networks>`_
-       Complete reference of the UpdateLayer2VirtualNetworksV1 API.
+   `Cisco DNA Center documentation for SDA AddLayer2VirtualNetworks <https://developer.cisco.com/docs/dna-center/#!add-layer-2-virtual-networks>`_
+       Complete reference of the AddLayer2VirtualNetworks API.
+   `Cisco DNA Center documentation for SDA DeleteLayer2VirtualNetworkById <https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-network-by-id>`_
+       Complete reference of the DeleteLayer2VirtualNetworkById API.
+   `Cisco DNA Center documentation for SDA DeleteLayer2VirtualNetworks <https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-networks>`_
+       Complete reference of the DeleteLayer2VirtualNetworks API.
+   `Cisco DNA Center documentation for SDA UpdateLayer2VirtualNetworks <https://developer.cisco.com/docs/dna-center/#!update-layer-2-virtual-networks>`_
+       Complete reference of the UpdateLayer2VirtualNetworks API.
 
 .. Examples
 
@@ -955,8 +1110,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
-      cisco.dnac.sda_layer2_virtual_networks:
+      cisco.dnac.sda_layer2VirtualNetworks:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -970,11 +1126,15 @@ Examples
             fabricId: string
             isFabricEnabledWireless: true
             isMultipleIpToMacAddresses: true
+            isResourceGuardEnabled: true
+            isWirelessFloodingEnabled: true
+            layer2FloodingAddress: string
+            layer2FloodingAddressAssignment: string
             trafficType: string
             vlanId: 0
             vlanName: string
     - name: Delete all
-      cisco.dnac.sda_layer2_virtual_networks:
+      cisco.dnac.sda_layer2VirtualNetworks:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -989,7 +1149,7 @@ Examples
         vlanId: 0
         vlanName: string
     - name: Update all
-      cisco.dnac.sda_layer2_virtual_networks:
+      cisco.dnac.sda_layer2VirtualNetworks:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1004,11 +1164,15 @@ Examples
             id: string
             isFabricEnabledWireless: true
             isMultipleIpToMacAddresses: true
+            isResourceGuardEnabled: true
+            isWirelessFloodingEnabled: true
+            layer2FloodingAddress: string
+            layer2FloodingAddressAssignment: string
             trafficType: string
             vlanId: 0
             vlanName: string
     - name: Delete by id
-      cisco.dnac.sda_layer2_virtual_networks:
+      cisco.dnac.sda_layer2VirtualNetworks:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

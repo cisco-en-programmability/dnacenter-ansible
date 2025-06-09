@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_devices_top_n_analytics module -- Resource module for Network Devices Top N Analytics
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_devices_top_n_analytics module -- Resource module for Networkdevices Topnanalytics
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_devices\_top\_n\_analytics\_v1
+- Manage operation create of the resource Networkdevices Topnanalytics. - \> Gets the Top N analytics data related to network devices based on the provided input data. This endpoint is valuable to obtain the top-performing or most impacted network devices. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceNetworkDevices-2.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1081,9 +1081,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.gets\_the\_top\_n\_analytics\_data\_related\_to\_network\_devices\_v1,
+   - SDK Method used are devices.Devices.gets\_the\_top\_n\_analytics\_data\_related\_to\_network\_devices,
    - Paths used are post /dna/data/api/v1/networkDevices/topNAnalytics,
-   - It should be noted that this module is an alias of network\_devices\_top\_n\_analytics\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1095,8 +1094,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetsTheTopNAnalyticsDataRelatedToNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!gets-the-top-n-analytics-data-related-to-network-devices>`_
-       Complete reference of the GetsTheTopNAnalyticsDataRelatedToNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Devices GetsTheTopNAnalyticsDataRelatedToNetworkDevices <https://developer.cisco.com/docs/dna-center/#!gets-the-top-n-analytics-data-related-to-network-devices>`_
+       Complete reference of the GetsTheTopNAnalyticsDataRelatedToNetworkDevices API.
 
 .. Examples
 
@@ -1106,8 +1105,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
-      cisco.dnac.network_devices_top_n_analytics:
+      cisco.dnac.networkDevices_topNAnalytics:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

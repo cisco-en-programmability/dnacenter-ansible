@@ -42,7 +42,7 @@ cisco.dnac.wireless_profiles_id_policy_tags_policy_tag_id module -- Resource mod
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_profiles\_id\_policy\_tags\_policy\_tag\_id\_v1
+- Manage operations update and delete of the resource Wireless Profiles Id Policy Tags Policy Tag Id. - \> This endpoint allows for the deletion of a specific \`Policy Tag\` associated with a given \`Wireless Profile\`. This API requires the \`id\` of the \`Wireless Profile\` and the \`policyTagId\` of the \`Policy Tag\` to be provided as path parameters. - \> This endpoint allows updating the details of a specific \`Policy Tag\` associated with a given \`Wireless Profile\`. The \`id\` of the \`Wireless Profile\` and the \`policyTagId\` of the Policy Tag must be provided as path parameters, and the request body should contain the updated details of the \`Policy Tag\`. The \`policyTagName\` cannot be modified through this endpoint. Note When updating a Policy Tag, if the same set of AP Zones apZones is used for the same site or its parent site, the existing Policy Tag will be overridden by the new one.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -601,9 +601,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.delete\_a\_specific\_policy\_tag\_from\_a\_wireless\_profile\_v1, wireless.Wireless.update\_a\_specific\_policy\_tag\_for\_a\_wireless\_profile\_v1,
+   - SDK Method used are wireless.Wireless.delete\_a\_specific\_policy\_tag\_from\_a\_wireless\_profile, wireless.Wireless.update\_a\_specific\_policy\_tag\_for\_a\_wireless\_profile,
    - Paths used are delete /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/{policyTagId}, put /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/{policyTagId},
-   - It should be noted that this module is an alias of wireless\_profiles\_id\_policy\_tags\_policy\_tag\_id\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -615,10 +614,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless DeleteASpecificPolicyTagFromAWirelessProfileV1 <https://developer.cisco.com/docs/dna-center/#!delete-a-specific-policy-tag-from-a-wireless-profile>`_
-       Complete reference of the DeleteASpecificPolicyTagFromAWirelessProfileV1 API.
-   `Cisco DNA Center documentation for Wireless UpdateASpecificPolicyTagForAWirelessProfileV1 <https://developer.cisco.com/docs/dna-center/#!update-a-specific-policy-tag-for-a-wireless-profile>`_
-       Complete reference of the UpdateASpecificPolicyTagForAWirelessProfileV1 API.
+   `Cisco DNA Center documentation for Wireless DeleteASpecificPolicyTagFromAWirelessProfile <https://developer.cisco.com/docs/dna-center/#!delete-a-specific-policy-tag-from-a-wireless-profile>`_
+       Complete reference of the DeleteASpecificPolicyTagFromAWirelessProfile API.
+   `Cisco DNA Center documentation for Wireless UpdateASpecificPolicyTagForAWirelessProfile <https://developer.cisco.com/docs/dna-center/#!update-a-specific-policy-tag-for-a-wireless-profile>`_
+       Complete reference of the UpdateASpecificPolicyTagForAWirelessProfile API.
 
 .. Examples
 
@@ -628,6 +627,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Delete by id
       cisco.dnac.wireless_profiles_id_policy_tags_policy_tag_id:
         dnac_host: "{{dnac_host}}"

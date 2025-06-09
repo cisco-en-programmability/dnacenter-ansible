@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices_workflow_manager module -- Manage SDA fabric devic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2195,7 +2195,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE
+    ---
+    - name: Create SDA fabric device with device role as
+        CONTROL_PLANE_NODE
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2214,7 +2216,8 @@ Examples
               device_config:
                 - device_ip: 10.0.0.1
                   device_roles: [CONTROL_PLANE_NODE]
-    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE
+    - name: Create SDA fabric device with device role as
+        CONTROL_PLANE_NODE, EDGE_NODE
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2233,8 +2236,8 @@ Examples
               device_config:
                 - device_ip: 10.0.0.1
                   device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
-    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE,
-        BORDER_NODE
+    - name: Create SDA fabric device with device role as
+        CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2260,8 +2263,8 @@ Examples
                       import_external_routes: true
                       border_priority: 1
                       prepend_autonomous_system_count: 1
-    - name: Update the SDA fabric device with the device roles with BORDER_NODE and
-        add L2 Handoff
+    - name: Update the SDA fabric device with the device
+        roles with BORDER_NODE and add L2 Handoff
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2291,7 +2294,8 @@ Examples
                       - interface_name: FortyGigabitEthernet1/1/1
                         internal_vlan_id: 550
                         external_vlan_id: 551
-    - name: Add the L3 Handoff with SDA Transit to the SDA fabric device
+    - name: Add the L3 Handoff with SDA Transit to the SDA
+        fabric device
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2317,7 +2321,8 @@ Examples
                       affinity_id_decider: 1
                       connected_to_internet: true
                       is_multicast_over_transit_enabled: false
-    - name: Add L3 Handoff with IP Transit to the SDA fabric device with external_connectivity_ip_pool_name
+    - name: Add L3 Handoff with IP Transit to the SDA fabric
+        device with external_connectivity_ip_pool_name
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2344,8 +2349,8 @@ Examples
                         virtual_network_name: L3VN1
                         vlan_id: 440
                         tcp_mss_adjustment: 501
-    - name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote
-        network
+    - name: Add L3 Handoff with IP Transit to the SDA fabric
+        device with local and remote network
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2401,7 +2406,8 @@ Examples
                       import_external_routes: false
                       border_priority: 1
                       prepend_autonomous_system_count: 3
-    - name: Update the L3 Handoffs with SDA Transit and IP Transit.
+    - name: Update the L3 Handoffs with SDA Transit and
+        IP Transit.
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

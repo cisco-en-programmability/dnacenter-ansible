@@ -42,7 +42,7 @@ cisco.dnac.telemetry_settings_apply module -- Resource module for Telemetry Sett
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module telemetry\_settings\_apply\_v1
+- Manage operation create of the resource Telemetry Settings Apply. - \> Update a devices telemetry settings to conform to the telemetry settings for its site. One Task is created to track the update, for more granular status tracking, split your devices into multiple requests.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +465,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.update\_a\_devices\_telemetry\_settings\_to\_conform\_to\_the\_telemetry\_settings\_for\_its\_site\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.update\_a\_devices\_telemetry\_settings\_to\_conform\_to\_the\_telemetry\_settings\_for\_its\_site,
    - Paths used are post /dna/intent/api/v1/telemetrySettings/apply,
-   - It should be noted that this module is an alias of telemetry\_settings\_apply\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +478,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings UpdateADevicesTelemetrySettingsToConformToTheTelemetrySettingsForItsSiteV1 <https://developer.cisco.com/docs/dna-center/#!update-a-devices-telemetry-settings-to-conform-to-the-telemetry-settings-for-its-site>`_
-       Complete reference of the UpdateADevicesTelemetrySettingsToConformToTheTelemetrySettingsForItsSiteV1 API.
+   `Cisco DNA Center documentation for Network Settings UpdateADevicesTelemetrySettingsToConformToTheTelemetrySettingsForItsSite <https://developer.cisco.com/docs/dna-center/#!update-a-devices-telemetry-settings-to-conform-to-the-telemetry-settings-for-its-site>`_
+       Complete reference of the UpdateADevicesTelemetrySettingsToConformToTheTelemetrySettingsForItsSite API.
 
 .. Examples
 
@@ -490,6 +489,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.telemetry_settings_apply:
         dnac_host: "{{dnac_host}}"

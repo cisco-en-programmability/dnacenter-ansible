@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_settings_rf_profiles_info module -- Information module for Wireless Settings Rf Profiles Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_settings_rf_profiles_info module -- Information module for Wireless Settings Rf Profiles
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_rf\_profiles\_v1\_info
+- Get all Wireless Settings Rf Profiles.
+- Get Wireless Settings Rf Profiles by id.
+- This API allows the user to get a RF Profile by RF Profile ID.
+- This API allows the user to get all RF Profiles.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -728,9 +731,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_rf\_profile\_by\_id\_v1, wireless.Wireless.get\_rf\_profiles\_v1,
+   - SDK Method used are wireless.Wireless.get\_rf\_profile\_by\_id, wireless.Wireless.get\_rf\_profiles,
    - Paths used are get /dna/intent/api/v1/wirelessSettings/rfProfiles, get /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
-   - It should be noted that this module is an alias of wireless\_settings\_rf\_profiles\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -742,10 +744,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetRFProfileByIDV1 <https://developer.cisco.com/docs/dna-center/#!get-rf-profile-by-id>`_
-       Complete reference of the GetRFProfileByIDV1 API.
-   `Cisco DNA Center documentation for Wireless GetRFProfilesV1 <https://developer.cisco.com/docs/dna-center/#!get-rf-profiles>`_
-       Complete reference of the GetRFProfilesV1 API.
+   `Cisco DNA Center documentation for Wireless GetRFProfileByID <https://developer.cisco.com/docs/dna-center/#!get-rf-profile-by-id>`_
+       Complete reference of the GetRFProfileByID API.
+   `Cisco DNA Center documentation for Wireless GetRFProfiles <https://developer.cisco.com/docs/dna-center/#!get-rf-profiles>`_
+       Complete reference of the GetRFProfiles API.
 
 .. Examples
 
@@ -755,7 +757,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Settings Rf Profiles Info
+    ---
+    - name: Get all Wireless Settings Rf Profiles
       cisco.dnac.wireless_settings_rf_profiles_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -772,7 +775,7 @@ Examples
         enableRadioTypeB: true
         enableRadioType6GHz: true
       register: result
-    - name: Get Wireless Settings Rf Profiles Info by id
+    - name: Get Wireless Settings Rf Profiles by id
       cisco.dnac.wireless_settings_rf_profiles_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -844,7 +847,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"defaultRfProfile": true, "enableCustom": true, "enableRadioType6GHz": true, "enableRadioTypeA": true, "enableRadioTypeB": true, "id": "string", "radioType6GHzProperties": {"broadcastProbeResponseInterval": 0, "coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "discoveryFrames6GHz": "string", "enableStandardPowerService": true, "fraProperties": {"clientResetCount": 0, "clientUtilizationThreshold": 0}, "mandatoryDataRates": "string", "maxDbsWidth": 0, "maxPowerLevel": 0, "maxRadioClients": 0, "minDbsWidth": 0, "minPowerLevel": 0, "multiBssidProperties": {"dot11axParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaUpLink": true}, "dot11beParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaMultiRu": true, "ofdmaUpLink": true}, "targetWakeTime": true, "twtBroadcastSupport": true}, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "pscEnforcingEnabled": true, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}}, "radioTypeAProperties": {"channelWidth": "string", "coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "fraProperties": {"clientAware": true, "clientReset": 0, "clientSelect": 0}, "mandatoryDataRates": "string", "maxPowerLevel": 0, "maxRadioClients": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}, "zeroWaitDfsEnable": true}, "radioTypeBProperties": {"coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "mandatoryDataRates": "string", "maxPowerLevel": 0, "maxRadioClients": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}}, "rfProfileName": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"defaultRfProfile": true, "enableCustom": true, "enableRadioType6GHz": true, "enableRadioTypeA": true, "enableRadioTypeB": true, "id": "string", "radioType6GHzProperties": {"broadcastProbeResponseInterval": 0, "coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "discoveryFrames6GHz": "string", "enableStandardPowerService": true, "fraPropertiesC": {"clientResetCount": 0, "clientUtilizationThreshold": 0}, "mandatoryDataRates": "string", "maxDbsWidth": 0, "maxPowerLevel": 0, "maxRadioClients": 0, "minDbsWidth": 0, "minPowerLevel": 0, "multiBssidProperties": {"dot11axParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaUpLink": true}, "dot11beParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaMultiRu": true, "ofdmaUpLink": true}, "targetWakeTime": true, "twtBroadcastSupport": true}, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "pscEnforcingEnabled": true, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}}, "radioTypeAProperties": {"channelWidth": "string", "coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "fraPropertiesA": {"clientAware": true, "clientReset": 0, "clientSelect": 0}, "mandatoryDataRates": "string", "maxPowerLevel": 0, "maxRadioClients": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}, "zeroWaitDfsEnable": true}, "radioTypeBProperties": {"coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "mandatoryDataRates": "string", "maxPowerLevel": 0, "maxRadioClients": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}}, "rfProfileName": "string"}, "version": "string"}`
 
 
       .. raw:: html

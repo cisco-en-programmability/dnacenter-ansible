@@ -42,7 +42,7 @@ cisco.dnac.path_trace_workflow_manager module -- Resource module for managing Pa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1258,8 +1258,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are path\_trace.PathTraceWorkflow.retrieves\_all\_previous\_pathtraces\_summary, path\_trace.PathTraceWorkflow.retrieves\_previous\_pathtraces\_summary, path\_trace.PathTraceWorkflow.initiate\_a\_new\_pathtrace, path\_trace.PathTraceWorkflow.delete\_pathtrace\_by\_id,
-   - API paths used are GET/dna/intent/api/v1/flow-analysis POST/dna/intent/api/v1/flow-analysis GET/dna/intent/api/v1/flow-analysis/{flowAnalysisId} DELETE/dna/intent/api/v1/flow-analysis/{flowAnalysisId}
+   - SDK Method used are path\_trace.PathTraceWorkflow.retrieves\_all\_previous\_pathtraces\_summary, path\_trace.PathTraceWorkflow.retrieves\_previous\_pathtraces\_summary, path\_trace.PathTraceWorkflow.initiate\_a\_new\_pathtrace, path\_trace.PathTraceWorkflow.delete\_pathtrace\_by\_id, - API paths used are GET/dna/intent/api/v1/flow-analysis POST/dna/intent/api/v1/flow-analysis GET/dna/intent/api/v1/flow-analysis/{flowAnalysisId} DELETE/dna/intent/api/v1/flow-analysis/{flowAnalysisId}
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -1282,7 +1281,8 @@ Examples
       gather_facts: false
       connection: local
       tasks:
-        - name: Create and auto-delete path trace on Cisco Catalyst Center
+        - name: Create and auto-delete path trace on Cisco
+            Catalyst Center
           cisco.dnac.path_trace_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -1311,8 +1311,8 @@ Examples
                 periodic_refresh: false  # optional field
                 control_path: false  # optional field
                 delete_on_completion: true  # optional field
-
-        - name: Delete path trace based on source and destination IP
+        - name: Delete path trace based on source and destination
+            IP
           cisco.dnac.path_trace_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -1328,7 +1328,6 @@ Examples
             config:
               - source_ip: "204.1.2.3"  # required field
                 dest_ip: "204.1.2.4"  # required field
-
         - name: Retrieve last path trace
           cisco.dnac.path_trace_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -1346,8 +1345,8 @@ Examples
               - source_ip: "204.1.2.3"  # required field
                 dest_ip: "204.1.2.4"  # required field
                 get_last_pathtrace_result: true
-
-        - name: Retrieve path trace based on the flow analysis id
+        - name: Retrieve path trace based on the flow analysis
+            id
           cisco.dnac.path_trace_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -1367,8 +1366,8 @@ Examples
               - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
                 delete_on_completion: false  # optional field
           register: output_list
-
-        - name: Retrieve and Delete path trace based on the required field
+        - name: Retrieve and Delete path trace based on
+            the required field
           cisco.dnac.path_trace_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -1385,7 +1384,8 @@ Examples
               - source_ip: "204.1.2.3"  # required field
                 dest_ip: "204.1.2.4"  # required field
           register: output_list
-        - name: Delete path trace based on registered flow analysis id
+        - name: Delete path trace based on registered flow
+            analysis id
           cisco.dnac.path_trace_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -1400,8 +1400,8 @@ Examples
             config_verify: true
             config:
               - flow_analysis_id: output_list.request.id
-
-        - name: delete path trace based on the flow analysis id
+        - name: delete path trace based on the flow analysis
+            id
           cisco.dnac.path_trace_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -1419,8 +1419,8 @@ Examples
               # (the "id" from the "request" section), which should be
               # shown in a register.
               - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
-
-        - name: Create/Retrieve Path trace for the config list.
+        - name: Create/Retrieve Path trace for the config
+            list.
           cisco.dnac.path_trace_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -1448,13 +1448,11 @@ Examples
                 periodic_refresh: false  # optional field
                 control_path: false  # optional field
                 delete_on_completion: true  # optional field
-
               - source_ip: "204.1.1.2"  # required field
                 dest_ip: "204.1.2.4"  # required field
                 control_path: false  # optional field
                 get_last_pathtrace_result: true  # optional field
                 delete_on_completion: true  # optional field
-
               - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
 
 

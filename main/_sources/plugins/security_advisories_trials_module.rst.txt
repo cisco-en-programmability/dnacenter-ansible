@@ -42,7 +42,7 @@ cisco.dnac.security_advisories_trials module -- Resource module for Security Adv
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_advisories\_trials\_v1
+- Manage operation create of the resource Security Advisories Trials.
+- Creates a trial for security advisories detection on network devices. The.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -431,9 +432,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.creates\_a\_trial\_for\_security\_advisories\_detection\_on\_network\_devices\_v1,
+   - SDK Method used are compliance.Compliance.creates\_a\_trial\_for\_security\_advisories\_detection\_on\_network\_devices,
    - Paths used are post /dna/intent/api/v1/securityAdvisories/trials,
-   - It should be noted that this module is an alias of security\_advisories\_trials\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -445,8 +445,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance CreatesATrialForSecurityAdvisoriesDetectionOnNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!creates-a-trial-for-security-advisories-detection-on-network-devices>`_
-       Complete reference of the CreatesATrialForSecurityAdvisoriesDetectionOnNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Compliance CreatesATrialForSecurityAdvisoriesDetectionOnNetworkDevices <https://developer.cisco.com/docs/dna-center/#!creates-a-trial-for-security-advisories-detection-on-network-devices>`_
+       Complete reference of the CreatesATrialForSecurityAdvisoriesDetectionOnNetworkDevices API.
 
 .. Examples
 
@@ -456,6 +456,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.security_advisories_trials:
         dnac_host: "{{dnac_host}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_info module -- Information module for Network Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_info module -- Information module for Network
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_v1\_info
+- Get all Network.
+- API to get DHCP and DNS center server details.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.get\_network\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.get\_network,
    - Paths used are get /dna/intent/api/v1/network,
-   - It should be noted that this module is an alias of network\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings GetNetworkV1 <https://developer.cisco.com/docs/dna-center/#!get-network>`_
-       Complete reference of the GetNetworkV1 API.
+   `Cisco DNA Center documentation for Network Settings GetNetwork <https://developer.cisco.com/docs/dna-center/#!get-network>`_
+       Complete reference of the GetNetwork API.
 
 .. Examples
 
@@ -524,7 +524,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Info
+    ---
+    - name: Get all Network
       cisco.dnac.network_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

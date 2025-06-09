@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.endpoint_analytics_endpoints_anc_policy_delete module -- Resource module for Endpoint Analytics Endpoints Anc Policy Delete
+cisco.dnac.endpoint_analytics_endpoints_anc_policy_delete module -- Resource module for Endpoint Analytics Endpoints Anc-Policy Delete
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module endpoint\_analytics\_endpoints\_anc\_policy\_delete\_v1
+- Manage operation delete of the resource Endpoint Analytics Endpoints Anc-Policy Delete.
+- Revokes given ANC policy from the endpoint.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -465,9 +466,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.revoke\_anc\_policy\_v1,
+   - SDK Method used are ai\_endpoint\_analytics.AiEndpointAnalytics.revoke\_anc\_policy,
    - Paths used are delete /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,
-   - It should be noted that this module is an alias of endpoint\_analytics\_endpoints\_anc\_policy\_delete\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for AI Endpoint Analytics RevokeANCPolicyV1 <https://developer.cisco.com/docs/dna-center/#!revoke-anc-policy>`_
-       Complete reference of the RevokeANCPolicyV1 API.
+   `Cisco DNA Center documentation for AI Endpoint Analytics RevokeANCPolicy <https://developer.cisco.com/docs/dna-center/#!revoke-anc-policy>`_
+       Complete reference of the RevokeANCPolicy API.
 
 .. Examples
 
@@ -490,8 +490,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Delete all
-      cisco.dnac.endpoint_analytics_endpoints_anc_policy_delete:
+      cisco.dnac.endpoint_analytics_endpoints_anc-policy_delete:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

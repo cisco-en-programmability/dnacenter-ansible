@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.cisco_imcs_id_info module -- Information module for Cisco Imcs Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.cisco_imcs_id_info module -- Information module for Cisco Imcs Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module cisco\_imcs\_id\_v1\_info
+- Get Cisco Imcs Id by id. - \> This API retrieves the Cisco Integrated Management Controller IMC configuration for a Catalyst Center node, identified by the specified ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are cisco\_i\_m\_c.CiscoIMC.retrieves\_the\_cisco\_i\_m\_c\_configuration\_for\_a\_catalyst\_center\_node\_v1,
+   - SDK Method used are cisco\_i\_m\_c.CiscoIMC.retrieves\_the\_cisco\_i\_m\_c\_configuration\_for\_a\_catalyst\_center\_node,
    - Paths used are get /dna/system/api/v1/ciscoImcs/{id},
-   - It should be noted that this module is an alias of cisco\_imcs\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Cisco IMC RetrievesTheCiscoIMCConfigurationForACatalystCenterNodeV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-cisco-imc-configuration-for-a-catalyst-center-node>`_
-       Complete reference of the RetrievesTheCiscoIMCConfigurationForACatalystCenterNodeV1 API.
+   `Cisco DNA Center documentation for Cisco IMC RetrievesTheCiscoIMCConfigurationForACatalystCenterNode <https://developer.cisco.com/docs/dna-center/#!retrieves-the-cisco-imc-configuration-for-a-catalyst-center-node>`_
+       Complete reference of the RetrievesTheCiscoIMCConfigurationForACatalystCenterNode API.
 
 .. Examples
 
@@ -524,7 +523,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Cisco Imcs Id Info by id
+    ---
+    - name: Get Cisco Imcs Id by id
       cisco.dnac.cisco_imcs_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

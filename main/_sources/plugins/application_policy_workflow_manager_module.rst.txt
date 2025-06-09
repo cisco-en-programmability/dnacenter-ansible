@@ -43,7 +43,7 @@ cisco.dnac.application_policy_workflow_manager module -- Resource module for man
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3278,15 +3278,16 @@ Examples
     
     ---
     # Playbook - application queuing profile - type both ("bandwidth", "dscp")
-
-    - name: Create Enterprise QoS Profile for Optimized Network Performance
+    - name: Create Enterprise QoS Profile for Optimized
+        Network Performance
       hosts: localhost
       connection: local
       gather_facts: false
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Create Enterprise QoS Profile for Optimized Network Performance
+        - name: Create Enterprise QoS Profile for Optimized
+            Network Performance
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -3304,7 +3305,8 @@ Examples
             config:
               - queuing_profile:
                   - profile_name: "Enterprise-QoS-Profile"
-                    profile_description: "QoS profile optimized for business-critical applications"
+                    profile_description: "QoS profile optimized
+                      for business-critical applications"
                     bandwidth_settings:
                       is_common_between_all_interface_speeds: true
                       interface_speed: "ALL"
@@ -3334,17 +3336,17 @@ Examples
                       bulk_data: "10"
                       scavenger: "2"
                       real_time_interactive: "34"
-
     # Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)
-
-    - name: Deploy Enterprise QoS Profile in Cisco Catalyst Center
+    - name: Deploy Enterprise QoS Profile in Cisco Catalyst
+        Center
       hosts: localhost
       connection: local
       gather_facts: false
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Configure Enterprise QoS Profile for Consistent Traffic Prioritization
+        - name: Configure Enterprise QoS Profile for Consistent
+            Traffic Prioritization
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -3362,7 +3364,9 @@ Examples
             config:
               - queuing_profile:
                   - profile_name: "Enterprise-QoS-All-Speeds"
-                    profile_description: "Optimized QoS profile for consistent traffic prioritization across all interface speeds"
+                    profile_description: "Optimized QoS
+                      profile for consistent traffic prioritization
+                      across all interface speeds"
                     bandwidth_settings:
                       is_common_between_all_interface_speeds: true
                       interface_speed: "ALL"
@@ -3379,17 +3383,17 @@ Examples
                         broadcast_video: "2"
                         network_control: "3"
                         bulk_data: "5"
-
     # Playbook - QoS Profile Based on Interface Speeds
-
-    - name: Deploy Interface-Specific QoS Profile in Cisco Catalyst Center
+    - name: Deploy Interface-Specific QoS Profile in Cisco
+        Catalyst Center
       hosts: localhost
       vars_files:
         - "credentials.yml"
       connection: local
       gather_facts: false
       tasks:
-        - name: Configure QoS Profile for Different Interface Speeds
+        - name: Configure QoS Profile for Different Interface
+            Speeds
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{dnac_host}}"
             dnac_username: "{{dnac_username}}"
@@ -3407,7 +3411,9 @@ Examples
             config:
               - queuing_profile:
                   - profile_name: "Enterprise-Speed-Based-QoS"
-                    profile_description: "Optimized traffic prioritization based on interface speed"
+                    profile_description: "Optimized traffic
+                      prioritization based on interface
+                      speed"
                     bandwidth_settings:
                       is_common_between_all_interface_speeds: false
                       interface_speed_settings:
@@ -3495,17 +3501,17 @@ Examples
                             broadcast_video: "2"
                             network_control: "3"
                             bulk_data: "5"
-
     # Playbook - for some interface speeds having common bandwidth percentage
-
-    - name: Configure an Application Queueing Profile for Traffic Prioritization
+    - name: Configure an Application Queueing Profile for
+        Traffic Prioritization
       hosts: localhost
       connection: local
       gather_facts: false
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Create an Application Queueing Profile for Traffic Prioritization
+        - name: Create an Application Queueing Profile for
+            Traffic Prioritization
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -3523,7 +3529,9 @@ Examples
             config:
               - queuing_profile:
                   - profile_name: "Enterprise_Traffic_Policy"
-                    profile_description: "Queueing profile for optimizing enterprise application traffic."
+                    profile_description: "Queueing profile
+                      for optimizing enterprise application
+                      traffic."
                     bandwidth_settings:
                       is_common_between_all_interface_speeds: false
                       interface_speed_settings:
@@ -3583,17 +3591,17 @@ Examples
                             broadcast_video: "2"
                             network_control: "3"
                             bulk_data: "5"
-
     # Playbook - application queuing profile - type dscp
-
-    - name: Configure Application Queuing Profile (DSCP) in Cisco Catalyst Center
+    - name: Configure Application Queuing Profile (DSCP)
+        in Cisco Catalyst Center
       hosts: localhost
       connection: local
       gather_facts: false
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Create an Application Queuing Profile with DSCP Settings
+        - name: Create an Application Queuing Profile with
+            DSCP Settings
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -3611,7 +3619,8 @@ Examples
             config:
               - queuing_profile:
                   - profile_name: "Enterprise_DSCP_Profile"
-                    profile_description: "DSCP-based queuing profile for traffic prioritization."
+                    profile_description: "DSCP-based queuing
+                      profile for traffic prioritization."
                     dscp_settings:
                       multimedia_conferencing: "20"
                       ops_admin_mgmt: "23"
@@ -3625,17 +3634,17 @@ Examples
                       bulk_data: "10"
                       scavenger: "2"
                       real_time_interactive: "34"
-
     # Playbook - update application queuing profile
-
-    - name: Application Queuing Profile update in Cisco Catalyst Center
+    - name: Application Queuing Profile update in Cisco
+        Catalyst Center
       hosts: localhost
       connection: local
       gather_facts: false
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Update Application Queuing Profile in Cisco Catalyst Center
+        - name: Update Application Queuing Profile in Cisco
+            Catalyst Center
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -3654,8 +3663,10 @@ Examples
               - queuing_profile:
                   - profile_name: "Enterprise_Traffic_Profile"  # Existing profile to be updated
                     new_profile_name: "Enterprise_Traffic_Profile_v2"  # New profile name after update
-                    profile_description: "Traffic queuing profile for enterprise applications."
-                    new_profile_description: "Updated queuing profile for optimized traffic management."
+                    profile_description: "Traffic queuing
+                      profile for enterprise applications."
+                    new_profile_description: "Updated queuing
+                      profile for optimized traffic management."
                     bandwidth_settings:
                       is_common_between_all_interface_speeds: true
                       interface_speed: "ALL"
@@ -3685,17 +3696,17 @@ Examples
                       bulk_data: "10"
                       scavenger: "2"
                       real_time_interactive: "34"
-
     # Playbook - delete application queuing profile
-
-    - name: Delete application queuing profile from Cisco Catalyst Center
+    - name: Delete application queuing profile from Cisco
+        Catalyst Center
       hosts: localhost
       connection: local
       gather_facts: false
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Delete application queuing profile from Cisco Catalyst Center
+        - name: Delete application queuing profile from
+            Cisco Catalyst Center
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -3713,9 +3724,7 @@ Examples
             config:
               - queuing_profile:
                   - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
-
     # Playbook - create application - type server_name
-
     - name: Create application on Cisco Catalyst Center
       hosts: localhost
       connection: local
@@ -3723,7 +3732,8 @@ Examples
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Create Application with Server Name on Cisco Catalyst Center
+        - name: Create Application with Server Name on Cisco
+            Catalyst Center
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -3741,7 +3751,8 @@ Examples
             config:
               - application:
                   - name: "Security_Gateway_App"
-                    help_string: "Application for network security and access control"
+                    help_string: "Application for network
+                      security and access control"
                     description: "Security Gateway Application"
                     type: "server_name"
                     server_name: "www.securitygateway.com"
@@ -3750,9 +3761,7 @@ Examples
                     rank: 23
                     engineId: 4
                     application_set_name: "local-services"
-
     # Playbook - create application - type server_ip
-
     - name: Create application on Cisco Catalyst Center
       hosts: localhost
       connection: local
@@ -3760,7 +3769,8 @@ Examples
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Create application with Server IP on Cisco Catalyst Center
+        - name: Create application with Server IP on Cisco
+            Catalyst Center
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -3778,8 +3788,10 @@ Examples
             config:
               - application:
                   - name: "Security_Gateway_IP_App"
-                    help_string: "Security Gateway Application based on IP"
-                    description: "Defines security gateway policies using server IPs"
+                    help_string: "Security Gateway Application
+                      based on IP"
+                    description: "Defines security gateway
+                      policies using server IPs"
                     type: "server_ip"
                     network_identity_setting:
                       protocol: "UDP"
@@ -3793,17 +3805,17 @@ Examples
                     rank: "23"
                     engine_id: "4"
                     application_set_name: "local-services"
-
     # Playbook - create application - type url
-
-    - name: Define and Register Application in Cisco Catalyst Center
+    - name: Define and Register Application in Cisco Catalyst
+        Center
       hosts: localhost
       connection: local
       gather_facts: false
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Create Application with URL Type in Cisco Catalyst Center
+        - name: Create Application with URL Type in Cisco
+            Catalyst Center
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -3821,8 +3833,10 @@ Examples
             config:
               - application:
                   - name: "video_streaming_app"
-                    help_string: "Manages video streaming application traffic"
-                    description: "Defines security gateway policies using server urls"
+                    help_string: "Manages video streaming
+                      application traffic"
+                    description: "Defines security gateway
+                      policies using server urls"
                     type: "url"
                     app_protocol: "TCP"
                     url: "www.videostreaming.com"
@@ -3831,9 +3845,7 @@ Examples
                     rank: "23"
                     engine_id: "4"
                     application_set_name: "local-services"
-
     # Playbook - delete application
-
     - name: Delete application from Cisco Catalyst Center
       hosts: localhost
       connection: local
@@ -3841,7 +3853,8 @@ Examples
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Delete Video Streaming Application from Cisco Catalyst Center
+        - name: Delete Video Streaming Application from
+            Cisco Catalyst Center
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
@@ -3859,10 +3872,9 @@ Examples
             config:
               - application:
                   - name: "video_streaming_app"
-
     # Playbook - create application policy – wired
-
-    - name: Create Wired Application Policy in Cisco Catalyst Center
+    - name: Create Wired Application Policy in Cisco Catalyst
+        Center
       hosts: localhost
       connection: local
       gather_facts: false
@@ -3900,10 +3912,9 @@ Examples
                             application_set_name: ["email", "tunneling"]
                           - relevance: "DEFAULT"
                             application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
-
     # Playbook - create application policy – wireless
-
-    - name: Create Wireless Application Policy in Cisco Catalyst Center
+    - name: Create Wireless Application Policy in Cisco
+        Catalyst Center
       hosts: localhost
       connection: local
       gather_facts: false
@@ -3942,16 +3953,16 @@ Examples
                             application_set_name: ["email", "backup-and-storage"]
                           - relevance: "DEFAULT"
                             application_set_name: ["collaboration-apps", "tunneling", "general-media"]
-
     # Playbook - delete application policy
-
-    - name: Delete Application Policy from Cisco Catalyst Center
+    - name: Delete Application Policy from Cisco Catalyst
+        Center
       hosts: localhost
       connection: local
       vars_files:
         - "credentials.yml"
       tasks:
-        - name: Delete application policy from Cisco Catalyst Center
+        - name: Delete application policy from Cisco Catalyst
+            Center
           cisco.dnac.application_policy_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"

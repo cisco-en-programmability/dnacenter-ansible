@@ -42,7 +42,7 @@ cisco.dnac.ipam_global_ip_address_pools_id module -- Resource module for Ipam Gl
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module ipam\_global\_ip\_address\_pools\_id\_v1
+- Manage operations update and delete of the resource Ipam Global Ip Address Pools Id. - \> Deletes a global IP address pool. A global IP address pool can only be deleted if there are no subpools reserving address space from it.
+- Updates a global IP address pool.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -738,9 +739,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.delete\_a\_global\_ip\_address\_pool\_v1, network\_settings.NetworkSettings.updates\_a\_global\_ip\_address\_pool\_v1,
+   - SDK Method used are network\_settings.NetworkSettings.delete\_a\_global\_ip\_address\_pool, network\_settings.NetworkSettings.updates\_a\_global\_ip\_address\_pool,
    - Paths used are delete /dna/intent/api/v1/ipam/globalIpAddressPools/{id}, put /dna/intent/api/v1/ipam/globalIpAddressPools/{id},
-   - It should be noted that this module is an alias of ipam\_global\_ip\_address\_pools\_id\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -752,10 +752,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings DeleteAGlobalIPAddressPoolV1 <https://developer.cisco.com/docs/dna-center/#!delete-a-global-ip-address-pool>`_
-       Complete reference of the DeleteAGlobalIPAddressPoolV1 API.
-   `Cisco DNA Center documentation for Network Settings UpdatesAGlobalIPAddressPoolV1 <https://developer.cisco.com/docs/dna-center/#!updates-a-global-ip-address-pool>`_
-       Complete reference of the UpdatesAGlobalIPAddressPoolV1 API.
+   `Cisco DNA Center documentation for Network Settings DeleteAGlobalIPAddressPool <https://developer.cisco.com/docs/dna-center/#!delete-a-global-ip-address-pool>`_
+       Complete reference of the DeleteAGlobalIPAddressPool API.
+   `Cisco DNA Center documentation for Network Settings UpdatesAGlobalIPAddressPool <https://developer.cisco.com/docs/dna-center/#!updates-a-global-ip-address-pool>`_
+       Complete reference of the UpdatesAGlobalIPAddressPool API.
 
 .. Examples
 
@@ -765,6 +765,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update by id
       cisco.dnac.ipam_global_ip_address_pools_id:
         dnac_host: "{{dnac_host}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.images_addon_images_info module -- Information module for Images Addon Images Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.images_addon_images_info module -- Information module for Images Addon Images
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module images\_addon\_images\_v1\_info
+- Get all Images Addon Images. - \> Retrieves the list of applicable add-on images if available for the given software image. \`id\` can be obtained from the response of API /dna/intent/api/v1/images?hasAddonImages=true .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -500,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieve\_applicable\_add\_on\_images\_for\_the\_given\_software\_image\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieve\_applicable\_add\_on\_images\_for\_the\_given\_software\_image,
    - Paths used are get /dna/intent/api/v1/images/{id}/addonImages,
-   - It should be noted that this module is an alias of images\_addon\_images\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -514,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveApplicableAddOnImagesForTheGivenSoftwareImageV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-applicable-add-on-images-for-the-given-software-image>`_
-       Complete reference of the RetrieveApplicableAddOnImagesForTheGivenSoftwareImageV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveApplicableAddOnImagesForTheGivenSoftwareImage <https://developer.cisco.com/docs/dna-center/#!retrieve-applicable-add-on-images-for-the-given-software-image>`_
+       Complete reference of the RetrieveApplicableAddOnImagesForTheGivenSoftwareImage API.
 
 .. Examples
 
@@ -525,7 +524,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Images Addon Images Info
+    ---
+    - name: Get all Images Addon Images
       cisco.dnac.images_addon_images_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

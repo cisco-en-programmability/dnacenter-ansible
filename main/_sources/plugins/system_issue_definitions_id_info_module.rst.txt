@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.system_issue_definitions_id_info module -- Information module for System Issue Definitions Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.system_issue_definitions_id_info module -- Information module for System Issue Definitions Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module system\_issue\_definitions\_id\_v1\_info
+- Get System Issue Definitions Id by id. - \> Get system issue defintion for the given id. Definition includes all properties from IssueTriggerDefinition schema by default. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.get\_issue\_trigger\_definition\_for\_given\_id\_v1,
+   - SDK Method used are issues.Issues.get\_issue\_trigger\_definition\_for\_given\_id,
    - Paths used are get /dna/intent/api/v1/systemIssueDefinitions/{id},
-   - It should be noted that this module is an alias of system\_issue\_definitions\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Issues GetIssueTriggerDefinitionForGivenIdV1 <https://developer.cisco.com/docs/dna-center/#!get-issue-trigger-definition-for-given-id>`_
-       Complete reference of the GetIssueTriggerDefinitionForGivenIdV1 API.
+   `Cisco DNA Center documentation for Issues GetIssueTriggerDefinitionForGivenId <https://developer.cisco.com/docs/dna-center/#!get-issue-trigger-definition-for-given-id>`_
+       Complete reference of the GetIssueTriggerDefinitionForGivenId API.
 
 .. Examples
 
@@ -524,7 +523,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get System Issue Definitions Id Info by id
+    ---
+    - name: Get System Issue Definitions Id by id
       cisco.dnac.system_issue_definitions_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

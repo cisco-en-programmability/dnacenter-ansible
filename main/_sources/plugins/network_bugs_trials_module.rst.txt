@@ -42,7 +42,7 @@ cisco.dnac.network_bugs_trials module -- Resource module for Network Bugs Trials
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_bugs\_trials\_v1
+- Manage operation create of the resource Network Bugs Trials.
+- Creates a trial for bugs detection on network devices. The consent to connect.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -431,9 +432,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.creates\_a\_trial\_for\_bugs\_detection\_on\_network\_devices\_v1,
+   - SDK Method used are compliance.Compliance.creates\_a\_trial\_for\_bugs\_detection\_on\_network\_devices,
    - Paths used are post /dna/intent/api/v1/networkBugs/trials,
-   - It should be noted that this module is an alias of network\_bugs\_trials\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -445,8 +445,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance CreatesATrialForBugsDetectionOnNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!creates-a-trial-for-bugs-detection-on-network-devices>`_
-       Complete reference of the CreatesATrialForBugsDetectionOnNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Compliance CreatesATrialForBugsDetectionOnNetworkDevices <https://developer.cisco.com/docs/dna-center/#!creates-a-trial-for-bugs-detection-on-network-devices>`_
+       Complete reference of the CreatesATrialForBugsDetectionOnNetworkDevices API.
 
 .. Examples
 
@@ -456,6 +456,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.network_bugs_trials:
         dnac_host: "{{dnac_host}}"

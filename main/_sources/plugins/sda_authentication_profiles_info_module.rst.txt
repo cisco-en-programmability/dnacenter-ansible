@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_authentication_profiles_info module -- Information module for Sda Authentication Profiles Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_authentication_profiles_info module -- Information module for Sda Authentication Profiles
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module sda\_authentication\_profiles\_v1\_info
+- Get all Sda Authentication Profiles.
+- Returns a list of authentication profiles that match the provided query parameters.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -646,9 +647,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_authentication\_profiles\_v1,
+   - SDK Method used are sda.Sda.get\_authentication\_profiles,
    - Paths used are get /dna/intent/api/v1/sda/authenticationProfiles,
-   - It should be noted that this module is an alias of sda\_authentication\_profiles\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -660,8 +660,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetAuthenticationProfilesV1 <https://developer.cisco.com/docs/dna-center/#!get-authentication-profiles>`_
-       Complete reference of the GetAuthenticationProfilesV1 API.
+   `Cisco DNA Center documentation for SDA GetAuthenticationProfiles <https://developer.cisco.com/docs/dna-center/#!get-authentication-profiles>`_
+       Complete reference of the GetAuthenticationProfiles API.
 
 .. Examples
 
@@ -671,7 +671,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Authentication Profiles Info
+    ---
+    - name: Get all Sda Authentication Profiles
       cisco.dnac.sda_authentication_profiles_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -747,7 +748,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"authenticationOrder": "string", "authenticationProfileName": "string", "dot1xToMabFallbackTimeout": 0, "fabricId": "string", "id": "string", "isBpduGuardEnabled": true, "numberOfHosts": "string", "preAuthAcl": {"accessContracts": [{"action": "string", "port": "string", "protocol": "string"}], "description": "string", "enabled": true, "implicitAction": "string"}, "wakeOnLan": true}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"authenticationOrder": "string", "authenticationProfileName": "string", "dot1xToMabFallbackTimeout": 0, "fabricId": "string", "id": "string", "isBpduGuardEnabled": true, "isVoiceVlanEnabled": true, "numberOfHosts": "string", "preAuthAcl": {"accessContracts": [{"action": "string", "port": "string", "protocol": "string"}], "description": "string", "enabled": true, "implicitAction": "string"}, "wakeOnLan": true}], "version": "string"}`
 
 
       .. raw:: html

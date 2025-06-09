@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_accesspoint_configuration_count_info module -- Information module for Wireless Accesspoint Configuration Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_accesspoint_configuration_count_info module -- Information module for Wireless Accesspoint Configuration Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_accesspoint\_configuration\_count\_v1\_info
+- Get all Wireless Accesspoint Configuration Count.
+- Get Access Point Configuration Count.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -636,9 +637,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_access\_point\_configuration\_count\_v1,
+   - SDK Method used are wireless.Wireless.get\_access\_point\_configuration\_count,
    - Paths used are get /dna/intent/api/v1/wireless/accesspoint-configuration/count,
-   - It should be noted that this module is an alias of wireless\_accesspoint\_configuration\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -650,8 +650,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetAccessPointConfigurationCountV1 <https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-count>`_
-       Complete reference of the GetAccessPointConfigurationCountV1 API.
+   `Cisco DNA Center documentation for Wireless GetAccessPointConfigurationCount <https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-count>`_
+       Complete reference of the GetAccessPointConfigurationCount API.
 
 .. Examples
 
@@ -661,7 +661,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Accesspoint Configuration Count Info
+    ---
+    - name: Get all Wireless Accesspoint Configuration Count
       cisco.dnac.wireless_accesspoint_configuration_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

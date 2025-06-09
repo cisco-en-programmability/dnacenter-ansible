@@ -42,7 +42,7 @@ cisco.dnac.icap_settings_configuration_models_id_delete_deploy module -- Resourc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module icap\_settings\_configuration\_models\_id\_delete\_deploy\_v1
+- Manage operation create of the resource Icap Settings Configuration Models Id Delete Deploy. - \> Creates a ICAP configuration intent to remove the ICAP RFSTATS or ANOMALY configuration from the device. The task has not been applied to the device yet. Subsequent preview-approve workflow APIs must be used to complete the preview-approve process. The path parameter 'id' can be retrieved from \*\*GET /dna/intent/api/v1/icapSettings\*\* API. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-ICAP\_APIs-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.creates\_a\_i\_cap\_configuration\_workflow\_for\_i\_capintent\_to\_remove\_the\_i\_cap\_configuration\_on\_the\_device\_v1,
+   - SDK Method used are sensors.Sensors.creates\_ai\_cap\_configuration\_workflow\_for\_i\_capintent\_to\_remove\_the\_i\_cap\_configuration\_on\_the\_device,
    - Paths used are post /dna/intent/api/v1/icapSettings/configurationModels/{id}/deleteDeploy,
-   - It should be noted that this module is an alias of icap\_settings\_configuration\_models\_id\_delete\_deploy\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sensors CreatesAICAPConfigurationWorkflowForICAPIntentToRemoveTheICAPConfigurationOnTheDeviceV1 <https://developer.cisco.com/docs/dna-center/#!creates-aicap-configuration-workflow-for-icap-intent-to-remove-the-icap-configuration-on-the-device>`_
-       Complete reference of the CreatesAICAPConfigurationWorkflowForICAPIntentToRemoveTheICAPConfigurationOnTheDeviceV1 API.
+   `Cisco DNA Center documentation for Sensors CreatesAICAPConfigurationWorkflowForICAPIntentToRemoveTheICAPConfigurationOnTheDevice <https://developer.cisco.com/docs/dna-center/#!creates-aicap-configuration-workflow-for-icap-intent-to-remove-the-icap-configuration-on-the-device>`_
+       Complete reference of the CreatesAICAPConfigurationWorkflowForICAPIntentToRemoveTheICAPConfigurationOnTheDevice API.
 
 .. Examples
 
@@ -524,6 +523,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.icap_settings_configuration_models_id_delete_deploy:
         dnac_host: "{{dnac_host}}"

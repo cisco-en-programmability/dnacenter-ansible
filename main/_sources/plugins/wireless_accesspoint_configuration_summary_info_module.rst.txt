@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_accesspoint_configuration_summary_info module -- Information module for Wireless Accesspoint Configuration Summary Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_accesspoint_configuration_summary_info module -- Information module for Wireless Accesspoint Configuration Summary
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_accesspoint\_configuration\_summary\_v1\_info
+- Get all Wireless Accesspoint Configuration Summary. - \> Users can query access point configuration information for a specific device by using the Ethernet MAC address as a 'key' filter. If no key is specified, all access point details will be retrieved based on the combination of filters provided.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -739,9 +739,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_access\_point\_configuration\_v1,
+   - SDK Method used are wireless.Wireless.get\_access\_point\_configuration,
    - Paths used are get /dna/intent/api/v1/wireless/accesspoint-configuration/summary,
-   - It should be noted that this module is an alias of wireless\_accesspoint\_configuration\_summary\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -753,8 +752,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetAccessPointConfigurationV1 <https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration>`_
-       Complete reference of the GetAccessPointConfigurationV1 API.
+   `Cisco DNA Center documentation for Wireless GetAccessPointConfiguration <https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration>`_
+       Complete reference of the GetAccessPointConfiguration API.
 
 .. Examples
 
@@ -764,7 +763,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Accesspoint Configuration Summary Info
+    ---
+    - name: Get all Wireless Accesspoint Configuration Summary
       cisco.dnac.wireless_accesspoint_configuration_summary_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -843,7 +843,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"adminStatus": "string", "apHeight": 0, "apMode": "string", "apName": "string", "ethMac": "string", "failoverPriority": "string", "ledBrightnessLevel": 0, "ledStatus": "string", "location": "string", "macAddress": "string", "managementIpAddress": "string", "meshDTOs": [{}], "model": "string", "primaryControllerName": "string", "primaryIpAddress": "string", "provisioned": "string", "reachabilityStatus": "string", "secondaryControllerName": "string", "secondaryIpAddress": "string", "tertiaryControllerName": "string", "tertiaryIpAddress": "string", "wlcIpAddress": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"adminStatus": "string", "apHeight": 0, "apMode": "string", "apName": "string", "ethMac": "string", "failoverPriority": "string", "ledBrightnessLevel": 0, "ledStatus": "string", "location": "string", "macAddress": "string", "managementIpAddress": "string", "meshDTOs": [{}], "model": "string", "primaryControllerName": "string", "primaryIpAddress": "string", "provisioningStatus": "string", "radioDTOs": [{"adminStatus": "string", "antennaAngle": 0, "antennaElevAngle": 0, "antennaGain": 0, "antennaPatternName": "string", "channelAssignmentMode": "string", "channelNumber": 0, "channelWidth": "string", "cleanAirSI": "string", "dualRadioMode": "string", "ifType": 0, "ifTypeValue": "string", "macAddress": "string", "powerAssignmentMode": "string", "powerlevel": 0, "radioBand": {}, "radioRoleAssignment": {}, "slotId": 0}], "reachabilityStatus": "string", "secondaryControllerName": "string", "secondaryIpAddress": "string", "tertiaryControllerName": "string", "tertiaryIpAddress": "string", "wlcIpAddress": "string"}`
 
 
       .. raw:: html

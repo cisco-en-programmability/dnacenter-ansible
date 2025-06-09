@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_bugs_results_trend_count_info module -- Information module for Network Bugs Results Trend Count Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_bugs_results_trend_count_info module -- Information module for Network Bugs Results Trend Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_bugs\_results\_trend\_count\_v1\_info
+- Get all Network Bugs Results Trend Count.
+- Get count of network bugs results trend over time.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +500,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.get\_count\_of\_network\_bugs\_results\_trend\_over\_time\_v1,
+   - SDK Method used are compliance.Compliance.get\_count\_of\_network\_bugs\_results\_trend\_over\_time,
    - Paths used are get /dna/intent/api/v1/networkBugs/resultsTrend/count,
-   - It should be noted that this module is an alias of network\_bugs\_results\_trend\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance GetCountOfNetworkBugsResultsTrendOverTimeV1 <https://developer.cisco.com/docs/dna-center/#!get-count-of-network-bugs-results-trend-over-time>`_
-       Complete reference of the GetCountOfNetworkBugsResultsTrendOverTimeV1 API.
+   `Cisco DNA Center documentation for Compliance GetCountOfNetworkBugsResultsTrendOverTime <https://developer.cisco.com/docs/dna-center/#!get-count-of-network-bugs-results-trend-over-time>`_
+       Complete reference of the GetCountOfNetworkBugsResultsTrendOverTime API.
 
 .. Examples
 
@@ -524,7 +524,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Bugs Results Trend Count Info
+    ---
+    - name: Get all Network Bugs Results Trend Count
       cisco.dnac.network_bugs_results_trend_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

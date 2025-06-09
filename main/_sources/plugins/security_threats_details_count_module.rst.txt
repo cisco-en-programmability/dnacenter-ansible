@@ -42,7 +42,7 @@ cisco.dnac.security_threats_details_count module -- Resource module for Security
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_threats\_details\_count\_v1
+- Manage operation create of the resource Security Threats Details Count.
+- The details count for the Rogue and aWIPS threats.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -711,9 +712,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.threat\_detail\_count\_v1,
+   - SDK Method used are devices.Devices.threat\_detail\_count,
    - Paths used are post /dna/intent/api/v1/security/threats/details/count,
-   - It should be noted that this module is an alias of security\_threats\_details\_count\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -729,6 +729,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.security_threats_details_count:
         dnac_host: "{{dnac_host}}"

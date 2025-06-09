@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_claim module -- Resource module for Pnp Device Claim
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module pnp\_device\_claim\_v1
+- Manage operation create of the resource Pnp Device Claim.
+- Claims one of more devices with specified workflow.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1096,9 +1097,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_device\_v1,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_device,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/claim,
-   - It should be noted that this module is an alias of pnp\_device\_claim\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1110,8 +1110,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDeviceV1 <https://developer.cisco.com/docs/dna-center/#!claim-device>`_
-       Complete reference of the ClaimDeviceV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDevice <https://developer.cisco.com/docs/dna-center/#!claim-device>`_
+       Complete reference of the ClaimDevice API.
 
 .. Examples
 
@@ -1121,6 +1121,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.pnp_device_claim:
         dnac_host: "{{dnac_host}}"

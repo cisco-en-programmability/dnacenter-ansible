@@ -42,7 +42,7 @@ cisco.dnac.assurance_issues_trend_analytics module -- Resource module for Assura
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module assurance\_issues\_trend\_analytics\_v1
+- Manage operation create of the resource Assurance Issues Trend Analytics. - \> Gets the trend analytics data related to issues based on given filters and group by field. This data can be used to find issue counts in different intervals over a period of time. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- IssuesList-1.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1012,9 +1012,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.get\_trend\_analytics\_data\_of\_issues\_v1,
+   - SDK Method used are issues.Issues.get\_trend\_analytics\_data\_of\_issues,
    - Paths used are post /dna/data/api/v1/assuranceIssues/trendAnalytics,
-   - It should be noted that this module is an alias of assurance\_issues\_trend\_analytics\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1026,8 +1025,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Issues GetTrendAnalyticsDataOfIssuesV1 <https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-issues>`_
-       Complete reference of the GetTrendAnalyticsDataOfIssuesV1 API.
+   `Cisco DNA Center documentation for Issues GetTrendAnalyticsDataOfIssues <https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-issues>`_
+       Complete reference of the GetTrendAnalyticsDataOfIssues API.
 
 .. Examples
 
@@ -1037,6 +1036,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.assurance_issues_trend_analytics:
         dnac_host: "{{dnac_host}}"

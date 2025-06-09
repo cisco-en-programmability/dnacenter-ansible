@@ -42,7 +42,7 @@ cisco.dnac.pnp_virtual_account_add module -- Resource module for Pnp Virtual Acc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module pnp\_virtual\_account\_add\_v1
+- Manage operation create of the resource Pnp Virtual Account Add. - \> Registers a Smart Account, Virtual Account and the relevant server profile info with the PnP System & database. The devices present in the registered virtual account are synced with the PnP database as well. The response payload returns the new profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1334,9 +1334,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_virtual\_account\_v1,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_virtual\_account,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-settings/savacct,
-   - It should be noted that this module is an alias of pnp\_virtual\_account\_add\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1348,8 +1347,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccountV1 <https://developer.cisco.com/docs/dna-center/#!add-virtual-account>`_
-       Complete reference of the AddVirtualAccountV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccount <https://developer.cisco.com/docs/dna-center/#!add-virtual-account>`_
+       Complete reference of the AddVirtualAccount API.
 
 .. Examples
 
@@ -1359,6 +1358,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.pnp_virtual_account_add:
         dnac_host: "{{dnac_host}}"

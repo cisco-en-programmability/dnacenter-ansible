@@ -42,7 +42,7 @@ cisco.dnac.events_and_notifications_workflow_manager module -- Configure various
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -4168,6 +4168,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create Rest Webhook destination with given name.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4187,7 +4188,8 @@ Examples
               url: "https://10.195.227.14/dna"
               method: "POST"
               trust_cert: false
-    - name: Updating Rest Webhook destination with given name.
+    - name: Updating Rest Webhook destination with given
+        name.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4291,7 +4293,8 @@ Examples
         config:
           - snmp_destination:
               name: Snmp test
-              description: "Adding snmp destination for testing."
+              description: "Adding snmp destination for
+                testing."
               server_address: "10.30.0.90"
               port: "25"
               snmp_version: "V3"
@@ -4316,12 +4319,14 @@ Examples
         config:
           - snmp_destination:
               name: Snmp test
-              description: "Updating snmp destination with snmp version v2."
+              description: "Updating snmp destination with
+                snmp version v2."
               server_address: "10.30.0.23"
               port: "25"
               snmp_version: "V2C"
               community: "public123"
-    - name: Create ITSM Integration Setting with given name in the system.
+    - name: Create ITSM Integration Setting with given name
+        in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4341,7 +4346,8 @@ Examples
                 url: "http/catalystcenter.com"
                 username: "catalyst"
                 password: "catalyst@123"
-    - name: Updating ITSM Integration Setting with given name in the system.
+    - name: Updating ITSM Integration Setting with given
+        name in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4359,8 +4365,8 @@ Examples
               connection_settings:
                 url: "http/catalystcenterupdate.com"
                 password: "catalyst@123"
-    - name: Creating Webhook Notification with the list of names of subscribed events
-        in the system.
+    - name: Creating Webhook Notification with the list
+        of names of subscribed events in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4375,12 +4381,14 @@ Examples
         config:
           - webhook_event_notification:
               name: "Webhook Notification."
-              description: "Notification for webhook events subscription"
+              description: "Notification for webhook events
+                subscription"
               sites: ["Global/India", "Global/USA"]
-              events: ["AP Flap", "AP Reboot Crash", "Device Updation"]
+              events: ["AP Flap", "AP Reboot Crash", "Device
+                  Updation"]
               destination: "Webhook Demo"
-    - name: Updating Webhook Notification with the list of names of subscribed events
-        in the system.
+    - name: Updating Webhook Notification with the list
+        of names of subscribed events in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4395,11 +4403,12 @@ Examples
         config:
           - webhook_event_notification:
               name: "Webhook Notification."
-              description: "Updated notification for webhook events subscription"
+              description: "Updated notification for webhook
+                events subscription"
               sites: ["Global/India", "Global/USA", "Global/China"]
               destination: "Webhook Demo"
-    - name: Creating Email Notification with the list of names of subscribed events
-        in the system.
+    - name: Creating Email Notification with the list of
+        names of subscribed events in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4414,15 +4423,16 @@ Examples
         config:
           - email_event_notification:
               name: "Email Notification"
-              description: "Notification description for email subscription creation"
+              description: "Notification description for
+                email subscription creation"
               sites: ["Global/India", "Global/USA"]
               events: ["AP Flap", "AP Reboot Crash"]
               sender_email: "catalyst@cisco.com"
               recipient_emails: ["test@cisco.com", "demo@cisco.com"]
               subject: "Mail test"
               instance: Email Instance test
-    - name: Updating Email Notification with the list of names of subscribed events
-        in the system.
+    - name: Updating Email Notification with the list of
+        names of subscribed events in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4437,15 +4447,16 @@ Examples
         config:
           - email_event_notification:
               name: "Email Notification"
-              description: "Notification description for email subscription updation"
+              description: "Notification description for
+                email subscription updation"
               sites: ["Global/India", "Global/USA"]
               events: ["AP Flap", "AP Reboot Crash"]
               sender_email: "catalyst@cisco.com"
               recipient_emails: ["test@cisco.com", "demo@cisco.com", "update@cisco.com"]
               subject: "Mail test for updation"
               instance: Email Instance test
-    - name: Creating Syslog Notification with the list of names of subscribed events
-        in the system.
+    - name: Creating Syslog Notification with the list of
+        names of subscribed events in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4460,12 +4471,13 @@ Examples
         config:
           - syslog_event_notification:
               name: "Syslog Notification."
-              description: "Notification for syslog events subscription"
+              description: "Notification for syslog events
+                subscription"
               sites: ["Global/India", "Global/USA"]
               events: ["AP Flap", "AP Reboot Crash"]
               destination: "Syslog Demo"
-    - name: Updating Syslog Notification with the list of names of subscribed events
-        in the system.
+    - name: Updating Syslog Notification with the list of
+        names of subscribed events in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4480,10 +4492,12 @@ Examples
         config:
           - syslog_event_notification:
               name: "Syslog Notification."
-              description: "Updated notification for syslog events subscription"
+              description: "Updated notification for syslog
+                events subscription"
               sites: ["Global/India", "Global/USA", "Global/China"]
               events: ["AP Flap", "AP Reboot Crash"]
-    - name: Deleting ITSM Integration Setting with given name from the system.
+    - name: Deleting ITSM Integration Setting with given
+        name from the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4498,8 +4512,8 @@ Examples
         config:
           - itsm_setting:
               instance_name: "ITSM test"
-    - name: Deleting Webhook Events Subscription Notification with given name from the
-        system.
+    - name: Deleting Webhook Events Subscription Notification
+        with given name from the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4514,8 +4528,8 @@ Examples
         config:
           - webhook_event_notification:
               name: "Webhook Notification"
-    - name: Deleting Email Events Subscription Notification with given name from the
-        system.
+    - name: Deleting Email Events Subscription Notification
+        with given name from the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4530,8 +4544,8 @@ Examples
         config:
           - email_event_notification:
               name: "Email Notification"
-    - name: Deleting Syslog Events Subscription Notification with given name from the
-        system.
+    - name: Deleting Syslog Events Subscription Notification
+        with given name from the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_replacements_id_info module -- Information module for Network Device Replacements Id Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_replacements_id_info module -- Information module for Network Device Replacements Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module network\_device\_replacements\_id\_v1\_info
+- Get Network Device Replacements Id by id. - \> Fetches the status of the device replacement workflow for a given device replacement \`id\`. Invoke the API \`/dna/intent/api/v1/networkDeviceReplacements\` to \`GET\` the list of all device replacements and use the \`id\` field data as input to this API.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -499,9 +499,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_replacement.DeviceReplacement.retrieve\_the\_status\_of\_device\_replacement\_workflow\_that\_replaces\_a\_faulty\_device\_with\_a\_replacement\_device\_v1,
+   - SDK Method used are device\_replacement.DeviceReplacement.retrieve\_the\_status\_of\_device\_replacement\_workflow\_that\_replaces\_a\_faulty\_device\_with\_a\_replacement\_device,
    - Paths used are get /dna/intent/api/v1/networkDeviceReplacements/{id},
-   - It should be noted that this module is an alias of network\_device\_replacements\_id\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +512,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Replacement RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDeviceV1 <https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-device>`_
-       Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDeviceV1 API.
+   `Cisco DNA Center documentation for Device Replacement RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice <https://developer.cisco.com/docs/dna-center/#!retrieve-the-status- of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-device>`_
+       Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice API.
 
 .. Examples
 
@@ -524,7 +523,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Network Device Replacements Id Info by id
+    ---
+    - name: Get Network Device Replacements Id by id
       cisco.dnac.network_device_replacements_id_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

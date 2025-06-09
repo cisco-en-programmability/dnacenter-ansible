@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_info module -- Information module for Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_info module -- Information module for Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module icap\_settings\_configuration\_models\_preview\_activity\_id\_network\_devices\_network\_device\_id\_config\_v1\_info
+- Get Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config by id. - \> Returns the device's CLIs of the ICAP intent. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center- api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-ICAP\_APIs-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -533,9 +533,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.retrieves\_the\_devices\_clis\_of\_the\_i\_capintent\_v1,
+   - SDK Method used are sensors.Sensors.retrieves\_the\_devices\_clis\_of\_the\_i\_capintent,
    - Paths used are get /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/config,
-   - It should be noted that this module is an alias of icap\_settings\_configuration\_models\_preview\_activity\_id\_network\_devices\_network\_device\_id\_config\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +546,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sensors RetrievesTheDevice'sCLIsOfTheICAPIntentV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-the-device's-cl-is-of-the-icap-intent>`_
-       Complete reference of the RetrievesTheDevice'sCLIsOfTheICAPIntentV1 API.
+   `Cisco DNA Center documentation for Sensors RetrievesTheDevicesCLIsOfTheICAPIntent <https://developer.cisco.com/docs/dna-center/#!retrieves-the-devices-cl-is-of-the-icap-intent>`_
+       Complete reference of the RetrievesTheDevicesCLIsOfTheICAPIntent API.
 
 .. Examples
 
@@ -558,8 +557,10 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Icap Settings Configuration Models Preview Activity Id Network Devices
-        Network Device Id Config Info by id
+    ---
+    - name: Get Icap Settings Configuration Models Preview
+        Activity Id Network Devices Network Device Id Config
+        by id
       cisco.dnac.icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

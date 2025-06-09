@@ -42,7 +42,7 @@ cisco.dnac.security_rogue_additional_details module -- Resource module for Secur
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_rogue\_additional\_details\_v1
+- Manage operation create of the resource Security Rogue Additional Details. - \> This API provides additional information of the rogue threats with details at BSSID level. The additional information includes Switch Port details in case of Rogue on Wire, first time when the rogue is seen in the network etc.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -669,9 +669,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.rogue\_additional\_details\_v1,
+   - SDK Method used are devices.Devices.rogue\_additional\_details,
    - Paths used are post /dna/intent/api/v1/security/rogue/additional/details,
-   - It should be noted that this module is an alias of security\_rogue\_additional\_details\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -683,8 +682,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices RogueAdditionalDetailsV1 <https://developer.cisco.com/docs/dna-center/#!rogue-additional-details>`_
-       Complete reference of the RogueAdditionalDetailsV1 API.
+   `Cisco DNA Center documentation for Devices RogueAdditionalDetails <https://developer.cisco.com/docs/dna-center/#!rogue-additional-details>`_
+       Complete reference of the RogueAdditionalDetails API.
 
 .. Examples
 
@@ -694,6 +693,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.security_rogue_additional_details:
         dnac_host: "{{dnac_host}}"

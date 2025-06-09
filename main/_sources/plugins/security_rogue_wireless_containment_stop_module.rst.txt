@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.security_rogue_wireless_containment_stop module -- Resource module for Security Rogue Wireless Containment Stop
+cisco.dnac.security_rogue_wireless_containment_stop module -- Resource module for Security Rogue Wireless-Containment Stop
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_rogue\_wireless\_containment\_stop\_v1
+- Manage operation create of the resource Security Rogue Wireless-Containment Stop. - \> Intent API to stop the wireless rogue access point containment. This API will stop the containment through single WLC. The response includes the details like WLC and BSSID on which the stop containment has been initiated.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -533,9 +533,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.stop\_wireless\_rogue\_ap\_containment\_v1,
+   - SDK Method used are devices.Devices.stop\_wireless\_rogue\_ap\_containment,
    - Paths used are post /dna/intent/api/v1/security/rogue/wireless-containment/stop,
-   - It should be noted that this module is an alias of security\_rogue\_wireless\_containment\_stop\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +546,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices StopWirelessRogueAPContainmentV1 <https://developer.cisco.com/docs/dna-center/#!stop-wireless-rogue-ap-containment>`_
-       Complete reference of the StopWirelessRogueAPContainmentV1 API.
+   `Cisco DNA Center documentation for Devices StopWirelessRogueAPContainment <https://developer.cisco.com/docs/dna-center/#!stop-wireless-rogue-ap-containment>`_
+       Complete reference of the StopWirelessRogueAPContainment API.
 
 .. Examples
 
@@ -558,8 +557,9 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
-      cisco.dnac.security_rogue_wireless_containment_stop:
+      cisco.dnac.security_rogue_wireless-containment_stop:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

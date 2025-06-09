@@ -42,7 +42,7 @@ cisco.dnac.assurance_issues_query module -- Resource module for Assurance Issues
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module assurance\_issues\_query\_v1
+- Manage operation create of the resource Assurance Issues Query. - \> Returns all details of each issue along with suggested actions for given set of filters specified in request body. If there is no start and/or end time, then end time will be defaulted to current time and start time will be defaulted to 24-hours ago from end time. Https //github.com/cisco-en-programmability/catalyst-center- api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesList-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -841,9 +841,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.get\_the\_details\_of\_issues\_for\_given\_set\_of\_filters\_v1,
+   - SDK Method used are issues.Issues.get\_the\_details\_of\_issues\_for\_given\_set\_of\_filters,
    - Paths used are post /dna/data/api/v1/assuranceIssues/query,
-   - It should be noted that this module is an alias of assurance\_issues\_query\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -855,8 +854,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Issues GetTheDetailsOfIssuesForGivenSetOfFiltersV1 <https://developer.cisco.com/docs/dna-center/#!get-the-details-of-issues-for-given-set-of-filters>`_
-       Complete reference of the GetTheDetailsOfIssuesForGivenSetOfFiltersV1 API.
+   `Cisco DNA Center documentation for Issues GetTheDetailsOfIssuesForGivenSetOfFilters <https://developer.cisco.com/docs/dna-center/#!get-the-details-of-issues-for-given-set-of-filters>`_
+       Complete reference of the GetTheDetailsOfIssuesForGivenSetOfFilters API.
 
 .. Examples
 
@@ -866,6 +865,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.dnac.assurance_issues_query:
         dnac_host: "{{dnac_host}}"

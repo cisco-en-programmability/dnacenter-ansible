@@ -42,7 +42,7 @@ cisco.dnac.reserve_ip_subpool_update module -- Resource module for Reserve Ip Su
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module reserve\_ip\_subpool\_update\_v1
+- Manage operation update of the resource Reserve Ip Subpool Update.
+- API to update ip subpool from the global pool.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -999,10 +1000,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.update\_reserve\_ip\_subpool\_v1,
-   - Paths used are put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
-   - It should be noted that this module is an alias of reserve\_ip\_subpool\_update\_v1
-   - Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options in v4.3.0.
+   - SDK Method used are network\_settings.NetworkSettings.update\_reserve\_ip\_subpool, - |- Paths used are put /dna/intent/api/v1/reserve-ip-subpool/{siteId}, - \> Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options in v4.3.0.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1014,8 +1012,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1 <https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool>`_
-       Complete reference of the UpdateReserveIPSubpoolV1 API.
+   `Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpool <https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool>`_
+       Complete reference of the UpdateReserveIPSubpool API.
 
 .. Examples
 
@@ -1025,6 +1023,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Update by id
       cisco.dnac.reserve_ip_subpool_update:
         dnac_host: "{{dnac_host}}"

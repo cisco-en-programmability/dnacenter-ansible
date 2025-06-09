@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.images_site_wise_product_names_info module -- Information module for Images Site Wise Product Names Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.images_site_wise_product_names_info module -- Information module for Images Site Wise Product Names
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.33.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module images\_site\_wise\_product\_names\_v1\_info
+- Get all Images Site Wise Product Names. - \> Returns a list of network device product names and associated sites for a given image identifier. Refer \`/dna/intent/api/v1/images\` API for obtaining \`imageId\`.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -708,9 +708,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieves\_network\_device\_product\_names\_assigned\_to\_a\_software\_image\_v1,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.retrieves\_network\_device\_product\_names\_assigned\_to\_a\_software\_image,
    - Paths used are get /dna/intent/api/v1/images/{imageId}/siteWiseProductNames,
-   - It should be noted that this module is an alias of images\_site\_wise\_product\_names\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -722,8 +721,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesNetworkDeviceProductNamesAssignedToASoftwareImageV1 <https://developer.cisco.com/docs/dna-center/#!retrieves-network-device-product-names-assigned-to-a-software-image>`_
-       Complete reference of the RetrievesNetworkDeviceProductNamesAssignedToASoftwareImageV1 API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesNetworkDeviceProductNamesAssignedToASoftwareImage <https://developer.cisco.com/docs/dna-center/#!retrieves-network-device-product-names-assigned-to-a-software-image>`_
+       Complete reference of the RetrievesNetworkDeviceProductNamesAssignedToASoftwareImage API.
 
 .. Examples
 
@@ -733,7 +732,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Images Site Wise Product Names Info
+    ---
+    - name: Get all Images Site Wise Product Names
       cisco.dnac.images_site_wise_product_names_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
