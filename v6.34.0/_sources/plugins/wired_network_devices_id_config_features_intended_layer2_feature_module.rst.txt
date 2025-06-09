@@ -1,0 +1,5096 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature module -- Resource module for Wired Network Devices Id Config Features Intended Layer2 Feature
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.18.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operations create, update and delete of the resource Wired Network Devices Id Config Features Intended Layer2 Feature.
+- This API creates configurations for an intended feature on a wired device. Once all the updates to intended features are complete, they can be deployed to a device using the API /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy. When the intended features are deployed, they are applied on top of the existing configurations on the device. Any existing configurations on the device which are not included in the intended features, are retained on the device.
+- This API deletes the configurations for an intended feature on a wired device. Once all the updates to intended features are complete, they can be deployed to a device using the API /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy. When the intended features are deployed, they are applied on top of the existing configurations on the device. Any existing configurations on the device which are not included in the intended features, are retained on the device.
+- This API updates the configurations for an intended feature on a wired device. Updates to other intended features can be done over several iterations. Once all the updates to intended features are complete, they can be deployed to a device using the API /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy. When the intended features are deployed, they are applied on top of the existing configurations on the device. Any existing configurations on the device which are not included in the intended features, are retained on the device.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpGlobalConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpglobalconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **cdpGlobalConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpGlobalConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's cdpGlobalConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpGlobalConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpglobalconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpGlobalConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpGlobalConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpglobalconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpGlobalConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality configured for CDP. Config type CDP\_GLOBAL is for configuring the global settings for CDP.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpGlobalConfig/items/holdTime"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpglobalconfig/items/holdtime:
+
+      .. rst-class:: ansible-option-title
+
+      **holdTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpGlobalConfig/items/holdTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the amount of time a receiving device should hold the information sent by the device before discarding it. Corresponding CLI cdp holdtime \<10-255\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpGlobalConfig/items/isAdvertiseV2Enabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpglobalconfig/items/isadvertisev2enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isAdvertiseV2Enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpGlobalConfig/items/isAdvertiseV2Enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configures CDP to send Version-2 advertisements. The default state is enabled. Corresponding CLI - cdp advertise-v2.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpGlobalConfig/items/isCdpEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpglobalconfig/items/iscdpenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isCdpEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpGlobalConfig/items/isCdpEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enables or disables CDP on the device. Corresponding CLI - cdp run. Default true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpGlobalConfig/items/isLogDuplexMismatchEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpglobalconfig/items/islogduplexmismatchenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isLogDuplexMismatchEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpGlobalConfig/items/isLogDuplexMismatchEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configures the reporting of duplex mismatches generated by CDP for all Ethernet interfaces on the device. Corresponding CLI - cdp log mismatch. Duplex. Default true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpGlobalConfig/items/timer"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpglobalconfig/items/timer:
+
+      .. rst-class:: ansible-option-title
+
+      **timer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpGlobalConfig/items/timer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sets the transmission frequency of CDP updates in seconds. Corresponding CLI - cdp timer \<5-254\>.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpInterfaceConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpinterfaceconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **cdpInterfaceConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpInterfaceConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's cdpInterfaceConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpInterfaceConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpinterfaceconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpInterfaceConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpInterfaceConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpinterfaceconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpInterfaceConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type CDP\_INTERFACE is for configuring CDP on an interface.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpInterfaceConfig/items/interfaceName"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpinterfaceconfig/items/interfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **interfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpInterfaceConfig/items/interfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface name. The API /dna/intent/api/v1/interface/network-device/{deviceId} can be used to get the list of interfaces on a device. Example GigabitEthernet1/0/1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpInterfaceConfig/items/isCdpEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpinterfaceconfig/items/iscdpenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isCdpEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpInterfaceConfig/items/isCdpEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enables or disables CDP on the interface. Corresponding CLI - cdp enable. Default true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cdpInterfaceConfig/items/isLogDuplexMismatchEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-cdpinterfaceconfig/items/islogduplexmismatchenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isLogDuplexMismatchEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cdpInterfaceConfig/items/isLogDuplexMismatchEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configures the reporting of duplex mismatches generated by CDP for all Ethernet interfaces on the device. Corresponding CLI - cdp log mismatch duplex. Default true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **dhcpSnoopingGlobalConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's dhcpSnoopingGlobalConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type DHCP\_SNOOPING\_GLOBAL is for configuring the global settings for DHCP snooping.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items/databaseAgent"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items/databaseagent:
+
+      .. rst-class:: ansible-option-title
+
+      **databaseAgent**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items/databaseAgent" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's databaseAgent.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items/databaseAgent/agentUrl"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items/databaseagent/agenturl:
+
+      .. rst-class:: ansible-option-title
+
+      **agentUrl**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items/databaseAgent/agentUrl" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Example tftp //192.168.1.100/db\_backup Specify the URL for the database agent or the binding file. Corresponding CLI - ip dhcp snooping database .
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items/databaseAgent/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items/databaseagent/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items/databaseAgent/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type DHCP\_SNOOPING\_DATABASE\_AGENT is for configuring DHCP snooping database agent settings on a device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items/databaseAgent/timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items/databaseagent/timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items/databaseAgent/timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specify the duration, in seconds, after which a configuration process will be automatically terminated. Corresponding CLI - ip dhcp snooping database timeout \<0-86400\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items/databaseAgent/writeDelay"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items/databaseagent/writedelay:
+
+      .. rst-class:: ansible-option-title
+
+      **writeDelay**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items/databaseAgent/writeDelay" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      WriteDelay.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items/dhcpSnoopingVlans"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items/dhcpsnoopingvlans:
+
+      .. rst-class:: ansible-option-title
+
+      **dhcpSnoopingVlans**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items/dhcpSnoopingVlans" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable DHCP snooping on VLANs. VLANs can be comma separated and/or a range like '2,4-5,7,10-20'. Corresponding CLI - ip dhcp snooping vlan .
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items/isDhcpSnoopingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items/isdhcpsnoopingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isDhcpSnoopingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items/isDhcpSnoopingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable DHCP snooping globally. Corresponding CLI - ip dhcp snooping.default false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items/isGleaningEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items/isgleaningenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isGleaningEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items/isGleaningEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable DHCP gleaning which allows components to register and glean only DHCP version 4 packets. Corresponding CLI - ip dhcp snooping glean.default false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingGlobalConfig/items/proxyBridgeVlans"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopingglobalconfig/items/proxybridgevlans:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyBridgeVlans**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingGlobalConfig/items/proxyBridgeVlans" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable bridge mode on VLANs. VLANs can be comma separated and/or a range like '2,4-5,7,10-20'. Corresponding CLI - ip dhcp snooping vlan proxy-bridge.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingInterfaceConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopinginterfaceconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **dhcpSnoopingInterfaceConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingInterfaceConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's dhcpSnoopingInterfaceConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingInterfaceConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopinginterfaceconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingInterfaceConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingInterfaceConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopinginterfaceconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingInterfaceConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type DHCP\_SNOOPING\_INTERFACE is for configuring DHCP snooping on an interface.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingInterfaceConfig/items/interfaceName"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopinginterfaceconfig/items/interfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **interfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingInterfaceConfig/items/interfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface name. The API /intent/api/v1/interface/network-device/{deviceId} can be used to get the list of interfaces on a device.example GigabitEthernet1/0/1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingInterfaceConfig/items/isTrustedInterface"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopinginterfaceconfig/items/istrustedinterface:
+
+      .. rst-class:: ansible-option-title
+
+      **isTrustedInterface**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingInterfaceConfig/items/isTrustedInterface" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable Trusted Interface. Corresponding CLI - ip dhcp snooping trust.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dhcpSnoopingInterfaceConfig/items/messageRateLimit"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dhcpsnoopinginterfaceconfig/items/messageratelimit:
+
+      .. rst-class:: ansible-option-title
+
+      **messageRateLimit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dhcpSnoopingInterfaceConfig/items/messageRateLimit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Limit the number of DHCP packets a port can send or receive in a second. This is a protective measure to prevent a single device from overwhelming the DHCP server. Increase the rate limit on trunk ports carrying more than one VLAN. By default, rate limit is disabled. The recommended value is \<= 100. Set the rate-limit as 0 to disable it. Corresponding CLI - ip dhcp snooping limit rate \<1-2048\>.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xGlobalConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xglobalconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **dot1xGlobalConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xGlobalConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's dot1xGlobalConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xGlobalConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xglobalconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xGlobalConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xGlobalConfig/items/authenticationConfigMode"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xglobalconfig/items/authenticationconfigmode:
+
+      .. rst-class:: ansible-option-title
+
+      **authenticationConfigMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xGlobalConfig/items/authenticationConfigMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ReadOnly attribute. Identity-Based Networking Services features are configured in the Cisco common classification policy language (C3PL) display mode. The legacy authentication manager mode is enabled by default. Use this command in EXEC mode to display the current configuration mode. Corresponding CLI - authentication display config-mode. LEGACY - Legacy configuration mode. NEW\_STYLE - Identity-Based Networking Services (IBNS) configuration mode.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xGlobalConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xglobalconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xGlobalConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type DOT1X\_GLOBAL is for global 802.1x settings on a device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xGlobalConfig/items/isDot1xEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xglobalconfig/items/isdot1xenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isDot1xEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xGlobalConfig/items/isDot1xEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Globally enable 802.1x authentication on Switch. Corresponding CLI - dot1x system-auth-control. Default false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xInterfaceConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xinterfaceconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **dot1xInterfaceConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xInterfaceConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's dot1xInterfaceConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xInterfaceConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xinterfaceconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xInterfaceConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xInterfaceConfig/items/authenticationOrder"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xinterfaceconfig/items/authenticationorder:
+
+      .. rst-class:: ansible-option-title
+
+      **authenticationOrder**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xInterfaceConfig/items/authenticationOrder" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's authenticationOrder.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xInterfaceConfig/items/authenticationOrder/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xinterfaceconfig/items/authenticationorder/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xInterfaceConfig/items/authenticationOrder/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ConfigType.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xInterfaceConfig/items/authenticationOrder/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xinterfaceconfig/items/authenticationorder/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xInterfaceConfig/items/authenticationOrder/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Array of Enums. DOT1X, MAB, WEBAUTH.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xInterfaceConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xinterfaceconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xInterfaceConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type DOT1X\_INTERFACE is for configuring 802.1x on an interface.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dot1xInterfaceConfig/items/interfaceName"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-dot1xinterfaceconfig/items/interfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **interfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dot1xInterfaceConfig/items/interfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface name. The API /intent/api/v1/interface/network-device/{deviceId} can be used to get the list of interfaces on a device.example GigabitEthernet1/0/1.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-feature"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-feature:
+
+      .. rst-class:: ansible-option-title
+
+      **feature**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-feature" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Feature path parameter. Name of the feature to delete.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. Network device ID of the wired device to configure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **igmpSnoopingGlobalConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's igmpSnoopingGlobalConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type IGMP\_SNOOPING\_GLOBAL is for configuring global IGMP snooping settings on a device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings:
+
+      .. rst-class:: ansible-option-title
+
+      **igmpSnoopingVlanSettings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's igmpSnoopingVlanSettings.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ConfigType.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type IGMP\_SNOOPING\_VLAN is for configuring IGMP snooping per VLAN.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/igmpSnoopingVlanMrouters"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/igmpsnoopingvlanmrouters:
+
+      .. rst-class:: ansible-option-title
+
+      **igmpSnoopingVlanMrouters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/igmpSnoopingVlanMrouters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's igmpSnoopingVlanMrouters.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/igmpSnoopingVlanMrouters/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/igmpsnoopingvlanmrouters/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/igmpSnoopingVlanMrouters/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of IGMP Snooping Mrouter Settings.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/igmpSnoopingVlanMrouters/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/igmpsnoopingvlanmrouters/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/igmpSnoopingVlanMrouters/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/igmpSnoopingVlanMrouters/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/igmpsnoopingvlanmrouters/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/igmpSnoopingVlanMrouters/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type IGMP\_SNOOPING\_VLAN\_MROUTER is for configuring IGMP snooping mrouter per VLAN.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/igmpSnoopingVlanMrouters/items/interfaceName"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/igmpsnoopingvlanmrouters/items/interfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **interfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/igmpSnoopingVlanMrouters/items/interfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Mrouter interface name. The API /dna/intent/api/v1/interface/network-dev... can be used to get the list of interfaces on a device.example GigabitEthernet1/0/2.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/isIgmpSnoopingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/isigmpsnoopingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isIgmpSnoopingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/isIgmpSnoopingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable IGMP Snooping for a VLAN. Corresponding CLI - ip igmp snooping vlan \<1-4094\>.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/isImmediateLeaveEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/isimmediateleaveenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isImmediateLeaveEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/isImmediateLeaveEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable immediate leave processing for IGMPv2. Corresponding CLI - ip igmp snooping vlan \<vlan-id\> immediate-leave.default false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/isQuerierEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/isquerierenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isQuerierEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/isQuerierEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable IGMP querier for this VLAN. Corresponding CLI - ip igmp snooping vlan \<vlan-id\> querier.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/querierAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/querieraddress:
+
+      .. rst-class:: ansible-option-title
+
+      **querierAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/querierAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IGMP querier source IP address. Corresponding CLI - ip igmp snooping vlan \<vlan-id\> querier address \<ip-address\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/querierQueryInterval"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/querierqueryinterval:
+
+      .. rst-class:: ansible-option-title
+
+      **querierQueryInterval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/querierQueryInterval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set the IGMP querier query interval (in seconds). Corresponding CLI - ip igmp snooping vlan \<vlan-id\> querier query-interval \<1-18000\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/querierVersion"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/querierversion:
+
+      .. rst-class:: ansible-option-title
+
+      **querierVersion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/querierVersion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The switch supports IGMP version 1, IGMP version 2, and IGMP version 3. These versions are interoperable on the switch. For example, if IGMP snooping is enabled and the querier's version is IGMPv2, and the switch receives an IGMPv3 report from a host, then the switch can forward the IGMPv3 report to the multicast router. Corresponding CLI - ip igmp snooping querier version \<1-3\>. IGMP version 1 provides the basic query-response mechanism that allows the multicast device to determine which multicast groups are active and other processes that enable hosts to join and leave a multicast group. IGMP version 2 extends IGMP functionality by providing such features as the IGMP leave process to reduce leave latency, group-specific queries, and an explicit maximum query response time. IGMPv2 also adds the capability for routers to elect the IGMP querier without depending on the multicast protocol to perform this task. An IGMP version 3 switch supports Basic IGMPv3SnoopingSupport (BISS), which includes support for the snooping features on IGMPv1 and IGMPv2 switches and for IGMPv3 membership report messages. BISS constrains the flooding of multicast traffic when your network includes IGMPv3 hosts. It constrains traffic to approximately the same set of ports as the IGMP snooping feature on IGMPv2 or IGMPv hosts. An IGMPv3 switch can receive messages from and forward messages to a device running theSourceSpecific Multicast (SSM) feature.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/vlanId"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/igmpsnoopingvlansettings/items/vlanid:
+
+      .. rst-class:: ansible-option-title
+
+      **vlanId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/igmpSnoopingVlanSettings/items/vlanId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      VLAN ID.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/isIgmpSnoopingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/isigmpsnoopingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isIgmpSnoopingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/isIgmpSnoopingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable global IGMP Snooping. Corresponding CLI - ip igmp snooping.default true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/isQuerierEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/isquerierenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isQuerierEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/isQuerierEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable IGMP Snooping Querier. Corresponding CLI - ip igmp snooping querier.default false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/querierAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/querieraddress:
+
+      .. rst-class:: ansible-option-title
+
+      **querierAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/querierAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure IGMP querier source IP address. Corresponding CLI - ip igmp snooping querier address \<ip-address\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/querierQueryInterval"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/querierqueryinterval:
+
+      .. rst-class:: ansible-option-title
+
+      **querierQueryInterval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/querierQueryInterval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set the IGMP querier query interval (in seconds). Corresponding CLI - ip igmp snooping querier query-interval \<1-18000\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-igmpSnoopingGlobalConfig/items/querierVersion"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-igmpsnoopingglobalconfig/items/querierversion:
+
+      .. rst-class:: ansible-option-title
+
+      **querierVersion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-igmpSnoopingGlobalConfig/items/querierVersion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The switch supports IGMP version 1, IGMP version 2, and IGMP version 3. These versions are interoperable on the switch. For example, if IGMP snooping is enabled and the querier's version is IGMPv2, and the switch receives an IGMPv3 report from a host, then the switch can forward the IGMPv3 report to the multicast router. Corresponding CLI - ip igmp snooping querier version \<1-3\>. IGMP version 1 provides the basic query-response mechanism that allows the multicast device to determine which multicast groups are active and other processes that enable hosts to join and leave a multicast group. IGMP version 2 extends IGMP functionality by providing such features as the IGMP leave process to reduce leave latency, group-specific queries, and an explicit maximum query response time. IGMPv2 also adds the capability for routers to elect the IGMP querier without depending on the multicast protocol to perform this task. An IGMP version 3 switch supports Basic IGMPv3SnoopingSupport (BISS), which includes support for the snooping features on IGMPv1 and IGMPv2 switches and for IGMPv3 membership report messages. BISS constrains the flooding of multicast traffic when your network includes IGMPv3 hosts. It constrains traffic to approximately the same set of ports as the IGMP snooping feature on IGMPv2 or IGMPv1 hosts. An IGMPv3 switch can receive messages from and forward messages to a device running theSourceSpecific Multicast (SSM) feature.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpGlobalConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpglobalconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **lldpGlobalConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpGlobalConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's lldpGlobalConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpGlobalConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpglobalconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpGlobalConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpGlobalConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpglobalconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpGlobalConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality configured for LLDP. Config type LLDP\_GLOBAL is for configuring the global settings for LLDP.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpGlobalConfig/items/holdTime"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpglobalconfig/items/holdtime:
+
+      .. rst-class:: ansible-option-title
+
+      **holdTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpGlobalConfig/items/holdTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the amount of time a receiving device should hold the information sent by the device before discarding it. Corresponding CLI - lldp holdtime $holdTime \<0-32767\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpGlobalConfig/items/isLldpEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpglobalconfig/items/islldpenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isLldpEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpGlobalConfig/items/isLldpEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enables or disables LLDP on the device. Corresponding CLI - lldp run. Default true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpGlobalConfig/items/reinitializationDelay"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpglobalconfig/items/reinitializationdelay:
+
+      .. rst-class:: ansible-option-title
+
+      **reinitializationDelay**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpGlobalConfig/items/reinitializationDelay" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the delay time in seconds for LLDP to initialize on any interface. Corresponding CLI - lldp reinit \<2-5\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpGlobalConfig/items/timer"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpglobalconfig/items/timer:
+
+      .. rst-class:: ansible-option-title
+
+      **timer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpGlobalConfig/items/timer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sets the transmission frequency of LLDP updates in seconds. Corresponding CLI - lldp timer \<5-32767\>.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpInterfaceConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpinterfaceconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **lldpInterfaceConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpInterfaceConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's lldpInterfaceConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpInterfaceConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpinterfaceconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpInterfaceConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpInterfaceConfig/items/adminStatus"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpinterfaceconfig/items/adminstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **adminStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpInterfaceConfig/items/adminStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure the interface to transmit and receive LLDP packets, or disable LLDP on the interface. TRANSMIT\_ONLY - Configure the interface to transmit LLDP packets only. Corresponding CLI - lldp transmit. RECEIVE\_ONLY - Configure the interface to receive LLDP packets only. Corresponding CLI - lldp receive. TRANSMIT\_AND\_RECEIVE - Configure the interface to both transmit and receive LLDP packets. Corresponding CLI - lldp receive; lldp transmit. DISABLED - Disable LLDP functionality on the device, preventing both transmission and reception of LLDP packets.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpInterfaceConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpinterfaceconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpInterfaceConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type LLDP\_INTERFACE is for configuring LLDP on an interface.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lldpInterfaceConfig/items/interfaceName"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-lldpinterfaceconfig/items/interfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **interfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lldpInterfaceConfig/items/interfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface name. The API /intent/api/v1/interface/network-device/{deviceId} can be used to get the list of interfaces on a device. Example GigabitEthernet1/0/1.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mabInterfaceConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mabinterfaceconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **mabInterfaceConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mabInterfaceConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's mabInterfaceConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mabInterfaceConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mabinterfaceconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mabInterfaceConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mabInterfaceConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mabinterfaceconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mabInterfaceConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type MAB\_INTERFACE is for configuring MAB on an interface.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mabInterfaceConfig/items/interfaceName"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mabinterfaceconfig/items/interfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **interfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mabInterfaceConfig/items/interfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface name. The API /intent/api/v1/interface/network-device/{deviceId} can be used to get the list of interfaces on a device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mabInterfaceConfig/items/isMabEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mabinterfaceconfig/items/ismabenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isMabEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mabInterfaceConfig/items/isMabEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable MAC-based authentication on a port. Corresponding CLI - mab. Default false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **mldSnoopingGlobalConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's mldSnoopingGlobalConfig.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type MLD\_SNOOPING\_GLOBAL is for configuring MLD snooping settings on a device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/isMldSnoopingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/ismldsnoopingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isMldSnoopingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/isMldSnoopingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable global MLD Snooping. Corresponding CLI - ipv6 mld snooping.default false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/isQuerierEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/isquerierenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isQuerierEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/isQuerierEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable MLD Snooping Querier. Corresponding CLI - ipv6 mld snooping querier.default false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/isSuppressListenerMessagesEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/issuppresslistenermessagesenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isSuppressListenerMessagesEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/isSuppressListenerMessagesEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      When Listener Message Suppression is enabled, the switch forwards only a single MLD report per multicast router query. Corresponding CLI - ipv6 mld snooping listener-message-suppression.default true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings:
+
+      .. rst-class:: ansible-option-title
+
+      **mldSnoopingVlanSettings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's mldSnoopingVlanSettings.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of MLD Snooping VLAN Settings.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type MLD\_SNOOPING\_VLAN is for configuring MLD snooping per VLAN.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/isImmediateLeaveEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/isimmediateleaveenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isImmediateLeaveEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/isImmediateLeaveEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable immediate leave processing for MLDv1. Corresponding CLI - ipv6 mld snooping vlan \<vlan-id\> immediate-leave.default false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/isMldSnoopingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/ismldsnoopingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isMldSnoopingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/isMldSnoopingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable MLD Snooping for a VLAN. Corresponding CLI - ipv6 mld snooping vlan \<1-4094\>.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/isQuerierEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/isquerierenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isQuerierEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/isQuerierEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable MLD querier for this VLAN. Corresponding CLI - ipv6 mld snooping vlan \<vlan-id\> querier.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/mldSnoopingVlanMrouters"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/mldsnoopingvlanmrouters:
+
+      .. rst-class:: ansible-option-title
+
+      **mldSnoopingVlanMrouters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/mldSnoopingVlanMrouters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's mldSnoopingVlanMrouters.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/mldSnoopingVlanMrouters/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/mldsnoopingvlanmrouters/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/mldSnoopingVlanMrouters/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of MLD Snooping Mrouter Settings.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/mldSnoopingVlanMrouters/items"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/mldsnoopingvlanmrouters/items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/mldSnoopingVlanMrouters/items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/mldSnoopingVlanMrouters/items/configType"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/mldsnoopingvlanmrouters/items/configtype:
+
+      .. rst-class:: ansible-option-title
+
+      **configType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/mldSnoopingVlanMrouters/items/configType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of network functionality under a feature. Config type MLD\_SNOOPING\_VLAN\_MROUTER is for configuring MLD snooping mrouter per VLAN.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/mldSnoopingVlanMrouters/items/interfaceName"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/mldsnoopingvlanmrouters/items/interfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **interfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/mldSnoopingVlanMrouters/items/interfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Mrouter interface name. The API /dna/intent/api/v1/interface/network-dev... can be used to get the list of interfaces on a device.example GigabitEthernet1/0/2.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/querierAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/querieraddress:
+
+      .. rst-class:: ansible-option-title
+
+      **querierAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/querierAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MLD querier source IP address. Corresponding CLI - ipv6 mld snooping vlan \<vlan-id\> querier address \<source-ipv6-address\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/querierQueryInterval"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/querierqueryinterval:
+
+      .. rst-class:: ansible-option-title
+
+      **querierQueryInterval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/querierQueryInterval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set the MLD querier query interval (in seconds). Corresponding CLI - ipv6 mld snooping vlan \<vlan-id\> querier query-interval \<1-18000\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/querierVersion"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/querierversion:
+
+      .. rst-class:: ansible-option-title
+
+      **querierVersion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/querierVersion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure MLD version. Corresponding CLI - ipv6 mld snooping vlan \<vlan-id\> querier version \<1-2\> VERSION\_1 - MLDv1 snooping detects MLDv1 control packets and sets up traffic bridging based on IPv6 destination multicast addresses. MLDv1 supports three types of messages - Listener Queries, Multicast Listener Reports, Multicast Listener Done. VERSION\_2 - MLDv2 basic snooping (MBSS) uses MLDv2 control packets to set up traffic forwarding based on IPv6 destination multicast addresses. MLDv2 supports MLDv2 queries and reports, as well as MLDv1 Report and Done messages.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/vlanId"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/mldsnoopingvlansettings/items/vlanid:
+
+      .. rst-class:: ansible-option-title
+
+      **vlanId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/mldSnoopingVlanSettings/items/vlanId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      VLAN ID.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/querierAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/querieraddress:
+
+      .. rst-class:: ansible-option-title
+
+      **querierAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/querierAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MLD querier source IP address. Corresponding CLI - ipv6 mld snooping querier address \<source-ipv6-address\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/querierQueryInterval"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/querierqueryinterval:
+
+      .. rst-class:: ansible-option-title
+
+      **querierQueryInterval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/querierQueryInterval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set the MLD querier query interval (in seconds). Corresponding CLI - ipv6 mld snooping querier query-interval \<1-18000\>.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mldSnoopingGlobalConfig/items/querierVersion"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-mldsnoopingglobalconfig/items/querierversion:
+
+      .. rst-class:: ansible-option-title
+
+      **querierVersion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mldSnoopingGlobalConfig/items/querierVersion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure the MLD version. Corresponding CLI - ipv6 mld snooping querier version \<1-2\> VERSION\_1 - MLDv1 snooping detects MLDv1 control packets and sets up traffic bridging based on IPv6 destination multicast addresses. MLDv1 supports three types of messages - Listener Queries, Multicast Listener Reports, Multicast Listener Done. VERSION\_2 - MLDv2 basic snooping (MBSS) uses MLDv2 control packets to set up traffic forwarding based on IPv6 destination multicast addresses. MLDv2 supports MLDv2 queries and reports, as well as MLDv1 Report and Done messages.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are wired.Wired.create\_configurations\_for\_an\_intended\_layer2\_feature\_on\_a\_wired\_device, wired.Wired.delete\_configurations\_for\_an\_intended\_layer2\_feature\_on\_a\_wired\_device, wired.Wired.update\_configurations\_for\_an\_intended\_layer2\_feature\_on\_a\_wired\_device,
+   - Paths used are post /dna/intent/api/v1/wired/networkDevices/{id}/configFeatures/intended/layer2/{feature}, delete /dna/intent/api/v1/wired/networkDevices/{id}/configFeatures/intended/layer2/{feature}, put /dna/intent/api/v1/wired/networkDevices/{id}/configFeatures/intended/layer2/{feature},
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Wired CreateConfigurationsForAnIntendedLayer2FeatureOnAWiredDevice <https://developer.cisco.com/docs/dna-center/#!create-configurations-for-an-intended-layer-2-feature-on-a-wired-device>`_
+       Complete reference of the CreateConfigurationsForAnIntendedLayer2FeatureOnAWiredDevice API.
+   `Cisco DNA Center documentation for Wired DeleteConfigurationsForAnIntendedLayer2FeatureOnAWiredDevice <https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-an-intended-layer-2-feature-on-a-wired-device>`_
+       Complete reference of the DeleteConfigurationsForAnIntendedLayer2FeatureOnAWiredDevice API.
+   `Cisco DNA Center documentation for Wired UpdateConfigurationsForAnIntendedLayer2FeatureOnAWiredDevice <https://developer.cisco.com/docs/dna-center/#!update-configurations-for-an-intended-layer-2-feature-on-a-wired-device>`_
+       Complete reference of the UpdateConfigurationsForAnIntendedLayer2FeatureOnAWiredDevice API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Delete by id
+      cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        feature: string
+        id: string
+    - name: Update by id
+      cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        cdpGlobalConfig:
+          items:
+            - - configType: string
+                holdTime: 0
+                isAdvertiseV2Enabled: true
+                isCdpEnabled: true
+                isLogDuplexMismatchEnabled: true
+                timer: 0
+        cdpInterfaceConfig:
+          items:
+            - - configType: string
+                interfaceName: string
+                isCdpEnabled: true
+                isLogDuplexMismatchEnabled: true
+        dhcpSnoopingGlobalConfig:
+          items:
+            - - configType: string
+                databaseAgent:
+                  agentUrl: string
+                  configType: string
+                  timeout: 0
+                  writeDelay: 0
+                dhcpSnoopingVlans: string
+                isDhcpSnoopingEnabled: true
+                isGleaningEnabled: true
+                proxyBridgeVlans: string
+        dhcpSnoopingInterfaceConfig:
+          items:
+            - - configType: string
+                interfaceName: string
+                isTrustedInterface: true
+                messageRateLimit: 0
+        dot1xGlobalConfig:
+          items:
+            - - authenticationConfigMode: string
+                configType: string
+                isDot1xEnabled: true
+        dot1xInterfaceConfig:
+          items:
+            - - authenticationOrder:
+                  configType: string
+                  items:
+                    - string
+                configType: string
+                interfaceName: string
+        feature: string
+        id: string
+        igmpSnoopingGlobalConfig:
+          items:
+            - - configType: string
+                igmpSnoopingVlanSettings:
+                  configType: string
+                  items:
+                    - configType: string
+                      igmpSnoopingVlanMrouters:
+                        configType: string
+                        items:
+                          - configType: string
+                            interfaceName: string
+                      isIgmpSnoopingEnabled: true
+                      isImmediateLeaveEnabled: true
+                      isQuerierEnabled: true
+                      querierAddress: string
+                      querierQueryInterval: 0
+                      querierVersion: string
+                      vlanId: 0
+                isIgmpSnoopingEnabled: true
+                isQuerierEnabled: true
+                querierAddress: string
+                querierQueryInterval: 0
+                querierVersion: string
+        lldpGlobalConfig:
+          items:
+            - - configType: string
+                holdTime: 0
+                isLldpEnabled: true
+                reinitializationDelay: 0
+                timer: 0
+        lldpInterfaceConfig:
+          items:
+            - - adminStatus: string
+                configType: string
+                interfaceName: string
+        mabInterfaceConfig:
+          items:
+            - - configType: string
+                interfaceName: string
+                isMabEnabled: true
+        mldSnoopingGlobalConfig:
+          items:
+            - - configType: string
+                isMldSnoopingEnabled: true
+                isQuerierEnabled: true
+                isSuppressListenerMessagesEnabled: true
+                mldSnoopingVlanSettings:
+                  configType: string
+                  items:
+                    - configType: string
+                      isImmediateLeaveEnabled: true
+                      isMldSnoopingEnabled: true
+                      isQuerierEnabled: true
+                      mldSnoopingVlanMrouters:
+                        configType: string
+                        items:
+                          - configType: string
+                            interfaceName: string
+                      querierAddress: string
+                      querierQueryInterval: 0
+                      querierVersion: string
+                      vlanId: 0
+                querierAddress: string
+                querierQueryInterval: 0
+                querierVersion: string
+        portChannelConfig:
+          items:
+            - - configType: string
+                isAutoEnabled: true
+                lacpSystemPriority: 0
+                loadBalancingMethod: string
+                portchannels:
+                  configType: string
+                  items:
+                    - AnyOf:
+                        EtherchannelConfig:
+                          configType: string
+                          memberPorts:
+                            configType: string
+                            items:
+                              - configType: string
+                                interfaceName: string
+                                mode: string
+                          minLinks: 0
+                          name: string
+                        LacpPortchannelConfig:
+                          configType: string
+                          memberPorts:
+                            configType: string
+                            items:
+                              - configType: string
+                                interfaceName: string
+                                mode: string
+                                portPriority: 0
+                                rate: 0
+                          minLinks: 0
+                          name: string
+                        PagpPortchannelConfig:
+                          configType: string
+                          memberPorts:
+                            configType: string
+                            items:
+                              - configType: string
+                                interfaceName: string
+                                learnMethod: string
+                                mode: string
+                                portPriority: 0
+                          minLinks: 0
+                          name: string
+        stpGlobalConfig:
+          items:
+            - - configType: string
+                isBackboneFastEnabled: true
+                isBpduFilterEnabled: true
+                isBpduGuardEnabled: true
+                isEtherChannelGuardEnabled: true
+                isExtendedSystemIdEnabled: true
+                isLoggingEnabled: true
+                isLoopGuardEnabled: true
+                isUplinkFastEnabled: true
+                portFastMode: string
+                stpInstances:
+                  configType: string
+                  items:
+                    - configType: string
+                      priority: 0
+                      timers:
+                        configType: string
+                        forwardDelay: 0
+                        helloInterval: 0
+                        isStpEnabled: true
+                        maxAge: 0
+                      vlanId: 0
+                stpMode: string
+                transmitHoldCount: 0
+                uplinkFastMaxUpdateRate: 0
+        stpInterfaceConfig:
+          items:
+            - bpduFilter: string
+              bpduGuard: string
+              configType: string
+              guardMode: string
+              interfaceName: string
+              pathCost: 0
+              portFastMode: string
+              portVlanCostSettings:
+                configType: string
+                items:
+                  - configType: string
+                    cost: 0
+                    vlans: string
+              portVlanPrioritySettings:
+                configType: string
+                items:
+                  - configType: string
+                    priority: 0
+                    vlans: string
+              priority: 0
+        switchportInterfaceConfig:
+          items:
+            - - accessVlan: 0
+                adminStatus: string
+                configType: string
+                description: string
+                interfaceName: string
+                mode: string
+                nativeVlan: 0
+                trunkAllowedVlans: string
+                voiceVlan: 0
+        trunkInterfaceConfig:
+          items:
+            - - configType: string
+                interfaceName: string
+                isDtpNegotiationEnabled: true
+                isProtected: true
+                pruneEligibleVlans: string
+        vlanConfig:
+          items:
+            - - configType: string
+                isVlanEnabled: true
+                name: string
+                vlanId: 0
+        vtpGlobalConfig:
+          items:
+            - - configType: string
+                configurationFileName: string
+                domainName: string
+                isPruningEnabled: true
+                mode: string
+                sourceInterface: string
+                version: string
+        vtpInterfaceConfig:
+          items:
+            - - configType: string
+                interfaceName: string
+                isVtpEnabled: true
+    - name: Create
+      cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        cdpGlobalConfig:
+          items:
+            - - configType: string
+                holdTime: 0
+                isAdvertiseV2Enabled: true
+                isCdpEnabled: true
+                isLogDuplexMismatchEnabled: true
+                timer: 0
+        cdpInterfaceConfig:
+          items:
+            - - configType: string
+                interfaceName: string
+                isCdpEnabled: true
+                isLogDuplexMismatchEnabled: true
+        dhcpSnoopingGlobalConfig:
+          items:
+            - - configType: string
+                databaseAgent:
+                  agentUrl: string
+                  configType: string
+                  timeout: 0
+                  writeDelay: 0
+                dhcpSnoopingVlans: string
+                isDhcpSnoopingEnabled: true
+                isGleaningEnabled: true
+                proxyBridgeVlans: string
+        dhcpSnoopingInterfaceConfig:
+          items:
+            - - configType: string
+                interfaceName: string
+                isTrustedInterface: true
+                messageRateLimit: 0
+        dot1xGlobalConfig:
+          items:
+            - - authenticationConfigMode: string
+                configType: string
+                isDot1xEnabled: true
+        dot1xInterfaceConfig:
+          items:
+            - - authenticationOrder:
+                  configType: string
+                  items:
+                    - string
+                configType: string
+                interfaceName: string
+        feature: string
+        id: string
+        igmpSnoopingGlobalConfig:
+          items:
+            - - configType: string
+                igmpSnoopingVlanSettings:
+                  configType: string
+                  items:
+                    - configType: string
+                      igmpSnoopingVlanMrouters:
+                        configType: string
+                        items:
+                          - configType: string
+                            interfaceName: string
+                      isIgmpSnoopingEnabled: true
+                      isImmediateLeaveEnabled: true
+                      isQuerierEnabled: true
+                      querierAddress: string
+                      querierQueryInterval: 0
+                      querierVersion: string
+                      vlanId: 0
+                isIgmpSnoopingEnabled: true
+                isQuerierEnabled: true
+                querierAddress: string
+                querierQueryInterval: 0
+                querierVersion: string
+        lldpGlobalConfig:
+          items:
+            - - configType: string
+                holdTime: 0
+                isLldpEnabled: true
+                reinitializationDelay: 0
+                timer: 0
+        lldpInterfaceConfig:
+          items:
+            - - adminStatus: string
+                configType: string
+                interfaceName: string
+        mabInterfaceConfig:
+          items:
+            - - configType: string
+                interfaceName: string
+                isMabEnabled: true
+        mldSnoopingGlobalConfig:
+          items:
+            - - configType: string
+                isMldSnoopingEnabled: true
+                isQuerierEnabled: true
+                isSuppressListenerMessagesEnabled: true
+                mldSnoopingVlanSettings:
+                  configType: string
+                  items:
+                    - configType: string
+                      isImmediateLeaveEnabled: true
+                      isMldSnoopingEnabled: true
+                      isQuerierEnabled: true
+                      mldSnoopingVlanMrouters:
+                        configType: string
+                        items:
+                          - configType: string
+                            interfaceName: string
+                      querierAddress: string
+                      querierQueryInterval: 0
+                      querierVersion: string
+                      vlanId: 0
+                querierAddress: string
+                querierQueryInterval: 0
+                querierVersion: string
+        portChannelConfig:
+          items:
+            - - configType: string
+                isAutoEnabled: true
+                lacpSystemPriority: 0
+                loadBalancingMethod: string
+                portchannels:
+                  configType: string
+                  items:
+                    - AnyOf:
+                        EtherchannelConfig:
+                          configType: string
+                          memberPorts:
+                            configType: string
+                            items:
+                              - configType: string
+                                interfaceName: string
+                                mode: string
+                          minLinks: 0
+                          name: string
+                        LacpPortchannelConfig:
+                          configType: string
+                          memberPorts:
+                            configType: string
+                            items:
+                              - configType: string
+                                interfaceName: string
+                                mode: string
+                                portPriority: 0
+                                rate: 0
+                          minLinks: 0
+                          name: string
+                        PagpPortchannelConfig:
+                          configType: string
+                          memberPorts:
+                            configType: string
+                            items:
+                              - configType: string
+                                interfaceName: string
+                                learnMethod: string
+                                mode: string
+                                portPriority: 0
+                          minLinks: 0
+                          name: string
+        stpGlobalConfig:
+          items:
+            - - configType: string
+                isBackboneFastEnabled: true
+                isBpduFilterEnabled: true
+                isBpduGuardEnabled: true
+                isEtherChannelGuardEnabled: true
+                isExtendedSystemIdEnabled: true
+                isLoggingEnabled: true
+                isLoopGuardEnabled: true
+                isUplinkFastEnabled: true
+                portFastMode: string
+                stpInstances:
+                  configType: string
+                  items:
+                    - configType: string
+                      priority: 0
+                      timers:
+                        configType: string
+                        forwardDelay: 0
+                        helloInterval: 0
+                        isStpEnabled: true
+                        maxAge: 0
+                      vlanId: 0
+                stpMode: string
+                transmitHoldCount: 0
+                uplinkFastMaxUpdateRate: 0
+        stpInterfaceConfig:
+          items:
+            - bpduFilter: string
+              bpduGuard: string
+              configType: string
+              guardMode: string
+              interfaceName: string
+              pathCost: 0
+              portFastMode: string
+              portVlanCostSettings:
+                configType: string
+                items:
+                  - configType: string
+                    cost: 0
+                    vlans: string
+              portVlanPrioritySettings:
+                configType: string
+                items:
+                  - configType: string
+                    priority: 0
+                    vlans: string
+              priority: 0
+        switchportInterfaceConfig:
+          items:
+            - - accessVlan: 0
+                adminStatus: string
+                configType: string
+                description: string
+                interfaceName: string
+                mode: string
+                nativeVlan: 0
+                trunkAllowedVlans: string
+                voiceVlan: 0
+        trunkInterfaceConfig:
+          items:
+            - - configType: string
+                interfaceName: string
+                isDtpNegotiationEnabled: true
+                isProtected: true
+                pruneEligibleVlans: string
+        vlanConfig:
+          items:
+            - - configType: string
+                isVlanEnabled: true
+                name: string
+                vlanId: 0
+        vtpGlobalConfig:
+          items:
+            - - configType: string
+                configurationFileName: string
+                domainName: string
+                isPruningEnabled: true
+                mode: string
+                sourceInterface: string
+                version: string
+        vtpInterfaceConfig:
+          items:
+            - - configType: string
+                interfaceName: string
+                isVtpEnabled: true
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_network_devices_id_config_features_intended_layer2_feature_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
