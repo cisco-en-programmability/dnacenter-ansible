@@ -403,6 +403,15 @@ options:
                   - Example - Auditors, BYOD, Developers,
                     Guests, etc.
                 type: str
+      device_collection_status_check:
+        description:
+          - Determines whether the module should check the device collection status before proceeding with the configuration.
+          - If set to false, the module skips verifying whether the device collection status is in a valid state
+            ('In Progress' or 'Managed') for configuration.
+          - The default value is true.
+        type: bool
+        default: true
+
 requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
@@ -769,6 +778,65 @@ EXAMPLES = r"""
             ssid_details:
               - ssid_name: "guest_ssid_1"
               - ssid_name: "ent-ssid-2-wpa2"
+- name: Skip collection status check when add/update port assignments, port channels and wireless ssids for a
+    specific fabric site
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - ip_address: "204.1.2.2"
+        # Set device_collection_status_check to false to skip the check
+        device_collection_status_check: false
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
+          - interface_name: "FortyGigabitEthernet1/1/1"
+            connected_device_type: "TRUNKING_DEVICE"
+          - interface_name: "FortyGigabitEthernet1/1/2"
+            connected_device_type: "TRUNKING_DEVICE"
+            authentication_template_name: "No Authentication"
+            interface_description: "Trunk Port"
+        port_channels:
+          - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
+            connected_device_type: "TRUNK"
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-1"
+            ssid_details:
+              - ssid_name: "open1-iac"
+- name: Skip device collection stat when Deleting specific port assignments, port channels
+    and wireless SSID mappings
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - ip_address: "204.1.2.2"
+        # Set device_collection_status_checkwq to false to skip the check
+        device_collection_status_check: false
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
+          - interface_name: "FortyGigabitEthernet1/1/1"
+          - interface_name: "FortyGigabitEthernet1/1/2"
+        port_channels:
+          - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-3"
+            ssid_details:
+              - ssid_name: "ent_ssid_1_wpa3"
 """
 RETURN = r"""
 # Case_1: Success Scenario
@@ -887,11 +955,16 @@ class SDAHostPortOnboarding(DnacBase):
                         "required": False,
                         "options": {
                             "ssid_name": {"type": "str"},
-                            "security_group_name": {"type": "str"},
-                        },
-                    },
-                },
+                            "security_group_name": {"type": "str"}
+                        }
+                    }
+                }
             },
+            "device_collection_status_check": {
+                "type": "bool",
+                "required": False,
+                "default": True
+            }
         }
 
         # Validate params
@@ -910,14 +983,22 @@ class SDAHostPortOnboarding(DnacBase):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def validate_device_exists_and_reachable(self, ip_address, hostname):
+    def validate_device_exists_and_reachable(self, ip_address, hostname, device_collection_status_check):
         """
-        Validates whether a device is present in the Catalyst Center and has an acceptable status.
+        Validates whether a device is present in the Catalyst Center, is reachable, and has an acceptable collection status.
         Args:
             ip_address (str): The IP address of the device to be validated.
             hostname (str): The hostname of the device to be validated.
+            device_collection_status_check (bool): If True, skips the check for the device's collection status.
         Returns:
-            bool: True if the device is reachable and has an acceptable collection status, False otherwise.
+            bool: True if the device is reachable and has an acceptable collection status (or the check is skipped).
+                False if the device is unreachable or has an unacceptable collection status.
+        Description:
+            The function performs the following steps:
+            1. Identifies the device using either its IP address or hostname.
+            2. Fetches device details from the Catalyst Center using the 'get_device_list' API.
+            3. Checks whether the device is reachable.
+            4. Optionally validates the device's collection status unless explicitly skipped.
         """
         device_identifier = ip_address or hostname
         self.log(
@@ -951,27 +1032,44 @@ class SDAHostPortOnboarding(DnacBase):
         reachability_status = device_info.get("reachabilityStatus")
         collection_status = device_info.get("collectionStatus")
 
-        if reachability_status == "Reachable" and collection_status in [
-            "In Progress",
-            "Managed",
-        ]:
+        # Device is not reachable
+        if reachability_status != "Reachable":
+            self.msg = (
+                "Device '{0}' is not reachable. Cannot proceed with port onboarding. "
+                "reachabilityStatus: '{1}', collectionStatus: '{2}'.".format(
+                    device_identifier, reachability_status, collection_status
+                )
+            )
+            return False
+
+        self.log("Device '{0}' is reachable.".format(device_identifier), "INFO")
+
+        # Skip collection status check
+        if not device_collection_status_check:
             self.log(
-                "Device: {0} is reachable and has an acceptable collection status.".format(
+                "Skipping collection status check for device '{0}' as 'device_collection_status_check' is set to False.".format(
                     device_identifier
                 ),
-                "INFO",
+                "INFO"
             )
             return True
 
-        self.msg = (
-            "Cannot perform port onboarding operation on device {0}: "
-            "reachabilityStatus is '{1}', collectionStatus is '{2}'.".format(
-                device_identifier, reachability_status, collection_status
+        # Check collection status
+        if collection_status in ["In Progress", "Managed"]:
+            self.log(
+                "Device '{0}' has an acceptable collection status: '{1}'.".format(device_identifier, collection_status),
+                "INFO"
             )
+            return True
+
+        # Unacceptable collection status
+        self.msg = (
+            "Device '{0}' does not have an acceptable collection status. "
+            "Current collection status: '{1}'.".format(device_identifier, collection_status)
         )
         return False
 
-    def validate_ip_and_hostname(self, ip_address, hostname):
+    def validate_ip_and_hostname(self, ip_address, hostname, device_collection_status_check):
         """
         Validates the provided IP address and hostname.
         Args:
@@ -1007,7 +1105,7 @@ class SDAHostPortOnboarding(DnacBase):
             self.fail_and_exit(self.msg)
 
         # Check if device exists and is reachable in Catalyst Center
-        if not self.validate_device_exists_and_reachable(ip_address, hostname):
+        if not self.validate_device_exists_and_reachable(ip_address, hostname, device_collection_status_check):
             self.fail_and_exit(self.msg)
 
         self.log("Validation successful: Provided IP address or hostname are valid")
@@ -1754,6 +1852,7 @@ class SDAHostPortOnboarding(DnacBase):
         port_assignment_details = config.get("port_assignments")
         port_channel_details = config.get("port_channels")
         wireless_ssids_details = config.get("wireless_ssids")
+        device_collection_status_check = config.get("device_collection_status_check")
 
         if not fabric_site_name_hierarchy:
             self.msg = (
@@ -1762,15 +1861,18 @@ class SDAHostPortOnboarding(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
-        if port_assignment_details or port_channel_details:
+        is_port_operation_requested = bool(port_assignment_details or port_channel_details)
+        is_delete_all_operation = state == "deleted" and (ip_address or hostname)
+
+        if is_port_operation_requested or is_delete_all_operation:
             self.log(
-                "Port assignment/Port Channel operation requested hence validating IP and Hostname.",
-                "DEBUG",
+                "Validation triggered: Port assignment/Port Channel operation requested "
+                "or 'delete all' operation detected. Validating IP and Hostname.",
+                "DEBUG"
             )
-            self.validate_ip_and_hostname(ip_address, hostname)
+            self.validate_ip_and_hostname(ip_address, hostname, device_collection_status_check)
 
         if state == "merged":
-
             # Validate parameters for add/update in port assignments
             if port_assignment_details:
                 for interface in port_assignment_details:
