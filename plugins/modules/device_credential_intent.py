@@ -4,8 +4,9 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on device credentials in Cisco DNA Center."""
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
-__author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
+__author__ = ["Muthu Rakesh, Madhan Sankaranarayanan"]
 DOCUMENTATION = r"""
 ---
 module: device_credential_intent
@@ -701,11 +702,7 @@ class DnacCredential(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.result["response"] = [
-            {
-                "globalCredential": {},
-                "assignCredential": {}
-            }
-        ]
+            {"globalCredential": {}, "assignCredential": {}}]
 
     def validate_input(self):
         """
@@ -735,117 +732,121 @@ class DnacCredential(DnacBase):
         # temp_spec is the specification for the expected structure of configuration parameters
         temp_spec = {
             "global_credential_details": {
-                "type": 'dict',
+                "type": "dict",
                 "cli_credential": {
-                    "type": 'list',
-                    "description": {"type": 'string'},
-                    "username": {"type": 'string'},
-                    "password": {"type": 'string'},
-                    "enable_password": {"type": 'string'},
-                    "old_description": {"type": 'string'},
-                    "old_username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "type": "list",
+                    "description": {"type": "string"},
+                    "username": {"type": "string"},
+                    "password": {"type": "string"},
+                    "enable_password": {"type": "string"},
+                    "old_description": {"type": "string"},
+                    "old_username": {"type": "string"},
+                    "id": {"type": "string"},
                 },
                 "snmp_v2c_read": {
-                    "type": 'list',
-                    "description": {"type": 'string'},
-                    "read_community": {"type": 'string'},
-                    "old_description": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "type": "list",
+                    "description": {"type": "string"},
+                    "read_community": {"type": "string"},
+                    "old_description": {"type": "string"},
+                    "id": {"type": "string"},
                 },
                 "snmp_v2c_write": {
-                    "type": 'list',
-                    "description": {"type": 'string'},
-                    "write_community": {"type": 'string'},
-                    "old_description": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "type": "list",
+                    "description": {"type": "string"},
+                    "write_community": {"type": "string"},
+                    "old_description": {"type": "string"},
+                    "id": {"type": "string"},
                 },
                 "snmp_v3": {
-                    "type": 'list',
-                    "description": {"type": 'string'},
-                    "username": {"type": 'string'},
-                    "snmp_mode": {"type": 'string'},
-                    "auth_type": {"type": 'string'},
-                    "auth_password": {"type": 'string'},
-                    "privacy_type": {"type": 'string'},
-                    "privacy_password": {"type": 'string'},
-                    "old_description": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "type": "list",
+                    "description": {"type": "string"},
+                    "username": {"type": "string"},
+                    "snmp_mode": {"type": "string"},
+                    "auth_type": {"type": "string"},
+                    "auth_password": {"type": "string"},
+                    "privacy_type": {"type": "string"},
+                    "privacy_password": {"type": "string"},
+                    "old_description": {"type": "string"},
+                    "id": {"type": "string"},
                 },
                 "https_read": {
-                    "type": 'list',
-                    "description": {"type": 'string'},
-                    "username": {"type": 'string'},
-                    "password": {"type": 'string'},
-                    "port": {"type": 'integer'},
-                    "old_description": {"type": 'string'},
-                    "old_username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "type": "list",
+                    "description": {"type": "string"},
+                    "username": {"type": "string"},
+                    "password": {"type": "string"},
+                    "port": {"type": "integer"},
+                    "old_description": {"type": "string"},
+                    "old_username": {"type": "string"},
+                    "id": {"type": "string"},
                 },
                 "https_write": {
-                    "type": 'list',
-                    "description": {"type": 'string'},
-                    "username": {"type": 'string'},
-                    "password": {"type": 'string'},
-                    "port": {"type": 'integer'},
-                    "old_description": {"type": 'string'},
-                    "old_username": {"type": 'string'},
-                    "id": {"type": 'string'},
-                }
+                    "type": "list",
+                    "description": {"type": "string"},
+                    "username": {"type": "string"},
+                    "password": {"type": "string"},
+                    "port": {"type": "integer"},
+                    "old_description": {"type": "string"},
+                    "old_username": {"type": "string"},
+                    "id": {"type": "string"},
+                },
             },
             "assign_credentials_to_site": {
-                "type": 'dict',
+                "type": "dict",
                 "cli_credential": {
-                    "type": 'dict',
+                    "type": "dict",
                     "description": {"type: 'string'"},
-                    "username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "username": {"type": "string"},
+                    "id": {"type": "string"},
                 },
                 "snmp_v2c_read": {
-                    "type": 'dict',
+                    "type": "dict",
                     "description": {"type: 'string'"},
-                    "username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "username": {"type": "string"},
+                    "id": {"type": "string"},
                 },
                 "snmp_v2c_write": {
-                    "type": 'dict',
+                    "type": "dict",
                     "description": {"type: 'string'"},
-                    "id": {"type": 'string'},
+                    "id": {"type": "string"},
                 },
                 "snmp_v3": {
-                    "type": 'dict',
+                    "type": "dict",
                     "description": {"type: 'string'"},
-                    "id": {"type": 'string'},
+                    "id": {"type": "string"},
                 },
                 "https_read": {
-                    "type": 'dict',
+                    "type": "dict",
                     "description": {"type: 'string'"},
-                    "username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "username": {"type": "string"},
+                    "id": {"type": "string"},
                 },
                 "https_write": {
-                    "type": 'dict',
+                    "type": "dict",
                     "description": {"type: 'string'"},
-                    "username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "username": {"type": "string"},
+                    "id": {"type": "string"},
                 },
-                "site_name": {
-                    "type": 'list',
-                    "elements": 'string'
-                }
-            }
+                "site_name": {"type": "list", "elements": "string"},
+            },
         }
 
         # Validate playbook params against the specification (temp_spec)
         self.config = self.camel_to_snake_case(self.config)
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        valid_temp, invalid_params = validate_list_of_dicts(
+            self.config, temp_spec)
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
+            self.msg = "Invalid parameters in playbook: {0}".format(
+                "\n".join(invalid_params)
+            )
             self.status = "failed"
             return self
 
         self.validated_config = valid_temp
-        self.log("Successfully validated playbook config params: {0}".format(valid_temp), "INFO")
+        self.log(
+            "Successfully validated playbook config params: {0}".format(
+                valid_temp),
+            "INFO",
+        )
         self.msg = "Successfully validated input from the playbook"
         self.status = "success"
         return self
@@ -865,21 +866,35 @@ class DnacCredential(DnacBase):
         try:
             response = self.dnac._exec(
                 family="sites",
-                function='get_site',
+                function="get_site",
                 op_modifies=True,
                 params={"name": site_name},
             )
-            self.log("Received API response from 'get_site': {0}".format(response), "DEBUG")
+            self.log(
+                "Received API response from 'get_site': {0}".format(
+                    response), "DEBUG"
+            )
             if not response:
-                self.log("Failed to retrieve the site ID for the site name: {0}"
-                         .format(site_name), "ERROR")
+                self.log(
+                    "Failed to retrieve the site ID for the site name: {0}".format(
+                        site_name
+                    ),
+                    "ERROR",
+                )
                 return None
 
             _id = response.get("response")[0].get("id")
-            self.log("Site ID for the site name {0}: {1}".format(site_name, _id), "INFO")
+            self.log(
+                "Site ID for the site name {0}: {1}".format(
+                    site_name, _id), "INFO"
+            )
         except Exception as e:
-            self.log("Exception occurred while getting site_id from the site_name: {0}"
-                     .format(e), "CRITICAL")
+            self.log(
+                "Exception occurred while getting site_id from the site_name: {0}".format(
+                    e
+                ),
+                "CRITICAL",
+            )
             return None
 
         return _id
@@ -898,14 +913,21 @@ class DnacCredential(DnacBase):
         try:
             global_credentials = self.dnac._exec(
                 family="discovery",
-                function='get_all_global_credentials_v2',
+                function="get_all_global_credentials_v2",
             )
             global_credentials = global_credentials.get("response")
-            self.log("All global device credentials details: {0}"
-                     .format(global_credentials), "DEBUG")
+            self.log(
+                "All global device credentials details: {0}".format(
+                    global_credentials),
+                "DEBUG",
+            )
         except Exception as e:
-            self.log("Exception occurred while getting global device credentials: {0}"
-                     .format(e), "CRITICAL")
+            self.log(
+                "Exception occurred while getting global device credentials: {0}".format(
+                    e
+                ),
+                "CRITICAL",
+            )
             return None
 
         return global_credentials
@@ -930,7 +952,7 @@ class DnacCredential(DnacBase):
                 value = {
                     "username": item.get("username"),
                     "description": item.get("description"),
-                    "id": item.get("id")
+                    "id": item.get("id"),
                 }
                 cliCredential.append(value)
         return cliCredential
@@ -954,10 +976,8 @@ class DnacCredential(DnacBase):
             if item is None:
                 snmpV2cRead.append(None)
             else:
-                value = {
-                    "description": item.get("description"),
-                    "id": item.get("id")
-                }
+                value = {"description": item.get(
+                    "description"), "id": item.get("id")}
                 snmpV2cRead.append(value)
         return snmpV2cRead
 
@@ -980,10 +1000,8 @@ class DnacCredential(DnacBase):
             if item is None:
                 snmpV2cWrite.append(None)
             else:
-                value = {
-                    "description": item.get("description"),
-                    "id": item.get("id")
-                }
+                value = {"description": item.get(
+                    "description"), "id": item.get("id")}
                 snmpV2cWrite.append(value)
         return snmpV2cWrite
 
@@ -1010,7 +1028,7 @@ class DnacCredential(DnacBase):
                     "description": item.get("description"),
                     "username": item.get("username"),
                     "port": item.get("port"),
-                    "id": item.get("id")
+                    "id": item.get("id"),
                 }
                 httpsRead.append(value)
         return httpsRead
@@ -1038,7 +1056,7 @@ class DnacCredential(DnacBase):
                     "description": item.get("description"),
                     "username": item.get("username"),
                     "port": item.get("port"),
-                    "id": item.get("id")
+                    "id": item.get("id"),
                 }
                 httpsWrite.append(value)
         return httpsWrite
@@ -1069,10 +1087,12 @@ class DnacCredential(DnacBase):
                 if value.get("snmpMode") == "AUTHNOPRIV":
                     value["authType"] = item.get("authType")
                 elif value.get("snmpMode") == "AUTHPRIV":
-                    value.update({
-                        "authType": item.get("authType"),
-                        "privacyType": item.get("privacyType")
-                    })
+                    value.update(
+                        {
+                            "authType": item.get("authType"),
+                            "privacyType": item.get("privacyType"),
+                        }
+                    )
                 snmpV3.append(value)
         return snmpV3
 
@@ -1111,8 +1131,10 @@ class DnacCredential(DnacBase):
                 cliOldUsername = cliCredential.get("old_username")
                 if cliOldDescription and cliOldUsername and (not cliDetail):
                     for item in cli_details:
-                        if item.get("description") == cliOldDescription \
-                                and item.get("username") == cliOldUsername:
+                        if (
+                            item.get("description") == cliOldDescription
+                            and item.get("username") == cliOldUsername
+                        ):
                             if cliDetail:
                                 self.msg = "More than one CLI credential with same \
                                             old_description and old_username. Pass ID."
@@ -1120,7 +1142,9 @@ class DnacCredential(DnacBase):
                                 return self
                             cliDetail = item
                     if not cliDetail:
-                        self.msg = "CLI credential old_description or old_username is invalid"
+                        self.msg = (
+                            "CLI credential old_description or old_username is invalid"
+                        )
                         self.status = "failed"
                         return self
 
@@ -1128,8 +1152,10 @@ class DnacCredential(DnacBase):
                 cliUsername = cliCredential.get("username")
                 if cliDescription and cliUsername and (not cliDetail):
                     for item in cli_details:
-                        if item.get("description") == cliDescription \
-                                and item.get("username") == cliUsername:
+                        if (
+                            item.get("description") == cliDescription
+                            and item.get("username") == cliUsername
+                        ):
                             if cliDetail:
                                 self.msg = "More than one CLI Credential with same \
                                             description and username. Pass ID."
@@ -1164,30 +1190,30 @@ class DnacCredential(DnacBase):
                 snmpV2cReadDetail = None
                 snmpV2cReadId = snmpV2cReadCredential.get("id")
                 if snmpV2cReadId:
-                    snmpV2cReadDetail = get_dict_result(snmpV2cRead_details, "id", snmpV2cReadId)
+                    snmpV2cReadDetail = get_dict_result(
+                        snmpV2cRead_details, "id", snmpV2cReadId
+                    )
                     if not snmpV2cReadDetail:
                         self.msg = "snmpV2cRead credential ID is invalid"
                         self.status = "failed"
                         return self
 
-                snmpV2cReadOldDescription = snmpV2cReadCredential.get("old_description")
+                snmpV2cReadOldDescription = snmpV2cReadCredential.get(
+                    "old_description")
                 if snmpV2cReadOldDescription and (not snmpV2cReadDetail):
                     snmpV2cReadDetail = get_dict_result(
-                        snmpV2cRead_details,
-                        "description",
-                        snmpV2cReadOldDescription
+                        snmpV2cRead_details, "description", snmpV2cReadOldDescription
                     )
                     if not snmpV2cReadDetail:
                         self.msg = "snmpV2cRead credential old_description is invalid"
                         self.status = "failed"
                         return self
 
-                snmpV2cReadDescription = snmpV2cReadCredential.get("description")
+                snmpV2cReadDescription = snmpV2cReadCredential.get(
+                    "description")
                 if snmpV2cReadDescription and (not snmpV2cReadDetail):
                     snmpV2cReadDetail = get_dict_result(
-                        snmpV2cRead_details,
-                        "description",
-                        snmpV2cReadDescription
+                        snmpV2cRead_details, "description", snmpV2cReadDescription
                     )
                 snmpV2cReadDetails.append(snmpV2cReadDetail)
         return snmpV2cReadDetails
@@ -1217,30 +1243,31 @@ class DnacCredential(DnacBase):
                 snmpV2cWriteDetail = None
                 snmpV2cWriteId = snmpV2cWriteCredential.get("id")
                 if snmpV2cWriteId:
-                    snmpV2cWriteDetail = get_dict_result(snmpV2cWrite_details, "id", snmpV2cWriteId)
+                    snmpV2cWriteDetail = get_dict_result(
+                        snmpV2cWrite_details, "id", snmpV2cWriteId
+                    )
                     if not snmpV2cWriteDetail:
                         self.msg = "snmpV2cWrite credential ID is invalid"
                         self.status = "failed"
                         return self
 
-                snmpV2cWriteOldDescription = snmpV2cWriteCredential.get("old_description")
+                snmpV2cWriteOldDescription = snmpV2cWriteCredential.get(
+                    "old_description"
+                )
                 if snmpV2cWriteOldDescription and (not snmpV2cWriteDetail):
                     snmpV2cWriteDetail = get_dict_result(
-                        snmpV2cWrite_details,
-                        "description",
-                        snmpV2cWriteOldDescription
+                        snmpV2cWrite_details, "description", snmpV2cWriteOldDescription
                     )
                     if not snmpV2cWriteDetail:
                         self.msg = "snmpV2cWrite credential old_description is invalid "
                         self.status = "failed"
                         return self
 
-                snmpV2cWriteDescription = snmpV2cWriteCredential.get("description")
+                snmpV2cWriteDescription = snmpV2cWriteCredential.get(
+                    "description")
                 if snmpV2cWriteDescription and (not snmpV2cWriteDetail):
                     snmpV2cWriteDetail = get_dict_result(
-                        snmpV2cWrite_details,
-                        "description",
-                        snmpV2cWriteDescription
+                        snmpV2cWrite_details, "description", snmpV2cWriteDescription
                     )
                 snmpV2cWriteDetails.append(snmpV2cWriteDetail)
         return snmpV2cWriteDetails
@@ -1270,18 +1297,27 @@ class DnacCredential(DnacBase):
                 httpsReadDetail = None
                 httpsReadId = httpsReadCredential.get("id")
                 if httpsReadId:
-                    httpsReadDetail = get_dict_result(httpsRead_details, "id", httpsReadId)
+                    httpsReadDetail = get_dict_result(
+                        httpsRead_details, "id", httpsReadId
+                    )
                     if not httpsReadDetail:
                         self.msg = "httpsRead credential Id is invalid"
                         self.status = "failed"
                         return self
 
-                httpsReadOldDescription = httpsReadCredential.get("old_description")
+                httpsReadOldDescription = httpsReadCredential.get(
+                    "old_description")
                 httpsReadOldUsername = httpsReadCredential.get("old_username")
-                if httpsReadOldDescription and httpsReadOldUsername and (not httpsReadDetail):
+                if (
+                    httpsReadOldDescription
+                    and httpsReadOldUsername
+                    and (not httpsReadDetail)
+                ):
                     for item in httpsRead_details:
-                        if item.get("description") == httpsReadOldDescription \
-                                and item.get("username") == httpsReadOldUsername:
+                        if (
+                            item.get("description") == httpsReadOldDescription
+                            and item.get("username") == httpsReadOldUsername
+                        ):
                             if httpsReadDetail:
                                 self.msg = "More than one httpsRead credential with same \
                                             old_description and old_username. Pass ID."
@@ -1297,8 +1333,10 @@ class DnacCredential(DnacBase):
                 httpsReadUsername = httpsReadCredential.get("username")
                 if httpsReadDescription and httpsReadUsername and (not httpsReadDetail):
                     for item in httpsRead_details:
-                        if item.get("description") == httpsReadDescription \
-                                and item.get("username") == httpsReadUsername:
+                        if (
+                            item.get("description") == httpsReadDescription
+                            and item.get("username") == httpsReadUsername
+                        ):
                             if httpsReadDetail:
                                 self.msg = "More than one httpsRead credential with same \
                                             description and username. Pass ID."
@@ -1333,18 +1371,28 @@ class DnacCredential(DnacBase):
                 httpsWriteDetail = None
                 httpsWriteId = httpsWriteCredential.get("id")
                 if httpsWriteId:
-                    httpsWriteDetail = get_dict_result(httpsWrite_details, "id", httpsWriteId)
+                    httpsWriteDetail = get_dict_result(
+                        httpsWrite_details, "id", httpsWriteId
+                    )
                     if not httpsWriteDetail:
                         self.msg = "httpsWrite credential Id is invalid"
                         self.status = "failed"
                         return self
 
-                httpsWriteOldDescription = httpsWriteCredential.get("old_description")
-                httpsWriteOldUsername = httpsWriteCredential.get("old_username")
-                if httpsWriteOldDescription and httpsWriteOldUsername and (not httpsWriteDetail):
+                httpsWriteOldDescription = httpsWriteCredential.get(
+                    "old_description")
+                httpsWriteOldUsername = httpsWriteCredential.get(
+                    "old_username")
+                if (
+                    httpsWriteOldDescription
+                    and httpsWriteOldUsername
+                    and (not httpsWriteDetail)
+                ):
                     for item in httpsWrite_details:
-                        if item.get("description") == httpsWriteOldDescription \
-                                and item.get("username") == httpsWriteOldUsername:
+                        if (
+                            item.get("description") == httpsWriteOldDescription
+                            and item.get("username") == httpsWriteOldUsername
+                        ):
                             if httpsWriteDetail:
                                 self.msg = "More than one httpsWrite credential with same \
                                             old_description and old_username. Pass ID"
@@ -1359,10 +1407,16 @@ class DnacCredential(DnacBase):
 
                 httpsWriteDescription = httpsWriteCredential.get("description")
                 httpsWriteUsername = httpsWriteCredential.get("username")
-                if httpsWriteDescription and httpsWriteUsername and (not httpsWriteDetail):
+                if (
+                    httpsWriteDescription
+                    and httpsWriteUsername
+                    and (not httpsWriteDetail)
+                ):
                     for item in httpsWrite_details:
-                        if item.get("description") == httpsWriteDescription \
-                                and item.get("username") == httpsWriteUsername:
+                        if (
+                            item.get("description") == httpsWriteDescription
+                            and item.get("username") == httpsWriteUsername
+                        ):
                             httpsWriteDetail = item
                 httpsWriteDetails.append(httpsWriteDetail)
         return httpsWriteDetails
@@ -1392,7 +1446,8 @@ class DnacCredential(DnacBase):
                 snmpV3Detail = None
                 snmpV3Id = snmpV3Credential.get("id")
                 if snmpV3Id:
-                    snmpV3Detail = get_dict_result(snmpV3_details, "id", snmpV3Id)
+                    snmpV3Detail = get_dict_result(
+                        snmpV3_details, "id", snmpV3Id)
                     if not snmpV3Detail:
                         self.msg = "snmpV3 credential id is invalid"
                         self.status = "failed"
@@ -1400,8 +1455,9 @@ class DnacCredential(DnacBase):
 
                 snmpV3OldDescription = snmpV3Credential.get("old_description")
                 if snmpV3OldDescription and (not snmpV3Detail):
-                    snmpV3Detail = get_dict_result(snmpV3_details,
-                                                   "description", snmpV3OldDescription)
+                    snmpV3Detail = get_dict_result(
+                        snmpV3_details, "description", snmpV3OldDescription
+                    )
                     if not snmpV3Detail:
                         self.msg = "snmpV3 credential old_description is invalid"
                         self.status = "failed"
@@ -1409,7 +1465,9 @@ class DnacCredential(DnacBase):
 
                 snmpV3Description = snmpV3Credential.get("description")
                 if snmpV3Description and (not snmpV3Detail):
-                    snmpV3Detail = get_dict_result(snmpV3_details, "description", snmpV3Description)
+                    snmpV3Detail = get_dict_result(
+                        snmpV3_details, "description", snmpV3Description
+                    )
                 snmpV3Details.append(snmpV3Detail)
         return snmpV3Details
 
@@ -1427,36 +1485,56 @@ class DnacCredential(DnacBase):
         """
 
         global_credentials = self.get_global_credentials_params()
-        cliDetails = self.get_cli_credentials(CredentialDetails, global_credentials)
-        snmpV2cReadDetails = self.get_snmpV2cRead_credentials(CredentialDetails, global_credentials)
-        snmpV2cWriteDetails = self.get_snmpV2cWrite_credentials(CredentialDetails,
-                                                                global_credentials)
-        httpsReadDetails = self.get_httpsRead_credentials(CredentialDetails, global_credentials)
-        httpsWriteDetails = self.get_httpsWrite_credentials(CredentialDetails, global_credentials)
-        snmpV3Details = self.get_snmpV3_credentials(CredentialDetails, global_credentials)
+        cliDetails = self.get_cli_credentials(
+            CredentialDetails, global_credentials)
+        snmpV2cReadDetails = self.get_snmpV2cRead_credentials(
+            CredentialDetails, global_credentials
+        )
+        snmpV2cWriteDetails = self.get_snmpV2cWrite_credentials(
+            CredentialDetails, global_credentials
+        )
+        httpsReadDetails = self.get_httpsRead_credentials(
+            CredentialDetails, global_credentials
+        )
+        httpsWriteDetails = self.get_httpsWrite_credentials(
+            CredentialDetails, global_credentials
+        )
+        snmpV3Details = self.get_snmpV3_credentials(
+            CredentialDetails, global_credentials
+        )
         self.have.update({"globalCredential": {}})
         if cliDetails:
             cliCredential = self.get_cli_params(cliDetails)
-            self.have.get("globalCredential").update({"cliCredential": cliCredential})
+            self.have.get("globalCredential").update(
+                {"cliCredential": cliCredential})
         if snmpV2cReadDetails:
             snmpV2cRead = self.get_snmpV2cRead_params(snmpV2cReadDetails)
-            self.have.get("globalCredential").update({"snmpV2cRead": snmpV2cRead})
+            self.have.get("globalCredential").update(
+                {"snmpV2cRead": snmpV2cRead})
         if snmpV2cWriteDetails:
             snmpV2cWrite = self.get_snmpV2cWrite_params(snmpV2cWriteDetails)
-            self.have.get("globalCredential").update({"snmpV2cWrite": snmpV2cWrite})
+            self.have.get("globalCredential").update(
+                {"snmpV2cWrite": snmpV2cWrite})
         if httpsReadDetails:
             httpsRead = self.get_httpsRead_params(httpsReadDetails)
             self.have.get("globalCredential").update({"httpsRead": httpsRead})
         if httpsWriteDetails:
             httpsWrite = self.get_httpsWrite_params(httpsWriteDetails)
-            self.have.get("globalCredential").update({"httpsWrite": httpsWrite})
+            self.have.get("globalCredential").update(
+                {"httpsWrite": httpsWrite})
         if snmpV3Details:
             snmpV3 = self.get_snmpV3_params(snmpV3Details)
             self.have.get("globalCredential").update({"snmpV3": snmpV3})
 
-        self.log("Global device credential details: {0}"
-                 .format(self.have.get("globalCredential")), "DEBUG")
-        self.msg = "Collected the Global Device Credential Details from the Cisco DNA Center"
+        self.log(
+            "Global device credential details: {0}".format(
+                self.have.get("globalCredential")
+            ),
+            "DEBUG",
+        )
+        self.msg = (
+            "Collected the Global Device Credential Details from the Cisco DNA Center"
+        )
         self.status = "success"
         return self
 
@@ -1477,7 +1555,8 @@ class DnacCredential(DnacBase):
 
         if config.get("global_credential_details") is not None:
             CredentialDetails = config.get("global_credential_details")
-            self.get_have_device_credentials(CredentialDetails).check_return_status()
+            self.get_have_device_credentials(
+                CredentialDetails).check_return_status()
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the Cisco DNA Center"
@@ -1497,65 +1576,80 @@ class DnacCredential(DnacBase):
             Global Device Credentials from the playbook.
         """
 
-        want = {
-            "want_create": {},
-            "want_update": {}
-        }
+        want = {"want_create": {}, "want_update": {}}
         if CredentialDetails.get("cli_credential"):
             cli = CredentialDetails.get("cli_credential")
             have_cli_ptr = 0
             create_cli_ptr = 0
             update_cli_ptr = 0
             values = ["password", "description", "username", "id"]
-            have_cliCredential = self.have.get("globalCredential").get("cliCredential")
+            have_cliCredential = self.have.get(
+                "globalCredential").get("cliCredential")
             for item in cli:
                 if not have_cliCredential or have_cliCredential[have_cli_ptr] is None:
                     if want.get("want_create").get("cliCredential") is None:
                         want.get("want_create").update({"cliCredential": []})
-                    create_credential = want.get("want_create").get("cliCredential")
+                    create_credential = want.get(
+                        "want_create").get("cliCredential")
                     create_credential.append({})
                     for i in range(0, 3):
                         if item.get(values[i]):
-                            create_credential[create_cli_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                            create_credential[create_cli_ptr].update(
+                                {values[i]: item.get(values[i])}
+                            )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       cliCredential " + str(have_cli_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       cliCredential "
+                                + str(have_cli_ptr)
+                            )
                             self.status = "failed"
                             return self
 
                     if item.get("enable_password"):
-                        create_credential[create_cli_ptr] \
-                            .update({"enablePassword": item.get("enable_password")})
+                        create_credential[create_cli_ptr].update(
+                            {"enablePassword": item.get("enable_password")}
+                        )
                     create_cli_ptr = create_cli_ptr + 1
                 else:
                     if want.get("want_update").get("cliCredential") is None:
                         want.get("want_update").update({"cliCredential": []})
-                    update_credential = want.get("want_update").get("cliCredential")
+                    update_credential = want.get(
+                        "want_update").get("cliCredential")
                     update_credential.append({})
                     if item.get("password"):
-                        update_credential[update_cli_ptr] \
-                            .update({"password": item.get("password")})
+                        update_credential[update_cli_ptr].update(
+                            {"password": item.get("password")}
+                        )
                     else:
-                        self.msg = "password is mandatory for udpating \
-                                   cliCredential " + str(have_cli_ptr)
+                        self.msg = (
+                            "password is mandatory for udpating \
+                                   cliCredential "
+                            + str(have_cli_ptr)
+                        )
                         self.status = "failed"
                         return self
 
                     for i in range(1, 4):
                         if item.get(values[i]):
-                            update_credential[update_cli_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                            update_credential[update_cli_ptr].update(
+                                {values[i]: item.get(values[i])}
+                            )
                         else:
-                            update_credential[update_cli_ptr].update({
-                                values[i]: self.have.get("globalCredential")
-                                .get("cliCredential")[have_cli_ptr].get(values[i])
-                            })
+                            update_credential[update_cli_ptr].update(
+                                {
+                                    values[i]: self.have.get(
+                                        "globalCredential")
+                                    .get("cliCredential")[have_cli_ptr]
+                                    .get(values[i])
+                                }
+                            )
 
                     if item.get("enable_password"):
-                        update_credential[update_cli_ptr].update({
-                            "enablePassword": item.get("enable_password")
-                        })
+                        update_credential[update_cli_ptr].update(
+                            {"enablePassword": item.get("enable_password")}
+                        )
                     update_cli_ptr = update_cli_ptr + 1
                 have_cli_ptr = have_cli_ptr + 1
 
@@ -1566,45 +1660,65 @@ class DnacCredential(DnacBase):
             update_snmpv2cread_ptr = 0
             values = ["read_community", "description", "id"]
             keys = ["readCommunity", "description", "id"]
-            have_snmpV2cRead = self.have.get("globalCredential").get("snmpV2cRead")
+            have_snmpV2cRead = self.have.get(
+                "globalCredential").get("snmpV2cRead")
             for item in snmpV2cRead:
-                if not have_snmpV2cRead or have_snmpV2cRead[have_snmpv2cread_ptr] is None:
+                if (
+                    not have_snmpV2cRead
+                    or have_snmpV2cRead[have_snmpv2cread_ptr] is None
+                ):
                     if want.get("want_create").get("snmpV2cRead") is None:
                         want.get("want_create").update({"snmpV2cRead": []})
-                    create_credential = want.get("want_create").get("snmpV2cRead")
+                    create_credential = want.get(
+                        "want_create").get("snmpV2cRead")
                     create_credential.append({})
                     for i in range(0, 2):
                         if item.get(values[i]):
-                            create_credential[create_snmpv2cread_ptr] \
-                                .update({keys[i]: item.get(values[i])})
+                            create_credential[create_snmpv2cread_ptr].update(
+                                {keys[i]: item.get(values[i])}
+                            )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       snmpV2cRead " + str(have_snmpv2cread_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       snmpV2cRead "
+                                + str(have_snmpv2cread_ptr)
+                            )
                             self.status = "failed"
                             return self
                     create_snmpv2cread_ptr = create_snmpv2cread_ptr + 1
                 else:
                     if want.get("want_update").get("snmpV2cRead") is None:
                         want.get("want_update").update({"snmpV2cRead": []})
-                    update_credential = want.get("want_update").get("snmpV2cRead")
+                    update_credential = want.get(
+                        "want_update").get("snmpV2cRead")
                     update_credential.append({})
                     if item.get("read_community"):
-                        update_credential[update_snmpv2cread_ptr] \
-                            .update({"readCommunity": item.get("read_community")})
+                        update_credential[update_snmpv2cread_ptr].update(
+                            {"readCommunity": item.get("read_community")}
+                        )
                     else:
-                        self.msg = "read_community is mandatory for updating \
-                                   snmpV2cRead " + str(have_snmpv2cread_ptr)
+                        self.msg = (
+                            "read_community is mandatory for updating \
+                                   snmpV2cRead "
+                            + str(have_snmpv2cread_ptr)
+                        )
                         self.status = "failed"
                         return self
                     for i in range(1, 3):
                         if item.get(values[i]):
-                            update_credential[update_snmpv2cread_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                            update_credential[update_snmpv2cread_ptr].update(
+                                {values[i]: item.get(values[i])}
+                            )
                         else:
-                            update_credential[update_snmpv2cread_ptr].update({
-                                values[i]: self.have.get("globalCredential")
-                                .get("snmpV2cRead")[have_snmpv2cread_ptr].get(values[i])
-                            })
+                            update_credential[update_snmpv2cread_ptr].update(
+                                {
+                                    values[i]: self.have.get(
+                                        "globalCredential")
+                                    .get("snmpV2cRead")[have_snmpv2cread_ptr]
+                                    .get(values[i])
+                                }
+                            )
                     update_snmpv2cread_ptr = update_snmpv2cread_ptr + 1
                 have_snmpv2cread_ptr = have_snmpv2cread_ptr + 1
 
@@ -1615,45 +1729,65 @@ class DnacCredential(DnacBase):
             update_snmpv2cwrite_ptr = 0
             values = ["write_community", "description", "id"]
             keys = ["writeCommunity", "description", "id"]
-            have_snmpV2cWrite = self.have.get("globalCredential").get("snmpV2cWrite")
+            have_snmpV2cWrite = self.have.get(
+                "globalCredential").get("snmpV2cWrite")
             for item in snmpV2cWrite:
-                if not have_snmpV2cWrite or have_snmpV2cWrite[have_snmpv2cwrite_ptr] is None:
+                if (
+                    not have_snmpV2cWrite
+                    or have_snmpV2cWrite[have_snmpv2cwrite_ptr] is None
+                ):
                     if want.get("want_create").get("snmpV2cWrite") is None:
                         want.get("want_create").update({"snmpV2cWrite": []})
-                    create_credential = want.get("want_create").get("snmpV2cWrite")
+                    create_credential = want.get(
+                        "want_create").get("snmpV2cWrite")
                     create_credential.append({})
                     for i in range(0, 2):
                         if item.get(values[i]):
-                            create_credential[create_snmpv2cwrite_ptr] \
-                                .update({keys[i]: item.get(values[i])})
+                            create_credential[create_snmpv2cwrite_ptr].update(
+                                {keys[i]: item.get(values[i])}
+                            )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       snmpV2cWrite "
+                                + str(have_snmpv2cwrite_ptr)
+                            )
                             self.status = "failed"
                             return self
                     create_snmpv2cwrite_ptr = create_snmpv2cwrite_ptr + 1
                 else:
                     if want.get("want_update").get("snmpV2cWrite") is None:
                         want.get("want_update").update({"snmpV2cWrite": []})
-                    update_credential = want.get("want_update").get("snmpV2cWrite")
+                    update_credential = want.get(
+                        "want_update").get("snmpV2cWrite")
                     update_credential.append({})
                     if item.get("write_community"):
-                        update_credential[update_snmpv2cwrite_ptr] \
-                            .update({"writeCommunity": item.get("write_community")})
+                        update_credential[update_snmpv2cwrite_ptr].update(
+                            {"writeCommunity": item.get("write_community")}
+                        )
                     else:
-                        self.msg = "write_community is mandatory for updating \
-                                   snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
+                        self.msg = (
+                            "write_community is mandatory for updating \
+                                   snmpV2cWrite "
+                            + str(have_snmpv2cwrite_ptr)
+                        )
                         self.status = "failed"
                         return self
                     for i in range(1, 3):
                         if item.get(values[i]):
-                            update_credential[update_snmpv2cwrite_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                            update_credential[update_snmpv2cwrite_ptr].update(
+                                {values[i]: item.get(values[i])}
+                            )
                         else:
-                            update_credential[update_snmpv2cwrite_ptr].update({
-                                values[i]: self.have.get("globalCredential")
-                                .get("snmpV2cWrite")[have_snmpv2cwrite_ptr].get(values[i])
-                            })
+                            update_credential[update_snmpv2cwrite_ptr].update(
+                                {
+                                    values[i]: self.have.get(
+                                        "globalCredential")
+                                    .get("snmpV2cWrite")[have_snmpv2cwrite_ptr]
+                                    .get(values[i])
+                                }
+                            )
                     update_snmpv2cwrite_ptr = update_snmpv2cwrite_ptr + 1
                 have_snmpv2cwrite_ptr = have_snmpv2cwrite_ptr + 1
 
@@ -1665,51 +1799,72 @@ class DnacCredential(DnacBase):
             values = ["password", "description", "username", "id", "port"]
             have_httpsRead = self.have.get("globalCredential").get("httpsRead")
             for item in httpsRead:
-                self.log("Global credentials details: {0}"
-                         .format(self.have.get("globalCredential")), "DEBUG")
+                self.log(
+                    "Global credentials details: {0}".format(
+                        self.have.get("globalCredential")
+                    ),
+                    "DEBUG",
+                )
                 if not have_httpsRead or have_httpsRead[have_httpsread_ptr] is None:
                     if want.get("want_create").get("httpsRead") is None:
                         want.get("want_create").update({"httpsRead": []})
-                    create_credential = want.get("want_create").get("httpsRead")
+                    create_credential = want.get(
+                        "want_create").get("httpsRead")
                     create_credential.append({})
                     for i in range(0, 3):
                         if item.get(values[i]):
-                            create_credential[create_httpsread_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                            create_credential[create_httpsread_ptr].update(
+                                {values[i]: item.get(values[i])}
+                            )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       httpsRead " + str(have_httpsread_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       httpsRead "
+                                + str(have_httpsread_ptr)
+                            )
                             self.status = "failed"
                             return self
                     if item.get("port"):
-                        create_credential[create_httpsread_ptr] \
-                            .update({"port": item.get("port")})
+                        create_credential[create_httpsread_ptr].update(
+                            {"port": item.get("port")}
+                        )
                     else:
-                        create_credential[create_httpsread_ptr] \
-                            .update({"port": "443"})
+                        create_credential[create_httpsread_ptr].update(
+                            {"port": "443"})
                     create_httpsread_ptr = create_httpsread_ptr + 1
                 else:
                     if want.get("want_update").get("httpsRead") is None:
                         want.get("want_update").update({"httpsRead": []})
-                    update_credential = want.get("want_update").get("httpsRead")
+                    update_credential = want.get(
+                        "want_update").get("httpsRead")
                     update_credential.append({})
                     if item.get("password"):
-                        update_credential[update_httpsread_ptr] \
-                            .update({"password": item.get("password")})
+                        update_credential[update_httpsread_ptr].update(
+                            {"password": item.get("password")}
+                        )
                     else:
-                        self.msg = "password is mandatory for updating \
-                                   httpsRead " + str(have_httpsread_ptr)
+                        self.msg = (
+                            "password is mandatory for updating \
+                                   httpsRead "
+                            + str(have_httpsread_ptr)
+                        )
                         self.status = "failed"
                         return self
                     for i in range(1, 5):
                         if item.get(values[i]):
-                            update_credential[update_httpsread_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                            update_credential[update_httpsread_ptr].update(
+                                {values[i]: item.get(values[i])}
+                            )
                         else:
-                            update_credential[update_httpsread_ptr].update({
-                                values[i]: self.have.get("globalCredential")
-                                .get("httpsRead")[have_httpsread_ptr].get(values[i])
-                            })
+                            update_credential[update_httpsread_ptr].update(
+                                {
+                                    values[i]: self.have.get(
+                                        "globalCredential")
+                                    .get("httpsRead")[have_httpsread_ptr]
+                                    .get(values[i])
+                                }
+                            )
                     update_httpsread_ptr = update_httpsread_ptr + 1
                 have_httpsread_ptr = have_httpsread_ptr + 1
 
@@ -1719,51 +1874,69 @@ class DnacCredential(DnacBase):
             create_httpswrite_ptr = 0
             update_httpswrite_ptr = 0
             values = ["password", "description", "username", "id", "port"]
-            have_httpsWrite = self.have.get("globalCredential").get("httpsWrite")
+            have_httpsWrite = self.have.get(
+                "globalCredential").get("httpsWrite")
             for item in httpsWrite:
                 if not have_httpsWrite or have_httpsWrite[have_httpswrite_ptr] is None:
                     if want.get("want_create").get("httpsWrite") is None:
                         want.get("want_create").update({"httpsWrite": []})
-                    create_credential = want.get("want_create").get("httpsWrite")
+                    create_credential = want.get(
+                        "want_create").get("httpsWrite")
                     create_credential.append({})
                     for i in range(0, 3):
                         if item.get(values[i]):
-                            create_credential[create_httpswrite_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                            create_credential[create_httpswrite_ptr].update(
+                                {values[i]: item.get(values[i])}
+                            )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       httpsWrite " + str(have_httpswrite_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       httpsWrite "
+                                + str(have_httpswrite_ptr)
+                            )
                             self.status = "failed"
                             return self
                     if item.get("port"):
-                        create_credential[create_httpswrite_ptr] \
-                            .update({"port": item.get("port")})
+                        create_credential[create_httpswrite_ptr].update(
+                            {"port": item.get("port")}
+                        )
                     else:
-                        create_credential[create_httpswrite_ptr] \
-                            .update({"port": "443"})
+                        create_credential[create_httpswrite_ptr].update(
+                            {"port": "443"})
                     create_httpswrite_ptr = create_httpswrite_ptr + 1
                 else:
                     if want.get("want_update").get("httpsWrite") is None:
                         want.get("want_update").update({"httpsWrite": []})
-                    update_credential = want.get("want_update").get("httpsWrite")
+                    update_credential = want.get(
+                        "want_update").get("httpsWrite")
                     update_credential.append({})
                     if item.get("password"):
-                        update_credential[update_httpswrite_ptr] \
-                            .update({"password": item.get("password")})
+                        update_credential[update_httpswrite_ptr].update(
+                            {"password": item.get("password")}
+                        )
                     else:
-                        self.msg = "password is mandatory for updating \
-                                   httpsRead " + str(have_httpswrite_ptr)
+                        self.msg = (
+                            "password is mandatory for updating \
+                                   httpsRead "
+                            + str(have_httpswrite_ptr)
+                        )
                         self.status = "failed"
                         return self
                     for i in range(1, 5):
                         if item.get(values[i]):
-                            update_credential[update_httpswrite_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                            update_credential[update_httpswrite_ptr].update(
+                                {values[i]: item.get(values[i])}
+                            )
                         else:
-                            update_credential[update_httpswrite_ptr].update({
-                                values[i]: self.have.get("globalCredential")
-                                .get("httpsWrite")[have_httpswrite_ptr].get(values[i])
-                            })
+                            update_credential[update_httpswrite_ptr].update(
+                                {
+                                    values[i]: self.have.get(
+                                        "globalCredential")
+                                    .get("httpsWrite")[have_httpswrite_ptr]
+                                    .get(values[i])
+                                }
+                            )
                     update_httpswrite_ptr = update_httpswrite_ptr + 1
                 have_httpswrite_ptr = have_httpswrite_ptr + 1
 
@@ -1782,61 +1955,93 @@ class DnacCredential(DnacBase):
                     create_credential.append({})
                     for i in range(0, 2):
                         if item.get(values[i]):
-                            create_credential[create_snmpv3_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                            create_credential[create_snmpv3_ptr].update(
+                                {values[i]: item.get(values[i])}
+                            )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       snmpV3 " + str(have_snmpv3_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       snmpV3 "
+                                + str(have_snmpv3_ptr)
+                            )
                             self.status = "failed"
                             return self
                     if item.get("snmp_mode"):
-                        create_credential[create_snmpv3_ptr] \
-                            .update({"snmpMode": item.get("snmp_mode")})
+                        create_credential[create_snmpv3_ptr].update(
+                            {"snmpMode": item.get("snmp_mode")}
+                        )
                     else:
-                        create_credential[create_snmpv3_ptr] \
-                            .update({"snmpMode": "AUTHPRIV"})
-                    if create_credential[create_snmpv3_ptr].get("snmpMode") == "AUTHNOPRIV" or \
-                            create_credential[create_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
+                        create_credential[create_snmpv3_ptr].update(
+                            {"snmpMode": "AUTHPRIV"}
+                        )
+                    if (
+                        create_credential[create_snmpv3_ptr].get("snmpMode")
+                        == "AUTHNOPRIV"
+                        or create_credential[create_snmpv3_ptr].get("snmpMode")
+                        == "AUTHPRIV"
+                    ):
                         auths = ["auth_password", "auth_type"]
                         keys = {
                             "auth_password": "authPassword",
-                            "auth_type": "authType"
+                            "auth_type": "authType",
                         }
                         for auth in auths:
                             if item.get(auth):
-                                create_credential[create_snmpv3_ptr] \
-                                    .update({keys[auth]: item.get(auth)})
+                                create_credential[create_snmpv3_ptr].update(
+                                    {keys[auth]: item.get(auth)}
+                                )
                             else:
-                                self.msg = auth + " is mandatory for creating \
-                                           snmpV3 " + str(have_snmpv3_ptr)
+                                self.msg = (
+                                    auth
+                                    + " is mandatory for creating \
+                                           snmpV3 "
+                                    + str(have_snmpv3_ptr)
+                                )
                                 self.status = "failed"
                                 return self
                         if len(item.get("auth_password")) < 8:
                             self.msg = "auth_password length should be greater than 8"
                             self.status = "failed"
                             return self
-                        self.log("snmp_mode: {0}".format(create_credential[create_snmpv3_ptr]
-                                 .get("snmpMode")), "DEBUG")
-                    if create_credential[create_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
+                        self.log(
+                            "snmp_mode: {0}".format(
+                                create_credential[create_snmpv3_ptr].get(
+                                    "snmpMode")
+                            ),
+                            "DEBUG",
+                        )
+                    if (
+                        create_credential[create_snmpv3_ptr].get("snmpMode")
+                        == "AUTHPRIV"
+                    ):
                         privs = ["privacy_password", "privacy_type"]
                         key = {
                             "privacy_password": "privacyPassword",
-                            "privacy_type": "privacyType"
+                            "privacy_type": "privacyType",
                         }
                         for priv in privs:
                             if item.get(priv):
-                                create_credential[create_snmpv3_ptr] \
-                                    .update({key[priv]: item.get(priv)})
+                                create_credential[create_snmpv3_ptr].update(
+                                    {key[priv]: item.get(priv)}
+                                )
                             else:
-                                self.msg = priv + " is mandatory for creating \
-                                           snmpV3 " + str(have_snmpv3_ptr)
+                                self.msg = (
+                                    priv
+                                    + " is mandatory for creating \
+                                           snmpV3 "
+                                    + str(have_snmpv3_ptr)
+                                )
                                 self.status = "failed"
                                 return self
                         if len(item.get("privacy_password")) < 8:
                             self.msg = "privacy_password should be greater than 8"
                             self.status = "failed"
                             return self
-                    elif create_credential[create_snmpv3_ptr].get("snmpMode") != "NOAUTHNOPRIV":
+                    elif (
+                        create_credential[create_snmpv3_ptr].get("snmpMode")
+                        != "NOAUTHNOPRIV"
+                    ):
                         self.msg = "snmp_mode in snmpV3 is not \
                                     ['AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV']"
                         self.status = "failed"
@@ -1849,69 +2054,108 @@ class DnacCredential(DnacBase):
                     update_credential.append({})
                     for value in values:
                         if item.get(value):
-                            update_credential[update_snmpv3_ptr] \
-                                .update({value: item.get(value)})
+                            update_credential[update_snmpv3_ptr].update(
+                                {value: item.get(value)}
+                            )
                         else:
-                            update_credential[update_snmpv3_ptr].update({
-                                value: self.have.get("globalCredential")
-                                .get("snmpV3")[have_snmpv3_ptr].get(value)
-                            })
+                            update_credential[update_snmpv3_ptr].update(
+                                {
+                                    value: self.have.get("globalCredential")
+                                    .get("snmpV3")[have_snmpv3_ptr]
+                                    .get(value)
+                                }
+                            )
                     if item.get("snmp_mode"):
-                        update_credential[update_snmpv3_ptr] \
-                            .update({"snmpMode": item.get("snmp_mode")})
-                    if update_credential[update_snmpv3_ptr].get("snmpMode") == "AUTHNOPRIV" or \
-                            update_credential[update_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
+                        update_credential[update_snmpv3_ptr].update(
+                            {"snmpMode": item.get("snmp_mode")}
+                        )
+                    if (
+                        update_credential[update_snmpv3_ptr].get("snmpMode")
+                        == "AUTHNOPRIV"
+                        or update_credential[update_snmpv3_ptr].get("snmpMode")
+                        == "AUTHPRIV"
+                    ):
                         if item.get("auth_type"):
-                            update_credential[update_snmpv3_ptr] \
-                                .update({"authType": item.get("auth_type")})
-                        elif self.have.get("globalCredential") \
-                                .get("snmpMode")[have_snmpv3_ptr].get("authType"):
-                            update_credential[update_snmpv3_ptr].update({
-                                "authType": self.have.get("globalCredential")
-                                .get("snmpMode")[have_snmpv3_ptr].get("authType")
-                            })
+                            update_credential[update_snmpv3_ptr].update(
+                                {"authType": item.get("auth_type")}
+                            )
+                        elif (
+                            self.have.get("globalCredential")
+                            .get("snmpMode")[have_snmpv3_ptr]
+                            .get("authType")
+                        ):
+                            update_credential[update_snmpv3_ptr].update(
+                                {
+                                    "authType": self.have.get("globalCredential")
+                                    .get("snmpMode")[have_snmpv3_ptr]
+                                    .get("authType")
+                                }
+                            )
                         else:
-                            self.msg = "auth_type is required for updating snmpV3 " + \
-                                       str(have_snmpv3_ptr)
+                            self.msg = (
+                                "auth_type is required for updating snmpV3 "
+                                + str(have_snmpv3_ptr)
+                            )
                             self.status = "failed"
                             return self
                         if item.get("auth_password"):
-                            update_credential[update_snmpv3_ptr] \
-                                .update({"authPassword": item.get("auth_password")})
+                            update_credential[update_snmpv3_ptr].update(
+                                {"authPassword": item.get("auth_password")}
+                            )
                         else:
-                            self.msg = "auth_password is required for updating snmpV3 " + \
-                                       str(have_snmpv3_ptr)
+                            self.msg = (
+                                "auth_password is required for updating snmpV3 "
+                                + str(have_snmpv3_ptr)
+                            )
                             self.status = "failed"
                             return self
                         if len(item.get("auth_password")) < 8:
                             self.msg = "auth_password length should be greater than 8"
                             self.status = "failed"
                             return self
-                    elif update_credential[update_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
+                    elif (
+                        update_credential[update_snmpv3_ptr].get("snmpMode")
+                        == "AUTHPRIV"
+                    ):
                         if item.get("privacy_type"):
-                            update_credential[update_snmpv3_ptr] \
-                                .update({"privacyType": item.get("privacy_type")})
-                        elif self.have.get("globalCredential") \
-                                .get("snmpMode")[have_snmpv3_ptr].get("privacyType"):
-                            update_credential[update_snmpv3_ptr].update({
-                                "privacyType": self.have.get("globalCredential")
-                                .get("snmpMode")[have_snmpv3_ptr].get("privacyType")
-                            })
+                            update_credential[update_snmpv3_ptr].update(
+                                {"privacyType": item.get("privacy_type")}
+                            )
+                        elif (
+                            self.have.get("globalCredential")
+                            .get("snmpMode")[have_snmpv3_ptr]
+                            .get("privacyType")
+                        ):
+                            update_credential[update_snmpv3_ptr].update(
+                                {
+                                    "privacyType": self.have.get("globalCredential")
+                                    .get("snmpMode")[have_snmpv3_ptr]
+                                    .get("privacyType")
+                                }
+                            )
                         else:
-                            self.msg = "privacy_type is required for updating snmpV3 " + \
-                                       str(have_snmpv3_ptr)
+                            self.msg = (
+                                "privacy_type is required for updating snmpV3 "
+                                + str(have_snmpv3_ptr)
+                            )
                             self.status = "failed"
                             return self
                         if item.get("privacy_password"):
-                            update_credential[update_snmpv3_ptr] \
-                                .update({"privacyPassword": item.get("privacy_password")})
+                            update_credential[update_snmpv3_ptr].update(
+                                {"privacyPassword": item.get(
+                                    "privacy_password")}
+                            )
                         else:
-                            self.msg = "privacy_password is required for updating snmpV3 " + \
-                                       str(have_snmpv3_ptr)
+                            self.msg = (
+                                "privacy_password is required for updating snmpV3 "
+                                + str(have_snmpv3_ptr)
+                            )
                             self.status = "failed"
                             return self
                         if len(item.get("privacy_password")) < 8:
-                            self.msg = "privacy_password length should be greater than 8"
+                            self.msg = (
+                                "privacy_password length should be greater than 8"
+                            )
                             self.status = "failed"
                             return self
                     update_snmpv3_ptr = update_snmpv3_ptr + 1
@@ -1934,9 +2178,7 @@ class DnacCredential(DnacBase):
             self - The current object with updated information of credentials
             that need to be assigned to a site from the playbook.
         """
-        want = {
-            "assign_credentials": {}
-        }
+        want = {"assign_credentials": {}}
         site_name = AssignCredentials.get("site_name")
         if not site_name:
             self.msg = "site_name is required for AssignCredentials"
@@ -1974,14 +2216,17 @@ class DnacCredential(DnacBase):
                         return self
                 elif cliDescription and cliUsername:
                     for item in cli_details:
-                        if item.get("description") == cliDescription and \
-                                item.get("username") == cliUsername:
+                        if (
+                            item.get("description") == cliDescription
+                            and item.get("username") == cliUsername
+                        ):
                             cliDetail = item
                     if not cliDetail:
                         self.msg = "The username and description of the CLI credential are invalid"
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
+                want.get("assign_credentials").update(
+                    {"cliId": cliDetail.get("id")})
 
         snmp_v2c_read = AssignCredentials.get("snmp_v2c_read")
         if snmp_v2c_read:
@@ -1997,7 +2242,9 @@ class DnacCredential(DnacBase):
                     return self
                 snmpV2cReadDetail = None
                 if snmpV2cReadId:
-                    snmpV2cReadDetail = get_dict_result(snmpV2cRead_details, "id", snmpV2cReadId)
+                    snmpV2cReadDetail = get_dict_result(
+                        snmpV2cRead_details, "id", snmpV2cReadId
+                    )
                     if not snmpV2cReadDetail:
                         self.msg = "The ID of the snmpV2cRead credential is not valid."
                         self.status = "failed"
@@ -2010,7 +2257,9 @@ class DnacCredential(DnacBase):
                         self.msg = "The username and description for the snmpV2cRead credential are invalid."
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
+                want.get("assign_credentials").update(
+                    {"snmpV2ReadId": snmpV2cReadDetail.get("id")}
+                )
 
         snmp_v2c_write = AssignCredentials.get("snmp_v2c_write")
         if snmp_v2c_write:
@@ -2026,7 +2275,9 @@ class DnacCredential(DnacBase):
                     return self
                 snmpV2cWriteDetail = None
                 if snmpV2cWriteId:
-                    snmpV2cWriteDetail = get_dict_result(snmpV2cWrite_details, "id", snmpV2cWriteId)
+                    snmpV2cWriteDetail = get_dict_result(
+                        snmpV2cWrite_details, "id", snmpV2cWriteId
+                    )
                     if not snmpV2cWriteDetail:
                         self.msg = "The ID of the snmpV2cWrite credential is invalid."
                         self.status = "failed"
@@ -2039,7 +2290,9 @@ class DnacCredential(DnacBase):
                         self.msg = "The username and description of the snmpV2cWrite credential are invalid."
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
+                want.get("assign_credentials").update(
+                    {"snmpV2WriteId": snmpV2cWriteDetail.get("id")}
+                )
 
         https_read = AssignCredentials.get("https_read")
         if https_read:
@@ -2056,21 +2309,26 @@ class DnacCredential(DnacBase):
                     return self
                 httpReadDetail = None
                 if httpReadId:
-                    httpReadDetail = get_dict_result(httpRead_details, "id", httpReadId)
+                    httpReadDetail = get_dict_result(
+                        httpRead_details, "id", httpReadId)
                     if not httpReadDetail:
                         self.msg = "The ID of the httpRead credential is not valid."
                         self.status = "failed"
                         return self
                 elif httpReadDescription and httpReadUsername:
                     for item in httpRead_details:
-                        if item.get("description") == httpReadDescription and \
-                                item.get("username") == httpReadUsername:
+                        if (
+                            item.get("description") == httpReadDescription
+                            and item.get("username") == httpReadUsername
+                        ):
                             httpReadDetail = item
                     if not httpReadDetail:
                         self.msg = "The description and username for the httpRead credential are invalid."
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
+                want.get("assign_credentials").update(
+                    {"httpRead": httpReadDetail.get("id")}
+                )
 
         https_write = AssignCredentials.get("https_write")
         if https_write:
@@ -2087,21 +2345,27 @@ class DnacCredential(DnacBase):
                     return self
                 httpWriteDetail = None
                 if httpWriteId:
-                    httpWriteDetail = get_dict_result(httpWrite_details, "id", httpWriteId)
+                    httpWriteDetail = get_dict_result(
+                        httpWrite_details, "id", httpWriteId
+                    )
                     if not httpWriteDetail:
                         self.msg = "The ID of the httpWrite credential is not valid."
                         self.status = "failed"
                         return self
                 elif httpWriteDescription and httpWriteUsername:
                     for item in httpWrite_details:
-                        if item.get("description") == httpWriteDescription and \
-                                item.get("username") == httpWriteUsername:
+                        if (
+                            item.get("description") == httpWriteDescription
+                            and item.get("username") == httpWriteUsername
+                        ):
                             httpWriteDetail = item
                     if not httpWriteDetail:
                         self.msg = "The description and username for the httpWrite credential are invalid."
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
+                want.get("assign_credentials").update(
+                    {"httpWrite": httpWriteDetail.get("id")}
+                )
 
         snmp_v3 = AssignCredentials.get("snmp_v3")
         if snmp_v3:
@@ -2117,7 +2381,8 @@ class DnacCredential(DnacBase):
                     return self
                 snmpV3Detail = None
                 if snmpV3Id:
-                    snmpV3Detail = get_dict_result(snmpV3_details, "id", snmpV3Id)
+                    snmpV3Detail = get_dict_result(
+                        snmpV3_details, "id", snmpV3Id)
                     if not snmpV3Detail:
                         self.msg = "The ID of the snmpV3 credential is not valid."
                         self.status = "failed"
@@ -2130,10 +2395,14 @@ class DnacCredential(DnacBase):
                         self.msg = "The username and description for the snmpV2cWrite credential are invalid."
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"snmpV3Id": snmpV3Detail.get("id")})
+                want.get("assign_credentials").update(
+                    {"snmpV3Id": snmpV3Detail.get("id")}
+                )
         self.log("Desired State (want): {0}".format(want), "INFO")
         self.want.update(want)
-        self.msg = "Collected the Credentials needed to be assigned from the Cisco DNA Center"
+        self.msg = (
+            "Collected the Credentials needed to be assigned from the Cisco DNA Center"
+        )
         self.status = "success"
         return self
 
@@ -2154,11 +2423,13 @@ class DnacCredential(DnacBase):
 
         if config.get("global_credential_details"):
             CredentialDetails = config.get("global_credential_details")
-            self.get_want_device_credentials(CredentialDetails).check_return_status()
+            self.get_want_device_credentials(
+                CredentialDetails).check_return_status()
 
         if config.get("assign_credentials_to_site"):
             AssignCredentials = config.get("assign_credentials_to_site")
-            self.get_want_assign_credentials(AssignCredentials).check_return_status()
+            self.get_want_assign_credentials(
+                AssignCredentials).check_return_status()
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         self.msg = "Successfully retrieved details from the playbook"
@@ -2178,37 +2449,53 @@ class DnacCredential(DnacBase):
             self
         """
 
-        result_global_credential = self.result.get("response")[0].get("globalCredential")
+        result_global_credential = self.result.get("response")[0].get(
+            "globalCredential"
+        )
         want_create = self.want.get("want_create")
         if not want_create:
-            result_global_credential.update({
-                "No Creation": {
-                    "response": "No Response",
-                    "msg": "No Creation is available"
+            result_global_credential.update(
+                {
+                    "No Creation": {
+                        "response": "No Response",
+                        "msg": "No Creation is available",
+                    }
                 }
-            })
+            )
             return self
 
         credential_params = want_create
-        self.log("Creating global credential API input parameters: {0}"
-                 .format(credential_params), "DEBUG")
+        self.log(
+            "Creating global credential API input parameters: {0}".format(
+                credential_params
+            ),
+            "DEBUG",
+        )
         response = self.dnac._exec(
             family="discovery",
-            function='create_global_credentials_v2',
+            function="create_global_credentials_v2",
             op_modifies=True,
             params=credential_params,
         )
-        self.log("Received API response from 'create_global_credentials_v2': {0}"
-                 .format(response), "DEBUG")
+        self.log(
+            "Received API response from 'create_global_credentials_v2': {0}".format(
+                response
+            ),
+            "DEBUG",
+        )
         validation_string = "global credential addition performed"
-        self.check_task_response_status(response, validation_string).check_return_status()
+        self.check_task_response_status(
+            response, validation_string
+        ).check_return_status()
         self.log("Global credential created successfully", "INFO")
-        result_global_credential.update({
-            "Creation": {
-                "response": credential_params,
-                "msg": "Global Credential Created Successfully"
+        result_global_credential.update(
+            {
+                "Creation": {
+                    "response": credential_params,
+                    "msg": "Global Credential Created Successfully",
+                }
             }
-        })
+        )
         self.msg = "Global Device Credential Created Successfully"
         self.status = "success"
         return self
@@ -2225,57 +2512,84 @@ class DnacCredential(DnacBase):
             self
         """
 
-        result_global_credential = self.result.get("response")[0].get("globalCredential")
+        result_global_credential = self.result.get("response")[0].get(
+            "globalCredential"
+        )
 
         # Get the result global credential and want_update from the current object
         want_update = self.want.get("want_update")
         # If no credentials to update, update the result and return
         if not want_update:
-            result_global_credential.update({
-                "No Updation": {
-                    "response": "No Response",
-                    "msg": "No Updation is available"
+            result_global_credential.update(
+                {
+                    "No Updation": {
+                        "response": "No Response",
+                        "msg": "No Updation is available",
+                    }
                 }
-            })
+            )
             self.msg = "No Updation is available"
             self.status = "success"
             return self
         i = 0
         flag = True
-        values = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
-                  "httpsRead", "httpsWrite", "snmpV3"]
+        values = [
+            "cliCredential",
+            "snmpV2cRead",
+            "snmpV2cWrite",
+            "httpsRead",
+            "httpsWrite",
+            "snmpV3",
+        ]
         final_response = []
-        self.log("Desired State for global device credentials updation: {0}"
-                 .format(want_update), "DEBUG")
+        self.log(
+            "Desired State for global device credentials updation: {0}".format(
+                want_update
+            ),
+            "DEBUG",
+        )
         while flag:
             flag = False
             credential_params = {}
             for value in values:
                 if want_update.get(value) and i < len(want_update.get(value)):
                     flag = True
-                    credential_params.update({value: want_update.get(value)[i]})
+                    credential_params.update(
+                        {value: want_update.get(value)[i]})
             i = i + 1
             if credential_params:
                 final_response.append(credential_params)
                 response = self.dnac._exec(
                     family="discovery",
-                    function='update_global_credentials_v2',
+                    function="update_global_credentials_v2",
                     op_modifies=True,
                     params=credential_params,
                 )
-                self.log("Received API response for 'update_global_credentials_v2': {0}"
-                         .format(response), "DEBUG")
+                self.log(
+                    "Received API response for 'update_global_credentials_v2': {0}".format(
+                        response
+                    ),
+                    "DEBUG",
+                )
                 validation_string = "global credential update performed"
-                self.check_task_response_status(response, validation_string).check_return_status()
-        self.log("Updating device credential API input parameters: {0}"
-                 .format(final_response), "DEBUG")
+                self.check_task_response_status(
+                    response, validation_string
+                ).check_return_status()
+        self.log(
+            "Updating device credential API input parameters: {0}".format(
+                final_response
+            ),
+            "DEBUG",
+        )
         self.log("Global device credential updated successfully", "INFO")
-        result_global_credential.update({
-            "Updation": {
-                "response": final_response,
-                "msg": "Global Device Credential Updated Successfully"
+        result_global_credential.update(
+            {
+                "Updation": {
+                    "response": final_response,
+                    "msg": "Global Device Credential Updated Successfully",
+                }
             }
-        })
+        )
         self.msg = "Global Device Credential Updated Successfully"
         self.status = "success"
         return self
@@ -2293,18 +2607,26 @@ class DnacCredential(DnacBase):
             self
         """
 
-        result_assign_credential = self.result.get("response")[0].get("assignCredential")
+        result_assign_credential = self.result.get("response")[0].get(
+            "assignCredential"
+        )
         credential_params = self.want.get("assign_credentials")
         final_response = []
-        self.log("Assigning device credential to site API input parameters: {0}"
-                 .format(credential_params), "DEBUG")
+        self.log(
+            "Assigning device credential to site API input parameters: {0}".format(
+                credential_params
+            ),
+            "DEBUG",
+        )
         if not credential_params:
-            result_assign_credential.update({
-                "No Assign Credentials": {
-                    "response": "No Response",
-                    "msg": "No Assignment is available"
+            result_assign_credential.update(
+                {
+                    "No Assign Credentials": {
+                        "response": "No Response",
+                        "msg": "No Assignment is available",
+                    }
                 }
-            })
+            )
             self.msg = "No Assignment is available"
             self.status = "success"
             return self
@@ -2315,24 +2637,39 @@ class DnacCredential(DnacBase):
             final_response.append(copy.deepcopy(credential_params))
             response = self.dnac._exec(
                 family="network_settings",
-                function='assign_device_credential_to_site_v2',
+                function="assign_device_credential_to_site_v2",
                 op_modifies=True,
                 params=credential_params,
             )
-            self.log("Received API response for 'assign_device_credential_to_site_v2': {0}"
-                     .format(response), "DEBUG")
+            self.log(
+                "Received API response for 'assign_device_credential_to_site_v2': {0}".format(
+                    response
+                ),
+                "DEBUG",
+            )
             validation_string = "desired common settings operation successful"
-            self.check_task_response_status(response, validation_string).check_return_status()
-        self.log("Device credential assigned to site {0} is successfully."
-                 .format(site_ids), "INFO")
-        self.log("Desired State for assign credentials to a site: {0}"
-                 .format(final_response), "DEBUG")
-        result_assign_credential.update({
-            "Assign Credentials": {
-                "response": final_response,
-                "msg": "Device Credential Assigned to a site is Successfully"
+            self.check_task_response_status(
+                response, validation_string
+            ).check_return_status()
+        self.log(
+            "Device credential assigned to site {0} is successfully.".format(
+                site_ids),
+            "INFO",
+        )
+        self.log(
+            "Desired State for assign credentials to a site: {0}".format(
+                final_response
+            ),
+            "DEBUG",
+        )
+        result_assign_credential.update(
+            {
+                "Assign Credentials": {
+                    "response": final_response,
+                    "msg": "Device Credential Assigned to a site is Successfully",
+                }
             }
-        })
+        )
         self.msg = "Global Credential is assigned Successfully"
         self.status = "success"
         return self
@@ -2374,17 +2711,22 @@ class DnacCredential(DnacBase):
             self
         """
 
-        result_global_credential = self.result.get("response")[0].get("globalCredential")
+        result_global_credential = self.result.get("response")[0].get(
+            "globalCredential"
+        )
         have_values = self.have.get("globalCredential")
         final_response = {}
-        self.log("Global device credentials to be deleted: {0}".format(have_values), "DEBUG")
+        self.log(
+            "Global device credentials to be deleted: {0}".format(
+                have_values), "DEBUG"
+        )
         credential_mapping = {
             "cliCredential": "cli_credential",
             "snmpV2cRead": "snmp_v2c_read",
             "snmpV2cWrite": "snmp_v2c_write",
             "snmpV3": "snmp_v3",
             "httpsRead": "https_read",
-            "httpsWrite": "https_write"
+            "httpsWrite": "https_write",
         }
         for item in have_values:
             config_itr = 0
@@ -2392,11 +2734,21 @@ class DnacCredential(DnacBase):
             for value in have_values.get(item):
                 if value is None:
                     self.log("Credential Name: {0}".format(item), "DEBUG")
-                    self.log("Credential Item: {0}".format(config.get("global_credential_details")
-                             .get(credential_mapping.get(item))), "DEBUG")
+                    self.log(
+                        "Credential Item: {0}".format(
+                            config.get("global_credential_details").get(
+                                credential_mapping.get(item)
+                            )
+                        ),
+                        "DEBUG",
+                    )
                     final_response.get(item).append(
-                        str(config.get("global_credential_details")
-                            .get(credential_mapping.get(item))[config_itr]) + " is not found."
+                        str(
+                            config.get("global_credential_details").get(
+                                credential_mapping.get(item)
+                            )[config_itr]
+                        )
+                        + " is not found."
                     )
                     continue
                 _id = have_values.get(item)[config_itr].get("id")
@@ -2406,22 +2758,34 @@ class DnacCredential(DnacBase):
                     op_modifies=True,
                     params={"id": _id},
                 )
-                self.log("Received API response for 'delete_global_credential_v2': {0}"
-                         .format(response), "DEBUG")
+                self.log(
+                    "Received API response for 'delete_global_credential_v2': {0}".format(
+                        response
+                    ),
+                    "DEBUG",
+                )
                 validation_string = "global credential deleted successfully"
-                self.check_task_response_status(response, validation_string).check_return_status()
+                self.check_task_response_status(
+                    response, validation_string
+                ).check_return_status()
                 final_response.get(item).append(_id)
                 config_itr = config_itr + 1
 
-        self.log("Deleting device credential API input parameters: {0}"
-                 .format(final_response), "DEBUG")
+        self.log(
+            "Deleting device credential API input parameters: {0}".format(
+                final_response
+            ),
+            "DEBUG",
+        )
         self.log("Successfully deleted global device credential.", "INFO")
-        result_global_credential.update({
-            "Deletion": {
-                "response": final_response,
-                "msg": "Global Device Credentials Deleted Successfully"
+        result_global_credential.update(
+            {
+                "Deletion": {
+                    "response": final_response,
+                    "msg": "Global Device Credentials Deleted Successfully",
+                }
             }
-        })
+        )
         self.msg = "Global Device Credentials Updated Successfully"
         self.status = "success"
         return self
@@ -2469,15 +2833,21 @@ class DnacCredential(DnacBase):
                 return self
 
             if self.want.get("want_update"):
-                credential_types = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
-                                    "httpsRead", "httpsWrite", "snmpV3"]
+                credential_types = [
+                    "cliCredential",
+                    "snmpV2cRead",
+                    "snmpV2cWrite",
+                    "httpsRead",
+                    "httpsWrite",
+                    "snmpV3",
+                ]
                 value_mapping = {
                     "cliCredential": ["username", "description", "id"],
                     "snmpV2cRead": ["description", "id"],
                     "snmpV2cWrite": ["description", "id"],
                     "httpsRead": ["description", "username", "port", "id"],
                     "httpsWrite": ["description", "username", "port", "id"],
-                    "snmpV3": ["username", "description", "snmpMode", "id"]
+                    "snmpV3": ["username", "description", "snmpMode", "id"],
                 }
                 for credential_type in credential_types:
                     if self.want.get(credential_type):
@@ -2486,18 +2856,30 @@ class DnacCredential(DnacBase):
                             have_credential = self.have.get(credential_type)
                         values = value_mapping.get(credential_type)
                         for value in values:
-                            equality = have_credential.get(value) is want_credential.get(value)
+                            equality = have_credential.get(
+                                value
+                            ) is want_credential.get(value)
                             if not have_credential or not equality:
-                                self.msg = "{0} config is not applied ot the DNAC".format(credential_type)
+                                self.msg = (
+                                    "{0} config is not applied ot the DNAC".format(
+                                        credential_type
+                                    )
+                                )
                                 self.status = "failed"
                                 return self
 
             self.log("Successfully validated global device credential", "INFO")
-            self.result.get("response")[0].get("globalCredential").update({"Validation": "Success"})
+            self.result.get("response")[0].get("globalCredential").update(
+                {"Validation": "Success"}
+            )
 
         if config.get("assign_credentials_to_site") is not None:
-            self.log("Successfully validated the assign device credential to site", "INFO")
-            self.result.get("response")[0].get("assignCredential").update({"Validation": "Success"})
+            self.log(
+                "Successfully validated the assign device credential to site", "INFO"
+            )
+            self.result.get("response")[0].get("assignCredential").update(
+                {"Validation": "Success"}
+            )
 
         self.msg = "Successfully validated the Global Device Credential and \
                     Assign Device Credential to Site."
@@ -2523,8 +2905,14 @@ class DnacCredential(DnacBase):
 
         if config.get("global_credential_details") is not None:
             have_global_credential = self.have.get("globalCredential")
-            credential_types = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
-                                "httpsRead", "httpsWrite", "snmpV3"]
+            credential_types = [
+                "cliCredential",
+                "snmpV2cRead",
+                "snmpV2cWrite",
+                "httpsRead",
+                "httpsWrite",
+                "snmpV3",
+            ]
             for credential_type in credential_types:
                 for item in have_global_credential.get(credential_type):
                     if item is not None:
@@ -2533,8 +2921,12 @@ class DnacCredential(DnacBase):
                         self.status = "failed"
                         return self
 
-            self.log("Successfully validated absence of global device credential.", "INFO")
-            self.result.get("response")[0].get("globalCredential").update({"Validation": "Success"})
+            self.log(
+                "Successfully validated absence of global device credential.", "INFO"
+            )
+            self.result.get("response")[0].get("globalCredential").update(
+                {"Validation": "Success"}
+            )
 
         self.msg = "Successfully validated the absence of Global Device Credential."
         self.status = "success"
@@ -2561,27 +2953,28 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": 'str', "required": True},
-        "dnac_port": {"type": 'str', "default": '443'},
-        "dnac_username": {"type": 'str', "default": 'admin', "aliases": ['user']},
-        "dnac_password": {"type": 'str', "no_log": True},
-        "dnac_verify": {"type": 'bool', "default": 'True'},
-        "dnac_version": {"type": 'str', "default": '2.2.3.3'},
-        "dnac_debug": {"type": 'bool', "default": False},
-        "dnac_log": {"type": 'bool', "default": False},
-        "dnac_log_level": {"type": 'str', "default": 'WARNING'},
-        "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-        "dnac_log_append": {"type": 'bool', "default": True},
-        "config_verify": {"type": 'bool', "default": False},
-        'dnac_api_task_timeout': {'type': 'int', "default": 1200},
-        'dnac_task_poll_interval': {'type': 'int', "default": 2},
-        "config": {"type": 'list', "required": True, "elements": 'dict'},
-        "state": {"default": 'merged', "choices": ['merged', 'deleted']},
-        "validate_response_schema": {"type": 'bool', "default": True},
+        "dnac_host": {"type": "str", "required": True},
+        "dnac_port": {"type": "str", "default": "443"},
+        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "dnac_password": {"type": "str", "no_log": True},
+        "dnac_verify": {"type": "bool", "default": "True"},
+        "dnac_version": {"type": "str", "default": "2.2.3.3"},
+        "dnac_debug": {"type": "bool", "default": False},
+        "dnac_log": {"type": "bool", "default": False},
+        "dnac_log_level": {"type": "str", "default": "WARNING"},
+        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
+        "dnac_log_append": {"type": "bool", "default": True},
+        "config_verify": {"type": "bool", "default": False},
+        "dnac_api_task_timeout": {"type": "int", "default": 1200},
+        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "config": {"type": "list", "required": True, "elements": "dict"},
+        "state": {"default": "merged", "choices": ["merged", "deleted"]},
+        "validate_response_schema": {"type": "bool", "default": True},
     }
 
     # Create an AnsibleModule object with argument specifications
-    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec,
+                           supports_check_mode=False)
     dnac_credential = DnacCredential(module)
     state = dnac_credential.params.get("state")
     config_verify = dnac_credential.params.get("config_verify")
@@ -2597,9 +2990,11 @@ def main():
         dnac_credential.get_have(config).check_return_status()
         if state != "deleted":
             dnac_credential.get_want(config).check_return_status()
-        dnac_credential.get_diff_state_apply[state](config).check_return_status()
+        dnac_credential.get_diff_state_apply[state](
+            config).check_return_status()
         if config_verify:
-            dnac_credential.verify_diff_state_apply[state](config).check_return_status()
+            dnac_credential.verify_diff_state_apply[state](
+                config).check_return_status()
 
     module.exit_json(**dnac_credential.result)
 

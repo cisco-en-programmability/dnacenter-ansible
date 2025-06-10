@@ -1,20 +1,33 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_devices_summary_analytics
-short_description: Resource module for Network Devices Summary Analytics
+short_description: Resource module for Network Devices
+  Summary Analytics
 description:
-  - This module represents an alias of the module network_devices_summary_analytics_v1
+  - Manage operation create of the resource Network
+    Devices Summary Analytics. - > Gets the summary
+    analytics data related to network devices based
+    on the provided input data. This endpoint helps
+    to obtain the consolidated insights into the performance
+    and status of the monitored network devices. For
+    detailed information about the usage of the API,
+    please refer to the Open API specification document
+    - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Network Devices Summary Analytics's aggregateAttributes.
+    description: Network Devices Summary Analytics's
+      aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -32,7 +45,8 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Network Devices Summary Analytics's filters.
+    description: Network Devices Summary Analytics's
+      filters.
     elements: dict
     suboptions:
       key:
@@ -50,7 +64,8 @@ options:
     elements: str
     type: list
   page:
-    description: Network Devices Summary Analytics's page.
+    description: Network Devices Summary Analytics's
+      page.
     suboptions:
       limit:
         description: Limit.
@@ -59,7 +74,8 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Network Devices Summary Analytics's sortBy.
+        description: Network Devices Summary Analytics's
+          sortBy.
         elements: dict
         suboptions:
           name:
@@ -77,17 +93,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetsTheSummaryAnalyticsDataRelatedToNetworkDevicesV1
-    description: Complete reference of the GetsTheSummaryAnalyticsDataRelatedToNetworkDevicesV1
+  - name: Cisco DNA Center documentation for Devices
+      GetsTheSummaryAnalyticsDataRelatedToNetworkDevices
+    description: Complete reference of the GetsTheSummaryAnalyticsDataRelatedToNetworkDevices
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!gets-the-summary-analytics-data-related-to-network-devices
+    link: https://developer.cisco.com/docs/dna-center/#!gets-the-summary-analytics-data-related-to-network-devices
 notes:
-  - SDK Method used are devices.Devices.gets_the_summary_analytics_data_related_to_network_devices_v1,
-  - Paths used are post /dna/data/api/v1/networkDevices/summaryAnalytics,
-  - It should be noted that this module is an alias of network_devices_summary_analytics_v1
+  - SDK Method used are
+    devices.Devices.gets_the_summary_analytics_data_related_to_network_devices,
+  - Paths used are
+    post /dna/data/api/v1/networkDevices/summaryAnalytics,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.network_devices_summary_analytics:
     dnac_host: "{{dnac_host}}"

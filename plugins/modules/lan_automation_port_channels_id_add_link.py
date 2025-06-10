@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: lan_automation_port_channels_id_add_link
-short_description: Resource module for Lan Automation Port Channels Id Add Link
+short_description: Resource module for Lan Automation
+  Port Channels Id Add Link
 description:
-  - This module represents an alias of the module lan_automation_port_channels_id_add_link_v1
+  - Manage operation create of the resource Lan Automation
+    Port Channels Id Add Link. - > This API adds a new
+    LAN Automated link as a member to an existing Port
+    Channel, provided the interface is in UP state and
+    already LAN Automated.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -17,36 +24,45 @@ options:
     description: Id path parameter. ID of the port channel.
     type: str
   portChannelMembers:
-    description: Lan Automation Port Channels Id Add Link's portChannelMembers.
+    description: Lan Automation Port Channels Id Add
+      Link's portChannelMembers.
     elements: dict
     suboptions:
       device1Interface:
-        description: Either device1InterfaceUuid or device1InterfaceName is required.
+        description: Either device1InterfaceUuid or
+          device1InterfaceName is required.
         type: str
       device1InterfaceUuid:
-        description: Either device1InterfaceUuid or device1InterfaceName is required.
+        description: Either device1InterfaceUuid or
+          device1InterfaceName is required.
         type: str
       device2Interface:
-        description: Either device2InterfaceUuid or device1InterfaceName is required.
+        description: Either device2InterfaceUuid or
+          device1InterfaceName is required.
         type: str
       device2InterfaceUuid:
-        description: Either device2InterfaceUuid or device1InterfaceName is required.
+        description: Either device2InterfaceUuid or
+          device1InterfaceName is required.
         type: str
     type: list
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation AddALANAutomatedLinkToAPortChannelV1
-    description: Complete reference of the AddALANAutomatedLinkToAPortChannelV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!add-alan-automated-link-to-a-port-channel
+  - name: Cisco DNA Center documentation for LAN Automation
+      AddALANAutomatedLinkToAPortChannel
+    description: Complete reference of the AddALANAutomatedLinkToAPortChannel
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-alan-automated-link-to-a-port-channel
 notes:
-  - SDK Method used are lan_automation.LanAutomation.add_a_lan_automated_link_to_a_port_channel_v1,
-  - Paths used are post /dna/intent/api/v1/lanAutomation/portChannels/{id}/addLink,
-  - It should be noted that this module is an alias of lan_automation_port_channels_id_add_link_v1
+  - SDK Method used are
+    lan_automation.LanAutomation.add_a_lan_automated_link_to_a_port_channel,
+  - Paths used are
+    post /dna/intent/api/v1/lanAutomation/portChannels/{id}/addLink,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.lan_automation_port_channels_id_add_link:
     dnac_host: "{{dnac_host}}"

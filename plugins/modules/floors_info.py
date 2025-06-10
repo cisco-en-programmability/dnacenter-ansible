@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: floors_info
-short_description: Information module for Floors Info
+short_description: Information module for Floors
 description:
-  - This module represents an alias of the module floors_v2_info
+  - Get Floors by id.
+  - Gets a floor in the network hierarchy.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,22 +25,28 @@ options:
     type: str
   _unitsOfMeasure:
     description:
-      - _unitsOfMeasure query parameter. Floor units of measure.
+      - _unitsOfMeasure query parameter. Floor units
+        of measure.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Site Design GetsAFloorV2
-    description: Complete reference of the GetsAFloorV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!gets-a-floor
+  - name: Cisco DNA Center documentation for Site Design
+      GetsAFloorV2
+    description: Complete reference of the GetsAFloorV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-a-floor-v-2
 notes:
-  - SDK Method used are site_design.SiteDesign.gets_a_floor_v2,
-  - Paths used are get /dna/intent/api/v2/floors/{id},
-  - It should be noted that this module is an alias of floors_v2_info
+  - SDK Method used are
+    site_design.SiteDesign.gets_a_floor_v2,
+  - Paths used are
+    get /dna/intent/api/v2/floors/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Floors Info by id
+---
+- name: Get Floors by id
   cisco.dnac.floors_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

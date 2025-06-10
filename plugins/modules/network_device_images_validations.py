@@ -1,22 +1,36 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_images_validations
-short_description: Resource module for Network Device Images Validations
+short_description: Resource module for Network Device
+  Images Validations
 description:
-  - This module represents an alias of the module network_device_images_validations_v1
+  - Manage operation create of the resource Network
+    Device Images Validations. - > Custom network device
+    validation refers to the tailored process of verifying
+    and assessing the configurations of network devices
+    based on specific organizational requirements and
+    unique network environments. Unlike standard validations,
+    custom network device validations are designed to
+    address the distinctive needs and challenges of
+    a particular network infrastructure, ensuring that
+    devices operate optimally within the defined parameters.
+    Upon task completion, the task API response's `resultLocation`
+    attribute will provide the URL to retrieve the validation
+    id.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   cli:
-    description: Show commands that will be executed. Validate the CLI - Cisco DevNet
-      https
-      //developer.cisco.com/docs/dna-center/2-3-7/run-read-only-commands-on-devices-to-get-their-real-time-co...
+    description: Show commands that will be executed.
+      Validate the CLI - Cisco DevNet https //developer.cisco.com/docs/dna-center/2-3-7/run-read-only-commands-on-devices-to-get-their-real-time-co...
     type: str
   description:
     description: Details of the network device validation.
@@ -25,33 +39,40 @@ options:
     description: Name of the network device validation.
     type: str
   operationType:
-    description: The operation type, as part of which this validation will get triggered.
+    description: The operation type, as part of which
+      this validation will get triggered.
     type: str
   productSeriesOrdinals:
-    description: The custom check will be mapped to the product series and devices
-      that belong to this series. These devices will consume this check when triggered.
-      Fetch productSeriesOrdinal from API `/dna/intent/api/v1/productSeries`.
+    description: The custom check will be mapped to
+      the product series and devices that belong to
+      this series. These devices will consume this check
+      when triggered. Fetch productSeriesOrdinal from
+      API `/dna/intent/api/v1/productSeries`.
     elements: float
     type: list
   type:
-    description: The type of network device validation determines whether this validation
-      runs before or after the operation.
+    description: The type of network device validation
+      determines whether this validation runs before
+      or after the operation.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) CreateCustomNetworkDeviceValidationV1
-    description: Complete reference of the CreateCustomNetworkDeviceValidationV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!create-custom-network-device-validation
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) CreateCustomNetworkDeviceValidation
+    description: Complete reference of the CreateCustomNetworkDeviceValidation
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-custom-network-device-validation
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.create_custom_network_device_validation_v1,
-  - Paths used are post /dna/intent/api/v1/networkDeviceImages/validations,
-  - It should be noted that this module is an alias of network_device_images_validations_v1
+    software_image_management_swim.SoftwareImageManagementSwim.create_custom_network_device_validation,
+  - Paths used are
+    post /dna/intent/api/v1/networkDeviceImages/validations,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.network_device_images_validations:
     dnac_host: "{{dnac_host}}"

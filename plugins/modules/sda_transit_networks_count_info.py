@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sda_transit_networks_count_info
-short_description: Information module for Sda Transit Networks Count Info
+short_description: Information module for Sda Transit
+  Networks Count
 description:
-  - This module represents an alias of the module sda_transit_networks_count_v1_info
+  - Get all Sda Transit Networks Count.
+  - Returns the count of transit networks that match
+    the provided query parameters.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,23 +24,28 @@ options:
   type:
     description:
       - >
-        Type query parameter. Type of the transit network. Allowed values are IP_BASED_TRANSIT,
-        SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT.
+        Type query parameter. Type of the transit network.
+        Allowed values are IP_BASED_TRANSIT, SDA_LISP_PUB_SUB_TRANSIT,
+        SDA_LISP_BGP_TRANSIT.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA GetTransitNetworksCountV1
-    description: Complete reference of the GetTransitNetworksCountV1 API.
+  - name: Cisco DNA Center documentation for SDA GetTransitNetworksCount
+    description: Complete reference of the GetTransitNetworksCount
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-transit-networks-count
 notes:
-  - SDK Method used are sda.Sda.get_transit_networks_count_v1,
-  - Paths used are get /dna/intent/api/v1/sda/transitNetworks/count,
-  - It should be noted that this module is an alias of sda_transit_networks_count_v1_info
+  - SDK Method used are
+    sda.Sda.get_transit_networks_count,
+  - Paths used are
+    get /dna/intent/api/v1/sda/transitNetworks/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Sda Transit Networks Count Info
+---
+- name: Get all Sda Transit Networks Count
   cisco.dnac.sda_transit_networks_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: itsm_integration_events_failed_info
-short_description: Information module for Itsm Integration Events Failed Info
+short_description: Information module for Itsm Integration
+  Events Failed
 description:
-  - This module represents an alias of the module itsm_integration_events_failed_v1_info
+  - Get all Itsm Integration Events Failed.
+  - Used to retrieve the list of integration events
+    that failed to create tickets in ITSM.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,23 +23,27 @@ options:
     type: dict
   instanceId:
     description:
-      - InstanceId query parameter. Instance Id of the failed event as in the Runtime
-        Dashboard.
+      - InstanceId query parameter. Instance Id of the
+        failed event as in the Runtime Dashboard.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for ITSM GetFailedITSMEventsV1
-    description: Complete reference of the GetFailedITSMEventsV1 API.
+  - name: Cisco DNA Center documentation for ITSM GetFailedITSMEvents
+    description: Complete reference of the GetFailedITSMEvents
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-failed-itsm-events
 notes:
-  - SDK Method used are itsm.Itsm.get_failed_itsm_events_v1,
-  - Paths used are get /dna/intent/api/v1/integration/events,
-  - It should be noted that this module is an alias of itsm_integration_events_failed_v1_info
+  - SDK Method used are
+    itsm.Itsm.get_failed_itsm_events,
+  - Paths used are
+    get /dna/intent/api/v1/integration/events,
 """
+
 EXAMPLES = r"""
-- name: Get all Itsm Integration Events Failed Info
+---
+- name: Get all Itsm Integration Events Failed
   cisco.dnac.itsm_integration_events_failed_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

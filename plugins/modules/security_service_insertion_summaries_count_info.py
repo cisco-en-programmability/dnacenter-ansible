@@ -1,14 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: security_service_insertion_summaries_count_info
-short_description: Information module for Security Service Insertion Summaries Count
-  Info
+short_description: Information module for Security Service
+  Insertion Summaries Count
 description:
-  - This module represents an alias of the module security_service_insertion_summaries_count_v1_info
+  - Get all Security Service Insertion Summaries Count.
+  - Retrieves the total count of Security Service Insertion
+    SSI summaries.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,18 +25,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA CountOfSecurityServiceInsertionSummariesV1
-    description: Complete reference of the CountOfSecurityServiceInsertionSummariesV1
+  - name: Cisco DNA Center documentation for SDA CountOfSecurityServiceInsertionSummaries
+    description: Complete reference of the CountOfSecurityServiceInsertionSummaries
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!count-of-security-service-insertion-summaries
+    link: https://developer.cisco.com/docs/dna-center/#!count-of-security-service-insertion-summaries
 notes:
-  - SDK Method used are sda.Sda.count_of_security_service_insertion_summaries_v1,
-  - Paths used are get /dna/intent/api/v1/securityServiceInsertionSummaries/count,
-  - It should be noted that this module is an alias of security_service_insertion_summaries_count_v1_info
+  - SDK Method used are
+    sda.Sda.count_of_security_service_insertion_summaries,
+  - Paths used are
+    get /dna/intent/api/v1/securityServiceInsertionSummaries/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Security Service Insertion Summaries Count Info
+---
+- name: Get all Security Service Insertion Summaries
+    Count
   cisco.dnac.security_service_insertion_summaries_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: site_kpi_summaries_id_info
-short_description: Information module for Site Kpi Summaries Id Info
+short_description: Information module for Site Kpi Summaries
+  Id
 description:
-  - This module represents an alias of the module site_kpi_summaries_id_v1_info
+  - Get Site Kpi Summaries Id by id. - > Returns site
+    analytics for the given site. For detailed information
+    about the usage of the API, please refer to the
+    Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
+    specs/blob/main/Assurance/CE_Cat_Center_Org-SiteKpiSummaries-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,124 +30,139 @@ options:
   taskId:
     description:
       - >
-        TaskId query parameter. Used to retrieve asynchronously processed & stored
-        data. When this parameter is
-        used, the rest of the request params will be ignored.
+        TaskId query parameter. Used to retrieve asynchronously
+        processed & stored data. When this parameter
+        is used, the rest of the request params will
+        be ignored.
     type: str
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which API queries the data set
-        related to the resource. It must
-        be specified in UNIX epochtime in milliseconds. Value is inclusive.
+        StartTime query parameter. Start time from which
+        API queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API queries the data set related
-        to the resource. It must be
-        specified in UNIX epochtime in milliseconds. Value is inclusive.
+        EndTime query parameter. End time to which API
+        queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   ssid:
     description:
       - >
-        Ssid query parameter. SSID is the name of wireless network to which client
-        connects to. It is also referred
-        to as WLAN ID - Wireless Local Area Network Identifier. Examples `ssid=Alpha`
-        (single ssid requested)
-        `ssid=Alpha&ssid=Guest` (multiple ssid requested).
+        Ssid query parameter. SSID is the name of wireless
+        network to which client connects to. It is also
+        referred to as WLAN ID - Wireless Local Area
+        Network Identifier. Examples `ssid=Alpha` (single
+        ssid requested) `ssid=Alpha&ssid=Guest` (multiple
+        ssid requested).
     type: str
   band:
     description:
       - >
-        Band query parameter. WiFi frequency band that client or Access Point operates.
-        Band value is represented in
-        Giga Hertz - GHz Examples `band=5` (single band requested) `band=2.4&band=6`
+        Band query parameter. WiFi frequency band that
+        client or Access Point operates. Band value
+        is represented in Giga Hertz - GHz Examples
+        `band=5` (single band requested) `band=2.4&band=6`
         (multiple band requested).
     type: str
   failureCategory:
     description:
       - >
-        FailureCategory query parameter. Category of failure when a client fails to
-        meet the threshold. Examples
-        `failureCategory=AUTH` (single failure category requested) `failureCategory=AUTH&failureCategory=DHCP`
+        FailureCategory query parameter. Category of
+        failure when a client fails to meet the threshold.
+        Examples `failureCategory=AUTH` (single failure
+        category requested) `failureCategory=AUTH&failureCategory=DHCP`
         (multiple failure categories requested).
     type: str
   failureReason:
     description:
       - >
-        FailureReason query parameter. Reason for failure when a client fails to meet
-        the threshold. Examples
-        `failureReason=MOBILITY_FAILURE` (single ssid requested)
-        `failureReason=REASON_IPLEARN_CONNECT_TIMEOUT&failureReason=ST_EAP_TIMEOUT`
+        FailureReason query parameter. Reason for failure
+        when a client fails to meet the threshold. Examples
+        `failureReason=MOBILITY_FAILURE` (single ssid
+        requested) `failureReason=REASON_IPLEARN_CONNECT_TIMEOUT&failureReason=ST_EAP_TIMEOUT`
         (multiple ssid requested).
     type: str
   view:
     description:
       - >
-        View query parameter. <p>The name of the View. Each view represents a specific
-        data set. Please refer to the
-        <code>SiteAnalyticsView</code> Model for supported views. View is predefined
-        set of attributes supported by
-        the API. Only the attributes related to the given view will be part of the
-        API response along with default
-        attributes. If multiple views are provided, then response will contain attributes
-        from all those views. If
-        no views are specified, all attributes will be returned.</p><table><thead><tr><th>View
-        Name</th><th>Included
-        Attributes</th></tr></thead><tbody><tr><td><code>coverage</code></td><td>coverageAverage,
-        coverageSuccessPercentage, coverageSuccessCount, coverageTotalCount, coverageFailureCount,
-        coverageClientCount, coverageImpactedEntities, coverageFailureImpactedEntities,
-        coverageFailureMetrics</td><
-        /tr><tr><td><code>onboardingAttempts</code></td><td>onboardingAttemptsSuccessPercentage,
-        onboardingAttemptsSuccessCount, onboardingAttemptsTotalCount, onboardingAttemptsFailureCount,
-        onboardingAttemptsClientCount, onboardingAttemptsImpactedEntities,
-        onboardingAttemptsFailureImpactedEntities, onboardingAttemptsFailureMetrics</td></tr><tr><td><code>onboardin
-        gDuration</code></td><td>onboardingDurationAverage, onboardingDurationSuccessPercentage,
-        onboardingDurationSuccessCount, onboardingDurationTotalCount, onboardingDurationFailureCount,
+        View query parameter. <p>The name of the View.
+        Each view represents a specific data set. Please
+        refer to the <code>SiteAnalyticsView</code>
+        Model for supported views. View is predefined
+        set of attributes supported by the API. Only
+        the attributes related to the given view will
+        be part of the API response along with default
+        attributes. If multiple views are provided,
+        then response will contain attributes from all
+        those views. If no views are specified, all
+        attributes will be returned.</p><table><thead><tr><th>View
+        Name</th><th>Included Attributes</th></tr></thead><tbody><tr><td><code>coverage</code></td><td>coverageAverage,
+        coverageSuccessPercentage, coverageSuccessCount,
+        coverageTotalCount, coverageFailureCount, coverageClientCount,
+        coverageImpactedEntities, coverageFailureImpactedEntities,
+        coverageFailureMetrics</ td></tr><tr><td><code>onboardingAttempts</code></td><td>onboardingAttemptsSuccessPercentage,
+        onboardingAttemptsSuccessCount, onboardingAttemptsTotalCount,
+        onboardingAttemptsFailureCount, onboardingAttemptsClientCount,
+        onboardingAttemptsImpactedEntities, onboardingAttemptsFailureImpactedEntities,
+        onboardingAttemptsFailureMetrics</td></tr><tr><td><code>onboa
+        rdingDuration</code></td><td>onboardingDurationAverage,
+        onboardingDurationSuccessPercentage, onboardingDurationSuccessCount,
+        onboardingDurationTotalCount, onboardingDurationFailureCount,
         onboardingDurationClientCount, onboardingDurationImpactedEntities,
-        onboardingDurationFailureImpactedEntities, onboardingDurationFailureMetrics</td></tr><tr><td><code>roamingAt
-        tempts</code></td><td>roamingAttemptsSuccessPercentage, roamingAttemptsSuccessCount,
-        roamingAttemptsTotalCount, roamingAttemptsFailureCount, roamingAttemptsClientCount,
+        onboardingDurationFailureImpactedEntities, onboardingDurationFailureMetrics</td></tr><tr><td><code>roami
+        ngAttempts</code></td><td>roamingAttemptsSuccessPercentage,
+        roamingAttemptsSuccessCount, roamingAttemptsTotalCount,
+        roamingAttemptsFailureCount, roamingAttemptsClientCount,
         roamingAttemptsImpactedEntities, roamingAttemptsFailureImpactedEntities,
-        roamingAttemptsFailureMetrics</td></tr><tr><td><code>roamingDuration</code></td><td>roamingDurationAverage,
-        roamingDurationSuccessPercentage, roamingDurationSuccessCount, roamingDurationTotalCount,
-        roamingDurationFailureCount, roamingDurationClientCount, roamingDurationImpactedEntities,
-        roamingDurationFailureImpactedEntities,
-        roamingDurationFailureMetrics</td></tr><tr><td><code>connectionSpeed</code></td><td>connectionSpeedAverage,
-        connectionSpeedSuccessPercentage, connectionSpeedSuccessCount, connectionSpeedTotalCount,
-        connectionSpeedFailureCount, connectionSpeedClientCount, connectionSpeedImpactedEntities,
+        roamingAttemptsFailureMetrics</ td></tr><tr><td><code>roamingDuration</code></td><td>roamingDurationAverage,
+        roamingDurationSuccessPercentage, roamingDurationSuccessCount,
+        roamingDurationTotalCount, roamingDurationFailureCount,
+        roamingDurationClientCount, roamingDurationImpactedEntities,
+        roamingDurationFailureImpactedEntities, roamingDurationFailureMetrics</td></tr><tr><td><code>connectionS
+        peed</code></td><td>connectionSpeedAverage,
+        connectionSpeedSuccessPercentage, connectionSpeedSuccessCount,
+        connectionSpeedTotalCount, connectionSpeedFailureCount,
+        connectionSpeedClientCount, connectionSpeedImpactedEntities,
         connectionSpeedFailureImpactedEntities, connectionSpeedFailureMetrics</td></tr></tbody></table><p>Examples
-        <code>view=connectionSpeed</code> (single view requested)
-        <code>view=roamingDuration&amp;view=roamingAttempts</code> (multiple views
-        requested) </p>.
+        <code>view=connectionSpeed</code> (single view
+        requested) <code>view=roamingDuration&amp;view=roamingAttempts</code>
+        (multiple views requested) </p>.
     type: str
   attribute:
     description:
       - >
-        Attribute query parameter. List of attributes related to site analytics. If
-        these are provided, then only
-        those attributes will be part of response along with the default attributes.
-        Examples
-        `attribute=coverageAverage` (single attribute requested)
-        `attribute=coverageFailureMetrics&attribute=coverageTotalCount` (multiple
-        attributes requested).
+        Attribute query parameter. List of attributes
+        related to site analytics. If these are provided,
+        then only those attributes will be part of response
+        along with the default attributes. Examples
+        `attribute=coverageAverage` (single attribute
+        requested) `attribute=coverageFailureMetrics&attribute=coverageTotalCount`
+        (multiple attributes requested).
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Sites GetSiteAnalyticsForOneSiteV1
-    description: Complete reference of the GetSiteAnalyticsForOneSiteV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-one-site
+  - name: Cisco DNA Center documentation for Sites GetSiteAnalyticsForOneSite
+    description: Complete reference of the GetSiteAnalyticsForOneSite
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-one-site
 notes:
-  - SDK Method used are sites.Sites.get_site_analytics_for_one_site_v1,
-  - Paths used are get /dna/data/api/v1/siteKpiSummaries/{id},
-  - It should be noted that this module is an alias of site_kpi_summaries_id_v1_info
+  - SDK Method used are
+    sites.Sites.get_site_analytics_for_one_site,
+  - Paths used are
+    get /dna/data/api/v1/siteKpiSummaries/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Site Kpi Summaries Id Info by id
+---
+- name: Get Site Kpi Summaries Id by id
   cisco.dnac.site_kpi_summaries_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_config_files_count_info
-short_description: Information module for Network Device Config Files Count Info
+short_description: Information module for Network Device
+  Config Files Count
 description:
-  - This module represents an alias of the module network_device_config_files_count_v1_info
+  - Get all Network Device Config Files Count.
+  - Retrieves count the details of the network device
+    configuration files.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,39 +23,42 @@ options:
     type: dict
   id:
     description:
-      - Id query parameter. Unique identifier (UUID) of the configuration file.
+      - Id query parameter. Unique identifier (UUID)
+        of the configuration file.
     type: str
   networkDeviceId:
     description:
       - >
-        NetworkDeviceId query parameter. Unique identifier (UUID) of the network devices.
-        The number of
+        NetworkDeviceId query parameter. Unique identifier
+        (UUID) of the network devices. The number of
         networkDeviceId(s) must not exceed 5.
     type: str
   fileType:
     description:
       - >
-        FileType query parameter. Type of device configuration file. Available values
-        'RUNNINGCONFIG',
-        'STARTUPCONFIG', 'VLAN'.
+        FileType query parameter. Type of device configuration
+        file. Available values 'RUNNINGCONFIG', 'STARTUPCONFIG',
+        'VLAN'.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Archive CountOfNetworkDeviceConfigurationFilesV1
-    description: Complete reference of the CountOfNetworkDeviceConfigurationFilesV1
+  - name: Cisco DNA Center documentation for Configuration
+      Archive CountOfNetworkDeviceConfigurationFiles
+    description: Complete reference of the CountOfNetworkDeviceConfigurationFiles
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!count-of-network-device-configuration-files
+    link: https://developer.cisco.com/docs/dna-center/#!count-of-network-device-configuration-files
 notes:
   - SDK Method used are
-    configuration_archive.ConfigurationArchive.count_of_network_device_configuration_files_v1,
-  - Paths used are get /dna/intent/api/v1/networkDeviceConfigFiles/count,
-  - It should be noted that this module is an alias of network_device_config_files_count_v1_info
+    configuration_archive.ConfigurationArchive.count_of_network_device_configuration_files,
+  - Paths used are
+    get /dna/intent/api/v1/networkDeviceConfigFiles/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Network Device Config Files Count Info
+---
+- name: Get all Network Device Config Files Count
   cisco.dnac.network_device_config_files_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

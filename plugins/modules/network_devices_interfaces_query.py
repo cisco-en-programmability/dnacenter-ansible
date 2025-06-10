@@ -1,37 +1,48 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_devices_interfaces_query
-short_description: Resource module for Network Devices Interfaces Query
+short_description: Resource module for Network Devices
+  Interfaces Query
 description:
-  - This module represents an alias of the module network_devices_interfaces_query_v2
+  - Manage operation create of the resource Network
+    Devices Interfaces Query. - > This API returns the
+    Interface Stats for the given Device Id. Please
+    refer to the Feature tab for the Request Body usage
+    and the API filtering support.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   deviceId:
-    description: DeviceId path parameter. Network Device Id.
+    description: DeviceId path parameter. Network Device
+      Id.
     type: str
   endTime:
     description: UTC epoch timestamp in milliseconds.
     type: int
   query:
-    description: Network Devices Interfaces Query's query.
+    description: Network Devices Interfaces Query's
+      query.
     suboptions:
       fields:
         description: Required field names, default ALL.
         elements: dict
         type: list
       filters:
-        description: Network Devices Interfaces Query's filters.
+        description: Network Devices Interfaces Query's
+          filters.
         elements: dict
         suboptions:
           key:
-            description: Name of the field that the filter should be applied to.
+            description: Name of the field that the
+              filter should be applied to.
             type: str
           operator:
             description: Supported operators are eq,in,like.
@@ -41,20 +52,24 @@ options:
             type: str
         type: list
       page:
-        description: Network Devices Interfaces Query's page.
+        description: Network Devices Interfaces Query's
+          page.
         suboptions:
           limit:
             description: Number of records, Max is 1000.
             type: int
           offset:
-            description: Record offset value, default 0.
+            description: Record offset value, default
+              0.
             type: float
           orderBy:
-            description: Network Devices Interfaces Query's orderBy.
+            description: Network Devices Interfaces
+              Query's orderBy.
             elements: dict
             suboptions:
               name:
-                description: Name of the field used to sort.
+                description: Name of the field used
+                  to sort.
                 type: str
               order:
                 description: Possible values asc, des.
@@ -69,16 +84,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceStatsInfoV2
-    description: Complete reference of the GetDeviceInterfaceStatsInfoV2 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-device-interface-stats-info
+  - name: Cisco DNA Center documentation for Devices
+      GetDeviceInterfaceStatsInfoV2
+    description: Complete reference of the GetDeviceInterfaceStatsInfoV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-stats-info-v-2
 notes:
-  - SDK Method used are devices.Devices.get_device_interface_stats_info_v2,
-  - Paths used are post /dna/intent/api/v2/networkDevices/{deviceId}/interfaces/query,
-  - It should be noted that this module is an alias of network_devices_interfaces_query_v2
+  - SDK Method used are
+    devices.Devices.get_device_interface_stats_info_v2,
+  - Paths used are
+    post /dna/intent/api/v2/networkDevices/{deviceId}/interfaces/query,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.network_devices_interfaces_query:
     dnac_host: "{{dnac_host}}"

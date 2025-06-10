@@ -1,14 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_licenses_network_device_id_port_channels_id_info
-short_description: Information module for Network Device Licenses Network Device Id
-  Port Channels Id Info
+short_description: Information module for Network Device
+  Licenses Network Device Id Port Channels Id
 description:
-  - This module represents an alias of the module network_device_licenses_network_device_id_port_channels_id_v1_info
+  - Get Network Device Licenses Network Device Id Port
+    Channels Id by id. - > This API endpoint retrieves
+    detailed information for a specified port channel
+    using its unique identifier within a given network
+    device.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,29 +25,34 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId path parameter. Unique identifier for the network device.
+      - NetworkDeviceId path parameter. Unique identifier
+        for the network device.
     type: str
   id:
     description:
-      - Id path parameter. Unique identifier for the port channel.
+      - Id path parameter. Unique identifier for the
+        port channel.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices RetrievesInformationForTheGivenPortChannelOnASpecificNetworkDeviceV1
-    description: Complete reference of the RetrievesInformationForTheGivenPortChannelOnASpecificNetworkDeviceV1
+  - name: Cisco DNA Center documentation for Devices
+      RetrievesInformationForTheGivenPortChannelOnASpecificNetworkDevice
+    description: Complete reference of the RetrievesInformationForTheGivenPortChannelOnASpecificNetworkDevice
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-information-for-the-given-port-channel-on-a-specific-network-device
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-information-for-the-given-port-channel-on-a-specific-network-device
 notes:
   - SDK Method used are
-    devices.Devices.retrieves_information_for_the_given_port_channel_on_a_specific_network_device_v1,
-  - Paths used are get /dna/intent/api/v1/networkDevices/{networkDeviceId}/portChannels/{id},
-  - It should be noted that this module is an alias of network_device_licenses_network_device_id_port_channels_id_v1_info
+    devices.Devices.retrieves_information_for_the_given_port_channel_on_a_specific_network_device,
+  - Paths used are
+    get /dna/intent/api/v1/networkDevices/{networkDeviceId}/portChannels/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Network Device Licenses Network Device Id Port Channels Id Info by id
+---
+- name: Get Network Device Licenses Network Device Id
+    Port Channels Id by id
   cisco.dnac.network_device_licenses_network_device_id_port_channels_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: system_health_count_info
-short_description: Information module for System Health Count Info
+short_description: Information module for System Health
+  Count
 description:
-  - This module represents an alias of the module system_health_count_v1_info
+  - Get all System Health Count.
+  - This API gives the count of the latest system events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,31 +23,36 @@ options:
   domain:
     description:
       - >
-        Domain query parameter. Fetch system events with this domain. Possible values
-        of domain are listed here
-        /dna/platform/app/consumer-portal/developer-toolkit/events.
+        Domain query parameter. Fetch system events
+        with this domain. Possible values of domain
+        are listed here /dna/platform/app/consumer-portal/developer-toolkit/events.
     type: str
   subdomain:
     description:
       - >
-        Subdomain query parameter. Fetch system events with this subdomain. Possible
-        values of subdomain are listed
-        here /dna/platform/app/consumer-portal/developer-toolkit/events.
+        Subdomain query parameter. Fetch system events
+        with this subdomain. Possible values of subdomain
+        are listed here /dna/platform/app/consumer-portal/developer-toolkit/events.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Health and Performance SystemHealthCountAPIV1
-    description: Complete reference of the SystemHealthCountAPIV1 API.
+  - name: Cisco DNA Center documentation for Health
+      and Performance SystemHealthCountAPI
+    description: Complete reference of the SystemHealthCountAPI
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!system-health-count-api
 notes:
-  - SDK Method used are health_and_performance.HealthAndPerformance.system_health_count,
-  - Paths used are get /dna/intent/api/v1/diagnostics/system/health/count,
-  - It should be noted that this module is an alias of system_health_count_v1_info
+  - SDK Method used are
+    health_and_performance.HealthAndPerformance.system_health_count,
+  - Paths used are
+    get /dna/intent/api/v1/diagnostics/system/health/count,
 """
+
 EXAMPLES = r"""
-- name: Get all System Health Count Info
+---
+- name: Get all System Health Count
   cisco.dnac.system_health_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

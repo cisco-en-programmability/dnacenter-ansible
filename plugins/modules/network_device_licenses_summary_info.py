@@ -1,13 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_licenses_summary_info
-short_description: Information module for Network Device Licenses Summary Info
+short_description: Information module for Network Device
+  Licenses Summary
 description:
-  - This module represents an alias of the module network_device_licenses_summary_v1_info
+  - Get all Network Device Licenses Summary. - > Retrieves
+    the summary of consumed network, DNA, and Cisco
+    Networking Subscription CNS licenses, along with
+    the counts of unregistered and out-of-compliance
+    network devices, and expired and expiring network
+    device licenses.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +28,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesSummaryOfNetworkDeviceLicensesV1
-    description: Complete reference of the RetrievesSummaryOfNetworkDeviceLicensesV1
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) RetrievesSummaryOfNetworkDeviceLicenses
+    description: Complete reference of the RetrievesSummaryOfNetworkDeviceLicenses
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-summary-of-network-device-licenses
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-of-network-device-licenses
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.retrieves_summary_of_network_device_licenses_v1,
-  - Paths used are get /dna/intent/api/v1/networkDeviceLicenses/summary,
-  - It should be noted that this module is an alias of network_device_licenses_summary_v1_info
+    software_image_management_swim.SoftwareImageManagementSwim.retrieves_summary_of_network_device_licenses,
+  - Paths used are
+    get /dna/intent/api/v1/networkDeviceLicenses/summary,
 """
+
 EXAMPLES = r"""
-- name: Get all Network Device Licenses Summary Info
+---
+- name: Get all Network Device Licenses Summary
   cisco.dnac.network_device_licenses_summary_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

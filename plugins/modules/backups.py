@@ -1,13 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: backups
 short_description: Resource module for Backups
 description:
-  - This module represents an alias of the module backups_v1
+  - Manage operation create of the resource Backups.
+    - > This api is used to trigger a workflow to create
+    an on demand backup. To monitor the progress and
+    completion of the backup creation , please call
+    `/dna/system/api/v1/backupRestoreExecutions/{id}`
+    api , where id is the taskId attribute from the
+    response of the curent endpoint.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -17,22 +25,28 @@ options:
     description: The backup name.
     type: str
   scope:
-    description: The backup scope states whether the backup is with assurance or without
-      assurance data.
+    description: The backup scope states whether the
+      backup is with assurance or without assurance
+      data.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Backup CreateBackupV1
-    description: Complete reference of the CreateBackupV1 API.
+  - name: Cisco DNA Center documentation for Backup
+      CreateBackup
+    description: Complete reference of the CreateBackup
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-backup
 notes:
-  - SDK Method used are backup.Backup.create_backup_v1,
-  - Paths used are post /dna/system/api/v1/backups,
-  - It should be noted that this module is an alias of backups_v1
+  - SDK Method used are
+    backup.Backup.create_backup,
+  - Paths used are
+    post /dna/system/api/v1/backups,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.backups:
     dnac_host: "{{dnac_host}}"
