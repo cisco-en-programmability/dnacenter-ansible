@@ -3108,7 +3108,6 @@ class AssuranceSettings(DnacBase):
                 self.log("No user-defined assurance issues found in Cisco Catalyst Center. Validation successful.", "INFO")
                 self.result["response"][0]["assurance_user_defined_issue_settings"].update({"Validation": "Success"})
                 self.status = "success"
-                self.result["changed"] = True
                 return self
 
             for item in assurance_issue_details:
@@ -3124,7 +3123,6 @@ class AssuranceSettings(DnacBase):
 
         self.msg = "Successfully validated deletion of user-defined assurance issues."
         self.status = "success"
-        self.result['changed'] = True
         return self
 
     def update_issue_status_messages(self):
