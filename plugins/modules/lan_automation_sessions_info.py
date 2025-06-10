@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: lan_automation_sessions_info
-short_description: Information module for Lan Automation Sessions Info
+short_description: Information module for Lan Automation
+  Sessions
 description:
-  - This module represents an alias of the module lan_automation_sessions_v1_info
+  - Get all Lan Automation Sessions.
+  - Invoke this API to get the LAN Automation active
+    session information.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,17 +25,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation LANAutomationActiveSessionsV1
-    description: Complete reference of the LANAutomationActiveSessionsV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!l-an-automation-active-sessions
+  - name: Cisco DNA Center documentation for LAN Automation
+      LANAutomationActiveSessions
+    description: Complete reference of the LANAutomationActiveSessions
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-active-sessions
 notes:
-  - SDK Method used are lan_automation.LanAutomation.lan_automation_active_sessions_v1,
-  - Paths used are get /dna/intent/api/v1/lan-automation/sessions,
-  - It should be noted that this module is an alias of lan_automation_sessions_v1_info
+  - SDK Method used are
+    lan_automation.LanAutomation.lan_automation_active_sessions,
+  - Paths used are
+    get /dna/intent/api/v1/lan-automation/sessions,
 """
+
 EXAMPLES = r"""
-- name: Get all Lan Automation Sessions Info
+---
+- name: Get all Lan Automation Sessions
   cisco.dnac.lan_automation_sessions_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

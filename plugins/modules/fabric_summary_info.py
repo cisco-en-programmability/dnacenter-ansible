@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: fabric_summary_info
-short_description: Information module for Fabric Summary Info
+short_description: Information module for Fabric Summary
 description:
-  - This module represents an alias of the module fabric_summary_v1_info
+  - Get all Fabric Summary. - > Read Fabric summary
+    for overall deployment. Get an aggregated summary
+    of all fabric entities in a deployment including
+    the entity health.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,57 +24,65 @@ options:
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which API queries the data set
-        related to the resource. It must
-        be specified in UNIX epochtime in milliseconds. Value is inclusive.
+        StartTime query parameter. Start time from which
+        API queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API queries the data set related
-        to the resource. It must be
-        specified in UNIX epochtime in milliseconds. Value is inclusive.
+        EndTime query parameter. End time to which API
+        queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   siteHierarchy:
     description:
       - >
-        SiteHierarchy query parameter. The full hierarchical breakdown of the site
-        tree starting from Global site
-        name and ending with the specific site name. The Root site is named "Global"
-        (Ex.
-        `Global/AreaName/BuildingName/FloorName`) This field supports wildcard asterisk
-        (`*`) character search
-        support. E.g. `*/San*, */San, /San*` Examples `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
-        (single siteHierarchy requested) `?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Global
-        /AreaName2/BuildingName2/FloorName2` (multiple siteHierarchies requested).
+        SiteHierarchy query parameter. The full hierarchical
+        breakdown of the site tree starting from Global
+        site name and ending with the specific site
+        name. The Root site is named "Global" (Ex. `Global/AreaName/BuildingName/FloorName`)
+        This field supports wildcard asterisk (`*`)
+        character search support. E.g. `*/San*, */San,
+        /San*` Examples `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
+        (single siteHierarchy requested) `?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Gl
+        obal/AreaName2/BuildingName2/FloorName2` (multiple
+        siteHierarchies requested).
     type: str
   siteHierarchyId:
     description:
       - >
-        SiteHierarchyId query parameter. The full hierarchy breakdown of the site
-        tree in id form starting from
-        Global site UUID and ending with the specific site UUID. (Ex. `globalUuid/areaUuid/buildingUuid/floorUuid`)
-        This field supports wildcard asterisk (`*`) character search support. E.g.
-        `*uuid*, *uuid, uuid*` Examples
-        `?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid `(single siteHierarchyId
-        requested) `?siteHiera
-        rchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globalUuid/areaUuid2/buildingUuid2/floorUu
-        id2` (multiple siteHierarchyIds requested).
+        SiteHierarchyId query parameter. The full hierarchy
+        breakdown of the site tree in id form starting
+        from Global site UUID and ending with the specific
+        site UUID. (Ex. `globalUuid/areaUuid/buildingUuid/floorUuid`)
+        This field supports wildcard asterisk (`*`)
+        character search support. E.g. `*uuid*, *uuid,
+        uuid*` Examples `?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid
+        `(single siteHierarchyId requested) `?siteH
+        ierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globalUuid/areaUuid2/buildingUuid2
+        /floorUuid2` (multiple siteHierarchyIds requested).
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA ReadFabricEntitySummaryV1
-    description: Complete reference of the ReadFabricEntitySummaryV1 API.
+  - name: Cisco DNA Center documentation for SDA ReadFabricEntitySummary
+    description: Complete reference of the ReadFabricEntitySummary
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!read-fabric-entity-summary
 notes:
-  - SDK Method used are sda.Sda.read_fabric_entity_summary_v1,
-  - Paths used are get /dna/data/api/v1/fabricSummary,
-  - It should be noted that this module is an alias of fabric_summary_v1_info
+  - SDK Method used are
+    sda.Sda.read_fabric_entity_summary,
+  - Paths used are
+    get /dna/data/api/v1/fabricSummary,
 """
+
 EXAMPLES = r"""
-- name: Get all Fabric Summary Info
+---
+- name: Get all Fabric Summary
   cisco.dnac.fabric_summary_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

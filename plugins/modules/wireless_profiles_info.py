@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_info
-short_description: Information module for Wireless Profiles Info
+short_description: Information module for Wireless Profiles
 description:
-  - This module represents an alias of the module wireless_profiles_v1_info
+  - Get all Wireless Profiles.
+  - Get Wireless Profiles by id.
+  - This API allows the user to get a Wireless Network
+    Profile by ID.
+  - This API allows the user to get all Wireless Network
+    Profiles.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,18 +26,20 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records to show for this page. Default
-        is 500 if not specified. Maximum
-        allowed limit is 500.
+        Limit query parameter. The number of records
+        to show for this page. Default is 500 if not
+        specified. Maximum allowed limit is 500.
     type: float
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first
-        record is numbered 1.
+      - Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1.
     type: float
   wirelessProfileName:
     description:
-      - WirelessProfileName query parameter. Wireless Profile Name.
+      - WirelessProfileName query parameter. Wireless
+        Profile Name.
     type: str
   id:
     description:
@@ -40,19 +49,28 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetWirelessProfileByIDV1
-    description: Complete reference of the GetWirelessProfileByIDV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      GetWirelessProfileByID
+    description: Complete reference of the GetWirelessProfileByID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-by-id
-  - name: Cisco DNA Center documentation for Wireless GetWirelessProfilesV1
-    description: Complete reference of the GetWirelessProfilesV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      GetWirelessProfiles
+    description: Complete reference of the GetWirelessProfiles
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles
 notes:
-  - SDK Method used are wireless.Wireless.get_wireless_profile_by_id_v1, wireless.Wireless.get_wireless_profiles_v1,
-  - Paths used are get /dna/intent/api/v1/wirelessProfiles, get /dna/intent/api/v1/wirelessProfiles/{id},
-  - It should be noted that this module is an alias of wireless_profiles_v1_info
+  - SDK Method used are
+    wireless.Wireless.get_wireless_profile_by_id,
+    wireless.Wireless.get_wireless_profiles,
+  - Paths used are
+    get /dna/intent/api/v1/wirelessProfiles,
+    get /dna/intent/api/v1/wirelessProfiles/{id},
 """
+
 EXAMPLES = r"""
-- name: Get all Wireless Profiles Info
+---
+- name: Get all Wireless Profiles
   cisco.dnac.wireless_profiles_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -66,7 +84,7 @@ EXAMPLES = r"""
     offset: 0
     wirelessProfileName: string
   register: result
-- name: Get Wireless Profiles Info by id
+- name: Get Wireless Profiles by id
   cisco.dnac.wireless_profiles_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

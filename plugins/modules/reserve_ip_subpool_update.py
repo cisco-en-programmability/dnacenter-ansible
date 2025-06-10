@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: reserve_ip_subpool_update
-short_description: Resource module for Reserve Ip Subpool Update
+short_description: Resource module for Reserve Ip Subpool
+  Update
 description:
-  - This module represents an alias of the module reserve_ip_subpool_update_v1
+  - Manage operation update of the resource Reserve
+    Ip Subpool Update.
+  - API to update ip subpool from the global pool.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -17,54 +22,67 @@ options:
     description: Id query parameter. Id of subpool group.
     type: str
   ipv4DhcpServers:
-    description: IPv4 input for dhcp server ip example "1.1.1.1".
+    description: IPv4 input for dhcp server ip example
+      "1.1.1.1".
     elements: str
     type: list
   ipv4DnsServers:
-    description: IPv4 input for dns server ip example "4.4.4.4".
+    description: IPv4 input for dns server ip example
+      "4.4.4.4".
     elements: str
     type: list
   ipv4GateWay:
-    description: Gateway ip address details, example 175.175.0.1.
+    description: Gateway ip address details, example
+      175.175.0.1.
     type: str
   ipv6AddressSpace:
-    description: If the value is false only ipv4 input are required. NOTE if value
-      is false then any existing ipv6 subpool in the group will be removed.
+    description: If the value is false only ipv4 input
+      are required. NOTE if value is false then any
+      existing ipv6 subpool in the group will be removed.
     type: bool
   ipv6DhcpServers:
-    description: IPv6 format dhcp server as input example "2001 db8 1234".
+    description: IPv6 format dhcp server as input example
+      "2001 db8 1234".
     elements: str
     type: list
   ipv6DnsServers:
-    description: IPv6 format dns server input example "2001 db8 1234".
+    description: IPv6 format dns server input example
+      "2001 db8 1234".
     elements: str
     type: list
   ipv6GateWay:
-    description: Gateway ip address details, example 2001 db8 85a3 0 100 1.
+    description: Gateway ip address details, example
+      2001 db8 85a3 0 100 1.
     type: str
   ipv6GlobalPool:
-    description: IPv6 Global pool address with cidr this is required when Ipv6AddressSpace
-      value is true, example 2001 db8 85a3 /64.
+    description: IPv6 Global pool address with cidr
+      this is required when Ipv6AddressSpace value is
+      true, example 2001 db8 85a3 /64.
     type: str
   ipv6Prefix:
-    description: Ipv6 prefix value is true, the ip6 prefix length input field is enabled,
-      if it is false ipv6 total Host input is enable.
+    description: Ipv6 prefix value is true, the ip6
+      prefix length input field is enabled, if it is
+      false ipv6 total Host input is enable.
     type: bool
   ipv6PrefixLength:
-    description: IPv6 prefix length is required when the ipv6prefix value is true.
+    description: IPv6 prefix length is required when
+      the ipv6prefix value is true.
     type: int
   ipv6Subnet:
-    description: IPv6 Subnet address, example 2001 db8 85a3 0 100 .
+    description: IPv6 Subnet address, example 2001 db8
+      85a3 0 100 .
     type: str
   ipv6TotalHost:
-    description: Size of pool in terms of number of IPs. IPv6 total host is required
-      when ipv6prefix value is false.
+    description: Size of pool in terms of number of
+      IPs. IPv6 total host is required when ipv6prefix
+      value is false.
     type: int
   name:
     description: Name of the reserve ip sub pool.
     type: str
   siteId:
-    description: SiteId path parameter. Site id of site to update sub pool.
+    description: SiteId path parameter. Site id of site
+      to update sub pool.
     type: str
   slaacSupport:
     description: Slaac Support.
@@ -73,19 +91,25 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
-    description: Complete reference of the UpdateReserveIPSubpoolV1 API.
+  - name: Cisco DNA Center documentation for Network
+      Settings UpdateReserveIPSubpool
+    description: Complete reference of the UpdateReserveIPSubpool
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
 notes:
-  - SDK Method used are network_settings.NetworkSettings.update_reserve_ip_subpool_v1,
-  - Paths used are put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
-  - It should be noted that this module is an alias of reserve_ip_subpool_update_v1
-  - >-
-    Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet'
-    and 'ipv4TotalHost' options
-    in v4.3.0.
+  - SDK Method used are
+    network_settings.NetworkSettings.update_reserve_ip_subpool,
+    - |- Paths used are put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+    - > Removed 'type',
+    'ipv4GlobalPool',
+    'ipv4Prefix',
+    'ipv4PrefixLength',
+    'ipv4Subnet' and 'ipv4TotalHost'
+    options in v4.3.0.
 """
+
 EXAMPLES = r"""
+---
 - name: Update by id
   cisco.dnac.reserve_ip_subpool_update:
     dnac_host: "{{dnac_host}}"

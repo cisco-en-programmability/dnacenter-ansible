@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: backup_storages_info
-short_description: Information module for Backup Storages Info
+short_description: Information module for Backup Storages
 description:
-  - This module represents an alias of the module backup_storages_v1_info
+  - Get all Backup Storages. - > This api is used to
+    get all the mounted backup storage information like
+    mount point, disk size based on the provided storage
+    type.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,23 +23,28 @@ options:
     type: dict
   storageType:
     description:
-      - StorageType query parameter. The `storageType` of the backup storage to be
-        retrieved.
+      - StorageType query parameter. The `storageType`
+        of the backup storage to be retrieved.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Backup GetBackupStoragesV1
-    description: Complete reference of the GetBackupStoragesV1 API.
+  - name: Cisco DNA Center documentation for Backup
+      GetBackupStorages
+    description: Complete reference of the GetBackupStorages
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-backup-storages
 notes:
-  - SDK Method used are backup.Backup.get_backup_storages_v1,
-  - Paths used are get /dna/system/api/v1/backupStorages,
-  - It should be noted that this module is an alias of backup_storages_v1_info
+  - SDK Method used are
+    backup.Backup.get_backup_storages,
+  - Paths used are
+    get /dna/system/api/v1/backupStorages,
 """
+
 EXAMPLES = r"""
-- name: Get all Backup Storages Info
+---
+- name: Get all Backup Storages
   cisco.dnac.backup_storages_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

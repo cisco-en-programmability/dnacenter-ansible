@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: tag_member_info
-short_description: Information module for Tag Member Info
+short_description: Information module for Tag Member
 description:
-  - This module represents an alias of the module tag_member_v1_info
+  - Get all Tag Member.
+  - Returns tag members specified by id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,32 +26,34 @@ options:
   memberType:
     description:
       - >
-        MemberType query parameter. Entity type of the member. Possible values can
-        be retrieved by using
-        /tag/member/type API.
+        MemberType query parameter. Entity type of the
+        member. Possible values can be retrieved by
+        using /tag/member/type API.
     type: str
   offset:
     description:
-      - Offset query parameter. Used for pagination. It indicates the starting row
-        number out of available member records.
+      - Offset query parameter. Used for pagination.
+        It indicates the starting row number out of
+        available member records.
     type: float
   limit:
     description:
       - >
-        Limit query parameter. The number of members to be retrieved. If not specified,
-        the default is 500. The
-        maximum allowed limit is 500.
+        Limit query parameter. The number of members
+        to be retrieved. If not specified, the default
+        is 500. The maximum allowed limit is 500.
     type: float
   memberAssociationType:
     description:
       - >
-        MemberAssociationType query parameter. Indicates how the member is associated
-        with the tag. Possible values
-        and description. 1) DYNAMIC The member is associated to the tag through rules.
-        2) STATIC – The member is
-        associated to the tag manually. 3) MIXED – The member is associated manually
-        and also satisfies the rule
-        defined for the tag.
+        MemberAssociationType query parameter. Indicates
+        how the member is associated with the tag. Possible
+        values and description. 1) DYNAMIC The member
+        is associated to the tag through rules. 2) STATIC
+        – The member is associated to the tag manually.
+        3) MIXED – The member is associated manually
+        and also satisfies the rule defined for the
+        tag.
     type: str
   level:
     description:
@@ -58,16 +63,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Tag GetTagMembersByIdV1
-    description: Complete reference of the GetTagMembersByIdV1 API.
+  - name: Cisco DNA Center documentation for Tag GetTagMembersById
+    description: Complete reference of the GetTagMembersById
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tag-members-by-id
 notes:
-  - SDK Method used are tag.Tag.get_tag_members_by_id_v1,
-  - Paths used are get /dna/intent/api/v1/tag/{id}/member,
-  - It should be noted that this module is an alias of tag_member_v1_info
+  - SDK Method used are
+    tag.Tag.get_tag_members_by_id,
+  - Paths used are
+    get /dna/intent/api/v1/tag/{id}/member,
 """
+
 EXAMPLES = r"""
-- name: Get all Tag Member Info
+---
+- name: Get all Tag Member
   cisco.dnac.tag_member_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

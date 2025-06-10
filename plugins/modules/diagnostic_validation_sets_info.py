@@ -1,13 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: diagnostic_validation_sets_info
-short_description: Information module for Diagnostic Validation Sets Info
+short_description: Information module for Diagnostic
+  Validation Sets
 description:
-  - This module represents an alias of the module diagnostic_validation_sets_v1_info
+  - Get all Diagnostic Validation Sets.
+  - Get Diagnostic Validation Sets by id.
+  - Retrieves all the validation sets and optionally
+    the contained validations.
+  - Retrieves validation details for the given validation
+    set id.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,11 +27,11 @@ options:
   view:
     description:
       - >
-        View query parameter. When the query parameter `view=DETAIL` is passed, all
-        validation sets and associated
-        validations will be returned. When the query parameter `view=DEFAULT` is passed,
-        only validation sets
-        metadata will be returned.
+        View query parameter. When the query parameter
+        `view=DETAIL` is passed, all validation sets
+        and associated validations will be returned.
+        When the query parameter `view=DEFAULT` is passed,
+        only validation sets metadata will be returned.
     type: str
   id:
     description:
@@ -33,24 +41,28 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Health and Performance RetrievesAllTheValidationSetsV1
-    description: Complete reference of the RetrievesAllTheValidationSetsV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets
-  - name: Cisco DNA Center documentation for Health and Performance RetrievesValidationDetailsForAValidationSetV1
-    description: Complete reference of the RetrievesValidationDetailsForAValidationSetV1
+  - name: Cisco DNA Center documentation for Health
+      and Performance RetrievesAllTheValidationSets
+    description: Complete reference of the RetrievesAllTheValidationSets
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-validation-details-for-a-validation-set
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets
+  - name: Cisco DNA Center documentation for Health
+      and Performance RetrievesValidationDetailsForAValidationSet
+    description: Complete reference of the RetrievesValidationDetailsForAValidationSet
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-details-for-a-validation-set
 notes:
   - SDK Method used are
-    health_and_performance.HealthAndPerformance.retrieves_all_the_validation_sets_v1,
-    health_and_performance.HealthAndPerformance.retrieves_validation_details_for_a_validation_set_v1,
-  - Paths used are get /dna/intent/api/v1/diagnosticValidationSets, get /dna/intent/api/v1/diagnosticValidationSets/{id},
-  - It should be noted that this module is an alias of diagnostic_validation_sets_v1_info
+    health_and_performance.HealthAndPerformance.retrieves_all_the_validation_sets,
+    health_and_performance.HealthAndPerformance.retrieves_validation_details_for_a_validation_set,
+  - Paths used are
+    get /dna/intent/api/v1/diagnosticValidationSets,
+    get /dna/intent/api/v1/diagnosticValidationSets/{id},
 """
+
 EXAMPLES = r"""
-- name: Get all Diagnostic Validation Sets Info
+---
+- name: Get all Diagnostic Validation Sets
   cisco.dnac.diagnostic_validation_sets_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -62,7 +74,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     view: string
   register: result
-- name: Get Diagnostic Validation Sets Info by id
+- name: Get Diagnostic Validation Sets by id
   cisco.dnac.diagnostic_validation_sets_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

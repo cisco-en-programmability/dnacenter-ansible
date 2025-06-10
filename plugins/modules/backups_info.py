@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: backups_info
-short_description: Information module for Backups Info
+short_description: Information module for Backups
 description:
-  - This module represents an alias of the module backups_v1_info
+  - Get all Backups.
+  - This api is used to get all the backup available
+    in the configured storage.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,39 +22,49 @@ options:
     type: dict
   query:
     description:
-      - Query query parameter. Filter based on the provided text on predefined fields.
+      - Query query parameter. Filter based on the provided
+        text on predefined fields.
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to show for this page.
+      - Offset query parameter. The first record to
+        show for this page.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page.
+      - Limit query parameter. The number of records
+        to show for this page.
     type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the response to sort by.
+      - SortBy query parameter. A property within the
+        response to sort by.
     type: str
   order:
     description:
-      - Order query parameter. Whether ascending or descending order should be used
-        to sort the response.
+      - Order query parameter. Whether ascending or
+        descending order should be used to sort the
+        response.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Backup GetAllBackupV1
-    description: Complete reference of the GetAllBackupV1 API.
+  - name: Cisco DNA Center documentation for Backup
+      GetAllBackup
+    description: Complete reference of the GetAllBackup
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-backup
 notes:
-  - SDK Method used are backup.Backup.get_all_backup_v1,
-  - Paths used are get /dna/system/api/v1/backups,
-  - It should be noted that this module is an alias of backups_v1_info
+  - SDK Method used are
+    backup.Backup.get_all_backup,
+  - Paths used are
+    get /dna/system/api/v1/backups,
 """
+
 EXAMPLES = r"""
-- name: Get all Backups Info
+---
+- name: Get all Backups
   cisco.dnac.backups_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
