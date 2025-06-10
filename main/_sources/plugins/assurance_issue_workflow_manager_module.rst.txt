@@ -71,6 +71,7 @@ Synopsis
 - This module allows the management of assurance global profile settings and issues in Cisco Catalyst Center.
 - It supports creating, updating, and deleting configurations for issue settings and issue resolution functionalities.
 - This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs, and more for issue settings and issue resolution.
+- The functionality for updating 'Global and Customized Settings', including custom profiles site assignment, is currently unavailable due to an API/SDK upgrade. It will be accessible under the 'Network Assurance Profile Workflow Manager' once the updated API is released
 
 
 .. Aliases
