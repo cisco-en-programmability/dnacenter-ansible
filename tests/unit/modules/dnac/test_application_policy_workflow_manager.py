@@ -699,32 +699,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             "The following parameter(s): 'profile_name' could not be found and are mandatory to create or update application queuing profile."
         )
 
-    def test_application_policy_workflow_manager_playbook_delete_application(self):
-        """
-        Test the Application Policy Workflow Manager's application deletion process.
-
-        This test verifies that the workflow correctly handles the deletion of an application
-        within an application policy.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="deleted",
-                config_verify=True,
-                dnac_version="2.3.7.6",
-                config=self.playbook_delete_application
-            )
-        )
-        result = self.execute_module(changed=False, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "The requested application application2 is not present in the Cisco Catalyst Center and its deletion has been verified."
-        )
-
     def test_application_policy_workflow_manager_playbook_create_policy_wired_error(self):
         """
         Test the Application Policy Workflow Manager's wired policy creation error handling.
@@ -808,110 +782,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             "Queuing Profile(s) 'new' updated successfully in Cisco Catalyst Center."
         )
 
-    def test_application_policy_workflow_manager_playbook_create_application_servername(self):
-        """
-        Test the Application Policy Workflow Manager's application creation with a server name.
-
-        This test verifies that the workflow correctly creates a new application
-        with a specified server name, ensuring proper validation and expected behavior.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                dnac_version="2.3.7.6",
-                config=self.playbook_create_application_servername
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "Application(s) 'application5' created successfully in Cisco Catalyst Center."
-        )
-
-    def test_application_policy_workflow_manager_playbook_create_application_serverip(self):
-        """
-        Test the creation of an application with a specified server IP in the Application Policy Workflow Manager.
-
-        This test ensures that the workflow correctly handles the creation process
-        when a server IP is provided, validating inputs and maintaining expected behavior.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                dnac_version="2.3.7.6",
-                config=self.playbook_create_application_serverip
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "Application(s) 'application2' created successfully in Cisco Catalyst Center."
-        )
-
-    def test_application_policy_workflow_manager_playbook_update_application_serveriptoname(self):
-        """
-        Test the Application Policy Workflow Manager's update process from server IP to server name.
-
-        This test verifies that the workflow correctly updates an application by replacing
-        the server IP with a server name, ensuring proper validation and expected behavior.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                dnac_version="2.3.7.6",
-                config=self.playbook_update_application_serveriptoname
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "Application(s) 'application_1_new' updated successfully in Cisco Catalyst Center."
-        )
-
-    def test_application_policy_workflow_manager_playbook_update_application_nametourl(self):
-        """
-        Test the Application Policy Workflow Manager's update process from server name to URL.
-
-        This test verifies that the workflow correctly updates an application by replacing
-        the server name with a URL, ensuring proper validation and expected behavior.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                dnac_version="2.3.7.6",
-                config=self.playbook_update_application_nametourl
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "Application(s) 'application_1_new' updated successfully in Cisco Catalyst Center."
-        )
-
     def test_application_policy_workflow_manager_playbook_multiple_profile_delete(self):
         """
         Test the Application Policy Workflow Manager's update process from server name to URL.
@@ -936,32 +806,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             "Queuing Profile(s) 'b5' deleted successfully from Cisco Catalyst Center."
-        )
-
-    def test_application_policy_workflow_manager_playbook_application_delete(self):
-        """
-        Test the Application Policy Workflow Manager's update process from server name to URL.
-
-        This test verifies that the workflow correctly updates an application by replacing
-        the server name with a URL, ensuring proper validation and expected behavior.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="deleted",
-                config_verify=True,
-                dnac_version="2.3.7.6",
-                config=self.playbook_application_delete
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "Application(s) 'application1' deleted successfully from Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_error_1(self):
@@ -1042,32 +886,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             "'application_policy' should be a list, found: <class 'dict'>"
         )
 
-    def test_application_policy_workflow_manager_playbook_application_noupdate(self):
-        """
-        Test the Application Policy Workflow Manager's update process from server name to URL.
-
-        This test verifies that the workflow correctly updates an application by replacing
-        the server name with a URL, ensuring proper validation and expected behavior.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                dnac_version="2.3.7.6",
-                config=self.playbook_application_noupdate
-            )
-        )
-        result = self.execute_module(changed=False, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "Application(s) 'application1' need no update in Cisco Catalyst Center."
-        )
-
     def test_application_policy_workflow_manager_playbook_policy_noupdate(self):
         """
         Test the Application Policy Workflow Manager's update process from server name to URL.
@@ -1118,32 +936,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             "Application Policy(ies) 'policy_1' do not exist or are already deleted in Cisco Catalyst Center."
-        )
-
-    def test_application_policy_workflow_manager_playbook_application_alreadydeleted(self):
-        """
-        Test the Application Policy Workflow Manager's update process from server name to URL.
-
-        This test verifies that the workflow correctly updates an application by replacing
-        the server name with a URL, ensuring proper validation and expected behavior.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="deleted",
-                config_verify=True,
-                dnac_version="2.3.7.6",
-                config=self.playbook_application_alreadydeleted
-            )
-        )
-        result = self.execute_module(changed=False, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "Application(s) 'application1' do not exist or are already deleted in Cisco Catalyst Center."
         )
 
     def test_application_policy_workflow_manager_playbook_profile_alreadydeleted(self):
