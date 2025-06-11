@@ -1621,7 +1621,7 @@
         {
             "tag": {
                 "name": "Test_tag_update",
-                "new_tag_name": "Test_tag_update_renamed"
+                "new_name": "Test_tag_update_renamed"
             }
         }
     ],

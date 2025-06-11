@@ -378,4 +378,4 @@ remove_tags_from_devices:
 change_tag_name:
   - tag:
       name: Test_name_change
-      new_tag_name: Test_name_change_renamed
+      new_name: Test_name_change_renamed
