@@ -1,13 +1,25 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: clients_trend_analytics
-short_description: Resource module for Clients Trend Analytics
+short_description: Resource module for Clients Trend
+  Analytics
 description:
-  - This module represents an alias of the module clients_trend_analytics_v1
+  - Manage operation create of the resource Clients
+    Trend Analytics. - > Retrieves the trend analytics
+    of client data for the specified time range. The
+    data will be grouped based on the given trend time
+    interval. This API facilitates obtaining consolidated
+    insights into the performance and status of the
+    clients over the specified start and end time. For
+    detailed information about the usage of the API,
+    please refer to the Open API specification document
+    - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -75,17 +87,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Clients RetrievesTheTrendAnalyticsDataRelatedToClientsV1
-    description: Complete reference of the RetrievesTheTrendAnalyticsDataRelatedToClientsV1
+  - name: Cisco DNA Center documentation for Clients
+      RetrievesTheTrendAnalyticsDataRelatedToClients
+    description: Complete reference of the RetrievesTheTrendAnalyticsDataRelatedToClients
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-the-trend-analytics-data-related-to-clients
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-trend-analytics-data-related-to-clients
 notes:
-  - SDK Method used are clients.Clients.retrieves_the_trend_analytics_data_related_to_clients_v1,
-  - Paths used are post /dna/data/api/v1/clients/trendAnalytics,
-  - It should be noted that this module is an alias of clients_trend_analytics_v1
+  - SDK Method used are
+    clients.Clients.retrieves_the_trend_analytics_data_related_to_clients,
+  - Paths used are
+    post /dna/data/api/v1/clients/trendAnalytics,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.clients_trend_analytics:
     dnac_host: "{{dnac_host}}"

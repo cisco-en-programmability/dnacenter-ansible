@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_enterprise_ssid
-short_description: Resource module for Wireless Enterprise Ssid
+short_description: Resource module for Wireless Enterprise
+  Ssid
 description:
-  - This module represents an alias of the module wireless_enterprise_ssid_v1
+  - Manage operations create, update and delete of the
+    resource Wireless Enterprise Ssid.
+  - Creates enterprise SSID.
+  - Deletes given enterprise SSID.
+  - Update enterprise SSID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -17,8 +24,9 @@ options:
     description: Aaa Override.
     type: bool
   authKeyMgmt:
-    description: Takes string inputs for the AKMs that should be set true. Possible
-      AKM values dot1x,dot1x_ft, dot1x_sha, psk, psk_ft, psk_sha, owe, sae, sae_ft.
+    description: Takes string inputs for the AKMs that
+      should be set true. Possible AKM values dot1x,dot1x_ft,
+      dot1x_sha, psk, psk_ft, psk_sha, owe, sae, sae_ft.
     elements: str
     type: list
   basicServiceSetClientIdleTimeout:
@@ -100,9 +108,10 @@ options:
     description: Profile Name.
     type: str
   protectedManagementFrame:
-    description: (Required applicable for Security Type WPA3_PERSONAL, WPA3_ENTERPRISE,
-      OPEN_SECURED) and (Optional, Required Applicable for Security Type WPA2_WPA3_PERSONAL
-      and WPA2_WPA3_ENTERPRISE).
+    description: (Required applicable for Security Type
+      WPA3_PERSONAL, WPA3_ENTERPRISE, OPEN_SECURED)
+      and (Optional, Required Applicable for Security
+      Type WPA2_WPA3_PERSONAL and WPA2_WPA3_ENTERPRISE).
     type: str
   radioPolicy:
     description: Radio Policy Enum.
@@ -123,32 +132,45 @@ options:
     description: Session Time Out.
     type: int
   ssidName:
-    description: SsidName path parameter. Enter the SSID name to be deleted.
+    description: SsidName path parameter. Enter the
+      SSID name to be deleted.
     type: str
   trafficType:
-    description: Traffic Type Enum (voicedata or data ).
+    description: Traffic Type Enum (voicedata or data
+      ).
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSIDV1
-    description: Complete reference of the CreateEnterpriseSSIDV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      CreateEnterpriseSSID
+    description: Complete reference of the CreateEnterpriseSSID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid
-  - name: Cisco DNA Center documentation for Wireless DeleteEnterpriseSSIDV1
-    description: Complete reference of the DeleteEnterpriseSSIDV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      DeleteEnterpriseSSID
+    description: Complete reference of the DeleteEnterpriseSSID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid
-  - name: Cisco DNA Center documentation for Wireless UpdateEnterpriseSSIDV1
-    description: Complete reference of the UpdateEnterpriseSSIDV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      UpdateEnterpriseSSID
+    description: Complete reference of the UpdateEnterpriseSSID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid
 notes:
-  - SDK Method used are wireless.Wireless.create_enterprise_ssid_v1, wireless.Wireless.delete_enterprise_ssid_v1,
-    wireless.Wireless.update_enterprise_ssid_v1,
-  - Paths used are post /dna/intent/api/v1/enterprise-ssid, delete /dna/intent/api/v1/enterprise-ssid/{ssidName},
+  - SDK Method used are
+    wireless.Wireless.create_enterprise_ssid,
+    wireless.Wireless.delete_enterprise_ssid,
+    wireless.Wireless.update_enterprise_ssid,
+  - Paths used are
+    post /dna/intent/api/v1/enterprise-ssid,
+    delete /dna/intent/api/v1/enterprise-ssid/{ssidName},
     put /dna/intent/api/v1/enterprise-ssid,
-  - It should be noted that this module is an alias of wireless_enterprise_ssid_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.wireless_enterprise_ssid:
     dnac_host: "{{dnac_host}}"

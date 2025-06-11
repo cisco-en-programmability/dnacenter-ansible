@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: client_health_info
-short_description: Information module for Client Health Info
+short_description: Information module for Client Health
 description:
-  - This module represents an alias of the module client_health_v1_info
+  - Get all Client Health.
+  - Returns Overall Client Health information by Client
+    type Wired and Wireless for any given point of time.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,23 +22,28 @@ options:
     type: dict
   timestamp:
     description:
-      - Timestamp query parameter. Epoch time(in milliseconds) when the Client health
-        data is required.
+      - Timestamp query parameter. Epoch time(in milliseconds)
+        when the Client health data is required.
     type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Clients GetOverallClientHealthV1
-    description: Complete reference of the GetOverallClientHealthV1 API.
+  - name: Cisco DNA Center documentation for Clients
+      GetOverallClientHealth
+    description: Complete reference of the GetOverallClientHealth
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-overall-client-health
 notes:
-  - SDK Method used are clients.Clients.get_overall_client_health_v1,
-  - Paths used are get /dna/intent/api/v1/client-health,
-  - It should be noted that this module is an alias of client_health_v1_info
+  - SDK Method used are
+    clients.Clients.get_overall_client_health,
+  - Paths used are
+    get /dna/intent/api/v1/client-health,
 """
+
 EXAMPLES = r"""
-- name: Get all Client Health Info
+---
+- name: Get all Client Health
   cisco.dnac.client_health_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
