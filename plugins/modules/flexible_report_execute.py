@@ -1,34 +1,45 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: flexible_report_execute
-short_description: Resource module for Flexible Report Execute
+short_description: Resource module for Flexible Report
+  Execute
 description:
-  - This module represents an alias of the module flexible_report_execute_v1
+  - Manage operation create of the resource Flexible
+    Report Execute.
+  - This API is used for executing the report.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   reportId:
-    description: ReportId path parameter. Id of the Report.
+    description: ReportId path parameter. Id of the
+      Report.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Reports ExecutingTheFlexibleReportV1
-    description: Complete reference of the ExecutingTheFlexibleReportV1 API.
+  - name: Cisco DNA Center documentation for Reports
+      ExecutingTheFlexibleReport
+    description: Complete reference of the ExecutingTheFlexibleReport
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!executing-the-flexible-report
 notes:
-  - SDK Method used are reports.Reports.executing_the_flexible_report_v1,
-  - Paths used are post /dna/data/api/v1/flexible-report/report/{reportId}/execute,
-  - It should be noted that this module is an alias of flexible_report_execute_v1
+  - SDK Method used are
+    reports.Reports.executing_the_flexible_report,
+  - Paths used are
+    post /dna/data/api/v1/flexible-report/report/{reportId}/execute,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.flexible_report_execute:
     dnac_host: "{{dnac_host}}"

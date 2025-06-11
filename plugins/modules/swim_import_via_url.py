@@ -1,13 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: swim_import_via_url
-short_description: Resource module for Swim Import Via Url
+short_description: Resource module for Swim Import Via
+  Url
 description:
-  - This module represents an alias of the module swim_import_via_url_v1
+  - Manage operation create of the resource Swim Import
+    Via Url. - > Fetches a software image from remote
+    file system using URL for HTTP/FTP and uploads to
+    DNA Center. Supported image files extensions are
+    bin, img, tar, smu, pie, aes, iso, ova, tar_gz and
+    qcow2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -34,29 +42,37 @@ options:
         type: str
     type: list
   scheduleAt:
-    description: ScheduleAt query parameter. Epoch Time (The number of milli-seconds
-      since January 1 1970 UTC) at which the distribution should be scheduled (Optional).
+    description: ScheduleAt query parameter. Epoch Time
+      (The number of milli-seconds since January 1 1970
+      UTC) at which the distribution should be scheduled
+      (Optional).
     type: str
   scheduleDesc:
-    description: ScheduleDesc query parameter. Custom Description (Optional).
+    description: ScheduleDesc query parameter. Custom
+      Description (Optional).
     type: str
   scheduleOrigin:
-    description: ScheduleOrigin query parameter. Originator of this call (Optional).
+    description: ScheduleOrigin query parameter. Originator
+      of this call (Optional).
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportSoftwareImageViaURLV1
-    description: Complete reference of the ImportSoftwareImageViaURLV1 API.
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) ImportSoftwareImageViaURL
+    description: Complete reference of the ImportSoftwareImageViaURL
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!import-software-image-via-url
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url_v1,
-  - Paths used are post /dna/intent/api/v1/image/importation/source/url,
-  - It should be noted that this module is an alias of swim_import_via_url_v1
+    software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
+  - Paths used are
+    post /dna/intent/api/v1/image/importation/source/url,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.swim_import_via_url:
     dnac_host: "{{dnac_host}}"

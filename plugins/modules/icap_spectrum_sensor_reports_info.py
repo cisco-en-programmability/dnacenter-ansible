@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: icap_spectrum_sensor_reports_info
-short_description: Information module for Icap Spectrum Sensor Reports Info
+short_description: Information module for Icap Spectrum
+  Sensor Reports
 description:
-  - This module represents an alias of the module icap_spectrum_sensor_reports_v1_info
+  - Get all Icap Spectrum Sensor Reports. - > Retrieves
+    the spectrum sensor reports sent by WLC for provided
+    AP Mac. For detailed information about the usage
+    of the API, please refer to the Open API specification
+    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,62 +26,71 @@ options:
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which API queries the data set
-        related to the resource. It must
-        be specified in UNIX epochtime in milliseconds. Value is inclusive.
+        StartTime query parameter. Start time from which
+        API queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API queries the data set related
-        to the resource. It must be
-        specified in UNIX epochtime in milliseconds. Value is inclusive.
+        EndTime query parameter. End time to which API
+        queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   apMac:
     description:
-      - ApMac query parameter. The base ethernet macAddress of the access point.
+      - ApMac query parameter. The base ethernet macAddress
+        of the access point.
     type: str
   dataType:
     description:
       - >
-        DataType query parameter. Data type reported by the sensor |Data Type | Description
-        | | --- | --- | | `0` |
-        Duty Cycle | | `1` | Max Power | | `2` | Average Power | | `3` | Max Power
-        in dBm with adjusted base of +48
-        | | `4` | Average Power in dBm with adjusted base of +48 |.
+        DataType query parameter. Data type reported
+        by the sensor |Data Type | Description | | ---
+        | --- | | `0` | Duty Cycle | | `1` | Max Power
+        | | `2` | Average Power | | `3` | Max Power
+        in dBm with adjusted base of +48 | | `4` | Average
+        Power in dBm with adjusted base of +48 |.
     type: float
   limit:
     description:
-      - Limit query parameter. Maximum number of records to return.
+      - Limit query parameter. Maximum number of records
+        to return.
     type: float
   offset:
     description:
       - >
-        Offset query parameter. Specifies the starting point within all records returned
-        by the API. It's one based
-        offset. The starting value is 1.
+        Offset query parameter. Specifies the starting
+        point within all records returned by the API.
+        It's one based offset. The starting value is
+        1.
     type: float
   timeSortOrder:
     description:
-      - TimeSortOrder query parameter. The sort order of the field ascending or descending.
+      - TimeSortOrder query parameter. The sort order
+        of the field ascending or descending.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Sensors RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMacV1
-    description: Complete reference of the RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMacV1
+  - name: Cisco DNA Center documentation for Sensors
+      RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMac
+    description: Complete reference of the RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMac
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-the-spectrum-sensor-reports-sent-by-wlc-for-provided-ap-mac
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-spectrum-sensor-reports-sent-by-wlc-for-provided-ap-mac
 notes:
   - SDK Method used are
-    sensors.Sensors.retrieves_the_spectrum_sensor_reports_sent_by_w_l_c_for_provided_ap_mac_v1,
-  - Paths used are get /dna/data/api/v1/icap/spectrumSensorReports,
-  - It should be noted that this module is an alias of icap_spectrum_sensor_reports_v1_info
+    sensors.Sensors.retrieves_the_spectrum_sensor_reports_sent_by_w_l_c_for_provided_ap_mac,
+  - Paths used are
+    get /dna/data/api/v1/icap/spectrumSensorReports,
 """
+
 EXAMPLES = r"""
-- name: Get all Icap Spectrum Sensor Reports Info
+---
+- name: Get all Icap Spectrum Sensor Reports
   cisco.dnac.icap_spectrum_sensor_reports_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

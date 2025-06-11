@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: device_interface_count_info
-short_description: Information module for Device Interface Count Info
+short_description: Information module for Device Interface
+  Count
 description:
-  - This module represents an alias of the module device_interface_count_v1_info
+  - Get all Device Interface Count.
+  - Returns the count of interfaces for all devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,18 +24,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCountForMultipleDevicesV1
-    description: Complete reference of the GetDeviceInterfaceCountForMultipleDevicesV1
+  - name: Cisco DNA Center documentation for Devices
+      GetDeviceInterfaceCountForMultipleDevices
+    description: Complete reference of the GetDeviceInterfaceCountForMultipleDevices
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-device-interface-count-for-multiple-devices
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count-for-multiple-devices
 notes:
-  - SDK Method used are devices.Devices.get_device_interface_count,
-  - Paths used are get /dna/intent/api/v1/interface/count,
-  - It should be noted that this module is an alias of device_interface_count_v1_info
+  - SDK Method used are
+    devices.Devices.get_device_interface_count,
+  - Paths used are
+    get /dna/intent/api/v1/interface/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Device Interface Count Info
+---
+- name: Get all Device Interface Count
   cisco.dnac.device_interface_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
