@@ -1,14 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_lexicographically_sorted_info
-short_description: Information module for Network Device Lexicographically Sorted
-  Info
+short_description: Information module for Network Device
+  Lexicographically Sorted
 description:
-  - This module represents an alias of the module network_device_lexicographically_sorted_v1_info
+  - Get all Network Device Lexicographically Sorted.
+  - Returns the list of values of the first given required
+    parameter.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -103,25 +107,28 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page. Min 1,
-        Max 500.
+      - Limit query parameter. The number of records
+        to show for this page. Min 1, Max 500.
     type: int
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1
-    description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1
+  - name: Cisco DNA Center documentation for Devices
+      GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
+    description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute
 notes:
-  - SDK Method used are devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute_v1,
-  - Paths used are get /dna/intent/api/v1/network-device/autocomplete,
-  - It should be noted that this module is an alias of network_device_lexicographically_sorted_v1_info
+  - SDK Method used are
+    devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute,
+  - Paths used are
+    get /dna/intent/api/v1/network-device/autocomplete,
 """
+
 EXAMPLES = r"""
-- name: Get all Network Device Lexicographically Sorted Info
+---
+- name: Get all Network Device Lexicographically Sorted
   cisco.dnac.network_device_lexicographically_sorted_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

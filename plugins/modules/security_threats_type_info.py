@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: security_threats_type_info
-short_description: Information module for Security Threats Type Info
+short_description: Information module for Security Threats
+  Type
 description:
-  - This module represents an alias of the module security_threats_type_v1_info
+  - Get all Security Threats Type.
+  - Intent API to fetch all threat types defined.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,12 +24,15 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 notes:
-  - SDK Method used are devices.Devices.get_threat_types_v1,
-  - Paths used are get /dna/intent/api/v1/security/threats/type,
-  - It should be noted that this module is an alias of security_threats_type_v1_info
+  - SDK Method used are
+    devices.Devices.get_threat_types,
+  - Paths used are
+    get /dna/intent/api/v1/security/threats/type,
 """
+
 EXAMPLES = r"""
-- name: Get all Security Threats Type Info
+---
+- name: Get all Security Threats Type
   cisco.dnac.security_threats_type_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
