@@ -4316,7 +4316,10 @@ class Tags(DnacBase):
         updated_tag_info = {"name": tag_name}
 
         if new_tag_name and tag_name_in_ccc != new_tag_name:
-            self.log("New Tag name provided. Update required.", "INFO")
+            self.log(
+                f"New Tag Name provided: '{new_tag_name}'. Existing tag name: '{tag_name_in_ccc}'. Update required.",
+                "INFO",
+            )
             updated_tag_info["name"] = new_tag_name
             requires_update = True
 
