@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: file_namespace_files_info
-short_description: Information module for File Namespace Files Info
+short_description: Information module for File Namespace
+  Files
 description:
-  - This module represents an alias of the module file_namespace_files_v1_info
+  - Get File Namespace Files by name.
+  - Returns list of files under a specific namespace.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,16 +28,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for File GetListOfFilesV1
-    description: Complete reference of the GetListOfFilesV1 API.
+  - name: Cisco DNA Center documentation for File GetListOfFiles
+    description: Complete reference of the GetListOfFiles
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-list-of-files
 notes:
-  - SDK Method used are file.File.get_list_of_files_v1,
-  - Paths used are get /dna/intent/api/v1/file/namespace/{nameSpace},
-  - It should be noted that this module is an alias of file_namespace_files_v1_info
+  - SDK Method used are
+    file.File.get_list_of_files,
+  - Paths used are
+    get /dna/intent/api/v1/file/namespace/{nameSpace},
 """
+
 EXAMPLES = r"""
-- name: Get File Namespace Files Info by name
+---
+- name: Get File Namespace Files by name
   cisco.dnac.file_namespace_files_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

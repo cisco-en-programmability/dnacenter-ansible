@@ -1,13 +1,26 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: virtual_network_health_summaries_id_info
-short_description: Information module for Virtual Network Health Summaries Id Info
+short_description: Information module for Virtual Network
+  Health Summaries Id
 description:
-  - This module represents an alias of the module virtual_network_health_summaries_id_v1_info
+  - Get Virtual Network Health Summaries Id by id. -
+    > Get health summary for a specific Virtual Network
+    by providing the unique virtual networks id in the
+    url path. L2 Virtual Networks are only included
+    in health reporting for EVPN protocol deployments.
+    The special Layer 3 VN called "INFRA_VN" is also
+    not included for user access through Assurance virtualNetworkHealthSummaries
+    APIS. Please find INFRA_VN related health metrics
+    under /data/api/v1/fabricSiteHealthSummaries Ex
+    attributes "pubsubInfraVnGoodHealthPercentage" and
+    "bgpPeerInfraVnScoreGoodHealthPercentage" .
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,46 +36,52 @@ options:
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API queries the data set related
-        to the resource. It must be
-        specified in UNIX epochtime in milliseconds. Value is inclusive.
+        EndTime query parameter. End time to which API
+        queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which API queries the data set
-        related to the resource. It must
-        be specified in UNIX epochtime in milliseconds. Value is inclusive.
+        StartTime query parameter. Start time from which
+        API queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   attribute:
     description:
-      - Attribute query parameter. The interested fields in the request. For valid
-        attributes, verify the documentation.
+      - Attribute query parameter. The interested fields
+        in the request. For valid attributes, verify
+        the documentation.
     type: str
   view:
     description:
       - >
-        View query parameter. The specific summary view being requested. This is an
-        optional parameter which can be
-        passed to get one or more of the specific health data summaries associated
-        with virtual networks.
+        View query parameter. The specific summary view
+        being requested. This is an optional parameter
+        which can be passed to get one or more of the
+        specific health data summaries associated with
+        virtual networks.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA ReadVirtualNetworkWithItsHealthSummaryFromIdV1
-    description: Complete reference of the ReadVirtualNetworkWithItsHealthSummaryFromIdV1
+  - name: Cisco DNA Center documentation for SDA ReadVirtualNetworkWithItsHealthSummaryFromId
+    description: Complete reference of the ReadVirtualNetworkWithItsHealthSummaryFromId
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!read-virtual-network-with-its-health-summary-from-id
+    link: https://developer.cisco.com/docs/dna-center/#!read-virtual-network-with-its-health-summary-from-id
 notes:
-  - SDK Method used are sda.Sda.read_virtual_network_with_its_health_summary_from_id_v1,
-  - Paths used are get /dna/data/api/v1/virtualNetworkHealthSummaries/{id},
-  - It should be noted that this module is an alias of virtual_network_health_summaries_id_v1_info
+  - SDK Method used are
+    sda.Sda.read_virtual_network_with_its_health_summary_from_id,
+  - Paths used are
+    get /dna/data/api/v1/virtualNetworkHealthSummaries/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Virtual Network Health Summaries Id Info by id
+---
+- name: Get Virtual Network Health Summaries Id by id
   cisco.dnac.virtual_network_health_summaries_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -89,16 +108,15 @@ dnac_response:
       "response": {
         "id": "string",
         "name": "string",
-        "networkProtocol": "string",
-        "vlan": {},
-        "vnid": 0,
-        "layer": {},
-        "totalFabricSites": 0,
-        "associatedL3Vn": {},
+        "vlan": "string",
+        "vnid": "string",
+        "layer": "string",
+        "associatedL3Vn": "string",
         "totalEndpoints": 0,
+        "totalFabricSites": 0,
         "goodHealthPercentage": 0,
-        "totalDeviceCount": 0,
         "goodHealthDeviceCount": 0,
+        "totalHealthDeviceCount": 0,
         "fairHealthDeviceCount": 0,
         "poorHealthDeviceCount": 0,
         "noHealthDeviceCount": 0,
@@ -120,7 +138,7 @@ dnac_response:
         "vnExitPoorHealthDeviceCount": 0,
         "vnExitFairHealthDeviceCount": 0,
         "vnExitNoHealthDeviceCount": 0,
-        "vnStatusHealthPercentage": {},
+        "vnStatusHealthPercentage": 0,
         "vnStatusTotalDeviceCount": 0,
         "vnStatusGoodHealthDeviceCount": 0,
         "vnStatusPoorHealthDeviceCount": 0,
@@ -132,12 +150,11 @@ dnac_response:
         "pubsubSessionPoorHealthDeviceCount": 0,
         "pubsubSessionFairHealthDeviceCount": 0,
         "pubsubSessionNoHealthDeviceCount": 0,
-        "multiCastGoodHealthPercentage": {},
+        "multiCastGoodHealthPercentage": 0,
         "multiCastTotalDeviceCount": 0,
         "multiCastGoodHealthDeviceCount": 0,
         "multiCastPoorHealthDeviceCount": 0,
         "multiCastFairHealthDeviceCount": 0,
-        "multiCastNoHealthDeviceCount": 0,
         "internetAvailGoodHealthPercentage": 0,
         "internetAvailTotalDeviceCount": 0,
         "internetAvailGoodHealthDeviceCount": 0,
@@ -150,12 +167,14 @@ dnac_response:
         "bgpPeerPoorHealthDeviceCount": 0,
         "bgpPeerFairHealthDeviceCount": 0,
         "bgpPeerNoHealthDeviceCount": 0,
-        "vniGoodHealthPercentage": {},
+        "vniGoodHealthPercentage": 0,
         "vniTotalDeviceCount": 0,
         "vniGoodHealthDeviceCount": 0,
         "vniPoorHealthDeviceCount": 0,
         "vniFairHealthDeviceCount": 0,
-        "vniNoHealthDeviceCount": 0
-      }
+        "vniNoHealthDeviceCount": 0,
+        "networkProtocol": "string"
+      },
+      "version": "string"
     }
 """

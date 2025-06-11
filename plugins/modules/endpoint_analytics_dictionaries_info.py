@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_dictionaries_info
-short_description: Information module for Endpoint Analytics Dictionaries Info
+short_description: Information module for Endpoint Analytics
+  Dictionaries
 description:
-  - This module represents an alias of the module endpoint_analytics_dictionaries_v1_info
+  - Get all Endpoint Analytics Dictionaries.
+  - Fetches the list of attribute dictionaries.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,27 +23,29 @@ options:
   includeAttributes:
     description:
       - >
-        IncludeAttributes query parameter. Flag to indicate whether attribute list
-        for each dictionary should be
-        included in response.
+        IncludeAttributes query parameter. Flag to indicate
+        whether attribute list for each dictionary should
+        be included in response.
     type: bool
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint Analytics GetAIEndpointAnalyticsAttributeDictionariesV1
-    description: Complete reference of the GetAIEndpointAnalyticsAttributeDictionariesV1
+  - name: Cisco DNA Center documentation for AI Endpoint
+      Analytics GetAIEndpointAnalyticsAttributeDictionaries
+    description: Complete reference of the GetAIEndpointAnalyticsAttributeDictionaries
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries
+    link: https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries
 notes:
   - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.get_a_i_endpoint_analytics_attribute_dictionaries_v1,
-  - Paths used are get /dna/intent/api/v1/endpoint-analytics/dictionaries,
-  - It should be noted that this module is an alias of endpoint_analytics_dictionaries_v1_info
+    ai_endpoint_analytics.AiEndpointAnalytics.get_ai_endpoint_analytics_attribute_dictionaries,
+  - Paths used are
+    get /dna/intent/api/v1/endpoint-analytics/dictionaries,
 """
+
 EXAMPLES = r"""
-- name: Get all Endpoint Analytics Dictionaries Info
+---
+- name: Get all Endpoint Analytics Dictionaries
   cisco.dnac.endpoint_analytics_dictionaries_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: lan_automation_log_by_serial_number_info
-short_description: Information module for Lan Automation Log By Serial Number Info
+short_description: Information module for Lan Automation
+  Log By Serial Number
 description:
-  - This module represents an alias of the module lan_automation_log_by_serial_number_v1_info
+  - Get Lan Automation Log By Serial Number by id. -
+    > Invoke this API to get the LAN Automation session
+    logs for individual devices based on the given LAN
+    Automation session id and device serial number.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,28 +33,32 @@ options:
   logLevel:
     description:
       - >
-        LogLevel query parameter. Supported levels are ERROR, INFO, WARNING, TRACE,
-        CONFIG and ALL. Specifying ALL
-        will display device specific logs with the exception of CONFIG logs. In order
-        to view CONFIG logs along with
-        the remaining logs, please leave the query parameter blank.
+        LogLevel query parameter. Supported levels are
+        ERROR, INFO, WARNING, TRACE, CONFIG and ALL.
+        Specifying ALL will display device specific
+        logs with the exception of CONFIG logs. In order
+        to view CONFIG logs along with the remaining
+        logs, please leave the query parameter blank.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation LANAutomationLogsForIndividualDevicesV1
-    description: Complete reference of the LANAutomationLogsForIndividualDevicesV1
+  - name: Cisco DNA Center documentation for LAN Automation
+      LANAutomationLogsForIndividualDevices
+    description: Complete reference of the LANAutomationLogsForIndividualDevices
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!l-an-automation-logs-for-individual-devices
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-logs-for-individual-devices
 notes:
-  - SDK Method used are lan_automation.LanAutomation.lan_automation_logs_for_individual_devices_v1,
-  - Paths used are get /dna/intent/api/v1/lan-automation/log/{id}/{serialNumber},
-  - It should be noted that this module is an alias of lan_automation_log_by_serial_number_v1_info
+  - SDK Method used are
+    lan_automation.LanAutomation.lan_automation_logs_for_individual_devices,
+  - Paths used are
+    get /dna/intent/api/v1/lan-automation/log/{id}/{serialNumber},
 """
+
 EXAMPLES = r"""
-- name: Get Lan Automation Log By Serial Number Info by id
+---
+- name: Get Lan Automation Log By Serial Number by id
   cisco.dnac.lan_automation_log_by_serial_number_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
