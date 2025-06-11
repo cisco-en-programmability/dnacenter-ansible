@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sda_port_assignments_count_info
-short_description: Information module for Sda Port Assignments Count Info
+short_description: Information module for Sda Port Assignments
+  Count
 description:
-  - This module represents an alias of the module sda_port_assignments_count_v1_info
+  - Get all Sda Port Assignments Count.
+  - Returns the count of port assignments that match
+    the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,38 +23,47 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric the device is assigned to.
+      - FabricId query parameter. ID of the fabric the
+        device is assigned to.
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device ID of the port assignment.
+      - NetworkDeviceId query parameter. Network device
+        ID of the port assignment.
     type: str
   interfaceName:
     description:
-      - InterfaceName query parameter. Interface name of the port assignment.
+      - InterfaceName query parameter. Interface name
+        of the port assignment.
     type: str
   dataVlanName:
     description:
-      - DataVlanName query parameter. Data VLAN name of the port assignment.
+      - DataVlanName query parameter. Data VLAN name
+        of the port assignment.
     type: str
   voiceVlanName:
     description:
-      - VoiceVlanName query parameter. Voice VLAN name of the port assignment.
+      - VoiceVlanName query parameter. Voice VLAN name
+        of the port assignment.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA GetPortAssignmentCountV1
-    description: Complete reference of the GetPortAssignmentCountV1 API.
+  - name: Cisco DNA Center documentation for SDA GetPortAssignmentCount
+    description: Complete reference of the GetPortAssignmentCount
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-count
 notes:
-  - SDK Method used are sda.Sda.get_port_assignment_count_v1,
-  - Paths used are get /dna/intent/api/v1/sda/portAssignments/count,
-  - It should be noted that this module is an alias of sda_port_assignments_count_v1_info
+  - SDK Method used are
+    sda.Sda.get_port_assignment_count,
+  - Paths used are
+    get /dna/intent/api/v1/sda/portAssignments/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Sda Port Assignments Count Info
+---
+- name: Get all Sda Port Assignments Count
   cisco.dnac.sda_port_assignments_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

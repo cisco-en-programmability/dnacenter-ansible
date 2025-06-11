@@ -6,7 +6,7 @@
   gather_facts: false
   tasks:
     - name: Get all Network Device Custom Prompt
-      cisco.dnac.network_device_custom_prompt_info_info:
+      cisco.dnac.network_device_custom_prompt_info:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

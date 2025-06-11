@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: path_trace
 short_description: Resource module for Path Trace
 description:
-  - This module represents an alias of the module path_trace_v1
+  - Manage operations create and delete of the resource
+    Path Trace. - > Initiates a new flow analysis with
+    periodic refresh and stat collection options. Returns
+    a request id and a task id to get results and follow
+    progress.
+  - Deletes a flow analysis request by its id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,18 +30,21 @@ options:
     description: Destination Port, range 1-65535.
     type: str
   flowAnalysisId:
-    description: FlowAnalysisId path parameter. Flow analysis request id.
+    description: FlowAnalysisId path parameter. Flow
+      analysis request id.
     type: str
   inclusions:
-    description: Subset of {INTERFACE-STATS, QOS-STATS, DEVICE-STATS, PERFORMANCE-STATS,
-      ACL-TRACE}.
+    description: Subset of {INTERFACE-STATS, QOS-STATS,
+      DEVICE-STATS, PERFORMANCE-STATS, ACL-TRACE}.
     elements: str
     type: list
   periodicRefresh:
-    description: Periodic refresh of path for every 30 sec.
+    description: Periodic refresh of path for every
+      30 sec.
     type: bool
   protocol:
-    description: Protocol - one of TCP, UDP - checks both when left blank.
+    description: Protocol - one of TCP, UDP - checks
+      both when left blank.
     type: str
   sourceIP:
     description: Source IP address.
@@ -46,18 +56,27 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Path Trace InitiateANewPathtraceV1
-    description: Complete reference of the InitiateANewPathtraceV1 API.
+  - name: Cisco DNA Center documentation for Path Trace
+      InitiateANewPathtrace
+    description: Complete reference of the InitiateANewPathtrace
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace
-  - name: Cisco DNA Center documentation for Path Trace DeletesPathtraceByIdV1
-    description: Complete reference of the DeletesPathtraceByIdV1 API.
+  - name: Cisco DNA Center documentation for Path Trace
+      DeletesPathtraceById
+    description: Complete reference of the DeletesPathtraceById
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id
 notes:
-  - SDK Method used are path_trace.PathTrace.deletes_pathtrace_by_id_v1, path_trace.PathTrace.initiate_a_new_pathtrace_v1,
-  - Paths used are post /dna/intent/api/v1/flow-analysis, delete /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
-  - It should be noted that this module is an alias of path_trace_v1
+  - SDK Method used are
+    path_trace.PathTrace.deletes_pathtrace_by_id,
+    path_trace.PathTrace.initiate_a_new_pathtrace,
+  - Paths used are
+    post /dna/intent/api/v1/flow-analysis,
+    delete /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.path_trace:
     dnac_host: "{{dnac_host}}"

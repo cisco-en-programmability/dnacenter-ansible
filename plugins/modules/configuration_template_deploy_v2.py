@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template_deploy_v2
-short_description: Resource module for Configuration Template Deploy V2
+short_description: Resource module for Configuration
+  Template Deploy V2
 description:
-  - Manage operation create of the resource Configuration Template Deploy V2.
+  - Manage operation create of the resource Configuration
+    Template Deploy V2.
   - V2 API to deploy a template.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -25,25 +29,28 @@ options:
     type: str
   memberTemplateDeploymentInfo:
     description: MemberTemplateDeploymentInfo.
-    elements: str
+    elements: dict
     type: list
   targetInfo:
-    description: Configuration Template Deploy V2's targetInfo.
+    description: Configuration Template Deploy V2's
+      targetInfo.
     elements: dict
     suboptions:
       hostName:
-        description: Hostname of device is required if targetType is MANAGED_DEVICE_HOSTNAME.
+        description: Hostname of device is required
+          if targetType is MANAGED_DEVICE_HOSTNAME.
         type: str
       id:
-        description: UUID of target is required if targetType is MANAGED_DEVICE_UUID.
+        description: UUID of target is required if targetType
+          is MANAGED_DEVICE_UUID.
         type: str
       params:
         description: Template params/values to be provisioned.
         type: dict
       resourceParams:
-        description: Resource params to be provisioned. Refer to features page for
-          usage details.
-        elements: str
+        description: Resource params to be provisioned.
+          Refer to features page for usage details.
+        elements: dict
         type: list
       type:
         description: Target type of device.
@@ -59,14 +66,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Templates DeployTemplateV2
-    description: Complete reference of the DeployTemplateV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!deploy-template
+  - name: Cisco DNA Center documentation for Configuration
+      Templates DeployTemplateV2
+    description: Complete reference of the DeployTemplateV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!deploy-template-v-2
 notes:
-  - SDK Method used are configuration_templates.ConfigurationTemplates.deploy_template_v2,
-  - Paths used are post /dna/intent/api/v2/template-programmer/template/deploy,
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.deploy_template_v2,
+  - Paths used are
+    post /dna/intent/api/v2/template-programmer/template/deploy,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.configuration_template_deploy_v2:
     dnac_host: "{{dnac_host}}"
@@ -80,13 +93,13 @@ EXAMPLES = r"""
     isComposite: true
     mainTemplateId: string
     memberTemplateDeploymentInfo:
-      - string
+      - {}
     targetInfo:
       - hostName: string
         id: string
         params: {}
         resourceParams:
-          - string
+          - {}
         type: string
         versionedTemplateId: string
     templateId: string
