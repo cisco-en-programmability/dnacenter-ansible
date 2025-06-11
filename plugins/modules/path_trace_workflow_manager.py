@@ -101,7 +101,7 @@ options:
           Boolean value to enable periodic refresh for the path trace.
         type: bool
         required: false
-        default: false
+        default: true
       get_last_pathtrace_result:
         description: |
           Boolean value to display the last result again for the path trace.
