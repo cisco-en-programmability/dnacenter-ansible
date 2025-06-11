@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: device_health_info
-short_description: Information module for Device Health Info
+short_description: Information module for Device Health
 description:
-  - This module represents an alias of the module device_health_v1_info
+  - Get all Device Health. - > Intent API for accessing
+    DNA Assurance Device object for generating reports,
+    creating dashboards or creating additional value
+    added services.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,8 +23,8 @@ options:
     type: dict
   deviceRole:
     description:
-      - DeviceRole query parameter. CORE, ACCESS, DISTRIBUTION, ROUTER, WLC, or AP
-        (case insensitive).
+      - DeviceRole query parameter. CORE, ACCESS, DISTRIBUTION,
+        ROUTER, WLC, or AP (case insensitive).
     type: str
   siteId:
     description:
@@ -27,11 +32,13 @@ options:
     type: str
   health:
     description:
-      - Health query parameter. DNAC health catagory POOR, FAIR, or GOOD (case insensitive).
+      - Health query parameter. DNAC health catagory
+        POOR, FAIR, or GOOD (case insensitive).
     type: str
   startTime:
     description:
-      - StartTime query parameter. UTC epoch time in milliseconds.
+      - StartTime query parameter. UTC epoch time in
+        milliseconds.
     type: float
   endTime:
     description:
@@ -39,28 +46,34 @@ options:
     type: float
   limit:
     description:
-      - Limit query parameter. Max number of device entries in the response (default
-        to 50. Max at 500).
+      - Limit query parameter. Max number of device
+        entries in the response (default to 50. Max
+        at 500).
     type: float
   offset:
     description:
-      - Offset query parameter. The offset of the first device in the returned data
-        (Mutiple of 'limit' + 1).
+      - Offset query parameter. The offset of the first
+        device in the returned data (Mutiple of 'limit'
+        + 1).
     type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices DevicesV1
-    description: Complete reference of the DevicesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!devices
+  - name: Cisco DNA Center documentation for Devices
+      Devices
+    description: Complete reference of the Devices API.
+    link: https://developer.cisco.com/docs/dna-center/#!api-devices-devices
 notes:
-  - SDK Method used are devices.Devices.devices_v1,
-  - Paths used are get /dna/intent/api/v1/device-health,
-  - It should be noted that this module is an alias of device_health_v1_info
+  - SDK Method used are
+    devices.Devices.devices,
+  - Paths used are
+    get /dna/intent/api/v1/device-health,
 """
+
 EXAMPLES = r"""
-- name: Get all Device Health Info
+---
+- name: Get all Device Health
   cisco.dnac.device_health_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

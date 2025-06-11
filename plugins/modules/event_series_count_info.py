@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: event_series_count_info
-short_description: Information module for Event Series Count Info
+short_description: Information module for Event Series
+  Count
 description:
-  - This module represents an alias of the module event_series_count_v1_info
+  - Get all Event Series Count.
+  - Get the Count of Published Notifications.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,7 +22,8 @@ options:
     type: dict
   eventIds:
     description:
-      - EventIds query parameter. The registered EventId should be provided.
+      - EventIds query parameter. The registered EventId
+        should be provided.
     type: str
   startTime:
     description:
@@ -56,16 +61,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Event Management CountOfNotificationsV1
-    description: Complete reference of the CountOfNotificationsV1 API.
+  - name: Cisco DNA Center documentation for Event Management
+      CountOfNotifications
+    description: Complete reference of the CountOfNotifications
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!count-of-notifications
 notes:
-  - SDK Method used are event_management.EventManagement.count_of_notifications_v1,
-  - Paths used are get /dna/intent/api/v1/event/event-series/count,
-  - It should be noted that this module is an alias of event_series_count_v1_info
+  - SDK Method used are
+    event_management.EventManagement.count_of_notifications,
+  - Paths used are
+    get /dna/intent/api/v1/event/event-series/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Event Series Count Info
+---
+- name: Get all Event Series Count
   cisco.dnac.event_series_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

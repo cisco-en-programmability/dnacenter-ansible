@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: event_subscription_count_info
-short_description: Information module for Event Subscription Count Info
+short_description: Information module for Event Subscription
+  Count
 description:
-  - This module represents an alias of the module event_subscription_count_v1_info
+  - Get all Event Subscription Count.
+  - Returns the Count of EventSubscriptions.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,23 +22,28 @@ options:
     type: dict
   eventIds:
     description:
-      - EventIds query parameter. List of subscriptions related to the respective
-        eventIds.
+      - EventIds query parameter. List of subscriptions
+        related to the respective eventIds.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Event Management CountOfEventSubscriptionsV1
-    description: Complete reference of the CountOfEventSubscriptionsV1 API.
+  - name: Cisco DNA Center documentation for Event Management
+      CountOfEventSubscriptions
+    description: Complete reference of the CountOfEventSubscriptions
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!count-of-event-subscriptions
 notes:
-  - SDK Method used are event_management.EventManagement.count_of_event_subscriptions_v1,
-  - Paths used are get /dna/intent/api/v1/event/subscription/count,
-  - It should be noted that this module is an alias of event_subscription_count_v1_info
+  - SDK Method used are
+    event_management.EventManagement.count_of_event_subscriptions,
+  - Paths used are
+    get /dna/intent/api/v1/event/subscription/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Event Subscription Count Info
+---
+- name: Get all Event Subscription Count
   cisco.dnac.event_subscription_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
