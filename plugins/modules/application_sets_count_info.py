@@ -4,13 +4,14 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: application_sets_count_info
-short_description: Information module for Application Sets Count Info
+short_description: Information module for Application
+  Sets Count
 description:
-- This module represents an alias of the module application_sets_count_v1_info
+  - Get all Application Sets Count.
+  - Get the number of existing application-sets.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,24 +21,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplicationSetsCountV1
-  description: Complete reference of the GetApplicationSetsCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-count
+  - name: Cisco DNA Center documentation for Application
+      Policy GetApplicationSetsCount
+    description: Complete reference of the GetApplicationSetsCount
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-count
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_sets_count_v1,
-
+    application_policy.ApplicationPolicy.get_application_sets_count,
   - Paths used are
     get /dna/intent/api/v1/application-policy-application-set-count,
-  - It should be noted that this module is an alias of application_sets_count_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Application Sets Count Info
+---
+- name: Get all Application Sets Count
   cisco.dnac.application_sets_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -48,7 +49,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_count_info
-short_description: Information module for Wireless Profiles Count Info
+short_description: Information module for Wireless Profiles
+  Count
 description:
-- This module represents an alias of the module wireless_profiles_count_v1_info
+  - Get all Wireless Profiles Count.
+  - This API allows the user to get count of all wireless
+    profiles.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,24 +22,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetWirelessProfilesCountV1
-  description: Complete reference of the GetWirelessProfilesCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles-count
+  - name: Cisco DNA Center documentation for Wireless
+      GetWirelessProfilesCount
+    description: Complete reference of the GetWirelessProfilesCount
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles-count
 notes:
   - SDK Method used are
-    wireless.Wireless.get_wireless_profiles_count_v1,
-
+    wireless.Wireless.get_wireless_profiles_count,
   - Paths used are
     get /dna/intent/api/v1/wirelessProfiles/count,
-  - It should be noted that this module is an alias of wireless_profiles_count_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Wireless Profiles Count Info
+---
+- name: Get all Wireless Profiles Count
   cisco.dnac.wireless_profiles_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -48,7 +50,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

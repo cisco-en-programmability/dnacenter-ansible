@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: sites_device_credentials_status_info
-short_description: Information module for Sites Device Credentials Status Info
+short_description: Information module for Sites Device
+  Credentials Status
 description:
-- This module represents an alias of the module sites_device_credentials_status_v1_info
+  - Get all Sites Device Credentials Status.
+  - Get network devices credentials sync status at a
+    given site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +23,27 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Site Id.
+      - Id path parameter. Site Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings GetNetworkDevicesCredentialsSyncStatusV1
-  description: Complete reference of the GetNetworkDevicesCredentialsSyncStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-credentials-sync-status
+  - name: Cisco DNA Center documentation for Network
+      Settings GetNetworkDevicesCredentialsSyncStatus
+    description: Complete reference of the GetNetworkDevicesCredentialsSyncStatus
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-credentials-sync-status
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_network_devices_credentials_sync_status_v1,
-
+    network_settings.NetworkSettings.get_network_devices_credentials_sync_status,
   - Paths used are
     get /dna/intent/api/v1/sites/{id}/deviceCredentials/status,
-  - It should be noted that this module is an alias of sites_device_credentials_status_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Sites Device Credentials Status Info
+---
+- name: Get all Sites Device Credentials Status
   cisco.dnac.sites_device_credentials_status_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -53,7 +55,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

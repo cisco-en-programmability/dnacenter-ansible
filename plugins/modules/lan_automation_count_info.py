@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: lan_automation_count_info
-short_description: Information module for Lan Automation Count Info
+short_description: Information module for Lan Automation
+  Count
 description:
-- This module represents an alias of the module lan_automation_count_v1_info
+  - Get all Lan Automation Count.
+  - Invoke this API to get the total count of LAN Automation
+    sessions.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,24 +22,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationSessionCountV1
-  description: Complete reference of the LANAutomationSessionCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-session-count
+  - name: Cisco DNA Center documentation for LAN Automation
+      LANAutomationSessionCount
+    description: Complete reference of the LANAutomationSessionCount
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-session-count
 notes:
   - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_session_count_v1,
-
+    lan_automation.LanAutomation.lan_automation_session_count,
   - Paths used are
     get /dna/intent/api/v1/lan-automation/count,
-  - It should be noted that this module is an alias of lan_automation_count_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Lan Automation Count Info
+---
+- name: Get all Lan Automation Count
   cisco.dnac.lan_automation_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -48,7 +50,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

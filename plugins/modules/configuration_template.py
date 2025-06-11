@@ -4,13 +4,16 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: configuration_template
-short_description: Resource module for Configuration Template
+short_description: Resource module for Configuration
+  Template
 description:
-- This module represents an alias of the module configuration_template_v1
+  - Manage operations update and delete of the resource
+    Configuration Template.
+  - Deletes the template by its id.
+  - API to update a template.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -135,7 +138,8 @@ options:
                 description: UUID of selection.
                 type: str
               selectionType:
-                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                description: Type of selection(SINGLE_SELECT
+                  or MULTI_SELECT).
                 type: str
               selectionValues:
                 description: Selection values.
@@ -233,7 +237,8 @@ options:
                 description: UUID of selection.
                 type: str
               selectionType:
-                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                description: Type of selection(SINGLE_SELECT
+                  or MULTI_SELECT).
                 type: str
               selectionValues:
                 description: Selection values.
@@ -268,7 +273,8 @@ options:
         type: str
     type: list
   failurePolicy:
-    description: Define failure policy if template provisioning fails.
+    description: Define failure policy if template provisioning
+      fails.
     type: str
   id:
     description: UUID of template.
@@ -374,7 +380,8 @@ options:
             description: UUID of selection.
             type: str
           selectionType:
-            description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+            description: Type of selection(SINGLE_SELECT
+              or MULTI_SELECT).
             type: str
           selectionValues:
             description: Selection values.
@@ -405,7 +412,8 @@ options:
     description: Template content.
     type: str
   templateId:
-    description: TemplateId path parameter. TemplateId(UUID) of template to be deleted.
+    description: TemplateId path parameter. TemplateId(UUID)
+      of template to be deleted.
     type: str
   templateParams:
     description: Configuration Template's templateParams.
@@ -484,7 +492,8 @@ options:
             description: UUID of selection.
             type: str
           selectionType:
-            description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+            description: Type of selection(SINGLE_SELECT
+              or MULTI_SELECT).
             type: str
           selectionValues:
             description: Selection values.
@@ -495,10 +504,12 @@ options:
     description: Configuration Template's validationErrors.
     suboptions:
       rollbackTemplateErrors:
-        description: Validation or design conflicts errors of rollback template.
+        description: Validation or design conflicts
+          errors of rollback template.
         type: dict
       templateErrors:
-        description: Validation or design conflicts errors.
+        description: Validation or design conflicts
+          errors.
         type: dict
       templateId:
         description: UUID of template.
@@ -511,28 +522,30 @@ options:
     description: Current version of template.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates DeletesTheTemplateV1
-  description: Complete reference of the DeletesTheTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-the-template
-- name: Cisco DNA Center documentation for Configuration Templates UpdateTemplateV1
-  description: Complete reference of the UpdateTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-template
+  - name: Cisco DNA Center documentation for Configuration
+      Templates DeletesTheTemplate
+    description: Complete reference of the DeletesTheTemplate
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!deletes-the-template
+  - name: Cisco DNA Center documentation for Configuration
+      Templates UpdateTemplate
+    description: Complete reference of the UpdateTemplate
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-template
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.deletes_the_template_v1,
-    configuration_templates.ConfigurationTemplates.update_template_v1,
-
+    configuration_templates.ConfigurationTemplates.deletes_the_template,
+    configuration_templates.ConfigurationTemplates.update_template,
   - Paths used are
     delete /dna/intent/api/v1/template-programmer/template/{templateId},
     put /dna/intent/api/v1/template-programmer/template,
-  - It should be noted that this module is an alias of configuration_template_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Update all
   cisco.dnac.configuration_template:
     dnac_host: "{{dnac_host}}"
@@ -546,82 +559,82 @@ EXAMPLES = r"""
     author: string
     composite: true
     containingTemplates:
-    - composite: true
-      description: string
-      deviceTypes:
-      - productFamily: string
-        productSeries: string
-        productType: string
-      id: string
-      language: string
-      name: string
-      projectName: string
-      rollbackTemplateParams:
-      - binding: string
-        customOrder: 0
-        dataType: string
-        defaultValue: string
+      - composite: true
         description: string
-        displayName: string
-        group: string
+        deviceTypes:
+          - productFamily: string
+            productSeries: string
+            productType: string
         id: string
-        instructionText: string
-        key: string
-        notParam: true
-        order: 0
-        paramArray: true
-        parameterName: string
-        provider: string
-        range:
-        - id: string
-          maxValue: 0
-          minValue: 0
-        required: true
-        selection:
-          defaultSelectedValues:
-          - string
-          id: string
-          selectionType: string
-          selectionValues: {}
-      tags:
-      - id: string
+        language: string
         name: string
-      templateContent: string
-      templateParams:
-      - binding: string
-        customOrder: 0
-        dataType: string
-        defaultValue: string
-        description: string
-        displayName: string
-        group: string
-        id: string
-        instructionText: string
-        key: string
-        notParam: true
-        order: 0
-        paramArray: true
-        parameterName: string
-        provider: string
-        range:
-        - id: string
-          maxValue: 0
-          minValue: 0
-        required: true
-        selection:
-          defaultSelectedValues:
-          - string
-          id: string
-          selectionType: string
-          selectionValues: {}
-      version: string
+        projectName: string
+        rollbackTemplateParams:
+          - binding: string
+            customOrder: 0
+            dataType: string
+            defaultValue: string
+            description: string
+            displayName: string
+            group: string
+            id: string
+            instructionText: string
+            key: string
+            notParam: true
+            order: 0
+            paramArray: true
+            parameterName: string
+            provider: string
+            range:
+              - id: string
+                maxValue: 0
+                minValue: 0
+            required: true
+            selection:
+              defaultSelectedValues:
+                - string
+              id: string
+              selectionType: string
+              selectionValues: {}
+        tags:
+          - id: string
+            name: string
+        templateContent: string
+        templateParams:
+          - binding: string
+            customOrder: 0
+            dataType: string
+            defaultValue: string
+            description: string
+            displayName: string
+            group: string
+            id: string
+            instructionText: string
+            key: string
+            notParam: true
+            order: 0
+            paramArray: true
+            parameterName: string
+            provider: string
+            range:
+              - id: string
+                maxValue: 0
+                minValue: 0
+            required: true
+            selection:
+              defaultSelectedValues:
+                - string
+              id: string
+              selectionType: string
+              selectionValues: {}
+        version: string
     createTime: 0
     customParamsOrder: true
     description: string
     deviceTypes:
-    - productFamily: string
-      productSeries: string
-      productType: string
+      - productFamily: string
+        productSeries: string
+        productType: string
     failurePolicy: string
     id: string
     language: string
@@ -633,73 +646,72 @@ EXAMPLES = r"""
     projectName: string
     rollbackTemplateContent: string
     rollbackTemplateParams:
-    - binding: string
-      customOrder: 0
-      dataType: string
-      defaultValue: string
-      description: string
-      displayName: string
-      group: string
-      id: string
-      instructionText: string
-      key: string
-      notParam: true
-      order: 0
-      paramArray: true
-      parameterName: string
-      provider: string
-      range:
-      - id: string
-        maxValue: 0
-        minValue: 0
-      required: true
-      selection:
-        defaultSelectedValues:
-        - string
+      - binding: string
+        customOrder: 0
+        dataType: string
+        defaultValue: string
+        description: string
+        displayName: string
+        group: string
         id: string
-        selectionType: string
-        selectionValues: {}
+        instructionText: string
+        key: string
+        notParam: true
+        order: 0
+        paramArray: true
+        parameterName: string
+        provider: string
+        range:
+          - id: string
+            maxValue: 0
+            minValue: 0
+        required: true
+        selection:
+          defaultSelectedValues:
+            - string
+          id: string
+          selectionType: string
+          selectionValues: {}
     softwareType: string
     softwareVariant: string
     softwareVersion: string
     tags:
-    - id: string
-      name: string
+      - id: string
+        name: string
     templateContent: string
     templateParams:
-    - binding: string
-      customOrder: 0
-      dataType: string
-      defaultValue: string
-      description: string
-      displayName: string
-      group: string
-      id: string
-      instructionText: string
-      key: string
-      notParam: true
-      order: 0
-      paramArray: true
-      parameterName: string
-      provider: string
-      range:
-      - id: string
-        maxValue: 0
-        minValue: 0
-      required: true
-      selection:
-        defaultSelectedValues:
-        - string
+      - binding: string
+        customOrder: 0
+        dataType: string
+        defaultValue: string
+        description: string
+        displayName: string
+        group: string
         id: string
-        selectionType: string
-        selectionValues: {}
+        instructionText: string
+        key: string
+        notParam: true
+        order: 0
+        paramArray: true
+        parameterName: string
+        provider: string
+        range:
+          - id: string
+            maxValue: 0
+            minValue: 0
+        required: true
+        selection:
+          defaultSelectedValues:
+            - string
+          id: string
+          selectionType: string
+          selectionValues: {}
     validationErrors:
       rollbackTemplateErrors: {}
       templateErrors: {}
       templateId: string
       templateVersion: string
     version: string
-
 - name: Delete by id
   cisco.dnac.configuration_template:
     dnac_host: "{{dnac_host}}"
@@ -711,7 +723,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     templateId: string
-
 """
 RETURN = r"""
 dnac_response:

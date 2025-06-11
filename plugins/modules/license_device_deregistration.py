@@ -4,13 +4,16 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: license_device_deregistration
-short_description: Resource module for License Device Deregistration
+short_description: Resource module for License Device
+  Deregistration
 description:
-- This module represents an alias of the module license_device_deregistration_v1
+  - Manage operation update of the resource License
+    Device Deregistration.
+  - Deregister devices from CSSM Cisco Smart Software
+    Manager .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,23 +24,23 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses DeviceDeregistrationV1
-  description: Complete reference of the DeviceDeregistrationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-deregistration
+  - name: Cisco DNA Center documentation for Licenses
+      DeviceDeregistration
+    description: Complete reference of the DeviceDeregistration
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!device-deregistration
 notes:
   - SDK Method used are
-    licenses.Licenses.device_deregistration_v1,
-
+    licenses.Licenses.device_deregistration,
   - Paths used are
     put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/deregister,
-  - It should be noted that this module is an alias of license_device_deregistration_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Update all
   cisco.dnac.license_device_deregistration:
     dnac_host: "{{dnac_host}}"
@@ -48,8 +51,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     device_uuids:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

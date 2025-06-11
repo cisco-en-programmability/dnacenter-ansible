@@ -4,13 +4,17 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: assurance_tasks_id_info
-short_description: Information module for Assurance Tasks Id Info
+short_description: Information module for Assurance
+  Tasks Id
 description:
-- This module represents an alias of the module assurance_tasks_id_v1_info
+  - Get Assurance Tasks Id by id. - > returns a task
+    given a specific task id For detailed information
+    about the usage of the API, please refer to the
+    Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
+    specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceTasks-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +25,26 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Unique task id.
+      - Id path parameter. Unique task id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Task RetrieveASpecificAssuranceTaskByIdV1
-  description: Complete reference of the RetrieveASpecificAssuranceTaskByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-assurance-task-by-id
+  - name: Cisco DNA Center documentation for Task RetrieveASpecificAssuranceTaskById
+    description: Complete reference of the RetrieveASpecificAssuranceTaskById
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-assurance-task-by-id
 notes:
   - SDK Method used are
-    task.Task.retrieve_a_specific_assurance_task_by_id_v1,
-
+    task.Task.retrieve_a_specific_assurance_task_by_id,
   - Paths used are
     get /dna/data/api/v1/assuranceTasks/{id},
-  - It should be noted that this module is an alias of assurance_tasks_id_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get Assurance Tasks Id Info by id
+---
+- name: Get Assurance Tasks Id by id
   cisco.dnac.assurance_tasks_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -53,7 +56,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

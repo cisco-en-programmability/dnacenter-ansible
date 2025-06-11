@@ -4,13 +4,18 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: client_enrichment_details_info
-short_description: Information module for Client Enrichment Details Info
+short_description: Information module for Client Enrichment
+  Details
 description:
-- This module represents an alias of the module client_enrichment_details_v1_info
+  - Get all Client Enrichment Details. - > Enriches
+    a given network End User context a network user-id
+    or end user's device Mac Address with details about
+    the user, the devices that the user is connected
+    to and the assurance issues that the user is impacted
+    by.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,24 +25,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Clients GetClientEnrichmentDetailsV1
-  description: Complete reference of the GetClientEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details
+  - name: Cisco DNA Center documentation for Clients
+      GetClientEnrichmentDetails
+    description: Complete reference of the GetClientEnrichmentDetails
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details
 notes:
   - SDK Method used are
-    clients.Clients.get_client_enrichment_details_v1,
-
+    clients.Clients.get_client_enrichment_details,
   - Paths used are
     get /dna/intent/api/v1/client-enrichment-details,
-  - It should be noted that this module is an alias of client_enrichment_details_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Client Enrichment Details Info
+---
+- name: Get all Client Enrichment Details
   cisco.dnac.client_enrichment_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -48,7 +53,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

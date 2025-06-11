@@ -1,0 +1,183 @@
+---
+- debug: msg="Starting assurance device health score settings management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_assurance_device_health_score_settings_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Clean up before test
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.clean_up_config }}"
+
+#############################################
+#            UPDATE ROUTER KPIs             #
+#############################################
+
+  - name: Update Router Kpi
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.router_config }}"
+    register: result_update_kpi
+
+  - name: Debug item
+    debug:
+      var: item.response
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
+
+  - name: Assert health score kpi updation
+    assert:
+      that:
+        - item.changed == true
+        - "'Health score settings updated Successfully' in item.response[0]['device_health_score_settings']['msg']['linkErrorThreshold']"
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
+
+#############################################
+#        UPDATE SWITCH AND HUB KPIs         #
+#############################################
+
+  - name: Update Switch and Hub Kpi
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.switch_and_hub_config }}"
+    register: result_update_kpi
+
+  - name: Debug item
+    debug:
+      var: item.response
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
+
+  - name: Assert health score kpi updation
+    assert:
+      that:
+        - item.changed == true
+        - "'Health score settings updated Successfully' in item.response[0]['device_health_score_settings']['msg']['linkDiscardThreshold']"
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
+
+
+#############################################
+#      UPDATE WIRELESS CONTROLLER KPIs      #
+#############################################
+
+  - name: Update Wireless Controller Kpi
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.wireless_controller_config }}"
+    register: result_update_kpi
+
+  - name: Debug item
+    debug:
+      var: item.msg
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
+
+  - name: Assert health score kpi updation
+    assert:
+      that:
+        - item.changed == true
+        - "'Health score settings updated Successfully' in item.response[0]['device_health_score_settings']['msg']['freeMbufThreshold']"
+        
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
+
+#############################################
+#          UPDATE ACCESS POINT KPIs         #
+#############################################
+
+  - name: Update Access point Kpi
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.unified_ap_config }}"
+    register: result_update_kpi
+
+  - name: Debug item
+    debug:
+      var: item.msg
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
+
+  - name: Assert health score kpi updation
+    assert:
+      that:
+        - item.changed == true
+        - "'Health score settings updated Successfully' in item.response[0]['device_health_score_settings']['msg']['rf_airQuality_2_4GThreshold']"
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
+
+#############################################
+#          UPDATE WIRELESS CLIENT KPIs      #
+#############################################
+
+  - name: Update Wireless Client Kpi
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.wireless_client_config }}"
+    register: result_update_kpi
+
+  - name: Debug item
+    debug:
+      var: item.msg
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
+
+  - name: Assert health score kpi updation
+    assert:
+      that:
+        - item.changed == true
+        - "'Health score settings updated Successfully' in item.response[0]['device_health_score_settings']['msg']['snrThreshold']"
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Clean up before test
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.clean_up_config }}"

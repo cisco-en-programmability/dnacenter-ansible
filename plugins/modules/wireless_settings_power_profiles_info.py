@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_power_profiles_info
-short_description: Information module for Wireless Settings Power Profiles Info
+short_description: Information module for Wireless Settings
+  Power Profiles
 description:
-- This module represents an alias of the module wireless_settings_power_profiles_v1_info
+  - Get all Wireless Settings Power Profiles.
+  - This API allows the user to get Power Profiles that
+    captured in wireless settings design.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,35 +23,35 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter.
+      - Limit query parameter.
     type: float
   offset:
     description:
-    - Offset query parameter.
+      - Offset query parameter.
     type: float
   profileName:
     description:
-    - ProfileName query parameter. Power Profile Name.
+      - ProfileName query parameter. Power Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetPowerProfilesV1
-  description: Complete reference of the GetPowerProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-power-profiles
+  - name: Cisco DNA Center documentation for Wireless
+      GetPowerProfiles
+    description: Complete reference of the GetPowerProfiles
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-power-profiles
 notes:
   - SDK Method used are
-    wireless.Wireless.get_power_profiles_v1,
-
+    wireless.Wireless.get_power_profiles,
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/powerProfiles,
-  - It should be noted that this module is an alias of wireless_settings_power_profiles_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Wireless Settings Power Profiles Info
+---
+- name: Get all Wireless Settings Power Profiles
   cisco.dnac.wireless_settings_power_profiles_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -63,7 +65,6 @@ EXAMPLES = r"""
     offset: 0
     profileName: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

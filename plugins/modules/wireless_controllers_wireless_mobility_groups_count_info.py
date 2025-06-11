@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_wireless_mobility_groups_count_info
-short_description: Information module for Wireless Controllers Wireless Mobility Groups Count Info
+short_description: Information module for Wireless Controllers
+  Wireless Mobility Groups Count
 description:
-- This module represents an alias of the module wireless_controllers_wireless_mobility_groups_count_v1_info
+  - Get all Wireless Controllers Wireless Mobility Groups
+    Count.
+  - Retrieves count of mobility groups configured.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,24 +22,25 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetMobilityGroupsCountV1
-  description: Complete reference of the GetMobilityGroupsCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-mobility-groups-count
+  - name: Cisco DNA Center documentation for Wireless
+      GetMobilityGroupsCount
+    description: Complete reference of the GetMobilityGroupsCount
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-mobility-groups-count
 notes:
   - SDK Method used are
-    wireless.Wireless.get_mobility_groups_count_v1,
-
+    wireless.Wireless.get_mobility_groups_count,
   - Paths used are
     get /dna/intent/api/v1/wirelessControllers/wirelessMobilityGroups/count,
-  - It should be noted that this module is an alias of wireless_controllers_wireless_mobility_groups_count_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Wireless Controllers Wireless Mobility Groups Count Info
+---
+- name: Get all Wireless Controllers Wireless Mobility
+    Groups Count
   cisco.dnac.wireless_controllers_wireless_mobility_groups_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -48,7 +51,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

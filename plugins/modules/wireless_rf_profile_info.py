@@ -4,13 +4,14 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: wireless_rf_profile_info
-short_description: Information module for Wireless Rf Profile Info
+short_description: Information module for Wireless Rf
+  Profile
 description:
-- This module represents an alias of the module wireless_rf_profile_v1_info
+  - Get all Wireless Rf Profile.
+  - Retrieve all RF profiles.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +22,28 @@ options:
     type: dict
   rf_profile_name:
     description:
-    - Rf-profile-name query parameter. RF Profile Name.
+      - Rf-profile-name query parameter. RF Profile
+        Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless RetrieveRFProfilesV1
-  description: Complete reference of the RetrieveRFProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
+  - name: Cisco DNA Center documentation for Wireless
+      RetrieveRFProfiles
+    description: Complete reference of the RetrieveRFProfiles
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
 notes:
   - SDK Method used are
-    wireless.Wireless.retrieve_rf_profiles_v1,
-
+    wireless.Wireless.retrieve_rf_profiles,
   - Paths used are
     get /dna/intent/api/v1/wireless/rf-profile,
-  - It should be noted that this module is an alias of wireless_rf_profile_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Wireless Rf Profile Info
+---
+- name: Get all Wireless Rf Profile
   cisco.dnac.wireless_rf_profile_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -53,7 +55,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     rf_profile_name: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

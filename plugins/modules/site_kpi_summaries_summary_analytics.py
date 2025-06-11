@@ -4,13 +4,19 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: site_kpi_summaries_summary_analytics
-short_description: Resource module for Site Kpi Summaries Summary Analytics
+short_description: Resource module for Site Kpi Summaries
+  Summary Analytics
 description:
-- This module represents an alias of the module site_kpi_summaries_summary_analytics_v1
+  - Manage operation create of the resource Site Kpi
+    Summaries Summary Analytics. - > Submits the task
+    to get summary analytics data for a given site.
+    For detailed information about the usage of the
+    API, please refer to the Open API specification
+    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    SiteKpiSummaries-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,7 +30,8 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Site Kpi Summaries Summary Analytics's filters.
+    description: Site Kpi Summaries Summary Analytics's
+      filters.
     elements: dict
     suboptions:
       key:
@@ -41,23 +48,22 @@ options:
     description: Start Time.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites SubmitRequestForSiteAnalyticsSummaryDataV1
-  description: Complete reference of the SubmitRequestForSiteAnalyticsSummaryDataV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!submit-request-for-site-analytics-summary-data
+  - name: Cisco DNA Center documentation for Sites SubmitRequestForSiteAnalyticsSummaryData
+    description: Complete reference of the SubmitRequestForSiteAnalyticsSummaryData
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!submit-request-for-site-analytics-summary-data
 notes:
   - SDK Method used are
-    sites.Sites.submit_request_for_site_analytics_summary_data_v1,
-
+    sites.Sites.submit_request_for_site_analytics_summary_data,
   - Paths used are
     post /dna/data/api/v1/siteKpiSummaries/summaryAnalytics,
-  - It should be noted that this module is an alias of site_kpi_summaries_summary_analytics_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.site_kpi_summaries_summary_analytics:
     dnac_host: "{{dnac_host}}"
@@ -69,14 +75,13 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: string
+      - key: string
+        operator: string
+        value: string
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:

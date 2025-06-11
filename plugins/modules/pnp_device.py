@@ -4,13 +4,17 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: pnp_device
 short_description: Resource module for Pnp Device
 description:
-- This module represents an alias of the module pnp_device_v1
+  - Manage operations create, update and delete of the
+    resource Pnp Device.
+  - Adds a device to the PnP database.
+  - Deletes specified device from PnP database.
+  - Updates device details specified by device id in
+    PnP database.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -113,8 +117,9 @@ options:
         elements: str
         type: list
       userSudiSerialNos:
-        description: List of Secure Unique Device Identifier (SUDI) serial numbers to
-          perform SUDI authorization, Required if sudiRequired is true.
+        description: List of Secure Unique Device Identifier
+          (SUDI) serial numbers to perform SUDI authorization,
+          Required if sudiRequired is true.
         elements: str
         type: list
       workflowId:
@@ -128,33 +133,37 @@ options:
     description: Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddDeviceV1
-  description: Complete reference of the AddDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-device
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnPV1
-  description: Complete reference of the DeleteDeviceByIdFromPnPV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDeviceV1
-  description: Complete reference of the UpdateDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) AddDevice
+    description: Complete reference of the AddDevice
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-device-2
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) DeleteDeviceByIdFromPnP
+    description: Complete reference of the DeleteDeviceByIdFromPnP
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) UpdateDevice
+    description: Complete reference of the UpdateDevice
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-device
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_device,
-    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp_v1,
-    device_onboarding_pnp.DeviceOnboardingPnp.update_device_v1,
-
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
+    device_onboarding_pnp.DeviceOnboardingPnp.update_device,
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device,
     delete /dna/intent/api/v1/onboarding/pnp-device/{id},
     put /dna/intent/api/v1/onboarding/pnp-device/{id},
-  - It should be noted that this module is an alias of pnp_device_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.pnp_device:
     dnac_host: "{{dnac_host}}"
@@ -168,7 +177,7 @@ EXAMPLES = r"""
     deviceInfo:
       description: string
       deviceSudiSerialNos:
-      - string
+        - string
       hostname: string
       macAddress: string
       pid: string
@@ -178,31 +187,30 @@ EXAMPLES = r"""
       stackInfo:
         isFullRing: true
         stackMemberList:
-        - hardwareVersion: string
-          licenseLevel: string
-          licenseType: string
-          macAddress: string
-          pid: string
-          priority: 0
-          role: string
-          serialNumber: string
-          softwareVersion: string
-          stackNumber: 0
-          state: string
-          sudiSerialNumber: string
+          - hardwareVersion: string
+            licenseLevel: string
+            licenseType: string
+            macAddress: string
+            pid: string
+            priority: 0
+            role: string
+            serialNumber: string
+            softwareVersion: string
+            stackNumber: 0
+            state: string
+            sudiSerialNumber: string
         stackRingProtocol: string
         supportsStackWorkflows: true
         totalMemberCount: 0
         validLicenseLevels:
-        - string
+          - string
       sudiRequired: true
       userMicNumbers:
-      - string
+        - string
       userSudiSerialNos:
-      - string
+        - string
       workflowId: string
       workflowName: string
-
 - name: Update by id
   cisco.dnac.pnp_device:
     dnac_host: "{{dnac_host}}"
@@ -220,9 +228,8 @@ EXAMPLES = r"""
       stack: true
       sudiRequired: true
       userSudiSerialNos:
-      - string
+        - string
     id: string
-
 - name: Delete by id
   cisco.dnac.pnp_device:
     dnac_host: "{{dnac_host}}"
@@ -234,7 +241,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

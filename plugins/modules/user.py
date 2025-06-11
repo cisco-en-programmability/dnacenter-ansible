@@ -4,13 +4,16 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: user
 short_description: Resource module for User
 description:
-- This module represents an alias of the module user_v1
+  - Manage operations create, update and delete of the
+    resource User.
+  - Add a new user in the system.
+  - Delete a user in the system.
+  - Update a user in the system.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -39,33 +42,38 @@ options:
     description: Username.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for User and Roles AddUserAPIV1
-  description: Complete reference of the AddUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-user-api
-- name: Cisco DNA Center documentation for User and Roles DeleteUserAPIV1
-  description: Complete reference of the DeleteUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-user-api
-- name: Cisco DNA Center documentation for User and Roles UpdateUserAPIV1
-  description: Complete reference of the UpdateUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-user-api
+  - name: Cisco DNA Center documentation for User and
+      Roles AddUserAPI
+    description: Complete reference of the AddUserAPI
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-user-api
+  - name: Cisco DNA Center documentation for User and
+      Roles DeleteUserAPI
+    description: Complete reference of the DeleteUserAPI
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-user-api
+  - name: Cisco DNA Center documentation for User and
+      Roles UpdateUserAPI
+    description: Complete reference of the UpdateUserAPI
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-user-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.add_user_api_v1,
-    user_and_roles.UserandRoles.delete_user_api_v1,
-    user_and_roles.UserandRoles.update_user_api_v1,
-
+    userand_roles.UserandRoles.add_user_api,
+    userand_roles.UserandRoles.delete_user_api,
+    userand_roles.UserandRoles.update_user_api,
   - Paths used are
     post /dna/system/api/v1/user,
-    delete /dna/system/api/v1/user/{userId},
+    delete
+    /dna/system/api/v1/user/{userId},
     put /dna/system/api/v1/user,
-  - It should be noted that this module is an alias of user_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.user:
     dnac_host: "{{dnac_host}}"
@@ -81,9 +89,8 @@ EXAMPLES = r"""
     lastName: string
     password: string
     roleList:
-    - string
+      - string
     username: string
-
 - name: Update all
   cisco.dnac.user:
     dnac_host: "{{dnac_host}}"
@@ -98,10 +105,9 @@ EXAMPLES = r"""
     firstName: string
     lastName: string
     roleList:
-    - string
+      - string
     userId: string
     username: string
-
 - name: Delete by id
   cisco.dnac.user:
     dnac_host: "{{dnac_host}}"
@@ -113,7 +119,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     userId: string
-
 """
 RETURN = r"""
 dnac_response:

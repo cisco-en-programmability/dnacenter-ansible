@@ -4,13 +4,17 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: pnp_server_profile_update
-short_description: Resource module for Pnp Server Profile Update
+short_description: Resource module for Pnp Server Profile
+  Update
 description:
-- This module represents an alias of the module pnp_server_profile_update_v1
+  - Manage operation update of the resource Pnp Server
+    Profile Update. - > Updates the PnP Server profile
+    in a registered Virtual Account in the PnP database.
+    The response payload returns the updated smart &
+    virtual account info.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,14 +27,16 @@ options:
     description: Pnp Server Profile Update's profile.
     suboptions:
       addressFqdn:
-        description: Required when cluster is configured with fully qualified domain
-          name (FQDN).
+        description: Required when cluster is configured
+          with fully qualified domain name (FQDN).
         type: str
       addressIpV4:
-        description: Required when cluster is configured with IPv4.
+        description: Required when cluster is configured
+          with IPv4.
         type: str
       addressIpV6:
-        description: Required when cluster is configured with IPv6.
+        description: Required when cluster is configured
+          with IPv6.
         type: str
       cert:
         description: Cert.
@@ -58,23 +64,23 @@ options:
     description: Virtual Account Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPServerProfileV1
-  description: Complete reference of the UpdatePnPServerProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-server-profile
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) UpdatePnPServerProfile
+    description: Complete reference of the UpdatePnPServerProfile
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-server-profile
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_server_profile_v1,
-
+    device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_server_profile,
   - Paths used are
     put /dna/intent/api/v1/onboarding/pnp-settings/savacct,
-  - It should be noted that this module is an alias of pnp_server_profile_update_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Update all
   cisco.dnac.pnp_server_profile_update:
     dnac_host: "{{dnac_host}}"
@@ -97,7 +103,6 @@ EXAMPLES = r"""
       proxy: true
     smartAccountId: string
     virtualAccountId: string
-
 """
 RETURN = r"""
 dnac_response:

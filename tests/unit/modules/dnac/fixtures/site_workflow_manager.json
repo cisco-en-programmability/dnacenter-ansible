@@ -1,237 +1,53 @@
 {
-  "playbook_config_bulk_site": [
+  "playbook_config_bulk_site_2376": [
     {
       "site": {
-        "area": [
-          {
-            "name": "japan151",
-            "parent_name_hierarchy": "Global"
-          },
-          {
-            "name": "Abc2",
-            "parent_name_hierarchy": "Global"
+          "area": {
+              "name": "bangalore1",
+              "parent_name": "Global"
           }
-        ],
-        "building": [
-          {
-            "name": "blossom",
-            "address": "1234 Elm Street",
-            "parent_name_hierarchy": "Global/japan151",
-            "latitude": 37.387,
-            "longitude": -121.845,
-            "country": "India"
-          }
-        ],
-        "floor": [
-          {
-            "name": "cherry",
-            "parent_name_hierarchy": "Global/japan151/blossom",
-            "length": 103.23,
-            "width": 75.1,
-            "height": 50.23,
-            "rf_model": "Cubes And Walled Offices",
-            "floor_number": 3,
-            "units_of_measure": "feet",
-            "upload_floor_image": {
-              "path": "/Users/skesali/Downloads/pngegg.png"
-            }
-          }
-        ],
-        "site_type": "bulk"
-      }
-    }
-  ],
-
-  "get_sites": {
-  "response": [],
-  "version": "1.0"
-},
-"create_bulk_site_response":
-{
-  "response": {
-    "taskId": "01920653-4162-7dc9-a1ed-680f23960122",
-    "url": "/api/v1/task/01920653-4162-7dc9-a1ed-680f23960122"
-  },
-  "version": "1.0"
-},
-
-"create_bulk_site_response_details1":
-{
-  "response": {
-    "startTime": 1726682972514,
-    "version": 1726682972514,
-    "progress": {
-      "TOTAL": 0,
-      "VALIDATION_FAILURE_COUNT": 0,
-      "VALIDATION_SUCCESS_COUNT": 0,
-      "VALIDATION_PENDING_COUNT": 0,
-      "CRAETION_SUCCESS_COUNT": 0,
-      "message": "Group import is in progress. Count will be updated shortly."
-    },
-    "serviceType": "Grouping Service",
-    "operationIdList": [
-      "a7be9ccd-581e-4791-b136-628c11bc9e29"
-    ],
-    "isError": false,
-    "instanceTenantId": "6663114d388b29001399e46a",
-    "id": "01920653-4162-7dc9-a1ed-680f23960122"
-  },
-  "version": "1.0"
-},
-
-"create_bulk_site_response_details2":
-{
-  "response": {
-    "endTime": 1726682975599,
-    "data": "BULK_IMPORT_GROUPS",
-    "startTime": 1726682972514,
-    "version": 1726682975599,
-    "progress": {
-      "TOTAL": 3,
-      "VALIDATION_FAILURE_COUNT": 0,
-      "VALIDATION_SUCCESS_COUNT": 3,
-      "VALIDATION_PENDING_COUNT": 0,
-      "CRAETION_SUCCESS_COUNT": 3,
-      "message": "Group validation is completed."
-    },
-    "lastUpdate": 1726682975596,
-    "serviceType": "Grouping Service",
-    "operationIdList": [
-      "a7be9ccd-581e-4791-b136-628c11bc9e29"
-    ],
-    "isError": false,
-    "instanceTenantId": "6663114d388b29001399e46a",
-    "id": "01920653-4162-7dc9-a1ed-680f23960122"
-  },
-  "version": "1.0"
-},
-"get_sites_area":
-{
-  "response": [
-    {
-      "id": "f75a5e76-0b03-48a8-897f-b8f8bf9e3994",
-      "parentId": "0ceaa46f-e64b-448b-a01c-1c100c9b134b",
-      "name": "japan775",
-      "nameHierarchy": "Global/japan775",
+      },
       "type": "area"
-    }
+  },
+  {
+      "site": {
+          "building": {
+              "address": "1234 Elm Street3",
+              "country": "india",
+              "latitude": 37.373,
+              "longitude": -121.873,
+              "name": "s1",
+              "parent_name": "Global/bangalore1"
+          }
+      },
+      "type": "building"
+  },
+  {
+      "site": {
+          "floor": {
+              "floor_number": 3,
+              "force_upload_floor_image": true,
+              "height": 13,
+              "length": 117,
+              "name": "cherry",
+              "parent_name": "Global/bangalore1/s1",
+              "rf_model": "Outdoor Open Space",
+              "units_of_measure": "feet",
+              "upload_floor_image_path": "/Users/mabdulk2/pngegg.png",
+              "width": 117
+          }
+      },
+      "type": "floor"
+  }
   ],
-  "version": "1.0"
-},
-"get_sites_building":
-{
-  "response": [
-    {
-      "id": "a21e79ff-afdd-467d-b36f-e18ff9f60105",
-      "parentId": "1b57d499-7a5c-44b8-be4e-70c2ee79dcf6",
-      "name": "blossom",
-      "nameHierarchy": "Global/japan/blossom",
-      "type": "building",
-      "address": "new street canada 46575",
-      "country": "Canada"
-    },
-    {
-      "id": "52060ddd-c1fe-4d7e-9150-f0dfe22ff155",
-      "parentId": "6b623d98-83f5-46b7-b8e5-5f2076bd7248",
-      "name": "blossom",
-      "nameHierarchy": "Global/japan75/blossom",
-      "type": "building",
-      "latitude": 37.387,
-      "longitude": -121.845,
-      "address": "1234 Elm Street",
-      "country": "India"
-    },
-    {
-      "id": "113c9ed5-534e-41d6-9880-16fe53b8f64e",
-      "parentId": "8f4eb160-2321-4e3b-8b66-d7df752cee8f",
-      "name": "blossom",
-      "nameHierarchy": "Global/japan15/blossom",
-      "type": "building",
-      "latitude": 37.386,
-      "longitude": -121.846,
-      "address": "1234 Elm Street",
-      "country": "India"
-    },
-    {
-      "id": "bb2e85e1-1402-4026-9742-557a9bad162e",
-      "parentId": "b6bbdcab-dcce-47f0-ac77-1043b9b550ac",
-      "name": "blossom",
-      "nameHierarchy": "Global/japan7/blossom",
-      "type": "building",
-      "latitude": 37.387,
-      "longitude": -121.845,
-      "address": "1234 Elm Street",
-      "country": "India"
-    },
-    {
-      "id": "b8704aa7-cc86-4acb-85c7-cb7b08b7baed",
-      "parentId": "dc22654e-402d-4fd6-b1ba-d93a1e4e1fc8",
-      "name": "blossom",
-      "nameHierarchy": "Global/japan151/blossom",
-      "type": "building",
-      "latitude": 37.387,
-      "longitude": -121.845,
-      "address": "1234 Elm Street",
-      "country": "India"
-    },
-    {
-      "id": "e7cc45ee-2cd0-4551-8770-9f52b1a72bae",
-      "parentId": "955b8350-6680-4514-abf7-f1fb2506bd5f",
-      "name": "blossom",
-      "nameHierarchy": "Global/japan152/blossom",
-      "type": "building",
-      "latitude": 37.387,
-      "longitude": -121.845,
-      "address": "1234 Elm Street",
-      "country": "India"
-    },
-    {
-      "id": "38d7e6a1-06cf-418e-9897-1debd8c0d255",
-      "parentId": "3404c8cb-a09f-470c-a049-3106f4feeb86",
-      "name": "blossom",
-      "nameHierarchy": "Global/japan17/blossom",
-      "type": "building",
-      "latitude": 37.386,
-      "longitude": -121.845,
-      "address": "1234 Elm Street",
-      "country": "India"
-    },
-    {
-      "id": "f62afe0a-8ae3-4ec8-ae45-5f45d087b0be",
-      "parentId": "d9cbc0a9-f996-423e-b354-7f01eca3ad8d",
-      "name": "blossom",
-      "nameHierarchy": "Global/japan71/blossom",
-      "type": "building",
-      "latitude": 37.387,
-      "longitude": -121.845,
-      "address": "1234 Elm Street",
-      "country": "India"
-    },
-    {
-      "id": "f74e7c3c-0c8f-4eb4-88f1-bf9357b160d2",
-      "parentId": "67cd405f-536b-4137-9f55-aca8dc9531d2",
-      "name": "blossom",
-      "nameHierarchy": "Global/japan177/blossom",
-      "type": "building",
-      "latitude": 37.388,
-      "longitude": -121.848,
-      "address": "1234 Elm Street",
-      "country": "United States"
-    },
-    {
-      "id": "b2dadedd-8f43-4236-8739-ebf92a43370b",
-      "parentId": "f75a5e76-0b03-48a8-897f-b8f8bf9e3994",
-      "name": "blossom",
-      "nameHierarchy": "Global/japan775/blossom",
-      "type": "building",
-      "latitude": 37.387,
-      "longitude": -121.845,
-      "address": "1234 Elm Street",
-      "country": "India"
-    }
-  ],
-  "version": "1.0"
-},
+"get_sites": {"response": [], "version": "1.0"},
+"get_sites1": {"response": [], "version": "1.0"},
+"get_sites2": {"response": [], "version": "1.0"},
+"create_bulk_site_response":{"response": {"taskId": "0196fbf2-c55b-743c-8159-b23a0b49e6c0", "url": "/api/v1/task/0196fbf2-c55b-743c-8159-b23a0b49e6c0"}, "version": "1.0"},
+"create_bulk_site_response_details1":{"response": {"status": "PENDING", "startTime": 1747983713627, "resultLocation": "/dna/intent/api/v1/tasks/0196fbf2-c55b-743c-8159-b23a0b49e6c0/detail", "id": "0196fbf2-c55b-743c-8159-b23a0b49e6c0"}, "version": "1.0"},
+"create_bulk_site_response_details2":{"response": {"endTime": 1747983716763, "lastUpdate": 1747983716761, "status": "SUCCESS", "startTime": 1747983713627, "resultLocation": "/dna/intent/api/v1/tasks/0196fbf2-c55b-743c-8159-b23a0b49e6c0/detail", "id": "0196fbf2-c55b-743c-8159-b23a0b49e6c0"}, "version": "1.0"},
+"get_sites3":{"response": [{"id": "fbcbe38e-ddff-461a-bcdd-d74fa6afaaaa", "parentId": "44a7e1f2-7fce-41f1-8386-049668544be1", "name": "cherry", "nameHierarchy": "Global/bangalore1/s1/cherry", "type": "floor", "floorNumber": 3, "rfModel": "Outdoor Open Space", "width": 117.0, "length": 117.0, "height": 13.0, "unitsOfMeasure": "feet"}], "version": "1.0"},
+"upload_floor_image":{"id": 864165705, "instanceUuid": "d5a57d3c-871e-4a2c-acfd-3ba13860e35f", "groupInstanceUuid": "fbcbe38e-ddff-461a-bcdd-d74fa6afaaaa", "parentGroupUuid": "44a7e1f2-7fce-41f1-8386-049668544be1", "isRootDomain": false, "name": "cherry", "type": 4, "contact": null, "siteName": "bangalore1", "buildingName": "s1", "status": "CLEARED", "incomplete": false, "apCount": 0, "dot11aRadioCount": 0, "dot11bRadioCount": 0, "dot11gRadioCount": 0, "criticalRadioCount": 0, "wirelessClientsCount": 0, "buildingCount": 0, "floorCount": 0, "outdoorAreaCount": 0, "floorIndex": 3, "floorTotalCount": null, "basementTotalCount": null, "lastUpdated": null, "location": {"lat": 0.0, "lon": 0.0, "height": 0.0, "address": "1234 Elm Street3", "country": "1234 Elm Street3"}, "geometry": {"type": null, "width": 117.0, "length": 117.0, "height": 13.0, "offsetX": 0.0, "offsetY": 0.0}, "metrics": null, "maintainAspectRatio": false, "rfModel": 106110, "imageInfo": {"image": "/file/eea5ece2-2d0d-4a18-9353-f34770d17509", "features": null, "categories": null, "shapes": null, "extract": "", "thumbnail": null, "isCadFile": false, "enteredImageName": "pngegg.png", "generatedRasterImage": null}, "hierarchyName": "Global>bangalore1>s1>cherry"},
 "get_sites_floor":
 {
   "response": [
@@ -997,7 +813,7 @@
   },
   "version": "1.0"
 },
-"get_site_area" :
+"get_site_area1" :
 {
   "response": [
       {
@@ -1053,7 +869,7 @@
                       "nameSpace": "System Settings",
                       "attributes": {
                           "group.count.total": "1",
-                          "hasChild": "TRUE",
+                          "hasChild": "true",
                           "group.count.direct": "1",
                           "group.hierarchy.groupType": "SITE",
                           "member.count.total": "0",
@@ -1111,7 +927,7 @@
                       "nameSpace": "System Settings",
                       "attributes": {
                           "group.count.total": "0",
-                          "hasChild": "FALSE",
+                          "hasChild": "false",
                           "group.count.direct": "0",
                           "group.hierarchy.groupType": "SITE",
                           "member.count.total": "0",
@@ -1724,8 +1540,7 @@
   {
     "site": {
       "area": {
-        "name": "bangalore",
-        "parentName": "Global"
+        "name": "bangalore"
       }
     },
     "type": "area"
@@ -1733,7 +1548,7 @@
   {
     "site": {
       "building": {
-        "name": "s1",
+        "name": "",
         "address": "1234 Elm Street99",
         "parentName": "Global/bangalore",
         "latitude": 37.399,
@@ -1809,7 +1624,7 @@
           "nameSpace": "System Settings",
           "attributes": {
             "group.count.total": "0",
-            "hasChild": "FALSE",
+            "hasChild": "false",
             "group.count.direct": "0",
             "group.hierarchy.groupType": "SITE",
             "member.count.total": "0",
@@ -1868,7 +1683,7 @@
           "nameSpace": "System Settings",
           "attributes": {
             "group.count.total": "1",
-            "hasChild": "TRUE",
+            "hasChild": "true",
             "group.count.direct": "1",
             "group.hierarchy.groupType": "SITE",
             "member.count.total": "0",
@@ -2170,7 +1985,7 @@
         "rf_model": "Cubes And Walled Offices",
         "floor_number": 0,
         "units_of_measure": "feet",
-        "upload_floor_image_path": "/Users/skesali/Downloads/pngegg.png"
+        "upload_floor_image_path": "/Users/mabdulk2/pngegg.png"
       }
     ],
     "bulk_operation": "false"
@@ -2216,7 +2031,7 @@
     }
   }
 ],
-"update_a_get_sites":
+"update_a_get_area":
 {
   "response": [
     {
@@ -2229,7 +2044,7 @@
   ],
   "version": "1.0"
 },
-"update_a_get_site1":
+"update_a_get_building":
 {
   "response": [
     {
@@ -2246,6 +2061,26 @@
   ],
   "version": "1.0"
 },
+"update_a_get_floor":
+{
+  "response": [
+    {
+      "id": "728fc6e6-ab2c-4690-80d6-11a253de4c14",
+      "parentId": "3b4a276f-0a32-46a6-8df9-1e078ee6eeec",
+      "name": "FLOOR1111",
+      "nameHierarchy": "Global/USA1/SAN-JOSE1/BLD23/FLOOR1111",
+      "type": "floor",
+      "floorNumber": 0,
+      "rfModel": "Cubes And Walled Offices",
+      "width": 100.0,
+      "length": 100.0,
+      "height": 10.0,
+      "unitsOfMeasure": "feet"
+    }
+  ],
+  "version": "1.0"
+},
+
 "update_a_task_id_building":
 {
   "response": {
@@ -2255,18 +2090,8 @@
   "version": "1.0"
 },
 "update_a_task_id_building_details":
-{
-  "endTime": 1730934721767,
-  "progress": "Group is updated successfully",
-  "version": 1730934721767,
-  "data": "8457fab7-4342-4f54-aaf6-b4b9da1990c8",
-  "startTime": 1730934721678,
-  "operationIdList": ["4471de84-195c-4471-a08c-4b6177c4d431"],
-  "serviceType": "Grouping Service",
-  "isError": false,
-  "instanceTenantId": "66cfd868bbff8f5936d65d41",
-  "id": "019303bf-cc8e-7570-852e-5300ccde0add"
-},
+{"response": {"progress": "Group is updated successfully", "data": "0ed90bc9-210b-420d-a630-98bb9af03e44", "version": 1747648468914, "endTime": 1747648468914, "startTime": 1747648468839, "operationIdList": ["92937b98-cc5c-48ee-a3ba-3647225c879c"], "serviceType": "Grouping Service", "isError": false, "instanceTenantId": "66e48af26fe687300375675e", "id": "0196e7f7-5767-7461-9876-f15d4ae4144e"}, "version": "1.0"} ,
+
 "update_a_get_site2":
 {
   "response": [
@@ -2529,6 +2354,105 @@
   },
   "version": "1.0"
 },
+"playbook_config_site_creation":
+[
+  {
+      "site": {
+          "area": {
+              "name": "bangalore11",
+              "parent_name": "Global"
+          }
+      },
+      "type": "area"
+  },
+  {
+      "site": {
+          "building": {
+              "address": "1234 Elm Street3",
+              "country": "india",
+              "latitude": 39.373,
+              "longitude": -122.873,
+              "name": "s1",
+              "parent_name": "Global/bangalore1"
+          }
+      },
+      "type": "building"
+  },
+  {
+      "site": {
+          "floor": {
+              "floor_number": 8,
+              "height": 19,
+              "length": 118,
+              "name": "cherry",
+              "parent_name": "Global/bangalore1/s1",
+              "rf_model": "Outdoor Open Space",
+              "units_of_measure": "feet",
+              "width": 118
+          }
+      },
+      "type": "floor"
+  }
+],
+"get_site_v1": {"response": [{"additionalInfo": [], "name": "Global", "instanceTenantId": "66e48af26fe687300375675e", "id": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd", "siteHierarchy": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd", "siteNameHierarchy": "Global"}]},
+"create_site": {"executionId": "3a44e2b4-799f-4de5-bad1-015f32ad72c2", "executionStatusUrl": "/dna/intent/api/v1/dnacaap/management/execution-status/3a44e2b4-799f-4de5-bad1-015f32ad72c2", "message": "The request has been accepted for execution"},
+"business": {"bapiKey": "50b5-89fd-4c7a-930a", "bapiName": "Create Site", "bapiExecutionId": "bb95dde3-3f10-4931-bf5e-9f4198bf13ba", "startTime": "Fri May 23 12:18:42 UTC 2025", "startTimeEpoch": 1748002722458, "endTime": "Fri May 23 12:18:42 UTC 2025", "endTimeEpoch": 1748002722722, "timeDuration": 264, "status": "SUCCESS", "runtimeInstanceId": "DNACP_Runtime_52401ad6-d597-4bed-9dad-e7fa33519151"},
+"get_site_v11": {"response": [{"parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd", "additionalInfo": [{"nameSpace": "Location", "attributes": {"addressInheritedFrom": "1081c2ff-a73b-4ce2-add4-4f1992bdda18", "type": "area"}}], "name": "bangalore11", "instanceTenantId": "66e48af26fe687300375675e", "id": "1081c2ff-a73b-4ce2-add4-4f1992bdda18", "siteHierarchy": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd/1081c2ff-a73b-4ce2-add4-4f1992bdda18", "siteNameHierarchy": "Global/bangalore11"}]},
+"create_site1": {"executionId": "554223ae-9c7e-495c-818a-8c2da326d76b", "executionStatusUrl": "/dna/intent/api/v1/dnacaap/management/execution-status/554223ae-9c7e-495c-818a-8c2da326d76b", "message": "The request has been accepted for execution"},
+"business1": {"bapiKey": "50b5-89fd-4c7a-930a", "bapiName": "Create Site", "bapiExecutionId": "a43a92b8-78e6-4bd0-b145-9145c21ff7dc", "startTime": "Fri May 23 12:18:44 UTC 2025", "startTimeEpoch": 1748002724371, "endTime": "Fri May 23 12:18:44 UTC 2025", "endTimeEpoch": 1748002724680, "timeDuration": 309, "status": "SUCCESS", "runtimeInstanceId": "DNACP_Runtime_52401ad6-d597-4bed-9dad-e7fa33519151"},
+"get_site_v12": {"response": [{"parentId": "9bddbcb8-fc66-40fb-b433-c0044da78afa", "additionalInfo": [{"nameSpace": "Location", "attributes": {"country": "india", "address": "1234 Elm Street3", "latitude": "39.373", "addressInheritedFrom": "eb0f35f5-22e0-494f-9bb4-7bf31ac74db5", "type": "building", "longitude": "-122.873"}}], "name": "s1", "instanceTenantId": "66e48af26fe687300375675e", "id": "eb0f35f5-22e0-494f-9bb4-7bf31ac74db5", "siteHierarchy": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd/9bddbcb8-fc66-40fb-b433-c0044da78afa/eb0f35f5-22e0-494f-9bb4-7bf31ac74db5", "siteNameHierarchy": "Global/bangalore1/s1"}]},
+"create_site3": {"executionId": "e75ef7de-67e7-4675-83df-55837acefdb3", "executionStatusUrl": "/dna/intent/api/v1/dnacaap/management/execution-status/e75ef7de-67e7-4675-83df-55837acefdb3", "message": "The request has been accepted for execution"},
+"business2": {"bapiKey": "50b5-89fd-4c7a-930a", "bapiName": "Create Site", "bapiExecutionId": "d63e6c3f-22c6-4f14-836e-310471a72420", "startTime": "Fri May 23 12:18:46 UTC 2025", "startTimeEpoch": 1748002726693, "endTime": "Fri May 23 12:18:46 UTC 2025", "endTimeEpoch": 1748002726910, "timeDuration": 217, "status": "SUCCESS", "runtimeInstanceId": "DNACP_Runtime_52401ad6-d597-4bed-9dad-e7fa33519151"},
+"get_site_v13": {"response": [{"parentId": "eb0f35f5-22e0-494f-9bb4-7bf31ac74db5", "additionalInfo": [{"nameSpace": "mapGeometry", "attributes": {"offsetX": "0.0", "offsetY": "0.0", "width": "118.0", "length": "118.0", "height": "19.0"}}, {"nameSpace": "Location", "attributes": {"address": "1234 Elm Street3", "addressInheritedFrom": "eb0f35f5-22e0-494f-9bb4-7bf31ac74db5", "type": "floor"}}, {"nameSpace": "mapsSummary", "attributes": {"rfModel": "106110", "floorIndex": "8"}}], "name": "cherry", "instanceTenantId": "66e48af26fe687300375675e", "id": "87777eae-a0cb-4f00-b03b-5752a14ded0c", "siteHierarchy": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd/9bddbcb8-fc66-40fb-b433-c0044da78afa/eb0f35f5-22e0-494f-9bb4-7bf31ac74db5/87777eae-a0cb-4f00-b03b-5752a14ded0c", "siteNameHierarchy": "Global/bangalore1/s1/cherry"}]},
+"playbook_config_update_site_2376":
+[
+  {
+    "site": {
+        "area": {
+            "name": "bangalore11",
+            "parent_name": "Global"
+        }
+    },
+    "type": "area"
+},
+{
+    "site": {
+        "building": {
+            "address": "1234 Elm Street3",
+            "country": "india",
+            "latitude": 39.373,
+            "longitude": -121.873,
+            "name": "s1",
+            "parent_name": "Global/bangalore11"
+        }
+    },
+    "type": "building"
+},
+{
+    "site": {
+        "floor": {
+            "floor_number": 8,
+            "height": 18,
+            "length": 118,
+            "name": "cherry",
+            "parent_name": "Global/bangalore11/s1",
+            "rf_model": "Outdoor Open Space",
+            "units_of_measure": "feet",
+            "width": 118
+        }
+    },
+    "type": "floor"
+}
+],
+"get_site_update": {"response": [{"id": "1914389c-d76e-46f6-8941-a418faac2b4a", "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd", "name": "bangalore11", "nameHierarchy": "Global/bangalore11", "type": "area"}], "version": "1.0"},
+"get_site_update1": {"response": [{"id": "93f789e5-1962-43e8-a375-1fc08fbe3cc0", "parentId": "1914389c-d76e-46f6-8941-a418faac2b4a", "name": "s1", "nameHierarchy": "Global/bangalore11/s1", "type": "building", "latitude": 38.373, "longitude": -120.873, "address": "1234 Elm Street3", "country": "india"}]},
+"get_site_update2": {"response": [{"id": "7ae9c05c-b2bf-4fe1-94ed-8d5a056b37a2", "parentId": "93f789e5-1962-43e8-a375-1fc08fbe3cc0", "name": "cherry", "nameHierarchy": "Global/bangalore11/s1/cherry", "type": "floor", "floorNumber": 4, "rfModel": "Outdoor Open Space", "width": 117.0, "length": 114.0, "height": 19.0, "unitsOfMeasure": "feet"}], "version": "1.0"},
+"get_site_update_task": {"response": {"taskId": "0197037a-8fcd-7301-b55a-2f262bf585dc", "url": "/api/v1/task/0197037a-8fcd-7301-b55a-2f262bf585dc"}, "version": "1.0"},
+"get_site_update_task_deatils": {"response": {"progress": "Group is updated successfully", "data": "93f789e5-1962-43e8-a375-1fc08fbe3cc0", "version": 1748110053423, "endTime": 1748110053423, "startTime": 1748110053325, "operationIdList": ["2c936302-982b-4e41-8c46-2bc7dd4dfcab"], "serviceType": "Grouping Service", "isError": false, "instanceTenantId": "66e48af26fe687300375675e", "id": "0197037a-8fcd-7301-b55a-2f262bf585dc"}, "version": "1.0"},
+"get_site_update_task1": {"response": {"taskId": "0197037a-9409-72b0-b638-1c497d9e2fda", "url": "/api/v1/task/0197037a-9409-72b0-b638-1c497d9e2fda"}, "version": "1.0"},
+"get_site_update_task_deatils1": {"response": {"progress": "Service domain is updated successfully.", "data": "7ae9c05c-b2bf-4fe1-94ed-8d5a056b37a2", "version": 1748110054497, "endTime": 1748110054497, "startTime": 1748110054409, "serviceType": "DNA Maps Service", "isError": false, "instanceTenantId": "66e48af26fe687300375675e", "id": "0197037a-9409-72b0-b638-1c497d9e2fda"}, "version": "1.0"},
+
+
 "delete_config_playbook":
 [
   {
@@ -2569,5 +2493,63 @@
     "type": "area"
   }
   
-]
+],
+"playbook_site_delete_2376": [
+    {
+        "site": {
+            "area": {
+                "name": "bangalore",
+                "parent_name": "Global"
+            }
+        },
+        "type": "area"
+    },
+    {
+        "site": {
+            "building": {
+                "address": "1234 Elm Street3",
+                "country": "india",
+                "latitude": 37.373,
+                "longitude": -121.873,
+                "name": "s1",
+                "parent_name": "Global/bangalore"
+            }
+        },
+        "type": "building"
+    },
+    {
+        "site": {
+            "floor": {
+                "floor_number": 3,
+                "force_upload_floor_image": true,
+                "height": 13,
+                "length": 117,
+                "name": "cherry",
+                "parent_name": "Global/bangalore/s1",
+                "rf_model": "Outdoor Open Space",
+                "units_of_measure": "feet",
+                "upload_floor_image_path": "/Users/radeenad/Downloads/pngegg.png",
+                "width": 117
+            }
+        },
+        "type": "floor"
+    }
+],
+"get_sites_response1":{"response": [{"id": "6aa1685f-0500-4687-adeb-62870fa25dad", "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd", "name": "bangalore", "nameHierarchy": "Global/bangalore", "type": "area"}], "version": "1.0"},
+"get_sites_response2": {"response": [{"id": "af6c2a2b-843e-4d11-8e95-1bd5394df901", "parentId": "6aa1685f-0500-4687-adeb-62870fa25dad", "name": "s1", "nameHierarchy": "Global/bangalore/s1", "type": "building", "latitude": 37.373, "longitude": -121.873, "address": "1234 Elm Street3", "country": "india"}], "version": "1.0"},
+"get_sites_response3": {"response": [{"id": "2a1f6446-0274-4730-bf9e-54572137f2fb", "parentId": "af6c2a2b-843e-4d11-8e95-1bd5394df901", "name": "cherry", "nameHierarchy": "Global/bangalore/s1/cherry", "type": "floor", "floorNumber": 3, "rfModel": "Outdoor Open Space", "width": 117.0, "length": 117.0, "height": 13.0, "unitsOfMeasure": "feet"}], "version": "1.0"},
+"delete_floor_response1": {"response": {"taskId": "0196fbca-56f1-7df3-a31c-b6c2d5723e5c", "url": "/api/v1/task/0196fbca-56f1-7df3-a31c-b6c2d5723e5c"}, "version": "1.0"},
+"task_response1": {"response": {"progress": "NCMP00150: Service domain is deleted successfully", "version": 1747981063968, "endTime": 1747981063968, "startTime": 1747981063921, "serviceType": "DNA Maps Service", "isError": false, "instanceTenantId": "66e48af26fe687300375675e", "id": "0196fbca-56f1-7df3-a31c-b6c2d5723e5c"}, "version": "1.0"},
+"get_sites_response4": {"response": [], "version": "1.0"},
+"delete_response22": {"response": {"taskId": "0196fbca-5a87-7e3c-9479-47ed9277046a", "url": "/api/v1/task/0196fbca-5a87-7e3c-9479-47ed9277046a"}, "version": "1.0"},
+"task_response2": {"response": {"progress": "Group is deleted successfully", "data": "af6c2a2b-843e-4d11-8e95-1bd5394df901", "version": 1747981064872, "endTime": 1747981064872, "startTime": 1747981064839, "operationIdList": ["a6a752ed-4934-4ef4-8f46-e0db6cb2077a"], "serviceType": "Grouping Service", "isError": false, "instanceTenantId": "66e48af26fe687300375675e", "id": "0196fbca-5a87-7e3c-9479-47ed9277046a"}, "version": "1.0"},
+"get_sites_response5": {"response": [], "version": "1.0"},
+"get_sites_response6": {"response": [], "version": "1.0"},
+"delete_response3": {"response": [{"id": "6aa1685f-0500-4687-adeb-62870fa25dad", "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd", "name": "bangalore", "nameHierarchy": "Global/bangalore", "type": "area"}], "version": "1.0"},
+"delete_response4": {"response": {"taskId": "0196fbca-6075-73b0-9453-677de86a0edc", "url": "/api/v1/task/0196fbca-6075-73b0-9453-677de86a0edc"}, "version": "1.0"},
+"task_response_3": {"response": {"progress": "Group is deleted successfully", "data": "6aa1685f-0500-4687-adeb-62870fa25dad", "version": 1747981066389, "endTime": 1747981066389, "startTime": 1747981066357, "operationIdList": ["536f3356-eb0b-40d4-b7e7-4649e9f0b038"], "serviceType": "Grouping Service", "isError": false, "instanceTenantId": "66e48af26fe687300375675e", "id": "0196fbca-6075-73b0-9453-677de86a0edc"}, "version": "1.0"},
+"response_site_delete": {
+  "response": "Given site(s) '['floor: Global/bangalore/s1/cherry', 'building: Global/bangalore/s1', 'area: Global/bangalore']' deleted successfully from Cisco Catalyst Center"}
+
+
 }
