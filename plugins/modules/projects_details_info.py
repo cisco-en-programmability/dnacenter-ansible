@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: projects_details_info
-short_description: Information module for Projects Details Info
+short_description: Information module for Projects Details
 description:
-- This module represents an alias of the module projects_details_v2_info
+  - Get all Projects Details.
+  - Get projects details.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,43 +21,47 @@ options:
     type: dict
   id:
     description:
-    - Id query parameter. Id of project to be searched.
+      - Id query parameter. Id of project to be searched.
     type: str
   name:
     description:
-    - Name query parameter. Name of project to be searched.
+      - Name query parameter. Name of project to be
+        searched.
     type: str
   offset:
     description:
-    - Offset query parameter. Index of first result.
+      - Offset query parameter. Index of first result.
     type: int
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records
+        to show for this page;The minimum is 1, and
+        the maximum is 500.
     type: float
   sortOrder:
     description:
-    - SortOrder query parameter. Sort Order Ascending (asc) or Descending (dsc).
+      - SortOrder query parameter. Sort Order Ascending
+        (asc) or Descending (dsc).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetProjectsDetailsV2
-  description: Complete reference of the GetProjectsDetailsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-projects-details
+  - name: Cisco DNA Center documentation for Configuration
+      Templates GetProjectsDetailsV2
+    description: Complete reference of the GetProjectsDetailsV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-projects-details-v-2
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_projects_details_v2,
-
   - Paths used are
     get /dna/intent/api/v2/template-programmer/project,
-  - It should be noted that this module is an alias of projects_details_v2_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Projects Details Info
+---
+- name: Get all Projects Details
   cisco.dnac.projects_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -73,7 +77,6 @@ EXAMPLES = r"""
     limit: 0
     sortOrder: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -4,13 +4,19 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: discovery
 short_description: Resource module for Discovery
 description:
-- This module represents an alias of the module discovery_v1
+  - Manage operations create, update and delete of the
+    resource Discovery.
+  - Initiates discovery with the given parameters.
+  - Stops all the discoveries and removes them. - >
+    Stops the discovery for the given Discovery ID and
+    removes it. Discovery ID can be obtained using the
+    "Get Discoveries by range" API.
+  - Stops or starts an existing discovery.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,27 +26,32 @@ options:
     description: Deprecated.
     type: dict
   cdpLevel:
-    description: CDP level to which neighbor devices to be discovered.
+    description: CDP level to which neighbor devices
+      to be discovered.
     type: int
   deviceIds:
-    description: Ids of the devices discovered in a discovery.
+    description: Ids of the devices discovered in a
+      discovery.
     type: str
   discoveryCondition:
-    description: To indicate the discovery status. Available options Complete or In
-      Progress.
+    description: To indicate the discovery status. Available
+      options Complete or In Progress.
     type: str
   discoveryStatus:
-    description: Status of the discovery. Available options are Active, Inactive, Edit.
+    description: Status of the discovery. Available
+      options are Active, Inactive, Edit.
     type: str
   discoveryType:
-    description: Type of the discovery. 'Single', 'Range', 'Multi Range', 'CDP', 'LLDP',
-      'CIDR'.
+    description: Type of the discovery. 'Single', 'Range',
+      'Multi Range', 'CDP', 'LLDP', 'CIDR'.
     type: str
   enablePasswordList:
-    description: Enable Password of the devices to be discovered.
+    description: Enable Password of the devices to be
+      discovered.
     type: str
   globalCredentialIdList:
-    description: List of global credential ids to be used.
+    description: List of global credential ids to be
+      used.
     elements: str
     type: list
   httpReadCredential:
@@ -50,7 +61,8 @@ options:
         description: Comments to identify the credential.
         type: str
       credentialType:
-        description: Credential type to identify the application that uses the credential.
+        description: Credential type to identify the
+          application that uses the credential.
         type: str
       description:
         description: Description of the credential.
@@ -84,7 +96,8 @@ options:
         description: Comments to identify the credential.
         type: str
       credentialType:
-        description: Credential type to identify the application that uses the credential.
+        description: Credential type to identify the
+          application that uses the credential.
         type: str
       description:
         description: Description of the credential.
@@ -115,45 +128,55 @@ options:
     description: Unique Discovery Id.
     type: str
   ipAddressList:
-    description: List of IP address of the devices to be discovered.
+    description: List of IP address of the devices to
+      be discovered.
     type: str
   ipFilterList:
     description: IP addresses of the devices to be filtered.
     type: str
   isAutoCdp:
-    description: Flag to mention if CDP discovery or not.
+    description: Flag to mention if CDP discovery or
+      not.
     type: bool
   lldpLevel:
-    description: LLDP level to which neighbor devices to be discovered.
+    description: LLDP level to which neighbor devices
+      to be discovered.
     type: int
   name:
     description: Name for the discovery.
     type: str
   netconfPort:
-    description: Netconf port on the device. Netconf will need valid sshv2 credentials
-      for it to work.
+    description: Netconf port on the device. Netconf
+      will need valid sshv2 credentials for it to work.
     type: str
   numDevices:
-    description: Number of devices discovered in the discovery.
+    description: Number of devices discovered in the
+      discovery.
     type: int
   parentDiscoveryId:
-    description: Parent Discovery Id from which the discovery was initiated.
+    description: Parent Discovery Id from which the
+      discovery was initiated.
     type: str
   passwordList:
     description: Password of the devices to be discovered.
     type: str
   preferredMgmtIPMethod:
-    description: Preferred management IP method. Available options are 'None' and 'UseLoopBack'.
+    description: Preferred management IP method. Available
+      options are 'None' and 'UseLoopBack'.
     type: str
   protocolOrder:
-    description: Order of protocol (ssh/telnet) in which device connection will be tried.
-      Ex 'telnet' only telnet; 'ssh,telnet' ssh with higher order than telnet.
+    description: Order of protocol (ssh/telnet) in which
+      device connection will be tried. Ex 'telnet' only
+      telnet; 'ssh,telnet' ssh with higher order than
+      telnet.
     type: str
   retry:
-    description: Number of times to try establishing connection to device.
+    description: Number of times to try establishing
+      connection to device.
     type: int
   retryCount:
-    description: Number of times to try establishing connection to device.
+    description: Number of times to try establishing
+      connection to device.
     type: int
   snmpAuthPassphrase:
     description: Auth passphrase for SNMP.
@@ -162,7 +185,8 @@ options:
     description: SNMP auth protocol. SHA' or 'MD5'.
     type: str
   snmpMode:
-    description: Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV' or 'NOAUTHNOPRIV'.
+    description: Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV'
+      or 'NOAUTHNOPRIV'.
     type: str
   snmpPrivPassphrase:
     description: Passphrase for SNMP privacy.
@@ -171,13 +195,15 @@ options:
     description: SNMP privacy protocol. 'AES128'.
     type: str
   snmpRoCommunity:
-    description: SNMP RO community of the devices to be discovered.
+    description: SNMP RO community of the devices to
+      be discovered.
     type: str
   snmpRoCommunityDesc:
     description: Description for SNMP RO community.
     type: str
   snmpRwCommunity:
-    description: SNMP RW community of the devices to be discovered.
+    description: SNMP RW community of the devices to
+      be discovered.
     type: str
   snmpRwCommunityDesc:
     description: Description for SNMP RW community.
@@ -188,49 +214,57 @@ options:
   snmpVersion:
     description: Version of SNMP. V2 or v3.
     type: str
-  timeOut:
+  timeout:
     description: Time to wait for device response.
     type: int
   updateMgmtIp:
-    description: Updates Management IP if multiple IPs are available for a device. If
-      set to true, when a device is rediscovered with a different IP, the management
-      IP is updated. Default value is false.
+    description: Updates Management IP if multiple IPs
+      are available for a device. If set to true, when
+      a device is rediscovered with a different IP,
+      the management IP is updated. Default value is
+      false.
     type: bool
   userNameList:
     description: Username of the devices to be discovered.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery StartDiscoveryV1
-  description: Complete reference of the StartDiscoveryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!start-discovery
-- name: Cisco DNA Center documentation for Discovery DeleteAllDiscoveryV1
-  description: Complete reference of the DeleteAllDiscoveryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-all-discovery
-- name: Cisco DNA Center documentation for Discovery DeleteDiscoveryByIdV1
-  description: Complete reference of the DeleteDiscoveryByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id
-- name: Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedIdV1
-  description: Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id
+  - name: Cisco DNA Center documentation for Discovery
+      StartDiscovery
+    description: Complete reference of the StartDiscovery
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!start-discovery
+  - name: Cisco DNA Center documentation for Discovery
+      DeleteAllDiscovery
+    description: Complete reference of the DeleteAllDiscovery
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-all-discovery
+  - name: Cisco DNA Center documentation for Discovery
+      DeleteDiscoveryById
+    description: Complete reference of the DeleteDiscoveryById
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id
+  - name: Cisco DNA Center documentation for Discovery
+      UpdatesAnExistingDiscoveryBySpecifiedId
+    description: Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedId
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id
 notes:
   - SDK Method used are
-    discovery.Discovery.delete_discovery_by_id_v1,
-    discovery.Discovery.start_discovery_v1,
+    discovery.Discovery.delete_discovery_by_id,
+    discovery.Discovery.start_discovery,
     discovery.Discovery.updates_discovery_by_id,
-
   - Paths used are
     post /dna/intent/api/v1/discovery,
     delete /dna/intent/api/v1/discovery,
     delete /dna/intent/api/v1/discovery/{id},
     put /dna/intent/api/v1/discovery,
-  - It should be noted that this module is an alias of discovery_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Delete all
   cisco.dnac.discovery:
     dnac_host: "{{dnac_host}}"
@@ -241,7 +275,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
-
 - name: Update all
   cisco.dnac.discovery:
     dnac_host: "{{dnac_host}}"
@@ -260,7 +293,7 @@ EXAMPLES = r"""
     discoveryType: string
     enablePasswordList: string
     globalCredentialIdList:
-    - string
+      - string
     httpReadCredential:
       comments: string
       credentialType: string
@@ -306,10 +339,9 @@ EXAMPLES = r"""
     snmpRwCommunity: string
     snmpRwCommunityDesc: string
     snmpUserName: string
-    timeOut: 0
+    timeout: 0
     updateMgmtIp: true
     userNameList: string
-
 - name: Create
   cisco.dnac.discovery:
     dnac_host: "{{dnac_host}}"
@@ -323,9 +355,9 @@ EXAMPLES = r"""
     cdpLevel: 0
     discoveryType: string
     enablePasswordList:
-    - string
+      - string
     globalCredentialIdList:
-    - string
+      - string
     httpReadCredential:
       password: string
       port: 0
@@ -338,12 +370,12 @@ EXAMPLES = r"""
       username: string
     ipAddressList: string
     ipFilterList:
-    - string
+      - string
     lldpLevel: 0
     name: string
     netconfPort: string
     passwordList:
-    - string
+      - string
     preferredMgmtIPMethod: string
     protocolOrder: string
     retry: 0
@@ -358,10 +390,9 @@ EXAMPLES = r"""
     snmpRwCommunityDesc: string
     snmpUserName: string
     snmpVersion: string
-    timeOut: 0
+    timeout: 0
     userNameList:
-    - string
-
+      - string
 - name: Delete by id
   cisco.dnac.discovery:
     dnac_host: "{{dnac_host}}"
@@ -373,7 +404,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: discovery_info
-short_description: Information module for Discovery Info
+short_description: Information module for Discovery
 description:
-- This module represents an alias of the module discovery_v1_info
+  - Get Discovery by id.
+  - Returns discovery by Discovery ID. Discovery ID
+    can be obtained using the "Get Discoveries by range"
+    API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +23,27 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Discovery ID.
+      - Id path parameter. Discovery ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetDiscoveryByIdV1
-  description: Complete reference of the GetDiscoveryByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discovery-by-id
+  - name: Cisco DNA Center documentation for Discovery
+      GetDiscoveryById
+    description: Complete reference of the GetDiscoveryById
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-discovery-by-id
 notes:
   - SDK Method used are
-    discovery.Discovery.get_discovery_by_id_v1,
-
+    discovery.Discovery.get_discovery_by_id,
   - Paths used are
     get /dna/intent/api/v1/discovery/{id},
-  - It should be noted that this module is an alias of discovery_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get Discovery Info by id
+---
+- name: Get Discovery by id
   cisco.dnac.discovery_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -53,7 +55,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:
@@ -120,7 +121,7 @@ dnac_response:
         "snmpRwCommunity": "string",
         "snmpRwCommunityDesc": "string",
         "snmpUserName": "string",
-        "timeOut": 0,
+        "timeout": 0,
         "updateMgmtIp": true,
         "userNameList": "string"
       },

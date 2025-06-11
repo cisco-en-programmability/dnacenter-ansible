@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_anchor_groups_info
-short_description: Information module for Wireless Settings Anchor Groups Info
+short_description: Information module for Wireless Settings
+  Anchor Groups
 description:
-- This module represents an alias of the module wireless_settings_anchor_groups_v1_info
+  - Get all Wireless Settings Anchor Groups.
+  - This API allows the user to get AnchorGroups that
+    captured in wireless settings design.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,25 +21,38 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  limit:
+    description:
+      - >
+        Limit query parameter. The number of records
+        to show for this page. Default is 500 if not
+        specified. Maximum allowed limit is 500.
+    type: str
+  offset:
+    description:
+      - Offset query parameter. The first record to
+        show for this page, the first record is numbered
+        1.
+    type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetAnchorGroupsV1
-  description: Complete reference of the GetAnchorGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-anchor-groups
+  - name: Cisco DNA Center documentation for Wireless
+      GetAnchorGroups
+    description: Complete reference of the GetAnchorGroups
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-anchor-groups
 notes:
   - SDK Method used are
-    wireless.Wireless.get_anchor_groups_v1,
-
+    wireless.Wireless.get_anchor_groups,
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/anchorGroups,
-  - It should be noted that this module is an alias of wireless_settings_anchor_groups_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Wireless Settings Anchor Groups Info
+---
+- name: Get all Wireless Settings Anchor Groups
   cisco.dnac.wireless_settings_anchor_groups_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -47,8 +62,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
+    limit: string
+    offset: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

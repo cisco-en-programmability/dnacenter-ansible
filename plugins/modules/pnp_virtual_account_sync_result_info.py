@@ -4,13 +4,16 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: pnp_virtual_account_sync_result_info
-short_description: Information module for Pnp Virtual Account Sync Result Info
+short_description: Information module for Pnp Virtual
+  Account Sync Result
 description:
-- This module represents an alias of the module pnp_virtual_account_sync_result_v1_info
+  - Get all Pnp Virtual Account Sync Result.
+  - Returns the summary of devices synced from the given
+    smart account & virtual account with PnP Deprecated
+    .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,31 +24,31 @@ options:
     type: dict
   domain:
     description:
-    - Domain path parameter. Smart Account Domain.
+      - Domain path parameter. Smart Account Domain.
     type: str
   name:
     description:
-    - Name path parameter. Virtual Account Name.
+      - Name path parameter. Virtual Account Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetSyncResultForVirtualAccountV1
-  description: Complete reference of the GetSyncResultForVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-sync-result-for-virtual-account
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) GetSyncResultForVirtualAccount
+    description: Complete reference of the GetSyncResultForVirtualAccount
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-sync-result-for-virtual-account
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account_v1,
-
+    device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account,
   - Paths used are
     get /dna/intent/api/v1/onboarding/pnp-device/sacct/{domain}/vacct/{name}/sync-result,
-  - It should be noted that this module is an alias of pnp_virtual_account_sync_result_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Pnp Virtual Account Sync Result Info
+---
+- name: Get all Pnp Virtual Account Sync Result
   cisco.dnac.pnp_virtual_account_sync_result_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -58,7 +61,6 @@ EXAMPLES = r"""
     domain: string
     name: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

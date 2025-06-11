@@ -4,20 +4,28 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: assurance_issues_summary_analytics
-short_description: Resource module for Assurance Issues Summary Analytics
+short_description: Resource module for Assurance Issues
+  Summary Analytics
 description:
-- This module represents an alias of the module assurance_issues_summary_analytics_v1
+  - Manage operation create of the resource Assurance
+    Issues Summary Analytics. - > Gets the summary analytics
+    data related to issues based on given filters and
+    group by field. This data can be used to find issue
+    counts grouped by different keys. For detailed information
+    about the usage of the API, please refer to the
+    Open API specification document - https //github.com/cisco-en-programmability/catalyst-
+    center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Assurance Issues Summary Analytics's aggregateAttributes.
+    description: Assurance Issues Summary Analytics's
+      aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -35,11 +43,13 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Assurance Issues Summary Analytics's filters.
+    description: Assurance Issues Summary Analytics's
+      filters.
     elements: dict
     suboptions:
       filters:
-        description: Assurance Issues Summary Analytics's filters.
+        description: Assurance Issues Summary Analytics's
+          filters.
         elements: dict
         suboptions:
           key:
@@ -73,7 +83,8 @@ options:
     description: Additional headers.
     type: dict
   page:
-    description: Assurance Issues Summary Analytics's page.
+    description: Assurance Issues Summary Analytics's
+      page.
     suboptions:
       limit:
         description: Limit.
@@ -82,7 +93,8 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Assurance Issues Summary Analytics's sortBy.
+        description: Assurance Issues Summary Analytics's
+          sortBy.
         elements: dict
         suboptions:
           name:
@@ -97,23 +109,23 @@ options:
     description: Start Time.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues GetSummaryAnalyticsDataOfIssuesV1
-  description: Complete reference of the GetSummaryAnalyticsDataOfIssuesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-issues
+  - name: Cisco DNA Center documentation for Issues
+      GetSummaryAnalyticsDataOfIssues
+    description: Complete reference of the GetSummaryAnalyticsDataOfIssues
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-issues
 notes:
   - SDK Method used are
-    issues.Issues.get_summary_analytics_data_of_issues_v1,
-
+    issues.Issues.get_summary_analytics_data_of_issues,
   - Paths used are
     post /dna/data/api/v1/assuranceIssues/summaryAnalytics,
-  - It should be noted that this module is an alias of assurance_issues_summary_analytics_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.assurance_issues_summary_analytics:
     dnac_host: "{{dnac_host}}"
@@ -124,31 +136,30 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - filters:
-      - key: string
+      - filters:
+          - key: string
+            operator: string
+            value: string
+        key: string
+        logicalOperator: string
         operator: string
         value: string
-      key: string
-      logicalOperator: string
-      operator: string
-      value: string
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     page:
       limit: 0
       offset: 0
       sortBy:
-      - name: string
-        order: string
+        - name: string
+          order: string
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:

@@ -4,13 +4,16 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: security_advisories_results_network_devices_network_device_id_info
-short_description: Information module for Security Advisories Results Network Devices Network Device Id Info
+short_description: Information module for Security Advisories
+  Results Network Devices Network Device Id
 description:
-- This module represents an alias of the module security_advisories_results_network_devices_network_device_id_v1_info
+  - Get Security Advisories Results Network Devices
+    Network Device Id by id.
+  - Get security advisory network device by network
+    device id.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +24,29 @@ options:
     type: dict
   networkDeviceId:
     description:
-    - NetworkDeviceId path parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network
+        device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetSecurityAdvisoryNetworkDeviceByNetworkDeviceIdV1
-  description: Complete reference of the GetSecurityAdvisoryNetworkDeviceByNetworkDeviceIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-security-advisory-network-device-by-network-device-id
+  - name: Cisco DNA Center documentation for Compliance
+      GetSecurityAdvisoryNetworkDeviceByNetworkDeviceId
+    description: Complete reference of the GetSecurityAdvisoryNetworkDeviceByNetworkDeviceId
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-security-advisory-network-device-by-network-device-id
 notes:
   - SDK Method used are
-    compliance.Compliance.get_security_advisory_network_device_by_network_device_id_v1,
-
+    compliance.Compliance.get_security_advisory_network_device_by_network_device_id,
   - Paths used are
     get /dna/intent/api/v1/securityAdvisories/results/networkDevices/{networkDeviceId},
-  - It should be noted that this module is an alias of security_advisories_results_network_devices_network_device_id_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get Security Advisories Results Network Devices Network Device Id Info by id
+---
+- name: Get Security Advisories Results Network Devices
+    Network Device Id by id
   cisco.dnac.security_advisories_results_network_devices_network_device_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -53,7 +58,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     networkDeviceId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

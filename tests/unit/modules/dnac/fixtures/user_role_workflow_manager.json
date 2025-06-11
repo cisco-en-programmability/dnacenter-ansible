@@ -5,7 +5,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj",
             "email": "ajith.andrew@example.com",
-            "password": "Ajith@123",
+            "password": "Example@0101",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -14,7 +14,7 @@
             "first_name": "ajith",
             "last_name": "andrew",
             "email": "ajith.andrew@example.com",
-            "password": "Ajith@123",
+            "password": "Example@0101",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -47,7 +47,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj",
             "email": "ajith.andrew@example.com",
-            "password": "Ajith@123",
+            "password": "Example@0101",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -57,7 +57,7 @@
             "last_name": "andrew ",
             "username": "ajithandrewj",
             "email": "ajith.andrew@example.com",
-            "password": "Ajith@123",
+            "password": "Example@0101",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -67,7 +67,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj",
             "email": "ajith.andrewexample.com",
-            "password": "Ajith@123",
+            "password": "Example@0101",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -87,7 +87,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj&",
             "email": "ajith.andrew@example.com",
-            "password": "Ajith@123",
+            "password": "Example@0101",
             "role_list": "Super-Admin-Role"
         }]
     },
@@ -97,7 +97,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj",
             "email": "ajith.andrew@example.com",
-            "password": "Ajith@123",
+            "password": "Example@0101",
             "role_list": ["Super-Admin-Roleee"]
         }]
     },
@@ -144,8 +144,7 @@
         }
     },
     "create_user_response":{
-        "message": "User created successfully",
-        "userId": "6694f2696bfb96588e776b6a"
+        "response": "User(s) 'ajithandrewj' created successfully in Cisco Catalyst Center."
     },
     "update_needed_get_user_response":{
         "response": {
@@ -190,7 +189,7 @@
         }
     },
     "update_needed_user_response":{
-        "message": "User updated successfully"
+        "response": "User(s) 'ajithandrewj' updated successfully in Cisco Catalyst Center."
     },
     "update_not_needed_get_user_response":{
         "response": {
@@ -235,7 +234,7 @@
         }
     },
     "update_not_needed_user_response":{
-        "message": "User does not need any update"
+        "response": "User(s) 'ajithandrewj' need no update in Cisco Catalyst Center."
     },
     "delete_existing_get_user_response":{
         "response": {
@@ -280,7 +279,7 @@
         }
     },
     "delete_existing_user_response":{
-        "message": "Deleted user successfully"
+        "response": "User(s) 'ajithandrewj' deleted successfully from the Cisco Catalyst Center."
     },
     "delete_non_existing_get_user_response":{
         "response": {
@@ -325,7 +324,7 @@
         }
     },
     "delete_non_existing_user_response":{
-        "message": "Please provide a valid 'username' or 'email' for user deletion"
+        "response": "The specified user 'ajithandrewj' does not exist in Cisco Catalyst Center. Please provide a valid 'username' or 'email' for user deletion."
     },
     "invalid_param_mandatory_field_not_present_get_user_response":{
         "response": {
@@ -370,7 +369,7 @@
         }
     },
     "user_invalid_mandatory_field_not_present_param_responce":{
-        "message": "Mandatory field not present: An error occurred while creating the user"
+        "message": "Mandatory parameter(s) 'username, password' not present in the user details."
     },
     "invalid_param_username_email_not_present_get_user_response":{
         "response": {
@@ -415,7 +414,7 @@
         }
     },
     "user_invalid_username_email_not_present_param_responce":{
-        "message": "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
+        "message": "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or 'The 'user_details' key is invalid for role creation, updation, or deletion' or 'The 'role_details' key is invalid for user creation, updation, or deletion'"
     },
     "invalid_param_not_correct_formate_get_user_response":{
         "response": {
@@ -460,7 +459,7 @@
         }
     },
     "user_invalid_param_not_correct_formate_responce":{
-        "message": "Invalid parameters in playbook config: first_name: 'ajith ' must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters., last_name: 'andrew ' must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters., email: Invalid email format for 'email': ajith.andrewexample.com, password: 'Password' does not meet complexity requirements for password: Ajith123, username: 'ajithandrewj ' must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
+        "message": "Invalid parameters in playbook config: first_name: First name 'ajith ' can have alphanumeric characters only and must be 2 to 50 characters long., last_name: Last name 'andrew ' can have alphanumeric characters only and must be 2 to 50 characters long., The password must be 9 to 20 characters long and include at least three of the following character types: lowercase letters, uppercase letters, digits, and special characters. Additionally, the password must not contain repetitive or sequential characters., The password must be 9 to 20 characters long and include at least three of the following character types: lowercase letters, uppercase letters, digits, and special characters. Additionally, the password must not contain repetitive or sequential characters., username: 'ajithandrewj ' The username must not contain any special characters and must be 3 to 50 characters long."
     },
     "user_invalid_param_not_type_list_response":{
         "message": "Invalid parameter(s) found in playbook: Super-Admin-Role : is not a valid list"
@@ -527,7 +526,7 @@
         }
     },
     "user_invalid_param_update_rolelist_not_found_responce":{
-        "message": "The role name in the user details role_list is not present in the Cisco Catalyst Center, Please provide a valid role name"
+        "message": "The role name in the user details 'role_list' is not present in the Cisco Catalyst Center. Please provide a valid role name."
     },
     "playbook_config_role": {
         "role_details": [{
@@ -865,8 +864,7 @@
         }
     },
     "create_role_response":{
-        "message": "Role created successfully",
-        "roleId": "6694f2696bfb96588e776b6a"
+        "response": "Role(s) 'Test_Role_1' created successfully in Cisco Catalyst Center."
     },
     "create_1_get_role_response":{
         "response": {
@@ -895,8 +893,7 @@
         }
     },
     "create_1_role_response":{
-        "message": "Role created successfully",
-        "roleId": "6694f2696bfb96588e776b6a"
+        "response": "Role(s) 'Test_Role_1' created successfully in Cisco Catalyst Center."
     },
     "update_needed_get_role_response":{
         "response": {
@@ -925,8 +922,7 @@
         }
     },
     "update_needed_role_response":{
-        "message": "Role Updated successfully",
-        "roleId": "6694f2696bfb96588e776b6a"
+        "response": "Role(s) 'Test_Role_1' updated successfully in Cisco Catalyst Center."
     },
     "update_not_needed_get_role_response":{
         "response": {
@@ -1258,7 +1254,7 @@
         }
     },
     "update_not_needed_role_response":{
-        "message": "Role does not need any update"
+        "response": "Role(s) 'Test_Role_1' need no update in Cisco Catalyst Center."
     },
     "delete_existing_get_role_response":{
         "response": {
@@ -1285,7 +1281,7 @@
         }
     },
     "delete_existing_role_response":{
-        "message": "Role deleted successfully"
+        "response": "Role(s) 'Test_Role_1' deleted successfully from the Cisco Catalyst Center."
     },
     "delete_non_existing_get_role_response":{
         "response": {
@@ -1312,10 +1308,10 @@
         }
     },
     "delete_non_existing_role_response":{
-        "message": "Please provide a valid role_name for role deletion"
+        "response": "The specified role 'Test_Role_1' does not exist in Cisco Catalyst Center. Please provide a valid 'role_name' for user deletion."
     },
     "role_invalid_rolename_not_present_param_response":{
-        "message": "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
+        "message": "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or 'The 'user_details' key is invalid for role creation, updation, or deletion' or 'The 'role_details' key is invalid for user creation, updation, or deletion'"
     },
     "role_invalid_param_not_type_list_response":{
         "message": "Invalid parameter(s) found in playbook: {'overall': 'read'} : is not a valid list"
@@ -1345,7 +1341,7 @@
         }
     },
     "role_param_with_all_permision_deny_responce":{
-        "message": "An error occurred while creating the role without access-level parameters and permissions"
+        "message": "The Catalyst Center user 'dummy' does not have the necessary permissions to 'create a role' through the API."
     },
     "invalid_param_rolename_not_correct_formate_get_role_responce":{
         "response": {
@@ -1372,7 +1368,7 @@
         }
     },
     "role_invalid_param_rolename_not_correct_formate_responce":{
-        "message": "Invalid parameters in playbook config: role_name: 'Test_Role_1 ' must only contain letters, numbers, underscores and hyphens and should not contain spaces or other special characters."
+        "message": "Invalid parameters in playbook config: role_name: 'Test_Role_1 ' Role names must be 1 to 25 characters long and should contain only letters, numbers, periods, underscores, and hyphens."
     },
     "invalid_param_type_list_missing_response":{
         "message": "Configuration is not available in the playbook for validation or user/role details are not type list"
@@ -1426,10 +1422,10 @@
         }
     },
     "invalid_param_role_invalid_permission_response":{
-        "message": "Invalid permission aaa for assurance resource overall"
+        "message": "Invalid permission 'aaa' for assurance resource 'overall' under the role 'None'"
     },
     "invalid_param_role_update_invalid_permission_response":{
-        "message": "Invalid permission aaa for assurance resource overall"
+        "message": "Invalid permission 'aaa' for assurance resource 'overall' under the role 'Test_Role_1'"
     },
     "playbook_config_for_creating_default_role": {
             "role_details": [{
@@ -1464,8 +1460,7 @@
         }
     },
     "create_default_role_response":{
-        "message": "Role created successfully",
-        "roleId": "6694f2696bfb96588e776b6e"
+        "response": "Role(s) 'default_role' created successfully in Cisco Catalyst Center."
     },
     "invalid_param_state_responce":{
         "message": "value of state must be one of: merged, deleted, got: mergeddd"

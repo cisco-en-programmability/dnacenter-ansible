@@ -1,3 +1,4 @@
+---
 name: automerge
 on:
   pull_request:
@@ -21,5 +22,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           merge-method: rebase
           do-not-merge-labels: never-merge
-#          pull-request: ${{ github.event.inputs.pull-request }}
+          #  pull-request: ${{ github.event.inputs.pull-request }}
           dry-run: false

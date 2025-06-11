@@ -7,19 +7,22 @@
 DOCUMENTATION = r"""
 ---
 module: applications_v2
-short_description: Resource module for Applications V2
+short_description: Resource module for Applications
+  V2
 description:
-- Manage operations create, update and delete of the resource Applications V2.
-- Create new custom application/s.
-- Delete existing custom application by id.
-- Edit the attributes of an existing application.
+  - Manage operations create, update and delete of the
+    resource Applications V2.
+  - Create new custom application/s.
+  - Delete existing custom application by id.
+  - Edit the attributes of an existing application.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Id of custom application to delete.
+    description: Id path parameter. Id of custom application
+      to delete.
     type: str
   payload:
     description: Applications V2's payload.
@@ -74,12 +77,14 @@ options:
             description: App protocol.
             type: str
           applicationSubType:
-            description: Application sub type, LEARNED discovered application, NONE
-              nbar and custom application.
+            description: Application sub type, LEARNED
+              discovered application, NONE nbar and
+              custom application.
             type: str
           applicationType:
-            description: Application type, DEFAULT nbar application, DEFAULT_MODIFIED
-              nbar modified application, CUSTOM custom application.
+            description: Application type, DEFAULT nbar
+              application, DEFAULT_MODIFIED nbar modified
+              application, CUSTOM custom application.
             type: str
           categoryId:
             description: Category id.
@@ -112,7 +117,8 @@ options:
             description: Popularity.
             type: float
           rank:
-            description: Rank, any value between 1 to 65535.
+            description: Rank, any value between 1 to
+              65535.
             type: int
           selectorId:
             description: Selector id.
@@ -162,50 +168,58 @@ options:
         description: Applications V2's parentScalableGroup.
         suboptions:
           idRef:
-            description: Id reference to parent application set.
+            description: Id reference to parent application
+              set.
             type: str
         type: dict
       qualifier:
         description: Qualifier, valid value application.
         type: str
       scalableGroupExternalHandle:
-        description: Scalable group external handle, should be equal to Application
-          name.
+        description: Scalable group external handle,
+          should be equal to Application name.
         type: str
       scalableGroupType:
-        description: Scalable group type, valid value APPLICATION.
+        description: Scalable group type, valid value
+          APPLICATION.
         type: str
       type:
         description: Type, valid value scalablegroup.
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy CreateApplicationsV2
-  description: Complete reference of the CreateApplicationsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-applications
-- name: Cisco DNA Center documentation for Application Policy DeleteApplicationV2
-  description: Complete reference of the DeleteApplicationV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application
-- name: Cisco DNA Center documentation for Application Policy EditApplicationsV2
-  description: Complete reference of the EditApplicationsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!edit-applications
+  - name: Cisco DNA Center documentation for Application
+      Policy CreateApplicationsV2
+    description: Complete reference of the CreateApplicationsV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-applications-v-2
+  - name: Cisco DNA Center documentation for Application
+      Policy DeleteApplicationV2
+    description: Complete reference of the DeleteApplicationV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-application-v-2
+  - name: Cisco DNA Center documentation for Application
+      Policy EditApplicationsV2
+    description: Complete reference of the EditApplicationsV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!edit-applications-v-2
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_applications_v2,
     application_policy.ApplicationPolicy.delete_application_v2,
     application_policy.ApplicationPolicy.edit_applications_v2,
-
   - Paths used are
     post /dna/intent/api/v2/applications,
     delete /dna/intent/api/v2/applications/{id},
-    put /dna/intent/api/v2/applications,
-
+    put
+    /dna/intent/api/v2/applications,
 """
 
 EXAMPLES = r"""
+---
 - name: Update all
   cisco.dnac.applications_v2:
     dnac_host: "{{dnac_host}}"
@@ -217,56 +231,55 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - displayName: string
-      id: string
-      indicativeNetworkIdentity:
       - displayName: string
         id: string
-        lowerPort: 0
-        ports: string
-        protocol: string
-        upperPort: 0
-      instanceId: 0
-      instanceVersion: 0
-      name: string
-      namespace: string
-      networkApplications:
-      - appProtocol: string
-        applicationSubType: string
-        applicationType: string
-        categoryId: string
-        displayName: string
-        dscp: string
-        engineId: string
-        helpString: string
-        id: string
-        ignoreConflict: true
-        longDescription: string
+        indicativeNetworkIdentity:
+          - displayName: string
+            id: string
+            lowerPort: 0
+            ports: string
+            protocol: string
+            upperPort: 0
+        instanceId: 0
+        instanceVersion: 0
         name: string
-        popularity: 0
-        rank: 0
-        selectorId: string
-        serverName: string
-        trafficClass: string
-        url: string
-      networkIdentity:
-      - displayName: string
-        id: string
-        ipv4Subnet:
-        - string
-        ipv6Subnet:
-        - {}
-        lowerPort: 0
-        ports: string
-        protocol: string
-        upperPort: 0
-      parentScalableGroup:
-        idRef: string
-      qualifier: string
-      scalableGroupExternalHandle: string
-      scalableGroupType: string
-      type: string
-
+        namespace: string
+        networkApplications:
+          - appProtocol: string
+            applicationSubType: string
+            applicationType: string
+            categoryId: string
+            displayName: string
+            dscp: string
+            engineId: string
+            helpString: string
+            id: string
+            ignoreConflict: true
+            longDescription: string
+            name: string
+            popularity: 0
+            rank: 0
+            selectorId: string
+            serverName: string
+            trafficClass: string
+            url: string
+        networkIdentity:
+          - displayName: string
+            id: string
+            ipv4Subnet:
+              - string
+            ipv6Subnet:
+              - {}
+            lowerPort: 0
+            ports: string
+            protocol: string
+            upperPort: 0
+        parentScalableGroup:
+          idRef: string
+        qualifier: string
+        scalableGroupExternalHandle: string
+        scalableGroupType: string
+        type: string
 - name: Create
   cisco.dnac.applications_v2:
     dnac_host: "{{dnac_host}}"
@@ -278,41 +291,40 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - indicativeNetworkIdentity:
-      - ipv4Subnet:
-        - string
-        ipv6Subnet:
-        - string
-        lowerPort: 0
-        ports: string
-        protocol: string
-        upperPort: 0
-      name: string
-      networkApplications:
-      - appProtocol: string
-        applicationType: string
-        categoryId: string
-        dscp: string
-        engineId: 0
-        helpString: string
-        ignoreConflict: true
-        rank: 0
-        serverName: string
-        trafficClass: string
+      - indicativeNetworkIdentity:
+          - ipv4Subnet:
+              - string
+            ipv6Subnet:
+              - string
+            lowerPort: 0
+            ports: string
+            protocol: string
+            upperPort: 0
+        name: string
+        networkApplications:
+          - appProtocol: string
+            applicationType: string
+            categoryId: string
+            dscp: string
+            engineId: 0
+            helpString: string
+            ignoreConflict: true
+            rank: 0
+            serverName: string
+            trafficClass: string
+            type: string
+            url: string
+        networkIdentity:
+          - ipv4Subnet:
+              - string
+            lowerPort: 0
+            ports: string
+            protocol: string
+            upperPort: 0
+        parentScalableGroup:
+          idRef: string
+        scalableGroupType: string
         type: string
-        url: string
-      networkIdentity:
-      - ipv4Subnet:
-        - string
-        lowerPort: 0
-        ports: string
-        protocol: string
-        upperPort: 0
-      parentScalableGroup:
-        idRef: string
-      scalableGroupType: string
-      type: string
-
 - name: Delete by id
   cisco.dnac.applications_v2:
     dnac_host: "{{dnac_host}}"
@@ -324,7 +336,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

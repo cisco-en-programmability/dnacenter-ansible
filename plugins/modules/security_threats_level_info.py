@@ -4,13 +4,14 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: security_threats_level_info
-short_description: Information module for Security Threats Level Info
+short_description: Information module for Security Threats
+  Level
 description:
-- This module represents an alias of the module security_threats_level_v1_info
+  - Get all Security Threats Level.
+  - Intent API to fetch all threat levels defined.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,20 +21,18 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_threat_levels_v1,
-
+    devices.Devices.get_threat_levels,
   - Paths used are
     get /dna/intent/api/v1/security/threats/level,
-  - It should be noted that this module is an alias of security_threats_level_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Security Threats Level Info
+---
+- name: Get all Security Threats Level
   cisco.dnac.security_threats_level_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -44,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

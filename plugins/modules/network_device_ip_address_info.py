@@ -4,13 +4,14 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: network_device_ip_address_info
-short_description: Information module for Network Device Ip Address Info
+short_description: Information module for Network Device
+  Ip Address
 description:
-- This module represents an alias of the module network_device_ip_address_v1_info
+  - Get Network Device Ip Address by id.
+  - Returns the network device by specified IP address.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +22,27 @@ options:
     type: dict
   ipAddress:
     description:
-    - IpAddress path parameter. Device IP address.
+      - IpAddress path parameter. Device IP address.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetNetworkDeviceByIPV1
-  description: Complete reference of the GetNetworkDeviceByIPV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-ip
+  - name: Cisco DNA Center documentation for Devices
+      GetNetworkDeviceByIP
+    description: Complete reference of the GetNetworkDeviceByIP
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-ip
 notes:
   - SDK Method used are
-    devices.Devices.get_network_device_by_ip_v1,
-
+    devices.Devices.get_network_device_by_ip,
   - Paths used are
     get /dna/intent/api/v1/network-device/ip-address/{ipAddress},
-  - It should be noted that this module is an alias of network_device_ip_address_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get Network Device Ip Address Info by id
+---
+- name: Get Network Device Ip Address by id
   cisco.dnac.network_device_ip_address_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -53,7 +54,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     ipAddress: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

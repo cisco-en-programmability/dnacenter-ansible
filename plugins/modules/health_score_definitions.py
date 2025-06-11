@@ -4,20 +4,24 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: health_score_definitions
-short_description: Resource module for Health Score Definitions
+short_description: Resource module for Health Score
+  Definitions
 description:
-- This module represents an alias of the module health_score_definitions_v1
+  - Manage operation update of the resource Health Score
+    Definitions.
+  - Update health threshold, include status of overall
+    health status.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Health score definition id.
+    description: Id path parameter. Health score definition
+      id.
     type: str
   includeForOverallHealth:
     description: Include For Overall Health.
@@ -29,23 +33,23 @@ options:
     description: Thresehold Value.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices UpdateHealthScoreDefinitionForTheGivenIdV1
-  description: Complete reference of the UpdateHealthScoreDefinitionForTheGivenIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-health-score-definition-for-the-given-id
+  - name: Cisco DNA Center documentation for Devices
+      UpdateHealthScoreDefinitionForTheGivenId
+    description: Complete reference of the UpdateHealthScoreDefinitionForTheGivenId
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-health-score-definition-for-the-given-id
 notes:
   - SDK Method used are
-    devices.Devices.update_health_score_definition_for_the_given_id_v1,
-
+    devices.Devices.update_health_score_definition_for_the_given_id,
   - Paths used are
     put /dna/intent/api/v1/healthScoreDefinitions/{id},
-  - It should be noted that this module is an alias of health_score_definitions_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Update by id
   cisco.dnac.health_score_definitions:
     dnac_host: "{{dnac_host}}"
@@ -60,7 +64,6 @@ EXAMPLES = r"""
     includeForOverallHealth: true
     synchronizeToIssueThreshold: true
     thresholdValue: 0
-
 """
 RETURN = r"""
 dnac_response:

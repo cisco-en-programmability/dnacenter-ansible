@@ -1,0 +1,28 @@
+---
+name: ansible-lint
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: ["main", "stable", "release/v*"]
+  workflow_dispatch:
+jobs:
+  lint:
+    name: Ansible Lint
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@v6
+        with:
+          args: >-
+            --exclude tests/
+            --exclude playbooks/input_events_and_notification.yml
+            --exclude playbooks/image_details.yml
+            --exclude playbooks/sda_fabric.yml
+          setup_python: "true"
+          working_directory: ""
+          requirements_file: ""

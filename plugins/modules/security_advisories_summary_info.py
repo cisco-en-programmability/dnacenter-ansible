@@ -4,13 +4,14 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: security_advisories_summary_info
-short_description: Information module for Security Advisories Summary Info
+short_description: Information module for Security Advisories
+  Summary
 description:
-- This module represents an alias of the module security_advisories_summary_v1_info
+  - Get all Security Advisories Summary.
+  - Retrieves summary of advisories on the network.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,24 +21,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesSummaryV1
-  description: Complete reference of the GetAdvisoriesSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-summary
+  - name: Cisco DNA Center documentation for Security
+      Advisories GetAdvisoriesSummary
+    description: Complete reference of the GetAdvisoriesSummary
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-advisories-summary
 notes:
   - SDK Method used are
-    security_advisories.SecurityAdvisories.get_advisories_summary_v1,
-
+    security_advisories.SecurityAdvisories.get_advisories_summary,
   - Paths used are
     get /dna/intent/api/v1/security-advisory/advisory/aggregate,
-  - It should be noted that this module is an alias of security_advisories_summary_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Security Advisories Summary Info
+---
+- name: Get all Security Advisories Summary
   cisco.dnac.security_advisories_summary_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -48,7 +49,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

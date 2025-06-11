@@ -4,13 +4,16 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: ipam_server_setting_info
-short_description: Information module for Ipam Server Setting Info
+short_description: Information module for Ipam Server
+  Setting
 description:
-- This module represents an alias of the module ipam_server_setting_v1_info
+  - Get all Ipam Server Setting. - > Retrieves configuration
+    details of the external IPAM server. If an external
+    IPAM server has not been created, this resource
+    will return a `404` response.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,24 +23,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings RetrievesConfigurationDetailsOfTheExternalIPAMServerV1
-  description: Complete reference of the RetrievesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-configuration-details-of-the-external-ipam-server
+  - name: Cisco DNA Center documentation for System
+      Settings RetrievesConfigurationDetailsOfTheExternalIPAMServer
+    description: Complete reference of the RetrievesConfigurationDetailsOfTheExternalIPAMServer
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-configuration-details-of-the-external-ipam-server
 notes:
   - SDK Method used are
-    system_settings.SystemSettings.retrieves_configuration_details_of_the_external_ip_a_m_server_v1,
-
+    system_settings.SystemSettings.retrieves_configuration_details_of_the_external_ip_a_m_server,
   - Paths used are
     get /dna/intent/api/v1/ipam/serverSetting,
-  - It should be noted that this module is an alias of ipam_server_setting_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Ipam Server Setting Info
+---
+- name: Get all Ipam Server Setting
   cisco.dnac.ipam_server_setting_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -48,7 +51,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

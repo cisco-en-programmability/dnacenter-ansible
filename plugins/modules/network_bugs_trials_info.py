@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: network_bugs_trials_info
-short_description: Information module for Network Bugs Trials Info
+short_description: Information module for Network Bugs
+  Trials
 description:
-- This module represents an alias of the module network_bugs_trials_v1_info
+  - Get all Network Bugs Trials.
+  - Get trial details for bugs detection on network
+    devices.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,24 +22,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetTrialDetailsForBugsDetectionOnNetworkDevicesV1
-  description: Complete reference of the GetTrialDetailsForBugsDetectionOnNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-bugs-detection-on-network-devices
+  - name: Cisco DNA Center documentation for Compliance
+      GetTrialDetailsForBugsDetectionOnNetworkDevices
+    description: Complete reference of the GetTrialDetailsForBugsDetectionOnNetworkDevices
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-bugs-detection-on-network-devices
 notes:
   - SDK Method used are
-    compliance.Compliance.get_trial_details_for_bugs_detection_on_network_devices_v1,
-
+    compliance.Compliance.get_trial_details_for_bugs_detection_on_network_devices,
   - Paths used are
     get /dna/intent/api/v1/networkBugs/trials,
-  - It should be noted that this module is an alias of network_bugs_trials_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Network Bugs Trials Info
+---
+- name: Get all Network Bugs Trials
   cisco.dnac.network_bugs_trials_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -48,7 +50,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

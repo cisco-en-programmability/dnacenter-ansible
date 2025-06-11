@@ -7,10 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: site_count_v2_info
-short_description: Information module for Site Count V2
+short_description: Information module for Site Count
+  V2
 description:
-- Get all Site Count V2.
-- Get the site count of the specified site's sub-hierarchy inclusive of the provided site .
+  - Get all Site Count V2.
+  - Get the site count of the specified site's sub-hierarchy
+    inclusive of the provided site .
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,25 +23,25 @@ options:
     type: dict
   id:
     description:
-    - Id query parameter. Site instance UUID.
+      - Id query parameter. Site instance UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites GetSiteCountV2
-  description: Complete reference of the GetSiteCountV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-count
+  - name: Cisco DNA Center documentation for Sites GetSiteCountV2
+    description: Complete reference of the GetSiteCountV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-site-count-v-2
 notes:
   - SDK Method used are
     sites.Sites.get_site_count_v2,
-
   - Paths used are
     get /dna/intent/api/v2/site/count,
-
 """
 
 EXAMPLES = r"""
+---
 - name: Get all Site Count V2
   cisco.dnac.site_count_v2_info:
     dnac_host: "{{dnac_host}}"
@@ -52,7 +54,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

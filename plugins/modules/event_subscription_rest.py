@@ -4,13 +4,18 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: event_subscription_rest
-short_description: Resource module for Event Subscription Rest
+short_description: Resource module for Event Subscription
+  Rest
 description:
-- This module represents an alias of the module event_subscription_rest_v1
+  - Manage operations create and update of the resource
+    Event Subscription Rest.
+  - Create Rest/Webhook Subscription Endpoint for list
+    of registered events.
+  - Update Rest/Webhook Subscription Endpoint for list
+    of registered events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -43,7 +48,8 @@ options:
                 type: list
             type: list
           eventIds:
-            description: Event Ids (Comma separated event ids).
+            description: Event Ids (Comma separated
+              event ids).
             elements: str
             type: list
           severities:
@@ -71,13 +77,15 @@ options:
         elements: dict
         suboptions:
           instanceId:
-            description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
+            description: (From Get Rest/Webhook Subscription
+              Details --> pick instanceId).
             type: str
           subscriptionDetails:
             description: Event Subscription Rest's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Connector Type (Must be REST).
+                description: Connector Type (Must be
+                  REST).
                 type: str
             type: dict
         type: list
@@ -89,28 +97,30 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management CreateRestWebhookEventSubscriptionV1
-  description: Complete reference of the CreateRestWebhookEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-rest-webhook-event-subscription
-- name: Cisco DNA Center documentation for Event Management UpdateRestWebhookEventSubscriptionV1
-  description: Complete reference of the UpdateRestWebhookEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-rest-webhook-event-subscription
+  - name: Cisco DNA Center documentation for Event Management
+      CreateRestWebhookEventSubscription
+    description: Complete reference of the CreateRestWebhookEventSubscription
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-rest-webhook-event-subscription
+  - name: Cisco DNA Center documentation for Event Management
+      UpdateRestWebhookEventSubscription
+    description: Complete reference of the UpdateRestWebhookEventSubscription
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-rest-webhook-event-subscription
 notes:
   - SDK Method used are
-    event_management.EventManagement.create_rest_webhook_event_subscription_v1,
-    event_management.EventManagement.update_rest_webhook_event_subscription_v1,
-
+    event_management.EventManagement.create_rest_webhook_event_subscription,
+    event_management.EventManagement.update_rest_webhook_event_subscription,
   - Paths used are
     post /dna/intent/api/v1/event/subscription/rest,
     put /dna/intent/api/v1/event/subscription/rest,
-  - It should be noted that this module is an alias of event_subscription_rest_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.event_subscription_rest:
     dnac_host: "{{dnac_host}}"
@@ -122,32 +132,31 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - description: string
-      filter:
-        categories:
-        - string
-        domainsSubdomains:
-        - domain: string
-          subDomains:
-          - string
-        eventIds:
-        - string
-        severities:
-        - string
-        siteIds:
-        - string
-        sources:
-        - string
-        types:
-        - string
-      name: string
-      subscriptionEndpoints:
-      - instanceId: string
-        subscriptionDetails:
-          connectorType: string
-      subscriptionId: string
-      version: string
-
+      - description: string
+        filter:
+          categories:
+            - string
+          domainsSubdomains:
+            - domain: string
+              subDomains:
+                - string
+          eventIds:
+            - string
+          severities:
+            - string
+          siteIds:
+            - string
+          sources:
+            - string
+          types:
+            - string
+        name: string
+        subscriptionEndpoints:
+          - instanceId: string
+            subscriptionDetails:
+              connectorType: string
+        subscriptionId: string
+        version: string
 - name: Update all
   cisco.dnac.event_subscription_rest:
     dnac_host: "{{dnac_host}}"
@@ -159,32 +168,31 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - description: string
-      filter:
-        categories:
-        - string
-        domainsSubdomains:
-        - domain: string
-          subDomains:
-          - string
-        eventIds:
-        - string
-        severities:
-        - string
-        siteIds:
-        - string
-        sources:
-        - string
-        types:
-        - string
-      name: string
-      subscriptionEndpoints:
-      - instanceId: string
-        subscriptionDetails:
-          connectorType: string
-      subscriptionId: string
-      version: string
-
+      - description: string
+        filter:
+          categories:
+            - string
+          domainsSubdomains:
+            - domain: string
+              subDomains:
+                - string
+          eventIds:
+            - string
+          severities:
+            - string
+          siteIds:
+            - string
+          sources:
+            - string
+          types:
+            - string
+        name: string
+        subscriptionEndpoints:
+          - instanceId: string
+            subscriptionDetails:
+              connectorType: string
+        subscriptionId: string
+        version: string
 """
 RETURN = r"""
 dnac_response:

@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: security_advisories_info
-short_description: Information module for Security Advisories Info
+short_description: Information module for Security Advisories
 description:
-- This module represents an alias of the module security_advisories_v1_info
+  - Get all Security Advisories.
+  - Retrieves list of advisories on the network.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,24 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesListV1
-  description: Complete reference of the GetAdvisoriesListV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-list
+  - name: Cisco DNA Center documentation for Security
+      Advisories GetAdvisoriesList
+    description: Complete reference of the GetAdvisoriesList
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-advisories-list
 notes:
   - SDK Method used are
-    security_advisories.SecurityAdvisories.get_advisories_list_v1,
-
+    security_advisories.SecurityAdvisories.get_advisories_list,
   - Paths used are
     get /dna/intent/api/v1/security-advisory/advisory,
-  - It should be noted that this module is an alias of security_advisories_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Security Advisories Info
+---
+- name: Get all Security Advisories
   cisco.dnac.security_advisories_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -48,7 +48,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -4,13 +4,14 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: projects_project_id_info
-short_description: Information module for Projects Project Id Info
+short_description: Information module for Projects Project
+  Id
 description:
-- This module represents an alias of the module projects_project_id_v1_info
+  - Get Projects Project Id by id.
+  - Get a template project by the project's ID.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +22,28 @@ options:
     type: dict
   projectId:
     description:
-    - ProjectId path parameter. The id of the project to get, retrieveable from `GET /dna/intent/api/v1/projects`.
+      - ProjectId path parameter. The id of the project
+        to get, retrieveable from `GET /dna/intent/api/v1/projects`.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetTemplateProjectV1
-  description: Complete reference of the GetTemplateProjectV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-template-project
+  - name: Cisco DNA Center documentation for Configuration
+      Templates GetTemplateProject
+    description: Complete reference of the GetTemplateProject
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-template-project
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_template_project_v1,
-
+    configuration_templates.ConfigurationTemplates.get_template_project,
   - Paths used are
     get /dna/intent/api/v1/projects/{projectId},
-  - It should be noted that this module is an alias of projects_project_id_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get Projects Project Id Info by id
+---
+- name: Get Projects Project Id by id
   cisco.dnac.projects_project_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -53,7 +55,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     projectId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

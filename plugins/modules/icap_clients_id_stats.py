@@ -4,13 +4,20 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: icap_clients_id_stats
-short_description: Resource module for Icap Clients Id Stats
+short_description: Resource module for Icap Clients
+  Id Stats
 description:
-- This module represents an alias of the module icap_clients_id_stats_v1
+  - Manage operation create of the resource Icap Clients
+    Id Stats. - > Retrieves the time series statistics
+    of a specific client by applying complex filters.
+    If startTime and endTime are not provided, the API
+    defaults to the last 24 hours. For detailed information
+    about the usage of the API, please refer to the
+    Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -37,9 +44,10 @@ options:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. Id is the client mac address. It can be specified
-      in one of the notational conventions 01 23 45 67 89 AB or 01-23-45-67-89-AB or
-      0123.4567.89AB and is case insensitive.
+    description: Id path parameter. Id is the client
+      mac address. It can be specified in one of the
+      notational conventions 01 23 45 67 89 AB or 01-23-45-67-89-AB
+      or 0123.4567.89AB and is case insensitive.
     type: str
   page:
     description: Icap Clients Id Stats's page.
@@ -58,23 +66,23 @@ options:
     description: Start Time.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTimeV1
-  description: Complete reference of the RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTimeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-statistics-over-specified-period-of-time
+  - name: Cisco DNA Center documentation for Sensors
+      RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTime
+    description: Complete reference of the RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTime
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-statistics-over-specified-period-of-time
 notes:
   - SDK Method used are
-    sensors.Sensors.retrieves_specific_client_statistics_over_specified_period_of_time_v1,
-
+    sensors.Sensors.retrieves_specific_client_statistics_over_specified_period_of_time,
   - Paths used are
     post /dna/data/api/v1/icap/clients/{id}/stats,
-  - It should be noted that this module is an alias of icap_clients_id_stats_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.icap_clients_id_stats:
     dnac_host: "{{dnac_host}}"
@@ -86,9 +94,9 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: 0
+      - key: string
+        operator: string
+        value: 0
     headers: '{{my_headers | from_json}}'
     id: string
     page:
@@ -96,7 +104,6 @@ EXAMPLES = r"""
       offset: 0
       timeSortOrder: string
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:

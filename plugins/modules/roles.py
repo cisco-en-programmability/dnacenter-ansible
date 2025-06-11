@@ -4,13 +4,16 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: roles
 short_description: Resource module for Roles
 description:
-- This module represents an alias of the module roles_v1
+  - Manage operations create, update and delete of the
+    resource Roles.
+  - Add a new role in the system.
+  - Delete a role in the system.
+  - Update a role in the system.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,12 +27,15 @@ options:
     elements: dict
     suboptions:
       operations:
-        description: List of operations allowed for the application. Possible values
-          are "gRead", "gCreate", "gUpdate", "gRemove", or some combination of these.
+        description: List of operations allowed for
+          the application. Possible values are "gRead",
+          "gCreate", "gUpdate", "gRemove", or some combination
+          of these.
         elements: str
         type: list
       type:
-        description: Name of the application in the System.
+        description: Name of the application in the
+          System.
         type: str
     type: list
   role:
@@ -39,33 +45,38 @@ options:
     description: Id of the role.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for User and Roles AddRoleAPIV1
-  description: Complete reference of the AddRoleAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-role-api
-- name: Cisco DNA Center documentation for User and Roles DeleteRoleAPIV1
-  description: Complete reference of the DeleteRoleAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-role-api
-- name: Cisco DNA Center documentation for User and Roles UpdateRoleAPIV1
-  description: Complete reference of the UpdateRoleAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-role-api
+  - name: Cisco DNA Center documentation for User and
+      Roles AddRoleAPI
+    description: Complete reference of the AddRoleAPI
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-role-api
+  - name: Cisco DNA Center documentation for User and
+      Roles DeleteRoleAPI
+    description: Complete reference of the DeleteRoleAPI
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-role-api
+  - name: Cisco DNA Center documentation for User and
+      Roles UpdateRoleAPI
+    description: Complete reference of the UpdateRoleAPI
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-role-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.add_role_api_v1,
-    user_and_roles.UserandRoles.delete_role_api_v1,
-    user_and_roles.UserandRoles.update_role_api_v1,
-
+    userand_roles.UserandRoles.add_role_api,
+    userand_roles.UserandRoles.delete_role_api,
+    userand_roles.UserandRoles.update_role_api,
   - Paths used are
     post /dna/system/api/v1/role,
-    delete /dna/system/api/v1/role/{roleId},
+    delete
+    /dna/system/api/v1/role/{roleId},
     put /dna/system/api/v1/role,
-  - It should be noted that this module is an alias of roles_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.roles:
     dnac_host: "{{dnac_host}}"
@@ -78,11 +89,10 @@ EXAMPLES = r"""
     state: present
     description: string
     resourceTypes:
-    - operations:
-      - string
-      type: string
+      - operations:
+          - string
+        type: string
     role: string
-
 - name: Update all
   cisco.dnac.roles:
     dnac_host: "{{dnac_host}}"
@@ -95,11 +105,10 @@ EXAMPLES = r"""
     state: present
     description: string
     resourceTypes:
-    - operations:
-      - string
-      type: string
+      - operations:
+          - string
+        type: string
     roleId: string
-
 - name: Delete by id
   cisco.dnac.roles:
     dnac_host: "{{dnac_host}}"
@@ -111,7 +120,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     roleId: string
-
 """
 RETURN = r"""
 dnac_response:

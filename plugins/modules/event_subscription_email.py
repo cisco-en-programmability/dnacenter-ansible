@@ -4,13 +4,18 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: event_subscription_email
-short_description: Resource module for Event Subscription Email
+short_description: Resource module for Event Subscription
+  Email
 description:
-- This module represents an alias of the module event_subscription_email_v1
+  - Manage operations create and update of the resource
+    Event Subscription Email.
+  - Create Email Subscription Endpoint for list of registered
+    events.
+  - Update Email Subscription Endpoint for list of registered
+    events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,7 +36,8 @@ options:
             elements: str
             type: list
           domainsSubdomains:
-            description: Event Subscription Email's domainsSubdomains.
+            description: Event Subscription Email's
+              domainsSubdomains.
             elements: dict
             suboptions:
               domain:
@@ -71,14 +77,16 @@ options:
         elements: dict
         suboptions:
           instanceId:
-            description: (From Get Email Subscription Details --> pick InstanceId if
-              available).
+            description: (From Get Email Subscription
+              Details --> pick InstanceId if available).
             type: str
           subscriptionDetails:
-            description: Event Subscription Email's subscriptionDetails.
+            description: Event Subscription Email's
+              subscriptionDetails.
             suboptions:
               connectorType:
-                description: Connector Type (Must be EMAIL).
+                description: Connector Type (Must be
+                  EMAIL).
                 type: str
               description:
                 description: Description.
@@ -93,7 +101,8 @@ options:
                 description: Email Subject.
                 type: str
               toEmailAddresses:
-                description: Recipient's Email Addresses (Comma separated).
+                description: Recipient's Email Addresses
+                  (Comma separated).
                 elements: str
                 type: list
             type: dict
@@ -106,28 +115,30 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management CreateEmailEventSubscriptionV1
-  description: Complete reference of the CreateEmailEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-email-event-subscription
-- name: Cisco DNA Center documentation for Event Management UpdateEmailEventSubscriptionV1
-  description: Complete reference of the UpdateEmailEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-email-event-subscription
+  - name: Cisco DNA Center documentation for Event Management
+      CreateEmailEventSubscription
+    description: Complete reference of the CreateEmailEventSubscription
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-email-event-subscription
+  - name: Cisco DNA Center documentation for Event Management
+      UpdateEmailEventSubscription
+    description: Complete reference of the UpdateEmailEventSubscription
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-email-event-subscription
 notes:
   - SDK Method used are
-    event_management.EventManagement.create_email_event_subscription_v1,
-    event_management.EventManagement.update_email_event_subscription_v1,
-
+    event_management.EventManagement.create_email_event_subscription,
+    event_management.EventManagement.update_email_event_subscription,
   - Paths used are
     post /dna/intent/api/v1/event/subscription/email,
     put /dna/intent/api/v1/event/subscription/email,
-  - It should be noted that this module is an alias of event_subscription_email_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.event_subscription_email:
     dnac_host: "{{dnac_host}}"
@@ -139,38 +150,37 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - description: string
-      filter:
-        categories:
-        - string
-        domainsSubdomains:
-        - domain: string
-          subDomains:
-          - string
-        eventIds:
-        - string
-        severities:
-        - 0
-        siteIds:
-        - string
-        sources:
-        - string
-        types:
-        - string
-      name: string
-      subscriptionEndpoints:
-      - instanceId: string
-        subscriptionDetails:
-          connectorType: string
-          description: string
-          fromEmailAddress: string
-          name: string
-          subject: string
-          toEmailAddresses:
-          - string
-      subscriptionId: string
-      version: string
-
+      - description: string
+        filter:
+          categories:
+            - string
+          domainsSubdomains:
+            - domain: string
+              subDomains:
+                - string
+          eventIds:
+            - string
+          severities:
+            - 0
+          siteIds:
+            - string
+          sources:
+            - string
+          types:
+            - string
+        name: string
+        subscriptionEndpoints:
+          - instanceId: string
+            subscriptionDetails:
+              connectorType: string
+              description: string
+              fromEmailAddress: string
+              name: string
+              subject: string
+              toEmailAddresses:
+                - string
+        subscriptionId: string
+        version: string
 - name: Update all
   cisco.dnac.event_subscription_email:
     dnac_host: "{{dnac_host}}"
@@ -182,38 +192,37 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - description: string
-      filter:
-        categories:
-        - string
-        domainsSubdomains:
-        - domain: string
-          subDomains:
-          - string
-        eventIds:
-        - string
-        severities:
-        - 0
-        siteIds:
-        - string
-        sources:
-        - string
-        types:
-        - string
-      name: string
-      subscriptionEndpoints:
-      - instanceId: string
-        subscriptionDetails:
-          connectorType: string
-          description: string
-          fromEmailAddress: string
-          name: string
-          subject: string
-          toEmailAddresses:
-          - string
-      subscriptionId: string
-      version: string
-
+      - description: string
+        filter:
+          categories:
+            - string
+          domainsSubdomains:
+            - domain: string
+              subDomains:
+                - string
+          eventIds:
+            - string
+          severities:
+            - 0
+          siteIds:
+            - string
+          sources:
+            - string
+          types:
+            - string
+        name: string
+        subscriptionEndpoints:
+          - instanceId: string
+            subscriptionDetails:
+              connectorType: string
+              description: string
+              fromEmailAddress: string
+              name: string
+              subject: string
+              toEmailAddresses:
+                - string
+        subscriptionId: string
+        version: string
 """
 RETURN = r"""
 dnac_response:

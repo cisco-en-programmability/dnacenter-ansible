@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: sda_virtual_network_v2_info
-short_description: Information module for Sda Virtual Network V2
+short_description: Information module for Sda Virtual
+  Network V2
 description:
-- Get all Sda Virtual Network V2.
-- Get virtual network with scalable groups.
+  - Get all Sda Virtual Network V2.
+  - Get virtual network with scalable groups.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,25 +22,25 @@ options:
     type: dict
   virtualNetworkName:
     description:
-    - VirtualNetworkName query parameter.
+      - VirtualNetworkName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroupsV1
-  description: Complete reference of the GetVirtualNetworkWithScalableGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups
+  - name: Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroups
+    description: Complete reference of the GetVirtualNetworkWithScalableGroups
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
-    sda.Sda.get_virtual_network_with_scalable_groups_v1,
-
+    sda.Sda.get_virtual_network_with_scalable_groups,
   - Paths used are
     get /dna/intent/api/v1/virtual-network,
-
 """
 
 EXAMPLES = r"""
+---
 - name: Get all Sda Virtual Network V2
   cisco.dnac.sda_virtual_network_v2_info:
     dnac_host: "{{dnac_host}}"
@@ -52,7 +53,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     virtualNetworkName: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

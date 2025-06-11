@@ -1,0 +1,418 @@
+---
+- debug:
+    msg="Initializing Tags Workflow Management Test"
+- debug:
+    msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load variables and set Catalyst Center credentials
+    include_vars:
+      file: "{{ role_path }}/vars/vars_tags_workflow_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Remove existing tags before test execution
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.cleanup_tags }}"
+
+
+# #############################################
+# #                CREATE TAGS                #
+# #############################################
+
+  - name: Create new tags
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_tags }}"
+    register: result_create_tags
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_tags.results }}"
+  #   when: result_create_tags is defined
+
+  - name: Verify tag creation success
+    assert:
+      that:
+        - item.changed == true
+        - "'created successfully' in item.msg"
+    loop: "{{ result_create_tags.results }}"
+    when: result_create_tags is defined
+
+# ############################################
+#     UPDATE TAGS: REMOVE DESCRIPTION        #
+# ############################################
+
+  - name: Remove descriptions from existing tags
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_tag_remove_description }}"
+    register: result_update_tag_remove_description
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_tag_remove_description.results }}"
+  #   when: result_update_tag_remove_description is defined
+
+  - name: Verify description removal success
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.msg"
+    loop: "{{ result_update_tag_remove_description.results }}"
+    when: result_update_tag_remove_description
+
+# ###############################################################
+# #       UPDATE TAGS: REMOVE ALL DEVICE AND PORT RULES         #
+# ###############################################################
+
+  - name: Remove all device and port rules from tags
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.remove_all_device_and_port_rules }}"
+    register: result_remove_all_device_and_port_rules
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_remove_all_device_and_port_rules.results }}"
+  #   when: result_remove_all_device_and_port_rules is defined
+
+  - name: Verify removal of device and port rules
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_remove_all_device_and_port_rules.results }}"
+    when: result_remove_all_device_and_port_rules is defined
+
+# ###############################################################
+# #       UPDATE TAGS: ADDING DEVICE RULES                      #
+# ###############################################################
+
+  - name: Add new device rules to tags
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.add_device_rules }}"
+    register: result_add_device_rules
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_add_device_rules.results }}"
+  #   when: result_add_device_rules is defined
+
+  - name: Verify addition of new device rules
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_add_device_rules.results }}"
+    when: result_add_device_rules is defined
+
+# ###############################################################
+# #    UPDATE TAGS: ADDING MORE DEVICE RULES (MERGING)          #
+# ###############################################################
+
+  - name: Merge additional device rules into existing tags
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.add_more_device_rules }}"
+    register: result_add_more_device_rules
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_add_more_device_rules.results }}"
+  #   when: result_add_more_device_rules is defined
+
+  - name: Verify merging of additional device rules
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_add_more_device_rules.results }}"
+    when: result_add_more_device_rules is defined
+
+# ###############################################################
+# #       UPDATE TAGS: REMOVE SOME DEVICE FROM AN EXISTING TAG         #
+# ###############################################################
+
+  - name: Remove specific device rules from tags
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.add_more_device_rules }}"
+    register: result_remove_some_device_rules
+  # Using add_more_device_rules in deleted state
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_remove_some_device_rules.results }}"
+  #   when: result_remove_some_device_rules is defined
+
+  - name: Verify removal of specific device rules
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_remove_some_device_rules.results }}"
+    when: result_remove_some_device_rules is defined
+
+# ###############################################################
+# #       UPDATE TAGS: ADD SOME PORT RULES                      #
+# ###############################################################
+
+  - name: Add port rules to an existing tag
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.add_port_rules }}"
+    register: result_add_port_rules
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_add_port_rules.results }}"
+  #   when: result_add_port_rules is defined
+
+  - name: Verifying addition of some port rules to an existing tag
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_add_port_rules.results }}"
+    when: result_add_port_rules is defined
+
+###############################################################
+#       UPDATE TAGS: ADD SOME MORE PORT RULES (MERGING)       #
+###############################################################
+
+  - name: Merge additional poort rules into existing tags
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.add_more_port_rules }}"
+    register: result_add_more_port_rules
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_add_more_port_rules.results }}"
+  #   when: result_add_more_port_rules is defined
+
+  - name: Verify merging of additional port rules
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_add_more_port_rules.results }}"
+    when: result_add_more_port_rules is defined
+
+
+
+###############################################################
+#       UPDATE TAGS: REMOVE SOME PORT RULES                   #
+###############################################################
+
+  - name: Remove specific port rules from tags
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.remove_port_rules }}"
+    register: result_remove_port_rules
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_remove_port_rules.results }}"
+  #   when: result_remove_port_rules is defined
+
+  - name: Verify removal of specific port rules
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_remove_port_rules.results }}"
+    when: result_remove_port_rules is defined
+
+
+# ###############################################################
+# #       UPDATE TAGS: CHANGE SCOPE DESCRIPTION IN PORT RULES         #
+# ###############################################################
+
+  - name: Changing scope description (Both category and members) in port rules of an existing tag
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.change_scope_in_port_rules }}"
+    register: result_change_scope_in_port_rules
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_change_scope_in_port_rules.results }}"
+  #   when: result_change_scope_in_port_rules is defined
+
+  - name: Verify the change of scope description (Both category and members)
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_change_scope_in_port_rules.results }}"
+    when: result_change_scope_in_port_rules is defined
+
+# ###############################################################
+# #       UPDATE TAGS: ADD SCOPE MEMBERS IN PORT RULES
+# ###############################################################
+
+  - name: Add scope members in port rules for an existing tag
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.add_scope_member_in_port_rules }}"
+    register: result_add_scope_member_in_port_rules
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_add_scope_member_in_port_rules.results }}"
+  #   when: result_add_scope_member_in_port_rules is defined
+
+  - name: Verify the addition of scope members
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_add_scope_member_in_port_rules.results }}"
+    when: result_add_scope_member_in_port_rules is defined
+
+# ###############################################################
+# #       UPDATE TAGS: REMOVE SCOPE MEMBERS IN PORT RULES       #
+# ###############################################################
+
+  - name: Remove scope members in port rules for an existing tag
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.remove_scope_member_in_port_rules }}"
+    register: result_remove_scope_member_in_port_rules
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_remove_scope_member_in_port_rules.results }}"
+  #   when: result_remove_scope_member_in_port_rules is defined
+
+  - name: Verify the removal of scope members
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response"
+    loop: "{{ result_remove_scope_member_in_port_rules.results }}"
+    when: result_remove_scope_member_in_port_rules is defined
+
+
+# ###############################################################
+# #       ADDING TAGS MEMBERSHIPS: ASSIGNING TAGS TO DEVICES    #
+# ###############################################################
+
+  - name: Assigning tags to devices
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.assign_tags_to_devices }}"
+    register: result_assign_tags_to_devices
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_assign_tags_to_devices.results }}"
+  #   when: result_assign_tags_to_devices is defined
+
+
+
+# ###############################################################
+# #       REMOVING TAGS MEMBERSHIPS: REMOVE TAGS FROM DEVICES        #
+# ###############################################################
+
+  - name: Removing tags from devices
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.remove_tags_from_devices }}"
+    register: result_remove_tags_from_devices
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ remove_tags_from_devices.results }}"
+  #   when: remove_tags_from_devices is defined
+
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Remove existing tags after test execution
+    cisco.dnac.tags_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.cleanup_tags }}"

@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: event_webhook
 short_description: Resource module for Event Webhook
 description:
-- This module represents an alias of the module event_webhook_v1
+  - Manage operations create and update of the resource
+    Event Webhook.
+  - Create Webhook Destination.
+  - Update Webhook Destination.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -55,28 +57,30 @@ options:
     description: Required only for update webhook configuration.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management CreateWebhookDestinationV1
-  description: Complete reference of the CreateWebhookDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-webhook-destination
-- name: Cisco DNA Center documentation for Event Management UpdateWebhookDestinationV1
-  description: Complete reference of the UpdateWebhookDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-webhook-destination
+  - name: Cisco DNA Center documentation for Event Management
+      CreateWebhookDestination
+    description: Complete reference of the CreateWebhookDestination
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-webhook-destination
+  - name: Cisco DNA Center documentation for Event Management
+      UpdateWebhookDestination
+    description: Complete reference of the UpdateWebhookDestination
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-webhook-destination
 notes:
   - SDK Method used are
-    event_management.EventManagement.create_webhook_destination_v1,
-    event_management.EventManagement.update_webhook_destination_v1,
-
+    event_management.EventManagement.create_webhook_destination,
+    event_management.EventManagement.update_webhook_destination,
   - Paths used are
     post /dna/intent/api/v1/event/webhook,
     put /dna/intent/api/v1/event/webhook,
-  - It should be noted that this module is an alias of event_webhook_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.event_webhook:
     dnac_host: "{{dnac_host}}"
@@ -89,17 +93,16 @@ EXAMPLES = r"""
     state: present
     description: string
     headers:
-    - defaultValue: string
-      encrypt: true
-      name: string
-      value: string
+      - defaultValue: string
+        encrypt: true
+        name: string
+        value: string
     isProxyRoute: true
     method: string
     name: string
     trustCert: true
     url: string
     webhookId: string
-
 - name: Update all
   cisco.dnac.event_webhook:
     dnac_host: "{{dnac_host}}"
@@ -112,17 +115,16 @@ EXAMPLES = r"""
     state: present
     description: string
     headers:
-    - defaultValue: string
-      encrypt: true
-      name: string
-      value: string
+      - defaultValue: string
+        encrypt: true
+        name: string
+        value: string
     isProxyRoute: true
     method: string
     name: string
     trustCert: true
     url: string
     webhookId: string
-
 """
 RETURN = r"""
 dnac_response:

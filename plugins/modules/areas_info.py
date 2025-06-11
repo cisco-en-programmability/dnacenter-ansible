@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: areas_info
-short_description: Information module for Areas Info
+short_description: Information module for Areas
 description:
-- This module represents an alias of the module areas_v1_info
+  - Get Areas by id.
+  - Gets an area in the network hierarchy.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +21,27 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Area Id.
+      - Id path parameter. Area Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design GetsAnAreaV1
-  description: Complete reference of the GetsAnAreaV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-an-area
+  - name: Cisco DNA Center documentation for Site Design
+      GetsAnArea
+    description: Complete reference of the GetsAnArea
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-an-area
 notes:
   - SDK Method used are
-    site_design.SiteDesign.gets_an_area_v1,
-
+    site_design.SiteDesign.gets_an_area,
   - Paths used are
     get /dna/intent/api/v1/areas/{id},
-  - It should be noted that this module is an alias of areas_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get Areas Info by id
+---
+- name: Get Areas by id
   cisco.dnac.areas_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -53,7 +53,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:
@@ -64,6 +63,7 @@ dnac_response:
     {
       "response": {
         "id": "string",
+        "siteHierarchyId": "string",
         "name": "string",
         "nameHierarchy": "string",
         "parentId": "string",

@@ -4,20 +4,27 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: dhcp_services_id_trend_analytics
-short_description: Resource module for Dhcp Services Id Trend Analytics
+short_description: Resource module for Dhcp Services
+  Id Trend Analytics
 description:
-- This module represents an alias of the module dhcp_services_id_trend_analytics_v1
+  - Manage operation create of the resource Dhcp Services
+    Id Trend Analytics. - > Gets the trend analytics
+    data related to a particular DHCP Service matching
+    the id. For detailed information about the usage
+    of the API, please refer to the Open API specification
+    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    DHCPServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Dhcp Services Id Trend Analytics's aggregateAttributes.
+    description: Dhcp Services Id Trend Analytics's
+      aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -35,7 +42,8 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Dhcp Services Id Trend Analytics's filters.
+    description: Dhcp Services Id Trend Analytics's
+      filters.
     elements: dict
     suboptions:
       filters:
@@ -63,13 +71,16 @@ options:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. Unique id of the DHCP Service. It is the combination
-      of DHCP Server IP (`serverIp`) and Device UUID (`deviceId`) separated by underscore
-      (`_`). Example If `serverIp` is `10.76.81.33` and `deviceId` is `6bef213c-19ca-4170-8375-b694e251101c`,
+    description: Id path parameter. Unique id of the
+      DHCP Service. It is the combination of DHCP Server
+      IP (`serverIp`) and Device UUID (`deviceId`) separated
+      by underscore (`_`). Example If `serverIp` is
+      `10.76.81.33` and `deviceId` is `6bef213c-19ca-4170-8375-b694e251101c`,
       then the `id` would be `10.76.81.33_6bef213c-19ca-4170-8375-b694e251101c`.
     type: str
   page:
-    description: Dhcp Services Id Trend Analytics's page.
+    description: Dhcp Services Id Trend Analytics's
+      page.
     suboptions:
       limit:
         description: Limit.
@@ -88,23 +99,23 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetTrendAnalyticsDataForAGivenDHCPServiceMatchingTheIdOfTheServiceV1
-  description: Complete reference of the GetTrendAnalyticsDataForAGivenDHCPServiceMatchingTheIdOfTheServiceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-for-a-given-dhcp-service-matching-the-id-of-the-service
+  - name: Cisco DNA Center documentation for Devices
+      GetTrendAnalyticsDataForAGivenDHCPServiceMatchingTheIdOfTheService
+    description: Complete reference of the GetTrendAnalyticsDataForAGivenDHCPServiceMatchingTheIdOfTheService
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-for-a-given-dhcp-service-matching-the-id-of-the-service
 notes:
   - SDK Method used are
-    devices.Devices.get_trend_analytics_data_for_a_given_d_h_c_p_service_matching_the_id_of_the_service_v1,
-
+    devices.Devices.get_trend_analytics_data_for_a_given_d_h_c_p_service_matching_the_id_of_the_service,
   - Paths used are
     post /dna/data/api/v1/dhcpServices/{id}/trendAnalytics,
-  - It should be noted that this module is an alias of dhcp_services_id_trend_analytics_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.dhcp_services_id_trend_analytics:
     dnac_host: "{{dnac_host}}"
@@ -115,20 +126,20 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - filters:
-      - string
-      key: string
-      logicalOperator: string
-      operator: string
-      value: {}
+      - filters:
+          - string
+        key: string
+        logicalOperator: string
+        operator: string
+        value: {}
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     id: string
     page:
@@ -137,7 +148,6 @@ EXAMPLES = r"""
       timestampOrder: string
     startTime: 0
     trendInterval: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: event_api_status_info
-short_description: Information module for Event Api Status Info
+short_description: Information module for Event Api
+  Status
 description:
-- This module represents an alias of the module event_api_status_v1_info
+  - Get Event Api Status by id.
+  - Get the Status of events API calls with provided
+    executionId as mandatory path parameter.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +23,27 @@ options:
     type: dict
   executionId:
     description:
-    - ExecutionId path parameter. Execution ID.
+      - ExecutionId path parameter. Execution ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetStatusAPIForEventsV1
-  description: Complete reference of the GetStatusAPIForEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-status-api-for-events
+  - name: Cisco DNA Center documentation for Event Management
+      GetStatusAPIForEvents
+    description: Complete reference of the GetStatusAPIForEvents
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-status-api-for-events
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_status_api_for_events_v1,
-
+    event_management.EventManagement.get_status_api_for_events,
   - Paths used are
     get /dna/intent/api/v1/event/api-status/{executionId},
-  - It should be noted that this module is an alias of event_api_status_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get Event Api Status Info by id
+---
+- name: Get Event Api Status by id
   cisco.dnac.event_api_status_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -53,7 +55,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     executionId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

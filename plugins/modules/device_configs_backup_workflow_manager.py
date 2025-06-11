@@ -1,154 +1,195 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Abinash Mishra, Rugvedi Kapse, Madhan Sankaranarayanan, Sonali Deepthi Kesali")
-
+__author__ = (
+    "Abinash Mishra, Rugvedi Kapse, Madhan Sankaranarayanan, Sonali Deepthi Kesali"
+)
 DOCUMENTATION = r"""
 ---
 module: device_configs_backup_workflow_manager
-short_description: Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.
+short_description: Device Configs Backup module for
+  taking configuration backups of reachable devices
+  in the Cisco Catalyst Center.
 description:
-  - Manage operation related to taking the backup of running config, static config and vlan.dat.bat
+  - Manage operation related to taking the backup of
+    running config, static config and vlan.dat.bat
 version_added: "6.14.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abinash Mishra (@abimishr)
-        Rugvedi Kapse (@rukapse)
-        Madhan Sankaranarayanan (@madhansansel)
-        Sonali Deepthi Kesali (@skesali)
+author: Abinash Mishra (@abimishr) Rugvedi Kapse (@rukapse)
+  Madhan Sankaranarayanan (@madhansansel) Sonali Deepthi
+  Kesali (@skesali)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst
+      Center config after applying the playbook config.
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: The state of Cisco Catalyst Center
+      after module completion.
     type: str
-    choices: [ merged ]
+    choices: [merged]
     default: merged
   config:
     description:
-      - List of details of the devices for which configuration backups need to be taken.
-      - At least one parameter from the suboptions must be provided in the config.
-      - When providing multiple parameters at once (excluding "site_list"), all the filters will be applied together in an AND operation.
-        This means that only the devices matching all the specified criteria will be included in the configuration backup operation.
-        For example, if both `hostname` and `device_type` are provided, only devices matching both the specified hostname and device
+      - List of details of the devices for which configuration
+        backups need to be taken.
+      - At least one parameter from the suboptions must
+        be provided in the config.
+      - When providing multiple parameters at once (excluding
+        "site_list"), all the filters will be applied
+        together in an AND operation. This means that
+        only the devices matching all the specified
+        criteria will be included in the configuration
+        backup operation. For example, if both `hostname`
+        and `device_type` are provided, only devices
+        matching both the specified hostname and device
         type will be selected.
-      - Note - Once all devices matching the parameters are retrieved, any device that is not reachable or is an Access Point (AP) will be skipped.
+      - Note - Once all devices matching the parameters
+        are retrieved, any device that is not reachable
+        or is an Access Point (AP) will be skipped.
     type: list
     elements: dict
     required: true
     suboptions:
       hostname_list:
         description:
-          - List of hostnames of the devices for which a configuration backup is to be taken.
-          - The hostnames must be identical to those displayed under the inventory section in the Cisco Catalyst Center GUI.
-          - For example - ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
+          - List of hostnames of the devices for which
+            a configuration backup is to be taken.
+          - The hostnames must be identical to those
+            displayed under the inventory section in
+            the Cisco Catalyst Center GUI.
+          - For example - ["DC-T-9300.cisco.local",
+            "NY-BN-9300.cisco.local"]
         type: str
       ip_address_list:
         description:
-          - List of IP addresses of the devices for which configuration backups need to be taken.
-          - The IP addresses should match those displayed in the inventory GUI of the Cisco Catalyst Center,
-            specifically the management IP addresses of the devices.
-          - For example - ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
+          - List of IP addresses of the devices for
+            which configuration backups need to be taken.
+          - The IP addresses should match those displayed
+            in the inventory GUI of the Cisco Catalyst
+            Center, specifically the management IP addresses
+            of the devices.
+          - For example - ["204.1.2.2", "204.1.2.5",
+            "204.1.2.4"]
         type: str
       site_list:
         description:
-          - Specifies a list of sites. The module takes a configuration backup of all devices located within the specified site(s).
-          - Each site should be represented as a string value that indicates the complete hierarchical path of the site.
-          - For example - ["Global/USA/San Francisco/Building_2/floor_1", "Global/USA/New York/Building_3/floor_2"]
-          - Note -  When additional parameters are provided along with `site_list`, the operation will include all devices in the specified site(s)
-                    and any devices matching the additional criteria (excluding `site_list`).
-                    In other words, the operation will be performed on devices within the site(s) and those that meet the additional criteria.
-
+          - Specifies a list of sites. The module takes
+            a configuration backup of all devices located
+            within the specified site(s).
+          - Each site should be represented as a string
+            value that indicates the complete hierarchical
+            path of the site.
+          - For example - ["Global/USA/San Francisco/Building_2/floor_1",
+            "Global/USA/New York/Building_3/floor_2"]
+          - Note -  When additional parameters are provided
+            along with `site_list`, the operation will
+            include all devices in the specified site(s)
+            and any devices matching the additional
+            criteria (excluding `site_list`). In other
+            words, the operation will be performed on
+            devices within the site(s) and those that
+            meet the additional criteria.
         type: str
       mac_address_list:
         description:
-          - Specifies list of MAC addresses of the devices for which configuration backups are to be taken.
+          - Specifies list of MAC addresses of the devices
+            for which configuration backups are to be
+            taken.
         type: str
       serial_number_list:
         description:
-          - Specifies the list of serial numbers of the devices for which configuration backups need to be taken.
-          - For example - ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
+          - Specifies the list of serial numbers of
+            the devices for which configuration backups
+            need to be taken.
+          - For example - ["FCW2225C020", "FJB2334D06N",
+            "FJC2327U0S2", "FJC2721271T"]
         type: str
       family:
         description:
-          - Specifies list of families for which device configuration backups need to be taken.
+          - Specifies list of families for which device
+            configuration backups need to be taken.
           - For example - ["Switches and Hubs", "Routers"]
         type: str
       type:
         description:
-          - Specifies the list of types of device(s) from a specific device family for which configuration backups need to be taken.
-          - For example - ["Cisco Catalyst 9300 Switch", "Cisco Catalyst 9500 Switch"]
+          - Specifies the list of types of device(s)
+            from a specific device family for which
+            configuration backups need to be taken.
+          - For example - ["Cisco Catalyst 9300 Switch",
+            "Cisco Catalyst 9500 Switch"]
         type: str
       series:
         description:
-          - Specifies the list of series of the device(s) for a specific device type for which configuration backups need to be taken.
-          - For example - ["Cisco Catalyst 9300 Series Switches"]
+          - Specifies the list of series of the device(s)
+            for a specific device type for which configuration
+            backups need to be taken.
+          - For example - ["Cisco Catalyst 9300 Series
+            Switches"]
         type: str
       collection_status:
         description:
-          - Specifies the list of collection status of the device(s) as displayed in the inventory GUI of the Cisco Catalyst Center.
+          - Specifies the list of collection status
+            of the device(s) as displayed in the inventory
+            GUI of the Cisco Catalyst Center.
           - For example - ["Managed"]
         type: str
       file_path:
         description:
-          - The location or directory where the configuration backups need to be exported on the local system.
-          - If the "file_path" is not provided, the backup file(s) will be stored in a directory named
-            "tmp" in the same directory as the playbook.
+          - The location or directory where the configuration
+            backups need to be exported on the local
+            system.
+          - If the "file_path" is not provided, the
+            backup file(s) will be stored in a directory
+            named "tmp" in the same directory as the
+            playbook.
         type: str
         default: tmp
       file_password:
         description:
-          - Optional file password for zipping and unzipping the config file.
-          - Password must meet the following criteria -
-            - Minimum password length is 8
-            - It should contain atleast one lower case letter, one uppercase letter,
-            - one digit
-            - one special characters from -=\\\\\\\\;,./~!@$%^&*()_+{}[]|:?"
+          - Optional file password for zipping and unzipping
+            the config file.
+          - Password must meet the following criteria
+            - - Minimum password length is 8 - It should
+            contain atleast one lower case letter, one
+            uppercase letter, - one digit - one special
+            characters from -=\\\\\\\\;,./~!@$%^&*()_+{}[]|:?"
         type: str
       unzip_backup:
         description:
-          - Determines whether the downloaded backup file should be unzipped after download.
-          - If set to True, the backup file will be extracted to the specified directory.
-          - If set to False, the file will remain in its zipped state.
+          - Determines whether the downloaded backup
+            file should be unzipped after download.
+          - If set to True, the backup file will be
+            extracted to the specified directory.
+          - If set to False, the file will remain in
+            its zipped state.
         type: bool
         default: true
-
 requirements:
   - dnacentersdk == 2.9.2
   - python >= 3.5
-
 notes:
-  - SDK Methods used are
-    sites.Sites.get_site
-    Site_design.Site_design.get_sites
-    sites.Sites.get_membership
-    site_design.Site_design.get_site_assigned_network_devices
-    devices.Devices.get_device_list
-    devices.Devices.get_device_by_id
+  - SDK Methods used are sites.Sites.get_site Site_design.Site_design.get_sites
+    sites.Sites.get_membership site_design.Site_design.get_site_assigned_network_devices
+    devices.Devices.get_device_list devices.Devices.get_device_by_id
     configuration_archive.ConfigurationsArchive.export_device_configurations
     file.Files.download_a_file_by_fileid
-
   - Paths used are
-    get /dna/intent/api/v1/site
-    get /dna/intent/api/v1/membership/${siteId}
-    get /dna/intent/api/v1/network-device
-    post /dna/intent/api/v1/network-device-archive/cleartext
-    get /dna/intent/api/v1/file/${fileId}
-    get /dna/intent/api/v1/networkDevices/assignedToSite
-    get /dna/intent/api/v1/sites
-    get /dna/intent/api/v1/network-device/${id}
+    get /dna/intent/api/v1/site get /dna/intent/api/v1/membership/${siteId}
+    get /dna/intent/api/v1/network-device post /dna/intent/api/v1/network-device-archive/cleartext
+    get /dna/intent/api/v1/file/${fileId} get /dna/intent/api/v1/networkDevices/assignedToSite
+    get /dna/intent/api/v1/sites get /dna/intent/api/v1/network-device/${id}
 """
-
 EXAMPLES = r"""
-- name: Take backup of all devices in the Cisco Catalyst Center
+---
+- name: Take backup of all devices in the Cisco Catalyst
+    Center
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -161,8 +202,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - file_password: qsaA12!asdasd
-
+      - file_password: qsaA12!asdasd
 - name: Take backup of device(s) using hostname(s)
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -176,11 +216,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - hostname_list: ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
-          file_path: backup
-          unzip_backup: false
-
-- name: Take backup of device(s) using hostname(s) and provide file password
+      - hostname_list: ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
+        file_path: backup
+        unzip_backup: false
+- name: Take backup of device(s) using hostname(s) and
+    provide file password
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -193,11 +233,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - hostname_list: ["DC-T-9300.cisco.local"]
-          file_path: backup
-          file_password: qsaA12!asdasd
-          unzip_backup: true
-
+      - hostname_list: ["DC-T-9300.cisco.local"]
+        file_path: backup
+        file_password: qsaA12!asdasd
+        unzip_backup: true
 - name: Take backup of all devices in a site(s)
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -211,9 +250,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - site_list: ["Global/USA/RTP/BLD10", "Global/USA/New York/BLDNYC/FLOOR1"]
-          file_path: backup
-
+      - site_list: ["Global/USA/RTP/BLD10", "Global/USA/New
+            York/BLDNYC/FLOOR1"]
+        file_path: backup
 - name: Take backup of device(s) using IP Address List
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -227,9 +266,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - ip_address_list: ["204.1.2.5", "204.1.2.4", "204.1.2.2"]
-          file_path: backup
-
+      - ip_address_list: ["204.1.2.5", "204.1.2.4", "204.1.2.2"]
+        file_path: backup
 - name: Take backup of device(s) using MAC Address List
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -243,11 +281,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - mac_address_list: ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00", "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
-          file_path: backup
-          unzip_backup: false
-
-- name: Take backup of device(s) using Serial Number List
+      - mac_address_list: ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00", "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
+        file_path: backup
+        unzip_backup: false
+- name: Take backup of device(s) using Serial Number
+    List
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -260,9 +298,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - serial_number_list: ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
-          file_path: backup
-
+      - serial_number_list: ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
+        file_path: backup
 - name: Take backup of device(s) using Family List
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -276,11 +313,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - family_list: ["Switches and Hubs", "Routers"]
-          file_path: backup
-          unzip_backup: true
-
-- name: Take backup of device(s) using Device Family Type List
+      - family_list: ["Switches and Hubs", "Routers"]
+        file_path: backup
+        unzip_backup: true
+- name: Take backup of device(s) using Device Family
+    Type List
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -293,10 +330,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - type_list: ["Cisco Catalyst 9300 Switch"]
-          file_path: backup
-          unzip_backup: false
-
+      - type_list: ["Cisco Catalyst 9300 Switch"]
+        file_path: backup
+        unzip_backup: false
 - name: Take backup of device(s) using Device Series
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -310,10 +346,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - series_list: ["Cisco Catalyst 9300 Series Switches"]
-          file_path: backup
-
-- name: Take backup of devices with certain Collection Status
+      - series_list: ["Cisco Catalyst 9300 Series Switches"]
+        file_path: backup
+- name: Take backup of devices with certain Collection
+    Status
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -326,10 +362,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - collection_status_list: ["Managed"]
-          file_path: backup
-
-- name: Take backup of device(s) in a site and also that meet other parameters
+      - collection_status_list: ["Managed"]
+        file_path: backup
+- name: Take backup of device(s) in a site and also
+    that meet other parameters
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -342,14 +378,13 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - site_list: ["Global"]
-          family_list: ["Switches and Hubs"]
-          series_list: ["Cisco Catalyst 9300 Series Switches"]
-          ip_address_list: ["204.1.2.5"]
-          file_path: backup
-          unzip_backup: false
+      - site_list: ["Global"]
+        family_list: ["Switches and Hubs"]
+        series_list: ["Cisco Catalyst 9300 Series Switches"]
+        ip_address_list: ["204.1.2.5"]
+        file_path: backup
+        unzip_backup: false
 """
-
 RETURN = r"""
 # Case_1: Successful creation and exportation of device configs
 response_1:
@@ -365,7 +400,6 @@ response_1:
         },
       "msg": String
     }
-
 # Case_2: Error while taking a device_configs_backup
 response_2:
   description: A string with the response returned by the Cisco Catalyst Center Python SDK
@@ -380,6 +414,7 @@ response_2:
 # common approach when a module relies on optional dependencies that are not available during the validation process.
 try:
     import pyzipper
+
     HAS_PYZIPPER = True
 except ImportError:
     HAS_PYZIPPER = False
@@ -387,6 +422,7 @@ except ImportError:
 
 try:
     import pathlib
+
     HAS_PATHLIB = True
 except ImportError:
     HAS_PATHLIB = False
@@ -395,7 +431,7 @@ except ImportError:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts
+    validate_list_of_dicts,
 )
 from io import BytesIO
 import random
@@ -406,12 +442,13 @@ import datetime
 
 
 class DeviceConfigsBackup(DnacBase):
-
     """
     Class containing member attributes for device_configs_backup workflow_manager module
     """
+
     def __init__(self, module):
         super().__init__(module)
+        self.supported_states = ["merged"]
         self.skipped_devices_list = []
 
     def validate_input(self):
@@ -454,14 +491,22 @@ class DeviceConfigsBackup(DnacBase):
             "site_list": {"type": "list", "elements": "str", "required": False},
             "ip_address_list": {"type": "list", "elements": "str", "required": False},
             "mac_address_list": {"type": "list", "elements": "str", "required": False},
-            "serial_number_list": {"type": "list", "elements": "str", "required": False},
+            "serial_number_list": {
+                "type": "list",
+                "elements": "str",
+                "required": False,
+            },
             "family_list": {"type": "list", "elements": "str", "required": False},
             "type_list": {"type": "list", "elements": "str", "required": False},
             "series_list": {"type": "list", "elements": "str", "required": False},
-            "collection_status_list": {"type": "list", "elements": "str", "required": False},
+            "collection_status_list": {
+                "type": "list",
+                "elements": "str",
+                "required": False,
+            },
             "file_path": {"type": "str", "required": False, "default": "tmp"},
             "file_password": {"type": "str", "required": False},
-            "unzip_backup": {"type": "bool", "required": False, "default": True}
+            "unzip_backup": {"type": "bool", "required": False, "default": True},
         }
 
         # Validate device_configs_backup params
@@ -472,14 +517,17 @@ class DeviceConfigsBackup(DnacBase):
         # Check if there are any invalid parameters
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
-                "\n".join(invalid_params))
+                "\n".join(invalid_params)
+            )
             self.log(str(self.msg), "ERROR")
             self.status = "failed"
             return self
 
         # If validation is successful, update the result
         self.validated_config = valid_device_configs_backup
-        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(str(valid_device_configs_backup))
+        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
+            str(valid_device_configs_backup)
+        )
         self.status = "success"
         return self
 
@@ -507,7 +555,7 @@ class DeviceConfigsBackup(DnacBase):
             "family_list": "family",
             "type_list": "type",
             "series_list": "series",
-            "collection_status_list": "collection_status"
+            "collection_status_list": "collection_status",
         }
 
         # Iterate over the parameters and add them to the result dictionary if present in the config
@@ -532,77 +580,120 @@ class DeviceConfigsBackup(DnacBase):
         mgmt_ip_to_instance_id_map = {}
         processed_device_count = 0
         skipped_device_count = 0
+        # Define device families to skip
+        skipped_device_families = {"Unified AP", "Wireless Sensor", "Third Party Device"}
 
         try:
             offset = 1
             limit = 500
             while True:
                 # Update params with current offset and limit
-                get_device_list_params.update({
-                    "offset": offset,
-                    "limit": limit
-                })
+                get_device_list_params.update({"offset": offset, "limit": limit})
 
                 # Query Cisco Catalyst Center for device information using the parameters
                 response = self.dnac._exec(
                     family="devices",
                     function="get_device_list",
                     op_modifies=True,
-                    params=get_device_list_params
+                    params=get_device_list_params,
                 )
-                self.log("Response received post 'get_device_list' API call with offset {0}: {1}".format(offset, str(response)), "DEBUG")
+                self.log(
+                    "Response received post 'get_device_list' API call with offset {0}: {1}".format(
+                        offset, str(response)
+                    ),
+                    "DEBUG",
+                )
 
                 # Check if a valid response is received
                 if not response.get("response"):
-                    self.log("Exiting the loop because no devices were returned after increasing the offset. Current offset: {0}".format(offset))
+                    self.log(
+                        "Exiting the loop because no devices were returned after increasing the offset. Current offset: {0}".format(
+                            offset
+                        )
+                    )
                     break  # Exit loop if no devices are returned
 
                 # Iterate over the devices in the response
-                for device_info in response.get("response", []):
+                response = response.get("response")
+                for device_info in response:
                     processed_device_count += 1
                     device_ip = device_info.get("managementIpAddress", "Unknown IP")
 
                     # Check if the device is reachable and managed
-                    if device_info.get("reachabilityStatus") == "Reachable" and device_info.get("collectionStatus") == "Managed":
+                    reachability = device_info.get("reachabilityStatus")
+                    collection_status = device_info.get("collectionStatus")
+                    device_family = device_info.get("family")
+
+                    if reachability == "Reachable" and collection_status in ["Managed", "In Progress"]:
                         # Skip Unified AP devices
-                        if device_info.get("family") != "Unified AP" :
+                        if device_family not in skipped_device_families:
                             device_id = device_info["id"]
                             mgmt_ip_to_instance_id_map[device_ip] = device_id
                         else:
                             skipped_device_count += 1
                             self.skipped_devices_list.append(device_ip)
-                            msg = (
-                                "Skipping device {0} as its family is: {1}.".format(
-                                    device_ip, device_info.get("family")
-                                )
+                            self.log(
+                                "Skipping device {0} as its family is: {1}.".format(device_ip, device_family),
+                                "INFO"
                             )
-                            self.log(msg, "INFO")
-
                     else:
                         skipped_device_count += 1
                         self.skipped_devices_list.append(device_ip)
-                        msg = (
-                            "Skipping device {0} as its status is {1} or its collectionStatus is {2}.".format(
-                                device_ip, device_info.get("reachabilityStatus"), device_info.get("collectionStatus")
-                            )
+                        self.log(
+                            "Skipping device {0} as its reachabilityStatus is '{1}' or collectionStatus is '{2}'.".format(
+                                device_ip, reachability, collection_status
+                            ),
+                            "INFO"
                         )
-                        self.log(msg, "INFO")
+
+                # Check if the response size is less than the limit
+                if len(response) < limit:
+                    self.log(
+                        "Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(
+                            limit
+                        ),
+                        "DEBUG",
+                    )
+                    break
 
                 # Increment offset for next batch
                 offset += limit
 
             # Log the total number of devices processed and skipped
-            self.log("Total number of devices received: {0}".format(processed_device_count), "INFO")
-            self.log("Number of devices that will be skipped: {0}".format(skipped_device_count), "INFO")
-            self.log("Config Backup Operation can be performed on the following filtered devices: {0}".format(len(mgmt_ip_to_instance_id_map)), "INFO")
+            self.log(
+                "Total number of devices received: {0}".format(processed_device_count),
+                "INFO",
+            )
+            self.log(
+                "Number of devices that will be skipped: {0}".format(
+                    skipped_device_count
+                ),
+                "INFO",
+            )
+            self.log(
+                "Config Backup Operation can be performed on the following filtered devices: {0}".format(
+                    len(mgmt_ip_to_instance_id_map)
+                ),
+                "INFO",
+            )
 
         except Exception as e:
             # Log an error message if any exception occurs during the process
-            self.log("Error fetching device IDs from Cisco Catalyst Center. Error details: {0}".format(str(e)), "ERROR")
+            self.log(
+                "Error fetching device IDs from Cisco Catalyst Center. Error details: {0}".format(
+                    str(e)
+                ),
+                "ERROR",
+            )
 
         # Log an error if no reachable devices are found
         if not mgmt_ip_to_instance_id_map:
-            self.log("No reachable devices found among the provided parameters: {0}".format(mgmt_ip_to_instance_id_map), "ERROR")
+            self.log(
+                "No reachable devices found among the provided parameters: {0}".format(
+                    mgmt_ip_to_instance_id_map
+                ),
+                "ERROR",
+            )
 
         return mgmt_ip_to_instance_id_map
 
@@ -628,36 +719,72 @@ class DeviceConfigsBackup(DnacBase):
 
             # Use a set to ensure unique sites
             unique_sites = set(site_list)
-            self.log("Attempting to get Device Id(s) of all device(s) from the provided for site(s): {0}".format(unique_sites), "DEBUG")
+            self.log(
+                "Attempting to get Device Id(s) of all device(s) from the provided for site(s): {0}".format(
+                    unique_sites
+                ),
+                "DEBUG",
+            )
 
             # Retrieve device IDs for each site in the unique_sites set
             for site_name in unique_sites:
-                site_mgmt_ip_to_instance_id_map, skipped_devices_list = self.get_reachable_devices_from_site(site_name)
+                site_mgmt_ip_to_instance_id_map, skipped_devices_list = (
+                    self.get_reachable_devices_from_site(site_name)
+                )
                 self.skipped_devices_list.extend(skipped_devices_list)
-                self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
-                    site_mgmt_ip_to_instance_id_map, site_name), "DEBUG")
+                self.log(
+                    "Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
+                        site_mgmt_ip_to_instance_id_map, site_name
+                    ),
+                    "DEBUG",
+                )
                 mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
-                self.log("Devices from site: '{0}' that will be skipped: {1}".format(site_name, skipped_devices_list), "DEBUG")
+                self.log(
+                    "Devices from site: '{0}' that will be skipped: {1}".format(
+                        site_name, skipped_devices_list
+                    ),
+                    "DEBUG",
+                )
 
             # Get additional device list parameters excluding site_list
             get_device_list_params = self.get_device_list_params(config)
             if get_device_list_params:
-                self.log("Attempting to get Device Id(s) of all device(s) using parameters(excluding site_list): {0}".format(
-                    get_device_list_params), "DEBUG")
-                params_mgmt_ip_to_instance_id_map = self.get_device_ids_by_params(get_device_list_params)
+                self.log(
+                    "Attempting to get Device Id(s) of all device(s) using parameters(excluding site_list): {0}".format(
+                        get_device_list_params
+                    ),
+                    "DEBUG",
+                )
+                params_mgmt_ip_to_instance_id_map = self.get_device_ids_by_params(
+                    get_device_list_params
+                )
                 mgmt_ip_to_instance_id_map.update(params_mgmt_ip_to_instance_id_map)
-                self.log("Retrieved following Device Id(s) of device(s): {0} from the provided parameters(excluding site_list).".format(
-                    mgmt_ip_to_instance_id_map), "DEBUG")
+                self.log(
+                    "Retrieved following Device Id(s) of device(s): {0} from the provided parameters(excluding site_list).".format(
+                        mgmt_ip_to_instance_id_map
+                    ),
+                    "DEBUG",
+                )
 
         # If no site_list is provided, use other parameters to get device IDs
         else:
             get_device_list_params = self.get_device_list_params(config)
-            self.log("Attempting to get Device Id(s) of all device(s) using parameters(excluding site_list): {0}".format(
-                get_device_list_params), "DEBUG")
-            params_mgmt_ip_to_instance_id_map = self.get_device_ids_by_params(get_device_list_params)
+            self.log(
+                "Attempting to get Device Id(s) of all device(s) using parameters(excluding site_list): {0}".format(
+                    get_device_list_params
+                ),
+                "DEBUG",
+            )
+            params_mgmt_ip_to_instance_id_map = self.get_device_ids_by_params(
+                get_device_list_params
+            )
             mgmt_ip_to_instance_id_map.update(params_mgmt_ip_to_instance_id_map)
-            self.log("Retrieved following Device Id(s) of device(s): {0} from the provided parameters(excluding site_list).".format(
-                mgmt_ip_to_instance_id_map), "DEBUG")
+            self.log(
+                "Retrieved following Device Id(s) of device(s): {0} from the provided parameters(excluding site_list).".format(
+                    mgmt_ip_to_instance_id_map
+                ),
+                "DEBUG",
+            )
 
         return mgmt_ip_to_instance_id_map
 
@@ -681,7 +808,12 @@ class DeviceConfigsBackup(DnacBase):
 
         # Log a success message indicating all IP addresses are valid
         ip_address_list_str = ", ".join(ip_address_list)
-        self.log("Successfully validated the IP address(es): {0}".format(ip_address_list_str), "DEBUG")
+        self.log(
+            "Successfully validated the IP address(es): {0}".format(
+                ip_address_list_str
+            ),
+            "DEBUG",
+        )
 
     def validate_file_password(self, file_password):
         """
@@ -749,7 +881,9 @@ class DeviceConfigsBackup(DnacBase):
 
         return password
 
-    def export_device_configurations_params(self, file_password, mgmt_ip_to_instance_id_map):
+    def export_device_configurations_params(
+        self, file_password, mgmt_ip_to_instance_id_map
+    ):
         """
         Creates parameters for exporting device configurations from Cisco Catalyst Center.
         Parameters:
@@ -766,7 +900,7 @@ class DeviceConfigsBackup(DnacBase):
         # Construct the parameters dictionary for exporting device configurations
         export_device_configurations_params = {
             "deviceId": list(mgmt_ip_to_instance_id_map.values()),
-            "password": file_password
+            "password": file_password,
         }
 
         return export_device_configurations_params
@@ -786,36 +920,12 @@ class DeviceConfigsBackup(DnacBase):
             task ID of the export operation.
             If an error occurs, it logs an error message, updates the result, and checks the return status.
         """
-        task_id = self.get_taskid_post_api_call("configuration_archive", "export_device_configurations", export_device_configurations_params)
-        try:
-            # Make an API call to export device configurations
-            response = self.dnac._exec(
-                family="configuration_archive",
-                function="export_device_configurations",
-                op_modifies=True,
-                params=export_device_configurations_params,
-            )
-            self.log("Response received post 'export_device_configurations' API call: {0}".format(str(response)), "DEBUG")
-
-            # Process the response if available
-            if response["response"]:
-                self.result.update(dict(response=response["response"]))
-                task_id = response["response"].get("taskId")
-                self.log("Task Id for the 'export_device_configurations' task is {0}".format(task_id), "INFO")
-                # Return the task ID
-                return task_id
-            else:
-                self.log("No response received from the 'export_device_configurations' API call.", "WARNING")
-                return None
-
-        except Exception as e:
-            # Log an error message and fail if an exception occurs
-            self.msg = (
-                "An error occurred while Exporting Device Configurations from the Cisco Catalyst Center. "
-                "export_device_configurations_params: {0}  Error: {1}".format(export_device_configurations_params, str(e))
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            self.check_return_status()
+        task_id = self.get_taskid_post_api_call(
+            "configuration_archive",
+            "export_device_configurations",
+            export_device_configurations_params,
+        )
+        return task_id
 
     def download_file(self, additional_status_url=None):
         """
@@ -831,27 +941,74 @@ class DeviceConfigsBackup(DnacBase):
             If an error occurs, it logs an error message, updates the result, and checks the return status.
         """
         # Log the download URL for debugging purposes
-        self.log("Initiating download from URL: {0}".format(additional_status_url), "INFO")
+        self.log(
+            "Initiating download from URL: {0}".format(additional_status_url), "INFO"
+        )
         file_id = additional_status_url.split("/")[-1]
-        try:
-            response = self.dnac._exec(
-                family="file",
-                function="download_a_file_by_fileid",
-                op_modifies=True,
-                params={"file_id": file_id},
+
+        def try_download(function_name):
+            try:
+                response = self.dnac._exec(
+                    family="file",
+                    function=function_name,
+                    op_modifies=True,
+                    params={"file_id": file_id},
+                )
+                self.log(
+                    "Response received post '{0}' API Call: {1}".format(
+                        function_name, response
+                    ),
+                    "DEBUG",
+                )
+
+                # Check if response returned
+                if response and response.data:
+                    self.log(
+                        "Download successful using function: {0}".format(function_name),
+                        "DEBUG",
+                    )
+                    return (file_id, response.data)
+
+                self.msg = "No response received post the '{0}' API call.".format(
+                    function_name
+                )
+                return None
+
+            except Exception as e:
+                self.log(
+                    "Exception occurred with '{0}': {1}".format(function_name, e),
+                    "ERROR",
+                )
+                return None
+
+        # Attempt the first function call
+        result = try_download("download_a_file_by_fileid")
+        if result is not None:
+            self.log(
+                "File download completed using 'download_a_file_by_fileid'", "INFO"
             )
-            self.log("Response received post 'download_a_file_by_fileid' API Call : {0}".format(str(response)), "DEBUG")
+            return result
 
-            # Check if response returned
-            if response and response.data:
-                return (file_id, response.data)
+        # Log and attempt the second function call if the first fails
+        self.log(
+            "Trying 'download_a_file_by_file_id' due to the exception in the previous call.",
+            "INFO",
+        )
+        result = try_download("download_a_file_by_file_id")
+        if result is not None:
+            self.log(
+                "File download completed using 'download_a_file_by_file_id'", "INFO"
+            )
+            return result
 
-            self.msg = "No response received post the 'download_a_file_by_fileid' API call."
-            return None
-        except Exception as e:
-            self.msg = "The Backup Config file with File ID: {0} could not be downloaded due to the following error: {1}".format(file_id, e)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            self.check_return_status()
+        # Handle final failure case
+        self.msg = (
+            "The Backup Config file with File ID: {0} could not be downloaded.".format(
+                file_id
+            )
+        )
+        self.set_operation_result("failed", False, self.msg, "ERROR")
+        self.check_return_status()
 
     def unzip_data(self, file_id, file_data):
         """
@@ -880,10 +1037,20 @@ class DeviceConfigsBackup(DnacBase):
                 with open(zipped_file_path, "wb") as file:
                     file.write(file_data)
 
-                self.log("Downloaded the zipped backup to {0} without unzipping.".format(zipped_file_path), "INFO")
+                self.log(
+                    "Downloaded the zipped backup to {0} without unzipping.".format(
+                        zipped_file_path
+                    ),
+                    "INFO",
+                )
                 return True
             except OSError as e:
-                self.log("Failed to write zipped backup to {0}. Error: {1}".format(zipped_file_path, str(e)), "ERROR")
+                self.log(
+                    "Failed to write zipped backup to {0}. Error: {1}".format(
+                        zipped_file_path, str(e)
+                    ),
+                    "ERROR",
+                )
                 return False
 
         try:
@@ -892,14 +1059,21 @@ class DeviceConfigsBackup(DnacBase):
             self.log("Collected ZIP Data for file with ID: {0}".format(file_id), "INFO")
 
             # Unzip the file using the provided file password
-            self.log("Unzipping Backup Config file with file ID: {0} after completion of download.".format(file_id), "INFO")
+            self.log(
+                "Unzipping Backup Config file with file ID: {0} after completion of download.".format(
+                    file_id
+                ),
+                "INFO",
+            )
             file_password = self.want.get("file_password")
             with pyzipper.AESZipFile(zip_data, "r") as f:
                 f.pwd = bytes(file_password, encoding="utf-8")
                 f.extractall(path=str(file_path))
             return True
         except Exception as e:
-            self.msg = "Error in unzipping Backup Config file with file ID: {0}. Error: {1}".format(file_id, e)
+            self.msg = "Error in unzipping Backup Config file with file ID: {0}. Error: {1}".format(
+                file_id, e
+            )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.check_return_status()
 
@@ -916,19 +1090,33 @@ class DeviceConfigsBackup(DnacBase):
             file if the task completes successfully.
         """
         task_name = "Backup Device Configuration"
-        success_msg = "{0} Task with task ID {1} completed successfully. Exiting the loop.".format(task_name, task_id)
+        success_msg = "{0} Task with task ID {1} completed successfully. Exiting the loop.".format(
+            task_name, task_id
+        )
         if self.dnac_version <= self.version_2_3_5_3:
-            progress_validation = "Device configuration Successfully exported as password protected ZIP"
-            failure_msg = (
-                "An error occurred while performing {0} task with task ID {1} for export_device_configurations_params: {2}"
-                .format(task_name, task_id, self.want.get("export_device_configurations_params"))
+            progress_validation = (
+                "Device configuration Successfully exported as password protected ZIP"
             )
-            self.get_task_status_from_task_by_id(task_id, task_name, failure_msg, success_msg, progress_validation=progress_validation)
+            failure_msg = "An error occurred while performing {0} task with task ID {1} for export_device_configurations_params: {2}".format(
+                task_name, task_id, self.want.get("export_device_configurations_params")
+            )
+            self.get_task_status_from_task_by_id(
+                task_id,
+                task_name,
+                failure_msg,
+                success_msg,
+                progress_validation=progress_validation,
+            )
         else:
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         if self.status == "success":
-            self.log("Task '{0}' completed successfully for task ID {1}.".format(task_name, task_id), "INFO")
+            self.log(
+                "Task '{0}' completed successfully for task ID {1}.".format(
+                    task_name, task_id
+                ),
+                "INFO",
+            )
             if self.dnac_version <= self.version_2_3_5_3:
                 response = self.get_task_details(task_id)
                 additional_status_url = response.get("additionalStatusURL")
@@ -937,45 +1125,80 @@ class DeviceConfigsBackup(DnacBase):
                 additional_status_url = response.get("resultLocation")
 
             if not additional_status_url:
-                self.msg = "Error retrieving the Device Config Backup file ID for task ID {0}".format(task_id)
+                self.msg = "Error retrieving the Device Config Backup file ID for task ID {0}".format(
+                    task_id
+                )
                 self.fail_and_exit(self.msg)
-            self.log("Additional status URL retrieved: {0}".format(additional_status_url), "DEBUG")
+            self.log(
+                "Additional status URL retrieved: {0}".format(additional_status_url),
+                "DEBUG",
+            )
 
             # Perform additional tasks after breaking the loop
             mgmt_ip_to_instance_id_map = self.want.get("mgmt_ip_to_instance_id_map")
 
             # Download the file using the additional status URL
-            self.log("Downloading the Device Config Backup file from {0}.".format(additional_status_url), "DEBUG")
-            file_id, downloaded_file = self.download_file(additional_status_url=additional_status_url)
+            self.log(
+                "Downloading the Device Config Backup file from {0}.".format(
+                    additional_status_url
+                ),
+                "DEBUG",
+            )
+            file_id, downloaded_file = self.download_file(
+                additional_status_url=additional_status_url
+            )
             self.log("Retrived file data for file ID: {0}.".format(file_id), "DEBUG")
             if not downloaded_file:
-                self.msg = "Error downloading Device Config Backup file(s) with file ID: {0}. ".format(file_id)
+                self.msg = "Error downloading Device Config Backup file(s) with file ID: {0}. ".format(
+                    file_id
+                )
                 self.fail_and_exit(self.msg)
 
             # Unzip the downloaded file
-            self.log("Unzipping the downloaded Device Config Backup file(s) for file ID: {0}.".format(file_id), "DEBUG")
+            self.log(
+                "Unzipping the downloaded Device Config Backup file(s) for file ID: {0}.".format(
+                    file_id
+                ),
+                "DEBUG",
+            )
             download_status = self.unzip_data(file_id, downloaded_file)
             if download_status:
-                self.log("{0} task has been successfully performed on {1} device(s): {2}.".format(
-                    task_name, len(mgmt_ip_to_instance_id_map), list(mgmt_ip_to_instance_id_map.keys())), "INFO")
-                self.log("{0} task has been skipped for {1} device(s): {2}".format(
-                    task_name, len(self.skipped_devices_list), self.skipped_devices_list), "INFO")
+                self.log(
+                    "{0} task has been successfully performed on {1} device(s): {2}.".format(
+                        task_name,
+                        len(mgmt_ip_to_instance_id_map),
+                        list(mgmt_ip_to_instance_id_map.keys()),
+                    ),
+                    "INFO",
+                )
+                self.log(
+                    "{0} task has been skipped for {1} device(s): {2}".format(
+                        task_name,
+                        len(self.skipped_devices_list),
+                        self.skipped_devices_list,
+                    ),
+                    "INFO",
+                )
                 self.msg = (
                     "{0} task has been successfully performed on {1} device(s) and skipped on {2} device(s). "
                     "The backup configuration files can be found at: {3}.".format(
                         task_name,
                         len(mgmt_ip_to_instance_id_map),
                         len(self.skipped_devices_list),
-                        pathlib.Path(self.want.get("file_path")).resolve()
+                        pathlib.Path(self.want.get("file_path")).resolve(),
                     )
                 )
 
                 # Append password information if unzipping is not required
                 if not self.want.get("unzip_backup", False):
-                    self.msg += " The password to unzip the files is: '{0}'.".format(self.want.get("file_password"))
+                    self.msg += " The password to unzip the files is: '{0}'.".format(
+                        self.want.get("file_password")
+                    )
                 self.set_operation_result("success", True, self.msg, "INFO")
             else:
-                self.msg = "Error unzipping Device Config Backup file(s) with file ID: {0}. ".format(file_id)
+                self.msg = "Error unzipping Device Config Backup file(s) with file ID: {0}. ".format(
+                    file_id
+                )
                 self.fail_and_exit(self.msg)
 
         return self
@@ -1011,17 +1234,33 @@ class DeviceConfigsBackup(DnacBase):
 
         # Retrieve the device ID list based on the provided configuration
         mgmt_ip_to_instance_id_map = self.get_device_id_list(config)
-        self.log("Retrived the Device ID list based on the provided parameters: {0}".format(mgmt_ip_to_instance_id_map), "DEBUG")
+        self.log(
+            "Retrived the Device ID list based on the provided parameters: {0}".format(
+                mgmt_ip_to_instance_id_map
+            ),
+            "DEBUG",
+        )
         if not mgmt_ip_to_instance_id_map:
-            self.msg = "No reachable devices found among the provided parameters: {0}".format(config)
+            self.msg = (
+                "No reachable devices found among the provided parameters: {0}".format(
+                    config
+                )
+            )
             self.set_operation_result("failed", False, self.msg, "WARNING")
             return self
 
-        self.log("Based on provided parameters, retrieved Device Id(s) of {0} device(s): {1} ".format(
-            len(mgmt_ip_to_instance_id_map), mgmt_ip_to_instance_id_map))
+        self.log(
+            "Based on provided parameters, retrieved Device Id(s) of {0} device(s): {1} ".format(
+                len(mgmt_ip_to_instance_id_map), mgmt_ip_to_instance_id_map
+            )
+        )
 
         # Prepare the desired state (want)
-        self.want["export_device_configurations_params"] = self.export_device_configurations_params(file_password, mgmt_ip_to_instance_id_map)
+        self.want["export_device_configurations_params"] = (
+            self.export_device_configurations_params(
+                file_password, mgmt_ip_to_instance_id_map
+            )
+        )
         self.want["mgmt_ip_to_instance_id_map"] = mgmt_ip_to_instance_id_map
         self.want["file_password"] = file_password
         self.want["file_path"] = file_path
@@ -1043,7 +1282,10 @@ class DeviceConfigsBackup(DnacBase):
 
         # Define a map of action parameters to their corresponding action and status functions
         action_map = {
-            "export_device_configurations_params": (self.export_device_configurations, self.get_export_device_config_task_status),
+            "export_device_configurations_params": (
+                self.export_device_configurations,
+                self.get_export_device_config_task_status,
+            ),
         }
 
         # Iterate over each action parameter and its associated functions
@@ -1095,12 +1337,20 @@ class DeviceConfigsBackup(DnacBase):
 
         # Check if there are any files modified within the window
         if len(files_modified_within_window) > 0:
-            self.log("Verified the success of the Device Config Backup operation. Back up has been taken in the following files {0}".format(
-                str(files_modified_within_window)), "INFO")
+            self.log(
+                "Verified the success of the Device Config Backup operation. Back up has been taken in the following files {0}".format(
+                    str(files_modified_within_window)
+                ),
+                "INFO",
+            )
             self.status = "success"
         else:
-            self.log("The Device Config Backup operation may not have been successful since back up files not found at path: {0}".format(
-                abs_file_path), "WARNING")
+            self.log(
+                "The Device Config Backup operation may not have been successful since back up files not found at path: {0}".format(
+                    abs_file_path
+                ),
+                "WARNING",
+            )
 
         return self
 
@@ -1110,31 +1360,46 @@ def main():
     main entry point for module execution
     """
     # Define the specification for the module"s arguments
-    element_spec = {"dnac_host": {"required": True, "type": "str"},
-                    "dnac_port": {"type": "str", "default": "443"},
-                    "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-                    "dnac_password": {"type": "str", "no_log": True},
-                    "dnac_verify": {"type": "bool", "default": "True"},
-                    "dnac_version": {"type": "str", "default": "2.2.3.3"},
-                    "dnac_debug": {"type": "bool", "default": False},
-                    "dnac_log": {"type": "bool", "default": False},
-                    "dnac_log_level": {"type": "str", "default": "WARNING"},
-                    "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
-                    "dnac_log_append": {"type": "bool", "default": True},
-                    "config_verify": {"type": "bool", "default": False},
-                    "dnac_api_task_timeout": {"type": "int", "default": 1200},
-                    "dnac_task_poll_interval": {"type": "int", "default": 2},
-                    "validate_response_schema": {"type": "bool", "default": True},
-                    "config": {"required": True, "type": "list", "elements": "dict"},
-                    "state": {"default": "merged", "choices": ["merged"]}
-                    }
+    element_spec = {
+        "dnac_host": {"required": True, "type": "str"},
+        "dnac_port": {"type": "str", "default": "443"},
+        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "dnac_password": {"type": "str", "no_log": True},
+        "dnac_verify": {"type": "bool", "default": "True"},
+        "dnac_version": {"type": "str", "default": "2.2.3.3"},
+        "dnac_debug": {"type": "bool", "default": False},
+        "dnac_log": {"type": "bool", "default": False},
+        "dnac_log_level": {"type": "str", "default": "WARNING"},
+        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
+        "dnac_log_append": {"type": "bool", "default": True},
+        "config_verify": {"type": "bool", "default": False},
+        "dnac_api_task_timeout": {"type": "int", "default": 1200},
+        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "validate_response_schema": {"type": "bool", "default": True},
+        "config": {"required": True, "type": "list", "elements": "dict"},
+        "state": {"default": "merged", "choices": ["merged"]},
+    }
 
     # Initialize the Ansible module with the provided argument specifications
-    module = AnsibleModule(argument_spec=element_spec,
-                           supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 
     # Initialize the NetworkCompliance object with the module
     ccc_device_configs_backup = DeviceConfigsBackup(module)
+
+    if (
+        ccc_device_configs_backup.compare_dnac_versions(
+            ccc_device_configs_backup.get_ccc_version(), "2.3.7.6"
+        )
+        < 0
+    ):
+        ccc_device_configs_backup.msg = (
+            "The specified version '{0}' does not support the 'Device Configuration Backup' feature. Supported versions start "
+            "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for taking configuration backups of reachable"
+            " devices.".format(ccc_device_configs_backup.get_ccc_version())
+        )
+        ccc_device_configs_backup.set_operation_result(
+            "failed", False, ccc_device_configs_backup.msg, "ERROR"
+        ).check_return_status()
 
     # Get the state parameter from the provided parameters
     state = ccc_device_configs_backup.params.get("state")
@@ -1157,7 +1422,9 @@ def main():
         ccc_device_configs_backup.get_want(config).check_return_status()
         ccc_device_configs_backup.get_diff_state_apply[state]().check_return_status()
         if config_verify:
-            ccc_device_configs_backup.verify_diff_state_apply[state]().check_return_status()
+            ccc_device_configs_backup.verify_diff_state_apply[
+                state
+            ]().check_return_status()
 
     # Exit with the result obtained from the NetworkCompliance object
     module.exit_json(**ccc_device_configs_backup.result)

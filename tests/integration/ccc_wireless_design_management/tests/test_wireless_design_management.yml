@@ -1,0 +1,464 @@
+---
+- debug: msg="Starting wireless design management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_wireless_design_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        dnac_log_level: "DEBUG"
+        config_verify: True
+        dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+        dnac_log_append: False
+
+# #############################################
+# #            Create Wireless SSIDs          #
+# #############################################
+
+  - name: Create Wireless SSIDs
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.create_wireless_ssids }}"
+    register: result_create_wireless_ssids
+
+  - name: Assert Create Wireless SSIDs
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_create_wireless_ssids.results }}"
+    when: result_create_wireless_ssids is defined
+
+# #############################################
+# #            Update Wireless SSIDs          #
+# #############################################
+
+  - name: Update Wireless SSIDs
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_wireless_ssids }}"
+    register: result_update_wireless_ssids
+
+  - name: Assert Update Wireless SSIDs
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_update_wireless_ssids.results }}"
+    when: result_update_wireless_ssids is defined
+
+# #############################################
+# #            Delete Wireless SSIDs          #
+# #############################################
+
+  - name: Delete Wireless SSIDs
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_wireless_ssids }}"
+    register: result_delete_wireless_ssids
+
+  - name: Assert Delete Wireless SSIDs
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_delete_wireless_ssids.results }}"
+    when: result_delete_wireless_ssids is defined
+
+# #############################################
+# #              Create Interfaces            #
+# #############################################
+
+  - name: Create Interfaces
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.create_interfaces }}"
+    register: result_create_interfaces
+
+  - name: Assert Create Interfaces
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_create_interfaces.results }}"
+    when: result_create_interfaces is defined
+
+# #############################################
+# #              Update Interfaces            #
+# #############################################
+
+  - name: Update Interfaces
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_interfaces }}"
+    register: result_update_interfaces
+
+  - name: Assert Update Interfaces
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_update_interfaces.results }}"
+    when: result_update_interfaces is defined
+
+# #############################################
+# #              Delete Interfaces            #
+# #############################################
+
+  - name: Delete Interfaces
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_interfaces }}"
+    register: result_delete_interfaces
+
+  - name: Assert Delete Interfaces
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_delete_interfaces.results }}"
+    when: result_delete_interfaces is defined
+
+# #############################################
+# #           Create Power Profiles           #
+# #############################################
+
+  - name: Create Power Profiles
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.add_power_profiles }}"
+    register: result_add_power_profiles
+
+  - name: Assert Create Power Profiles
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_add_power_profiles.results }}"
+    when: result_add_power_profiles is defined
+
+# #############################################
+# #           Update Power Profiles           #
+# #############################################
+
+  - name: Update Power Profiles
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_power_profiles }}"
+    register: result_update_power_profiles
+
+  - name: Assert Update Power Profiles
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_update_power_profiles.results }}"
+    when: result_update_power_profiles is defined
+
+# #############################################
+# #             Create AP Profiles            #
+# #############################################
+
+  - name: Create AP Profiles
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.add_ap_profiles }}"
+    register: result_add_ap_profiles
+
+  - name: Assert Create AP Profiles
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_add_ap_profiles.results }}"
+    when: result_add_ap_profiles is defined
+
+# #############################################
+# #             Update AP Profiles            #
+# #############################################
+
+  - name: Update AP Profiles
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_ap_profiles }}"
+    register: result_update_ap_profiles
+
+  - name: Assert Update AP Profiles
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_update_ap_profiles.results }}"
+    when: result_update_ap_profiles is defined
+
+# #############################################
+# #            Delete AP Profiles             #
+# #############################################
+
+  - name: Delete AP Profiles
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_ap_profiles }}"
+    register: result_delete_ap_profiles
+
+  - name: Assert Delete AP Profiles
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_delete_ap_profiles.results }}"
+    when: result_delete_ap_profiles is defined
+
+# #############################################
+# #          Delete Power Profiles            #
+# #############################################
+
+  - name: Delete Power Profiles
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_power_profiles }}"
+    register: result_delete_power_profiles
+
+  - name: Assert Delete Power Profiles
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_delete_power_profiles.results }}"
+    when: result_delete_power_profiles is defined
+
+# #############################################
+# #             Create RF Profiles            #
+# #############################################
+
+  - name: Create RF Profiles
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.add_rf_profiles }}"
+    register: result_add_rf_profiles
+
+  - name: Assert Create RF Profiles
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_add_rf_profiles.results }}"
+    when: result_add_rf_profiles is defined
+
+# #############################################
+# #             Update RF Profiles            #
+# #############################################
+
+  - name: Update RF Profiles
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_rf_profiles }}"
+    register: result_update_rf_profiles
+
+  - name: Assert Update RF Profiles
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_update_rf_profiles.results }}"
+    when: result_update_rf_profiles is defined
+
+# #############################################
+# #            Delete RF Profiles             #
+# #############################################
+
+  - name: Delete RF Profiles
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_rf_profiles }}"
+    register: result_delete_rf_profiles
+
+  - name: Assert Delete RF Profiles
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_delete_rf_profiles.results }}"
+    when: result_delete_rf_profiles is defined
+
+# #############################################
+# #            Create Anchor Groups           #
+# #############################################
+
+  - name: Create Anchor Groups
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.add_anchor_groups }}"
+    register: result_add_anchor_groups
+
+  - name: Assert Create Anchor Groups
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_add_anchor_groups.results }}"
+    when: result_add_anchor_groups is defined
+
+# #############################################
+# #            Update Anchor Groups           #
+# #############################################
+
+  - name: Update Anchor Groups
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_anchor_groups }}"
+    register: result_update_anchor_groups
+
+  - name: Assert Update Anchor Groups
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_update_anchor_groups.results }}"
+    when: result_update_anchor_groups is defined
+
+# #############################################
+# #           Delete Anchor Groups            #
+# #############################################
+
+  - name: Delete Anchor Groups
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_anchor_groups }}"
+    register: result_delete_anchor_groups
+
+  - name: Assert Delete Anchor Groups
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_delete_anchor_groups.results }}"
+    when: result_delete_anchor_groups is defined
+
+# #############################################
+# #                 Create ALL                #
+# #############################################
+
+  - name: Create ALL
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.add_all }}"
+    register: result_add_all
+
+  - name: Assert Create ALL
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_add_all.results }}"
+    when: result_add_all is defined
+
+# #############################################
+# #               Update ALL                  #
+# #############################################
+
+  - name: Update ALL
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_all }}"
+    register: result_update_all
+
+  - name: Assert Update ALL
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_update_all.results }}"
+    when: result_update_all is defined
+
+# #############################################
+# #                Delete ALL                 #
+# #############################################
+
+  - name: Delete ALL
+    cisco.dnac.wireless_design_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_all }}"
+    register: result_delete_all
+
+  - name: Assert Delete ALL
+    assert:
+      that:
+        - item.changed == true
+        - item.status == "success"
+    loop: "{{ result_delete_all.results }}"
+    when: result_delete_all is defined

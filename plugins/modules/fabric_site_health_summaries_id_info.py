@@ -4,13 +4,16 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: fabric_site_health_summaries_id_info
-short_description: Information module for Fabric Site Health Summaries Id Info
+short_description: Information module for Fabric Site
+  Health Summaries Id
 description:
-- This module represents an alias of the module fabric_site_health_summaries_id_v1_info
+  - Get Fabric Site Health Summaries Id by id.
+  - Get Fabric site health summary for a specific fabric
+    site by providing the unique fabric site id in the
+    url path.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,52 +24,60 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Unique fabric site id.
+      - Id path parameter. Unique fabric site id.
     type: str
   startTime:
     description:
-    - >
-      StartTime query parameter. Start time from which API queries the data set related to the resource. It must
-      be specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        StartTime query parameter. Start time from which
+        API queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   endTime:
     description:
-    - >
-      EndTime query parameter. End time to which API queries the data set related to the resource. It must be
-      specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        EndTime query parameter. End time to which API
+        queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   attribute:
     description:
-    - >
-      Attribute query parameter. The list of FabricSite health attributes. Please refer to
-      ```fabricSiteAttributes``` section in the Open API specification document mentioned in the description.
+      - >
+        Attribute query parameter. The list of FabricSite
+        health attributes. Please refer to ```fabricSiteAttributes```
+        section in the Open API specification document
+        mentioned in the description.
     type: str
   view:
     description:
-    - >
-      View query parameter. The specific summary view being requested. A maximum of 3 views can be queried at a
-      time per request. Please refer to ```fabricSiteViews``` section in the Open API specification document
-      mentioned in the description.
+      - >
+        View query parameter. The specific summary view
+        being requested. A maximum of 3 views can be
+        queried at a time per request. Please refer
+        to ```fabricSiteViews``` section in the Open
+        API specification document mentioned in the
+        description.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA ReadFabricSitesWithHealthSummaryFromIdV1
-  description: Complete reference of the ReadFabricSitesWithHealthSummaryFromIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-fabric-sites-with-health-summary-from-id
+  - name: Cisco DNA Center documentation for SDA ReadFabricSitesWithHealthSummaryFromId
+    description: Complete reference of the ReadFabricSitesWithHealthSummaryFromId
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!read-fabric-sites-with-health-summary-from-id
 notes:
   - SDK Method used are
-    sda.Sda.read_fabric_sites_with_health_summary_from_id_v1,
-
+    sda.Sda.read_fabric_sites_with_health_summary_from_id,
   - Paths used are
     get /dna/data/api/v1/fabricSiteHealthSummaries/{id},
-  - It should be noted that this module is an alias of fabric_site_health_summaries_id_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get Fabric Site Health Summaries Id Info by id
+---
+- name: Get Fabric Site Health Summaries Id by id
   cisco.dnac.fabric_site_health_summaries_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -82,7 +93,6 @@ EXAMPLES = r"""
     view: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:
@@ -94,14 +104,12 @@ dnac_response:
       "response": {
         "id": "string",
         "name": "string",
-        "goodHealthPercentage": 0,
-        "goodHealthDeviceCount": 0,
         "totalDeviceCount": 0,
+        "goodHealthPercentage": 0,
+        "totalHealthDeviceCount": 0,
+        "goodHealthDeviceCount": 0,
         "poorHealthDeviceCount": 0,
         "fairHealthDeviceCount": 0,
-        "associatedL2VnCount": 0,
-        "associatedL3VnCount": 0,
-        "networkProtocol": "string",
         "connectivityGoodHealthPercentage": 0,
         "connectivityTotalHealthDeviceCount": 0,
         "connectivityGoodHealthDeviceCount": 0,
@@ -122,7 +130,7 @@ dnac_response:
         "pubsubInfraVnGoodHealthDeviceCount": 0,
         "pubsubInfraVnPoorHealthDeviceCount": 0,
         "pubsubInfraVnFairHealthDeviceCount": 0,
-        "bgpEvpnGoodHealthPercentage": {},
+        "bgpEvpnGoodHealthPercentage": 0,
         "bgpEvpnTotalHealthDeviceCount": 0,
         "bgpEvpnGoodHealthDeviceCount": 0,
         "bgpEvpnPoorHealthDeviceCount": 0,
@@ -142,7 +150,7 @@ dnac_response:
         "portChannelGoodHealthDeviceCount": 0,
         "portChannelPoorHealthDeviceCount": 0,
         "portChannelFairHealthDeviceCount": 0,
-        "peerScoreGoodHealthPercentage": {},
+        "peerScoreGoodHealthPercentage": 0,
         "peerScoreTotalHealthDeviceCount": 0,
         "peerScoreGoodHealthDeviceCount": 0,
         "peerScorePoorHealthDeviceCount": 0,
@@ -171,7 +179,11 @@ dnac_response:
         "bgpPeerInfraVnTotalHealthDeviceCount": 0,
         "bgpPeerInfraVnGoodHealthDeviceCount": 0,
         "bgpPeerInfraVnPoorHealthDeviceCount": 0,
-        "bgpPeerInfraVnFairHealthDeviceCount": 0
-      }
+        "bgpPeerInfraVnFairHealthDeviceCount": 0,
+        "associatedL2VnCount": 0,
+        "associatedL3VnCount": 0,
+        "networkProtocol": "string"
+      },
+      "version": "string"
     }
 """

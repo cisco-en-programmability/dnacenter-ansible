@@ -4,13 +4,18 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: sites_wireless_settings_ssids_info
-short_description: Information module for Sites Wireless Settings Ssids Info
+short_description: Information module for Sites Wireless
+  Settings Ssids
 description:
-- This module represents an alias of the module sites_wireless_settings_ssids_v1_info
+  - Get all Sites Wireless Settings Ssids.
+  - Get Sites Wireless Settings Ssids by id.
+  - This API allows the user to get all SSIDs Service
+    Set Identifier at the given site.
+  - This API allows the user to get an SSID Service
+    Set Identifier by ID at the given site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,62 +26,67 @@ options:
     type: dict
   siteId:
     description:
-    - SiteId path parameter. Site UUID.
+      - SiteId path parameter. Site UUID.
     type: str
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
-      allowed limit is 500.
+      - >
+        Limit query parameter. The number of records
+        to show for this page. Default is 500 if not
+        specified. Maximum allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1.
     type: float
   ssid:
     description:
-    - Ssid query parameter. SSID Name.
+      - Ssid query parameter. SSID Name.
     type: str
   wlanType:
     description:
-    - WlanType query parameter. Wlan Type.
+      - WlanType query parameter. Wlan Type.
     type: str
   authType:
     description:
-    - AuthType query parameter. Auth Type.
+      - AuthType query parameter. Auth Type.
     type: str
   l3authType:
     description:
-    - L3authType query parameter. L3 Auth Type.
+      - L3authType query parameter. L3 Auth Type.
     type: str
   id:
     description:
-    - Id path parameter. SSID ID.
+      - Id path parameter. SSID ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetSSIDByIDV1
-  description: Complete reference of the GetSSIDByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ssid-by-id
-- name: Cisco DNA Center documentation for Wireless GetSSIDBySiteV1
-  description: Complete reference of the GetSSIDBySiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ssid-by-site
+  - name: Cisco DNA Center documentation for Wireless
+      GetSSIDByID
+    description: Complete reference of the GetSSIDByID
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-ssid-by-id
+  - name: Cisco DNA Center documentation for Wireless
+      GetSSIDBySite
+    description: Complete reference of the GetSSIDBySite
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-ssid-by-site
 notes:
   - SDK Method used are
-    wireless.Wireless.get_ssid_by_id_v1,
-    wireless.Wireless.get_ssid_by_site_v1,
-
+    wireless.Wireless.get_ssid_by_id,
+    wireless.Wireless.get_ssid_by_site,
   - Paths used are
     get /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids,
     get /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids/{id},
-  - It should be noted that this module is an alias of sites_wireless_settings_ssids_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Sites Wireless Settings Ssids Info
+---
+- name: Get all Sites Wireless Settings Ssids
   cisco.dnac.sites_wireless_settings_ssids_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -94,8 +104,7 @@ EXAMPLES = r"""
     l3authType: string
     siteId: string
   register: result
-
-- name: Get Sites Wireless Settings Ssids Info by id
+- name: Get Sites Wireless Settings Ssids by id
   cisco.dnac.sites_wireless_settings_ssids_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -108,7 +117,6 @@ EXAMPLES = r"""
     siteId: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:
@@ -203,7 +211,8 @@ dnac_response:
         "isRandomMacFilterEnabled": true,
         "fastTransitionOverTheDistributedSystemEnable": true,
         "inheritedSiteNameHierarchy": "string",
-        "inheritedSiteUUID": "string"
+        "inheritedSiteUUID": "string",
+        "isRadiusProfilingEnabled": true
       },
       "version": "string"
     }

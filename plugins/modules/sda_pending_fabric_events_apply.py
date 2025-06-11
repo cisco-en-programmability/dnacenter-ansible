@@ -4,13 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: sda_pending_fabric_events_apply
-short_description: Resource module for Sda Pending Fabric Events Apply
+short_description: Resource module for Sda Pending Fabric
+  Events Apply
 description:
-- This module represents an alias of the module sda_pending_fabric_events_apply_v1
+  - Manage operation create of the resource Sda Pending
+    Fabric Events Apply.
+  - Applies pending fabric events based on user input.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,27 +26,27 @@ options:
         description: ID of the fabric.
         type: str
       id:
-        description: ID of the pending fabric event to be applied.
+        description: ID of the pending fabric event
+          to be applied.
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA ApplyPendingFabricEventsV1
-  description: Complete reference of the ApplyPendingFabricEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!apply-pending-fabric-events
+  - name: Cisco DNA Center documentation for SDA ApplyPendingFabricEvents
+    description: Complete reference of the ApplyPendingFabricEvents
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!apply-pending-fabric-events
 notes:
   - SDK Method used are
-    sda.Sda.apply_pending_fabric_events_v1,
-
+    sda.Sda.apply_pending_fabric_events,
   - Paths used are
     post /dna/intent/api/v1/sda/pendingFabricEvents/apply,
-  - It should be noted that this module is an alias of sda_pending_fabric_events_apply_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.sda_pending_fabric_events_apply:
     dnac_host: "{{dnac_host}}"
@@ -55,9 +57,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - fabricId: string
-      id: string
-
+      - fabricId: string
+        id: string
 """
 RETURN = r"""
 dnac_response:

@@ -4,13 +4,14 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: event_artifact_info
-short_description: Information module for Event Artifact Info
+short_description: Information module for Event Artifact
 description:
-- This module represents an alias of the module event_artifact_v1_info
+  - Get all Event Artifact.
+  - Gets the list of artifacts based on provided offset
+    and limit.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,51 +22,52 @@ options:
     type: dict
   eventIds:
     description:
-    - EventIds query parameter. List of eventIds.
+      - EventIds query parameter. List of eventIds.
     type: str
   tags:
     description:
-    - Tags query parameter. Tags defined.
+      - Tags query parameter. Tags defined.
     type: str
   offset:
     description:
-    - Offset query parameter. Record start offset.
+      - Offset query parameter. Record start offset.
     type: float
   limit:
     description:
-    - Limit query parameter. # of records to return in result set.
+      - Limit query parameter. # of records to return in result set.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. Sort by field.
+      - SortBy query parameter. Sort by field.
     type: str
   order:
     description:
-    - Order query parameter. Sorting order (asc/desc).
+      - Order query parameter. Sorting order (asc/desc).
     type: str
   search:
     description:
-    - Search query parameter. Findd matches in name, description, eventId, type, category.
+      - Search query parameter. Findd matches in name,
+        description, eventId, type, category.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetEventArtifactsV1
-  description: Complete reference of the GetEventArtifactsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-event-artifacts
+  - name: Cisco DNA Center documentation for Event Management
+      GetEventArtifacts
+    description: Complete reference of the GetEventArtifacts
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-event-artifacts
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_eventartifacts,
-
+    event_management.EventManagement.get_event_artifacts,
   - Paths used are
     get /dna/system/api/v1/event/artifact,
-  - It should be noted that this module is an alias of event_artifact_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get all Event Artifact Info
+---
+- name: Get all Event Artifact
   cisco.dnac.event_artifact_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -83,7 +85,6 @@ EXAMPLES = r"""
     order: string
     search: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

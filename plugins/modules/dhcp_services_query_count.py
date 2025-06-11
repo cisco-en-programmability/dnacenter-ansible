@@ -4,13 +4,19 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-
 DOCUMENTATION = r"""
 ---
 module: dhcp_services_query_count
-short_description: Resource module for Dhcp Services Query Count
+short_description: Resource module for Dhcp Services
+  Query Count
 description:
-- This module represents an alias of the module dhcp_services_query_count_v1
+  - Manage operation create of the resource Dhcp Services
+    Query Count. - > Retrieves the total number of DHCP
+    Services and offers complex filtering and sorting
+    capabilities. For detailed information about the
+    usage of the API, please refer to the Open API specification
+    document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    DHCPServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -41,23 +47,23 @@ options:
     description: Start Time.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices RetrievesTheTotalNumberOfDHCPServicesForGivenSetOfComplexFiltersV1
-  description: Complete reference of the RetrievesTheTotalNumberOfDHCPServicesForGivenSetOfComplexFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-dhcp-services-for-given-set-of-complex-filters
+  - name: Cisco DNA Center documentation for Devices
+      RetrievesTheTotalNumberOfDHCPServicesForGivenSetOfComplexFilters
+    description: Complete reference of the RetrievesTheTotalNumberOfDHCPServicesForGivenSetOfComplexFilters
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-dhcp-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
-    devices.Devices.retrieves_the_total_number_of_d_h_c_p_services_for_given_set_of_complex_filters_v1,
-
+    devices.Devices.retrieves_the_total_number_of_d_h_c_p_services_for_given_set_of_complex_filters,
   - Paths used are
     post /dna/data/api/v1/dhcpServices/query/count,
-  - It should be noted that this module is an alias of dhcp_services_query_count_v1
-
 """
 
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.dhcp_services_query_count:
     dnac_host: "{{dnac_host}}"
@@ -69,13 +75,12 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value:
-      - string
+      - key: string
+        operator: string
+        value:
+          - string
     headers: '{{my_headers | from_json}}'
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:
