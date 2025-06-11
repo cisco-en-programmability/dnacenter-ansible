@@ -184,7 +184,7 @@ options:
                     type: str
                     choices: [ILIKE, LIKE]
                     default: 'ILIKE'
-          new_tag_name:
+          new_name:
             description: >
               The new name for the tag when updating an existing tag.
             type: str
@@ -991,7 +991,7 @@ class Tags(DnacBase):
                         "operation": {"type": "str", "default": "ILIKE"},
                     },
                 },
-                "new_tag_name": {"type": "str"},
+                "new_name": {"type": "str"},
                 "network_device_tag_retrieval_batch_size": {
                     "type": "int",
                     "range_max": 500,
@@ -1630,7 +1630,7 @@ class Tags(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-        new_tag_name = tag.get("new_tag_name")
+        new_tag_name = tag.get("new_name")
 
         if new_tag_name is None:
             self.log("New Tag Name not provided. It will be set to empty.", "DEBUG")
@@ -1638,12 +1638,12 @@ class Tags(DnacBase):
         else:
             if new_tag_name:
                 self.log(
-                    f"New Tag Name provided: {new_tag_name}. It will be used to update the existing tag name: {tag_name}.",
+                    f"New Tag Name provided: '{new_tag_name}'. It will be used to update the existing tag name: '{tag_name}'.",
                     "DEBUG",
                 )
             else:
                 self.msg = (
-                    f"New Tag Name: '{new_tag_name}' Provided is empty for the tag: '{tag_name}'. Please Input a valid new tag name.",
+                    f"New Tag Name: '{new_tag_name}' is empty for the tag: '{tag_name}'. Please Input a valid new tag name.",
                 )
                 self.fail_and_exit(self.msg)
 
@@ -1658,7 +1658,7 @@ class Tags(DnacBase):
             "force_delete": force_delete,
             "device_rules": device_rules,
             "port_rules": port_rules,
-            "new_tag_name": new_tag_name,
+            "new_name": new_tag_name,
             "network_device_tag_retrieval_batch_size": tag.get(
                 "network_device_tag_retrieval_batch_size"
             ),
@@ -4233,7 +4233,7 @@ class Tags(DnacBase):
         requires_update = False
 
         tag_name = tag.get("name")
-        new_tag_name = tag.get("new_tag_name", "")
+        new_tag_name = tag.get("new_name", "")
         description = tag.get("description")
         device_rules = tag.get("device_rules")
         port_rules = tag.get("port_rules")
@@ -4374,6 +4374,7 @@ class Tags(DnacBase):
                 "DEBUG",
             )
             tag_payload.update({"name": new_tag_name})
+
         dynamic_rules = tag.get("dynamic_rules")
         if dynamic_rules:
             self.log(
@@ -5372,13 +5373,19 @@ class Tags(DnacBase):
             "Verifying tag and tag membership details for the playbook operation.",
             "DEBUG",
         )
-        if config.get("tag") and config.get("tag").get("new_tag_name"):
-            # Log the current tag name and the new tag name before changing
-            self.log(
-                f"Changing tag name for verification: current name='{self.want['tag']['name']}', new name='{config['tag'].get('new_tag_name')}'",
-                "DEBUG",
-            )
-            config["tag"]["name"] = config["tag"].get("new_tag_name")
+
+        tag_config_data = config.get("tag", {})
+        if tag_config_data:
+            new_tag_name = tag_config_data.get("new_name")
+
+            if new_tag_name:
+                current_name = self.want.get("tag", {}).get("name", "Unknown")
+                self.log(
+                    f"Updating tag name: current name='{current_name}', new name='{new_tag_name}'.",
+                    "DEBUG",
+                )
+                # Update the tag name in the config
+                config["tag"]["name"] = config["tag"].get("new_name")
 
         self.get_have(config).check_return_status()
         tag = self.want.get("tag")
