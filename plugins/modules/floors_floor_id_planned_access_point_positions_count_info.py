@@ -1,14 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_count_info
-short_description: Information module for Floors Floor Id Planned Access Point Positions
-  Count Info
+short_description: Information module for Floors Floor
+  Id Planned Access Point Positions Count
 description:
-  - This module represents an alias of the module floors_floor_id_planned_access_point_positions_count_v2_info
+  - Get all Floors Floor Id Planned Access Point Positions
+    Count.
+  - Retrieve all Planned Access Points Positions count
+    designated for a specific floor.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,7 +32,8 @@ options:
     type: str
   macAddress:
     description:
-      - MacAddress query parameter. Planned Access Point mac address.
+      - MacAddress query parameter. Planned Access Point
+        mac address.
     type: str
   type:
     description:
@@ -37,18 +43,22 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Site Design GetPlannedAccessPointsPositionsCountV2
+  - name: Cisco DNA Center documentation for Site Design
+      GetPlannedAccessPointsPositionsCountV2
     description: Complete reference of the GetPlannedAccessPointsPositionsCountV2
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions-count
+    link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions-count-v-2
 notes:
-  - SDK Method used are site_design.SiteDesign.get_planned_access_points_positions_count_v2,
-  - Paths used are get /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/count,
-  - It should be noted that this module is an alias of floors_floor_id_planned_access_point_positions_count_v2_info
+  - SDK Method used are
+    site_design.SiteDesign.get_planned_access_points_positions_count_v2,
+  - Paths used are
+    get /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Floors Floor Id Planned Access Point Positions Count Info
+---
+- name: Get all Floors Floor Id Planned Access Point
+    Positions Count
   cisco.dnac.floors_floor_id_planned_access_point_positions_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

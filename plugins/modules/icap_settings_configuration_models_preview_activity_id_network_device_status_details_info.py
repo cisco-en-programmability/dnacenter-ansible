@@ -1,16 +1,24 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
-module:
-  icap_settings_configuration_models_preview_activity_id_network_device_status_details_info
-short_description: Information module for Icap Settings Configuration Models Preview
-  Activity Id Network Device Status Details Info
+module: icap_settings_configuration_models_preview_activity_id_network_device_status_details_info
+short_description: Information module for Icap Settings
+  Configuration Models Preview Activity Id Network Device
+  Status Details
 description:
-  - This module represents an alias of the module
-    icap_settings_configuration_models_preview_activity_id_network_device_status_details_v1_info
+  - Get all Icap Settings Configuration Models Preview
+    Activity Id Network Device Status Details. - > Get
+    ICAP configuration status per network device using
+    the activity ID, which was returned in property
+    "taskId" of the TaskResponse of the POST. For detailed
+    information about the usage of the API, please refer
+    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
+    specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,28 +29,29 @@ options:
     type: dict
   previewActivityId:
     description:
-      - PreviewActivityId path parameter. Activity from the POST /deviceConfigugrationModels
-        task response.
+      - PreviewActivityId path parameter. Activity from
+        the POST /deviceConfigugrationModels task response.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Sensors GetICAPConfigurationStatusPerNetworkDeviceV1
-    description: Complete reference of the GetICAPConfigurationStatusPerNetworkDeviceV1
+  - name: Cisco DNA Center documentation for Sensors
+      GetICAPConfigurationStatusPerNetworkDevice
+    description: Complete reference of the GetICAPConfigurationStatusPerNetworkDevice
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-icap-configuration-status-per-network-device
+    link: https://developer.cisco.com/docs/dna-center/#!get-icap-configuration-status-per-network-device
 notes:
-  - SDK Method used are sensors.Sensors.get_i_cap_configuration_status_per_network_device_v1,
-  - Paths used are get
-    /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDeviceStatusDetails,
-  - It should be noted that this module is an alias of
-    icap_settings_configuration_models_preview_activity_id_network_device_status_details_v1_info                                                    # noqa: E501
+  - SDK Method used are
+    sensors.Sensors.get_i_cap_configuration_status_per_network_device,
+  - Paths used are
+    get /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDeviceStatusDetails,
 """
+
 EXAMPLES = r"""
-- name: Get all Icap Settings Configuration Models Preview Activity Id Network Device
-    Status Details Info
+---
+- name: Get all Icap Settings Configuration Models Preview
+    Activity Id Network Device Status Details
   cisco.dnac.icap_settings_configuration_models_preview_activity_id_network_device_status_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
