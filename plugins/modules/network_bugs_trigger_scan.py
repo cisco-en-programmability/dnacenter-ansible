@@ -1,38 +1,51 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_bugs_trigger_scan
-short_description: Resource module for Network Bugs Trigger Scan
+short_description: Resource module for Network Bugs
+  Trigger Scan
 description:
-  - This module represents an alias of the module network_bugs_trigger_scan_v1
+  - Manage operation create of the resource Network
+    Bugs Trigger Scan. - > Triggers a bugs scan for
+    the supported network devices. The supported devices
+    are switches and routers. If a device is not supported,
+    the NetworkBugsDevice scanStatus will be Failed
+    with appropriate comments.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   failedDevicesOnly:
-    description: FailedDevicesOnly query parameter. Used to specify if the scan should
-      run only for the network devices that failed during the previous scan. If not
-      specified, this parameter defaults to false.
+    description: FailedDevicesOnly query parameter.
+      Used to specify if the scan should run only for
+      the network devices that failed during the previous
+      scan. If not specified, this parameter defaults
+      to false.
     type: bool
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Compliance TriggersABugsScanForTheSupportedNetworkDevicesV1
-    description: Complete reference of the TriggersABugsScanForTheSupportedNetworkDevicesV1
+  - name: Cisco DNA Center documentation for Compliance
+      TriggersABugsScanForTheSupportedNetworkDevices
+    description: Complete reference of the TriggersABugsScanForTheSupportedNetworkDevices
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!triggers-a-bugs-scan-for-the-supported-network-devices
+    link: https://developer.cisco.com/docs/dna-center/#!triggers-a-bugs-scan-for-the-supported-network-devices
 notes:
-  - SDK Method used are compliance.Compliance.triggers_a_bugs_scan_for_the_supported_network_devices_v1,
-  - Paths used are post /dna/intent/api/v1/networkBugs/triggerScan,
-  - It should be noted that this module is an alias of network_bugs_trigger_scan_v1
+  - SDK Method used are
+    compliance.Compliance.triggers_a_bugs_scan_for_the_supported_network_devices,
+  - Paths used are
+    post /dna/intent/api/v1/networkBugs/triggerScan,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.network_bugs_trigger_scan:
     dnac_host: "{{dnac_host}}"
