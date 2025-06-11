@@ -877,6 +877,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import DnacBase
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
     validate_list_of_dicts,
 )
+import re
 
 
 class Tags(DnacBase):
@@ -1681,6 +1682,43 @@ class Tags(DnacBase):
         )
         return validated_tag
 
+    def validate_device_detail(self, device_detail, identifier):
+        """
+        Validates a device detail against a specified identifier type.
+
+        Parameters:
+            device_detail (str): The device detail to be validated (e.g., IP address, hostname, MAC address, serial number).
+            identifier (str): The type of identifier to validate against (e.g., "ip_addresses", "hostnames", "mac_addresses", "serial_numbers").
+
+        Returns:
+            bool: True if the device detail matches the specified identifier type, False otherwise.
+
+        Description:
+            This method compiles a regex pattern based on the identifier type and checks if the provided device detail
+            matches the pattern. If the identifier is invalid, it logs an error message and exits.
+        """
+        regex_pattern_map = {
+            "ip_addresses": r"^(?:(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$",  # Matches valid IPv4 addresses
+            "hostnames": r"^(?=.{1,253}$)(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))*$",  # Matches valid hostnames
+            "mac_addresses": r"^(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$",  # Matches valid MAC addresses
+            "serial_numbers": r"^[A-Za-z0-9]{8,12}$",  # Matches valid serial numbers (8-12 alphanumeric characters)
+        }
+
+        regex_pattern_for_identifiers = regex_pattern_map.get(identifier)
+        if not regex_pattern_map:
+            self.msg = f"Invalid device identifier type provided: '{identifier}'. Valid options are: '{regex_pattern_map.keys()}'"
+            self.fail_and_exit(self.msg)
+
+        regex_pattern_compiled = re.compile(regex_pattern_for_identifiers)
+        match_result = bool(regex_pattern_compiled.fullmatch(device_detail))
+
+        self.log(
+            f"Validating device detail '{device_detail}' with device identifier '{identifier}': Match result: {match_result}",
+            "DEBUG",
+        )
+
+        return match_result
+
     def process_tag_memberships(self, tag_memberships):
         """
         Validates and processes tag membership configuration.
@@ -1736,20 +1774,25 @@ class Tags(DnacBase):
                 "Device details are not provided in tag memberships config", "DEBUG"
             )
         else:
+            valid_device_identifiers = [
+                "ip_addresses",
+                "hostnames",
+                "mac_addresses",
+                "serial_numbers",
+            ]
             for device_detail in device_details:
-                if not any(
-                    device_detail.get(k)
-                    for k in [
-                        "ip_addresses",
-                        "hostnames",
-                        "mac_addresses",
-                        "serial_numbers",
-                    ]
-                ):
+                if not any(device_detail.get(k) for k in valid_device_identifiers):
                     self.msg = "At least one of IP addresses, hostnames, MAC addresses, or serial numbers is required."
                     self.set_operation_result(
                         "failed", False, self.msg, "ERROR"
                     ).check_return_status()
+
+                for identifier in valid_device_identifiers:
+                    if device_detail.get(identifier):
+                        for detail in device_detail[identifier]:
+                            if not self.validate_device_detail(detail, identifier):
+                                self.msg = f"Invalid {identifier} provided: {detail}. Please check the playbook."
+                                self.fail_and_exit(self.msg)
 
             port_names = device_detail.get("port_names")
             if port_names:
