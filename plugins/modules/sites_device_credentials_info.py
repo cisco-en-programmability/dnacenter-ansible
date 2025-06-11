@@ -1,13 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sites_device_credentials_info
-short_description: Information module for Sites Device Credentials Info
+short_description: Information module for Sites Device
+  Credentials
 description:
-  - This module represents an alias of the module sites_device_credentials_v1_info
+  - Get all Sites Device Credentials. - > Gets device
+    credential settings for a site; `null` values indicate
+    that the setting will be inherited from the parent
+    site; empty objects `{}` indicate that the credential
+    is unset, and that no credential of that type will
+    be used for the site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,32 +26,38 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. Site Id, retrievable from the `id` attribute in `/dna/intent/api/v1/sites`.
+      - Id path parameter. Site Id, retrievable from
+        the `id` attribute in `/dna/intent/api/v1/sites`.
     type: str
   _inherited:
     description:
       - >
-        _inherited query parameter. Include settings explicitly set for this site
-        and settings inherited from sites
-        higher in the site hierarchy; when `false`, `null` values indicate that the
-        site inherits that setting from
-        the parent site or a site higher in the site hierarchy.
+        _inherited query parameter. Include settings
+        explicitly set for this site and settings inherited
+        from sites higher in the site hierarchy; when
+        `false`, `null` values indicate that the site
+        inherits that setting from the parent site or
+        a site higher in the site hierarchy.
     type: bool
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Network Settings GetDeviceCredentialSettingsForASiteV1
-    description: Complete reference of the GetDeviceCredentialSettingsForASiteV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-device-credential-settings-for-a-site
+  - name: Cisco DNA Center documentation for Network
+      Settings GetDeviceCredentialSettingsForASite
+    description: Complete reference of the GetDeviceCredentialSettingsForASite
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-settings-for-a-site
 notes:
-  - SDK Method used are network_settings.NetworkSettings.get_device_credential_settings_for_a_site_v1,
-  - Paths used are get /dna/intent/api/v1/sites/{id}/deviceCredentials,
-  - It should be noted that this module is an alias of sites_device_credentials_v1_info
+  - SDK Method used are
+    network_settings.NetworkSettings.get_device_credential_settings_for_a_site,
+  - Paths used are
+    get /dna/intent/api/v1/sites/{id}/deviceCredentials,
 """
+
 EXAMPLES = r"""
-- name: Get all Sites Device Credentials Info
+---
+- name: Get all Sites Device Credentials
   cisco.dnac.sites_device_credentials_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

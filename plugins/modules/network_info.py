@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_info
-short_description: Information module for Network Info
+short_description: Information module for Network
 description:
-  - This module represents an alias of the module network_v1_info
+  - Get all Network.
+  - API to get DHCP and DNS center server details.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,23 +21,28 @@ options:
     type: dict
   siteId:
     description:
-      - SiteId query parameter. Site id to get the network settings associated with
-        the site.
+      - SiteId query parameter. Site id to get the network
+        settings associated with the site.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Network Settings GetNetworkV1
-    description: Complete reference of the GetNetworkV1 API.
+  - name: Cisco DNA Center documentation for Network
+      Settings GetNetwork
+    description: Complete reference of the GetNetwork
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-network
 notes:
-  - SDK Method used are network_settings.NetworkSettings.get_network_v1,
-  - Paths used are get /dna/intent/api/v1/network,
-  - It should be noted that this module is an alias of network_v1_info
+  - SDK Method used are
+    network_settings.NetworkSettings.get_network,
+  - Paths used are
+    get /dna/intent/api/v1/network,
 """
+
 EXAMPLES = r"""
-- name: Get all Network Info
+---
+- name: Get all Network
   cisco.dnac.network_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

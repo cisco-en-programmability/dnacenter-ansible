@@ -6,7 +6,7 @@
   gather_facts: false
   tasks:
     - name: Get application sets local-services
-      cisco.dnac.tag_member_v1_info:
+      cisco.dnac.tag_member_info:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

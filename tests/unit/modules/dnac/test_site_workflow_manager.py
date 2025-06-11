@@ -245,21 +245,21 @@ class TestDnacSiteWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 Exception(),
                 Exception(),
-                self.test_data.get("get_site_v1"),
+                self.test_data.get("get_site"),
                 self.test_data.get("create_site"),
                 self.test_data.get("business"),
                 Exception(),
                 Exception(),
-                self.test_data.get("get_site_v11"),
+                self.test_data.get("get_site1"),
                 self.test_data.get("create_site1"),
                 self.test_data.get("business1"),
                 Exception(),
                 Exception(),
-                self.test_data.get("get_site_v12"),
+                self.test_data.get("get_site2"),
                 self.test_data.get("create_site3"),
                 self.test_data.get("business2"),
                 Exception(),
-                self.test_data.get("get_site_v13"),
+                self.test_data.get("get_site3"),
             ]
 
         elif "upload_floor_map" in self._testMethodName:

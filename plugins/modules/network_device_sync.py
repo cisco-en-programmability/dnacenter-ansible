@@ -1,13 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_sync
-short_description: Resource module for Network Device Sync
+short_description: Resource module for Network Device
+  Sync
 description:
-  - This module represents an alias of the module network_device_sync_v1
+  - Manage operation update of the resource Network
+    Device Sync. - > Synchronizes the devices. If forceSync
+    param is false default then the sync would run in
+    normal priority thread. If forceSync param is true
+    then the sync would run in high priority thread
+    if available, else the sync will fail. Result can
+    be seen in the child task of each device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,15 +33,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices SyncDevicesV1
-    description: Complete reference of the SyncDevicesV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!sync-devices
+  - name: Cisco DNA Center documentation for Devices
+      SyncDevices
+    description: Complete reference of the SyncDevices
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!sync-devices-2
 notes:
-  - SDK Method used are devices.Devices.sync_devices_using_forcesync,
-  - Paths used are put /dna/intent/api/v1/network-device/sync,
-  - It should be noted that this module is an alias of network_device_sync_v1
+  - SDK Method used are
+    devices.Devices.sync_devices_using_forcesync,
+  - Paths used are
+    put /dna/intent/api/v1/network-device/sync,
 """
+
 EXAMPLES = r"""
+---
 - name: Update all
   cisco.dnac.network_device_sync:
     dnac_host: "{{dnac_host}}"
