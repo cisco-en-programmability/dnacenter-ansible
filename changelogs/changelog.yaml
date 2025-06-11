@@ -1638,3 +1638,15 @@ releases:
         - Removed attribute 'application_sets' and 'application' in 'application_policy_workflow_manager' module
         - Removed attribute 'control_path'  in 'path_trace_workflow_manager' module
         - All alias modules were removed  -*v1-.
+
+  6.35.0:
+    release_date: "2025-06-12"
+    changes:
+      release_summary: Changes in workflow manager module
+      minor_changes:
+        - Changes in application_policy_workflow_manager workflow manager module
+        - Changes in assurance_device_health_score_settings_workflow_manager module
+        - Changes in assurance_issue_workflow_manager workflow manager module
+        - Changes in path_trace_workflow_manager module
+        - Removed attribute 'application_sets' and 'application' in 'application_policy_workflow_manager' module
+        - Removed attribute 'control_path'  in 'path_trace_workflow_manager' module
