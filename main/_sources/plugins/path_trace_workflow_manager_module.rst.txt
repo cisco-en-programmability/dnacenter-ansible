@@ -42,7 +42,7 @@ cisco.dnac.path_trace_workflow_manager module -- Resource module for managing Pa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.34.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.35.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -143,50 +143,6 @@ Parameters
 
         </div>
     
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/control_path"></div>
-
-      .. _ansible_collections.cisco.dnac.path_trace_workflow_manager_module__parameter-config/control_path:
-
-      .. rst-class:: ansible-option-title
-
-      **control_path**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/control_path" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Boolean value to specify whether the path trace should include
-          the control path (optional).
-          
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -368,6 +324,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Boolean value to display the last result again for the path trace.
+          
 
 
       .. rst-class:: ansible-option-line
@@ -457,6 +414,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Boolean value to enable periodic refresh for the path trace.
+          
 
 
       .. rst-class:: ansible-option-line
@@ -1309,10 +1267,8 @@ Examples
                   - PERFORMANCE_STATS
                   - ACL_TRACE
                 periodic_refresh: false  # optional field
-                control_path: false  # optional field
                 delete_on_completion: true  # optional field
-        - name: Delete path trace based on source and destination
-            IP
+        - name: Delete path trace based on source and destination IP
           cisco.dnac.path_trace_workflow_manager:
             dnac_host: "{{ dnac_host }}"
             dnac_port: "{{ dnac_port }}"
@@ -1446,11 +1402,9 @@ Examples
                   - PERFORMANCE_STATS
                   - ACL_TRACE
                 periodic_refresh: false  # optional field
-                control_path: false  # optional field
                 delete_on_completion: true  # optional field
               - source_ip: "204.1.1.2"  # required field
                 dest_ip: "204.1.2.4"  # required field
-                control_path: false  # optional field
                 get_last_pathtrace_result: true  # optional field
                 delete_on_completion: true  # optional field
               - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
@@ -1514,7 +1468,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace created and verified successfully for '[{'source\_ip': '204.1.2.3',\\n        'dest\_ip': '204.1.2.4', 'source\_port': 4020, 'dest\_port': 4021, 'protocol': 'TCP',\\n        'periodic\_refresh': False, 'control\_path': False, 'include\_stats': ['DEVICE-STATS',\\n        'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE'],\\n        'flow\_analysis\_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\\",\\n    \\"response\\": [\\n        {\\n            \\"lastUpdate\\": \\"Fri Feb 21 19:16:46 GMT 2025\\",\\n            \\"networkElementsInfo\\": [\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"b65f159e-b67d-49d4-92d0-801a0eda6426\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"e62e6405-13e4-4f1b-ae1c-580a28a96a88\\",\\n                    \\"ip\\": \\"204.1.2.3\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"SJ-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"2897a064-9079-4c9c-adf2-3e0b5cf22724\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"820bd13a-f565-4778-a320-9ec9f23b4725\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"c98d09f3-b57e-468f-a9a1-65e75249e94f\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.1.22\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"DC-T-9300\\",\\n                    \\"role\\": \\"ACCESS\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"id\\": \\"0be10e21-34c7-4c76-b217-56327ed1f418\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"f24b433c-8388-453e-a034-fcaf516bc749\\",\\n                            \\"name\\": \\"TenGigabitEthernet2/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.2.4\\",\\n                    \\"name\\": \\"NY-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                }\\n            ],\\n            \\"request\\": {\\n                \\"controlPath\\": false,\\n                \\"createTime\\": 1740165404872,\\n                \\"destIP\\": \\"204.1.2.4\\",\\n                \\"destPort\\": \\"4021\\",\\n                \\"id\\": \\"81d8b994-fb62-48dc-aa45-cb3a62d4e4b4\\",\\n                \\"lastUpdateTime\\": 1740165406115,\\n                \\"periodicRefresh\\": false,\\n                \\"protocol\\": \\"TCP\\",\\n                \\"sourceIP\\": \\"204.1.2.3\\",\\n                \\"sourcePort\\": \\"4020\\",\\n                \\"status\\": \\"COMPLETED\\"\\n            }\\n        }\\n    ],\\n    \\"status\\": \\"success\\"\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace created and verified successfully for '[{'source\_ip': '204.1.2.3',\\n        'dest\_ip': '204.1.2.4', 'source\_port': 4020, 'dest\_port': 4021, 'protocol': 'TCP',\\n        'periodic\_refresh': False, 'include\_stats': ['DEVICE-STATS',\\n        'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE'],\\n        'flow\_analysis\_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\\",\\n    \\"response\\": [\\n        {\\n            \\"lastUpdate\\": \\"Fri Feb 21 19:16:46 GMT 2025\\",\\n            \\"networkElementsInfo\\": [\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"b65f159e-b67d-49d4-92d0-801a0eda6426\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"e62e6405-13e4-4f1b-ae1c-580a28a96a88\\",\\n                    \\"ip\\": \\"204.1.2.3\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"SJ-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"2897a064-9079-4c9c-adf2-3e0b5cf22724\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"820bd13a-f565-4778-a320-9ec9f23b4725\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"c98d09f3-b57e-468f-a9a1-65e75249e94f\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.1.22\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"DC-T-9300\\",\\n                    \\"role\\": \\"ACCESS\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"id\\": \\"0be10e21-34c7-4c76-b217-56327ed1f418\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"f24b433c-8388-453e-a034-fcaf516bc749\\",\\n                            \\"name\\": \\"TenGigabitEthernet2/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.2.4\\",\\n                    \\"name\\": \\"NY-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                }\\n            ],\\n            \\"request\\": {\\n                \\"controlPath\\": false,\\n                \\"createTime\\": 1740165404872,\\n                \\"destIP\\": \\"204.1.2.4\\",\\n                \\"destPort\\": \\"4021\\",\\n                \\"id\\": \\"81d8b994-fb62-48dc-aa45-cb3a62d4e4b4\\",\\n                \\"lastUpdateTime\\": 1740165406115,\\n                \\"periodicRefresh\\": false,\\n                \\"protocol\\": \\"TCP\\",\\n                \\"sourceIP\\": \\"204.1.2.3\\",\\n                \\"sourcePort\\": \\"4020\\",\\n                \\"status\\": \\"COMPLETED\\"\\n            }\\n        }\\n    ],\\n    \\"status\\": \\"success\\"\\n}\\n"`
 
 
       .. raw:: html
@@ -1604,7 +1558,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace created and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'control\_path': False, 'get\_last\_pathtrace\_result': True,\\n        'flow\_analysis\_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\\",\\n    \\"response\\": [\\n        {\\n            \\"lastUpdate\\": \\"Fri Feb 21 19:25:52 GMT 2025\\",\\n            \\"networkElementsInfo\\": [\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"44aafd2d-5822-4ce5-95c5-11909e9425f6\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/1\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"99b62ead-51d6-4bfc-9b0c-dab087f184e9\\",\\n                    \\"ip\\": \\"204.1.1.2\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"SJ-EN-9300\\",\\n                    \\"role\\": \\"ACCESS\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"b65f159e-b67d-49d4-92d0-801a0eda6426\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"e62e6405-13e4-4f1b-ae1c-580a28a96a88\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"0610f80e-09fc-4083-8aaa-7cf318b211de\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/2\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.2.3\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"SJ-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"2897a064-9079-4c9c-adf2-3e0b5cf22724\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"820bd13a-f565-4778-a320-9ec9f23b4725\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"c98d09f3-b57e-468f-a9a1-65e75249e94f\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.1.22\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"DC-T-9300\\",\\n                    \\"role\\": \\"ACCESS\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"id\\": \\"0be10e21-34c7-4c76-b217-56327ed1f418\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"f24b433c-8388-453e-a034-fcaf516bc749\\",\\n                            \\"name\\": \\"TenGigabitEthernet2/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.2.4\\",\\n                    \\"name\\": \\"NY-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                }\\n            ],\\n            \\"request\\": {\\n                \\"controlPath\\": false,\\n                \\"createTime\\": 1740162201882,\\n                \\"destIP\\": \\"204.1.2.4\\",\\n                \\"id\\": \\"3cb51b94-2a50-4a92-b204-13ffdde22ef9\\",\\n                \\"lastUpdateTime\\": 1740162203167,\\n                \\"periodicRefresh\\": false,\\n                \\"sourceIP\\": \\"204.1.1.2\\",\\n                \\"status\\": \\"COMPLETED\\"\\n            }\\n        }\\n    ],\\n    \\"status\\": \\"success\\"\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace created and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'get\_last\_pathtrace\_result': True,\\n        'flow\_analysis\_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\\",\\n    \\"response\\": [\\n        {\\n            \\"lastUpdate\\": \\"Fri Feb 21 19:25:52 GMT 2025\\",\\n            \\"networkElementsInfo\\": [\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"44aafd2d-5822-4ce5-95c5-11909e9425f6\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/1\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"99b62ead-51d6-4bfc-9b0c-dab087f184e9\\",\\n                    \\"ip\\": \\"204.1.1.2\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"SJ-EN-9300\\",\\n                    \\"role\\": \\"ACCESS\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"b65f159e-b67d-49d4-92d0-801a0eda6426\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"e62e6405-13e4-4f1b-ae1c-580a28a96a88\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"0610f80e-09fc-4083-8aaa-7cf318b211de\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/2\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.2.3\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"SJ-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"egressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"2897a064-9079-4c9c-adf2-3e0b5cf22724\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/7\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"id\\": \\"820bd13a-f565-4778-a320-9ec9f23b4725\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"c98d09f3-b57e-468f-a9a1-65e75249e94f\\",\\n                            \\"name\\": \\"TenGigabitEthernet1/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.1.22\\",\\n                    \\"linkInformationSource\\": \\"ISIS\\",\\n                    \\"name\\": \\"DC-T-9300\\",\\n                    \\"role\\": \\"ACCESS\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                },\\n                {\\n                    \\"id\\": \\"0be10e21-34c7-4c76-b217-56327ed1f418\\",\\n                    \\"ingressInterface\\": {\\n                        \\"physicalInterface\\": {\\n                            \\"id\\": \\"f24b433c-8388-453e-a034-fcaf516bc749\\",\\n                            \\"name\\": \\"TenGigabitEthernet2/1/8\\",\\n                            \\"usedVlan\\": \\"NA\\",\\n                            \\"vrfName\\": \\"global\\"\\n                        }\\n                    },\\n                    \\"ip\\": \\"204.1.2.4\\",\\n                    \\"name\\": \\"NY-BN-9300\\",\\n                    \\"role\\": \\"DISTRIBUTION\\",\\n                    \\"type\\": \\"Switches and Hubs\\"\\n                }\\n            ],\\n            \\"request\\": {\\n                \\"controlPath\\": false,\\n                \\"createTime\\": 1740162201882,\\n                \\"destIP\\": \\"204.1.2.4\\",\\n                \\"id\\": \\"3cb51b94-2a50-4a92-b204-13ffdde22ef9\\",\\n                \\"lastUpdateTime\\": 1740162203167,\\n                \\"periodicRefresh\\": false,\\n                \\"sourceIP\\": \\"204.1.1.2\\",\\n                \\"status\\": \\"COMPLETED\\"\\n            }\\n        }\\n    ],\\n    \\"status\\": \\"success\\"\\n}\\n"`
 
 
       .. raw:: html
@@ -1649,7 +1603,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace deleted and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'control\_path': False, 'get\_last\_pathtrace\_result': True}]'.\\",\\n    \\"response\\":\\"Path trace deleted and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'control\_path': False, 'get\_last\_pathtrace\_result': True}]'.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Path trace deleted and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'get\_last\_pathtrace\_result': True}]'.\\",\\n    \\"response\\":\\"Path trace deleted and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'get\_last\_pathtrace\_result': True}]'.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
 
 
       .. raw:: html
