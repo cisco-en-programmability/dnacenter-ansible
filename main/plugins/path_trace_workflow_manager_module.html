@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.path_trace_workflow_manager module -- Resource module for managing PathTrace settings in Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-path-trace-workflow-manager-module-resource-module-for-managing-pathtrace-settings-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.34.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.35.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-path-trace-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1235,16 +1235,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-path-tra
 <p class="ansible-version-added">New in cisco.dnac 6.31.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id73">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id74">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id75">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id76">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id77">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id78">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id69">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id70">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id71">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id72">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id73">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id74">Return Values</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id73" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id69" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul>
 <li><p>This module allows the management of PathTrace settings in Cisco Catalyst Center.
 - It supports creating and deleting PathTrace configurations.
@@ -1256,7 +1256,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-path-tra
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id74" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id70" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>dnacentersdk &gt;= 2.8.6</p></li>
@@ -1264,7 +1264,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-path-tra
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id75" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id71" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -1280,21 +1280,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-path-tra
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/control_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-control-path"><strong>control_path</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/control_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Boolean value to specify whether the path trace should include</dt><dd><p>the control path (optional).</p>
-</dd>
-</dl>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`true`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/delete_on_completion"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-delete-on-completion"><strong>delete_on_completion</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/delete_on_completion" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1304,12 +1289,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-path-tra
 </dl>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/dest_ip"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-dest-ip"><strong>dest_ip</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/dest_ip" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1319,14 +1304,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-path-tra
 </dl>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/dest_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-dest-port"><strong>dest_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/dest_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The destination port for the path trace (optional).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/flow_analysis_id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-flow-analysis-id"><strong>flow_analysis_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/flow_analysis_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1339,19 +1324,19 @@ section), which should be shown in a register</p>
 </dl>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/get_last_pathtrace_result"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-get-last-pathtrace-result"><strong>get_last_pathtrace_result</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/get_last_pathtrace_result" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Boolean value to display the last result again for the path trace.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/include_stats"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-include-stats"><strong>include_stats</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/include_stats" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
@@ -1376,31 +1361,31 @@ the path to identify blocked traffic or policy mismatches.</p></li>
 </dl>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/periodic_refresh"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-periodic-refresh"><strong>periodic_refresh</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/periodic_refresh" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Boolean value to enable periodic refresh for the path trace.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/protocol"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-protocol"><strong>protocol</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/protocol" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The protocol to use for the path trace, e.g., TCP, UDP (optional).</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`&quot;TCP&quot;`</span></a></p></li>
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`&quot;UDP&quot;`</span></a></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;TCP&quot;`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;UDP&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/source_ip"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-source-ip"><strong>source_ip</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/source_ip" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1410,14 +1395,14 @@ the path to identify blocked traffic or policy mismatches.</p></li>
 </dl>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/source_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-source-port"><strong>source_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/source_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The source port for the path trace (optional).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1428,39 +1413,39 @@ state after the change is applied.</p>
 </dl>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`1200`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id21"><span class="problematic" id="id22">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1472,34 +1457,34 @@ state after the change is applied.</p>
 <p>If the log file exists, - It is overwritten or appended based on the &quot;dnac_log_append&quot; flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if dnac_log is True.</p>
 <p>If path is not specified, - When 'dnac_log_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac_log_append' is False, 'dnac.log' is generated; logs are overwritten.</p>
 <p>If path is specified, - When 'dnac_log_append' is True, the file opens in append mode. - When 'dnac_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id39"><span class="problematic" id="id40">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id35"><span class="problematic" id="id36">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1509,63 +1494,63 @@ state after the change is applied.</p>
 <p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
 <p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
 <p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id41"><span class="problematic" id="id42">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id37"><span class="problematic" id="id38">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id43"><span class="problematic" id="id44">:ansible-option-default:`&quot;443&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id39"><span class="problematic" id="id40">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the interval in seconds between successive calls to the API to retrieve task details.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id45"><span class="problematic" id="id46">:ansible-option-default:`2`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id41"><span class="problematic" id="id42">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
 <div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
 <p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The username for authentication at the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id43"><span class="problematic" id="id44">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the version of the Cisco Catalyst Center that the SDK should use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id53"><span class="problematic" id="id54">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1576,20 +1561,20 @@ it will remove the specified settings.</p>
 </dl>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-path-trace-workflow-manager-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1597,7 +1582,7 @@ it will remove the specified settings.</p>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id76" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id72" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -1609,7 +1594,7 @@ it will remove the specified settings.</p>
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id77" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id73" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
 <span class="w">  </span><span class="nt">vars_files</span><span class="p">:</span>
@@ -1645,10 +1630,8 @@ it will remove the specified settings.</p>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PERFORMANCE_STATS</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ACL_TRACE</span>
 <span class="w">            </span><span class="nt">periodic_refresh</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># optional field</span>
-<span class="w">            </span><span class="nt">control_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># optional field</span>
 <span class="w">            </span><span class="nt">delete_on_completion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># optional field</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete path trace based on source and destination</span>
-<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">IP</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete path trace based on source and destination IP</span>
 <span class="w">      </span><span class="nt">cisco.dnac.path_trace_workflow_manager</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1782,11 +1765,9 @@ it will remove the specified settings.</p>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PERFORMANCE_STATS</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ACL_TRACE</span>
 <span class="w">            </span><span class="nt">periodic_refresh</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># optional field</span>
-<span class="w">            </span><span class="nt">control_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># optional field</span>
 <span class="w">            </span><span class="nt">delete_on_completion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># optional field</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source_ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.1.2&quot;</span><span class="w">  </span><span class="c1"># required field</span>
 <span class="w">            </span><span class="nt">dest_ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.2.4&quot;</span><span class="w">  </span><span class="c1"># required field</span>
-<span class="w">            </span><span class="nt">control_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># optional field</span>
 <span class="w">            </span><span class="nt">get_last_pathtrace_result</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># optional field</span>
 <span class="w">            </span><span class="nt">delete_on_completion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># optional field</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">flow_analysis_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">99e067de-8776-40d2-9f6a-1e6ab2ef083c</span>
@@ -1794,7 +1775,7 @@ it will remove the specified settings.</p>
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id78" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id74" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v11)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -1809,7 +1790,7 @@ it will remove the specified settings.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id63"><span class="problematic" id="id64">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Path trace created and verified successfully for '[{'source\_ip': '204.1.2.3',\\n        'dest\_ip': '204.1.2.4', 'source\_port': 4020, 'dest\_port': 4021, 'protocol': 'TCP',\\n        'periodic\_refresh': False, 'control\_path': False, 'include\_stats': ['DEVICE-STATS',\\n        'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE'],\\n        'flow\_analysis\_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\\&quot;,\\n    \\&quot;response\\&quot;: [\\n        {\\n            \\&quot;lastUpdate\\&quot;: \\&quot;Fri Feb 21 19:16:46 GMT 2025\\&quot;,\\n            \\&quot;networkElementsInfo\\&quot;: [\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;b65f159e-b67d-49d4-92d0-801a0eda6426\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;e62e6405-13e4-4f1b-ae1c-580a28a96a88\\&quot;,\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.3\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;SJ-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;2897a064-9079-4c9c-adf2-3e0b5cf22724\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;820bd13a-f565-4778-a320-9ec9f23b4725\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;c98d09f3-b57e-468f-a9a1-65e75249e94f\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.1.22\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;DC-T-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;ACCESS\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;id\\&quot;: \\&quot;0be10e21-34c7-4c76-b217-56327ed1f418\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;f24b433c-8388-453e-a034-fcaf516bc749\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet2/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;NY-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                }\\n            ],\\n            \\&quot;request\\&quot;: {\\n                \\&quot;controlPath\\&quot;: false,\\n                \\&quot;createTime\\&quot;: 1740165404872,\\n                \\&quot;destIP\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                \\&quot;destPort\\&quot;: \\&quot;4021\\&quot;,\\n                \\&quot;id\\&quot;: \\&quot;81d8b994-fb62-48dc-aa45-cb3a62d4e4b4\\&quot;,\\n                \\&quot;lastUpdateTime\\&quot;: 1740165406115,\\n                \\&quot;periodicRefresh\\&quot;: false,\\n                \\&quot;protocol\\&quot;: \\&quot;TCP\\&quot;,\\n                \\&quot;sourceIP\\&quot;: \\&quot;204.1.2.3\\&quot;,\\n                \\&quot;sourcePort\\&quot;: \\&quot;4020\\&quot;,\\n                \\&quot;status\\&quot;: \\&quot;COMPLETED\\&quot;\\n            }\\n        }\\n    ],\\n    \\&quot;status\\&quot;: \\&quot;success\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id59"><span class="problematic" id="id60">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Path trace created and verified successfully for '[{'source\_ip': '204.1.2.3',\\n        'dest\_ip': '204.1.2.4', 'source\_port': 4020, 'dest\_port': 4021, 'protocol': 'TCP',\\n        'periodic\_refresh': False, 'include\_stats': ['DEVICE-STATS',\\n        'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE'],\\n        'flow\_analysis\_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\\&quot;,\\n    \\&quot;response\\&quot;: [\\n        {\\n            \\&quot;lastUpdate\\&quot;: \\&quot;Fri Feb 21 19:16:46 GMT 2025\\&quot;,\\n            \\&quot;networkElementsInfo\\&quot;: [\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;b65f159e-b67d-49d4-92d0-801a0eda6426\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;e62e6405-13e4-4f1b-ae1c-580a28a96a88\\&quot;,\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.3\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;SJ-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;2897a064-9079-4c9c-adf2-3e0b5cf22724\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;820bd13a-f565-4778-a320-9ec9f23b4725\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;c98d09f3-b57e-468f-a9a1-65e75249e94f\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.1.22\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;DC-T-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;ACCESS\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;id\\&quot;: \\&quot;0be10e21-34c7-4c76-b217-56327ed1f418\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;f24b433c-8388-453e-a034-fcaf516bc749\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet2/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;NY-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                }\\n            ],\\n            \\&quot;request\\&quot;: {\\n                \\&quot;controlPath\\&quot;: false,\\n                \\&quot;createTime\\&quot;: 1740165404872,\\n                \\&quot;destIP\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                \\&quot;destPort\\&quot;: \\&quot;4021\\&quot;,\\n                \\&quot;id\\&quot;: \\&quot;81d8b994-fb62-48dc-aa45-cb3a62d4e4b4\\&quot;,\\n                \\&quot;lastUpdateTime\\&quot;: 1740165406115,\\n                \\&quot;periodicRefresh\\&quot;: false,\\n                \\&quot;protocol\\&quot;: \\&quot;TCP\\&quot;,\\n                \\&quot;sourceIP\\&quot;: \\&quot;204.1.2.3\\&quot;,\\n                \\&quot;sourcePort\\&quot;: \\&quot;4020\\&quot;,\\n                \\&quot;status\\&quot;: \\&quot;COMPLETED\\&quot;\\n            }\\n        }\\n    ],\\n    \\&quot;status\\&quot;: \\&quot;success\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1818,7 +1799,7 @@ it will remove the specified settings.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id65"><span class="problematic" id="id66">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Path trace created and verified successfully for '[{'flow\_analysis\_id':\\n        '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.\\&quot;,\\n    \\&quot;response\\&quot;: [\\n        {\\n            \\&quot;lastUpdate\\&quot;: \\&quot;Fri Feb 21 19:21:16 GMT 2025\\&quot;,\\n            \\&quot;networkElementsInfo\\&quot;: [\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;b65f159e-b67d-49d4-92d0-801a0eda6426\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;e62e6405-13e4-4f1b-ae1c-580a28a96a88\\&quot;,\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.3\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;SJ-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;2897a064-9079-4c9c-adf2-3e0b5cf22724\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;820bd13a-f565-4778-a320-9ec9f23b4725\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;c98d09f3-b57e-468f-a9a1-65e75249e94f\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.1.22\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;DC-T-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;ACCESS\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;id\\&quot;: \\&quot;0be10e21-34c7-4c76-b217-56327ed1f418\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;f24b433c-8388-453e-a034-fcaf516bc749\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet2/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;NY-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                }\\n            ],\\n            \\&quot;request\\&quot;: {\\n                \\&quot;controlPath\\&quot;: false,\\n                \\&quot;createTime\\&quot;: 1740156374801,\\n                \\&quot;destIP\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                \\&quot;destPort\\&quot;: \\&quot;80\\&quot;,\\n                \\&quot;id\\&quot;: \\&quot;99e067de-8776-40d2-9f6a-1e6ab2ef083c\\&quot;,\\n                \\&quot;lastUpdateTime\\&quot;: 1740156376055,\\n                \\&quot;periodicRefresh\\&quot;: false,\\n                \\&quot;protocol\\&quot;: \\&quot;TCP\\&quot;,\\n                \\&quot;sourceIP\\&quot;: \\&quot;204.1.2.3\\&quot;,\\n                \\&quot;sourcePort\\&quot;: \\&quot;80\\&quot;,\\n                \\&quot;status\\&quot;: \\&quot;COMPLETED\\&quot;\\n            }\\n        }\\n    ],\\n    \\&quot;status\\&quot;: \\&quot;success\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id61"><span class="problematic" id="id62">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Path trace created and verified successfully for '[{'flow\_analysis\_id':\\n        '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.\\&quot;,\\n    \\&quot;response\\&quot;: [\\n        {\\n            \\&quot;lastUpdate\\&quot;: \\&quot;Fri Feb 21 19:21:16 GMT 2025\\&quot;,\\n            \\&quot;networkElementsInfo\\&quot;: [\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;b65f159e-b67d-49d4-92d0-801a0eda6426\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;e62e6405-13e4-4f1b-ae1c-580a28a96a88\\&quot;,\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.3\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;SJ-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;2897a064-9079-4c9c-adf2-3e0b5cf22724\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;820bd13a-f565-4778-a320-9ec9f23b4725\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;c98d09f3-b57e-468f-a9a1-65e75249e94f\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.1.22\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;DC-T-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;ACCESS\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;id\\&quot;: \\&quot;0be10e21-34c7-4c76-b217-56327ed1f418\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;f24b433c-8388-453e-a034-fcaf516bc749\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet2/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;NY-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                }\\n            ],\\n            \\&quot;request\\&quot;: {\\n                \\&quot;controlPath\\&quot;: false,\\n                \\&quot;createTime\\&quot;: 1740156374801,\\n                \\&quot;destIP\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                \\&quot;destPort\\&quot;: \\&quot;80\\&quot;,\\n                \\&quot;id\\&quot;: \\&quot;99e067de-8776-40d2-9f6a-1e6ab2ef083c\\&quot;,\\n                \\&quot;lastUpdateTime\\&quot;: 1740156376055,\\n                \\&quot;periodicRefresh\\&quot;: false,\\n                \\&quot;protocol\\&quot;: \\&quot;TCP\\&quot;,\\n                \\&quot;sourceIP\\&quot;: \\&quot;204.1.2.3\\&quot;,\\n                \\&quot;sourcePort\\&quot;: \\&quot;80\\&quot;,\\n                \\&quot;status\\&quot;: \\&quot;COMPLETED\\&quot;\\n            }\\n        }\\n    ],\\n    \\&quot;status\\&quot;: \\&quot;success\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1827,7 +1808,7 @@ it will remove the specified settings.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id67"><span class="problematic" id="id68">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Path trace created and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'control\_path': False, 'get\_last\_pathtrace\_result': True,\\n        'flow\_analysis\_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\\&quot;,\\n    \\&quot;response\\&quot;: [\\n        {\\n            \\&quot;lastUpdate\\&quot;: \\&quot;Fri Feb 21 19:25:52 GMT 2025\\&quot;,\\n            \\&quot;networkElementsInfo\\&quot;: [\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;44aafd2d-5822-4ce5-95c5-11909e9425f6\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/1\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;99b62ead-51d6-4bfc-9b0c-dab087f184e9\\&quot;,\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.1.2\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;SJ-EN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;ACCESS\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;b65f159e-b67d-49d4-92d0-801a0eda6426\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;e62e6405-13e4-4f1b-ae1c-580a28a96a88\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;0610f80e-09fc-4083-8aaa-7cf318b211de\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/2\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.3\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;SJ-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;2897a064-9079-4c9c-adf2-3e0b5cf22724\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;820bd13a-f565-4778-a320-9ec9f23b4725\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;c98d09f3-b57e-468f-a9a1-65e75249e94f\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.1.22\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;DC-T-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;ACCESS\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;id\\&quot;: \\&quot;0be10e21-34c7-4c76-b217-56327ed1f418\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;f24b433c-8388-453e-a034-fcaf516bc749\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet2/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;NY-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                }\\n            ],\\n            \\&quot;request\\&quot;: {\\n                \\&quot;controlPath\\&quot;: false,\\n                \\&quot;createTime\\&quot;: 1740162201882,\\n                \\&quot;destIP\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                \\&quot;id\\&quot;: \\&quot;3cb51b94-2a50-4a92-b204-13ffdde22ef9\\&quot;,\\n                \\&quot;lastUpdateTime\\&quot;: 1740162203167,\\n                \\&quot;periodicRefresh\\&quot;: false,\\n                \\&quot;sourceIP\\&quot;: \\&quot;204.1.1.2\\&quot;,\\n                \\&quot;status\\&quot;: \\&quot;COMPLETED\\&quot;\\n            }\\n        }\\n    ],\\n    \\&quot;status\\&quot;: \\&quot;success\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id63"><span class="problematic" id="id64">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Path trace created and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'get\_last\_pathtrace\_result': True,\\n        'flow\_analysis\_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.\\&quot;,\\n    \\&quot;response\\&quot;: [\\n        {\\n            \\&quot;lastUpdate\\&quot;: \\&quot;Fri Feb 21 19:25:52 GMT 2025\\&quot;,\\n            \\&quot;networkElementsInfo\\&quot;: [\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;44aafd2d-5822-4ce5-95c5-11909e9425f6\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/1\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;99b62ead-51d6-4bfc-9b0c-dab087f184e9\\&quot;,\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.1.2\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;SJ-EN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;ACCESS\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;b65f159e-b67d-49d4-92d0-801a0eda6426\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;e62e6405-13e4-4f1b-ae1c-580a28a96a88\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;0610f80e-09fc-4083-8aaa-7cf318b211de\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/2\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.3\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;SJ-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;egressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;2897a064-9079-4c9c-adf2-3e0b5cf22724\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/7\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;id\\&quot;: \\&quot;820bd13a-f565-4778-a320-9ec9f23b4725\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;c98d09f3-b57e-468f-a9a1-65e75249e94f\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet1/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.1.22\\&quot;,\\n                    \\&quot;linkInformationSource\\&quot;: \\&quot;ISIS\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;DC-T-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;ACCESS\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                },\\n                {\\n                    \\&quot;id\\&quot;: \\&quot;0be10e21-34c7-4c76-b217-56327ed1f418\\&quot;,\\n                    \\&quot;ingressInterface\\&quot;: {\\n                        \\&quot;physicalInterface\\&quot;: {\\n                            \\&quot;id\\&quot;: \\&quot;f24b433c-8388-453e-a034-fcaf516bc749\\&quot;,\\n                            \\&quot;name\\&quot;: \\&quot;TenGigabitEthernet2/1/8\\&quot;,\\n                            \\&quot;usedVlan\\&quot;: \\&quot;NA\\&quot;,\\n                            \\&quot;vrfName\\&quot;: \\&quot;global\\&quot;\\n                        }\\n                    },\\n                    \\&quot;ip\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                    \\&quot;name\\&quot;: \\&quot;NY-BN-9300\\&quot;,\\n                    \\&quot;role\\&quot;: \\&quot;DISTRIBUTION\\&quot;,\\n                    \\&quot;type\\&quot;: \\&quot;Switches and Hubs\\&quot;\\n                }\\n            ],\\n            \\&quot;request\\&quot;: {\\n                \\&quot;controlPath\\&quot;: false,\\n                \\&quot;createTime\\&quot;: 1740162201882,\\n                \\&quot;destIP\\&quot;: \\&quot;204.1.2.4\\&quot;,\\n                \\&quot;id\\&quot;: \\&quot;3cb51b94-2a50-4a92-b204-13ffdde22ef9\\&quot;,\\n                \\&quot;lastUpdateTime\\&quot;: 1740162203167,\\n                \\&quot;periodicRefresh\\&quot;: false,\\n                \\&quot;sourceIP\\&quot;: \\&quot;204.1.1.2\\&quot;,\\n                \\&quot;status\\&quot;: \\&quot;COMPLETED\\&quot;\\n            }\\n        }\\n    ],\\n    \\&quot;status\\&quot;: \\&quot;success\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1836,7 +1817,7 @@ it will remove the specified settings.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id69"><span class="problematic" id="id70">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Path trace deleted and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'control\_path': False, 'get\_last\_pathtrace\_result': True}]'.\\&quot;,\\n    \\&quot;response\\&quot;:\\&quot;Path trace deleted and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'control\_path': False, 'get\_last\_pathtrace\_result': True}]'.\\&quot;,\\n    \\&quot;status\\&quot;: \\&quot;success\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id65"><span class="problematic" id="id66">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Path trace deleted and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'get\_last\_pathtrace\_result': True}]'.\\&quot;,\\n    \\&quot;response\\&quot;:\\&quot;Path trace deleted and verified successfully for '[{'source\_ip': '204.1.1.2',\\n        'dest\_ip': '204.1.2.4', 'get\_last\_pathtrace\_result': True}]'.\\&quot;,\\n    \\&quot;status\\&quot;: \\&quot;success\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1845,7 +1826,7 @@ it will remove the specified settings.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id71"><span class="problematic" id="id72">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Path trace deleted and verified successfully for '[{'flow\_analysis\_id':\\n        '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.\\&quot;,\\n    \\&quot;response\\&quot;: \\&quot;Path trace deleted and verified successfully for '[{'flow\_analysis\_id':\\n        '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.\\&quot;,\\n    \\&quot;status\\&quot;: \\&quot;success\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id67"><span class="problematic" id="id68">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Path trace deleted and verified successfully for '[{'flow\_analysis\_id':\\n        '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.\\&quot;,\\n    \\&quot;response\\&quot;: \\&quot;Path trace deleted and verified successfully for '[{'flow\_analysis\_id':\\n        '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.\\&quot;,\\n    \\&quot;status\\&quot;: \\&quot;success\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>
