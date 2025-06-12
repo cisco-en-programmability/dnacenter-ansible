@@ -97,21 +97,14 @@ options:
         elements: str
         required: false
       periodic_refresh:
-        description: Boolean value to enable periodic
-          refresh for the path trace.
+        description: |
+          Boolean value to enable periodic refresh for the path trace.
         type: bool
         required: false
         default: true
-      control_path:
-        description: |
-          Boolean value to specify whether the path trace should include
-          the control path (optional).
-        type: bool
-        required: false
-        default: false
       get_last_pathtrace_result:
-        description: Boolean value to display the last
-          result again for the path trace.
+        description: |
+          Boolean value to display the last result again for the path trace.
         type: bool
         required: false
         default: true
@@ -181,10 +174,8 @@ EXAMPLES = r"""
               - PERFORMANCE_STATS
               - ACL_TRACE
             periodic_refresh: false  # optional field
-            control_path: false  # optional field
             delete_on_completion: true  # optional field
-    - name: Delete path trace based on source and destination
-        IP
+    - name: Delete path trace based on source and destination IP
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -318,11 +309,9 @@ EXAMPLES = r"""
               - PERFORMANCE_STATS
               - ACL_TRACE
             periodic_refresh: false  # optional field
-            control_path: false  # optional field
             delete_on_completion: true  # optional field
           - source_ip: "204.1.1.2"  # required field
             dest_ip: "204.1.2.4"  # required field
-            control_path: false  # optional field
             get_last_pathtrace_result: true  # optional field
             delete_on_completion: true  # optional field
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
@@ -339,7 +328,7 @@ response_1:
     {
         "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.2.3',
             'dest_ip': '204.1.2.4', 'source_port': 4020, 'dest_port': 4021, 'protocol': 'TCP',
-            'periodic_refresh': False, 'control_path': False, 'include_stats': ['DEVICE-STATS',
+            'periodic_refresh': False, 'include_stats': ['DEVICE-STATS',
             'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE'],
             'flow_analysis_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.",
         "response": [
@@ -513,7 +502,7 @@ response_3:
   sample: >
     {
         "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.1.2',
-            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True,
+            'dest_ip': '204.1.2.4', 'get_last_pathtrace_result': True,
             'flow_analysis_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.",
         "response": [
             {
@@ -621,9 +610,9 @@ response_4:
   sample: >
     {
         "msg": "Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2',
-            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+            'dest_ip': '204.1.2.4', 'get_last_pathtrace_result': True}]'.",
         "response":"Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2',
-            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+            'dest_ip': '204.1.2.4', 'get_last_pathtrace_result': True}]'.",
         "status": "success"
     }
 #Case 5: Delete path trace based on Source and Destination IP
@@ -663,7 +652,6 @@ class PathTraceWorkflow(DnacBase):
             flow_analysis_id="id",
             source_ip="sourceIP",
             dest_ip="destIP",
-            control_path="controlPath",
             dest_port="destPort",
             source_port="sourcePort",
             periodic_refresh="periodicRefresh",
@@ -707,11 +695,10 @@ class PathTraceWorkflow(DnacBase):
             },
             "protocol": {"type": "str", "choices": ["TCP", "UDP"], "required": False},
             "periodic_refresh": {"type": "bool", "required": False},
-            "control_path": {"type": "bool", "required": False},
             "include_stats": {"type": "list", "elements": "str", "required": False},
             "get_last_pathtrace_result": {"type": "bool", "required": False},
             "flow_analysis_id": {"type": "str", "required": False},
-            "delete_on_completion": {"type": "bool", "required": False},
+            "delete_on_completion": {"type": "bool", "required": False}
         }
 
         if not self.config:
@@ -843,14 +830,6 @@ class PathTraceWorkflow(DnacBase):
                     "periodic_refresh: Invalid periodic refresh "
                     + "'{0}' in playbook. Must be either true or false.".format(
                         periodic_refresh
-                    )
-                )
-
-            control_path = each_path.get("control_path")
-            if control_path is not None and control_path not in (True, False):
-                errormsg.append(
-                    "control_path: Invalid control path '{0}' in playbook. Must be either true or false.".format(
-                        control_path
                     )
                 )
 
