@@ -259,7 +259,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         self.result_response = {
             "success_responses": self.switch,
             "unprocessed": self.not_processed
-            }
+        }
 
     def validate_input(self):
         """
