@@ -75,6 +75,9 @@ class TestDnacTagsWorkflow(TestDnacModule):
     playbook_config_updating_only_port_rules_description_when_no_port_rules_are_present_case_13 = test_data.get(
         "updating_only_port_rules_description_when_no_port_rules_are_present_case_13"
     )
+    playbook_config_updating_tag_name_case_14 = test_data.get(
+        "updating_tag_name_case_14"
+    )
 
     def setUp(self):
         super(TestDnacTagsWorkflow, self).setUp()
@@ -196,6 +199,13 @@ class TestDnacTagsWorkflow(TestDnacModule):
         ):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_tag_case_10_call_1"),
+            ]
+        elif "test_updating_tag_name_case_14" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_tag_case_14_call_1"),
+                self.test_data.get("update_tag_case_14_call_1"),
+                self.test_data.get("get_tasks_by_id_case_14_call_1"),
+                self.test_data.get("get_tag_case_14_call_2"),
             ]
 
     def test_create_a_tag_with_device_port_rules_case_1(self):
@@ -480,4 +490,28 @@ class TestDnacTagsWorkflow(TestDnacModule):
             result.get("msg"),
             "Either rule_description:[{'operation': 'ILIKE', 'name': 'speed', 'value': '%100000%000%'}] or scope_description:None is empty in port_rules. "
             "Since no existing port rules are present, both are required for an update.",
+        )
+
+    def test_updating_tag_name_case_14(
+        self,
+    ):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                dnac_log_level="DEBUG",
+                config_verify=True,
+                config=self.playbook_config_updating_tag_name_case_14,
+            )
+        )
+
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get("msg"),
+            "Tag 'Test_tag_update' has been updated successfully in the Cisco Catalyst Center.",
         )
