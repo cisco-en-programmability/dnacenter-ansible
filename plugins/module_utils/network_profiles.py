@@ -389,7 +389,7 @@ class NetworkProfileFunctions(DnacBase):
         template_response = []
 
         for each_template in templates:
-            template_name = each_template.get("name")
+            template_name = each_template.get("template_name")
             self.log("Checking template: {0}".format(template_name), "DEBUG")
 
             template_exist = each_template.get("template_exist")
@@ -503,7 +503,9 @@ class NetworkProfileFunctions(DnacBase):
                                 matched_template.append(template)
 
                 if matched_template and data_list and\
-                   len(matched_template) == len(data_list) and not un_match_template:
+                   len(matched_template) <= len(data_list) and not un_match_template:
+                    self.log("Given templates: {0} are matched with existing template: {1}".
+                             format(data_list, each_config.get(template_type)), "DEBUG")
                     return True, matched_template
 
                 if not matched_template and not each_config.get("onboarding_templates") and not each_config.get("day_n_templates"):
