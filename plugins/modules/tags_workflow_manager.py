@@ -1634,7 +1634,6 @@ class Tags(DnacBase):
         new_tag_name = tag.get("new_name")
 
         if new_tag_name is None:
-            self.log("New Tag Name not provided. It will be set to empty.", "DEBUG")
             new_tag_name = ""
         else:
             if new_tag_name:
@@ -1684,7 +1683,7 @@ class Tags(DnacBase):
 
     def validate_device_detail(self, device_detail, identifier):
         """
-        Validates a device detail against a specified identifier type.
+        Validates whether a provided device detail matches a specified identifier type.
 
         Parameters:
             device_detail (str): The device detail to be validated (e.g., IP address, hostname, MAC address, serial number).
