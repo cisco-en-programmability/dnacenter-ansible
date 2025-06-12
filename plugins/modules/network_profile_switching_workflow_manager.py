@@ -256,6 +256,10 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         self.switch_delete, self.assurance_delete = [], []
         self.common_delete = []
         self.not_processed = []
+        self.result_response = {
+            "success_responses": self.switch,
+            "unprocessed": self.not_processed
+            }
 
     def validate_input(self):
         """
@@ -640,7 +644,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if not host_name:
             msg = "Cisco Catalyst Center host information is missing."
             self.log(msg, "ERROR")
-            self.fail_and_exit(msg)
+            self.set_operation_result("failed", False, msg, "ERROR",
+                                      self.result_response).check_return_status()
 
         # Direct API call as SDK is not available yet
         dnac_url = "https://{0}".format(str(host_name))
@@ -649,7 +654,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if not token_str:
             msg = "Failed to retrieve access token from Cisco Catalyst Center."
             self.log(msg, "ERROR")
-            self.fail_and_exit(msg)
+            self.set_operation_result("failed", False, msg, "ERROR",
+                                      self.result_response).check_return_status()
 
         headers = {
             "Content-Type": "application/json",
@@ -732,7 +738,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         each_config["profile_name"]
                     )
                     self.log(msg + str(e), "ERROR")
-                    self.fail_and_exit(msg)
+                    self.set_operation_result("failed", False, msg, "ERROR",
+                                              self.result_response).check_return_status()
 
         self.log("No matching switch profile found. Skipping profile creation.", "INFO")
         return None
@@ -779,10 +786,21 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             exist_profile_list = self.have[type_list_name]
             if exist_profile_list:
                 for each_have in exist_profile_list:
-                    if each_have.get("name") == each_profile["profile_name"]:
+                    if each_have.get("profile_name") == each_profile["profile_name"]:
                         profile_id = each_have.get("id")
                         sites = each_profile.get("site_names")
+                        dayn_templates = each_profile.get("day_n_templates")
                         unassign_site = []
+
+                        if not sites and not dayn_templates:
+                            sites, dayn_templates = [], []
+                            if each_have.get("site_response"):
+                                for each_have_site in each_have.get("site_response"):
+                                    sites.append(each_have_site.get("site_names"))
+
+                            if each_have.get("day_n_templates"):
+                                for each_have_template in each_have.get("day_n_templates"):
+                                    dayn_templates.append(each_have_template.get("template_name"))
 
                         if sites:
                             self.log(
@@ -817,61 +835,66 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                     "WARNING",
                                 )
 
-                        self.log(
-                            "Initiating deletion of profile '{0}'.".format(
-                                each_profile["profile_name"]
-                            ),
-                            "INFO",
-                        )
-                        task_details = self.delete_network_profiles(
-                            each_profile["profile_name"], profile_id
-                        )
-                        if task_details:
-                            if self.result["changed"]:
-                                profile_response = dict(
-                                    profile_name=each_profile["profile_name"],
-                                    status=task_details["progress"],
-                                )
-                                if unassign_site:
-                                    profile_response["site_unassign_status"] = (
-                                        "Site(s) '{0}' unassigned Successfully.".format(
-                                            sites
-                                        )
-                                    )
-                                self.common_delete.append(profile_response)
-                                self.log(
-                                    "Profile '{0}' deleted successfully.".format(
-                                        each_profile["profile_name"]
-                                    ),
-                                    "INFO",
-                                )
-                            else:
-                                profile_response = dict(
-                                    profile_name=each_profile["profile_name"],
-                                    status=task_details,
-                                )
-                                self.not_processed.append(profile_response)
-                                self.log(
-                                    "Profile '{0}' deletion not processed.".format(
-                                        each_profile["profile_name"]
-                                    ),
-                                    "WARNING",
-                                )
-                        else:
-                            self.not_processed.append(each_profile)
-                            self.msg = (
-                                self.msg
-                                + "Unable to delete profile: '{0}'.".format(
-                                    str(self.not_processed)
-                                )
-                            )
+                        if not each_profile.get("site_names") and not each_profile.get("day_n_templates"):
                             self.log(
-                                "Unable to delete profile '{0}'.".format(
+                                "Initiating deletion of profile '{0}'.".format(
                                     each_profile["profile_name"]
                                 ),
-                                "ERROR",
+                                "INFO",
                             )
-                        break
+                            task_details = self.delete_network_profiles(
+                                each_profile["profile_name"], profile_id
+                            )
+                            if task_details:
+                                if self.result["changed"]:
+                                    profile_response = dict(
+                                        profile_name=each_profile["profile_name"],
+                                        status=task_details["progress"],
+                                    )
+                                    if unassign_site:
+                                        profile_response["site_unassign_status"] = (
+                                            "Site(s) '{0}' unassigned Successfully.".format(
+                                                sites
+                                            )
+                                        )
+                                    self.common_delete.append(profile_response)
+                                    self.log(
+                                        "Profile '{0}' deleted successfully.".format(
+                                            each_profile["profile_name"]
+                                        ),
+                                        "INFO",
+                                    )
+                                else:
+                                    profile_response = dict(
+                                        profile_name=each_profile["profile_name"],
+                                        status=task_details,
+                                    )
+                                    self.not_processed.append(profile_response)
+                                    self.log(
+                                        "Profile '{0}' deletion not processed.".format(
+                                            each_profile["profile_name"]
+                                        ),
+                                        "WARNING",
+                                    )
+                            else:
+                                self.not_processed.append(each_profile)
+                                self.msg = (
+                                    self.msg
+                                    + "Unable to delete profile: '{0}'.".format(
+                                        str(self.not_processed)
+                                    )
+                                )
+                                self.log(
+                                    "Unable to delete profile '{0}'.".format(
+                                        each_profile["profile_name"]
+                                    ),
+                                    "ERROR",
+                                )
+                            break
+                        else:
+                            if unassign_site:
+                                self.msg += "Site(s) '{0}' unassigned Successfully for the profile {1}.".format(
+                                    sites, each_profile["profile_name"])
 
         if self.common_delete:
             self.msg = "Network Profile deleted successfully for '{0}'.".format(
@@ -881,7 +904,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if self.not_processed:
             self.msg = "Unable to delete the profile '{0}'.".format(self.not_processed)
             self.set_operation_result(
-                "failed", False, self.msg, "ERROR", self.not_processed
+                "failed", False, self.msg, "ERROR", self.result_response
             ).check_return_status()
         return self
 
@@ -1085,7 +1108,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
         self.log(self.msg, "INFO")
         self.set_operation_result(
-            self.status, self.changed, self.msg, "INFO", self.switch
+            self.status, self.changed, self.msg, "INFO", self.result_response
         ).check_return_status()
 
         return self
@@ -1124,14 +1147,15 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if not success_profile:
             msg = "Unable to create the profile for '{0}'.".format(config)
             self.log(msg, "INFO")
-            self.fail_and_exit(msg)
+            self.set_operation_result("failed", False, msg, "ERROR",
+                                      self.result_response).check_return_status()
 
         msg = "Profile created/updated are verified successfully for '{0}'.".format(
             str(success_profile)
         )
         self.log(msg, "INFO")
         self.set_operation_result(
-            "success", True, msg, "INFO", self.switch
+            "success", True, msg, "INFO", self.result_response
         ).check_return_status()
         return self
 
