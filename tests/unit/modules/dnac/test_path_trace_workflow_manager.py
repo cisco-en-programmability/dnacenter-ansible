@@ -139,7 +139,7 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
             result.get("msg"),
             "Path trace created and verified successfully for '[{'source_ip': '204.1.216.29', " +
             "'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, " +
-            "'control_path': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', " +
+            "'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', " +
             "'QOS_STATS', 'PERFORMANCE_STATS'], 'flow_analysis_id': '75da3867-1e08-4661-9f4e-f8e2740b71b5'}]'."
         )
 
@@ -169,6 +169,6 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("msg"),
             "Path trace deleted and verified successfully for '[{'source_ip': '204.1.216.29', " +
-            "'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, 'control_path': False, " +
+            "'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, " +
             "'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS']}]'."
         )
