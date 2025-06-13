@@ -355,7 +355,7 @@ class NetworkProfileFunctions(DnacBase):
                  format(template_name, template_id, profile_name, profile_id), "INFO")
         function_name = "detach_a_list_of_network_profiles_from_a_day_n_cli_template"
         profile_payload = {
-            "profileId": profile_id,
+            "profile_id": profile_id,
             "template_id": template_id
         }
         try:
