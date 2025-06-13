@@ -1,20 +1,27 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: device_credential
 short_description: Resource module for Device Credential
 description:
-  - This module represents an alias of the module device_credential_v1
+  - Manage operations create, update and delete of the
+    resource Device Credential.
+  - API to create device credentials.
+  - Delete device credential.
+  - API to update device credentials.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Global credential id.
+    description: Id path parameter. Global credential
+      id.
     type: str
   settings:
     description: Device Credential's settings.
@@ -24,7 +31,8 @@ options:
         elements: dict
         suboptions:
           description:
-            description: Name or description for CLI credential.
+            description: Name or description for CLI
+              credential.
             type: str
           enablePassword:
             description: Enable password for CLI credential.
@@ -41,7 +49,8 @@ options:
         elements: dict
         suboptions:
           name:
-            description: Name or description of http read credential.
+            description: Name or description of http
+              read credential.
             type: str
           password:
             description: Password for http read credential.
@@ -50,7 +59,8 @@ options:
             description: Port for http read credential.
             type: float
           username:
-            description: User name of the http read credential.
+            description: User name of the http read
+              credential.
             type: str
         type: list
       httpsWrite:
@@ -58,7 +68,8 @@ options:
         elements: dict
         suboptions:
           name:
-            description: Name or description of http write credential.
+            description: Name or description of http
+              write credential.
             type: str
           password:
             description: Password for http write credential.
@@ -67,7 +78,8 @@ options:
             description: Port for http write credential.
             type: float
           username:
-            description: User name of the http write credential.
+            description: User name of the http write
+              credential.
             type: str
         type: list
       snmpV2cRead:
@@ -78,7 +90,8 @@ options:
             description: Description for snmp v2 read.
             type: str
           readCommunity:
-            description: Ready community for snmp v2 read credential.
+            description: Ready community for snmp v2
+              read credential.
             type: str
         type: list
       snmpV2cWrite:
@@ -89,7 +102,8 @@ options:
             description: Description for snmp v2 write.
             type: str
           writeCommunity:
-            description: Write community for snmp v2 write credential.
+            description: Write community for snmp v2
+              write credential.
             type: str
         type: list
       snmpV3:
@@ -97,16 +111,20 @@ options:
         elements: dict
         suboptions:
           authPassword:
-            description: Authentication password for snmpv3 credential.
+            description: Authentication password for
+              snmpv3 credential.
             type: str
           authType:
-            description: Authentication type for snmpv3 credential.
+            description: Authentication type for snmpv3
+              credential.
             type: str
           description:
-            description: Name or description for SNMPV3 credential.
+            description: Name or description for SNMPV3
+              credential.
             type: str
           privacyPassword:
-            description: Privacy password for snmpv3 credential.
+            description: Privacy password for snmpv3
+              credential.
             type: str
           privacyType:
             description: Privacy type for snmpv3 credential.
@@ -123,23 +141,34 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Network Settings CreateDeviceCredentialsV1
-    description: Complete reference of the CreateDeviceCredentialsV1 API.
+  - name: Cisco DNA Center documentation for Network
+      Settings CreateDeviceCredentials
+    description: Complete reference of the CreateDeviceCredentials
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-device-credentials
-  - name: Cisco DNA Center documentation for Network Settings DeleteDeviceCredentialV1
-    description: Complete reference of the DeleteDeviceCredentialV1 API.
+  - name: Cisco DNA Center documentation for Network
+      Settings DeleteDeviceCredential
+    description: Complete reference of the DeleteDeviceCredential
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-device-credential
-  - name: Cisco DNA Center documentation for Network Settings UpdateDeviceCredentialsV1
-    description: Complete reference of the UpdateDeviceCredentialsV1 API.
+  - name: Cisco DNA Center documentation for Network
+      Settings UpdateDeviceCredentials
+    description: Complete reference of the UpdateDeviceCredentials
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!update-device-credentials
 notes:
-  - SDK Method used are network_settings.NetworkSettings.create_device_credentials_v1,
-    network_settings.NetworkSettings.delete_device_credential_v1, network_settings.NetworkSettings.update_device_credentials_v1,
-  - Paths used are post /dna/intent/api/v1/device-credential, delete /dna/intent/api/v1/device-credential/{id},
+  - SDK Method used are
+    network_settings.NetworkSettings.create_device_credentials,
+    network_settings.NetworkSettings.delete_device_credential,
+    network_settings.NetworkSettings.update_device_credentials,
+  - Paths used are
+    post /dna/intent/api/v1/device-credential,
+    delete /dna/intent/api/v1/device-credential/{id},
     put /dna/intent/api/v1/device-credential,
-  - It should be noted that this module is an alias of device_credential_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.device_credential:
     dnac_host: "{{dnac_host}}"

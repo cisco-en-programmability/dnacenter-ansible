@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template_create
-short_description: Resource module for Configuration Template Create
+short_description: Resource module for Configuration
+  Template Create
 description:
-  - This module represents an alias of the module configuration_template_create_v1
+  - Manage operation create of the resource Configuration
+    Template Create.
+  - API to create a template by project id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -30,7 +35,8 @@ options:
         description: Description of template.
         type: str
       deviceTypes:
-        description: Configuration Template Create's deviceTypes.
+        description: Configuration Template Create's
+          deviceTypes.
         elements: dict
         suboptions:
           productFamily:
@@ -56,7 +62,8 @@ options:
         description: Project name.
         type: str
       rollbackTemplateParams:
-        description: Configuration Template Create's rollbackTemplateParams.
+        description: Configuration Template Create's
+          rollbackTemplateParams.
         elements: dict
         suboptions:
           binding:
@@ -105,7 +112,8 @@ options:
             description: Provider.
             type: str
           range:
-            description: Configuration Template Create's range.
+            description: Configuration Template Create's
+              range.
             elements: dict
             suboptions:
               id:
@@ -122,7 +130,8 @@ options:
             description: Is param required.
             type: bool
           selection:
-            description: Configuration Template Create's selection.
+            description: Configuration Template Create's
+              selection.
             suboptions:
               defaultSelectedValues:
                 description: Default selection values.
@@ -132,7 +141,8 @@ options:
                 description: UUID of selection.
                 type: str
               selectionType:
-                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                description: Type of selection(SINGLE_SELECT
+                  or MULTI_SELECT).
                 type: str
               selectionValues:
                 description: Selection values.
@@ -140,7 +150,8 @@ options:
             type: dict
         type: list
       tags:
-        description: Configuration Template Create's tags.
+        description: Configuration Template Create's
+          tags.
         elements: dict
         suboptions:
           id:
@@ -154,7 +165,8 @@ options:
         description: Template content.
         type: str
       templateParams:
-        description: Configuration Template Create's templateParams.
+        description: Configuration Template Create's
+          templateParams.
         elements: dict
         suboptions:
           binding:
@@ -203,7 +215,8 @@ options:
             description: Provider.
             type: str
           range:
-            description: Configuration Template Create's range.
+            description: Configuration Template Create's
+              range.
             elements: dict
             suboptions:
               id:
@@ -220,7 +233,8 @@ options:
             description: Is param required.
             type: bool
           selection:
-            description: Configuration Template Create's selection.
+            description: Configuration Template Create's
+              selection.
             suboptions:
               defaultSelectedValues:
                 description: Default selection values.
@@ -230,7 +244,8 @@ options:
                 description: UUID of selection.
                 type: str
               selectionType:
-                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                description: Type of selection(SINGLE_SELECT
+                  or MULTI_SELECT).
                 type: str
               selectionValues:
                 description: Selection values.
@@ -265,7 +280,8 @@ options:
         type: str
     type: list
   failurePolicy:
-    description: Define failure policy if template provisioning fails.
+    description: Define failure policy if template provisioning
+      fails.
     type: str
   id:
     description: UUID of template.
@@ -344,7 +360,8 @@ options:
         description: Provider.
         type: str
       range:
-        description: Configuration Template Create's range.
+        description: Configuration Template Create's
+          range.
         elements: dict
         suboptions:
           id:
@@ -361,7 +378,8 @@ options:
         description: Is param required.
         type: bool
       selection:
-        description: Configuration Template Create's selection.
+        description: Configuration Template Create's
+          selection.
         suboptions:
           defaultSelectedValues:
             description: Default selection values.
@@ -371,7 +389,8 @@ options:
             description: UUID of selection.
             type: str
           selectionType:
-            description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+            description: Type of selection(SINGLE_SELECT
+              or MULTI_SELECT).
             type: str
           selectionValues:
             description: Selection values.
@@ -451,7 +470,8 @@ options:
         description: Provider.
         type: str
       range:
-        description: Configuration Template Create's range.
+        description: Configuration Template Create's
+          range.
         elements: dict
         suboptions:
           id:
@@ -468,7 +488,8 @@ options:
         description: Is param required.
         type: bool
       selection:
-        description: Configuration Template Create's selection.
+        description: Configuration Template Create's
+          selection.
         suboptions:
           defaultSelectedValues:
             description: Default selection values.
@@ -478,7 +499,8 @@ options:
             description: UUID of selection.
             type: str
           selectionType:
-            description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+            description: Type of selection(SINGLE_SELECT
+              or MULTI_SELECT).
             type: str
           selectionValues:
             description: Selection values.
@@ -489,10 +511,12 @@ options:
     description: Configuration Template Create's validationErrors.
     suboptions:
       rollbackTemplateErrors:
-        description: Validation or design conflicts errors of rollback template.
+        description: Validation or design conflicts
+          errors of rollback template.
         type: dict
       templateErrors:
-        description: Validation or design conflicts errors.
+        description: Validation or design conflicts
+          errors.
         type: dict
       templateId:
         description: UUID of template.
@@ -508,15 +532,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Templates CreateTemplateV1
-    description: Complete reference of the CreateTemplateV1 API.
+  - name: Cisco DNA Center documentation for Configuration
+      Templates CreateTemplate
+    description: Complete reference of the CreateTemplate
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-template
 notes:
-  - SDK Method used are configuration_templates.ConfigurationTemplates.create_template_v1,
-  - Paths used are post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
-  - It should be noted that this module is an alias of configuration_template_create_v1
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.create_template,
+  - Paths used are
+    post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.configuration_template_create:
     dnac_host: "{{dnac_host}}"

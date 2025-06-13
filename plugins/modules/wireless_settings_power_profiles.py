@@ -1,26 +1,35 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_power_profiles
-short_description: Resource module for Wireless Settings Power Profiles
+short_description: Resource module for Wireless Settings
+  Power Profiles
 description:
-  - This module represents an alias of the module wireless_settings_power_profiles_v1
+  - Manage operation create of the resource Wireless
+    Settings Power Profiles.
+  - This API allows the user to create a custom Power
+    Profile.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   description:
-    description: Description of the Power Profile. Max allowed characters is 128.
+    description: Description of the Power Profile. Max
+      allowed characters is 128.
     type: str
   profileName:
-    description: Name of the Power Profile. Max allowed characters is 128.
+    description: Name of the Power Profile. Max allowed
+      characters is 128.
     type: str
   rules:
-    description: Wireless Settings Power Profiles's rules.
+    description: Wireless Settings Power Profiles's
+      rules.
     elements: dict
     suboptions:
       interfaceId:
@@ -40,15 +49,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreatePowerProfileV1
-    description: Complete reference of the CreatePowerProfileV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      CreatePowerProfile
+    description: Complete reference of the CreatePowerProfile
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-power-profile
 notes:
-  - SDK Method used are wireless.Wireless.create_power_profile_v1,
-  - Paths used are post /dna/intent/api/v1/wirelessSettings/powerProfiles,
-  - It should be noted that this module is an alias of wireless_settings_power_profiles_v1
+  - SDK Method used are
+    wireless.Wireless.create_power_profile,
+  - Paths used are
+    post /dna/intent/api/v1/wirelessSettings/powerProfiles,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.wireless_settings_power_profiles:
     dnac_host: "{{dnac_host}}"
