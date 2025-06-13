@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: activities_info
-short_description: Information module for Activities Info
+short_description: Information module for Activities
 description:
-  - This module represents an alias of the module activities_v1_info
+  - Get all Activities.
+  - Returns activitys based on filter criteria.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,7 +21,8 @@ options:
     type: dict
   description:
     description:
-      - Description query parameter. The description of the activity.
+      - Description query parameter. The description
+        of the activity.
     type: str
   status:
     description:
@@ -30,50 +34,60 @@ options:
     type: str
   recurring:
     description:
-      - Recurring query parameter. If the activity is recurring.
+      - Recurring query parameter. If the activity is
+        recurring.
     type: bool
   startTime:
     description:
-      - StartTime query parameter. This is the epoch millisecond start time from which
-        activities need to be fetched.
+      - StartTime query parameter. This is the epoch
+        millisecond start time from which activities
+        need to be fetched.
     type: str
   endTime:
     description:
-      - EndTime query parameter. This is the epoch millisecond end time upto which
-        activities need to be fetched.
+      - EndTime query parameter. This is the epoch millisecond
+        end time upto which activities need to be fetched.
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first
-        record is numbered 1.
+      - Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1.
     type: float
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page.
+      - Limit query parameter. The number of records
+        to show for this page.
     type: float
   sortBy:
     description:
-      - SortBy query parameter. A property within the response to sort by.
+      - SortBy query parameter. A property within the
+        response to sort by.
     type: str
   order:
     description:
-      - Order query parameter. Whether ascending or descending order should be used
-        to sort the response.
+      - Order query parameter. Whether ascending or
+        descending order should be used to sort the
+        response.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Task GetActivitiesV1
-    description: Complete reference of the GetActivitiesV1 API.
+  - name: Cisco DNA Center documentation for Task GetActivities
+    description: Complete reference of the GetActivities
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-activities
 notes:
-  - SDK Method used are task.Task.get_activities_v1,
-  - Paths used are get /dna/intent/api/v1/activities,
-  - It should be noted that this module is an alias of activities_v1_info
+  - SDK Method used are
+    task.Task.get_activities,
+  - Paths used are
+    get /dna/intent/api/v1/activities,
 """
+
 EXAMPLES = r"""
-- name: Get all Activities Info
+---
+- name: Get all Activities
   cisco.dnac.activities_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: applications_count_info
-short_description: Information module for Applications Count Info
+short_description: Information module for Applications
+  Count
 description:
-  - This module represents an alias of the module applications_count_v1_info
+  - Get all Applications Count.
+  - Get the number of all existing applications.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,16 +24,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Application Policy GetApplicationsCountV1
-    description: Complete reference of the GetApplicationsCountV1 API.
+  - name: Cisco DNA Center documentation for Application
+      Policy GetApplicationsCount
+    description: Complete reference of the GetApplicationsCount
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-applications-count
 notes:
-  - SDK Method used are application_policy.ApplicationPolicy.get_applications_count_v1,
-  - Paths used are get /dna/intent/api/v1/applications-count,
-  - It should be noted that this module is an alias of applications_count_v1_info
+  - SDK Method used are
+    application_policy.ApplicationPolicy.get_applications_count,
+  - Paths used are
+    get /dna/intent/api/v1/applications-count,
 """
+
 EXAMPLES = r"""
-- name: Get all Applications Count Info
+---
+- name: Get all Applications Count
   cisco.dnac.applications_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

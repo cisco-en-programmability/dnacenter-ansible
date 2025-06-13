@@ -1,14 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_licenses_network_device_id_port_channels_info
-short_description: Information module for Network Device Licenses Network Device Id
-  Port Channels Info
+short_description: Information module for Network Device
+  Licenses Network Device Id Port Channels
 description:
-  - This module represents an alias of the module network_device_licenses_network_device_id_port_channels_v1_info
+  - Get all Network Device Licenses Network Device Id
+    Port Channels.
+  - This API endpoint retrieves the list of port channels
+    for the given network device.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,36 +24,42 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId path parameter. Unique identifier for the network device.
+      - NetworkDeviceId path parameter. Unique identifier
+        for the network device.
     type: str
   id:
     description:
-      - Id query parameter. Optional list of the port channel ids to filter by.
+      - Id query parameter. Optional list of the port
+        channel ids to filter by.
     type: str
   name:
     description:
       - >
-        Name query parameter. Optional name of the port channel to filter by. This
-        supports partial search. For
-        example, searching for "Port" will match "Port-channel1", "Port-channel2",
-        etc.
+        Name query parameter. Optional name of the port
+        channel to filter by. This supports partial
+        search. For example, searching for "Port" will
+        match "Port-channel1", "Port-channel2", etc.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices RetrievesTheListOfPortChannelsForTheNetworkDeviceV1
-    description: Complete reference of the RetrievesTheListOfPortChannelsForTheNetworkDeviceV1
+  - name: Cisco DNA Center documentation for Devices
+      RetrievesTheListOfPortChannelsForTheNetworkDevice
+    description: Complete reference of the RetrievesTheListOfPortChannelsForTheNetworkDevice
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-port-channels-for-the-network-device
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-port-channels-for-the-network-device
 notes:
-  - SDK Method used are devices.Devices.retrieves_the_list_of_port_channels_for_the_network_device_v1,
-  - Paths used are get /dna/intent/api/v1/networkDevices/{networkDeviceId}/portChannels,
-  - It should be noted that this module is an alias of network_device_licenses_network_device_id_port_channels_v1_info
+  - SDK Method used are
+    devices.Devices.retrieves_the_list_of_port_channels_for_the_network_device,
+  - Paths used are
+    get /dna/intent/api/v1/networkDevices/{networkDeviceId}/portChannels,
 """
+
 EXAMPLES = r"""
-- name: Get all Network Device Licenses Network Device Id Port Channels Info
+---
+- name: Get all Network Device Licenses Network Device
+    Id Port Channels
   cisco.dnac.network_device_licenses_network_device_id_port_channels_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

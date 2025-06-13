@@ -1,25 +1,36 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: feature_templates_wireless_clean_air_configurations_id
-short_description: Resource module for Feature Templates Wireless Clean Air Configurations
-  Id
+short_description: Resource module for Feature Templates
+  Wireless Clean Air Configurations Id
 description:
-  - This module represents an alias of the module feature_templates_wireless_clean_air_configurations_id_v1
+  - Manage operations update and delete of the resource
+    Feature Templates Wireless Clean Air Configurations
+    Id.
+  - This API allows users to delete a specific CleanAir
+    configuration feature template by ID.
+  - This API allows users to update the details of a
+    specific CleanAir configuration feature template
+    by ID.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   designName:
-    description: The feature template design name. `Note ` The following characters
-      are not allowed % & < > ' /.
+    description: The feature template design name. `Note
+      ` The following characters are not allowed % &
+      < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Clean Air Configurations Id's featureAttributes.
+    description: Feature Templates Wireless Clean Air
+      Configurations Id's featureAttributes.
     suboptions:
       cleanAir:
         description: Clean Air.
@@ -31,72 +42,85 @@ options:
         description: CleanAir Description.
         type: str
       interferersFeatures:
-        description: Feature Templates Wireless Clean Air Configurations Id's interferersFeatures.
+        description: Feature Templates Wireless Clean
+          Air Configurations Id's interferersFeatures.
         suboptions:
           bleBeacon:
-            description: BLE Beacon is only applicable for Radio Band 2_4GHZ.
+            description: BLE Beacon is only applicable
+              for Radio Band 2_4GHZ.
             type: bool
           bluetoothPagingInquiry:
-            description: Bluetooth Paging Inquiry is only applicable for Radio Band
-              2_4GHZ.
+            description: Bluetooth Paging Inquiry is
+              only applicable for Radio Band 2_4GHZ.
             type: bool
           bluetoothScoAcl:
-            description: Bluetooth SCO ACL is only applicable for Radio Band 2_4GHZ.
+            description: Bluetooth SCO ACL is only applicable
+              for Radio Band 2_4GHZ.
             type: bool
           continuousTransmitter:
-            description: Continuous Transmitter is applicable for Radio Bands 2_4GHZ,
-              5GHZ, 6GHZ.
+            description: Continuous Transmitter is applicable
+              for Radio Bands 2_4GHZ, 5GHZ, 6GHZ.
             type: bool
           genericDect:
-            description: Generic DECT is only applicable for Radio Bands 2_4GHZ, 5GHZ.
+            description: Generic DECT is only applicable
+              for Radio Bands 2_4GHZ, 5GHZ.
             type: bool
           genericTdd:
-            description: Generic TDD is only applicable for Radio Band 2_4GHZ, 5GHZ.
+            description: Generic TDD is only applicable
+              for Radio Band 2_4GHZ, 5GHZ.
             type: bool
           jammer:
-            description: Jammer is only applicable for Radio Band 2_4GHZ, 5GHZ.
+            description: Jammer is only applicable for
+              Radio Band 2_4GHZ, 5GHZ.
             type: bool
           microwaveOven:
-            description: Microwave Oven is only applicable for Radio Band 2_4GHZ.
+            description: Microwave Oven is only applicable
+              for Radio Band 2_4GHZ.
             type: bool
           motorolaCanopy:
-            description: Motorola Canopy is only applicable for Radio Band 2_4GHZ,
-              5GHZ.
+            description: Motorola Canopy is only applicable
+              for Radio Band 2_4GHZ, 5GHZ.
             type: bool
           siFhss:
-            description: SI FHSS is only applicable for Radio Band 2_4GHZ, 5GHZ.
+            description: SI FHSS is only applicable
+              for Radio Band 2_4GHZ, 5GHZ.
             type: bool
           spectrum80211Fh:
-            description: Spectrum 802.11 FH is only applicable for Radio Band 2_4GHZ.
+            description: Spectrum 802.11 FH is only
+              applicable for Radio Band 2_4GHZ.
             type: bool
           spectrum80211NonStandardChannel:
-            description: Spectrum 802.11 Non STD Channel is only applicable for Radio
-              Band 2_4GHZ and 5GHZ.
-            type: bool
-          spectrum802154:
-            description: Spectrum 802.15.4 is only applicable for Radio Band 2_4GHZ.
-            type: bool
-          spectrumInverted:
-            description: Spectrum Inverted is only applicable for Radio Band 2_4GHZ
+            description: Spectrum 802.11 Non STD Channel
+              is only applicable for Radio Band 2_4GHZ
               and 5GHZ.
             type: bool
+          spectrum802154:
+            description: Spectrum 802.15.4 is only applicable
+              for Radio Band 2_4GHZ.
+            type: bool
+          spectrumInverted:
+            description: Spectrum Inverted is only applicable
+              for Radio Band 2_4GHZ and 5GHZ.
+            type: bool
           superAg:
-            description: Super AG is only applicable for Radio Band 2_4GHZ and 5GHZ.
+            description: Super AG is only applicable
+              for Radio Band 2_4GHZ and 5GHZ.
             type: bool
           videoCamera:
-            description: Video Camera is only applicable for Radio Band 2_4GHZ and
-              5GHZ.
+            description: Video Camera is only applicable
+              for Radio Band 2_4GHZ and 5GHZ.
             type: bool
           wimaxFixed:
-            description: WiMAX Fixed is only applicable for Radio Band 2_4GHZ and
-              5GHZ.
+            description: WiMAX Fixed is only applicable
+              for Radio Band 2_4GHZ and 5GHZ.
             type: bool
           wimaxMobile:
-            description: WiMAX Mobile is only applicable for Radio Band 2_4GHZ and
-              5GHZ.
+            description: WiMAX Mobile is only applicable
+              for Radio Band 2_4GHZ and 5GHZ.
             type: bool
           xbox:
-            description: Xbox is only applicable for Radio Band 2_4GHZ.
+            description: Xbox is only applicable for
+              Radio Band 2_4GHZ.
             type: bool
         type: dict
       persistentDevicePropagation:
@@ -107,36 +131,41 @@ options:
         type: str
     type: dict
   id:
-    description: Id path parameter. Clean Air Configuration Feature Template Id.
+    description: Id path parameter. Clean Air Configuration
+      Feature Template Id.
     type: str
   unlockedAttributes:
-    description: Attributes unlocked in design can be changed at device provision
-      time. `Note ` unlockedAttributes can only contain the first level attributes
-      defined under featureAttributes.
+    description: Attributes unlocked in design can be
+      changed at device provision time. `Note ` unlockedAttributes
+      can only contain the first level attributes defined
+      under featureAttributes.
     elements: str
     type: list
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless DeleteCleanAirConfigurationFeatureTemplateV1
-    description: Complete reference of the DeleteCleanAirConfigurationFeatureTemplateV1
+  - name: Cisco DNA Center documentation for Wireless
+      DeleteCleanAirConfigurationFeatureTemplate
+    description: Complete reference of the DeleteCleanAirConfigurationFeatureTemplate
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!delete-clean-air-configuration-feature-template
-  - name: Cisco DNA Center documentation for Wireless UpdateCleanAirConfigurationFeatureTemplateV1
-    description: Complete reference of the UpdateCleanAirConfigurationFeatureTemplateV1
+    link: https://developer.cisco.com/docs/dna-center/#!delete-clean-air-configuration-feature-template
+  - name: Cisco DNA Center documentation for Wireless
+      UpdateCleanAirConfigurationFeatureTemplate
+    description: Complete reference of the UpdateCleanAirConfigurationFeatureTemplate
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!update-clean-air-configuration-feature-template
+    link: https://developer.cisco.com/docs/dna-center/#!update-clean-air-configuration-feature-template
 notes:
-  - SDK Method used are wireless.Wireless.delete_clean_air_configuration_feature_template_v1,
-    wireless.Wireless.update_clean_air_configuration_feature_template_v1,
-  - Paths used are delete /dna/intent/api/v1/featureTemplates/wireless/cleanAirConfigurations/{id},
+  - SDK Method used are
+    wireless.Wireless.delete_clean_air_configuration_feature_template,
+    wireless.Wireless.update_clean_air_configuration_feature_template,
+  - Paths used are
+    delete /dna/intent/api/v1/featureTemplates/wireless/cleanAirConfigurations/{id},
     put /dna/intent/api/v1/featureTemplates/wireless/cleanAirConfigurations/{id},
-  - It should be noted that this module is an alias of feature_templates_wireless_clean_air_configurations_id_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Delete by id
   cisco.dnac.feature_templates_wireless_clean_air_configurations_id:
     dnac_host: "{{dnac_host}}"

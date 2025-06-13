@@ -1,34 +1,41 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: feature_templates_wireless_aaa_radius_attributes_configurations
-short_description: Resource module for Feature Templates Wireless Aaa Radius Attributes
-  Configurations
+short_description: Resource module for Feature Templates
+  Wireless Aaa Radius Attributes Configurations
 description:
-  - This module represents an alias of the module feature_templates_wireless_aaa_radius_attributes_configurations_v1
+  - Manage operation create of the resource Feature
+    Templates Wireless Aaa Radius Attributes Configurations.
+  - This API allows users to create a AAA Radius Attributes
+    configuration feature template.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   designName:
-    description: The feature template design name. `Note ` The following characters
-      are not allowed % & < > ' /.
+    description: The feature template design name. `Note
+      ` The following characters are not allowed % &
+      < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Aaa Radius Attributes Configurations's
-      featureAttributes.
+    description: Feature Templates Wireless Aaa Radius
+      Attributes Configurations's featureAttributes.
     suboptions:
       calledStationId:
         description: Called Station Identifier (calledStationId).
         type: str
     type: dict
   unlockedAttributes:
-    description: Attributes unlocked in design can be changed at device provision
-      time. `Note ` unlockedAttributes can only contain the attributes defined under
+    description: Attributes unlocked in design can be
+      changed at device provision time. `Note ` unlockedAttributes
+      can only contain the attributes defined under
       featureAttributes.
     elements: str
     type: list
@@ -36,18 +43,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateAAARadiusAttributesConfigurationFeatureTemplateV1
-    description: Complete reference of the CreateAAARadiusAttributesConfigurationFeatureTemplateV1
+  - name: Cisco DNA Center documentation for Wireless
+      CreateAAARadiusAttributesConfigurationFeatureTemplate
+    description: Complete reference of the CreateAAARadiusAttributesConfigurationFeatureTemplate
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!create-aaa-radius-attributes-configuration-feature-template
+    link: https://developer.cisco.com/docs/dna-center/#!create-aaa-radius-attributes-configuration-feature-template
 notes:
   - SDK Method used are
-    wireless.Wireless.create_a_a_a_radius_attributes_configuration_feature_template_v1,
-  - Paths used are post /dna/intent/api/v1/featureTemplates/wireless/aaaRadiusAttributesConfigurations,
-  - It should be noted that this module is an alias of feature_templates_wireless_aaa_radius_attributes_configurations_v1
+    wireless.Wireless.create_aaa_radius_attributes_configuration_feature_template,
+  - Paths used are
+    post /dna/intent/api/v1/featureTemplates/wireless/aaaRadiusAttributesConfigurations,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.feature_templates_wireless_aaa_radius_attributes_configurations:
     dnac_host: "{{dnac_host}}"

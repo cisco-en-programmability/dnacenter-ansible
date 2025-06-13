@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: diagnostic_tasks_id_info
-short_description: Information module for Diagnostic Tasks Id Info
+short_description: Information module for Diagnostic
+  Tasks Id
 description:
-  - This module represents an alias of the module diagnostic_tasks_id_v1_info
+  - Get Diagnostic Tasks Id by id.
+  - This API retrieves the diagnostic task identified
+    by the specified `id`.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,23 +23,28 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. The `id` of the diagnostic task to be retrieved.
+      - Id path parameter. The `id` of the diagnostic
+        task to be retrieved.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Health and Performance RetrievesDiagnosticTaskByIDV1
-    description: Complete reference of the RetrievesDiagnosticTaskByIDV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-diagnostic-task-by-id
+  - name: Cisco DNA Center documentation for Health
+      and Performance RetrievesDiagnosticTaskByID
+    description: Complete reference of the RetrievesDiagnosticTaskByID
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-diagnostic-task-by-id
 notes:
-  - SDK Method used are health_and_performance.HealthAndPerformance.retrieves_diagnostic_task_by_id_v1,
-  - Paths used are get /dna/intent/api/v1/diagnosticTasks/{id},
-  - It should be noted that this module is an alias of diagnostic_tasks_id_v1_info
+  - SDK Method used are
+    health_and_performance.HealthAndPerformance.retrieves_diagnostic_task_by_id,
+  - Paths used are
+    get /dna/intent/api/v1/diagnosticTasks/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Diagnostic Tasks Id Info by id
+---
+- name: Get Diagnostic Tasks Id by id
   cisco.dnac.diagnostic_tasks_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

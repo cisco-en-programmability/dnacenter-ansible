@@ -1,16 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
-module:
-  wired_network_devices_network_device_id_config_features_intended_device_deployments_info
-short_description: Information module for Wired Network Devices Network Device Id
-  Config Features Intended Device Deployments Info
+module: wired_network_devices_network_device_id_config_features_intended_device_deployments_info
+short_description: Information module for Wired Network
+  Devices Network Device Id Config Features Intended
+  Device Deployments
 description:
-  - This module represents an alias of the module
-    wired_network_devices_network_device_id_config_features_intended_device_deployments_v1_info
+  - Get all Wired Network Devices Network Device Id
+    Config Features Intended Device Deployments.
+  - The API returns device deployment status based on
+    filter criteria.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,29 +26,30 @@ options:
   networkDeviceId:
     description:
       - >
-        NetworkDeviceId path parameter. Network device ID of the wired device to provision.
-        The API
-        /intent/api/v1/network-device can be used to get the network device ID.
+        NetworkDeviceId path parameter. Network device
+        ID of the wired device to provision. The API
+        /intent/api/v1/network-device can be used to
+        get the network device ID.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wired GetDeviceDeploymentStatusConnectivityV1
-    description: Complete reference of the GetDeviceDeploymentStatusConnectivityV1
+  - name: Cisco DNA Center documentation for Wired GetDeviceDeploymentStatusConnectivity
+    description: Complete reference of the GetDeviceDeploymentStatusConnectivity
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-connectivity
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-connectivity
 notes:
-  - SDK Method used are wired.Wired.get_device_deployment_status_connectivity_v1,
-  - Paths used are get
-    /dna/intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/intended/deviceDeployments,
-  - It should be noted that this module is an alias of
-    wired_network_devices_network_device_id_config_features_intended_device_deployments_v1_info
+  - SDK Method used are
+    wired.Wired.get_device_deployment_status_connectivity,
+  - Paths used are
+    get /dna/intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/intended/deviceDeployments,
 """
+
 EXAMPLES = r"""
-- name: Get all Wired Network Devices Network Device Id Config Features Intended
-    Device Deployments Info
+---
+- name: Get all Wired Network Devices Network Device
+    Id Config Features Intended Device Deployments
   cisco.dnac.wired_network_devices_network_device_id_config_features_intended_device_deployments_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: lan_automation_port_channels_info
-short_description: Information module for Lan Automation Port Channels Info
+short_description: Information module for Lan Automation
+  Port Channels
 description:
-  - This module represents an alias of the module lan_automation_port_channels_v1_info
+  - Get all Lan Automation Port Channels.
+  - Returns a list of Port Channel between the LAN Automation
+    associated devices.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,44 +23,53 @@ options:
     type: dict
   device1ManagementIPAddress:
     description:
-      - Device1ManagementIPAddress query parameter. The management IP address of the
-        device1.
+      - Device1ManagementIPAddress query parameter.
+        The management IP address of the device1.
     type: str
   device1Uuid:
     description:
-      - Device1Uuid query parameter. Unique identifier for the network device1.
+      - Device1Uuid query parameter. Unique identifier
+        for the network device1.
     type: str
   device2ManagementIPAddress:
     description:
-      - Device2ManagementIPAddress query parameter. The management IP address of the
-        device2.
+      - Device2ManagementIPAddress query parameter.
+        The management IP address of the device2.
     type: str
   device2Uuid:
     description:
-      - Device2Uuid query parameter. Unique identifier for the network device2.
+      - Device2Uuid query parameter. Unique identifier
+        for the network device2.
     type: str
   offset:
     description:
-      - Offset query parameter. Starting record for pagination.
+      - Offset query parameter. Starting record for
+        pagination.
     type: str
   limit:
     description:
-      - Limit query parameter. Maximum number of Port Channel to return.
+      - Limit query parameter. Maximum number of Port
+        Channel to return.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation GetPortChannelsV1
-    description: Complete reference of the GetPortChannelsV1 API.
+  - name: Cisco DNA Center documentation for LAN Automation
+      GetPortChannels
+    description: Complete reference of the GetPortChannels
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-port-channels
 notes:
-  - SDK Method used are lan_automation.LanAutomation.get_port_channels_v1,
-  - Paths used are get /dna/intent/api/v1/lanAutomation/portChannels,
-  - It should be noted that this module is an alias of lan_automation_port_channels_v1_info
+  - SDK Method used are
+    lan_automation.LanAutomation.get_port_channels,
+  - Paths used are
+    get /dna/intent/api/v1/lanAutomation/portChannels,
 """
+
 EXAMPLES = r"""
-- name: Get all Lan Automation Port Channels Info
+---
+- name: Get all Lan Automation Port Channels
   cisco.dnac.lan_automation_port_channels_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

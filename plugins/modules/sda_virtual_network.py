@@ -1,72 +1,52 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sda_virtual_network
 short_description: Resource module for Sda Virtual Network
 description:
-  - This module represents an alias of the module sda_virtual_network_v2
+  - Manage operations create and delete of the resource
+    Sda Virtual Network.
+  - Add virtual network VN in SDA Fabric.
+  - Delete virtual network VN from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  isGuestVirtualNetwork:
-    description: Guest Virtual Network enablement flag, default value is False.
-    type: bool
-  scalableGroupNames:
-    description: Scalable Group to be associated to virtual network.
-    elements: str
-    type: list
-  vManageVpnId:
-    description: VManage vpn id for SD-WAN.
+  siteNameHierarchy:
+    description: SiteNameHierarchy query parameter.
     type: str
   virtualNetworkName:
-    description: Virtual Network Name to be assigned at global level.
+    description: VirtualNetworkName query parameter.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddVirtualNetworkWithScalableGroupsV1
-    description: Complete reference of the AddVirtualNetworkWithScalableGroupsV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!add-virtual-network-with-scalable-groups
-  - name: Cisco DNA Center documentation for SDA DeleteVirtualNetworkWithScalableGroupsV1
-    description: Complete reference of the DeleteVirtualNetworkWithScalableGroupsV1
+  - name: Cisco DNA Center documentation for SDA AddVNInFabric
+    description: Complete reference of the AddVNInFabric
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!delete-virtual-network-with-scalable-groups
-  - name: Cisco DNA Center documentation for SDA UpdateVirtualNetworkWithScalableGroupsV1
-    description: Complete reference of the UpdateVirtualNetworkWithScalableGroupsV1
+    link: https://developer.cisco.com/docs/dna-center/#!add-vn-in-fabric
+  - name: Cisco DNA Center documentation for SDA DeleteVNFromSDAFabric
+    description: Complete reference of the DeleteVNFromSDAFabric
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!update-virtual-network-with-scalable-groups
+    link: https://developer.cisco.com/docs/dna-center/#!delete-vn-from-sda-fabric
 notes:
-  - SDK Method used are sda.Sda.add_virtual_network_with_scalable_groups_v1, sda.Sda.delete_virtual_network_with_scalable_groups_v1,
-    sda.Sda.update_virtual_network_with_scalable_groups_v1,
-  - Paths used are post /dna/intent/api/v1/virtual-network, delete /dna/intent/api/v1/virtual-network,
-    put /dna/intent/api/v1/virtual-network,
-  - It should be noted that this module is an alias of sda_virtual_network_v2
+  - SDK Method used are
+    sda.Sda.add_vn,
+    sda.Sda.delete_vn,
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/virtual-network,
+    delete /dna/intent/api/v1/business/sda/virtual-network,
 """
+
 EXAMPLES = r"""
-- name: Create
-  cisco.dnac.sda_virtual_network:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-    isGuestVirtualNetwork: true
-    scalableGroupNames:
-      - string
-    vManageVpnId: string
-    virtualNetworkName: string
+---
 - name: Delete all
   cisco.dnac.sda_virtual_network:
     dnac_host: "{{dnac_host}}"
@@ -77,8 +57,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
+    siteNameHierarchy: string
     virtualNetworkName: string
-- name: Update all
+- name: Create
   cisco.dnac.sda_virtual_network:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -88,10 +69,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    isGuestVirtualNetwork: true
-    scalableGroupNames:
-      - string
-    vManageVpnId: string
+    siteNameHierarchy: string
     virtualNetworkName: string
 """
 RETURN = r"""

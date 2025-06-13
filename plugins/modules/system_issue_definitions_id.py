@@ -1,20 +1,27 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: system_issue_definitions_id
-short_description: Resource module for System Issue Definitions Id
+short_description: Resource module for System Issue
+  Definitions Id
 description:
-  - This module represents an alias of the module system_issue_definitions_id_v1
+  - Manage operation update of the resource System Issue
+    Definitions Id.
+  - Update issue trigger threshold, priority for the
+    given id.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Issue trigger definition id.
+    description: Id path parameter. Issue trigger definition
+      id.
     type: str
   issueEnabled:
     description: Issue Enabled.
@@ -32,16 +39,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Issues IssueTriggerDefinitionUpdateV1
-    description: Complete reference of the IssueTriggerDefinitionUpdateV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update
+  - name: Cisco DNA Center documentation for Issues
+      IssueTriggerDefinitionUpdate
+    description: Complete reference of the IssueTriggerDefinitionUpdate
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update
 notes:
-  - SDK Method used are issues.Issues.issue_trigger_definition_update_v1,
-  - Paths used are put /dna/intent/api/v1/systemIssueDefinitions/{id},
-  - It should be noted that this module is an alias of system_issue_definitions_id_v1
+  - SDK Method used are
+    issues.Issues.issue_trigger_definition_update,
+  - Paths used are
+    put /dna/intent/api/v1/systemIssueDefinitions/{id},
 """
+
 EXAMPLES = r"""
+---
 - name: Update by id
   cisco.dnac.system_issue_definitions_id:
     dnac_host: "{{dnac_host}}"

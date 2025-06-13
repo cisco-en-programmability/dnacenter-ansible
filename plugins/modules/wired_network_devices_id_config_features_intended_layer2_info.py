@@ -1,14 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wired_network_devices_id_config_features_intended_layer2_info
-short_description: Information module for Wired Network Devices Id Config Features
-  Intended Layer2 Info
+short_description: Information module for Wired Network
+  Devices Id Config Features Intended Layer2
 description:
-  - This module represents an alias of the module wired_network_devices_id_config_features_intended_layer2_v1_info
+  - Get all Wired Network Devices Id Config Features
+    Intended Layer2. - > This API returns the configurations
+    for the intended layer 2 features on a wired device.
+    Even after the intended configurations are deployed
+    using the API /intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy,
+    they continue to be a part of the intended features
+    on the device.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,34 +27,36 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. Network device ID of the wired device to configure.
+      - Id path parameter. Network device ID of the
+        wired device to configure.
     type: str
   feature:
     description:
       - >
-        Feature query parameter. Name of the feature to configure. The API
-        /data/intent/api/wired/networkDevices/{id}/configFeatures/supported/layer2
-        can be used to get the list of
-        features supported on a device.
+        Feature query parameter. Name of the feature
+        to configure. The API /data/intent/api/wired/networkDevices/{id}/configFeatures/supported/layer2
+        can be used to get the list of features supported
+        on a device.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wired GetConfigurationsForIntendedLayer2FeaturesOnAWiredDeviceV1
-    description: Complete reference of the GetConfigurationsForIntendedLayer2FeaturesOnAWiredDeviceV1
+  - name: Cisco DNA Center documentation for Wired GetConfigurationsForIntendedLayer2FeaturesOnAWiredDevice
+    description: Complete reference of the GetConfigurationsForIntendedLayer2FeaturesOnAWiredDevice
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-configurations-for-intended-layer-2-features-on-a-wired-device
+    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-intended-layer-2-features-on-a-wired-device
 notes:
   - SDK Method used are
-    wired.Wired.get_configurations_for_intended_layer2_features_on_a_wired_device_v1,
-  - Paths used are get
-    /dna/intent/api/v1/intent/api/v1/wired/networkDevices/{id}/configFeatures/intended/layer2,
-  - It should be noted that this module is an alias of wired_network_devices_id_config_features_intended_layer2_v1_info
+    wired.Wired.get_configurations_for_intended_layer2_features_on_a_wired_device,
+  - Paths used are
+    get /dna/intent/api/v1/intent/api/v1/wired/networkDevices/{id}/configFeatures/intended/layer2,
 """
+
 EXAMPLES = r"""
-- name: Get all Wired Network Devices Id Config Features Intended Layer2 Info
+---
+- name: Get all Wired Network Devices Id Config Features
+    Intended Layer2
   cisco.dnac.wired_network_devices_id_config_features_intended_layer2_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
