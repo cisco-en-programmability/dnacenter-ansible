@@ -251,9 +251,12 @@ options:
             description: Provides a overview  of the template.
             type: str
           commit:
-            description: Indicates whether the template should be committed or not.
-              By default, it is set to true, meaning the template will be committed.
+            description:
+              - Indicates whether the template should be committed after configuration changes.
+              - If set to 'false', the changes are not committed immediately, allowing for additional
+                modifications before an explicit commit.
             type: bool
+            default: true
           device_types:
             description: List of dictionaries details the types of devices that the
               templates can be applied to.
@@ -973,8 +976,8 @@ options:
             type: bool
             default: true
           version:
-            description: Version of the template to be deployed. If not specified,
-              the latest version of the template will be used.
+            description: This is useful for targeting specific template versions, such as rolling back
+              to a tested version.
             type: int
           template_parameters:
             description: A list of parameter name-value pairs used for customizing
@@ -1009,9 +1012,12 @@ options:
                     - SECONDARY_MANAGED_AP_LOCATIONS - Used when the parameter value is the locations of secondary or backup managed access points.
                     - SSID_NAME - Used when the parameter value is the name of a wireless network.
                     - POLICY_PROFILE - Used when the parameter value is a set of policies that can be applied to network devices or users.
-                    From the above enum values, we support filling the value in the resource params at RUNTIME for the following resource
-                    type - MANAGED_DEVICE_UUID, MANAGED_DEVICE_IP, MANAGED_DEVICE_HOSTNAME, SITE_UUID only. For rest of the resource type we have to provide
-                    the value at DESIGN time in the playbook.
+                    - From the above enum values, the following resource types support value provisioning at runtime
+                      - MANAGED_DEVICE_UUID
+                      - MANAGED_DEVICE_IP
+                      - MANAGED_DEVICE_HOSTNAME
+                      - SITE_UUID
+                    - For all other resource types, the values must be provided at design time in the playbook.
                 type: str
               resource_scope:
                 description:
@@ -1089,9 +1095,9 @@ notes:
     /dna/intent/api/v1/template-programmer/template/exporttemplates, post /dna/intent/api/v1/template-programmer/project/importprojects,
     post
     /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
-  - While deploying the template to the devices, we support filling the value in the resource params at RUNTIME for the following resource
-    type - MANAGED_DEVICE_UUID, MANAGED_DEVICE_IP, MANAGED_DEVICE_HOSTNAME, SITE_UUID only. For rest of the resource type we have to provide
-    the value at DESIGN time in the playbook.
+  - While deploying the template to devices, the value for the following resource types can be filled in the resource parameters at
+    RUNTIME- MANAGED_DEVICE_UUID, MANAGED_DEVICE_IP, MANAGED_DEVICE_HOSTNAME, and SITE_UUID. For all other resource types, the value
+    must be provided at DESIGN time in the playbook.
 """
 EXAMPLES = r"""
 - name: Create a new template.
@@ -2867,36 +2873,59 @@ class Template(DnacBase):
             and proper error handling ensures robustness in case of missing task IDs or API failures.
         """
 
-        self.log("Committing the template '{0}' with ID '{1}'.".format(template_name, template_id), "INFO")
-        version_params = {
-            "comments": self.want.get("comments"),
-            "templateId": template_id
-        }
-        self.log("Versioning parameters for template '{0}': {1}".format(template_name, version_params), "DEBUG")
-        response = self.dnac_apply['exec'](
-            family="configuration_templates",
-            function="version_template",
-            op_modifies=True,
-            params=version_params
-        )
-        task_id = response.get("response").get("taskId")
-        if not task_id:
-            self.msg = "Unable to retrieve the task_id for the template '{0}'.".format(template_name)
+        try:
+            self.log("Starting the commit process for template '{0}' with ID '{1}'.".format(template_name, template_id), "INFO")
+            version_params = {
+                "comments": self.want.get("comments"),
+                "templateId": template_id
+            }
+            self.log("Versioning parameters for template '{0}': {1}".format(template_name, version_params), "DEBUG")
+            response = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function="version_template",
+                op_modifies=True,
+                params=version_params
+            )
+            self.log("Received response from API 'version_template' for 'tempate': '{0}' is {1}".format(template_name, response), "DEBUG")
+            if not response or not isinstance(response, dict):
+                self.msg = "Invalid response received from 'version_template' API for template '{0}'.".format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return self
+
+            task_id = response.get("response").get("taskId")
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the template '{0}'.".format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            self.log("Task ID '{0}' retrieved successfully for template '{1}'.".format(task_id, template_name), "INFO")
+            task_details = self.get_task_details(task_id)
+            self.log("Task details retrieved for task ID '{0}': {1}".format(task_id, task_details), "DEBUG")
+            self.msg = "Template '{0}' committed successfully in Cisco Catalyst Center.".format(template_name)
+            # Ensure the response structure in self.result is initialized properly
+            self.log("Initializing response structure in self.result for template '{0}'.".format(template_name), "DEBUG")
+            if not self.result.get('response'):
+                self.result['response'] = [{}]  # Initialize as a list with one empty dictionary
+
+            if not self.result['response'][0].get("configurationTemplate"):
+                self.result['response'][0]["configurationTemplate"] = {}  # Initialize as an empty dictionary
+
+            # Update the response message and task details
+            self.result['response'][0]["configurationTemplate"]['msg'] = self.msg
+            self.result['response'][0]["configurationTemplate"]['response'] = task_details if task_details else response
+            self.log("Updated self.result structure for template '{0}': {1}".format(template_name, self.result), "DEBUG")
+            # Add the template name to the committed list
+            self.template_committed.append(template_name)
+            self.log("Template '{0}' added to the committed list.".format(template_name), "INFO")
+            self.result['changed'] = True
+            if not self.result['response'][0].get("configurationTemplate").get('msg'):
+                self.msg = "Error while versioning the template '{0}'.".format(template_name)
+                self.status = "failed"
+                return self
+
+            self.log("Successfully committed template '{0}'.".format(template_name), "INFO")
+        except Exception as e:
+            self.msg = "Error while executing 'version_template' API for template '{0}': {1}".format(template_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        self.log("Task ID for versioning the template '{0}': {1}".format(template_name, task_id), "DEBUG")
-        task_details = self.get_task_details(task_id)
-        self.result['changed'] = True
-        self.msg = "Given template '{0}' committed successfully in the Cisco Catalyst Center.".format(template_name)
-        self.result['response'][0].get("configurationTemplate")['msg'] = self.msg
-        self.log("Task details for 'version_template': {0}".format(task_details), "DEBUG")
-        self.result['response'][0].get("configurationTemplate")['response'] = task_details if task_details else response
-        self.template_committed.append(template_name)
-
-        if not self.result['response'][0].get("configurationTemplate").get('msg'):
-            self.msg = "Error while versioning the template '{0}'.".format(template_name)
-            self.status = "failed"
-            return self
 
         return self
 
@@ -2921,7 +2950,8 @@ class Template(DnacBase):
             logged without halting execution.
         """
 
-        is_temp_uncommit = True
+        self.log("Checking commit status for template '{0}' with ID '{1}'.".format(name, template_id), "INFO")
+        is_template_uncommitted = True
         try:
             response = self.dnac_apply['exec'](
                 family="configuration_templates",
@@ -2933,10 +2963,10 @@ class Template(DnacBase):
                 },
             )
             self.log("Received Response from 'gets_the_templates_available' for 'tempate': '{0}' is {1}".format(name, response), "DEBUG")
-            if not response:
-                self.log("Given template '{0}' is already committed in the Cisco Catalyst Center.".format(name), "INFO")
-                is_temp_uncommit = False
-                return is_temp_uncommit
+            if not response or not isinstance(response, dict):
+                self.log("The response for template '{0}' is invalid or empty. Assuming it is already committed.".format(name), "INFO")
+                is_template_uncommitted = False
+                return is_template_uncommitted
 
             self.log("Given template '{0}' is not committed in the Cisco Catalyst Center.".format(name), "INFO")
         except Exception as e:
@@ -2945,8 +2975,9 @@ class Template(DnacBase):
                 .format(name, str(e))
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
+        self.log("Commit status for template '{0}': {1}".format(name, is_template_uncommitted), "DEBUG")
 
-        return is_temp_uncommit
+        return is_template_uncommitted
 
     def update_configuration_templates(self, config, configuration_templates):
         """
@@ -3029,8 +3060,10 @@ class Template(DnacBase):
                     'msg': "Template does not need update"
                 })
                 is_template_un_committed = self.get_template_commit_status(template_id, current_template_name)
+                self.log("Template '{0}' uncommitted status: {1}".format(current_template_name, is_template_un_committed), "DEBUG")
                 # Check whether the above template is committed or not
                 is_commit = configuration_templates.get("commit", True)
+                self.log("Commit flag for template '{0}': {1}".format(current_template_name, is_commit), "DEBUG")
                 if is_commit and is_template_un_committed:
                     self.commit_the_template(template_id, current_template_name).check_return_status()
                     self.log("Template '{0}' committed successfully in the Cisco Catalyst Center.".format(current_template_name), "INFO")
@@ -3071,6 +3104,7 @@ class Template(DnacBase):
         is_commit = configuration_templates.get("commit", True)
         if is_commit:
             name = self.want.get("template_params").get("name")
+            self.log("Attempting to commit template '{0}' with ID '{1}'.".format(name, template_id), "INFO")
             self.commit_the_template(template_id, name).check_return_status()
             self.log("Template '{0}' committed successfully in the Cisco Catalyst Center.".format(name), "INFO")
 
@@ -3408,6 +3442,15 @@ class Template(DnacBase):
             )
             if not version:
                 version_temp_id = response.get("versionId")
+                if not version_temp_id:
+                    self.log(
+                        "Failed to identify the latest version for template '{0}'. 'versionId' key is missing in the response.".format(
+                            template_name
+                        ), "ERROR"
+                    )
+                    self.msg = "Missing 'versionId' in the response for the template '{0}'.".format(template_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                 self.log(
                     "Identified the latest version for template '{0}'. Version ID: {1}".format(
                         template_name, version_temp_id), "DEBUG"
@@ -3433,6 +3476,7 @@ class Template(DnacBase):
         except Exception as e:
             error_message = "Error while getting the latest version id for the template '{0}': '{1}'".format(template_name, str(e))
             self.log(error_message, "CRITICAL")
+
         self.log(
             "Returning latest version ID '{0}' for template '{1}'.".format(version_temp_id, template_name), "DEBUG"
         )
@@ -3472,12 +3516,16 @@ class Template(DnacBase):
                 self.log("No device found with ID: {0}".format(device_id), "WARNING")
                 return None
 
-            device_hostname = response[0].get("hostname")
-            self.log("Device hostname for device_id '{0}' is '{1}'.".format(device_id, device_hostname), "INFO")
+            if "hostname" not in response[0]:
+                self.log("Hostname key missing in the API response for device_id: {0}".format(device_id), "ERROR")
+                return None
 
+            device_hostname = response[0].get("hostname")
         except Exception as e:
             self.msg = "Exception occurred while fetching device hostname for device_id '{0}': {1}".format(device_id, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.log("Device hostname for device_id '{0}' is '{1}'.".format(device_id, device_hostname), "INFO")
 
         return device_hostname
 
@@ -3513,22 +3561,26 @@ class Template(DnacBase):
                 return site_uuid
 
             response = response.get("response")
-            if response:
-                site_name = response.get("siteNameHierarchy")
-                site_uuid = response.get("siteId")
-                if site_uuid:
-                    self.log(
-                        "Device with Id {0} is assigned to site: {1} (siteID: {2})".format(device_id, site_name, site_uuid), "DEBUG"
-                    )
-                    return site_uuid
+            if not isinstance(response, dict):
+                self.log("Unexpected 'response' format for device with UUID: {0}".format(device_id), "WARNING")
+                return None
 
-            self.log("No site assignment found for device with UUID: {0}".format(device_id), "WARNING")
+            # Extract site details
+            site_uuid = response.get("siteId")
+            site_name = response.get("siteNameHierarchy")
+
+            if not site_uuid:
+                self.log("No site assignment found for device with UUID: {0}".format(device_id), "WARNING")
+                return None
+
+            self.log(
+                "Device with UUID {0} is assigned to site: {1} (siteId: {2})".format(device_id, site_name, site_uuid), "INFO"
+            )
+            return site_uuid
 
         except Exception as e:
             self.msg = "Exception occurred while fetching site assignment for device with UUID '{0}': {1}".format(device_id, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        return site_uuid
 
     def create_payload_for_template_deploy(self, deploy_temp_details, device_ids):
         """
@@ -3639,32 +3691,34 @@ class Template(DnacBase):
                         'type': r_type,
                         'scope': scope
                     }
-                    if scope == "RUNTIME" and r_type not in runtime_scopes_available:
-                        self.msg = (
-                            "The resource type '{0}' with scope '{1}' is not supported for runtime provisioning. "
-                            "Supported types are: {2}."
-                        ).format(r_type, scope, ", ".join(runtime_scopes_available))
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    if scope == "RUNTIME":
+                        # Validate runtime scope type
+                        if r_type not in runtime_scopes_available:
+                            self.msg = (
+                                "The resource type '{0}' with scope '{1}' is not supported for runtime provisioning. "
+                                "Supported types are: {2}."
+                            ).format(r_type, scope, ", ".join(runtime_scopes_available))
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                    if scope == "RUNTIME" and r_type in runtime_scopes_available:
-                        self.log(
-                            "Processing resource parameter with type '{0}' and scope '{1}' for runtime"
-                            " provisioning.".format(r_type, scope), "DEBUG"
-                        )
-                        if r_type == "SITE_UUID":
-                            value = self.get_site_uuid_from_device_id(device_id)
-                        elif r_type == "MANAGED_DEVICE_UUID":
-                            value = device_id
-                        elif r_type == "MANAGED_DEVICE_IP":
-                            device_ip_id_map = self.get_device_ips_from_device_ids([device_id])
-                            value = device_ip_id_map[device_id]
-                        elif r_type == "MANAGED_DEVICE_HOSTNAME":
-                            value = self.get_device_hostname_from_device_id(device_id)
-                        resource_params_dict['value'] = value
-                        self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
-                        resource_params_list.append(resource_params_dict)
-                        del resource_params_dict
-                        continue
+                        if r_type in runtime_scopes_available:
+                            self.log(
+                                "Processing resource parameter with type '{0}' and scope '{1}' for runtime"
+                                " provisioning.".format(r_type, scope), "DEBUG"
+                            )
+                            if r_type == "SITE_UUID":
+                                value = self.get_site_uuid_from_device_id(device_id)
+                            elif r_type == "MANAGED_DEVICE_UUID":
+                                value = device_id
+                            elif r_type == "MANAGED_DEVICE_IP":
+                                device_ip_id_map = self.get_device_ips_from_device_ids([device_id])
+                                value = device_ip_id_map[device_id]
+                            elif r_type == "MANAGED_DEVICE_HOSTNAME":
+                                value = self.get_device_hostname_from_device_id(device_id)
+
+                            resource_params_dict['value'] = value
+                            self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
+                            resource_params_list.append(resource_params_dict)
+                            continue
 
                     # If the scope is not RUNTIME, we take the value directly from the resource_param dictionary
                     self.log("Processing resource parameter with type '{0}' and scope '{1}'.".format(r_type, scope), "DEBUG")
@@ -3679,7 +3733,6 @@ class Template(DnacBase):
                     resource_params_dict['value'] = value
                     self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
                     resource_params_list.append(resource_params_dict)
-                    del resource_params_dict
 
             if resource_params_list:
                 self.log("Adding resource parameters to the target device dictionary for template '{0}'.".format(template_name), "DEBUG")
