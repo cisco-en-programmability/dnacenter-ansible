@@ -22,33 +22,29 @@
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - profile_name: "Campus_Wireless_Profile"
+          - profile_name: Campus_Wireless_Profile
             site_names:
-              - "Global/Chennai"
+              - Global/Chennai
             ssid_details:
-              - ssid: "Guest_WiFi"
+              - ssid_name: Guest_WiFi
+                dot11be_profile_name: Guest_WiFi_dot11be_profile
                 enable_fabric: false
-                wlan_profile_name: "Guest_WiFi_Profile"
-                policy_profile_name: "Guest_Access"
-                vlan_group_name: "VLAN_Group_10"
-              - ssid: "Corporate_Secure"
+                vlan_group_name: VLAN_Group_10
+              - ssid_name: Corporate_Secure
+                dot11be_profile_name: Guest_WiFi_dot11be_profile
                 enable_fabric: false
-                wlan_profile_name: "Corporate_Secure_Profile"
-                policy_profile_name: "Employee_Access"
                 interface_name: "GigabitEthernet0/1"
                 local_to_vlan: 2001
             ap_zones:
-              - ap_zone_name: "AP_Zone_North"
-                rf_profile_name: "High_Performance"
+              - ap_zone_name: AP_Zone_North
+                rf_profile_name: High_Performance
                 ssids:
-                  - "Guest_WiFi"
+                  - Guest_WiFi
             additional_interfaces:
               - interface_name: "GigabitEthernet0/2"
                 vlan_id: 20
               - interface_name: "GigabitEthernet0/3"
                 vlan_id: 22
-            onboarding_templates:
-              - "Guest_WiFi_Onboarding"
             day_n_templates:
               - "WLC_Standard_Config"
 
@@ -57,30 +53,26 @@
               - "Global/Chennai"
               - "Global/Madurai"
             ssid_details:
-              - ssid: "HQ_WiFi"
+              - ssid_name: HQ_WiFi
+                dot11be_profile_name: HQ_WiFi_dot11be_profile
                 enable_fabric: false
-                wlan_profile_name: "HQ_WiFi_Profile"
-                policy_profile_name: "HQ_Access"
-                vlan_group_name: "VLAN_Group_20"
-              - ssid: "Branch_Secure"
+                vlan_group_name: VLAN_Group_20
+              - ssid_name: Branch_Secure
+                dot11be_profile_name: HQ_WiFi_dot11be_profile
                 enable_fabric: false
-                wlan_profile_name: "Branch_Secure_Profile"
-                policy_profile_name: "Branch_Access"
-                interface_name: "GigabitEthernet0/4"
+                interface_name: GigabitEthernet0/4
                 local_to_vlan: 35
             ap_zones:
-              - ap_zone_name: "AP_Zone_South"
-                rf_profile_name: "Medium_Performance"
+              - ap_zone_name: AP_Zone_South
+                rf_profile_name: Medium_Performance
                 ssids:
-                  - "HQ_WiFi"
-                  - "Branch_Secure"
+                  - HQ_WiFi
+                  - Branch_Secure
             additional_interfaces:
               - interface_name: "GigabitEthernet0/5"
                 vlan_id: 30
               - interface_name: "GigabitEthernet0/6"
                 vlan_id: 35
-            onboarding_templates:
-              - "Enterprise_WiFi_Onboarding"
             day_n_templates:
-              - "WLC_Advanced_Config"
+              - WLC_Advanced_Config
       register: output_list
