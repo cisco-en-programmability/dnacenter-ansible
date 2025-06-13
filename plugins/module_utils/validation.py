@@ -56,6 +56,7 @@ def validate_str(item, param_spec, param_name, invalid_params, module=None):
 
     return item
 
+
 def validate_integer_within_range(
     item, param_spec, param_name, invalid_params, module=None
 ):
@@ -128,6 +129,7 @@ def validate_bool(item, param_spec, param_name, invalid_params, module=None):
         )
 
     return item
+
 
 def validate_list(item, param_spec, param_name, invalid_params, module=None):
     """
@@ -225,9 +227,9 @@ def validate_dict(item, param_spec, param_name, invalid_params, module=None):
     """
     if param_spec.get("type") != type(item).__name__:
         invalid_params.append(
-                f"'{param_name}': '{item}' is invalid. Reason: expected type: '{param_spec.get('type')}'. "
-                f"Provided type: '{type(item).__name__}'. "
-            )
+            f"'{param_name}': '{item}' is invalid. Reason: expected type: '{param_spec.get('type')}'. "
+            f"Provided type: '{type(item).__name__}'. "
+        )
         return item
 
     if param_spec.get("type") == "dict":
