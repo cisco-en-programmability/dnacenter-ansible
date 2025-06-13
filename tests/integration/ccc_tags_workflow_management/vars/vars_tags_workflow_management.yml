@@ -15,6 +15,12 @@ cleanup_tags:
   - tag:
       name: ServersTag1
       force_delete: True
+  - tag:
+      name: Test_name_change
+      force_delete: True
+  - tag:
+      name: Test_name_change_renamed
+      force_delete: True
 
 create_tags:
   - tag:
@@ -134,6 +140,9 @@ create_tags:
             search_pattern: contains
             value: Border To Fusion Link
             operation: ILIKE
+
+  - tag:
+      name: Test_name_change
 
 update_tag_remove_description:
   - tag:
@@ -365,3 +374,8 @@ remove_tags_from_devices:
           serial_numbers:
             - KWC22120GRL
             - 1140K0005
+
+change_tag_name:
+  - tag:
+      name: Test_name_change
+      new_name: Test_name_change_renamed
