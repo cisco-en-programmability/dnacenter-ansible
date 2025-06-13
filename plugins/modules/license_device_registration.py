@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: license_device_registration
-short_description: Resource module for License Device Registration
+short_description: Resource module for License Device
+  Registration
 description:
-  - This module represents an alias of the module license_device_registration_v1
+  - Manage operation update of the resource License
+    Device Registration.
+  - Register devices in CSSM Cisco Smart Software Manager
+    .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -18,22 +24,27 @@ options:
     elements: str
     type: list
   virtual_account_name:
-    description: Virtual_account_name path parameter. Name of virtual account.
+    description: Virtual_account_name path parameter.
+      Name of virtual account.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Licenses DeviceRegistrationV1
-    description: Complete reference of the DeviceRegistrationV1 API.
+  - name: Cisco DNA Center documentation for Licenses
+      DeviceRegistration
+    description: Complete reference of the DeviceRegistration
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!device-registration
 notes:
-  - SDK Method used are licenses.Licenses.device_registration_v1,
-  - Paths used are put
-    /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual_account_name}/register,
-  - It should be noted that this module is an alias of license_device_registration_v1
+  - SDK Method used are
+    licenses.Licenses.device_registration,
+  - Paths used are
+    put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual_account_name}/register,
 """
+
 EXAMPLES = r"""
+---
 - name: Update all
   cisco.dnac.license_device_registration:
     dnac_host: "{{dnac_host}}"

@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: security_advisories_devices_info
-short_description: Information module for Security Advisories Devices Info
+short_description: Information module for Security Advisories
+  Devices
 description:
-  - This module represents an alias of the module security_advisories_devices_v1_info
+  - Get all Security Advisories Devices.
+  - Retrieves list of devices for an advisory.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,16 +28,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Security Advisories GetDevicesPerAdvisoryV1
-    description: Complete reference of the GetDevicesPerAdvisoryV1 API.
+  - name: Cisco DNA Center documentation for Security
+      Advisories GetDevicesPerAdvisory
+    description: Complete reference of the GetDevicesPerAdvisory
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-devices-per-advisory
 notes:
-  - SDK Method used are security_advisories.SecurityAdvisories.get_devices_per_advisory_v1,
-  - Paths used are get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device,
-  - It should be noted that this module is an alias of security_advisories_devices_v1_info
+  - SDK Method used are
+    security_advisories.SecurityAdvisories.get_devices_per_advisory,
+  - Paths used are
+    get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device,
 """
+
 EXAMPLES = r"""
-- name: Get all Security Advisories Devices Info
+---
+- name: Get all Security Advisories Devices
   cisco.dnac.security_advisories_devices_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

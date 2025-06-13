@@ -1,11 +1,26 @@
-## Description
-Please include a summary of the changes and the related issue. Also, include relevant motivation and context.
-
 ## Type of Change
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Breaking change
 - [ ] Documentation update
+
+## Description
+Please include a summary of the changes and the related issue. Also, include relevant motivation and context.
+
+Bug Fix: [Brief description of the bug fixed]
+Root Cause (if applicable): [Explain what caused the bug]
+Fix Implemented: [Describe the fix applied]
+
+Enhancement: [Brief description of the improvement/enhancement made]
+Enhancement Description: [Explain what was enhanced, why, and how]
+Impact Area: [Mention which part of the system/codebase is affected]
+
+Testing Done:
+- [] Manual testing
+- [] Unit tests
+- [] Integration tests
+
+Test cases covered: [Mention test case IDs or brief points]
 
 ## Checklist
 - [ ] My code follows the style guidelines of this project
