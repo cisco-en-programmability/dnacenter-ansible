@@ -261,7 +261,7 @@ response_update:
         "status": "success"
     }
 #Case 3: Idempotent delete multiple switching profiles
-response_delete:
+response_delete_idempotent:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -272,7 +272,7 @@ response_delete:
         "status": "success"
     }
 #Case 4: Successful deletion of Switch profile
-response_delete:
+response_delete_profile:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -289,7 +289,7 @@ response_delete:
         "status": "success"
     }
 #Case 5: Successful Unassign the site from the profile.
-response_delete:
+response_unassign_site:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -305,7 +305,7 @@ response_delete:
         "status": "success"
     }
 #Case 6: Successful Unassign the templae from the profile.
-response_delete:
+response_unassign_template:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -885,7 +885,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             config_profile_name = each_profile["profile_name"]
             profile_response = dict(
                 profile_name=config_profile_name
-                )
+            )
 
             if not self.value_exists(
                 self.have[type_list_name], "name", config_profile_name
@@ -1393,7 +1393,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 elif not update_temp_status and not assign_site_task:
                     self.already_processed.append(
                         "No changes required, Switch profile '{0}' already processed".format(
-                        each_profile["profile_name"]))
+                            each_profile["profile_name"]))
                 else:
                     self.not_processed.append(each_profile["profile_name"])
             else:
@@ -1523,13 +1523,13 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 ).check_return_status()
                 return self
 
-            if not self.value_exists(
-                self.have["switch_profile_list"], "name", each_profile["profile_name"]):
+            if not self.value_exists(self.have["switch_profile_list"], "name",
+                                     each_profile["profile_name"]):
                 success_profile.append(each_profile["profile_name"])
             else:
                 profile_check_info = self.have["switch_profile"][profile_index]
-                if (each_profile.get("site_names") or each_profile.get("day_n_templates")
-                    ) and not profile_check_info.get("profile_compare_stat"):
+                if (each_profile.get("site_names") or each_profile.get("day_n_templates")) and not\
+                profile_check_info.get("profile_compare_stat"):
                     success_profile.append(each_profile["profile_name"])
 
             profile_index += 1
@@ -1549,7 +1549,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
         if len(self.already_processed) == len(config):
             self.msg = "No Changes required, profile(s) already deleted/unassigned " +\
-            "and verified successfully for '{0}'.".format(self.already_processed)
+                "and verified successfully for '{0}'.".format(self.already_processed)
             self.changed = False
             self.status = "success"
 
