@@ -2,21 +2,465 @@
     "create_template_playbook_case_1": [
         {
             "configuration_templates": {
-                "project_name": "Onboarding Configuration",
-                "template_content": "hostname cat9k-1\n",
-                "language": "velocity",
-                "device_types": [
-                    {
-                        "product_family": "Switches and Hubs"
-                    }
-                ],
-                "software_type": "IOS-XE",
-                "variant": "XE",
-                "template_name": "test_template",
-                "version_description": "Test Template"
+              "project_name": "test_project_1",
+              "template_name": "UT template",
+              "template_content": "{% raw %}\nvlan {{ vlan }}\nhostname {{ hostname }}\n\ninterface {{ interface }}\nno shutdown\nswitchport access vlan {{ vlan }}\nswitchport mode access\ndescription {{ interface_description }}\n{% endraw %}",
+              "version_description": "Adding and committing the new template",
+              "language": "velocity",
+              "software_type": "IOS-XE",
+              "device_types": [
+                {
+                  "product_family": "Switches and Hubs"
+                }
+              ]
             }
         }
     ],
+
+    "update_template_playbook_case_2": [
+        {
+            "configuration_templates": {
+              "project_name": "test_project_1",
+              "template_name": "UT template",
+              "template_content": "{% raw %}\nhostname {{ hostname }}\n\ninterface {{ interface }}\nno shutdown\nswitchport access vlan {{ vlan }}\nswitchport mode access\ndescription {{ interface_description }}\n{% endraw %}",
+              "version_description": "Adding and committing the updated template",
+              "language": "velocity",
+              "software_type": "IOS-XE",
+              "device_types": [
+                {
+                  "product_family": "Switches and Hubs"
+                }
+              ]
+            }
+        }
+    ],
+
+    "get_update_project_details": {
+        "response": [
+          {
+            "name": "test_project_1",
+            "id": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+            "lastUpdateTime": 1747391199438,
+            "templates": [
+              {
+                "name": "Ansible SW Net-Prof 1",
+                "composite": false,
+                "language": "JINJA",
+                "id": "3169b503-3349-42a5-ba0b-7c78b5aa69f0",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1747628564210,
+                "latestVersionTime": 1747628564265,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "Check template",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "df9b710e-8251-4804-bed7-51d02a18949a",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749121355626,
+                "latestVersionTime": 1749121355758,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "Latest",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "6033af59-af51-4c89-92a5-fa3ccf9e045e",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749191554137,
+                "latestVersionTime": 0,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "Latest2",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "652adc07-b827-44a1-8295-08567e54147f",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749195871454,
+                "latestVersionTime": 1749195872548,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "Latest3",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "d8423fe1-79cc-430e-b083-8f25c8069f57",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749195985777,
+                "latestVersionTime": 1749196427365,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "Test-template",
+                "composite": false,
+                "language": "JINJA",
+                "id": "44e50170-c413-48ce-b58f-188d1e248545",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749044010251,
+                "latestVersionTime": 1749044018475,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "UT template",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "5bb9a1dc-c055-4592-907a-ba01f7bf7c6d",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749204572062,
+                "latestVersionTime": 1749204572988,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "test_template_15",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "5dd9982c-4ca8-4d00-86a2-b4a5b62cf752",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1747644053621,
+                "latestVersionTime": 1747644054528,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "test_template_8",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "25321cd0-65ff-431a-82d4-2639a2d8a117",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1747644005035,
+                "latestVersionTime": 1747644005814,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              }
+            ],
+            "isDeletable": true
+          }
+        ],
+        "version": "1.0"
+      },
+      
+    "get_available_templates_update": [
+        {
+          "name": "Ansible SW Net-Prof 1",
+          "projectName": "test_project_1",
+          "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+          "templateId": "3169b503-3349-42a5-ba0b-7c78b5aa69f0",
+          "versionsInfo": [
+            {
+              "id": "7bd2fff5-a250-4405-a547-747406344e76",
+              "description": "",
+              "author": "admin",
+              "version": "1",
+              "versionComment": "Imported Template",
+              "versionTime": 1747628564265
+            }
+          ],
+          "composite": false,
+          "tags": [
+            {
+              "id": "8adfdc61-6276-49f1-ad93-ec845fb399ed",
+              "name": "a_seematag1"
+            }
+          ],
+          "softwareType": "IOS-XE",
+          "deviceTypes": [
+            {
+              "productFamily": "Switches and Hubs"
+            }
+          ]
+        },
+        {
+          "name": "Check template",
+          "projectName": "test_project_1",
+          "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+          "templateId": "df9b710e-8251-4804-bed7-51d02a18949a",
+          "versionsInfo": [
+            {
+              "id": "e12efd7b-abfc-4b70-acac-dee5628d92e4",
+              "author": "admin",
+              "version": "1",
+              "versionComment": "Test Template",
+              "versionTime": 1749117257986
+            },
+            {
+              "id": "856ad3b8-f952-4a94-a771-1e0e1873598a",
+              "author": "admin",
+              "version": "2",
+              "versionComment": "Test Template",
+              "versionTime": 1749117455700
+            },
+            {
+              "id": "ee384571-749d-406d-bbff-6c256824fca6",
+              "author": "admin",
+              "version": "3",
+              "versionComment": "Version description for the template 1",
+              "versionTime": 1749120107942
+            },
+            {
+              "id": "694cde37-40bb-4be4-b393-8f7c1f324083",
+              "author": "admin",
+              "version": "4",
+              "versionComment": "Version description for the template 2",
+              "versionTime": 1749120359078
+            },
+            {
+              "id": "f7367566-308b-4e3c-b5d3-66fdfea970dd",
+              "author": "admin",
+              "version": "5",
+              "versionComment": "Check from UI",
+              "versionTime": 1749120948843
+            },
+            {
+              "id": "90262e41-a9b4-4c2d-82fd-3e9aeb38c83c",
+              "author": "admin",
+              "version": "6",
+              "versionComment": "Version description for the template 2",
+              "versionTime": 1749121355758
+            }
+          ],
+          "composite": false,
+          "tags": [],
+          "softwareType": "IOS-XE",
+          "deviceTypes": [
+            {
+              "productFamily": "Switches and Hubs"
+            }
+          ]
+        }
+      ],
+
+    "get_template_specific_detail": {
+        "name": "UT template",
+        "tags": [],
+        "author": "admin",
+        "deviceTypes": [
+          {
+            "productFamily": "Switches and Hubs"
+          }
+        ],
+        "softwareType": "IOS-XE",
+        "softwareVariant": "XE",
+        "templateContent": "\nvlan {{ vlan }}\nhostname {{ hostname }}\n\ninterface {{ interface }}\nno shutdown\nswitchport access vlan {{ vlan }}\nswitchport mode access\ndescription {{ interface_description }}\n",
+        "templateParams": [],
+        "rollbackTemplateParams": [],
+        "composite": false,
+        "containingTemplates": [],
+        "language": "VELOCITY",
+        "id": "5bb9a1dc-c055-4592-907a-ba01f7bf7c6d",
+        "customParamsOrder": false,
+        "createTime": 1749204572062,
+        "lastUpdateTime": 1749204572062,
+        "latestVersionTime": 1749204572988,
+        "projectName": "test_project_1",
+        "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+        "parentTemplateId": "5bb9a1dc-c055-4592-907a-ba01f7bf7c6d",
+        "validationErrors": {
+          "templateErrors": [
+            {
+              "type": "POTENTIAL_CONFLICT",
+              "lineNumber": 9,
+              "message": "This command is reserved to be used by Cisco Catalyst Center"
+            },
+            {
+              "type": "POTENTIAL_CONFLICT",
+              "lineNumber": 6,
+              "message": "This command is reserved to be used by Cisco Catalyst Center"
+            },
+            {
+              "type": "POTENTIAL_CONFLICT",
+              "lineNumber": 8,
+              "message": "This command is reserved to be used by Cisco Catalyst Center"
+            }
+          ],
+          "rollbackTemplateErrors": [],
+          "templateId": "5bb9a1dc-c055-4592-907a-ba01f7bf7c6d",
+          "templateVersion": null
+        },
+        "noOfConflicts": 3,
+        "documentDatabase": false,
+        "projectAssociated": true
+      },
+
+    "get_project_details_new": {
+        "response": [
+          {
+            "name": "test_project_1",
+            "id": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+            "lastUpdateTime": 1747391199438,
+            "templates": [
+              {
+                "name": "Ansible SW Net-Prof 1",
+                "composite": false,
+                "language": "JINJA",
+                "id": "3169b503-3349-42a5-ba0b-7c78b5aa69f0",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1747628564210,
+                "latestVersionTime": 1747628564265,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "Check template",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "df9b710e-8251-4804-bed7-51d02a18949a",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749121355626,
+                "latestVersionTime": 1749121355758,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "Latest",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "6033af59-af51-4c89-92a5-fa3ccf9e045e",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749191554137,
+                "latestVersionTime": 0,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "Latest2",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "652adc07-b827-44a1-8295-08567e54147f",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749195871454,
+                "latestVersionTime": 1749195872548,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "Latest3",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "d8423fe1-79cc-430e-b083-8f25c8069f57",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749195985777,
+                "latestVersionTime": 1749196427365,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "Test-template",
+                "composite": false,
+                "language": "JINJA",
+                "id": "44e50170-c413-48ce-b58f-188d1e248545",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1749044010251,
+                "latestVersionTime": 1749044018475,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "test_template_15",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "5dd9982c-4ca8-4d00-86a2-b4a5b62cf752",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1747644053621,
+                "latestVersionTime": 1747644054528,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              },
+              {
+                "name": "test_template_8",
+                "composite": false,
+                "language": "VELOCITY",
+                "id": "25321cd0-65ff-431a-82d4-2639a2d8a117",
+                "customParamsOrder": false,
+                "lastUpdateTime": 1747644005035,
+                "latestVersionTime": 1747644005814,
+                "projectName": "test_project_1",
+                "projectId": "647df5d8-39a6-4f8b-bc29-62ad7c68de76",
+                "noOfConflicts": 0,
+                "documentDatabase": false,
+                "projectAssociated": true
+              }
+            ],
+            "isDeletable": true
+          }
+        ],
+        "version": "1.0"
+      },
+      
+    "create_template_task_id": {
+        "response": {
+          "taskId": "019744ab-978a-77fe-9f41-133c9fd9ba5a",
+          "url": "/api/v1/task/019744ab-978a-77fe-9f41-133c9fd9ba5a"
+        },
+        "version": "1.0"
+      },
+
+    "versioning_the_template": {
+        "response": {
+            "taskId": "019744ab-99fb-773e-84f0-f7261b54ff8e",
+            "url": "/api/v1/task/019744ab-99fb-773e-84f0-f7261b54ff8e"
+        },
+        "version": "1.0"
+      },
+      
+      
+
     "get_projects_response_case_1_call_1": {
         "response": [
             {
@@ -467,24 +911,7 @@
         "documentDatabase": false,
         "projectAssociated": true
     },
-    "update_template_playbook_case_2": [
-        {
-            "configuration_templates": {
-                "project_name": "Onboarding Configuration",
-                "template_content": "hostname cat3k-1\n",
-                "language": "velocity",
-                "device_types": [
-                    {
-                        "product_family": "Switches and Hubs"
-                    }
-                ],
-                "software_type": "IOS-XE",
-                "variant": "XE",
-                "template_name": "test_template",
-                "version_description": "Test Template"
-            }
-        }
-    ],
+
     "get_projects_response_case_2_call_1": {
         "response": [
             {
