@@ -23,6 +23,10 @@ description:
   - This module interacts with Cisco Catalyst Center's
     Assurance settings to configure thresholds, rules,
     KPIs, and more for issue settings and issue resolution.
+  - The functionality for updating 'Global and Customized Settings',
+    including custom profiles site assignment, is currently unavailable
+    due to an API/SDK upgrade. It will be accessible under the
+    'Network Assurance Profile Workflow Manager' once the updated API is released
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -1223,11 +1227,11 @@ class AssuranceSettings(DnacBase):
                     validate_str(device_name, param_spec, "device_name", errormsg)
 
                 start_datetime = each_issue.get("start_datetime")
+                end_datetime = each_issue.get("end_datetime")
                 if start_datetime:
                     param_spec = dict(type="str", length_max=20)
                     validate_str(start_datetime, param_spec, "start_datetime", errormsg)
 
-                end_datetime = each_issue.get("end_datetime")
                 if end_datetime:
                     param_spec = dict(type="str", length_max=20)
                     validate_str(end_datetime, param_spec, "end_datetime", errormsg)
@@ -1587,6 +1591,7 @@ class AssuranceSettings(DnacBase):
         try:
             start_datetime = datetime.strptime(start_time, date_format)
             end_datetime = datetime.strptime(end_time, date_format)
+            seven_days_in_ms = 7 * 24 * 60 * 60 * 1000
 
             if start_datetime > end_datetime:
                 errormsg.append(
@@ -1596,6 +1601,10 @@ class AssuranceSettings(DnacBase):
 
             start_epoch_ms = int(start_datetime.timestamp() * 1000)
             end_epoch_ms = int(end_datetime.timestamp() * 1000)
+            if (end_epoch_ms - start_epoch_ms) >= seven_days_in_ms:
+                errormsg.append("The time range must not exceed 7 days.")
+                return None, None
+
             self.log("Successfully validated start and end datetime.", "INFO")
 
             return start_epoch_ms, end_epoch_ms
@@ -2279,6 +2288,7 @@ class AssuranceSettings(DnacBase):
             "network_device_ip_address",
             "device_name",
             "issue_process_type",
+            "mac_address"
         ]
 
         for key, value in config_data.items():
@@ -2327,9 +2337,7 @@ class AssuranceSettings(DnacBase):
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
 
-            payload_data[self.keymap["mac_address"]] = device_info.get("mac_address")
-            if payload_data.get(self.keymap["site_hierarchy"]):
-                payload_data["deviceId"] = device_info.get("id")
+            payload_data["device_id"] = device_info.get("id")
 
         self.log(
             "Collecting Issue ids for given config: {0}".format(
@@ -2656,12 +2664,13 @@ class AssuranceSettings(DnacBase):
                 continue
 
             for issue in system_issue:
+
                 if issue.get("displayName") == name and (
                     not description or issue.get("description") == description
                 ):
-                    if issue_setting.get("issue_enabled") is False and (
-                        issue_setting.get("threshold_value")
-                        or issue_setting.get("priority")
+                    if not issue_setting.get("issue_enabled") and (
+                        issue_setting.get("threshold_value") != issue.get("threshold_value") or
+                        issue_setting.get("priority") != issue.get("priority")
                     ):
                         self.msg = "For disabled issues, threshold and priority values can't be updated '{0}'.".format(
                             name
@@ -3881,7 +3890,6 @@ class AssuranceSettings(DnacBase):
                     "assurance_user_defined_issue_settings"
                 ].update({"Validation": "Success"})
                 self.status = "success"
-                self.result["changed"] = True
                 return self
 
             for item in assurance_issue_details:
@@ -3910,7 +3918,6 @@ class AssuranceSettings(DnacBase):
 
         self.msg = "Successfully validated deletion of user-defined assurance issues."
         self.status = "success"
-        self.result["changed"] = True
         return self
 
     def update_issue_status_messages(self):
