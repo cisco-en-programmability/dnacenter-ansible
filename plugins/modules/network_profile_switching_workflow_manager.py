@@ -1528,8 +1528,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 success_profile.append(each_profile["profile_name"])
             else:
                 profile_check_info = self.have["switch_profile"][profile_index]
-                if (each_profile.get("site_names") or each_profile.get("day_n_templates")) and not\
-                profile_check_info.get("profile_compare_stat"):
+                if (
+                    each_profile.get("site_names") or each_profile.get("day_n_templates")
+                ) and not profile_check_info.get("profile_compare_stat"):
                     success_profile.append(each_profile["profile_name"])
 
             profile_index += 1
