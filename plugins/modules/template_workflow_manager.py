@@ -4332,10 +4332,10 @@ class Template(DnacBase):
                         elif r_type == "MANAGED_DEVICE_HOSTNAME":
                             value = self.get_device_hostname_from_device_id(device_id)
 
-                            resource_params_dict['value'] = value
-                            self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
-                            resource_params_list.append(resource_params_dict)
-                            continue
+                        resource_params_dict['value'] = value
+                        self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
+                        resource_params_list.append(resource_params_dict)
+                        continue
 
                     # If the scope is not RUNTIME, we take the value directly from the resource_param dictionary
                     self.log("Processing resource parameter with type '{0}' and scope '{1}'.".format(r_type, scope), "DEBUG")
