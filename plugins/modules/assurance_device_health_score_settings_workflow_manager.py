@@ -1154,9 +1154,7 @@ class Healthscore(DnacBase):
                         if not response:
                             error_message = "Failed to update health score definition: No response received from DNAC."
                             self.log(error_message, "ERROR")
-                            self.set_operation_result(
-                                "failed", False, error_message, "ERROR"
-                            )
+                            self.set_operation_result("failed", False, error_message, "ERROR").check_return_status()
 
                         response_data = response.get("response")
                         if response_data:
@@ -1183,11 +1181,12 @@ class Healthscore(DnacBase):
                             "success", True, self.msg, "INFO", self.result["response"]
                         )
                     except Exception as e:
+                        e = str(e).split('"')[9]
                         self.msg = "Exception occurred while updating the Health score settings '{0}':'{1}'".format(
                             str(name), str(e)
                         )
                         self.log(self.msg, "ERROR")
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return self
 
