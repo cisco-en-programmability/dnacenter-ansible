@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: product_series_product_series_ordinal_info
-short_description: Information module for Product Series Product Series Ordinal Info
+short_description: Information module for Product Series
+  Product Series Ordinal
 description:
-  - This module represents an alias of the module product_series_product_series_ordinal_v1_info
+  - Get Product Series Product Series Ordinal by id.
+  - Get the network device product series, its ordinal.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,24 +22,29 @@ options:
     type: dict
   productSeriesOrdinal:
     description:
-      - ProductSeriesOrdinal path parameter. Unique identifier of product series.
+      - ProductSeriesOrdinal path parameter. Unique
+        identifier of product series.
     type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductSeriesV1
-    description: Complete reference of the RetrieveNetworkDeviceProductSeriesV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-series
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) RetrieveNetworkDeviceProductSeries
+    description: Complete reference of the RetrieveNetworkDeviceProductSeries
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-series
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.retrieve_network_device_product_series_v1,
-  - Paths used are get /dna/intent/api/v1/productSeries/{productSeriesOrdinal},
-  - It should be noted that this module is an alias of product_series_product_series_ordinal_v1_info
+    software_image_management_swim.SoftwareImageManagementSwim.retrieve_network_device_product_series,
+  - Paths used are
+    get /dna/intent/api/v1/productSeries/{productSeriesOrdinal},
 """
+
 EXAMPLES = r"""
-- name: Get Product Series Product Series Ordinal Info by id
+---
+- name: Get Product Series Product Series Ordinal by
+    id
   cisco.dnac.product_series_product_series_ordinal_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

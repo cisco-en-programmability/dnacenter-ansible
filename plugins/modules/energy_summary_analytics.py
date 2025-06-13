@@ -1,13 +1,23 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: energy_summary_analytics
-short_description: Resource module for Energy Summary Analytics
+short_description: Resource module for Energy Summary
+  Analytics
 description:
-  - This module represents an alias of the module energy_summary_analytics_v1
+  - Manage operation create of the resource Energy Summary
+    Analytics. - > Retrieve the summary analytics data
+    related to device energy consumption for all devices,
+    including network devices and clients assigned to
+    specific sites. For detailed information about the
+    usage of the API, please refer to the Open API specification
+    document - https //github.com/cisco-en-programmability/catalyst-center-
+    api-specs/blob/main/Assurance/CE_Cat_Center_Org-deviceEnergy_1.0-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -92,15 +102,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Know Your Network GetEnergySummaryAnalyticsV1
-    description: Complete reference of the GetEnergySummaryAnalyticsV1 API.
+  - name: Cisco DNA Center documentation for Know Your
+      Network GetEnergySummaryAnalytics
+    description: Complete reference of the GetEnergySummaryAnalytics
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-energy-summary-analytics
 notes:
-  - SDK Method used are know_your_network.KnowYourNetwork.get_energy_summary_analytics_v1,
-  - Paths used are post /dna/data/api/v1/energy/summaryAnalytics,
-  - It should be noted that this module is an alias of energy_summary_analytics_v1
+  - SDK Method used are
+    know_your_network.KnowYourNetwork.get_energy_summary_analytics,
+  - Paths used are
+    post /dna/data/api/v1/energy/summaryAnalytics,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.energy_summary_analytics:
     dnac_host: "{{dnac_host}}"

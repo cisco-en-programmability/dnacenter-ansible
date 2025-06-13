@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: ipam_global_ip_address_pools
-short_description: Resource module for Ipam Global Ip Address Pools
+short_description: Resource module for Ipam Global Ip
+  Address Pools
 description:
-  - This module represents an alias of the module ipam_global_ip_address_pools_v1
+  - Manage operation create of the resource Ipam Global
+    Ip Address Pools. - > Creates a global IP address
+    pool, which is not bound to a particular site. A
+    global pool must be either an IPv4 or IPv6 pool.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -25,39 +31,47 @@ options:
         elements: str
         type: list
       gatewayIpAddress:
-        description: The gateway IP address for this subnet.
+        description: The gateway IP address for this
+          subnet.
         type: str
       prefixLength:
-        description: The network mask component, as a decimal, for the CIDR notation
-          of this subnet.
+        description: The network mask component, as
+          a decimal, for the CIDR notation of this subnet.
         type: float
       subnet:
-        description: The IP address component of the CIDR notation for this subnet.
+        description: The IP address component of the
+          CIDR notation for this subnet.
         type: str
     type: dict
   name:
-    description: The name for this reserve IP pool. Only letters, numbers, '-' (hyphen),
-      '_' (underscore), '.' (period), and '/' (forward slash) are allowed.
+    description: The name for this reserve IP pool.
+      Only letters, numbers, '-' (hyphen), '_' (underscore),
+      '.' (period), and '/' (forward slash) are allowed.
     type: str
   poolType:
-    description: Once created, a global pool type cannot be changed. Tunnel Assigns
-      IP addresses to site-to-site VPN for IPSec tunneling. Generic used for all other
-      network types.
+    description: Once created, a global pool type cannot
+      be changed. Tunnel Assigns IP addresses to site-to-site
+      VPN for IPSec tunneling. Generic used for all
+      other network types.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Network Settings CreateAGlobalIPAddressPoolV1
-    description: Complete reference of the CreateAGlobalIPAddressPoolV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!create-a-global-ip-address-pool
+  - name: Cisco DNA Center documentation for Network
+      Settings CreateAGlobalIPAddressPool
+    description: Complete reference of the CreateAGlobalIPAddressPool
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-a-global-ip-address-pool
 notes:
-  - SDK Method used are network_settings.NetworkSettings.create_a_global_ip_address_pool_v1,
-  - Paths used are post /dna/intent/api/v1/ipam/globalIpAddressPools,
-  - It should be noted that this module is an alias of ipam_global_ip_address_pools_v1
+  - SDK Method used are
+    network_settings.NetworkSettings.create_a_global_ip_address_pool,
+  - Paths used are
+    post /dna/intent/api/v1/ipam/globalIpAddressPools,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.ipam_global_ip_address_pools:
     dnac_host: "{{dnac_host}}"

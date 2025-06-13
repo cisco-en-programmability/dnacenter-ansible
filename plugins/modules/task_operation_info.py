@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: task_operation_info
-short_description: Information module for Task Operation Info
+short_description: Information module for Task Operation
 description:
-  - This module represents an alias of the module task_operation_v1_info
+  - Get Task Operation by id.
+  - Returns root tasks associated with an Operationid.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,29 +25,34 @@ options:
     type: str
   offset:
     description:
-      - Offset path parameter. Index, minimum value is 0.
+      - Offset path parameter. Index, minimum value
+        is 0.
     type: int
   limit:
     description:
       - >
-        Limit path parameter. The maximum value of {limit} supported is 500. Base
-        1 indexing for {limit}, minimum
-        value is 1.
+        Limit path parameter. The maximum value of {limit}
+        supported is 500. Base 1 indexing for {limit},
+        minimum value is 1.
     type: int
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Task GetTaskByOperationIdV1
-    description: Complete reference of the GetTaskByOperationIdV1 API.
+  - name: Cisco DNA Center documentation for Task GetTaskByOperationId
+    description: Complete reference of the GetTaskByOperationId
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-task-by-operation-id
 notes:
-  - SDK Method used are task.Task.get_task_by_operationid,
-  - Paths used are get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit},
-  - It should be noted that this module is an alias of task_operation_v1_info
+  - SDK Method used are
+    task.Task.get_task_by_operationid,
+  - Paths used are
+    get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit},
 """
+
 EXAMPLES = r"""
-- name: Get Task Operation Info by id
+---
+- name: Get Task Operation by id
   cisco.dnac.task_operation_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

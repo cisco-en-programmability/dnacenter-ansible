@@ -1,14 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: security_service_insertion_fabric_sites_readiness_id_info
-short_description: Information module for Security Service Insertion Fabric Sites
-  Readiness Id Info
+short_description: Information module for Security Service
+  Insertion Fabric Sites Readiness Id
 description:
-  - This module represents an alias of the module security_service_insertion_fabric_sites_readiness_id_v1_info
+  - Get Security Service Insertion Fabric Sites Readiness
+    Id by id. - > Gets a list of SDA virtual networks
+    for the specified fabric site, including their individual
+    readiness status for Security Service Insertion
+    SSI deployment.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,24 +29,29 @@ options:
     type: str
   order:
     description:
-      - Order query parameter. Whether ascending or descending order should be used
-        to sort the response.
+      - Order query parameter. Whether ascending or
+        descending order should be used to sort the
+        response.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA ReadinessStatusForAFabricSiteV1
-    description: Complete reference of the ReadinessStatusForAFabricSiteV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!readiness-status-for-a-fabric-site
+  - name: Cisco DNA Center documentation for SDA ReadinessStatusForAFabricSite
+    description: Complete reference of the ReadinessStatusForAFabricSite
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!readiness-status-for-a-fabric-site
 notes:
-  - SDK Method used are sda.Sda.readiness_status_for_a_fabric_site_v1,
-  - Paths used are get /dna/intent/api/v1/securityServiceInsertion/fabricSitesReadiness/{id},
-  - It should be noted that this module is an alias of security_service_insertion_fabric_sites_readiness_id_v1_info
+  - SDK Method used are
+    sda.Sda.readiness_status_for_a_fabric_site,
+  - Paths used are
+    get /dna/intent/api/v1/securityServiceInsertion/fabricSitesReadiness/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Security Service Insertion Fabric Sites Readiness Id Info by id
+---
+- name: Get Security Service Insertion Fabric Sites
+    Readiness Id by id
   cisco.dnac.security_service_insertion_fabric_sites_readiness_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

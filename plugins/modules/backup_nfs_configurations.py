@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: backup_nfs_configurations
 short_description: Resource module for Backup Nfs Configurations
 description:
-  - This module represents an alias of the module backup_nfs_configurations_v1
+  - Manage operation create of the resource Backup Nfs
+    Configurations.
+  - This api is used to create NFS configuration.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,15 +36,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Backup CreateNFSConfigurationV1
-    description: Complete reference of the CreateNFSConfigurationV1 API.
+  - name: Cisco DNA Center documentation for Backup
+      CreateNFSConfiguration
+    description: Complete reference of the CreateNFSConfiguration
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-nfs-configuration
 notes:
-  - SDK Method used are backup.Backup.create_n_f_s_configuration_v1,
-  - Paths used are post /dna/system/api/v1/backupNfsConfigurations,
-  - It should be noted that this module is an alias of backup_nfs_configurations_v1
+  - SDK Method used are
+    backup.Backup.create_n_f_s_configuration,
+  - Paths used are
+    post /dna/system/api/v1/backupNfsConfigurations,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.backup_nfs_configurations:
     dnac_host: "{{dnac_host}}"
