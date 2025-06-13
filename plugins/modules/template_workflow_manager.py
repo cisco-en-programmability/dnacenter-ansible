@@ -4318,20 +4318,19 @@ class Template(DnacBase):
                             ).format(r_type, scope, ", ".join(runtime_scopes_available))
                             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                        if r_type in runtime_scopes_available:
-                            self.log(
-                                "Processing resource parameter with type '{0}' and scope '{1}' for runtime"
-                                " provisioning.".format(r_type, scope), "DEBUG"
-                            )
-                            if r_type == "SITE_UUID":
-                                value = self.get_site_uuid_from_device_id(device_id)
-                            elif r_type == "MANAGED_DEVICE_UUID":
-                                value = device_id
-                            elif r_type == "MANAGED_DEVICE_IP":
-                                device_ip_id_map = self.get_device_ips_from_device_ids([device_id])
-                                value = device_ip_id_map[device_id]
-                            elif r_type == "MANAGED_DEVICE_HOSTNAME":
-                                value = self.get_device_hostname_from_device_id(device_id)
+                        self.log(
+                            "Processing resource parameter with type '{0}' and scope '{1}' for runtime"
+                            " provisioning.".format(r_type, scope), "DEBUG"
+                        )
+                        if r_type == "SITE_UUID":
+                            value = self.get_site_uuid_from_device_id(device_id)
+                        elif r_type == "MANAGED_DEVICE_UUID":
+                            value = device_id
+                        elif r_type == "MANAGED_DEVICE_IP":
+                            device_ip_id_map = self.get_device_ips_from_device_ids([device_id])
+                            value = device_ip_id_map[device_id]
+                        elif r_type == "MANAGED_DEVICE_HOSTNAME":
+                            value = self.get_device_hostname_from_device_id(device_id)
 
                             resource_params_dict['value'] = value
                             self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
