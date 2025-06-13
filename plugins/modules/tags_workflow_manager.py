@@ -1076,9 +1076,11 @@ class Tags(DnacBase):
         )
 
         if invalid_params:
+            formatted_errors = '\n'.join(invalid_params)
             self.msg = (
-                f"The playbook contains invalid parameters: \n{'\n'.join(invalid_params)}\n"
-                "Refer to the documentation for more details on the expected input type."
+                "The playbook contains invalid parameters: \n"
+                f"{formatted_errors}"
+                "\nRefer to the documentation for more details on the expected input type."
             )
             self.fail_and_exit(self.msg)
             return self
