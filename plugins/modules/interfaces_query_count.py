@@ -1,13 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: interfaces_query_count
-short_description: Resource module for Interfaces Query Count
+short_description: Resource module for Interfaces Query
+  Count
 description:
-  - This module represents an alias of the module interfaces_query_count_v1
+  - Manage operation create of the resource Interfaces
+    Query Count. - > Gets the total number of interfaces
+    across the Network devices based on the provided
+    complex filters and aggregation functions. For detailed
+    information about the usage of the API, please refer
+    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
+    specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -84,17 +93,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices TheTotalInterfacesCountAcrossTheNetworkDevicesV1
-    description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevicesV1
+  - name: Cisco DNA Center documentation for Devices
+      TheTotalInterfacesCountAcrossTheNetworkDevices
+    description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevices
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices
+    link: https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices
 notes:
-  - SDK Method used are devices.Devices.the_total_interfaces_count_across_the_network_devices_v1,
-  - Paths used are post /dna/data/api/v1/interfaces/query/count,
-  - It should be noted that this module is an alias of interfaces_query_count_v1
+  - SDK Method used are
+    devices.Devices.the_total_interfaces_count_across_the_network_devices,
+  - Paths used are
+    post /dna/data/api/v1/interfaces/query/count,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.interfaces_query_count:
     dnac_host: "{{dnac_host}}"

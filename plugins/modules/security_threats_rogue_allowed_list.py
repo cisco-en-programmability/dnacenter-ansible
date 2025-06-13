@@ -1,26 +1,37 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: security_threats_rogue_allowed_list
-short_description: Resource module for Security Threats Rogue Allowed List
+short_description: Resource module for Security Threats
+  Rogue Allowed-List
 description:
-  - This module represents an alias of the module security_threats_rogue_allowed_list_v1
+  - Manage operations create and delete of the resource
+    Security Threats Rogue Allowed-List.
+  - Intent API to add the threat mac address to allowed
+    list.
+  - Intent API to remove the threat mac address from
+    allowed list.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   macAddress:
-    description: MacAddress path parameter. Threat mac address which needs to be removed
-      from the allowed list. Multiple mac addresses will be removed if provided as
-      comma separated values (example 00 2A 10 51 22 43,00 2A 10 51 22 44). Note In
-      one request, maximum 100 mac addresses can be removed.
+    description: MacAddress path parameter. Threat mac
+      address which needs to be removed from the allowed
+      list. Multiple mac addresses will be removed if
+      provided as comma separated values (example 00
+      2A 10 51 22 43,00 2A 10 51 22 44). Note In one
+      request, maximum 100 mac addresses can be removed.
     type: str
   payload:
-    description: Security Threats Rogue Allowed List's payload.
+    description: Security Threats Rogue Allowed List's
+      payload.
     elements: dict
     suboptions:
       category:
@@ -34,21 +45,29 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices AddAllowedMacAddressV1
-    description: Complete reference of the AddAllowedMacAddressV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      AddAllowedMacAddress
+    description: Complete reference of the AddAllowedMacAddress
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!add-allowed-mac-address
-  - name: Cisco DNA Center documentation for Devices RemoveAllowedMacAddressV1
-    description: Complete reference of the RemoveAllowedMacAddressV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      RemoveAllowedMacAddress
+    description: Complete reference of the RemoveAllowedMacAddress
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!remove-allowed-mac-address
 notes:
-  - SDK Method used are devices.Devices.add_allowed_mac_address_v1, devices.Devices.remove_allowed_mac_address_v1,
-  - Paths used are post /dna/intent/api/v1/security/threats/rogue/allowed-list, delete
-    /dna/intent/api/v1/security/threats/rogue/allowed-list/{macAddress},
-  - It should be noted that this module is an alias of security_threats_rogue_allowed_list_v1
+  - SDK Method used are
+    devices.Devices.add_allowed_mac_address,
+    devices.Devices.remove_allowed_mac_address,
+  - Paths used are
+    post /dna/intent/api/v1/security/threats/rogue/allowed-list,
+    delete /dna/intent/api/v1/security/threats/rogue/allowed-list/{macAddress},
 """
+
 EXAMPLES = r"""
+---
 - name: Create
-  cisco.dnac.security_threats_rogue_allowed_list:
+  cisco.dnac.security_threats_rogue_allowed-list:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -61,7 +80,7 @@ EXAMPLES = r"""
       - category: 0
         macAddress: string
 - name: Delete by id
-  cisco.dnac.security_threats_rogue_allowed_list:
+  cisco.dnac.security_threats_rogue_allowed-list:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
