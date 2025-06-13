@@ -260,6 +260,11 @@ options:
                     type: str
                     choices: [ILIKE, LIKE]
                     default: 'ILIKE'
+          new_name:
+            description: >
+              The new name for the tag when updating an existing tag.
+            type: str
+            required: false
       tag_memberships:
         description: A dictionary containing detailed
           configuration for managing tag memberships
@@ -959,6 +964,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import DnacBase
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
     validate_list_of_dicts,
 )
+import re
 
 
 class Tags(DnacBase):
@@ -1073,6 +1079,7 @@ class Tags(DnacBase):
                         "operation": {"type": "str", "default": "ILIKE"},
                     },
                 },
+                "new_name": {"type": "str"},
                 "network_device_tag_retrieval_batch_size": {
                     "type": "int",
                     "range_max": 500,
@@ -1711,9 +1718,24 @@ class Tags(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
+        new_tag_name = tag.get("new_name")
+
+        if new_tag_name is None:
+            new_tag_name = ""
+        else:
+            if new_tag_name:
+                self.log(
+                    f"New Tag Name provided: '{new_tag_name}'. It will be used to update the existing tag name: '{tag_name}'.",
+                    "DEBUG",
+                )
+            else:
+                self.msg = (
+                    f"New Tag Name: '{new_tag_name}' is empty for the tag: '{tag_name}'. Please Input a valid new tag name.",
+                )
+                self.fail_and_exit(self.msg)
+
         description = tag.get("description", "")
         force_delete = tag.get("force_delete", False)
-
         device_rules = self.validate_device_rules(tag)
         port_rules = self.validate_port_rules(tag)
 
@@ -1723,6 +1745,7 @@ class Tags(DnacBase):
             "force_delete": force_delete,
             "device_rules": device_rules,
             "port_rules": port_rules,
+            "new_name": new_tag_name,
             "network_device_tag_retrieval_batch_size": tag.get(
                 "network_device_tag_retrieval_batch_size"
             ),
@@ -1744,6 +1767,43 @@ class Tags(DnacBase):
             "INFO",
         )
         return validated_tag
+
+    def validate_device_detail(self, device_detail, identifier):
+        """
+        Validates whether a provided device detail matches a specified identifier type.
+
+        Parameters:
+            device_detail (str): The device detail to be validated (e.g., IP address, hostname, MAC address, serial number).
+            identifier (str): The type of identifier to validate against (e.g., "ip_addresses", "hostnames", "mac_addresses", "serial_numbers").
+
+        Returns:
+            bool: True if the device detail matches the specified identifier type, False otherwise.
+
+        Description:
+            This method compiles a regex pattern based on the identifier type and checks if the provided device detail
+            matches the pattern. If the identifier is invalid, it logs an error message and exits.
+        """
+        regex_pattern_map = {
+            "ip_addresses": r"^(?:(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$",  # Matches valid IPv4 addresses
+            "hostnames": r"^(?=.{1,253}$)(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))*$",  # Matches valid hostnames
+            "mac_addresses": r"^(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$",  # Matches valid MAC addresses
+            "serial_numbers": r"^[A-Za-z0-9]{8,12}$",  # Matches valid serial numbers (8-12 alphanumeric characters)
+        }
+
+        regex_pattern_for_identifiers = regex_pattern_map.get(identifier)
+        if not regex_pattern_map:
+            self.msg = f"Invalid device identifier type provided: '{identifier}'. Valid options are: '{regex_pattern_map.keys()}'"
+            self.fail_and_exit(self.msg)
+
+        regex_pattern_compiled = re.compile(regex_pattern_for_identifiers)
+        match_result = bool(regex_pattern_compiled.fullmatch(device_detail))
+
+        self.log(
+            f"Validating device detail '{device_detail}' with device identifier '{identifier}': Match result: {match_result}",
+            "DEBUG",
+        )
+
+        return match_result
 
     def process_tag_memberships(self, tag_memberships):
         """
@@ -1800,20 +1860,25 @@ class Tags(DnacBase):
                 "Device details are not provided in tag memberships config", "DEBUG"
             )
         else:
+            valid_device_identifiers = [
+                "ip_addresses",
+                "hostnames",
+                "mac_addresses",
+                "serial_numbers",
+            ]
             for device_detail in device_details:
-                if not any(
-                    device_detail.get(k)
-                    for k in [
-                        "ip_addresses",
-                        "hostnames",
-                        "mac_addresses",
-                        "serial_numbers",
-                    ]
-                ):
+                if not any(device_detail.get(k) for k in valid_device_identifiers):
                     self.msg = "At least one of IP addresses, hostnames, MAC addresses, or serial numbers is required."
                     self.set_operation_result(
                         "failed", False, self.msg, "ERROR"
                     ).check_return_status()
+
+                for identifier in valid_device_identifiers:
+                    if device_detail.get(identifier):
+                        for detail in device_detail[identifier]:
+                            if not self.validate_device_detail(detail, identifier):
+                                self.msg = f"Invalid {identifier} provided: {detail}. Please check the playbook."
+                                self.fail_and_exit(self.msg)
 
             port_names = device_detail.get("port_names")
             if port_names:
@@ -4297,6 +4362,7 @@ class Tags(DnacBase):
         requires_update = False
 
         tag_name = tag.get("name")
+        new_tag_name = tag.get("new_name", "")
         description = tag.get("description")
         device_rules = tag.get("device_rules")
         port_rules = tag.get("port_rules")
@@ -4333,10 +4399,14 @@ class Tags(DnacBase):
         formatted_port_rules_in_ccc = dynamic_rule_dict_in_ccc.get(
             "formatted_port_rules_in_ccc"
         )
-        updated_tag_info = {}
-        if tag_name != tag_name_in_ccc:
-            # Tag Name can't be changed, Only the Casing will change.
-            self.log("Tag name differs. Update required.", "INFO")
+        updated_tag_info = {"name": tag_name}
+
+        if new_tag_name and tag_name_in_ccc != new_tag_name:
+            self.log(
+                f"New Tag Name provided: '{new_tag_name}'. Existing tag name: '{tag_name_in_ccc}'. Update required.",
+                "INFO",
+            )
+            updated_tag_info["name"] = new_tag_name
             requires_update = True
 
         tmp_requires_update, updated_device_rules = (
@@ -4364,8 +4434,6 @@ class Tags(DnacBase):
         updated_dynamic_rules = self.combine_device_port_rules(
             updated_device_rules, updated_port_rules
         )
-
-        updated_tag_info = {"name": tag_name}
 
         if description_in_ccc is not None and description is not None:
             if description != description_in_ccc:
@@ -4431,6 +4499,14 @@ class Tags(DnacBase):
         )
         description = tag.get("description")
         tag_payload = {"name": tag_name, "description": description, "id": tag_id}
+        new_tag_name = tag.get("new_tag_name")
+        if new_tag_name:
+            self.log(
+                f"New tag name provided: '{new_tag_name}'. Updating tag name from '{tag_name}' to '{new_tag_name}'.",
+                "DEBUG",
+            )
+            tag_payload.update({"name": new_tag_name})
+
         dynamic_rules = tag.get("dynamic_rules")
         if dynamic_rules:
             self.log(
@@ -5430,6 +5506,19 @@ class Tags(DnacBase):
             "DEBUG",
         )
 
+        tag_config_data = config.get("tag", {})
+        if tag_config_data:
+            new_tag_name = tag_config_data.get("new_name")
+
+            if new_tag_name:
+                current_name = self.want.get("tag", {}).get("name", "Unknown")
+                self.log(
+                    f"Updating tag name: current name='{current_name}', new name='{new_tag_name}'.",
+                    "DEBUG",
+                )
+                # Update the tag name in the config
+                config["tag"]["name"] = config["tag"].get("new_name")
+
         self.get_have(config).check_return_status()
         tag = self.want.get("tag")
         tag_memberships = self.want.get("tag_memberships")
@@ -5456,7 +5545,7 @@ class Tags(DnacBase):
             self.log(self.msg, "INFO")
         else:
             self.msg = "Playbook operation is unsuccessful."
-            self.log(self.msg, "WARNING")
+            self.fail_and_exit(self.msg)
         return self
 
     def verify_tag_diff_deleted(self, tag):
@@ -5531,6 +5620,8 @@ class Tags(DnacBase):
                     ),
                     "DEBUG",
                 )
+
+                return verify_diff
 
             verify_diff = False
             self.msg = (
@@ -5608,7 +5699,7 @@ class Tags(DnacBase):
             self.log(self.msg, "INFO")
         else:
             self.msg = "Playbook operation is unsuccessful"
-            self.log(self.msg, "WARNING")
+            self.fail_and_exit(self.msg)
 
         return self
 
