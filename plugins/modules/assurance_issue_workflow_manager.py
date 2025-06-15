@@ -1011,6 +1011,7 @@ class AssuranceSettings(DnacBase):
         self.success_list_resolved, self.failed_list_resolved = [], []
         self.success_list_ignored, self.failed_list_ignored = [], []
         self.cmd_executed, self.cmd_not_executed, self.issue_processed = [], [], []
+        self.no_issues = []
         self.keymap = dict(
             source_ip="sourceIP",
             dest_ip="destIP",
@@ -2394,8 +2395,9 @@ class AssuranceSettings(DnacBase):
             self.log("Successfully retrieved issue IDs", "INFO")
             return issue_ids
 
-        self.msg = "No data received for the issue: {0}".format(config_data)
+        self.msg = "No issue to resolve/ignore. Already cleared. {0}".format(config_data)
         self.log(self.msg, "ERROR")
+        self.no_issues.append(config_data)
         return []
 
     def resolve_issue(self, issue_ids):
@@ -3836,6 +3838,13 @@ class AssuranceSettings(DnacBase):
                     self.log(self.msg, "INFO")
 
                 responses["command_executed"] = response
+
+            if self.no_issues:
+                self.msg += "No issue to resolve/ignore. Already cleared. {0}".format(
+                    self.no_issues
+                )
+                self.changed = False
+                self.status = "success"
 
             self.set_operation_result(
                 self.status, self.changed, self.msg, "INFO", responses
