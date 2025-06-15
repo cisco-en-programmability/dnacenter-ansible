@@ -1,13 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_images_info
-short_description: Information module for Network Device Images Info
+short_description: Information module for Network Device
+  Images
 description:
-  - This module represents an alias of the module network_device_images_v1_info
+  - Get all Network Device Images. - > This API retrieves
+    information about running images and golden image
+    bundle, if they are available for network devices.
+    It also provides network device update status and
+    image update status related to the golden image
+    bundle and the compatible features supported by
+    the network devices.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,71 +27,77 @@ options:
     type: dict
   managementAddress:
     description:
-      - ManagementAddress query parameter. IP address or DNS name used to access and
-        manage network devices.
+      - ManagementAddress query parameter. IP address
+        or DNS name used to access and manage network
+        devices.
     type: str
   networkDeviceImageStatus:
     description:
       - >
-        NetworkDeviceImageStatus query parameter. Network device image status with
-        respect to golden images.
-        Available values OUTDATED, UP_TO_DATE, UNKNOWN, CONFLICTED, UNSUPPORTED.
+        NetworkDeviceImageStatus query parameter. Network
+        device image status with respect to golden images.
+        Available values OUTDATED, UP_TO_DATE, UNKNOWN,
+        CONFLICTED, UNSUPPORTED.
     type: str
   networkDeviceUpdateStatus:
     description:
       - >
-        NetworkDeviceUpdateStatus query parameter. Network device current update status
-        with respect to golden
-        images. Available values DISTRIBUTION_PENDING, DISTRIBUTION_IN_PROGRESS, DISTRIBUTION_FAILED,
-        ACTIVATION_PENDING, ACTIVATION_IN_PROGRESS, ACTIVATION_FAILED, DEVICE_UP_TO_DATE,UNKNOWN.
+        NetworkDeviceUpdateStatus query parameter. Network
+        device current update status with respect to
+        golden images. Available values DISTRIBUTION_PENDING,
+        DISTRIBUTION_IN_PROGRESS, DISTRIBUTION_FAILED,
+        ACTIVATION_PENDING, ACTIVATION_IN_PROGRESS,
+        ACTIVATION_FAILED, DEVICE_UP_TO_DATE,UNKNOWN.
     type: str
   sortBy:
     description:
       - >
-        SortBy query parameter. Sort the response by a specified attribute. Available
-        attributes for sorting are
-        `id`,`networkDeviceUpdateStatus`,`networkDeviceImageStatus`, `goldenImages.name`,
-        `goldenImages.version`,
+        SortBy query parameter. Sort the response by
+        a specified attribute. Available attributes
+        for sorting are `id`,`networkDeviceUpdateStatus`,`networkDeviceImageStatus`,
+        `goldenImages.name`, `goldenImages.version`,
         `installedImages.name`, `installedImages.version`.
     type: str
   order:
     description:
       - >
-        Order query parameter. Whether ascending or descending order should be used
-        to sort the response. Available
-        values asc, desc.
+        Order query parameter. Whether ascending or
+        descending order should be used to sort the
+        response. Available values asc, desc.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to show for this page; the first
-        record is numbered 1. The minimum
-        value is 1.
+        Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1. The minimum value is 1.
     type: float
   limit:
     description:
       - >
-        Limit query parameter. The number of records to show for this page. The minimum
-        and maximum values are 1 and
-        500, respectively.
+        Limit query parameter. The number of records
+        to show for this page. The minimum and maximum
+        values are 1 and 500, respectively.
     type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetTheListOfNetworkDevicesWithImageDetailsV1
-    description: Complete reference of the GetTheListOfNetworkDevicesWithImageDetailsV1
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) GetTheListOfNetworkDevicesWithImageDetails
+    description: Complete reference of the GetTheListOfNetworkDevicesWithImageDetails
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-the-list-of-network-devices-with-image-details
+    link: https://developer.cisco.com/docs/dna-center/#!get-the-list-of-network-devices-with-image-details
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.get_the_list_of_network_devices_with_image_details_v1,
-  - Paths used are get /dna/intent/api/v1/networkDeviceImages,
-  - It should be noted that this module is an alias of network_device_images_v1_info
+    software_image_management_swim.SoftwareImageManagementSwim.get_the_list_of_network_devices_with_image_details,
+  - Paths used are
+    get /dna/intent/api/v1/networkDeviceImages,
 """
+
 EXAMPLES = r"""
-- name: Get all Network Device Images Info
+---
+- name: Get all Network Device Images
   cisco.dnac.network_device_images_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

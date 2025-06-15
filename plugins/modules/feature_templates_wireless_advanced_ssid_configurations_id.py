@@ -1,14 +1,23 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: feature_templates_wireless_advanced_ssid_configurations_id
-short_description: Resource module for Feature Templates Wireless Advanced Ssid Configurations
-  Id
+short_description: Resource module for Featuretemplates
+  Wireless Advancedssidconfigurations Id
 description:
-  - This module represents an alias of the module feature_templates_wireless_advanced_ssid_configurations_id_v1
+  - Manage operations update and delete of the resource
+    Featuretemplates Wireless Advancedssidconfigurations
+    Id.
+  - This API allows users to delete a specific Advanced
+    SSID configuration feature template by Id.
+  - This API allows users to update the details of a
+    specific Advanced SSID configuration feature template
+    by ID.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -18,7 +27,8 @@ options:
     description: Design Name.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Advanced S S I D Configurations Id's featureAttributes.
+    description: Feature Templates Wireless Advanced
+      S S I D Configurations Id's featureAttributes.
     suboptions:
       advertisePCAnalyticsSupport:
         description: Advertise PC Analytics Support.
@@ -60,28 +70,35 @@ options:
         description: DHCP Option82 Remote ID suboption.
         type: bool
       dhcpRequired:
-        description: Dynamic Host Configuration Protocol (DHCP) Required.
+        description: Dynamic Host Configuration Protocol
+          (DHCP) Required.
         type: bool
       dhcpServer:
-        description: Dynamic Host Configuration Protocol (DHCP) Server.
+        description: Dynamic Host Configuration Protocol
+          (DHCP) Server.
         type: str
       dot11ax:
         description: 802.11ax Status.
         type: bool
       dot11vBSSMaxIdleProtected:
-        description: Dot11v Basic Service Set (Bss) Max Idle Protected.
+        description: Dot11v Basic Service Set (Bss)
+          Max Idle Protected.
         type: bool
       downlinkMuMimo:
-        description: Downlink multi-user, multiple input, multiple output (MU-MIMO).
+        description: Downlink multi-user, multiple input,
+          multiple output (MU-MIMO).
         type: bool
       downlinkOfdma:
-        description: Downlink orthogonal frequency-division multiple access (OFDMA).
+        description: Downlink orthogonal frequency-division
+          multiple access (OFDMA).
         type: bool
       dtimPeriod24GHz:
-        description: Delivery Traffic Indication Map (DTIM) Period 2.4GhZ Band (1-255).
+        description: Delivery Traffic Indication Map
+          (DTIM) Period 2.4GhZ Band (1-255).
         type: int
       dtimPeriod5GHz:
-        description: Delivery Traffic Indication Map (DTIM) Period 5GhZ Band (1-255).
+        description: Delivery Traffic Indication Map
+          (DTIM) Period 5GhZ Band (1-255).
         type: int
       dualBandNeighborList:
         description: Neighbor List Dual Band.
@@ -90,7 +107,8 @@ options:
         description: Reassociation Timeout time.
         type: int
       fastlaneASR:
-        description: Fastlane Advanced Scheduling Request (ASR).
+        description: Fastlane Advanced Scheduling Request
+          (ASR).
         type: bool
       flexLocalAuth:
         description: FlexConnect Local Authentication.
@@ -108,17 +126,22 @@ options:
         description: Load Balance Enable.
         type: bool
       mDNSMode:
-        description: Multicast Domain Name Services (mDNS) Mode.
+        description: Multicast Domain Name Services
+          (mDNS) Mode.
         type: str
       maxClients:
-        description: For physical 9800 series controllers, valid ranges are - 0-5000
-          for 9800-L series - 0-32000 for 9800-40 series - 0-64000 for 9800-80 series
-          For 9800-CL series controllers, valid ranges are - 0-10000 for Small (S)
-          VM - 0-32000 for Medium (M) VM - 0-64000 for Large (L) VM For Embedded Wireless
-          Controller and Mobility Express, the valid range is 0-2000. For the 9300
-          platform, the valid range is 0-4000. For the AireOS platform, valid ranges
-          are - 0-3000 for 3500 series - 0-20000 for 5500 series - 0-64000 for 8500
-          series.
+        description: For physical 9800 series controllers,
+          valid ranges are - 0-5000 for 9800-L series
+          - 0-32000 for 9800-40 series - 0-64000 for
+          9800-80 series For 9800-CL series controllers,
+          valid ranges are - 0-10000 for Small (S) VM
+          - 0-32000 for Medium (M) VM - 0-64000 for
+          Large (L) VM For Embedded Wireless Controller
+          and Mobility Express, the valid range is 0-2000.
+          For the 9300 platform, the valid range is
+          0-4000. For the AireOS platform, valid ranges
+          are - 0-3000 for 3500 series - 0-20000 for
+          5500 series - 0-64000 for 8500 series.
         type: int
       maxClientsPerAp:
         description: Max client Per AP Per WLAN.
@@ -130,7 +153,8 @@ options:
         description: Media Stream Multicast Direct.
         type: bool
       muMimo11ac:
-        description: Multi-user, multiple input, multiple output (Mu Mimo) 11ac.
+        description: Multi-user, multiple input, multiple
+          output (Mu Mimo) 11ac.
         type: bool
       multicastBuffer:
         description: Multicast Buffer Enabled.
@@ -178,10 +202,12 @@ options:
         description: Universal Admin.
         type: bool
       uplinkMuMimo:
-        description: Uplink multi-user, multiple input, multiple output (MU-MIMO).
+        description: Uplink multi-user, multiple input,
+          multiple output (MU-MIMO).
         type: bool
       uplinkOfdma:
-        description: Uplink orthogonal frequency-division multiple access (OFDMA).
+        description: Uplink orthogonal frequency-division
+          multiple access (OFDMA).
         type: bool
       vlanCentralSwitching:
         description: VLAN Central Switching.
@@ -197,11 +223,13 @@ options:
         type: str
     type: dict
   id:
-    description: Id path parameter. Advanced SSID Configuration Feature Template Id.
+    description: Id path parameter. Advanced SSID Configuration
+      Feature Template Id.
     type: str
   unlockedAttributes:
-    description: Attributes unlocked in design can be changed at device provision
-      time. `Note ` unlockedAttributes can only contain the attributes defined under
+    description: Attributes unlocked in design can be
+      changed at device provision time. `Note ` unlockedAttributes
+      can only contain the attributes defined under
       featureAttributes.
     elements: str
     type: list
@@ -209,26 +237,29 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless DeleteAdvancedSSIDConfigurationFeatureTemplateV1
-    description: Complete reference of the DeleteAdvancedSSIDConfigurationFeatureTemplateV1
+  - name: Cisco DNA Center documentation for Wireless
+      DeleteAdvancedSSIDConfigurationFeatureTemplate
+    description: Complete reference of the DeleteAdvancedSSIDConfigurationFeatureTemplate
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!delete-advanced-ssid-configuration-feature-template
-  - name: Cisco DNA Center documentation for Wireless UpdateAdvancedSSIDConfigurationFeatureTemplateV1
-    description: Complete reference of the UpdateAdvancedSSIDConfigurationFeatureTemplateV1
+    link: https://developer.cisco.com/docs/dna-center/#!delete-advanced-ssid-configuration-feature-template
+  - name: Cisco DNA Center documentation for Wireless
+      UpdateAdvancedSSIDConfigurationFeatureTemplate
+    description: Complete reference of the UpdateAdvancedSSIDConfigurationFeatureTemplate
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!update-advanced-ssid-configuration-feature-template
+    link: https://developer.cisco.com/docs/dna-center/#!update-advanced-ssid-configuration-feature-template
 notes:
-  - SDK Method used are wireless.Wireless.delete_advanced_ssid_configuration_feature_template_v1,
-    wireless.Wireless.update_advanced_ssid_configuration_feature_template_v1,
-  - Paths used are delete /dna/intent/api/v1/featureTemplates/wireless/advancedSSIDConfigurations/{id},
+  - SDK Method used are
+    wireless.Wireless.delete_advanced_ssid_configuration_feature_template,
+    wireless.Wireless.update_advanced_ssid_configuration_feature_template,
+  - Paths used are
+    delete /dna/intent/api/v1/featureTemplates/wireless/advancedSSIDConfigurations/{id},
     put /dna/intent/api/v1/featureTemplates/wireless/advancedSSIDConfigurations/{id},
-  - It should be noted that this module is an alias of feature_templates_wireless_advanced_ssid_configurations_id_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Delete by id
-  cisco.dnac.feature_templates_wireless_advanced_ssid_configurations_id:
+  cisco.dnac.featureTemplates_wireless_advancedSSIDConfigurations_id:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -239,7 +270,7 @@ EXAMPLES = r"""
     state: absent
     id: string
 - name: Update by id
-  cisco.dnac.feature_templates_wireless_advanced_ssid_configurations_id:
+  cisco.dnac.featureTemplates_wireless_advancedSSIDConfigurations_id:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

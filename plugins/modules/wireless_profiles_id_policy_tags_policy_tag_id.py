@@ -1,14 +1,33 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_id_policy_tags_policy_tag_id
-short_description: Resource module for Wireless Profiles Id Policy Tags Policy Tag
-  Id
+short_description: Resource module for Wireless Profiles
+  Id Policy Tags Policy Tag Id
 description:
-  - This module represents an alias of the module wireless_profiles_id_policy_tags_policy_tag_id_v1
+  - Manage operations update and delete of the resource
+    Wireless Profiles Id Policy Tags Policy Tag Id.
+    - > This endpoint allows for the deletion of a specific
+    `Policy Tag` associated with a given `Wireless Profile`.
+    This API requires the `id` of the `Wireless Profile`
+    and the `policyTagId` of the `Policy Tag` to be
+    provided as path parameters. - > This endpoint allows
+    updating the details of a specific `Policy Tag`
+    associated with a given `Wireless Profile`. The
+    `id` of the `Wireless Profile` and the `policyTagId`
+    of the Policy Tag must be provided as path parameters,
+    and the request body should contain the updated
+    details of the `Policy Tag`. The `policyTagName`
+    cannot be modified through this endpoint. Note When
+    updating a Policy Tag, if the same set of AP Zones
+    apZones is used for the same site or its parent
+    site, the existing Policy Tag will be overridden
+    by the new one.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -19,10 +38,12 @@ options:
     elements: str
     type: list
   id:
-    description: Id path parameter. Wireless Profile Id.
+    description: Id path parameter. Wireless Profile
+      Id.
     type: str
   policyTagId:
-    description: PolicyTagId path parameter. Policy Tag Id.
+    description: PolicyTagId path parameter. Policy
+      Tag Id.
     type: str
   policyTagName:
     description: Policy Tag Name.
@@ -35,24 +56,27 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless DeleteASpecificPolicyTagFromAWirelessProfileV1
-    description: Complete reference of the DeleteASpecificPolicyTagFromAWirelessProfileV1
+  - name: Cisco DNA Center documentation for Wireless
+      DeleteASpecificPolicyTagFromAWirelessProfile
+    description: Complete reference of the DeleteASpecificPolicyTagFromAWirelessProfile
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!delete-a-specific-policy-tag-from-a-wireless-profile
-  - name: Cisco DNA Center documentation for Wireless UpdateASpecificPolicyTagForAWirelessProfileV1
-    description: Complete reference of the UpdateASpecificPolicyTagForAWirelessProfileV1
+    link: https://developer.cisco.com/docs/dna-center/#!delete-a-specific-policy-tag-from-a-wireless-profile
+  - name: Cisco DNA Center documentation for Wireless
+      UpdateASpecificPolicyTagForAWirelessProfile
+    description: Complete reference of the UpdateASpecificPolicyTagForAWirelessProfile
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!update-a-specific-policy-tag-for-a-wireless-profile
+    link: https://developer.cisco.com/docs/dna-center/#!update-a-specific-policy-tag-for-a-wireless-profile
 notes:
-  - SDK Method used are wireless.Wireless.delete_a_specific_policy_tag_from_a_wireless_profile_v1,
-    wireless.Wireless.update_a_specific_policy_tag_for_a_wireless_profile_v1,
-  - Paths used are delete /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/{policyTagId},
+  - SDK Method used are
+    wireless.Wireless.delete_a_specific_policy_tag_from_a_wireless_profile,
+    wireless.Wireless.update_a_specific_policy_tag_for_a_wireless_profile,
+  - Paths used are
+    delete /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/{policyTagId},
     put /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/{policyTagId},
-  - It should be noted that this module is an alias of wireless_profiles_id_policy_tags_policy_tag_id_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Delete by id
   cisco.dnac.wireless_profiles_id_policy_tags_policy_tag_id:
     dnac_host: "{{dnac_host}}"

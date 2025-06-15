@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: backup_nfs_configurations_info
-short_description: Information module for Backup Nfs Configurations Info
+short_description: Information module for Backup Nfs
+  Configurations
 description:
-  - This module represents an alias of the module backup_nfs_configurations_v1_info
+  - Get all Backup Nfs Configurations.
+  - This api is used to get all the configured NFS.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,16 +24,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Backup GetAllNFSConfigurationsV1
-    description: Complete reference of the GetAllNFSConfigurationsV1 API.
+  - name: Cisco DNA Center documentation for Backup
+      GetAllNFSConfigurations
+    description: Complete reference of the GetAllNFSConfigurations
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-nfs-configurations
 notes:
-  - SDK Method used are backup.Backup.get_all_n_f_s_configurations_v1,
-  - Paths used are get /dna/system/api/v1/backupNfsConfigurations,
-  - It should be noted that this module is an alias of backup_nfs_configurations_v1_info
+  - SDK Method used are
+    backup.Backup.get_all_n_f_s_configurations,
+  - Paths used are
+    get /dna/system/api/v1/backupNfsConfigurations,
 """
+
 EXAMPLES = r"""
-- name: Get all Backup Nfs Configurations Info
+---
+- name: Get all Backup Nfs Configurations
   cisco.dnac.backup_nfs_configurations_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

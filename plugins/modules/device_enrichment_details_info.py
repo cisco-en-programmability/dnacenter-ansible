@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: device_enrichment_details_info
-short_description: Information module for Device Enrichment Details Info
+short_description: Information module for Device Enrichment
+  Details
 description:
-  - This module represents an alias of the module device_enrichment_details_v1_info
+  - Get all Device Enrichment Details. - > Enriches
+    a given network device context device id or device
+    Mac Address or device management IP address with
+    details about the device and neighbor topology.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,16 +26,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetDeviceEnrichmentDetailsV1
-    description: Complete reference of the GetDeviceEnrichmentDetailsV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      GetDeviceEnrichmentDetails
+    description: Complete reference of the GetDeviceEnrichmentDetails
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details
 notes:
-  - SDK Method used are devices.Devices.get_device_enrichment_details_v1,
-  - Paths used are get /dna/intent/api/v1/device-enrichment-details,
-  - It should be noted that this module is an alias of device_enrichment_details_v1_info
+  - SDK Method used are
+    devices.Devices.get_device_enrichment_details,
+  - Paths used are
+    get /dna/intent/api/v1/device-enrichment-details,
 """
+
 EXAMPLES = r"""
-- name: Get all Device Enrichment Details Info
+---
+- name: Get all Device Enrichment Details
   cisco.dnac.device_enrichment_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

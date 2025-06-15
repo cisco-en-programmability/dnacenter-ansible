@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_power_profiles_id_info
-short_description: Information module for Wireless Settings Power Profiles Id Info
+short_description: Information module for Wireless Settings
+  Power Profiles Id
 description:
-  - This module represents an alias of the module wireless_settings_power_profiles_id_v1_info
+  - Get Wireless Settings Power Profiles Id by id.
+  - This API allows the user to get a Power Profile
+    by Power Profile ID that captured in wireless settings
+    design.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,16 +30,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetPowerProfileByIDV1
-    description: Complete reference of the GetPowerProfileByIDV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      GetPowerProfileByID
+    description: Complete reference of the GetPowerProfileByID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-power-profile-by-id
 notes:
-  - SDK Method used are wireless.Wireless.get_power_profile_by_id_v1,
-  - Paths used are get /dna/intent/api/v1/wirelessSettings/powerProfiles/{id},
-  - It should be noted that this module is an alias of wireless_settings_power_profiles_id_v1_info
+  - SDK Method used are
+    wireless.Wireless.get_power_profile_by_id,
+  - Paths used are
+    get /dna/intent/api/v1/wirelessSettings/powerProfiles/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Wireless Settings Power Profiles Id Info by id
+---
+- name: Get Wireless Settings Power Profiles Id by id
   cisco.dnac.wireless_settings_power_profiles_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

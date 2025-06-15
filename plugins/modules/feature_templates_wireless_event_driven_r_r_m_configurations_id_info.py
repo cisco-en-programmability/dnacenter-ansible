@@ -1,14 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: feature_templates_wireless_event_driven_r_r_m_configurations_id_info
-short_description: Information module for Feature Templates Wireless Event Driven
-  R R M Configurations Id Info
+short_description: Information module for Featuretemplates
+  Wireless Eventdrivenrrmconfigurations Id
 description:
-  - This module represents an alias of the module feature_templates_wireless_event_driven_r_r_m_configurations_id_v1_info
+  - Get Featuretemplates Wireless Eventdrivenrrmconfigurations
+    Id by id.
+  - This API allows users to retrieve a specific Event
+    Driven RRM configuration feature template by ID.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,26 +24,30 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. Event Driven RRM Configuration Feature Template Id.
+      - Id path parameter. Event Driven RRM Configuration
+        Feature Template Id.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetEventDrivenRRMConfigurationFeatureTemplateV1
-    description: Complete reference of the GetEventDrivenRRMConfigurationFeatureTemplateV1
+  - name: Cisco DNA Center documentation for Wireless
+      GetEventDrivenRRMConfigurationFeatureTemplate
+    description: Complete reference of the GetEventDrivenRRMConfigurationFeatureTemplate
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-event-driven-rrm-configuration-feature-template
+    link: https://developer.cisco.com/docs/dna-center/#!get-event-driven-rrm-configuration-feature-template
 notes:
-  - SDK Method used are wireless.Wireless.get_event_driven_r_r_m_configuration_feature_template_v1,
-  - Paths used are get /dna/intent/api/v1/featureTemplates/wireless/eventDrivenRRMConfigurations/{id},
-  - It should be noted that this module is an alias of feature_templates_wireless_event_driven_r_r_m_configurations_id_v1_info
+  - SDK Method used are
+    wireless.Wireless.get_event_driven_r_r_m_configuration_feature_template,
+  - Paths used are
+    get /dna/intent/api/v1/featureTemplates/wireless/eventDrivenRRMConfigurations/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Feature Templates Wireless Event Driven R R M Configurations Id Info
-    by id
-  cisco.dnac.feature_templates_wireless_event_driven_r_r_m_configurations_id_info:
+---
+- name: Get Featuretemplates Wireless Eventdrivenrrmconfigurations
+    Id by id
+  cisco.dnac.featureTemplates_wireless_eventDrivenRRMConfigurations_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

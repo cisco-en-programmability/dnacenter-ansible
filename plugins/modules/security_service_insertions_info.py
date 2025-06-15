@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: security_service_insertions_info
-short_description: Information module for Security Service Insertions Info
+short_description: Information module for Security Service
+  Insertions
 description:
-  - This module represents an alias of the module security_service_insertions_v1_info
+  - Get all Security Service Insertions.
+  - Retrieves a list of all Security Service Insertions
+    SSIs configured across fabric sites.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,43 +24,49 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records to return. Default value
-        is 100, minimum value is 1 and
-        maximum value is 100.
+        Limit query parameter. Maximum number of records
+        to return. Default value is 100, minimum value
+        is 1 and maximum value is 100.
     type: str
   offset:
     description:
-      - Offset query parameter. Starting record for pagination. The first record is
-        numbered 1.
+      - Offset query parameter. Starting record for
+        pagination. The first record is numbered 1.
     type: float
   order:
     description:
       - >
-        Order query parameter. The sorting order for the response can be specified
-        as either ascending (asc) or
-        descending (desc). The default order is ascending (asc).
+        Order query parameter. The sorting order for
+        the response can be specified as either ascending
+        (asc) or descending (desc). The default order
+        is ascending (asc).
     type: str
   fabricSiteName:
     description:
       - >
-        FabricSiteName query parameter. Filter by fabric site name (supports partial
-        search). For example, searching
-        for "London" will match "London fabric site", etc.
+        FabricSiteName query parameter. Filter by fabric
+        site name (supports partial search). For example,
+        searching for "London" will match "London fabric
+        site", etc.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA SecurityServiceInsertionsV1
-    description: Complete reference of the SecurityServiceInsertionsV1 API.
+  - name: Cisco DNA Center documentation for SDA SecurityServiceInsertions
+    description: Complete reference of the SecurityServiceInsertions
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!security-service-insertions
 notes:
-  - SDK Method used are sda.Sda.security_service_insertions_v1,
-  - Paths used are get /dna/intent/api/v1/securityServiceInsertions,
-  - It should be noted that this module is an alias of security_service_insertions_v1_info
+  - SDK Method used are
+    sda.Sda.security_service_insertions,
+  - Paths used are
+    get /dna/intent/api/v1/securityServiceInsertions,
 """
+
 EXAMPLES = r"""
-- name: Get all Security Service Insertions Info
+---
+- name: Get all Security Service Insertions
   cisco.dnac.security_service_insertions_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

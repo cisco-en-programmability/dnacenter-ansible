@@ -1,69 +1,87 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: ipam_server_setting
 short_description: Resource module for Ipam Server Setting
 description:
-  - This module represents an alias of the module ipam_server_setting_v1
+  - Manage operations create, update and delete of the
+    resource Ipam Server Setting. - > Creates configuration
+    details of the external IPAM server. You should
+    only create one external IPAM server; delete any
+    existing external server before creating a new one.
+  - Deletes configuration details of the external IPAM
+    server.
+  - Updates configuration details of the external IPAM
+    server.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   password:
-    description: The password for the external IPAM server login username.
+    description: The password for the external IPAM
+      server login username.
     type: str
   provider:
-    description: Type of external IPAM. Can be either INFOBLOX, BLUECAT or GENERIC.
+    description: Type of external IPAM. Can be either
+      INFOBLOX, BLUECAT or GENERIC.
     type: str
   serverName:
-    description: A descriptive name of this external server, used for identification
-      purposes.
+    description: A descriptive name of this external
+      server, used for identification purposes.
     type: str
   serverUrl:
     description: The URL of this external server.
     type: str
   syncView:
-    description: Synchronize the IP pools from the local IPAM to this external server.
+    description: Synchronize the IP pools from the local
+      IPAM to this external server.
     type: bool
   userName:
     description: The external IPAM server login username.
     type: str
   view:
-    description: The view under which pools are created in the external IPAM server.
+    description: The view under which pools are created
+      in the external IPAM server.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for System Settings CreatesConfigurationDetailsOfTheExternalIPAMServerV1
-    description: Complete reference of the CreatesConfigurationDetailsOfTheExternalIPAMServerV1
+  - name: Cisco DNA Center documentation for System
+      Settings CreatesConfigurationDetailsOfTheExternalIPAMServer
+    description: Complete reference of the CreatesConfigurationDetailsOfTheExternalIPAMServer
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!creates-configuration-details-of-the-external-ipam-server
-  - name: Cisco DNA Center documentation for System Settings DeletesConfigurationDetailsOfTheExternalIPAMServerV1
-    description: Complete reference of the DeletesConfigurationDetailsOfTheExternalIPAMServerV1
+    link: https://developer.cisco.com/docs/dna-center/#!creates-configuration-details-of-the-external-ipam-server
+  - name: Cisco DNA Center documentation for System
+      Settings DeletesConfigurationDetailsOfTheExternalIPAMServer
+    description: Complete reference of the DeletesConfigurationDetailsOfTheExternalIPAMServer
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!deletes-configuration-details-of-the-external-ipam-server
-  - name: Cisco DNA Center documentation for System Settings UpdatesConfigurationDetailsOfTheExternalIPAMServerV1
-    description: Complete reference of the UpdatesConfigurationDetailsOfTheExternalIPAMServerV1
+    link: https://developer.cisco.com/docs/dna-center/#!deletes-configuration-details-of-the-external-ipam-server
+  - name: Cisco DNA Center documentation for System
+      Settings UpdatesConfigurationDetailsOfTheExternalIPAMServer
+    description: Complete reference of the UpdatesConfigurationDetailsOfTheExternalIPAMServer
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!updates-configuration-details-of-the-external-ipam-server
+    link: https://developer.cisco.com/docs/dna-center/#!updates-configuration-details-of-the-external-ipam-server
 notes:
   - SDK Method used are
-    system_settings.SystemSettings.creates_configuration_details_of_the_external_ip_a_m_server_v1,
-    system_settings.SystemSettings.deletes_configuration_details_of_the_external_ip_a_m_server_v1,
-    system_settings.SystemSettings.updates_configuration_details_of_the_external_ip_a_m_server_v1,
-  - Paths used are post /dna/intent/api/v1/ipam/serverSetting, delete /dna/intent/api/v1/ipam/serverSetting,
-    put /dna/intent/api/v1/ipam/serverSetting,
-  - It should be noted that this module is an alias of ipam_server_setting_v1
+    system_settings.SystemSettings.creates_configuration_details_of_the_external_ip_a_m_server,
+    system_settings.SystemSettings.deletes_configuration_details_of_the_external_ip_a_m_server,
+    system_settings.SystemSettings.updates_configuration_details_of_the_external_ip_a_m_server,
+  - Paths used are
+    post /dna/intent/api/v1/ipam/serverSetting,
+    delete /dna/intent/api/v1/ipam/serverSetting,
+    put
+    /dna/intent/api/v1/ipam/serverSetting,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.ipam_server_setting:
     dnac_host: "{{dnac_host}}"
