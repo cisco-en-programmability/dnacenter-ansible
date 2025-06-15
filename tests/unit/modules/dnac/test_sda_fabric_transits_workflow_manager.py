@@ -39,7 +39,7 @@ class TestDnacSdaFabricTransits(TestDnacModule):
     playbook_config_delete_sda_fabric_transits_with_verify = test_data.get("playbook_config_delete_sda_fabric_transits_with_verify")
     playbook_config_delete_absent_sda_fabric_transits = test_data.get("playbook_config_delete_absent_sda_fabric_transits")
     playbook_config_failed_fabric_lisp_bgp_based_transits_creation = test_data.get("playbook_config_failed_fabric_lisp_bgp_based_transits_creation")
-    
+
     def setUp(self):
         super(TestDnacSdaFabricTransits, self).setUp()
 
@@ -77,7 +77,7 @@ class TestDnacSdaFabricTransits(TestDnacModule):
                 self.test_data.get("get_created_transits_networks"),
                 self.test_data.get("get_created_transits_networks")
             ]
-        
+
         elif "create_fabric_lisp_bgp_based_transits" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_created_transits_networks"),
@@ -332,4 +332,3 @@ class TestDnacSdaFabricTransits(TestDnacModule):
             "Failed to execute",
             result.get('msg')
         )
-
