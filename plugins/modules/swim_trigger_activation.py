@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: swim_trigger_activation
-short_description: Resource module for Swim Trigger Activation
+short_description: Resource module for Swim Trigger
+  Activation
 description:
-  - This module represents an alias of the module swim_trigger_activation_v1
+  - Manage operation create of the resource Swim Trigger
+    Activation.
+  - Activates a software image on a given device. Software
+    image must be present in the device flash.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -42,24 +48,27 @@ options:
         type: list
     type: list
   scheduleValidate:
-    description: ScheduleValidate query parameter. ScheduleValidate, validates data
-      before schedule (Optional).
+    description: ScheduleValidate query parameter. ScheduleValidate,
+      validates data before schedule (Optional).
     type: bool
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivationV1
-    description: Complete reference of the TriggerSoftwareImageActivationV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) TriggerSoftwareImageActivation
+    description: Complete reference of the TriggerSoftwareImageActivation
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation_v1,
-  - Paths used are post /dna/intent/api/v1/image/activation/device,
-  - It should be noted that this module is an alias of swim_trigger_activation_v1
+    software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,
+  - Paths used are
+    post /dna/intent/api/v1/image/activation/device,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.swim_trigger_activation:
     dnac_host: "{{dnac_host}}"

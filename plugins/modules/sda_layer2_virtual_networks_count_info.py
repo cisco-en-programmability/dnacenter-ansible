@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sda_layer2_virtual_networks_count_info
-short_description: Information module for Sda Layer2 Virtual Networks Count Info
+short_description: Information module for Sda Layer2virtualnetworks
+  Count
 description:
-  - This module represents an alias of the module sda_layer2_virtual_networks_count_v1_info
+  - Get all Sda Layer2virtualnetworks Count.
+  - Returns the count of layer 2 virtual networks that
+    match the provided query parameters.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -18,42 +23,48 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric the layer 2 virtual network is
-        assigned to.
+      - FabricId query parameter. ID of the fabric the
+        layer 2 virtual network is assigned to.
     type: str
   vlanName:
     description:
-      - VlanName query parameter. The vlan name of the layer 2 virtual network.
+      - VlanName query parameter. The vlan name of the
+        layer 2 virtual network.
     type: str
   vlanId:
     description:
-      - VlanId query parameter. The vlan ID of the layer 2 virtual network.
+      - VlanId query parameter. The vlan ID of the layer
+        2 virtual network.
     type: float
   trafficType:
     description:
-      - TrafficType query parameter. The traffic type of the layer 2 virtual network.
+      - TrafficType query parameter. The traffic type
+        of the layer 2 virtual network.
     type: str
   associatedLayer3VirtualNetworkName:
     description:
-      - AssociatedLayer3VirtualNetworkName query parameter. Name of the associated
-        layer 3 virtual network.
+      - AssociatedLayer3VirtualNetworkName query parameter.
+        Name of the associated layer 3 virtual network.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA GetLayer2VirtualNetworkCountV1
-    description: Complete reference of the GetLayer2VirtualNetworkCountV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-layer-2-virtual-network-count
+  - name: Cisco DNA Center documentation for SDA GetLayer2VirtualNetworkCount
+    description: Complete reference of the GetLayer2VirtualNetworkCount
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-layer-2-virtual-network-count
 notes:
-  - SDK Method used are sda.Sda.get_layer2_virtual_network_count_v1,
-  - Paths used are get /dna/intent/api/v1/sda/layer2VirtualNetworks/count,
-  - It should be noted that this module is an alias of sda_layer2_virtual_networks_count_v1_info
+  - SDK Method used are
+    sda.Sda.get_layer2_virtual_network_count,
+  - Paths used are
+    get /dna/intent/api/v1/sda/layer2VirtualNetworks/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Sda Layer2 Virtual Networks Count Info
-  cisco.dnac.sda_layer2_virtual_networks_count_info:
+---
+- name: Get all Sda Layer2virtualnetworks Count
+  cisco.dnac.sda_layer2VirtualNetworks_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

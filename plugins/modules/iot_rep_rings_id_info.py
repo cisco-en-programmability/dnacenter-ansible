@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: iot_rep_rings_id_info
-short_description: Information module for Iot Rep Rings Id Info
+short_description: Information module for Iot Rep Rings
+  Id
 description:
-  - This module represents an alias of the module iot_rep_rings_id_v1_info
+  - Get Iot Rep Rings Id by id. - > This API returns
+    REP ring for the given id The id of configured REP
+    ring can be retrieved using the API /dna/intent/api/v1/iot/repRings/query
+    .
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -19,26 +25,28 @@ options:
   id:
     description:
       - >
-        Id path parameter. Ring ID of configured REP ring can be fetched using the
-        API
-        `/dna/intent/api/v1/iot/repRings/query`.
+        Id path parameter. Ring ID of configured REP
+        ring can be fetched using the API `/dna/intent/api/v1/iot/repRings/query`.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Industrial Configuration GetTheREPRingBasedOnTheRingIdV1
-    description: Complete reference of the GetTheREPRingBasedOnTheRingIdV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-the-rep-ring-based-on-the-ring-id
+  - name: Cisco DNA Center documentation for Industrial
+      Configuration GetTheREPRingBasedOnTheRingId
+    description: Complete reference of the GetTheREPRingBasedOnTheRingId
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-the-rep-ring-based-on-the-ring-id
 notes:
   - SDK Method used are
-    industrial_configuration.IndustrialConfiguration.get_the_r_e_p_ring_based_on_the_ring_id_v1,
-  - Paths used are get /dna/intent/api/v1/iot/repRings/{id},
-  - It should be noted that this module is an alias of iot_rep_rings_id_v1_info
+    industrial_configuration.IndustrialConfiguration.get_the_r_e_p_ring_based_on_the_ring_id,
+  - Paths used are
+    get /dna/intent/api/v1/iot/repRings/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Iot Rep Rings Id Info by id
+---
+- name: Get Iot Rep Rings Id by id
   cisco.dnac.iot_rep_rings_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

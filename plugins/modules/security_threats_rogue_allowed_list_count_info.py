@@ -1,14 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: security_threats_rogue_allowed_list_count_info
-short_description: Information module for Security Threats Rogue Allowed List Count
-  Info
+short_description: Information module for Security Threats
+  Rogue Allowed-List Count
 description:
-  - This module represents an alias of the module security_threats_rogue_allowed_list_count_v1_info
+  - Get all Security Threats Rogue Allowed-List Count.
+  - Intent API to fetch the count of allowed mac addresses
+    in the system.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,17 +25,23 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetAllowedMacAddressCountV1
-    description: Complete reference of the GetAllowedMacAddressCountV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      GetAllowedMacAddressCount
+    description: Complete reference of the GetAllowedMacAddressCount
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address-count
 notes:
-  - SDK Method used are devices.Devices.get_allowed_mac_address_count_v1,
-  - Paths used are get /dna/intent/api/v1/security/threats/rogue/allowed-list/count,
-  - It should be noted that this module is an alias of security_threats_rogue_allowed_list_count_v1_info
+  - SDK Method used are
+    devices.Devices.get_allowed_mac_address_count,
+  - Paths used are
+    get /dna/intent/api/v1/security/threats/rogue/allowed-list/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Security Threats Rogue Allowed List Count Info
-  cisco.dnac.security_threats_rogue_allowed_list_count_info:
+---
+- name: Get all Security Threats Rogue Allowed-List
+    Count
+  cisco.dnac.security_threats_rogue_allowed-list_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

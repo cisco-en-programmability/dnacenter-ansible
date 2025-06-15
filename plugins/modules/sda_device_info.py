@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sda_device_info
-short_description: Information module for Sda Device Info
+short_description: Information module for Sda Device
 description:
-  - This module represents an alias of the module sda_device_v1_info
+  - Get all Sda Device.
+  - Get device info from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,17 +27,20 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA GetDeviceInfoFromSDAFabricV1
-    description: Complete reference of the GetDeviceInfoFromSDAFabricV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-device-info-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA GetDeviceInfoFromSDAFabric
+    description: Complete reference of the GetDeviceInfoFromSDAFabric
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-info-from-sda-fabric
 notes:
-  - SDK Method used are sda.Sda.get_device_info,
-  - Paths used are get /dna/intent/api/v1/business/sda/device,
-  - It should be noted that this module is an alias of sda_device_v1_info
+  - SDK Method used are
+    sda.Sda.get_device_info,
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/device,
 """
+
 EXAMPLES = r"""
-- name: Get all Sda Device Info
+---
+- name: Get all Sda Device
   cisco.dnac.sda_device_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

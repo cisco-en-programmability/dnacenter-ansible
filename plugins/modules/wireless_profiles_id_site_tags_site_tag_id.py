@@ -1,13 +1,38 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_id_site_tags_site_tag_id
-short_description: Resource module for Wireless Profiles Id Site Tags Site Tag Id
+short_description: Resource module for Wireless Profiles
+  Id Site Tags Site Tag Id
 description:
-  - This module represents an alias of the module wireless_profiles_id_site_tags_site_tag_id_v1
+  - Manage operations update and delete of the resource
+    Wireless Profiles Id Site Tags Site Tag Id. - >
+    This endpoint enables the deletion of a specific
+    `Site Tag` associated with a given `Wireless Profile`.
+    This API requires the `id` of the `Wireless Profile`
+    and the `siteTagId` of the `Site Tag` to be provided
+    as path parameters. - > This endpoint allows updating
+    the details of a specific `Site Tag` associated
+    with a given `Wireless Profile`. The `id` of the
+    `Wireless Profile` and the `siteTagId` of the Site
+    Tag must be provided as path parameters, and the
+    request body should contain the updated `Site Tag`
+    details. The `siteTagName` cannot be modified through
+    this endpoint. Note When updating a Site Tag siteTag
+    , if the siteId already has an associated siteTag
+    and the same siteId is included in the update request,
+    the existing siteTag for that siteId will be overridden
+    by the new one. For Flex-enabled Wireless Profiles
+    i.e., a Wireless Profile with one or more Flex SSIDs
+    , a non-default Flex Profile Name flexProfileName
+    will be used. If no custom flexProfileName is provided,
+    the System will automatically generate one and configure
+    it in the controller.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,41 +45,47 @@ options:
     description: Flex Profile Name.
     type: str
   id:
-    description: Id path parameter. Wireless Profile Id.
+    description: Id path parameter. Wireless Profile
+      Id.
     type: str
   siteIds:
     description: Site Ids.
     elements: str
     type: list
   siteTagId:
-    description: SiteTagId path parameter. Site Tag Id.
+    description: SiteTagId path parameter. Site Tag
+      Id.
     type: str
   siteTagName:
-    description: Use English letters, numbers, special characters except <, /, '.*',
-      ? and leading/trailing space.
+    description: Use English letters, numbers, special
+      characters except <, /, '.*', ? and leading/trailing
+      space.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless DeleteASpecificSiteTagFromAWirelessProfileV1
-    description: Complete reference of the DeleteASpecificSiteTagFromAWirelessProfileV1
+  - name: Cisco DNA Center documentation for Wireless
+      DeleteASpecificSiteTagFromAWirelessProfile
+    description: Complete reference of the DeleteASpecificSiteTagFromAWirelessProfile
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!delete-a-specific-site-tag-from-a-wireless-profile
-  - name: Cisco DNA Center documentation for Wireless UpdateASpecificSiteTagForAWirelessProfileV1
-    description: Complete reference of the UpdateASpecificSiteTagForAWirelessProfileV1
+    link: https://developer.cisco.com/docs/dna-center/#!delete-a-specific-site-tag-from-a-wireless-profile
+  - name: Cisco DNA Center documentation for Wireless
+      UpdateASpecificSiteTagForAWirelessProfile
+    description: Complete reference of the UpdateASpecificSiteTagForAWirelessProfile
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!update-a-specific-site-tag-for-a-wireless-profile
+    link: https://developer.cisco.com/docs/dna-center/#!update-a-specific-site-tag-for-a-wireless-profile
 notes:
-  - SDK Method used are wireless.Wireless.delete_a_specific_site_tag_from_a_wireless_profile_v1,
-    wireless.Wireless.update_a_specific_site_tag_for_a_wireless_profile_v1,
-  - Paths used are delete /dna/intent/api/v1/wirelessProfiles/{id}/siteTags/{siteTagId},
+  - SDK Method used are
+    wireless.Wireless.delete_a_specific_site_tag_from_a_wireless_profile,
+    wireless.Wireless.update_a_specific_site_tag_for_a_wireless_profile,
+  - Paths used are
+    delete /dna/intent/api/v1/wirelessProfiles/{id}/siteTags/{siteTagId},
     put /dna/intent/api/v1/wirelessProfiles/{id}/siteTags/{siteTagId},
-  - It should be noted that this module is an alias of wireless_profiles_id_site_tags_site_tag_id_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Update by id
   cisco.dnac.wireless_profiles_id_site_tags_site_tag_id:
     dnac_host: "{{dnac_host}}"

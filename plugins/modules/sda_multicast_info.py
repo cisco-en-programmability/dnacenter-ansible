@@ -1,14 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sda_multicast_info
-short_description: Information module for Sda Multicast Info
+short_description: Information module for Sda Multicast
 description:
-  - This module represents an alias of the module sda_multicast_v1_info
-version_added: '6.15.0'
+  - Get all Sda Multicast.
+  - Get multicast details from SDA fabric.
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -16,35 +19,29 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  fabricId:
+  siteNameHierarchy:
     description:
-      - FabricId query parameter. ID of the fabric site where multicast is configured.
+      - SiteNameHierarchy query parameter. Fabric site
+        name hierarchy.
     type: str
-  offset:
-    description:
-      - Offset query parameter. Starting record for pagination.
-    type: float
-  limit:
-    description:
-      - >
-        Limit query parameter. Maximum number of records to return. The maximum number
-        of objects supported in a
-        single request is 500.
-    type: float
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA GetMulticastV1
-    description: Complete reference of the GetMulticastV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-multicast
+  - name: Cisco DNA Center documentation for SDA GetMulticastDetailsFromSDAFabric
+    description: Complete reference of the GetMulticastDetailsFromSDAFabric
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-multicast-details-from-sda-fabric
 notes:
-  - SDK Method used are sda.Sda.get_multicast_v1,
-  - Paths used are get /dna/intent/api/v1/sda/multicast,
-  - It should be noted that this module is an alias of sda_multicast_v1_info
+  - SDK Method used are
+    sda.Sda.get_multicast_details_from_sda_fabric,
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/multicast,
 """
+
 EXAMPLES = r"""
-- name: Get all Sda Multicast Info
+---
+- name: Get all Sda Multicast
   cisco.dnac.sda_multicast_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -54,9 +51,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    fabricId: string
-    offset: 0
-    limit: 0
+    siteNameHierarchy: string
   register: result
 """
 RETURN = r"""
@@ -66,12 +61,25 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": [
+      "multicastMethod": "string",
+      "multicastType": "string",
+      "multicastVnInfo": [
         {
-          "fabricId": "string",
-          "replicationMode": "string"
+          "virtualNetworkName": "string",
+          "ipPoolName": "string",
+          "internalRpIpAddress": [
+            "string"
+          ],
+          "externalRpIpAddress": "string",
+          "ssmInfo": [
+            {
+              "ssmGroupRange": "string",
+              "ssmWildcardMask": "string"
+            }
+          ]
         }
       ],
-      "version": "string"
+      "status": "string",
+      "description": "string"
     }
 """
