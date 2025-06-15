@@ -1218,16 +1218,13 @@ class PathTraceWorkflow(DnacBase):
                 flow_id
             )
             self.not_processed.append(flow_id)
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            return None
 
         except Exception as e:
             self.msg = "An error occurred during get path trace: {0}".format(str(e))
             self.log(self.msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.not_processed.append(flow_id)
+            return None
 
     def delete_path_trace(self, flow_id):
         """
@@ -1373,7 +1370,7 @@ class PathTraceWorkflow(DnacBase):
             # If path trace creation failed, log the error
             if not path_trace_created:
                 self.not_processed.append(each_path)
-                self.msg = "Unable to create path for flow analysis id: {0}".format(
+                self.msg = "Unable to find the path trace for flow analysis id: {0}".format(
                     each_flow_id if each_flow_id else "N/A"
                 )
 
@@ -1537,6 +1534,18 @@ class PathTraceWorkflow(DnacBase):
                             "ERROR",
                         )
             else:
+                path_trace = self.get_path_trace_with_flow_id(
+                    each_path.get("flow_analysis_id"))
+                if not path_trace:
+                    self.msg = "Path trace already deleted for '{0}' :".format(
+                        self.not_processed
+                    )
+                    self.log(self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", False, self.msg, "INFO"
+                    ).check_return_status()
+                    return self
+
                 delete_response = self.delete_path_trace(
                     each_path.get("flow_analysis_id")
                 )
