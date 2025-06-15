@@ -306,7 +306,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
         print(result)
         self.assertEqual(
             result['msg'],
-            "No data received for the issue: {'issue_name': 'jan8_1', 'issue_process_type': 'resolution'}"
+            "No issue to resolve/ignore. Already cleared. {'issue_name': 'jan8_1', 'issue_process_type': 'resolution'}"
         )
 
     def test_assurance_issue_workflow_manager_resolution(self):
