@@ -8,9 +8,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-__author__ = [
-     'Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari, Archit Soni, A Mohamed Rafeek'
-    ]
+__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari, Archit Soni, A Mohamed Rafeek']
 
 DOCUMENTATION = r"""
 ---
@@ -3118,7 +3116,7 @@ class Template(DnacBase):
 
         self.log(
             "Initializing retrival of project details for project: {0}".format(
-                projectName
+                project_name
             ),
             "DEBUG",
         )
@@ -3127,7 +3125,7 @@ class Template(DnacBase):
         if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
             self.log(
                 "Retrieving project details for project: {0} when catalyst version is less than 2.3.7.9".format(
-                    projectName
+                    project_name
                 ),
                 "DEBUG",
             )
@@ -3141,14 +3139,14 @@ class Template(DnacBase):
 
             self.log(
                 "Received Response from get_projects for project: {0} when catalyst version is less than 2.3.7.9: {1}".format(
-                    projectName, items
+                    project_name, items
                 ),
                 "DEBUG",
             )
         else:
             self.log(
                 "Retrieving project details for project: {0} when catalyst version is greater than or equal to 2.3.7.9".format(
-                    projectName
+                    project_name
                 ),
                 "DEBUG",
             )
@@ -3161,7 +3159,7 @@ class Template(DnacBase):
 
             self.log(
                 "Received Response from get_projects for project: {0} when catalyst version is greater than or equal to 2.3.7.9: {1}".format(
-                    projectName, items
+                    project_name, items
                 ),
                 "DEBUG",
             )
@@ -3169,7 +3167,7 @@ class Template(DnacBase):
 
         self.log(
             "Retrieved project details for project '{0}' are {1}".format(
-                projectName, items
+                project_name, items
             ),
             "DEBUG",
         )
