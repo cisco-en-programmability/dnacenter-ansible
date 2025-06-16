@@ -588,9 +588,9 @@ response_4:
     }
 """
 
-import time
 import copy
 from ansible.module_utils.basic import AnsibleModule
+from collections import defaultdict
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
@@ -801,23 +801,20 @@ class FabricMulticast(DnacBase):
         Returns:
             True or False (bool): True if the reserved pool exists. Else, return False.
         Description:
-            Call the API 'get_reserve_ip_subpool' by setting the 'site_id' and 'offset' field.
-            Iterates through paginated results to find a reserved pool with the given name.
-            If found, returns True. If not found or an error occurs, returns False.
+            Calls the API 'get_reserve_ip_subpool' by setting the 'site_id' (retrieved using fabric_name)
+            and 'groupName' (mapped from reserved_pool_name).
+            Checks the results to find a reserved pool with the given name.
+            If found, returns True. If not found, returns False.
         """
 
         self.log(
-            "Starting to check for reserved pool '{pool_name}' in fabric '{fabric_name}'.".format(
-                pool_name=reserved_pool_name, fabric_name=fabric_name
-            ),
-            "DEBUG",
+            f"Checking if reserved pool '{reserved_pool_name}' exists in fabric '{fabric_name}'.",
+            "DEBUG"
         )
         try:
             (site_exists, site_id) = self.get_site_id(fabric_name)
             self.log(
-                "The site with the name '{site_name} exists in Cisco Catalyst Center is '{site_exists}'".format(
-                    site_name=fabric_name, site_exists=site_exists
-                ),
+                f"Site lookup for '{fabric_name}' completed. Exists: {site_exists}, Site ID: {site_id}.",
                 "DEBUG",
             )
             if not site_id:
@@ -830,77 +827,40 @@ class FabricMulticast(DnacBase):
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
 
-            offset = 1
-            start_time = time.time()
+            self.log(
+
+                f"Calling API 'get_reserve_ip_subpool' with site_id '{site_id}', groupName: '{reserved_pool_name}'.", "DEBUG"
+            )
+            all_reserved_pool_details = self.dnac._exec(
+                family="network_settings",
+                function="get_reserve_ip_subpool",
+                params={
+                    "site_id": site_id,
+                    "groupName" : reserved_pool_name,
+                },
+            )
+            self.log(
+                "Response received from 'get_reserve_ip_subpool': {response}"
+                .format(response=all_reserved_pool_details), "DEBUG"
+            )
+
+            if not isinstance(all_reserved_pool_details, dict):
+                self.msg = "Error in getting reserve pool - Response is not a dictionary"
+                self.log(self.msg, "CRITICAL")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            reserved_pool_details = all_reserved_pool_details.get("response")
+            if not reserved_pool_details:
+                self.log(
+                    f"There is no reserved subpool in the site '{fabric_name}' with reserved pool name: '{reserved_pool_name}'.", "DEBUG"
+                )
+                return False
 
             self.log(
-                "Calling API 'get_reserve_ip_subpool' with site_id '{site_id}' and offset '{offset}'.".format(
-                    site_id=site_id, offset=offset
-                ),
-                "DEBUG",
+                f"The reserved pool '{reserved_pool_name}' found in the site '{fabric_name}'." , "DEBUG"
             )
-            while True:
-                all_reserved_pool_details = self.dnac._exec(
-                    family="network_settings",
-                    function="get_reserve_ip_subpool",
-                    params={"site_id": site_id, "offset": offset},
-                )
-                self.log(
-                    "Response received from 'get_reserve_ip_subpool': {response}".format(
-                        response=all_reserved_pool_details
-                    ),
-                    "DEBUG",
-                )
+            return True
 
-                if not isinstance(all_reserved_pool_details, dict):
-                    self.msg = (
-                        "Error in getting reserve pool - Response is not a dictionary"
-                    )
-                    self.log(self.msg, "CRITICAL")
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
-
-                offset += 25
-                all_reserved_pool_details = all_reserved_pool_details.get("response")
-                if not all_reserved_pool_details:
-                    self.log(
-                        "There is no reserved subpool in the site '{site_name}'.".format(
-                            site_name=fabric_name
-                        ),
-                        "DEBUG",
-                    )
-                    return False
-
-                # Check for maximum timeout, default value is 1200 seconds
-                if (time.time() - start_time) >= self.max_timeout:
-                    self.msg = "Max timeout of {0} sec has reached for the API 'get_reserved_ip_subpool' status.".format(
-                        self.max_timeout
-                    )
-                    self.log(self.msg, "CRITICAL")
-                    self.status = "failed"
-                    return True
-
-                # Find the reserved pool with the given name in the list of reserved pools
-                reserved_pool_details = get_dict_result(
-                    all_reserved_pool_details, "groupName", reserved_pool_name
-                )
-                if reserved_pool_details:
-                    self.log(
-                        "The reserved pool '{reserved_pool}' found in the site '{site_name}'.".format(
-                            reserved_pool=reserved_pool_name, site_name=fabric_name
-                        ),
-                        "DEBUG",
-                    )
-                    return True
-
-                self.log(
-                    "No matching reserved pool found for '{pool}' in site '{site_name}' at offset '{offset}'."
-                    "Continuing to next offset.".format(
-                        pool=reserved_pool_name, site_name=fabric_name, offset=offset
-                    ),
-                    "DEBUG",
-                )
         except Exception as e:
             self.msg = "Exception occurred while running the API 'get_reserve_ip_subpool': {error_msg}".format(
                 error_msg=e
@@ -909,8 +869,6 @@ class FabricMulticast(DnacBase):
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
-
-        return True
 
     def get_fabric_site_id_from_name(self, site_name, site_id):
         """
@@ -1441,13 +1399,12 @@ class FabricMulticast(DnacBase):
             "DEBUG",
         )
         self.log(
-            "SDA fabric multicast replication mode details: {replication_mode_details}".format(
-                replication_mode_details=multicast_info.get("replication_mode_details")
-            ),
-            "DEBUG",
+            "SDA fabric multicast details: {multicast_details}"
+            .format(multicast_details=self.pprint(multicast_info.get("multicast_details"))), "DEBUG"
         )
         self.log(
-            "SDA fabric multicast id: {id}".format(id=multicast_info.get("id")), "DEBUG"
+            "SDA fabric multicast replication mode details: {replication_mode_details}"
+            .format(replication_mode_details=self.pprint(multicast_info.get("replication_mode_details"))), "DEBUG"
         )
 
         return multicast_info
@@ -1479,10 +1436,10 @@ class FabricMulticast(DnacBase):
 
             # Fabric name is mandatory for this workflow
             if not fabric_name:
-                self.msg = "The required parameter 'fabric_name' in 'fabric_multicast' is missing."
-                self.log(self.msg, "ERROR")
-                self.status = "failed"
-                return self
+                self.msg = (
+                    "The required parameter 'fabric_name' in 'fabric_multicast' is missing."
+                )
+                self.fail_and_exit(self.msg)
 
             self.log(
                 "Initiating site ID retrieval for fabric '{fabric_name}'.".format(
@@ -1507,9 +1464,8 @@ class FabricMulticast(DnacBase):
                 self.msg = "Invalid site hierarchy name '{site_name}'.".format(
                     site_name=fabric_name
                 )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+
+                self.fail_and_exit(self.msg)
 
             self.log(
                 "Fetching fabric site ID for site '{site_id}'.".format(site_id=site_id),
@@ -1528,16 +1484,12 @@ class FabricMulticast(DnacBase):
                         self.status = "exited"
                         return self
 
-                    self.log(self.msg, "ERROR")
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.fail_and_exit(self.msg)
 
-                self.msg = "The Multicast should only be associated with fabric sites, not fabric zones."
-                self.log(self.msg, "ERROR")
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = (
+                    "The Multicast should only be associated with fabric sites, not fabric zones."
+                )
+                self.fail_and_exit(self.msg)
 
             else:
                 self.log(
@@ -1588,10 +1540,8 @@ class FabricMulticast(DnacBase):
             fabric_multicast_details.append(multicast_info)
 
         self.log(
-            "All multicast details of the fabric sites are collected: {details}".format(
-                details=fabric_multicast_details
-            ),
-            "INFO",
+            "All multicast details of the fabric sites are collected: {details}"
+            .format(details=self.pprint(fabric_multicast_details)), "INFO"
         )
         self.have.update({"fabric_multicast": fabric_multicast_details})
         self.msg = (
@@ -1627,15 +1577,10 @@ class FabricMulticast(DnacBase):
         )
         self.get_have_fabric_multicast(fabric_multicast).check_return_status()
         self.log(
-            "Fabric multicast information retrieval was successful. Details: {details}".format(
-                details=self.have
-            ),
-            "DEBUG",
+            "Fabric multicast information retrieval was successful. Details: {details}"
+            .format(details=self.pprint(self.have)), "DEBUG"
         )
-        self.log(
-            "Current State (have): {current_state}".format(current_state=self.have),
-            "INFO",
-        )
+        self.log("Current State (have): {current_state}".format(current_state=self.pprint(self.have)), "INFO")
         self.msg = "Successfully retrieved the SDA fabric multicast details from the Cisco Catalyst Center."
         self.status = "success"
         return self
@@ -1825,33 +1770,7 @@ class FabricMulticast(DnacBase):
         )
         return network_device_ids
 
-    def determine_rp_device_location(
-        self, network_device_ips, ex_rp_ipv4_address, ex_rp_ipv6_address
-    ):
-        """
-        Determine the RP device location ('FABRIC' or 'EXTERNAL') based on input parameters.
-        Parameters:
-            network_device_ips (list): The list of network device ips.
-            ex_rp_ipv4_address (str): The IPv4 address of the RP location at the EXTERNAL location.
-            ex_rp_ipv6_address (str): The IPv6 address of the RP location at the EXTERNAL location.
-        """
-
-        if network_device_ips:
-            return "FABRIC"
-
-        if ex_rp_ipv4_address or ex_rp_ipv6_address:
-            return "EXTERNAL"
-
-        return None
-
-    def validate_rp_device_location(
-        self,
-        rp_device_location,
-        network_device_ips,
-        ex_rp_ipv4_address,
-        ex_rp_ipv6_address,
-        fabric_name,
-    ):
+    def validate_rp_device_location(self, rp_device_location, network_device_ips, ex_rp_ipv4_address, ex_rp_ipv6_address, fabric_name):
         """
         Validate the RP device location and its related parameters.
 
@@ -1901,37 +1820,181 @@ class FabricMulticast(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-    def process_fabric_rp(
-        self, item, fabric_name, layer3_virtual_network, network_device_ips
-    ):
+    def process_asm_ipv4_ranges(self, item, rendezvous_point, default_ipv4_allowed, fabric_name, layer3_virtual_network):
         """
-        Process FABRIC RP details.
+        Process IPv4 ASM Range details or default Rendezvous Point (RP) flag for a given L3 Virtual Network.
 
         Parameters:
-            item (dict): The details of the Any-source multicast.
-            fabric_name (str): The name of the fabric site.
-            layer3_virtual_network (str): The name of the Layer 3 virtual network.
-            network_device_ips (list of str): The IPs of the network devices.
-        Returns:
-            rendezvous_point (dict): The IDs of the RP network devices.
-        Description:
-            Check if there are more than two network device IDs. If so, fail the module.
-            Collect the network device IDs using the network device IPs.
-            Return the network device IDs.
+            item (dict): Dictionary containing IPv4 ASM range and/or default RP flag.
+            rendezvous_point (dict): Dictionary to store processed Rendezvous Point configuration.
+            default_ipv4_allowed (bool): Indicates whether a default IPv4 RP is permitted.
+            fabric_name (str): Name of the fabric.
+            layer3_virtual_network (str): Name of the Layer 3 Virtual Network.
 
+        Returns:
+            None
+
+        Description:
+            This method checks if 'ipv4_asm_ranges' or 'is_default_v4_rp' is provided in the input item.
+            If valid, it updates the rendezvous_point dictionary accordingly.
+            If neither is provided or if configuration is inconsistent, the method raises an error and exits.
         """
 
+        self.log(f"Processing IPv4 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+
+        if item.get("ipv4_asm_ranges"):
+            if not isinstance(item["ipv4_asm_ranges"], list):
+                self.msg = (
+                    f"Invalid input: 'ipv4_asm_ranges' must be a list for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(f"'ipv4_asm_ranges' found. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            rendezvous_point["isDefaultV4RP"] = False
+            rendezvous_point["ipv4AsmRanges"] = item["ipv4_asm_ranges"]
+        elif item.get("is_default_v4_rp"):
+            if not isinstance(item["is_default_v4_rp"], bool):
+                self.msg = (
+                    f"Invalid input: 'is_default_v4_rp' must be a boolean for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+                )
+                self.fail_and_exit(self.msg)
+
+            if not default_ipv4_allowed:
+                self.msg = (
+                    f"More than one Rendezvous Point Device Locations are provided for the L3 VN '{layer3_virtual_network}' "
+                    f"under fabric: {fabric_name}\n"
+                    f"Can not pass 'is_default_v4_rp' as '{item.get('is_default_v4_rp')}', IPv4 ASM Group details are required."
+                )
+                self.fail_and_exit(self.msg)
+
+            if not item["is_default_v4_rp"]:
+                self.msg = (
+                    f"Invalid input: 'is_default_v4_rp' is: 'false' but 'ipv4_asm_ranges' are not provided for the L3 VN '{layer3_virtual_network}' "
+                    f"under fabric: {fabric_name}\n"
+                    f"Can not pass 'is_default_v4_rp' as 'false', IPv4 ASM Group details are required or pass 'is_default_v4_rp' as 'true."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(
+                f"Default IPv4 RP is allowed. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG"
+            )
+            rendezvous_point["isDefaultV4RP"] = item["is_default_v4_rp"]
+            rendezvous_point["ipv4AsmRanges"] = []
+        else:
+            self.msg = (
+                "Both 'ipv4_asm_ranges' and 'is_default_v4_rp' are not provided. "
+                "Setting it to empty list and null value."
+            )
+            rendezvous_point["isDefaultV4RP"] = False
+            rendezvous_point["ipv4AsmRanges"] = []
+
         self.log(
-            "Processing FABRIC RP details for fabric '{fabric_name}'.".format(
-                fabric_name=fabric_name
-            ),
-            "DEBUG",
+            f"Completed processing IPv4 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+            f"Current 'rendezvous_point' details: {rendezvous_point}",
+            "DEBUG"
         )
 
+    def process_asm_ipv6_ranges(self, item, rendezvous_point, default_ipv6_allowed, fabric_name, layer3_virtual_network):
+        """
+        Process IPv6 ASM Range details or default Rendezvous Point (RP) flag for a given L3 Virtual Network.
+
+        Parameters:
+            item (dict): Dictionary containing IPv6 ASM range and/or default RP flag.
+            rendezvous_point (dict): Dictionary to store processed Rendezvous Point configuration.
+            default_ipv6_allowed (bool): Indicates whether a default IPv6 RP is permitted.
+            fabric_name (str): Name of the fabric.
+            layer3_virtual_network (str): Name of the Layer 3 Virtual Network.
+
+        Returns:
+            None
+
+        Description:
+            This method checks if 'ipv6_asm_ranges' or 'is_default_v6_rp' is provided in the input item.
+            If valid, it updates the rendezvous_point dictionary accordingly.
+            If neither is provided or if configuration is inconsistent, the method raises an error and exits.
+        """
+
+        self.log(f"Processing IPv6 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+
+        if item.get("ipv6_asm_ranges"):
+            if not isinstance(item["ipv6_asm_ranges"], list):
+                self.msg = (
+                    f"Invalid input: 'ipv6_asm_ranges' must be a list for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(f"'ipv6_asm_ranges' found. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            rendezvous_point["isDefaultV6RP"] = False
+            rendezvous_point["ipv6AsmRanges"] = item["ipv6_asm_ranges"]
+        elif item.get("is_default_v6_rp"):
+            if not isinstance(item["is_default_v6_rp"], bool):
+                self.msg = (
+                    f"Invalid input: 'is_default_v6_rp' must be a boolean for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+                )
+                self.fail_and_exit(self.msg)
+
+            if not default_ipv6_allowed:
+                self.msg = (
+                    f"More than one Rendezvous Point Device Locations are provided for the L3 VN '{layer3_virtual_network}' "
+                    f"under fabric: {fabric_name}\n"
+                    f"Can not pass 'is_default_v6_rp' as '{item.get('is_default_v6_rp')}', IPv6 ASM Group details are required."
+                )
+                self.fail_and_exit(self.msg)
+
+            if item["is_default_v6_rp"] is False:
+                self.msg = (
+                    f"Invalid input: 'is_default_v6_rp' is: 'false' but 'ipv6_asm_ranges' are not provided for the L3 VN '{layer3_virtual_network}' "
+                    f"under fabric: {fabric_name}\n"
+                    f"Can not pass 'is_default_v6_rp' as 'false', IPv6 ASM Group details are required or pass 'is_default_v6_rp' as 'true."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(
+                f"Default IPv6 RP is allowed. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["isDefaultV6RP"] = item["is_default_v6_rp"]
+            rendezvous_point["ipv6AsmRanges"] = []
+        else:
+            self.msg = (
+                "Both 'ipv6_asm_ranges' and 'is_default_v6_rp' are not provided. "
+                "Setting it to empty list and null value."
+            )
+            rendezvous_point["isDefaultV6RP"] = False
+            rendezvous_point["ipv6AsmRanges"] = []
+
+        self.log(
+            f"Completed processing IPv6 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'. "
+            f"Current 'rendezvous_point' details: {rendezvous_point}",
+            "DEBUG"
+        )
+
+    def validate_and_process_fabric_rp(self, item, fabric_name, layer3_virtual_network, default_allowed):
+        """
+        Validate and process Fabric Rendezvous Point (RP) details for a given fabric and Layer 3 Virtual Network.
+
+        Parameters:
+            item (dict): Dictionary containing RP configuration for the fabric.
+            fabric_name (str): Name of the fabric.
+            layer3_virtual_network (str): Name of the Layer 3 Virtual Network.
+            default_allowed (bool): Indicates whether default RP is permitted.
+
+        Returns:
+            dict: Dictionary containing the processed Rendezvous Point configuration.
+
+        Description:
+            This method validates the 'network_device_ips' parameter and ensures the presence of IPv4/IPv6
+            ASM group configuration. It then processes the details accordingly and returns the resulting
+            rendezvous_point dictionary.
+        """
+
+        self.log(f"Processing FABRIC RP details for fabric '{fabric_name}'.", "DEBUG")
+
         # Validate network device IPs
-        if not isinstance(network_device_ips, list):
-            self.msg = "The parameter 'network_device_ips' must be a list for L3 VN '{l3_vn}' under fabric '{fabric_name}'.".format(
-                l3_vn=layer3_virtual_network, fabric_name=fabric_name
+        network_device_ips = item.get("network_device_ips")
+        if not network_device_ips or not isinstance(network_device_ips, list):
+            self.msg = (
+                f"The parameter 'network_device_ips' must be a non-empty list for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result(
@@ -1939,8 +2002,8 @@ class FabricMulticast(DnacBase):
             ).check_return_status()
 
         if len(network_device_ips) > 2:
-            self.msg = "Maximum of two 'network_device_ips' are allowed for fabric '{fabric_name}'.".format(
-                fabric_name=fabric_name
+            self.msg = (
+                f"Maximum of two 'network_device_ips' are allowed for fabric '{fabric_name}'."
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result(
@@ -1948,69 +2011,152 @@ class FabricMulticast(DnacBase):
             ).check_return_status()
 
         # Get device IDs
+        self.log(
+            f"Retrieving device IDs for the L3 VN : '{layer3_virtual_network}' under fabric '{fabric_name}' "
+            f"using network_device_ips: {network_device_ips}",
+            "DEBUG"
+        )
         network_device_ids = self.get_the_device_ids(fabric_name, network_device_ips)
 
         # Build RP details
         rendezvous_point = {
             "networkDeviceIds": network_device_ids,
+            "ipv4Address": None,
+            "ipv6Address": None,
+            "rpDeviceLocation": "FABRIC",
         }
 
         # Process IPv4 and IPv6 ASM ranges
-        self.process_asm_ranges(item, rendezvous_point)
+        ipv4_asm_group_config_exists = bool(item.get("ipv4_asm_ranges") or item.get("is_default_v4_rp"))
+        ipv6_asm_group_config_exists = bool(item.get("ipv6_asm_ranges") or item.get("is_default_v6_rp"))
 
-        return rendezvous_point
+        if not (ipv4_asm_group_config_exists or ipv6_asm_group_config_exists):
+            self.msg = (
+                "None of 'ipv4_asm_ranges', 'is_default_v4_rp', 'ipv6_asm_ranges' or 'is_default_v6_rp' are provided. "
+                f"At least one is required to configure ASM Groups for L3 VN '{layer3_virtual_network}' under fabric: '{fabric_name}'"
+            )
+            self.fail_and_exit(self.msg)
 
-    def process_external_rp(self, item, fabric_name):
-        """
-        Process EXTERNAL RP details.
-        Parameters:
-            item (dict): The details of the Any-source multicast.
-            fabric_name (str): The name of the fabric site.
-        Returns:
-            rendezvous_point (dict): The EXTERNAL IPv4 or IPv6 address.
-        Description:
-            If 'ex_rp_ipv4_address' is provided, store the address in the 'ipv4Address'.
-            If 'ex_rp_ipv6_address' is provided, store the address in the 'ipv6Address'.
-        """
+        # Process IPv4 ASM ranges
+        if ipv4_asm_group_config_exists:
+            self.log(f"Calling process_asm_ipv4_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            self.process_asm_ipv4_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No IPv4 ASM ranges or default RP provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["isDefaultV4RP"] = False
+            rendezvous_point["ipv4AsmRanges"] = []
+
+        # Process IPv6 ASM ranges
+        if ipv6_asm_group_config_exists:
+            self.log(f"Calling process_asm_ipv6_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            self.process_asm_ipv6_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No IPv6 ASM ranges or default RP provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["isDefaultV6RP"] = False
+            rendezvous_point["ipv6AsmRanges"] = []
 
         self.log(
-            "Processing EXTERNAL RP details for fabric '{fabric_name}'.".format(
-                fabric_name=fabric_name
-            ),
-            "DEBUG",
+            f"Completed processing FABRIC RP details for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.\n"
+            f"Final rendezvous_point: {self.pprint(rendezvous_point)}",
+            "DEBUG"
         )
-
-        rendezvous_point = {}
-
-        # Add external IPv4 and IPv6 addresses
-        if item.get("ex_rp_ipv4_address"):
-            rendezvous_point["ipv4Address"] = item["ex_rp_ipv4_address"]
-        if item.get("ex_rp_ipv6_address"):
-            rendezvous_point["ipv6Address"] = item["ex_rp_ipv6_address"]
-
-        # Process IPv4 and IPv6 ASM ranges
-        self.process_asm_ranges(item, rendezvous_point)
 
         return rendezvous_point
 
-    def process_asm_ranges(self, item, rendezvous_point):
+    def validate_and_process_external_rp(self, item, fabric_name, layer3_virtual_network, default_allowed):
         """
-        Process IPv4 and IPv6 ASM ranges for a rendezvous point.
+        Validate and process External Rendezvous Point (RP) details for a given fabric and Layer 3 Virtual Network.
 
         Parameters:
-            item (dict): The details of the Any-source multicast.
-            fabric_name (str): The name of the fabric site.
+            item (dict): Dictionary containing External RP configuration.
+            fabric_name (str): Name of the fabric.
+            layer3_virtual_network (str): Name of the Layer 3 Virtual Network.
+            default_allowed (bool): Indicates whether default RP is permitted.
+
+        Returns:
+            dict: Dictionary containing the processed External Rendezvous Point configuration.
+
+        Description:
+            This method validates the presence of external RP IP addresses ('ex_rp_ipv4_address' or 'ex_rp_ipv6_address')
+            when the RP device location is 'EXTERNAL'. It then processes the IPv4 and IPv6 ASM ranges accordingly
+            and returns the resulting rendezvous_point dictionary.
         """
 
-        if item.get("ipv4_asm_ranges"):
-            rendezvous_point["ipv4AsmRanges"] = item["ipv4_asm_ranges"]
-        elif item.get("is_default_v4_rp"):
-            rendezvous_point["isDefaultV4RP"] = item["is_default_v4_rp"]
+        self.log(f"Processing EXTERNAL RP details for fabric '{fabric_name}'.", "DEBUG")
+        # Ensure `item` is a dictionary
+        if not isinstance(item, dict):
+            self.msg = f"The 'item' parameter must be a dictionary. Invalid input provided for fabric '{fabric_name}'."
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        if item.get("ipv6_asm_ranges"):
-            rendezvous_point["ipv6AsmRanges"] = item["ipv6_asm_ranges"]
-        elif item.get("is_default_v6_rp"):
-            rendezvous_point["isDefaultV6RP"] = item["is_default_v6_rp"]
+        # Validate external rp device IPs
+        ex_rp_ipv4_address = item.get("ex_rp_ipv4_address")
+        ex_rp_ipv6_address = item.get("ex_rp_ipv6_address")
+
+        if not (ex_rp_ipv4_address or ex_rp_ipv6_address):
+            self.msg = (
+                f"The parameters 'ex_rp_ipv4_address' or 'ex_rp_ipv6_address' are mandatory when "
+                f"'rp_device_location' is 'EXTERNAL' for the L3 VN '{layer3_virtual_network}' in fabric '{fabric_name}'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        rendezvous_point = {
+            "rpDeviceLocation": "EXTERNAL",
+            "networkDeviceIds": [],
+            "ipv4Address": None,
+            "isDefaultV4RP": False,
+            "ipv4AsmRanges": [],
+            "ipv6Address": None,
+            "isDefaultV6RP": False,
+            "ipv6AsmRanges": [],
+        }
+
+        # Add external IPv4 and Process IPv4 ASM ranges
+        if ex_rp_ipv4_address:
+            self.log(
+                f"External IPv4 address found: {ex_rp_ipv4_address}. Updating rendezvous_point for L3 VN '{layer3_virtual_network}' "
+                f"under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["ipv4Address"] = ex_rp_ipv4_address
+            self.log(f"Calling process_asm_ipv4_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            self.process_asm_ipv4_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No external IPv4 address provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+
+        # Add external IPv6 and Process IPv6 ASM ranges
+        if ex_rp_ipv6_address:
+            self.log(
+                f"External IPv6 address found: {ex_rp_ipv6_address}. Updating rendezvous_point for L3 VN '{layer3_virtual_network}' "
+                f"under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["ipv6Address"] = ex_rp_ipv6_address
+            self.log(f"Calling process_asm_ipv6_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            self.process_asm_ipv6_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No external IPv6 address provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+
+        self.log(
+            f"Completed processing EXTERNAL RP details for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.\n"
+            f"Final rendezvous_point: {self.pprint(rendezvous_point)}",
+            "DEBUG"
+        )
+
+        return rendezvous_point
 
     def process_any_source_multicast_details(
         self,
@@ -2053,31 +2199,27 @@ class FabricMulticast(DnacBase):
             ).check_return_status()
 
         multicast_rps = []
+
+        default_allowed = (len(any_source_multicast) == 1)
         for item in any_source_multicast:
             rendezvous_point = {}
-            network_device_ips = item.get("network_device_ips")
-            ex_rp_ipv4_address = item.get("ex_rp_ipv4_address")
-            ex_rp_ipv6_address = item.get("ex_rp_ipv6_address")
+            rp_device_location = item.get("rp_device_location")
+            allowed_rp_device_location = ["FABRIC", "EXTERNAL"]
 
-            # Determine RP device location
-            rp_device_location = self.determine_rp_device_location(
-                network_device_ips, ex_rp_ipv4_address, ex_rp_ipv6_address
-            )
-            self.validate_rp_device_location(
-                rp_device_location,
-                network_device_ips,
-                ex_rp_ipv4_address,
-                ex_rp_ipv6_address,
-                fabric_name,
-            )
+            self.log(f"Validating 'rp_device_location': {rp_device_location} parameter.", "DEBUG")
+            # Check if rp_device_location is valid
+            if not rp_device_location or rp_device_location not in allowed_rp_device_location:
+                self.msg = (
+                    f"Provided 'rp_device_location': '{rp_device_location}' is invalid. "
+                    f"'rp_device_location' should be one of {', '.join(allowed_rp_device_location)}"
+                )
+                self.fail_and_exit(self.msg)
 
             # Process based on RP device location
             if rp_device_location == "FABRIC":
-                rendezvous_point = self.process_fabric_rp(
-                    item, fabric_name, layer3_virtual_network, network_device_ips
-                )
+                rendezvous_point = self.validate_and_process_fabric_rp(item, fabric_name, layer3_virtual_network, default_allowed)
             elif rp_device_location == "EXTERNAL":
-                rendezvous_point = self.process_external_rp(item, fabric_name)
+                rendezvous_point = self.validate_and_process_external_rp(item, fabric_name, layer3_virtual_network, default_allowed)
 
             # Add RP device location
             rendezvous_point["rpDeviceLocation"] = rp_device_location
@@ -2087,10 +2229,9 @@ class FabricMulticast(DnacBase):
 
         # Log the final RP details
         self.log(
-            "Processed rendezvous points for fabric '{fabric_name}': {multicast_rps}".format(
-                fabric_name=fabric_name, multicast_rps=multicast_rps
-            ),
-            "DEBUG",
+            "Processed rendezvous points for fabric '{fabric_name}': {multicast_rps}"
+            .format(fabric_name=fabric_name, multicast_rps=self.pprint(multicast_rps)),
+            "DEBUG"
         )
 
         return multicast_rps
@@ -2402,10 +2543,7 @@ class FabricMulticast(DnacBase):
         self.get_want_fabric_multicast(fabric_multicast).check_return_status()
         self.log("Fabric multicast details successfully processed.", "INFO")
 
-        self.log(
-            "Desired State (want): {requested_state}".format(requested_state=self.want),
-            "INFO",
-        )
+        self.log("Desired State (want): {requested_state}".format(requested_state=self.pprint(self.want)), "INFO")
         self.msg = "Successfully retrieved details from the playbook."
         self.status = "success"
         return self
@@ -2510,9 +2648,7 @@ class FabricMulticast(DnacBase):
                 fabric_rp_ipv4_address = None
                 fabric_rp_ipv6_address = None
                 if rp_device_location == "FABRIC":
-                    asm_config_in_cc = get_dict_result(
-                        have_asm_config, "rpDeviceLocation", "FABRIC"
-                    )
+                    asm_config_in_cc = self.find_dict_by_key_value(have_asm_config, "rpDeviceLocation", "FABRIC")
                     self.log(
                         "The asm config for the RP with location 'FABRIC' is '{asm_config}'.".format(
                             asm_config=asm_config_in_cc
@@ -2520,12 +2656,18 @@ class FabricMulticast(DnacBase):
                         "DEBUG",
                     )
                     if asm_config_in_cc:
-                        fabric_rp_ipv4_address = asm_config_in_cc.get("ipv4Address")
-                        fabric_rp_ipv6_address = asm_config_in_cc.get("ipv6Address")
                         self.log(
                             "The multicast configuration with the RP as 'FABRIC' is available "
                             "in the Cisco Catalyst Center.",
                             "DEBUG",
+                        )
+                        fabric_rp_ipv4_address = asm_config_in_cc.get("ipv4Address")
+                        fabric_rp_ipv6_address = asm_config_in_cc.get("ipv6Address")
+                        item.update(
+                            {
+                                "ipv4Address": fabric_rp_ipv4_address,
+                                "ipv6Address": fabric_rp_ipv6_address,
+                            }
                         )
                     else:
                         self.log(
@@ -2546,54 +2688,28 @@ class FabricMulticast(DnacBase):
                         ),
                         "DEBUG",
                     )
-                elif ipv4_address:
-                    asm_config_in_cc = get_dict_result(
-                        have_asm_config, "ipv4Address", ipv4_address
-                    )
-                    if len(have_asm_config) == 1:
-                        if (
-                            have_asm_config[0].get("ipv4Address") is None
-                            or have_asm_config[0].get("ipv4Address") == ipv4_address
-                        ):
-                            asm_config_in_cc = None
+                else:
+                    if ipv4_address:
+                        asm_config_in_cc = self.find_dict_by_key_value(have_asm_config, "ipv4Address", ipv4_address)
+                        self.log(
+                            "The asm config for the IPv4 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'."
+                            .format(ip=ipv4_address, asm_config=asm_config_in_cc), "INFO"
+                        )
+
+                    if ipv6_address:
+                        asm_config_in_cc = self.find_dict_by_key_value(have_asm_config, "ipv6Address", ipv6_address)
+                        self.log(
+                            "The asm config for the IPv6 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'."
+                            .format(ip=ipv6_address, asm_config=asm_config_in_cc), "INFO"
+                        )
 
                     self.log(
-                        "The asm config for the IPv4 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'.".format(
-                            ip=ipv4_address, asm_config=asm_config_in_cc
-                        ),
-                        "INFO",
+                        "Before updating the asm config: {updated_asm_config}"
+                        .format(updated_asm_config=updated_asm_config), "DEBUG"
                     )
-                elif ipv6_address:
-                    asm_config_in_cc = get_dict_result(
-                        have_asm_config, "ipv6Address", ipv6_address
-                    )
-                    if len(have_asm_config) == 1:
-                        if (
-                            have_asm_config[0].get("ipv6Address") is None
-                            or have_asm_config[0].get("ipv6Address") == ipv6_address
-                        ):
-                            asm_config_in_cc = None
-
-                    self.log(
-                        "The asm config for the IPv6 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'.".format(
-                            ip=ipv6_address, asm_config=asm_config_in_cc
-                        ),
-                        "INFO",
-                    )
-
-                self.log(
-                    "Before updating the asm config: {updated_asm_config}".format(
-                        updated_asm_config=updated_asm_config
-                    ),
-                    "DEBUG",
-                )
                 if asm_config_in_cc:
+                    self.log("Removing the existing asm config: {asm_config_in_cc} from updated_asm_config to update with playbook config.")
                     updated_asm_config.remove(asm_config_in_cc)
-                    if fabric_rp_ipv4_address:
-                        item.update({"ipv4Address": fabric_rp_ipv4_address})
-
-                    if fabric_rp_ipv6_address:
-                        item.update({"ipv6Address": fabric_rp_ipv6_address})
 
                 updated_asm_config.append(item)
                 self.log(
@@ -2605,10 +2721,8 @@ class FabricMulticast(DnacBase):
 
         updated_multicast_params.update({"multicastRPs": updated_asm_config})
         self.log(
-            "Final updated asm config: {updated_asm_config}".format(
-                updated_asm_config=updated_asm_config
-            ),
-            "INFO",
+            "Final updated asm config: {updated_asm_config}"
+            .format(updated_asm_config=self.pprint(updated_asm_config)), "INFO"
         )
         return updated_multicast_params
 
@@ -2899,6 +3013,26 @@ class FabricMulticast(DnacBase):
             )
             return self
 
+        # Check for conflicting replication mode within the same fabric
+        self.log("Starting to build replication mode conflict check list.", "DEBUG")
+
+        to_check_for_replication_mode_conflicts = []
+        for index, multicast_config in enumerate(fabric_multicast):
+            self.log(f"Processing fabric_multicast index {index}: {multicast_config}", "DEBUG")
+
+            replication_params = copy.deepcopy(self.want.get("fabric_multicast")[index].get("replication_mode_details"))
+            self.log(f"replication_mode_details at index {index}: {replication_params}", "DEBUG")
+
+            fabric_name = multicast_config.get("fabric_name")
+            self.log(f"fabric_name at index '{index}': '{fabric_name}'", "DEBUG")
+
+            replication_params.update({"fabricName": fabric_name})
+            to_check_for_replication_mode_conflicts.append(replication_params)
+
+        self.log(f"Completed building list for conflict check: {to_check_for_replication_mode_conflicts}", "DEBUG")
+
+        self.check_replication_mode_conflicts(to_check_for_replication_mode_conflicts)
+
         # Process each multicast configuration
         for multicast_config in fabric_multicast:
             fabric_multicast_index += 1
@@ -3012,6 +3146,13 @@ class FabricMulticast(DnacBase):
                 updated_multicast_params = self.retain_multicast_cc_values(
                     want_multicast_params, have_multicast_params
                 )
+
+                want_multicast_params = self.want.get("fabric_multicast")[fabric_multicast_index].get("multicast_details")
+                want_replication_params = self.want.get("fabric_multicast")[fabric_multicast_index].get("replication_mode_details")
+                have_multicast_params = self.have.get("fabric_multicast")[fabric_multicast_index].get("multicast_details")
+                have_replication_params = self.have.get("fabric_multicast")[fabric_multicast_index].get("replication_mode_details")
+                updated_multicast_params = self.retain_multicast_cc_values(want_multicast_params, have_multicast_params)
+
                 self.log(
                     "The updated playbook details after retaining the Cisco Catalyst Center details "
                     "to the playbook details: {updated_multicast_params}".format(
@@ -3131,6 +3272,7 @@ class FabricMulticast(DnacBase):
             self.bulk_add_multicast_config(to_create_multicast).check_return_status()
 
         if to_update_replication_mode:
+            to_update_replication_mode = self.deduplicate_by_fabric_id(to_update_replication_mode)
             self.log(
                 "Attempting to update {count} replication mode(s).".format(
                     count=len(to_update_replication_mode)
@@ -3155,6 +3297,103 @@ class FabricMulticast(DnacBase):
         self.msg = "The operations on fabric device is successful."
         self.status = "success"
         return self
+
+    def check_replication_mode_conflicts(self, fabric_list):
+        """
+        Check for conflicting replication modes per fabric ID.
+
+        Parameters:
+            fabric_list (list of dict): List of dictionaries with keys 'fabricId', 'fabricName', and 'replicationMode'.
+
+        Returns:
+            None
+
+        Description:
+            Raises an error via self.fail_and_exit if any fabricId has multiple replication modes.
+            Logs start, conflict errors, and successful completion.
+        """
+
+        self.log(f"Starting conflict check for {len(fabric_list)} fabric entries.", "DEBUG")
+        if not isinstance(fabric_list, list):
+            self.msg = "Invalid input: 'fabric_list' must be a list of dictionaries."
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        if not fabric_list:
+            self.log("The 'fabric_list' is empty. No conflicts to check.", "DEBUG")
+            return
+
+        fabric_modes = defaultdict(set)
+        fabric_names = {}
+
+        for entry in fabric_list:
+            fabric_id = entry["fabricId"]
+            replication_mode = entry["replicationMode"]
+            fabric_modes[fabric_id].add(replication_mode)
+            fabric_names[fabric_id] = entry["fabricName"]
+
+        for fabric_id, modes in fabric_modes.items():
+            if len(modes) > 1:
+                fabric_name = fabric_names.get(fabric_id, "Unknown")
+                self.msg = (
+                    f"Conflict detected for fabric Name '{fabric_name}: "
+                    f"multiple replication modes found: {modes}. "
+                    "Only one replication mode is allowed per fabric site."
+                )
+                self.fail_and_exit(self.msg)
+
+        self.log("Conflict check completed successfully. No conflicts found.", "DEBUG")
+
+    def deduplicate_by_fabric_id(self, fabric_list):
+        """
+        Deduplicate fabric list by fabricId.
+
+        Parameters:
+            fabric_list (list of dict): List of fabric dictionaries containing 'fabricId' and 'replicationMode'.
+
+        Returns:
+            list of dict: Deduplicated list with unique fabricId entries.
+
+        Description:
+            Iterates over fabric_list and returns a list of unique fabric dictionaries,
+            preserving the first occurrence of each fabricId.
+            Logs start and end with counts of entries before and after deduplication.
+        """
+        self.log(f"Starting deduplication by fabricId for the fabric list: {fabric_list}.", "DEBUG")
+
+        if not isinstance(fabric_list, list):
+            self.msg = "Invalid input: 'fabric_list' must be a list of dictionaries."
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        if not fabric_list:
+            self.log("The 'fabric_list' is empty. Nothing to deduplicate.", "DEBUG")
+            return []
+
+        deduped = {}
+        # Deduplicate entries
+        for idx, entry in enumerate(fabric_list):
+            if not isinstance(entry, dict) or "fabricId" not in entry:
+                self.log(f"Skipping entry at index {idx} due to missing or invalid 'fabricId': {entry}", "WARNING")
+                skipped_entries += 1
+                continue
+
+            fabric_id = entry["fabricId"]
+            if fabric_id not in deduped:
+                deduped[fabric_id] = entry
+
+        deduped_list = list(deduped.values())
+
+        self.log(
+            f"Deduplication completed. Reduced from {len(fabric_list)} to {len(deduped_list)} unique entries.",
+            "DEBUG"
+        )
+        if skipped_entries > 0:
+            self.log(f"Skipped {skipped_entries} invalid or malformed entries during deduplication.", "WARNING")
+
+        self.log(f"Deduplicated list: {deduped_list}", "DEBUG")
+
+        return deduped_list
 
     def get_diff_merged(self, config):
         """
@@ -3669,6 +3908,107 @@ class FabricMulticast(DnacBase):
         self.status = "success"
         return self
 
+    def multicast_config_needs_update(self, have_details, want_details):
+        """
+        Determine if the current multicast configuration ('have_details') requires an update
+        to match the desired configuration ('want_details').
+
+        Comparison rules:
+        - Only keys present in 'want_details' are checked.
+        - For dictionary values:
+            - Recursively compare corresponding keys.
+            - For entries where 'rpDeviceLocation' is 'FABRIC', skip checking 'ipv4Address' and 'ipv6Address'
+            if those values are None in 'want_details' (since these can be allocated dynamically).
+        - For list values:
+            - Lengths of the lists must be equal.
+            - Each item in the 'want_details' list must match at least one item in the 'have_details' list.
+            (Order of items does not matter.)
+        - For other values, simple equality check is performed.
+
+        Logs:
+        - Logs the starting state of comparison with 'have_details' and 'want_details'.
+        - Logs the result of whether an update is required or not.
+
+        Returns:
+            bool: True if update is required, False otherwise.
+        """
+        self.log("Starting multicast configuration update check...", "DEBUG")
+        self.log(f"Current HAVE details: {self.pprint(have_details)}", "DEBUG")
+        self.log(f"Desired WANT details: {self.pprint(want_details)}", "DEBUG")
+
+        def _compare(have, want, context=None, path="root"):
+            """
+            Recursively compare 'have' and 'want' configurations.
+
+            Args:
+                have (any): Current configuration (HAVE).
+                want (any): Desired configuration (WANT).
+                context (dict): Additional context from parent key (e.g., 'rpDeviceLocation').
+                path (str): Dot-separated path to the current key for logging purposes.
+
+            Returns:
+                bool: True if a mismatch is found (update needed), False otherwise.
+            """
+            if isinstance(want, dict):
+                for key, want_val in want.items():
+                    current_path = f"{path}.{key}"
+                    # Key is missing in 'have'
+                    if key not in have:
+                        self.log(f"Key '{current_path}' is missing in 'have_details'. Update required.", "DEBUG")
+                        return True
+
+                    # Skip IP address comparison for FABRIC RP when want value is None
+                    if context and context.get("rpDeviceLocation") == "FABRIC":
+                        if key in ("ipv4Address", "ipv6Address") and want_val is None:
+                            self.log(f"Skipping comparison for '{current_path}' as it's dynamically allocated in 'FABRIC'.", "DEBUG")
+                            continue
+
+                    next_context = want if "rpDeviceLocation" in want else context
+                    if _compare(have[key], want_val, context=next_context):
+                        self.log(f"Mismatch found in nested dictionary at '{current_path}'.", "DEBUG")
+                        return True
+                return False
+
+            elif isinstance(want, list):
+                current_path = path
+                if len(have) != len(want):
+                    self.log(f"List length mismatch at '{current_path}'. Update required.", "DEBUG")
+                    return True
+
+                # Each want item must match at least one have item
+                for idx, w_item in enumerate(want):
+                    matched = False
+                    for h_item in have:
+                        if not _compare(h_item, w_item, context=w_item, path=f"{current_path}[{idx}]"):
+                            matched = True
+                            break
+
+                    if not matched:
+                        self.log(f"No match found for list item at '{current_path}[{idx}]'. Update required.", "DEBUG")
+                        return True
+
+                return False
+            else:
+                if have != want:
+                    self.log(f"Value mismatch at '{path}': HAVE='{have}', WANT='{want}'. Update required.", "DEBUG")
+                    return True
+
+                return False
+
+        # Ensure inputs are valid
+        if not isinstance(have_details, dict) or not isinstance(want_details, dict):
+            self.log("Invalid input: Both 'have_details' and 'want_details' must be dictionaries.", "ERROR")
+            self.fail_and_exit("Invalid input provided for multicast configuration comparison.")
+
+        update_needed = _compare(have_details, want_details)
+
+        if update_needed:
+            self.log("Multicast configuration requires update.", "DEBUG")
+        else:
+            self.log("Multicast configuration is up-to-date. No update required.", "DEBUG")
+
+        return update_needed
+
     def verify_diff_merged(self, config):
         """
         Validating the Cisco Catalyst Center configuration with the playbook details
@@ -3722,9 +4062,7 @@ class FabricMulticast(DnacBase):
             if want_details:
                 want_details = want_details.get("multicast_details")
 
-            if self.requires_update(
-                have_details, want_details, self.multicast_vn_obj_params
-            ):
+            if self.multicast_config_needs_update(have_details, want_details):
                 self.msg = (
                     "The SDA multicast configuration of the layer 3 virtual network '{l3_vn}' "
                     "under the fabric site '{fabric_name}' is not applied to the Cisco Catalyst Center.".format(
