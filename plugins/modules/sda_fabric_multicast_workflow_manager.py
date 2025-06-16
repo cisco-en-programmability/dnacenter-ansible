@@ -3018,16 +3018,26 @@ class FabricMulticast(DnacBase):
 
         to_check_for_replication_mode_conflicts = []
         for index, multicast_config in enumerate(fabric_multicast):
-            self.log(f"Processing fabric_multicast index {index}: {multicast_config}", "DEBUG")
+            try:
+                self.log(f"Processing fabric_multicast index {index}: {multicast_config}", "DEBUG")
 
-            replication_params = copy.deepcopy(self.want.get("fabric_multicast")[index].get("replication_mode_details"))
-            self.log(f"replication_mode_details at index {index}: {replication_params}", "DEBUG")
+                replication_params = copy.deepcopy(self.want.get("fabric_multicast")[index].get("replication_mode_details"))
+                self.log(f"replication_mode_details at index {index}: {replication_params}", "DEBUG")
 
-            fabric_name = multicast_config.get("fabric_name")
-            self.log(f"fabric_name at index '{index}': '{fabric_name}'", "DEBUG")
+                fabric_name = multicast_config.get("fabric_name")
+                self.log(f"fabric_name at index '{index}': '{fabric_name}'", "DEBUG")
 
-            replication_params.update({"fabricName": fabric_name})
-            to_check_for_replication_mode_conflicts.append(replication_params)
+                replication_params.update({"fabricName": fabric_name})
+                to_check_for_replication_mode_conflicts.append(replication_params)
+            except Exception as e:
+                self.log(
+                    f"Error processing fabric_multicast index {index}: {e}",
+                    "ERROR"
+                )
+                self.set_operation_result(
+                    "failed", False, f"Error processing fabric_multicast index {index}: {e}", "ERROR"
+                )
+                return self
 
         self.log(f"Completed building list for conflict check: {to_check_for_replication_mode_conflicts}", "DEBUG")
 
