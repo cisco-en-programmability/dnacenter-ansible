@@ -2708,7 +2708,7 @@ class FabricMulticast(DnacBase):
                         .format(updated_asm_config=updated_asm_config), "DEBUG"
                     )
                 if asm_config_in_cc:
-                    self.log("Removing the existing asm config: {asm_config_in_cc} from updated_asm_config to update with playbook config.")
+                    self.log(f"Removing the existing asm config: {asm_config_in_cc} from updated_asm_config to update with playbook config.")
                     updated_asm_config.remove(asm_config_in_cc)
 
                 updated_asm_config.append(item)
@@ -3382,6 +3382,7 @@ class FabricMulticast(DnacBase):
 
         deduped = {}
         # Deduplicate entries
+        skipped_entries = 0
         for idx, entry in enumerate(fabric_list):
             if not isinstance(entry, dict) or "fabricId" not in entry:
                 self.log(f"Skipping entry at index {idx} due to missing or invalid 'fabricId': {entry}", "WARNING")
@@ -3974,16 +3975,13 @@ class FabricMulticast(DnacBase):
                             continue
 
                     next_context = want if "rpDeviceLocation" in want else context
-                    if _compare(have[key], want_val, context=next_context):
-                        self.log(f"Mismatch found in nested dictionary at '{current_path}'.", "DEBUG")
+                    if _compare(have[key], want_val, context=next_context, path=f"{current_path}.{key}"):
+                        self.log(f"Mismatch found in nested dictionary at '{current_path}.{key}'.", "DEBUG")
                         return True
                 return False
 
             elif isinstance(want, list):
                 current_path = path
-                if len(have) != len(want):
-                    self.log(f"List length mismatch at '{current_path}'. Update required.", "DEBUG")
-                    return True
 
                 # Each want item must match at least one have item
                 for idx, w_item in enumerate(want):
