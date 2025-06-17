@@ -214,7 +214,8 @@ options:
             type: bool
           ipv4_prefix_length:
             description: The ipv4 prefix length is required when ipv4_prefix value
-              is true. Mandatory starting from Cisco Catalyst Center version 2.3.7.9 when ipv4_total_host is not specified.
+              is true. Mandatory starting from Cisco Catalyst Center version 2.3.7.9
+              when ipv4_total_host is not specified.
             type: int
           ipv4_total_host:
             description: The total number of hosts for IPv4, required when the 'ipv4_prefix'
@@ -307,10 +308,6 @@ options:
               their IP addresses autonomously, eliminating
               the need for manual setup.
             type: bool
-          ipv4_total_addresses:
-            description: >
-              The total number of IPv4 addresses in the global IP pool.
-            type: str
           ipv4_unassignable_addresses:
             description: >
               Number of IPv4 addresses that cannot be assigned due to constraints or reservations.
@@ -322,10 +319,6 @@ options:
           ipv4_default_assigned_addresses:
             description: >
               Number of IPv4 addresses assigned by default during pool creation.
-            type: str
-          ipv6_total_addresses:
-            description: >
-              The total number of IPv6 addresses in the global IP pool.
             type: str
           ipv6_unassignable_addresses:
             description: >
