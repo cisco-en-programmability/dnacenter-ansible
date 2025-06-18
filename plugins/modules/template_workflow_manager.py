@@ -57,7 +57,7 @@ options:
       projects:
         description: |
           Create, update, or delete projects with associated details such as name,
-          description, and tags.
+          and description.
         type: list
         elements: dict
         required: false
