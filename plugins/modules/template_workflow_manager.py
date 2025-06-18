@@ -2116,8 +2116,7 @@ class Template(DnacBase):
 
         Args:
             self (object): Instance of the class interacting with Cisco Catalyst Center.
-            config (list[dict]): List of dictionaries containing project definitions
-                                 and optional template/tag data.
+            config (list[dict]): List of dictionaries containing project definitions data.
 
         Returns:
             object: Returns self if validation passes; otherwise, logs an error and exits the module.
@@ -2125,7 +2124,7 @@ class Template(DnacBase):
         Description:
             This method performs structural and type validation on the 'projects' list within the config.
             It checks for the presence and string type of required fields like 'name', and optionally
-            validates fields such as 'new_name', 'description', 'templates', and 'tags'.
+            validates fields such as 'new_name' and 'description'.
 
             If the module state is set to 'deleted', only minimal validation is performed.
             If any validation errors are detected, the method logs an error and terminates the module run.
