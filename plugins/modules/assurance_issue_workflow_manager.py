@@ -2395,9 +2395,10 @@ class AssuranceSettings(DnacBase):
             self.log("Successfully retrieved issue IDs", "INFO")
             return issue_ids
 
-        self.msg = "No issue to resolve/ignore. Already cleared. {0}".format(config_data)
-        self.log(self.msg, "ERROR")
         self.no_issues.append(config_data)
+        self.msg = "No issues found to resolve or ignore. All issues are already cleared: {0}".format(
+            config_data)
+        self.log(self.msg, "ERROR")
         return []
 
     def resolve_issue(self, issue_ids):
@@ -3840,9 +3841,8 @@ class AssuranceSettings(DnacBase):
                 responses["command_executed"] = response
 
             if self.no_issues:
-                self.msg += "No issue to resolve/ignore. Already cleared. {0}".format(
-                    self.no_issues
-                )
+                self.msg += "No issues found to resolve or ignore. All issues are already cleared: {0}".format(
+                    self.no_issues)
                 self.changed = False
                 self.status = "success"
 
