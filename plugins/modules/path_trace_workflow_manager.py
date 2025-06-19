@@ -1537,9 +1537,8 @@ class PathTraceWorkflow(DnacBase):
                 path_trace = self.get_path_trace_with_flow_id(
                     each_path.get("flow_analysis_id"))
                 if not path_trace:
-                    self.msg = "Path trace already deleted for '{0}' :".format(
-                        self.not_processed
-                    )
+                    self.msg = "Path trace for flow_analysis_id '{0}' already deleted or not found: {1}".format(
+                        each_path.get("flow_analysis_id"), self.not_processed)
                     self.log(self.msg, "INFO")
                     self.set_operation_result(
                         "success", False, self.msg, "INFO"
