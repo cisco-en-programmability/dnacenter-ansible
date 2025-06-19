@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""Ansible module to perform operations on project and templates in Cisco Catalyst Center."""
+"""Ansible module to perform operations on projects and templates in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = [
-    "Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari, Archit Soni"
-]
+
+__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari, Archit Soni, A Mohamed Rafeek']
 
 DOCUMENTATION = r"""
 ---
@@ -24,18 +24,22 @@ description:
     parameters.
   - Handles the creation of resources for importing
     configuration templates and projects.
-version_added: '6.6.0'
+version_added: '6.33.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Madhan Sankaranarayanan (@madhansansel) Rishita
-  Chowdhary (@rishitachowdhary) Akash Bhaskaran (@akabhask)
-  Muthu Rakesh (@MUTHU-RAKESH-27) Abhishek Maheshwari
-  (@abmahesh) Archit Soni (@koderchit)
+author: Madhan Sankaranarayanan (@madhansansel)
+        Rishita Chowdhary (@rishitachowdhary)
+        Akash Bhaskaran (@akabhask)
+        Muthu Rakesh (@MUTHU-RAKESH-27)
+        Abhishek Maheshwari (@abmahesh)
+        Archit Soni (@koderchit)
+        A Mohamed Rafeek (@mabdulk2)
 options:
   config_verify:
-    description: If set to True, verifies the Cisco
-      Catalyst Center configuration after applying the
-      playbook.
+    description: |
+      If set to True, verifies the Cisco Catalyst Center
+      configuration after applying the playbook.
+
     type: bool
     default: false
   state:
@@ -50,6 +54,30 @@ options:
     elements: dict
     required: true
     suboptions:
+      projects:
+        description: |
+          Create, update, or delete projects with associated details such as name,
+          and description.
+        type: list
+        elements: dict
+        required: false
+        suboptions:
+          name:
+            description: |
+              The name of the project. This is used to identify the project for creation,
+              update, or deletion.
+            type: str
+            required: true
+          new_name:
+            description: |
+              Specify a new name for the project when updating an existing project.
+            type: str
+            required: false
+          description:
+            description: A brief description of the project.
+            type: str
+            required: false
+
       configuration_templates:
         description: Operations for Create/Update/Delete
           on a template.
@@ -1327,8 +1355,9 @@ options:
                 description: Specific device tag used
                   to filter devices for template deployment.
                 type: str
+
 requirements:
-  - dnacentersdk >= 2.7.2
+  - dnacentersdk >= 2.8.6
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -1339,6 +1368,7 @@ notes:
     configuration_templates.ConfigurationTemplates.export_templates,
     configuration_templates.ConfigurationTemplates.imports_the_projects_provided,
     configuration_templates.ConfigurationTemplates.imports_the_templates_provided,
+
   - Paths used are
     post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
     delete /dna/intent/api/v1/template-programmer/template/{templateId},
@@ -1348,21 +1378,22 @@ notes:
     post /dna/intent/api/v1/template-programmer/project/importprojects,
     post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
 """
+
 EXAMPLES = r"""
 ---
 - name: Create a new template.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: merged
     config_verify: true
+    state: merged
     config:
       - configuration_templates:
           author: string
@@ -1386,19 +1417,20 @@ EXAMPLES = r"""
               name: string
           template_content: string
           version: string
+
 - name: Update a template.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: merged
     config_verify: true
+    state: merged
     config:
       - configuration_templates:
           author: string
@@ -1422,38 +1454,39 @@ EXAMPLES = r"""
             - id: string
               name: string
           template_content: string
-          version: string
+
 - name: Export the projects.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: merged
     config_verify: true
+    state: merged
     config:
       export:
         project:
           - string
           - string
+
 - name: Export the templates.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: merged
     config_verify: true
+    state: merged
     config:
       export:
         template:
@@ -1461,19 +1494,20 @@ EXAMPLES = r"""
             template_name: string
           - project_name: string
             template_name: string
+
 - name: Import the Projects.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: merged
     config_verify: true
+    state: merged
     config:
       import:
         project:
@@ -1481,25 +1515,27 @@ EXAMPLES = r"""
           payload:
             - name: string
             - name: string
+
 - name: Import the Templates.
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: merged
     config_verify: true
+    state: merged
     config:
       import:
         template:
           do_version: false
           project_name: string
           template_file: string
+
 - name: Creating a JINJA-based template to configure
     access VLAN and interfaces on Catalyst 9300
   cisco.dnac.template_workflow_manager:
@@ -1542,6 +1578,7 @@ EXAMPLES = r"""
             description {{ interface_description }}
             {% endraw %}
           version: "1.0"
+
 - name: Creating a VELOCITY-based Fusion Router template
     for Catalyst 3850 switches
   cisco.dnac.template_workflow_manager:
@@ -1589,20 +1626,21 @@ EXAMPLES = r"""
             ipv6 address $interfaceIPV6
             ipv6 enable
             ipv6 tcp adjust-mss 1400
+
 - name: Deploy the given template to the devices based
     on site specific details and other filtering mode
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: merged
     config_verify: true
+    state: merged
     config:
       deploy_template:
         project_name: "Sample_Project"
@@ -1616,20 +1654,21 @@ EXAMPLES = r"""
         site_provisioning_details:
           - site_name: "Global/Bangalore/Building14/Floor1"
             device_family: "Switches and Hubs"
+
 - name: Deploy the given template to the devices based
     on device specific details
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: merged
     config_verify: true
+    state: merged
     config:
       deploy_template:
         project_name: "Sample_Project"
@@ -1642,6 +1681,7 @@ EXAMPLES = r"""
             param_value: "testvlan31"
         device_details:
           device_ips: ["10.1.2.1", "10.2.3.4"]
+
 - name: Deploy template to the devices using resource
     parameters and copying config
   cisco.dnac.template_workflow_manager:
@@ -1672,20 +1712,21 @@ EXAMPLES = r"""
         device_details:
           device_ips: ["10.1.2.1", "10.2.3.4"]
         copy_config: true
+
 - name: Delete the given project or template from the
     Cisco Catalyst Center
   cisco.dnac.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: deleted
     config_verify: true
+    state: deleted
     config:
       configuration_templates:
         project_name: "Sample_Project"
@@ -1694,7 +1735,62 @@ EXAMPLES = r"""
         software_type: "IOS-XE"
         device_types:
           - product_family: "Switches and Hubs"
+
+- name: Create a New Project
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: merged
+    config:
+      - projects:
+          - name: Wireless_Controller
+            description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
+
+- name: Update project name and details.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: merged
+    config:
+      - projects:
+          - name: Wireless_Controller
+            new_name: Wireless_Template_Management
+            description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
+
+- name: Delete project based on the name.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    config_verify: true
+    state: deleted
+    config:
+      - projects:
+          - name: Wireless_Template_Management
 """
+
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of template/project
 response_1:
@@ -1718,6 +1814,7 @@ response_1:
                   },
       "msg": String
     }
+
 # Case_2: Error while deleting a template or when given project is not found
 response_2:
   description: A list with the response returned by the Cisco Catalyst Center Python SDK
@@ -1728,6 +1825,7 @@ response_2:
       "response": [],
       "msg": String
     }
+
 # Case_3: Given template already exists and requires no update
 response_3:
   description: A dictionary with the exisiting template deatails as returned by the Cisco Catalyst Center Python SDK
@@ -1738,6 +1836,7 @@ response_3:
       "response": {},
       "msg": String
     }
+
 # Case_4: Given template list that needs to be exported
 response_4:
   description: Details of the templates in the list as returned by the Cisco Catalyst Center Python SDK
@@ -1748,6 +1847,7 @@ response_4:
       "response": {},
       "msg": String
     }
+
 # Case_5: Given project list that needs to be exported
 response_5:
   description: Details of the projects in the list as returned by the Cisco Catalyst Center Python SDK
@@ -1757,6 +1857,46 @@ response_5:
     {
       "response": {},
       "msg": String
+    }
+
+# Case_6: Response for Creating a Project with a Name
+response_6:
+  description: Response when a project is created successfully
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "project Wireless_Controller created succesfully",
+        "response": "project Wireless_Controller created succesfully",
+        "status": "success"
+    }
+
+# Case_7: Response for Updating a Project with a Name
+response_7:
+  description: Provides details of the response when a project is successfully updated using the Cisco Catalyst Center Python SDK.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Project 'Wireless_Template_Management' updated successfully.",
+        "response": Project 'Wireless_Template_Management' updated successfully.",
+        "status": "success"
+    }
+
+# Case_8: Response for Deleting a Project by Name
+response_8:
+  description: Response when a project is Deleted successfully.
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Project(s) are deleted and verified successfully. ['Wireless_Template_Management']",
+        "response": [
+            {
+                "name": "Wireless_Template_Management"
+            }
+        ],
+        "status": "success"
     }
 """
 
@@ -1770,6 +1910,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     validate_list_of_dicts,
     get_dict_result,
     dnac_compare_equality,
+    validate_str
 )
 
 
@@ -1918,31 +2059,47 @@ class Template(DnacBase):
                             "product_series": {"type": "str"},
                             "product_type": {"type": "str"},
                         },
-                        "failure_policy": {"type": "str"},
-                        "id": {"type": "str"},
-                        "language": {"type": "str"},
-                        "name": {"type": "str"},
-                        "project_name": {"type": "str"},
-                        "project_description": {"type": "str"},
-                        "software_type": {"type": "str"},
-                        "software_version": {"type": "str"},
-                        "template_content": {"type": "str"},
-                        "template_params": {"type": "list"},
-                        "template_name": {"type": "str"},
-                        "version": {"type": "str"},
-                    },
-                },
+                        'failure_policy': {'type': 'str'},
+                        'id': {'type': 'str'},
+                        'language': {'type': 'str'},
+                        'name': {'type': 'str'},
+                        'project_name': {'type': 'str'},
+                        'project_description': {'type': 'str'},
+                        'software_type': {'type': 'str'},
+                        'software_version': {'type': 'str'},
+                        'template_content': {'type': 'str'},
+                        'template_params': {'type': 'list'},
+                        'template_name': {'type': 'str'},
+                        'version': {'type': 'str'}
+                    }
+                }
             },
+            "projects": {
+                "type": "list",
+                "elements": "dict",
+                "options": {
+                    "name": {"type": "str", "required": True},
+                    "new_name": {"type": "str"},
+                    "description": {"type": "str"}
+                }
+            }
         }
+
         # Validate template params
         self.config = self.camel_to_snake_case(self.config)
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+
+        valid_temp, invalid_params = validate_list_of_dicts(
+            self.config, temp_spec
+        )
+
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params)
             )
             self.status = "failed"
             return self
+
+        self.input_data_validation(valid_temp).check_return_status()
 
         self.validated_config = valid_temp
         self.log(
@@ -1951,6 +2108,59 @@ class Template(DnacBase):
         )
         self.msg = "Successfully validated input"
         self.status = "success"
+        return self
+
+    def input_data_validation(self, config):
+        """
+        Validates the input configuration structure for template workflow operations in Cisco Catalyst Center.
+
+        Args:
+            self (object): Instance of the class interacting with Cisco Catalyst Center.
+            config (list[dict]): List of dictionaries containing project definitions data.
+
+        Returns:
+            object: Returns self if validation passes; otherwise, logs an error and exits the module.
+
+        Description:
+            This method performs structural and type validation on the 'projects' list within the config.
+            It checks for the presence and string type of required fields like 'name', and optionally
+            validates fields such as 'new_name' and 'description'.
+
+            If the module state is set to 'deleted', only minimal validation is performed.
+            If any validation errors are detected, the method logs an error and terminates the module run.
+        """
+
+        self.log("Starting input data validation.", "INFO")
+        errormsg = []
+        param_spec_str = dict(type="str")
+
+        projects = config[0].get("projects")
+        if projects and isinstance(projects, list):
+            for each_project in projects:
+                project_name = each_project.get("name")
+                if project_name and isinstance(project_name, str):
+                    validate_str(project_name, param_spec_str, "name", errormsg)
+                else:
+                    errormsg.append("Missing or invalid 'name' field in project.")
+
+                if self.payload.get("state") == "deleted":
+                    continue
+
+                project_new_name = each_project.get("new_name")
+                if project_new_name and isinstance(project_new_name, str):
+                    validate_str(project_new_name, param_spec_str, "new_name", errormsg)
+
+                description = each_project.get("description")
+                if description and isinstance(description, str):
+                    validate_str(description, param_spec_str, "description", errormsg)
+
+        if errormsg:
+            msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
+            self.log(msg, "ERROR")
+            self.fail_and_exit(msg)
+
+        msg = "Successfully validated config params: {0}".format(str(config))
+        self.log(msg, "INFO")
         return self
 
     def get_project_params(self, params):
@@ -2582,6 +2792,7 @@ class Template(DnacBase):
                 ),
                 "DEBUG",
             )
+
             if not template_list:
                 msg = (
                     "No uncommitted templates available under the project '{0}'. "
@@ -2774,6 +2985,7 @@ class Template(DnacBase):
             ),
             "DEBUG",
         )
+
         have_template["isCommitPending"] = True
         # This check will fail if specified template is there not committed in Cisco Catalyst Center
         if template_list and isinstance(template_list, list):
@@ -2825,6 +3037,27 @@ class Template(DnacBase):
             if template_available:
                 self.get_have_template(config, template_available)
 
+        project_config = config.get("projects", [])
+        if project_config and isinstance(project_config, list):
+            have["projects"] = []
+            for project in project_config:
+                project_name = project.get("name")
+
+                if not project_name:
+                    self.log("Skipping project: Missing 'name' field.", "WARNING")
+                    continue
+
+                # Fetch existing project details based on the name
+                existing = self.get_project_details(project_name)
+                if existing:
+                    proj_status, unmatched = self.compare_projects(project, existing[0])
+                    existing[0]["project_status"] = proj_status
+                    existing[0]["unmatched"] = unmatched
+                    have["projects"].append(existing[0] or {})
+                else:
+                    self.log("No existing project found for name: {0}".format(
+                        project_name), "INFO")
+
         deploy_temp_details = config.get("deploy_template")
         if deploy_temp_details:
             template_name = deploy_temp_details.get("template_name")
@@ -2861,26 +3094,28 @@ class Template(DnacBase):
                     "WARNING",
                 )
 
-            self.have = have
+        self.have = have
 
         self.msg = "Successfully collected all project and template \
                     parameters from Cisco Catalyst Center for comparison"
         self.status = "success"
+        self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
         return self
 
-    def get_project_details(self, projectName):
+    def get_project_details(self, project_name):
         """
         Get the details of specific project name provided.
 
         Parameters:
-            projectName (str) - Project Name
+            project_name (str) - Project Name
 
         Returns:
             items (dict) - Project details with given project name.
         """
+
         self.log(
             "Initializing retrival of project details for project: {0}".format(
-                projectName
+                project_name
             ),
             "DEBUG",
         )
@@ -2889,7 +3124,7 @@ class Template(DnacBase):
         if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
             self.log(
                 "Retrieving project details for project: {0} when catalyst version is less than 2.3.7.9".format(
-                    projectName
+                    project_name
                 ),
                 "DEBUG",
             )
@@ -2898,19 +3133,19 @@ class Template(DnacBase):
                 family="configuration_templates",
                 function="get_projects",
                 op_modifies=True,
-                params={"name": projectName},
+                params={"name": project_name},
             )
 
             self.log(
                 "Received Response from get_projects for project: {0} when catalyst version is less than 2.3.7.9: {1}".format(
-                    projectName, items
+                    project_name, items
                 ),
                 "DEBUG",
             )
         else:
             self.log(
                 "Retrieving project details for project: {0} when catalyst version is greater than or equal to 2.3.7.9".format(
-                    projectName
+                    project_name
                 ),
                 "DEBUG",
             )
@@ -2918,12 +3153,12 @@ class Template(DnacBase):
                 family="configuration_templates",
                 function="get_projects_details_v2",
                 op_modifies=True,
-                params={"name": projectName},
+                params={"name": project_name},
             )
 
             self.log(
                 "Received Response from get_projects for project: {0} when catalyst version is greater than or equal to 2.3.7.9: {1}".format(
-                    projectName, items
+                    project_name, items
                 ),
                 "DEBUG",
             )
@@ -2931,7 +3166,7 @@ class Template(DnacBase):
 
         self.log(
             "Retrieved project details for project '{0}' are {1}".format(
-                projectName, items
+                project_name, items
             ),
             "DEBUG",
         )
@@ -2950,6 +3185,11 @@ class Template(DnacBase):
         """
 
         want = {}
+
+        project_details = config.get("projects", [])
+        if project_details:
+            want["projects"] = project_details
+
         configuration_templates = config.get("configuration_templates")
         self.log("Playbook details: {0}".format(config), "INFO")
         if configuration_templates:
@@ -3017,7 +3257,275 @@ class Template(DnacBase):
             "Successfully collected all parameters from playbook " + "for comparison"
         )
         self.status = "success"
+        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
         return self
+
+    def compare_projects(self, input_config, current_proj):
+        """
+        Compares an input project configuration with the current project configuration in
+        Cisco Catalyst Center.
+
+        Args:
+            self (object): Instance of the class used for interacting with Cisco Catalyst Center.
+            input_config (dict): The new project configuration intended to be applied.
+            current_proj (dict): The existing project configuration retrieved from the system.
+
+        Returns:
+            tuple:
+                - bool: True if the configurations match (excluding tags), False otherwise.
+                - list: List of values from the input configuration that differ from
+                the current configuration.
+
+        Description:
+            This method performs a key-by-key comparison between the input and existing project configurations,
+            excluding the "tags" field. It logs the comparison process and results. If mismatches are found,
+            the differing input values are collected and returned for further processing or reporting.
+        """
+        self.log("Comparing input project config with current config.", "INFO")
+        self.log("Input project config: {0}".format(self.pprint(input_config)), "DEBUG")
+        self.log("Current project config: {0}".format(self.pprint(current_proj)), "DEBUG")
+
+        unmatched_keys = []
+
+        if input_config and current_proj:
+            for key, value in input_config.items():
+                # Compare values of the current key
+                if current_proj.get(key) != value:
+                    unmatched_keys.append(key)
+                    self.log("Mismatch found for key: {0}. Input value: {1}, Current value: {2}".format(
+                        key, value, current_proj.get(key)), "DEBUG")
+
+            # If no mismatches are found, configurations match
+            if not unmatched_keys:
+                self.log("Input project config matches current project config.", "INFO")
+                return True, None
+
+        self.log("Configurations do not match. Mismatched keys: {0}".format(
+            unmatched_keys), "DEBUG")
+
+        return False, unmatched_keys
+
+    def delete_project(self, project_name):
+        """
+        Deletes a project from Cisco Catalyst Center by its name.
+
+        Args:
+          self (object): An instance of the class used to interact with Cisco Catalyst Center.
+          project_name (str): The name of the project to delete.
+
+        Returns:
+          object: The current instance of the class with updated status and result attributes.
+
+        Description:
+          This method attempts to locate a project by its name and delete it using the appropriate API call.
+          If the project is found and deleted successfully, the method updates the status, result, and logs
+          the outcome. In cases of failure (e.g., missing name, project not found, or API error), it sets the
+          operation result to failed and logs the issue accordingly.
+        """
+        self.log("Attempting to delete project with name: {0}".format(project_name), "DEBUG")
+
+        if not project_name:
+            self.msg = "No project name provided for deletion."
+            self.log(self.msg, "WARNING")
+            return self
+
+        # Fetch the project ID using the project name
+        project_id = None
+        for each_project in self.have.get("projects"):
+            if each_project.get("name") == project_name:
+                project_id = each_project.get("id")
+                break
+
+        if not project_id:
+            self.msg = "Could not find a project with the name: {0}".format(project_name)
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
+
+        # If a valid project ID is found, proceed to delete the project
+        self.log("Found project ID: {0} for project name: {1}".format(
+            project_id, project_name), "INFO")
+
+        try:
+            function_name = "delete_template_project_v1"
+            params = {"project_id": project_id}
+            task_id = self.get_taskid_post_api_call("configuration_templates",
+                                                    function_name, params)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    function_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log("Successfully deleted project with ID: {0}".format(project_name), "INFO")
+            self.result['changed'] = True  # Indicate that the project was deleted
+            self.status = "success"
+            self.msg = "Successfully deleted project: {0}".format(project_name)
+            return self
+
+        except Exception as e:
+            self.msg = "An error occurred while deleting project {0} (ID: {1}). ".format(
+                project_name, project_id)
+            self.log(self.msg + str(e), "ERROR")
+            self.status = "failed"
+
+        return self
+
+    def apply_project_config(self, config):
+        """
+        Create or update projects based on the presence of a 'new_name' key in each project config.
+
+        Parameters:
+            self (object): An instance of a class for interacting with Cisco Catalyst Center.
+            config (list[dict]): A list of dictionaries, each containing project details.
+
+        Returns:
+            self: The current instance with updated project configuration.
+        """
+        self.log("Starting to apply project configurations. Total projects: {0}".format(
+            len(config)), "INFO")
+
+        for project in config:
+            project_name = project.get("name", "Unnamed Project")
+            self.log("Processing project: {0}".format(project_name), "DEBUG")
+            if project.get("new_name"):
+                self.log("Updating project: {0} with new name: {1}".format(
+                    project_name, project.get("new_name")), "INFO")
+                self.update_project(project)
+            else:
+                self.log("Creating project: {0}".format(project_name), "INFO")
+                self.create_project(project)
+
+        self.log("Finished applying project configurations.", "INFO")
+        return self
+
+    def create_project(self, project_detail):
+        """
+        Create a new project in Cisco Catalyst Center with the provided details.
+
+        Parameters:
+            self (object): An instance of a class for interacting with Cisco Catalyst Center.
+            project_detail (dict): Dictionary containing project details.
+
+        Returns:
+            self: The current instance with created project configuration.
+        """
+
+        self.log("Processing Project creation with input details: {0}".format(
+            self.pprint(project_detail)), "DEBUG")
+
+        if not project_detail:
+            self.msg = "No project details provided for creation."
+            self.log(self.msg, "WARNING")
+            return self
+
+        try:
+            create_project_params = {
+                "name": project_detail.get("name"),
+                "description": project_detail.get("description"),
+                "createTime": int(time.time()),
+                "lastUpdateTime": int(time.time())
+            }
+
+            self.log("Creating project with parameters: {0}".format(
+                self.pprint(create_project_params)), "INFO")
+
+            task_name = "create_project"
+            task_id = self.get_taskid_post_api_call("configuration_templates",
+                                                    task_name, create_project_params)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = "project(s) {0} created succesfully".format(project_detail.get("name"))
+            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "DEBUG")
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.log("project(s) {0} created succesfully".format(
+                project_detail.get("name")), "INFO")
+            return self
+
+        except Exception as e:
+            self.msg = "Failed to create the project - ({0}) from Cisco Catalyst Center due to - {1}".format(
+                project_detail.get("name"), str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+    def update_project(self, project_detail):
+        """
+        Identify an existing project in Cisco Catalyst Center by its current name and description,
+        and update it with the new name and project details.
+
+        Parameters:
+            self (object): An instance of a class for interacting with Cisco Catalyst Center.
+            project_detail (dict): Dictionary containing the project config details.
+
+        Returns:
+            self: The current instance with updated project configuration.
+        """
+
+        self.log("Processing Project update with input details: {0}".format(
+            self.pprint(project_detail)), "DEBUG")
+
+        if not project_detail:
+            self.msg = "No project details provided for update."
+            self.log(self.msg, "WARNING")
+            return self
+
+        try:
+            old_name = project_detail.get("name")
+            new_name = project_detail.get("new_name")
+
+            if not old_name or not new_name:
+                self.msg = "Both 'name' (old name) and 'new_name' (new name) are required for the update."
+                self.log(self.msg, "ERROR")
+                return self
+
+            # Get the existing project info
+            existing_projects = self.get_project_details(old_name)
+            if not existing_projects:
+                self.msg = "Project with name '{0}' not found.".format(old_name)
+                self.log(self.msg, "ERROR")
+                return self
+
+            existing_project = existing_projects[0]
+            # Prepare update parameters
+            update_project_params = {
+                "id": existing_project.get("id"),
+                "name": new_name,
+                "description": project_detail.get("description", existing_project.get("description")),
+                "createTime": existing_project.get("createTime"),
+                "lastUpdateTime": int(time.time()),
+                "templates": project_detail.get("templates", existing_project.get("templates", []))
+            }
+
+            # Log the update parameters
+            self.log("Updating project with parameters: {0}".format(
+                self.pprint(update_project_params)), "DEBUG")
+
+            task_name = "update_project"
+            task_id = self.get_taskid_post_api_call("configuration_templates",
+                                                    task_name, update_project_params)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = "Project(s) '{0}' updated successfully.".format(new_name)
+            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "DEBUG")
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+            self.log("Project(s) '{0}' updated successfully.".format(new_name), "INFO")
+            return self
+
+        except Exception as e:
+            self.msg = "Failed to update the project '{0}' due to error: {1}".format(
+                project_detail.get("name"), str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
     def create_project_or_template(self, is_create_project=False):
         """
@@ -4633,6 +5141,20 @@ class Template(DnacBase):
             self
         """
 
+        project_details = config.get("projects")
+        if project_details:
+            if len(self.have.get("projects")) == len(project_details):
+                project_unmatch = any(not project.get("project_status") and
+                                      not project.get("new_name")
+                                      for project in self.have.get("projects"))
+                if not project_unmatch:
+                    self.msg = "No changes required, project(s) already exist"
+                    self.log(self.msg, "INFO")
+                    self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
+                    return self
+            self.apply_project_config(project_details).check_return_status()
+            return self
+
         configuration_templates = config.get("configuration_templates")
         if configuration_templates:
             self.update_configuration_templates(
@@ -5065,6 +5587,23 @@ class Template(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
+        project_details = config.get("projects")
+        if project_details and isinstance(project_details, list):
+            self.processed_project = []
+            if not self.have.get("projects"):
+                self.log("No existing projects found. Nothing to delete.", "INFO")
+                return self
+
+            for each_project in project_details:
+                project_name = each_project.get("name")
+                if not project_name:
+                    self.log("Skipping project with missing 'name' field.", "WARNING")
+                    continue
+
+                if self.delete_project(project_name):
+                    self.processed_project.append(project_name)
+                    self.log("Successfully deleted project: {0}".format(project_name), "INFO")
+
         return self
 
     def verify_diff_merged(self, config):
@@ -5211,6 +5750,30 @@ class Template(DnacBase):
                     "INFO",
                 )
 
+        if config.get("projects"):
+            if not self.processed_project:
+                self.msg = "No changes required, project(s) are already deleted"
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg,
+                                          "INFO").check_return_status()
+                return self
+
+            self.get_have(config)
+            self.log("Current State (have): {0}".format(self.have), "INFO")
+            self.log("Desired State (want): {0}".format(self.want), "INFO")
+            if not self.have.get("projects"):
+                self.msg = "Project(s) are deleted and verified successfully. {0}".format(
+                    self.processed_project)
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", True, self.msg, "INFO",
+                                          config.get("projects")).check_return_status()
+                return self
+
+            self.msg = "Unable to delete the following project(s): {0}".format(
+                [project.get("name") for project in self.have.get("projects", [])])
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "INFO",
+                                      self.have.get("projects")).check_return_status()
         return self
 
     def reset_values(self):
