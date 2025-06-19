@@ -1217,7 +1217,7 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: false
-    state: merged
+    state: deleted
     config:
       - devices_maintenance_schedule:
           - device_ips:
@@ -4408,7 +4408,6 @@ class Inventory(DnacBase):
                     "DEBUG",
                 )
                 response = response.get("response")
-
                 if not response:
                     self.log(
                         "No maintenance scheduled for device '{0}'.".format(device_ip),
@@ -4417,8 +4416,56 @@ class Inventory(DnacBase):
                     unscheduled_device_ids.append(device_id)
                     continue
 
-                schedule_device_ids.append(device_id)
+                is_update_device = False
+                for resp in response:
+                    maintenance_schedule = resp.get('maintenanceSchedule')
+                    if maintenance_schedule is None:
+                        self.log("No maintenanceSchedule found in response for device '{0}'".format(device_ip), "WARNING")
+                        continue
 
+                    status = maintenance_schedule.get('status')
+                    if status in ["UPCOMING", "IN_PROGRESS"]:
+                        self.log(
+                            "Device maintenance schedule status is '{0}', "
+                            "so added the device '{1}' to update the maintenance schedule".format(
+                                status, device_ip
+                            ), "INFO"
+                        )
+                        schedule_device_ids.append(device_id)
+                        is_update_device = True
+                        break
+
+                    self.log(
+                        "Device '{0}' maintenance schedule status is '{1}', no action taken in this loop"
+                        .format(
+                            device_ip, status
+                        ), "INFO"
+                    )
+
+                # If no update flagged, check for completed maintenance to schedule new maintenance
+                if not is_update_device:
+                    self.log("No update flagged for device '{0}', checking for completed maintenance.".format(device_ip), "DEBUG")
+                    for resp in response:
+                        maintenance_schedule = resp.get('maintenanceSchedule')
+                        if maintenance_schedule is None:
+                            self.log("No maintenanceSchedule found in response for device '{0}'".format(device_ip), "WARNING")
+                            continue
+
+                        status = maintenance_schedule.get('status')
+                        if status == "COMPLETED":
+                            self.log(
+                                "Maintenance scheduled for the given device '{0}' is already completed. Scheduling new maintenance.".format(
+                                    device_ip
+                                ), "INFO"
+                            )
+                            unscheduled_device_ids.append(device_id)
+                            break
+
+                        self.log(
+                            "Device '{0}' maintenance schedule status is '{1}', no action taken in this loop".format(
+                                device_ip, status
+                            ), "DEBUG"
+                        )
             except Exception as e:
                 self.msg = """Error while fetching the maintenance schedule for the device '{0}' present in
                         Cisco Catalyst Center: {1}""".format(
@@ -4461,7 +4508,6 @@ class Inventory(DnacBase):
                 "DEBUG",
             )
             response = response.get("response")
-
             if not response:
                 self.msg = (
                     "No maintenance details retrieved for network device '{0}'.".format(
@@ -4470,6 +4516,30 @@ class Inventory(DnacBase):
                 )
                 return None
 
+            state = self.params.get('state')
+            if state == "deleted":
+                return response
+
+            for resp in response:
+                maintenance_schedule = resp.get('maintenanceSchedule')
+                if not maintenance_schedule:
+                    self.log("No maintenanceSchedule found in response for device '{0}'".format(device_ip), "WARNING")
+                    continue
+
+                status = maintenance_schedule.get('status')
+                if status in ["UPCOMING", "IN_PROGRESS"]:
+                    self.log(
+                        "Device maintenance schedule status is '{0}', "
+                        "so added the device '{1}' to update the maintenance schedule".format(
+                            status, device_ip
+                        ), "INFO"
+                    )
+                    return resp
+
+            self.log(
+                "No devices found with maintenance status UPCOMING or IN_PROGRESS for"
+                " device '{0}'".format(device_ip), "INFO"
+            )
         except Exception as e:
             self.msg = """Error while fetching the maintenance schedule for the device '{0}' present in
                     Cisco Catalyst Center: {1}""".format(
@@ -4861,6 +4931,15 @@ class Inventory(DnacBase):
             start_time = devices_maintenance.get("start_time")
             end_time = devices_maintenance.get("end_time")
             time_zone = devices_maintenance.get("time_zone")
+            description = devices_maintenance.get("description")
+
+            if description and description != schedule_details.get("description"):
+                self.log(
+                    "Mismatch in the parameter 'description' so maintenance schedule for the device {0} "
+                    "needs update".format(device_ip), "INFO"
+                )
+                return True
+
             if start_time and time_zone:
                 epoch_start_time = self.to_epoch_timezone(start_time, time_zone)
                 start_time_in_ccc = schedule_details.get("maintenanceSchedule").get(
@@ -5010,7 +5089,7 @@ class Inventory(DnacBase):
         maintenance_schedule = schedule_details.get("maintenanceSchedule") or {}
         schedule_payload = {
             "id": schedule_details.get("id"),
-            "description": schedule_details.get("description"),
+            "description": devices_maintenance.get("description") or schedule_details.get("description", " "),
             "maintenanceSchedule": {
                 "startTime": maintenance_schedule.get("startTime"),
                 "endTime": maintenance_schedule.get("endTime"),
@@ -6319,6 +6398,7 @@ class Inventory(DnacBase):
                         self.no_update_in_maintenance.append(device_ip)
 
                 if updated_network_ids:
+                    updated_network_ids = list(set(updated_network_ids))
                     for device_id in updated_network_ids:
                         device_ip = device_ip_id_map.get(device_id)
                         self.log(
@@ -6411,6 +6491,7 @@ class Inventory(DnacBase):
             devices_maintenance
             and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0
         ):
+            schedule_ids = []
             for schedule in devices_maintenance:
                 device_ips = schedule.get("device_ips")
                 if not device_ips:
@@ -6422,27 +6503,54 @@ class Inventory(DnacBase):
                         "failed", False, self.msg, "ERROR"
                     ).check_return_status()
 
-                network_device_ids = self.get_device_ids(device_ips)
-                schedule_details = self.get_device_maintenance_details(
-                    network_device_ids[0], device_ips[0]
-                )
-                if not schedule_details:
-                    self.log(
-                        "No schedule maintenance details found for the device {0}".format(
-                            device_ips[0]
-                        ),
-                        "WARNING",
-                    )
-                    self.no_maintenance_schedule.extend(device_ips)
-                    continue
+                for device_ip in device_ips:
+                    network_device_id = self.get_device_ids([device_ip])
+                    if not network_device_id:
+                        self.log(
+                            "No network device with IP '{0}' present in Cisco Catalyst Center."
+                            .format(device_ip), "WARNING"
+                        )
+                        continue
 
-                schedule_id = schedule_details.get("id")
+                    schedule_details = self.get_device_maintenance_details(
+                        network_device_id[0], device_ip
+                    )
+                    if not schedule_details:
+                        self.log(
+                            "No schedule maintenance details found for the device {0}".format(
+                                device_ip
+                            ),
+                            "WARNING",
+                        )
+                        self.no_maintenance_schedule.append(device_ip)
+                        continue
+
+                    for schedule in schedule_details:
+                        schedule_id = schedule.get("id")
+                        if not schedule_id:
+                            self.log(
+                                "No schedule ID found for the device {0}.".format(device_ip),
+                                "INFO",
+                            )
+                            continue
+                        schedule_ids.append(schedule_id)
+                        self.log(
+                            "Appended schedule ID '{0}' for device '{1}'.".format(schedule_id, device_ip),
+                            "DEBUG"
+                        )
+                    self.maintenance_deleted.append(device_ip)
+                    self.log(
+                        "Device '{0}' added to maintenance deleted list.".format(device_ip),
+                        "INFO"
+                    )
+
+            schedule_ids = list(set(schedule_ids))
+            for schedule_id in schedule_ids:
                 self.delete_maintenance_schedule(schedule_id).check_return_status()
                 self.log(
                     "Maintenance schedule deleted successfully and now we have to create the new one...",
                     "INFO",
                 )
-                self.maintenance_deleted.extend(device_ips)
         elif (
             devices_maintenance
             and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0
@@ -7191,12 +7299,14 @@ class Inventory(DnacBase):
             result_msg_list_not_changed.append(no_update_msg)
 
         if self.maintenance_deleted:
+            self.maintenance_deleted = list(set(self.maintenance_deleted))
             del_scheduled_msg = "Maintenance schedule deleted successfully for the devices {0} in Cisco Catalyst Center.".format(
                 self.maintenance_deleted
             )
             result_msg_list_changed.append(del_scheduled_msg)
 
         if self.no_maintenance_schedule:
+            self.no_maintenance_schedule = list(set(self.no_maintenance_schedule))
             absent_scheduled_msg = "Maintenance schedule for the devices {0} not present in the Catalyst Center.".format(
                 self.no_maintenance_schedule
             )
