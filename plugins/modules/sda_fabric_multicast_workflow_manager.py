@@ -2389,28 +2389,29 @@ class FabricMulticast(DnacBase):
                     state = self.params.get("state")
                     if state == "deleted":
                         #  Deleted Case: ip_pool_name is mandatory if ssm or asm config change is required.
-                        self.log(f"Checking if asm or ssm config change is required for the fabric site '{fabric_name}'.", "DEBUG")
+                        self.log(f"Checking if 'asm' or 'ssm' config change is required for the fabric site '{fabric_name}'.", "DEBUG")
                         if item.get("ssm") or item.get("asm"):
                             self.msg = (
-                                f"The parameter 'ip_pool_name' is mandatory for the fabric with name '{fabric_name}' "
-                                "when the state is 'deleted' and the 'ssm' or 'asm' configuration is provided."
+                                f"The parameter 'ip_pool_name' is mandatory for fabric site '{fabric_name}' "
+                                "when the state is 'deleted' and 'ssm' or 'asm' configuration is provided."
                             )
                             self.fail_and_exit(self.msg)
 
                         # Deleted Case: ip_pool_name is not mandatory when deleting entire multicast.
                         self.log(
-                            f"The parameter 'ip_pool_name' is not mandatory for the fabric with name '{fabric_name}' "
+                            f"The parameter 'ip_pool_name' is not mandatory for fabric site '{fabric_name}' "
                             "when the state is 'deleted' and the 'ssm' or 'asm' configuration is not provided.",
                             "DEBUG",
                         )
                     else:
                         # Merged Case
-                        self.msg = f"The parameter 'ip_pool_name' is missing for the fabric with name '{fabric_name}'."
+                        self.msg = f"The parameter 'ip_pool_name' is missing for the fabric site '{fabric_name}'."
                         self.set_operation_result(
                             "failed", False, self.msg, "ERROR"
                         ).check_return_status()
 
             if ip_pool_name:
+                self.log(f"Validating IP pool name '{ip_pool_name}' for fabric site '{fabric_name}'.", "DEBUG")
                 is_valid_reserved_pool = self.check_valid_reserved_pool(
                     ip_pool_name, fabric_name
                 )
