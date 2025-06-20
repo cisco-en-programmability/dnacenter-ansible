@@ -811,6 +811,10 @@ class FabricMulticast(DnacBase):
             f"Checking if reserved pool '{reserved_pool_name}' exists in fabric '{fabric_name}'.",
             "DEBUG"
         )
+        if reserved_pool_name is None:
+            self.log(f"There is no reserved subpool in the site '{fabric_name}' with reserved pool name: '{reserved_pool_name}'.", "DEBUG")
+            return False
+
         try:
             (site_exists, site_id) = self.get_site_id(fabric_name)
             self.log(
@@ -2307,7 +2311,7 @@ class FabricMulticast(DnacBase):
                 else:
                     replication_mode = "HEADEND_REPLICATION"
                     self.msg = (
-                        "The parameter 'replication_mode' is missing for the fabric with name '{fabric_name}'."
+                        "The parameter 'replication_mode' is missing for fabric site '{fabric_name}'."
                         "Setting it to its default value of '{replication_mode}'".format(
                             fabric_name=fabric_name, replication_mode=replication_mode
                         )
@@ -2332,7 +2336,7 @@ class FabricMulticast(DnacBase):
 
             layer3_virtual_network = item.get("layer3_virtual_network")
             if not layer3_virtual_network:
-                self.msg = "The parameter 'layer3_virtual_network' is missing for the fabric with name '{fabric_name}'.".format(
+                self.msg = "The parameter 'layer3_virtual_network' is missing for fabric site '{fabric_name}'.".format(
                     fabric_name=fabric_name
                 )
                 self.set_operation_result(
@@ -2382,24 +2386,43 @@ class FabricMulticast(DnacBase):
                 if have_fabric_multicast_exists:
                     ip_pool_name = have_multicast_details.get("ipPoolName")
                 else:
-                    self.msg = "The parameter 'ip_pool_name' is missing for the fabric with name '{fabric_name}'.".format(
-                        fabric_name=fabric_name
+                    state = self.params.get("state")
+                    if state == "deleted":
+                        #  Deleted Case: ip_pool_name is mandatory if ssm or asm config change is required.
+                        self.log(f"Checking if 'asm' or 'ssm' config change is required for the fabric site '{fabric_name}'.", "DEBUG")
+                        if item.get("ssm") or item.get("asm"):
+                            self.msg = (
+                                f"The parameter 'ip_pool_name' is mandatory for fabric site '{fabric_name}' "
+                                "when the state is 'deleted' and 'ssm' or 'asm' configuration is provided."
+                            )
+                            self.fail_and_exit(self.msg)
+
+                        # Deleted Case: ip_pool_name is not mandatory when deleting entire multicast.
+                        self.log(
+                            f"The parameter 'ip_pool_name' is not mandatory for fabric site '{fabric_name}' "
+                            "when the state is 'deleted' and the 'ssm' or 'asm' configuration is not provided.",
+                            "DEBUG",
+                        )
+                    else:
+                        # Merged Case
+                        self.msg = f"The parameter 'ip_pool_name' is missing for fabric site '{fabric_name}'."
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
+
+            if ip_pool_name:
+                self.log(f"Validating IP pool name '{ip_pool_name}' for fabric site '{fabric_name}'.", "DEBUG")
+                is_valid_reserved_pool = self.check_valid_reserved_pool(
+                    ip_pool_name, fabric_name
+                )
+                if not is_valid_reserved_pool:
+                    self.msg = (
+                        "The 'ip_pool_name' is not a valid reserved pool under "
+                        f"fabric site '{fabric_name}'."
                     )
                     self.set_operation_result(
                         "failed", False, self.msg, "ERROR"
                     ).check_return_status()
-
-            is_valid_reserved_pool = self.check_valid_reserved_pool(
-                ip_pool_name, fabric_name
-            )
-            if not is_valid_reserved_pool:
-                self.msg = (
-                    "The 'ip_pool_name' is not a valid reserved pool under the "
-                    "fabric with name '{fabric_name}'.".format(fabric_name=fabric_name)
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
 
             multicast_details = {
                 "fabricId": fabric_id,
