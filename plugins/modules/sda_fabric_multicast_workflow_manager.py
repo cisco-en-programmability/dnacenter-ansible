@@ -811,6 +811,10 @@ class FabricMulticast(DnacBase):
             f"Checking if reserved pool '{reserved_pool_name}' exists in fabric '{fabric_name}'.",
             "DEBUG"
         )
+        if reserved_pool_name is None:
+            self.log(f"There is no reserved subpool in the site '{fabric_name}' with reserved pool name: '{reserved_pool_name}'.", "DEBUG")
+            return False
+
         try:
             (site_exists, site_id) = self.get_site_id(fabric_name)
             self.log(
@@ -2406,17 +2410,18 @@ class FabricMulticast(DnacBase):
                             "failed", False, self.msg, "ERROR"
                         ).check_return_status()
 
-            is_valid_reserved_pool = self.check_valid_reserved_pool(
-                ip_pool_name, fabric_name
-            )
-            if not is_valid_reserved_pool:
-                self.msg = (
-                    "The 'ip_pool_name' is not a valid reserved pool under the "
-                    "fabric with name '{fabric_name}'.".format(fabric_name=fabric_name)
+            if ip_pool_name:
+                is_valid_reserved_pool = self.check_valid_reserved_pool(
+                    ip_pool_name, fabric_name
                 )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                if not is_valid_reserved_pool:
+                    self.msg = (
+                        "The 'ip_pool_name' is not a valid reserved pool under the "
+                        "fabric with name '{fabric_name}'.".format(fabric_name=fabric_name)
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
 
             multicast_details = {
                 "fabricId": fabric_id,
