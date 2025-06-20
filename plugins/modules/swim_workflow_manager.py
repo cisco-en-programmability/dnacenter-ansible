@@ -1340,10 +1340,14 @@ class Swim(DnacBase):
                 get_site_names = self.get_site(site_names)
                 self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
 
-                for item in get_site_names['response']:
+                for item in get_site_names.get('response', []):
                     if 'nameHierarchy' in item and 'id' in item:
                         site_info[item['nameHierarchy']] = item['id']
-
+                    else:
+                        self.log(
+                            "Missing 'nameHierarchy' or 'id' in site item: {0}".format(str(item)),
+                            "WARNING"
+                        )
             self.log("Site information retrieved: {0}".format(str(site_info)), "DEBUG")
 
             for site_name, site_id in site_info.items():
