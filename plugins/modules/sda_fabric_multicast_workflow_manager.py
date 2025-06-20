@@ -2311,7 +2311,7 @@ class FabricMulticast(DnacBase):
                 else:
                     replication_mode = "HEADEND_REPLICATION"
                     self.msg = (
-                        "The parameter 'replication_mode' is missing for the fabric with name '{fabric_name}'."
+                        "The parameter 'replication_mode' is missing for fabric site '{fabric_name}'."
                         "Setting it to its default value of '{replication_mode}'".format(
                             fabric_name=fabric_name, replication_mode=replication_mode
                         )
@@ -2336,7 +2336,7 @@ class FabricMulticast(DnacBase):
 
             layer3_virtual_network = item.get("layer3_virtual_network")
             if not layer3_virtual_network:
-                self.msg = "The parameter 'layer3_virtual_network' is missing for the fabric with name '{fabric_name}'.".format(
+                self.msg = "The parameter 'layer3_virtual_network' is missing for fabric site '{fabric_name}'.".format(
                     fabric_name=fabric_name
                 )
                 self.set_operation_result(
@@ -2405,7 +2405,7 @@ class FabricMulticast(DnacBase):
                         )
                     else:
                         # Merged Case
-                        self.msg = f"The parameter 'ip_pool_name' is missing for the fabric site '{fabric_name}'."
+                        self.msg = f"The parameter 'ip_pool_name' is missing for fabric site '{fabric_name}'."
                         self.set_operation_result(
                             "failed", False, self.msg, "ERROR"
                         ).check_return_status()
@@ -2417,8 +2417,8 @@ class FabricMulticast(DnacBase):
                 )
                 if not is_valid_reserved_pool:
                     self.msg = (
-                        "The 'ip_pool_name' is not a valid reserved pool under the "
-                        "fabric with name '{fabric_name}'.".format(fabric_name=fabric_name)
+                        "The 'ip_pool_name' is not a valid reserved pool under "
+                        f"fabric site '{fabric_name}'."
                     )
                     self.set_operation_result(
                         "failed", False, self.msg, "ERROR"
