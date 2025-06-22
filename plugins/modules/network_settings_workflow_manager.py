@@ -189,11 +189,9 @@ options:
             type: bool
           ipv4_global_pool:
             description:
-              - IP v4 Global pool address with cidr,
-                example 175.175.0.0/16.
-              - If both 'ipv4_global_pool' and 'ipv4_global_pool_name'
-                are provided, then 'ipv4_global_pool'
-                will be given priority.
+              - Specifies the IPv4 global pool address in CIDR notation, for example, "175.175.0.0/16".
+              - When both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided, the value of 'ipv4_global_pool' takes precedence in version 2.3.5.3.
+              - However, in version 2.3.7.9, ipv4_global_pool_name takes precedence over ipv4_global_pool.
             type: str
           ipv4_global_pool_name:
             description:
@@ -205,22 +203,31 @@ options:
             type: str
             version_added: 6.14.0
           ipv4_subnet:
-            description: Indicates the IPv4 subnet address, for example, "175.175.0.0".
-                         This parameter is required starting from Cisco Catalyst Center version 2.3.7.9 and later.
+            description:
+              - Indicates the IPv4 subnet address, for example, "175.175.0.0".
+              - This parameter is required starting from Cisco Catalyst Center version 2.3.7.9 and later.
             type: str
           ipv4_prefix:
-            description: ip4 prefix length is enabled
-              or ipv4 total Host input is enabled
+            description:
+              - Indicates whether the IPv4 prefix length input is enabled.
+              - If true, the IPv4 prefix length must be specified.
+              - Alternatively, the IPv4 total host input can be enabled instead.
             type: bool
           ipv4_prefix_length:
-            description: The ipv4 prefix length is required when ipv4_prefix value
-              is true. Mandatory starting from Cisco Catalyst Center version 2.3.7.9
-              when ipv4_total_host is not specified.
+            description:
+              - Specifies the IPv4 prefix length.
+              - For IPv4, it must be between 8 and 30, inclusive.
+              - Required when 'ipv4_prefix' is true.
+              - For example, a prefix length of 24 corresponds to a subnet mask of 255.255.255.0.
+              - Mandatory starting from Cisco Catalyst Center version 2.3.7.9 if 'ipv4_total_host' is not provided.
             type: int
           ipv4_total_host:
-            description: The total number of hosts for IPv4, required when the 'ipv4_prefix'
-              is set to false. Mandatory starting from Cisco Catalyst
-              Center version 2.3.7.9 when ipv4_prefix_length is not specified.
+            description:
+              - Specifies the total number of IPv4 hosts.
+              - Must be a positive integer within the subnet capacity.
+              - For IPv4, the value must fit within a 32-bit address space.
+              - Required when 'ipv4_prefix' is false.
+              - Mandatory starting from Cisco Catalyst Center version 2.3.7.9 if 'ipv4_prefix_length' is not provided.
             type: int
           ipv4_gateway:
             description: Provides the gateway's IPv4
@@ -274,29 +281,29 @@ options:
             type: str
             version_added: 6.14.0
           ipv6_subnet:
-            description: IPv6 Subnet address, example 2001:db8:85a3:0:100.
-                         This parameter is required starting from Cisco
-                         Catalyst Center version 2.3.7.9 and later.
+            description:
+              - IPv6 Subnet address, example 2001:db8:85a3:0:100.
+              - This parameter is required starting from Cisco Catalyst Center version 2.3.7.9 and later.
             type: str
           ipv6_prefix:
-            description: >
-              Determines whether to enable the 'ipv6_prefix_length'
-              or 'ipv6_total_host' input field. If IPv6
-              prefix value is true, the IPv6 prefix
-              length input field is required, If it
-              is false ipv6 total Host input is required.
+            description:
+              - Determines whether to enable the 'ipv6_prefix_length' or 'ipv6_total_host' input field.
+              - If the IPv6 prefix value is true, the IPv6 prefix length input field is required.
+              - If it is false, the ipv6_total_host input is required.
             type: bool
           ipv6_prefix_length:
-            description: Specifies the IPv6 prefix length. Required when 'ipv6_prefix'
-              is set to true. Mandatory starting from Cisco Catalyst Center version
-              2.3.7.9 when ipv6_total_host is not specified.
+            description:
+              - Specifies the IPv6 prefix length.
+              - The valid range is from 0 to 128.
+              - Required when 'ipv6_prefix' is true.
+              - Mandatory starting from Cisco Catalyst Center version 2.3.7.9 if 'ipv6_total_host' is not provided.
             type: int
           ipv6_total_host:
             description:
-              - Specifies the total number of IPv6 hosts. Required when 'ipv6_prefix'
-                is set to false.
-              - Must specify a number of IPv6 IP addresses that is less than 256.
-              - Mandatory starting from Cisco Catalyst Center version 2.3.7.9 when ipv6_prefix_length is not specified.
+              - Specifies the total number of IPv6 hosts.
+              - Must be an integer less than 256.
+              - Required when 'ipv6_prefix' is false.
+              - Mandatory starting from Cisco Catalyst Center version 2.3.7.9 if 'ipv6_prefix_length' is not provided.
             type: int
           prev_name:
             description: The former name associated
@@ -310,27 +317,33 @@ options:
             type: bool
           ipv4_unassignable_addresses:
             description: >
-              Number of IPv4 addresses that cannot be assigned due to constraints or reservations.
+              - Specifies the number of IPv4 addresses that cannot be assigned due to constraints or reservations.
+              - These addresses are excluded from allocation pools.
             type: str
           ipv4_assigned_addresses:
             description: >
-              Number of IPv4 addresses that are already allocated.
+              - Specifies the number of IPv4 addresses that have already been allocated.
+              - Reflects the count of addresses currently in use.
             type: str
           ipv4_default_assigned_addresses:
             description: >
-              Number of IPv4 addresses assigned by default during pool creation.
+              - Specifies the number of IPv4 addresses assigned by default during pool creation.
+              - Represents the initial allocation count when the pool is created.
             type: str
           ipv6_unassignable_addresses:
             description: >
-              Number of IPv6 addresses that cannot be assigned due to constraints or reservations.
+              - Specifies the number of IPv6 addresses that cannot be assigned due to constraints or reservations.
+              - These addresses are excluded from allocation pools.
             type: str
           ipv6_assigned_addresses:
             description: >
-              Number of IPv6 addresses that are already allocated.
+              - Specifies the number of IPv6 addresses that have already been allocated.
+              - Reflects the count of addresses currently in use.
             type: str
           ipv6_default_assigned_addresses:
             description: >
-              Number of IPv6 addresses assigned by default during pool creation.
+              - Specifies the number of IPv6 addresses assigned by default during pool creation.
+              - Represents the initial allocation count when the pool is created.
             type: str
           force_delete:
             description: >
@@ -576,19 +589,21 @@ options:
                 type: dict
       device_controllability_details:
         description:
-            - Set default device controllability settings for the site.
+            - Defines the default device controllability settings at the site level.
+            - Controls whether Catalyst Center can apply telemetry and configuration policies to devices.
         type: dict
         suboptions:
           device_controllability:
             description:
-                - Enables or disables device controllability at the site level.
-                - Required setting that controls whether Catalyst Center can apply telemetry and configuration policies to devices.
+                - Boolean flag to enable or disable device controllability at the site level.
+                - This is a required setting.
+                - When enabled, Catalyst Center manages telemetry and configuration policies on devices.
             type: bool
             required: true
           autocorrect_telemetry_config:
             description:
-                - Automatically correct telemetry configuration on devices if it deviates from the expected state.
-                - Optional setting. Defaults to False.
+                - Boolean flag to automatically correct telemetry configuration on devices if it deviates from the expected state.
+                - Optional setting; defaults to false.
             type: bool
             required: false
             default: false
@@ -1293,7 +1308,8 @@ class NetworkSettings(DnacBase):
 
     def get_global_pool_params_v2(self, pool_info):
         """
-        Process Global Pool params from playbook data for Global Pool config in Cisco Catalyst Center for DNAC version > 2.3.7.6.
+        Process Global Pool parameters from playbook data for Global Pool configuration in
+        Cisco Catalyst Center version > 2.3.7.6.
 
         Parameters:
             pool_info (dict) - Playbook data containing information about the global pool
