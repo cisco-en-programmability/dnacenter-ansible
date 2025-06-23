@@ -420,6 +420,15 @@ options:
               Executes commands to address the issue.
             type: str
             required: true
+          ignore_duration:
+            description: >
+              Ignore issues for next 1 hour to 30 days.
+              ignore_duration available from Catalyst Center
+              version 2.3.7.10
+              eg. 1h or 3d
+            type: str
+            required: false
+            default: 24h
           start_datetime:
             description: >
               A filter to select issues that started
@@ -807,6 +816,7 @@ EXAMPLES = r"""
               - issue_name: Fabric BGP session status
                   is down with Peer Device  # required field
                 issue_process_type: ignore  # required field
+                ignore_duration: 4h
                 start_datetime: "2024-12-11 16:00:00"  # optional field
                 end_datetime: "2024-12-11 18:30:00"  # optional field
                 site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
@@ -1104,6 +1114,7 @@ class AssuranceSettings(DnacBase):
                     "choices": ["resolution", "ignore", "command_execution"],
                     "required": True,
                 },
+                "ignore_duration": {"type": "str", "required": False},
                 "start_datetime": {"type": "str", "required": False},
                 "end_datetime": {"type": "str", "required": False},
                 "site_hierarchy": {"type": "str", "required": False},
@@ -1196,6 +1207,14 @@ class AssuranceSettings(DnacBase):
                     errormsg.append(
                         "issue_process_type: issue process type is missing in playbook."
                     )
+
+                ignore_duration = each_issue.get("ignore_duration")
+                if ignore_duration:
+                    if not self.validate_ignore_duration(ignore_duration):
+                        errormsg.append(
+                            "ignore_duration: Invalid Ignore Duration '{0}' in playbook. "
+                            "valid duration: '1h' to '30d'.".format(
+                                ignore_duration))
 
                 site_hierarchy = each_issue.get("site_hierarchy")
                 if site_hierarchy:
@@ -1569,6 +1588,44 @@ class AssuranceSettings(DnacBase):
         self.msg = "Successfully validated config params: {0}".format(str(config))
         self.log(self.msg, "INFO")
         return self
+
+    def validate_ignore_duration(self, duration: str) -> bool:
+        """
+        Validates that the ignore duration ends with 'h' or 'd'
+        and is preceded by an integer between 1 and 720.
+
+        Parameters:
+            duration (str) - String contains number of hours or number of days
+            Examples of valid inputs: '1h', '24d', '720h'
+
+        Returns:
+            bool: True if valid, False otherwise
+        """
+        self.log("Validation the ignore duration: {0}.".format(
+            duration
+        ))
+
+        if not isinstance(duration, str) or len(duration) < 2:
+            return False
+
+        unit = duration[-1]
+        number_part = duration[:-1]
+
+        if unit not in ('h', 'd'):
+            return False
+
+        if not number_part.isdigit():
+            return False
+
+        number = int(number_part)
+        if (unit == 'd' and 1 <= number <= 30) or (
+            unit == 'h' and 1 <= number <= 720) :
+            self.log("Ignore duration validated: {0}.".format(
+                duration
+                ))
+            return True
+
+        return False
 
     def validate_start_end_datetime(self, start_time, end_time, errormsg):
         """
@@ -2448,7 +2505,7 @@ class AssuranceSettings(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-    def ignore_issue(self, issue_ids):
+    def ignore_issue(self, issue_ids, duration=None):
         """
         Ignore the issue based on the input issues name.
 
@@ -2468,12 +2525,23 @@ class AssuranceSettings(DnacBase):
             "Ignore issue with parameters: {0}".format(self.pprint(issue_ids)), "INFO"
         )
 
+        ignore_payload = dict(issueIds=issue_ids)
+        if duration:
+            unit = duration[-1]
+            number_part = duration[:-1]
+            payload_input = int(number_part)
+            ignore_payload["ignoreHours"] = payload_input
+
+            if unit == 'd':
+                payload_input = payload_input * 24
+                ignore_payload["ignoreHours"] = payload_input
+
         try:
             response = self.dnac._exec(
                 family="issues",
                 function="ignore_the_given_list_of_issues",
                 op_modifies=True,
-                params=dict(issueIds=issue_ids),
+                params=ignore_payload,
             )
             self.log(
                 "Response from ignore issue API response: {0}".format(response), "DEBUG"
@@ -3353,7 +3421,15 @@ class AssuranceSettings(DnacBase):
                             )
 
                     elif issue_type == "ignore":
-                        response = self.ignore_issue(issue_ids)
+                        response = None
+                        if (self.compare_dnac_versions(
+                                self.get_ccc_version(), "2.3.7.10"
+                            )
+                            < 0):
+                            response = self.ignore_issue(issue_ids)
+                        else:
+                            ignore_duration = each_issue.get("ignore_duration")
+                            response = self.ignore_issue(issue_ids, ignore_duration)
 
                         if response and isinstance(response, dict):
                             self.success_list_ignored.append(each_issue)
