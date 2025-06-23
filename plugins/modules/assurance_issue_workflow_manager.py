@@ -3421,8 +3421,7 @@ class AssuranceSettings(DnacBase):
 
                     elif issue_type == "ignore":
                         response = None
-                        if self.compare_dnac_versions(
-                            self.get_ccc_version(), "2.3.7.10") < 0:
+                        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.10") < 0:
                             response = self.ignore_issue(issue_ids)
                         else:
                             ignore_duration = each_issue.get("ignore_duration")
