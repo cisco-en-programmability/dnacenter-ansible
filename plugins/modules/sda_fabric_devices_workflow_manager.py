@@ -2998,7 +2998,8 @@ class FabricDevices(DnacBase):
         """
 
         self.log(
-            f"Retrieving SDA wireless details from fabric '{fabric_name}' (ID: '{fabric_id}') to find switch with device ID '{network_device_id}' (IP: '{fabric_device_ip}').",
+            f"Retrieving SDA wireless details from fabric '{fabric_name}' (ID: '{fabric_id}') to "
+            f"find switch with device ID '{network_device_id}' (IP: '{fabric_device_ip}').",
             "DEBUG",
         )
         try:
@@ -5112,7 +5113,10 @@ class FabricDevices(DnacBase):
             )
             # Check if both are empty lists
             if not primary_managed_ap_locations and not secondary_managed_ap_locations:
-                self.msg = f"Both 'primary_managed_ap_locations' and 'secondary_managed_ap_locations' cannot be empty in wireless controller settings for device IP '{fabric_device_ip}' in fabric '{fabric_name}'."
+                self.msg = (
+                    f"Both 'primary_managed_ap_locations' and 'secondary_managed_ap_locations' cannot be empty in "
+                    f"wireless controller settings for device IP '{fabric_device_ip}' in fabric '{fabric_name}'."
+                )
                 self.fail_and_exit(self.msg)
 
             rolling_ap_upgrade = self.validate_rolling_ap_upgrade(
@@ -6129,7 +6133,8 @@ class FabricDevices(DnacBase):
         ]
 
         self.log(
-            f"[{fabric_device_ip}] Updating managed AP scopes:\n  - Primary: {primary_managed_ap_locations_site_id}\n  - Secondary: {secondary_managed_ap_locations_site_id}",
+            f"[{fabric_device_ip}] Updating managed AP scopes:\n  - Primary: {primary_managed_ap_locations_site_id}\n  "
+            f"- Secondary: {secondary_managed_ap_locations_site_id}",
             "DEBUG",
         )
 
@@ -6459,7 +6464,10 @@ class FabricDevices(DnacBase):
             "fabric_wireless", task_name, parameters
         )
         if not task_id:
-            self.msg = f"Unable to retrieve the task_id for the updating wireless settings for the device with IP address: '{device_ip}' under fabric: '{fabric_name}'"
+            self.msg = (
+                f"Unable to retrieve the task_id for the updating wireless settings "
+                f"for the device with IP address: '{device_ip}' under fabric: '{fabric_name}'"
+            )
             self.fail_and_exit(self.msg)
 
         success_msg = (
