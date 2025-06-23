@@ -1247,7 +1247,6 @@ response_13:
 """
 
 import time
-import json
 import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
