@@ -1619,10 +1619,9 @@ class AssuranceSettings(DnacBase):
 
         number = int(number_part)
         if (unit == 'd' and 1 <= number <= 30) or (
-            unit == 'h' and 1 <= number <= 720) :
+           unit == 'h' and 1 <= number <= 720) :
             self.log("Ignore duration validated: {0}.".format(
-                duration
-                ))
+                duration))
             return True
 
         return False
@@ -3423,9 +3422,7 @@ class AssuranceSettings(DnacBase):
                     elif issue_type == "ignore":
                         response = None
                         if (self.compare_dnac_versions(
-                                self.get_ccc_version(), "2.3.7.10"
-                            )
-                            < 0):
+                            self.get_ccc_version(), "2.3.7.10") < 0):
                             response = self.ignore_issue(issue_ids)
                         else:
                             ignore_duration = each_issue.get("ignore_duration")
