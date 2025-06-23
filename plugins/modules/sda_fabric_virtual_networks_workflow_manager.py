@@ -4694,6 +4694,16 @@ class VirtualNetwork(DnacBase):
 
             # Collect the gateway id with combination of vn_name, ip_pool_name and fabric id
             unique_anycast = vn_name + "_" + ip_pool_name + "_" + site_name
+            if not fabric_id:
+                self.absent_anycast_gateways.append(unique_anycast)
+                self.log(
+                    "Given Anycast gateway '{0}' is not present in Cisco Catalyst Center.".format(
+                        unique_anycast
+                    ),
+                    "INFO",
+                )
+                continue
+
             is_pool_exist = self.is_ip_pool_exist(ip_pool_name, site_id)
             self.log(
                 "Checking if given ip pool '{0}' already deleted from the Cisco Catalyst Center "
