@@ -25,7 +25,7 @@
           - assurance_issue:
               - issue_name: Time synchronization mismatch between Cisco Catalyst Center and device 'CORE-SWITCH-01'
                 issue_process_type: ignore  # Options: resolution, ignore, command_execution
-                ignore_duration: 1h  # optional field
+                ignore_duration: 1h
                 start_datetime: "2025-03-11 16:00:00"  # optional field
                 end_datetime: "2025-03-16 18:30:00"  # optional field
                 priority: P4  # optional field
