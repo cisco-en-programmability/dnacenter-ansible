@@ -2219,6 +2219,126 @@ class DnacBase():
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
 
+    def deduplicate_list_of_dict(self, list_of_dicts):
+        """
+        Removes duplicate dictionaries from a list while preserving order.
+
+        This method logs the initial input list, processes each dictionary to ensure uniqueness
+        based on its key-value pairs, and logs detailed information about each dictionary processed,
+        including whether it was added as unique or skipped as a duplicate. Finally, it logs the
+        summary of the deduplication process along with the resulting list.
+
+        Args:
+            list_of_dicts (list of dict): A list containing dictionaries that may have duplicates.
+
+        Returns:
+            list of dict: A new list containing only unique dictionaries from the input list,
+                        with order preserved based on the first occurrence.
+
+        Description:
+            The method iterates over the input list, converting each dictionary into a frozenset of
+            its items for hashable comparison. It tracks dictionaries that have already been seen,
+            and if a dictionary is unique (not previously seen), it is added to the result list.
+            Logs are generated to track the start of the process, each dictionary's processing result,
+            and the completion of deduplication including original and deduplicated list sizes.
+        """
+
+        self.log(f"Initializing deduplication of list of dictionaries : {list_of_dicts}.", "INFO")
+
+        if not isinstance(list_of_dicts, list):
+            self.log("Invalid input: Expected a list of dictionaries but received a non-list object.", "ERROR")
+            return []
+
+        if not all(isinstance(d, dict) for d in list_of_dicts):
+            self.log("Invalid input: List contains non-dictionary items.", "ERROR")
+            return []
+
+        if not list_of_dicts:
+            self.log("Input list is empty. No deduplication required.", "INFO")
+            return []
+
+        self.log(f"Input list:\n{list_of_dicts}", "INFO")
+        seen_dicts = set()
+        unique_dicts = []
+
+        for index, current_dict in enumerate(list_of_dicts):
+            try:
+                dict_identifier = frozenset(current_dict.items())  # Used only for comparison
+                if dict_identifier not in seen_dicts:
+                    seen_dicts.add(dict_identifier)
+                    unique_dicts.append(current_dict)  # Keep original dict
+                    self.log(f"Added unique dictionary at index {index}: {current_dict}", "INFO")
+                else:
+                    self.log(f"Skipped duplicate dictionary at index {index}: {current_dict}", "INFO")
+            except TypeError as e:
+                self.log(
+                    f"Error processing dictionary at index {index}: {current_dict}. "
+                    f"Skipping this entry. Error: {e}",
+                    "ERROR"
+                )
+                continue  # Skip unhashable dictionaries
+
+        if len(unique_dicts) == len(list_of_dicts):
+            self.log("No duplicates found. All dictionaries are unique.", "INFO")
+        else:
+            self.log(
+                f"Deduplication complete.\nOriginal list length: {len(list_of_dicts)}\n"
+                f"Deduplicated list length: {len(unique_dicts)}",
+                "INFO"
+            )
+
+        self.log(f"Final output (deduplicated list):\n{unique_dicts}", "DEBUG")
+
+        return unique_dicts
+
+    def compare_unordered_lists_of_dicts(self, list1, list2):
+        """
+        Compare two unordered lists of dictionaries for equality.
+
+        Args:
+            list1 (list): First list of dictionaries to compare.
+            list2 (list): Second list of dictionaries to compare.
+
+        Returns:
+            bool: True if both lists contain the same dictionaries (order-independent), False otherwise.
+
+        Description:
+            This function normalizes each dictionary by converting it to a JSON string with sorted keys,
+            then sorts both lists of these strings and compares them to determine equality.
+        """
+        self.log("Starting comparison of two unordered lists of dictionaries", "INFO")
+
+        if not isinstance(list1, list) or not isinstance(list2, list):
+            self.log("Invalid input: Both inputs must be lists.", "ERROR")
+            return False
+
+        if not all(isinstance(d, dict) for d in list1):
+            self.log("Invalid input: First list contains non-dictionary items.", "ERROR")
+            return False
+
+        if not all(isinstance(d, dict) for d in list2):
+            self.log("Invalid input: Second list contains non-dictionary items.", "ERROR")
+            return False
+
+        # Log the lengths of the input lists
+        self.log(f"Length of first list: {len(list1)}", "DEBUG")
+        self.log(f"Length of second list: {len(list2)}", "DEBUG")
+
+        # Convert dicts to JSON strings with sorted keys for consistent comparison
+        def normalize(d):
+            return json.dumps(d, sort_keys=True)
+
+        normalized1 = sorted(normalize(d) for d in list1)
+        normalized2 = sorted(normalize(d) for d in list2)
+        result = normalized1 == normalized2
+        if not result:
+            self.log("Lists are not equal. Differences detected.", "DEBUG")
+            self.log(f"Normalized first list: {normalized1}", "DEBUG")
+            self.log(f"Normalized second list: {normalized2}", "DEBUG")
+        else:
+            self.log("Lists are equal. No differences detected.", "DEBUG")
+
+        return result
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
