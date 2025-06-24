@@ -3302,7 +3302,18 @@ class FabricMulticast(DnacBase):
                 ),
                 "INFO",
             )
-            self.bulk_add_multicast_config(to_create_multicast).check_return_status()
+            to_create_multicast_grouped_by_fabric_id = self.group_payload_by_fabric_id(
+                to_create_multicast)
+            self.log(
+                f"Total fabric ID groups to be created: {len(to_create_multicast_grouped_by_fabric_id)}",
+                "INFO",
+            )
+            for fabric_id, to_create_multicast_configs in to_create_multicast_grouped_by_fabric_id.items():
+                self.log(
+                    f"Adding multicast configurations for fabric ID '{fabric_id}': {to_create_multicast_configs}",
+                    "DEBUG",
+                )
+                self.bulk_add_multicast_config(to_create_multicast_configs).check_return_status()
 
         if to_update_replication_mode:
             to_update_replication_mode = self.deduplicate_by_fabric_id(to_update_replication_mode)
@@ -3323,13 +3334,71 @@ class FabricMulticast(DnacBase):
                 ),
                 "INFO",
             )
-            self.bulk_update_multicast_config(to_update).check_return_status()
+            to_update_multicast_grouped_by_fabric_id = self.group_payload_by_fabric_id(
+                to_update)
+            self.log(
+                f"Total fabric ID groups to be updated: {len(to_update_multicast_grouped_by_fabric_id)}",
+                "INFO",
+            )
+            for fabric_id, to_update_multicast_configs in to_update_multicast_grouped_by_fabric_id.items():
+                self.log(
+                    f"Updating multicast configurations for fabric ID '{fabric_id}': {to_update_multicast_configs}",
+                    "DEBUG",
+                )
+                self.bulk_update_multicast_config(to_update_multicast_configs).check_return_status()
 
         self.result.update({"response": self.response})
         self.log("SDA fabric multicast updates completed successfully.", "INFO")
         self.msg = "The operations on fabric device is successful."
         self.status = "success"
         return self
+
+    def group_payload_by_fabric_id(self, payload_list):
+        """
+        Group the list of multicast payload dictionaries by 'fabricId'.
+
+        Parameters:
+            payload_list (list of dict): List of dictionaries containing 'fabricId' keys.
+
+        Returns:
+            dict: A dictionary with each unique 'fabricId' as a key and its associated
+                list of payloads as the corresponding value.
+
+        Description:
+            This function iterates over the given payload list and groups the dictionaries
+            by their 'fabricId'. This helps in organizing or processing configuration
+            items specific to each fabric site in Cisco Catalyst Center.
+            If the input is not a list of dictionaries or is empty, it returns an empty dictionary.
+        """
+        self.log(f"Initializing grouping of multicast configs by fabric ID: {payload_list}.", "INFO")
+
+        if not isinstance(payload_list, list):
+            self.log(f"Invalid input: 'payload_list' must be a list. Received: {type(payload_list).__name__}", "ERROR")
+            return {}
+
+        if not all(isinstance(item, dict) for item in payload_list):
+            self.log("Invalid input: All items in 'payload_list' must be dictionaries.", "ERROR")
+            return {}
+
+        if not payload_list:
+            self.log("'payload_list' is empty. Returning an empty dictionary.", "INFO")
+            return {}
+
+        grouped_payload = {}
+        for item in payload_list:
+            fabric_id = item.get("fabricId")
+            if fabric_id is None:
+                self.log(f"Skipping item without fabric ID: {item}", "WARNING")
+                continue
+            if fabric_id not in grouped_payload:
+                self.log(f"New fabric ID found: {fabric_id}. Initializing grouping.", "DEBUG")
+                grouped_payload[fabric_id] = []
+
+            grouped_payload[fabric_id].append(item)
+
+        self.log(f"Completed grouping by fabric ID. Result: {self.pprint(grouped_payload)}", "DEBUG")
+
+        return grouped_payload
 
     def check_replication_mode_conflicts(self, fabric_list):
         """
