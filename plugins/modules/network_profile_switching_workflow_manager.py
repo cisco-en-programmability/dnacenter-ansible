@@ -1220,6 +1220,10 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             unassign_templates.append(self.detach_networkprofile_cli_template(
                 profile_name, profile_id, templ_name, template_id))
 
+            # This if condition will be removed once CLI unassign templete API upgrade released
+            if unassign_templates:
+                break
+
         return True
 
     def get_diff_merged(self, config):
@@ -1349,11 +1353,12 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     )
 
                 if dn_template and profile_id:
-                    update_temp_status.append(
-                        self.process_templates(
-                            dn_template, previous_templates, profile_name, profile_id
-                        )
-                    )
+                    template_state =  self.process_templates(
+                        dn_template, previous_templates, profile_name, profile_id)
+
+                    if template_state:
+                        update_temp_status = template_state
+
                     self.log(
                         "Template Response (dn_template): {0}".format(
                             self.pprint(update_temp_status)
@@ -1370,14 +1375,14 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         if not self.value_exists(
                             previous_sites, "id", each_site["site_id"]
                         ):
-                            assign_site_task.append(
-                                self.assign_site_to_network_profile(
-                                    profile_id,
-                                    each_site["site_id"],
-                                    profile_name,
-                                    each_site["site_names"],
-                                )
+                            site_status = self.assign_site_to_network_profile(
+                                profile_id,
+                                each_site["site_id"],
+                                profile_name,
+                                each_site["site_names"],
                             )
+                            if site_status.get("progress"):
+                                assign_site_task.append(each_site["site_names"])
 
             have_profile_id = self.have["switch_profile"][profile_no].get("profile_id")
             if have_profile_id:
@@ -1389,6 +1394,16 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     profile_response = dict(
                         profile_name=each_profile["profile_name"], status=self.msg
                     )
+
+                    if update_temp_status:
+                        self.log("Templates assigned successfully for: '{0}'.".format(
+                            update_temp_status), "INFO")
+                        profile_response["template_assign_status"] = update_temp_status
+
+                    if assign_site_task:
+                        msg = "Site(s) '{0}' Successfully Associated".format(assign_site_task)
+                        profile_response["site_assign_status"] = msg
+
                     self.switch.append(profile_response)
                 elif not update_temp_status and not assign_site_task:
                     self.already_processed.append(
@@ -1405,6 +1420,16 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     profile_response = dict(
                         profile_name=each_profile["profile_name"], status=self.msg
                     )
+
+                    if update_temp_status:
+                        self.log("Templates assigned successfully for: '{0}'.".format(
+                            update_temp_status), "INFO")
+                        profile_response["template_assign_status"] = update_temp_status
+
+                    if assign_site_task:
+                        msg = "Site(s) '{0}' Successfully Associated".format(assign_site_task)
+                        profile_response["site_assign_status"] = msg
+
                     self.switch.append(profile_response)
                 else:
                     self.not_processed.append(each_profile["profile_name"])
