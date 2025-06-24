@@ -8218,12 +8218,16 @@ class WirelessDesign(DnacBase):
         for profile in radio_frequency_profiles:
             profile_name = profile.get("radio_frequency_profile_name", "Unknown")
             is_default = profile.get("default_rf_profile", False)
+            self.log(
+                "Processing RF Profile: Name='{0}', Default='{1}'.".format(profile_name, is_default),
+                "DEBUG",
+            )
 
             # If the profile is set as default, check for conflicts
             if is_default:
                 if default_profile:
                     self.msg = (
-                        "Multiple RF profiles are set as default. "
+                        "Validation failed: Multiple RF profiles are set as default. "
                         "Conflicting profiles: '{0}' and '{1}'.".format(default_profile, profile_name)
                     )
                     self.fail_and_exit(self.msg)
@@ -9434,14 +9438,15 @@ class WirelessDesign(DnacBase):
         """
         Resets WPA encryption and authentication key management parameters to False.
         Args:
+            auth_type (str): The type of authentication being used (e.g., "WPA2", "WPA3").
             updated_ssid (dict): The existing SSID dictionary to update.
             requested_ssid (dict): The requested SSID dictionary containing the desired parameters.
         """
         self.log("Starting reset of encryption and authentication parameters.", "INFO")
 
         # Log the initial state of updated_ssid and requested_ssid
-        self.log("updated_ssid: {0}".format(updated_ssid), "DEBUG")
-        self.log("requested_ssid: {0}".format(requested_ssid), "DEBUG")
+        self.log("Initial updated_ssid: {0}".format(updated_ssid), "DEBUG")
+        self.log("Initial requested_ssid: {0}".format(requested_ssid), "DEBUG")
 
         # WPA Encryption parameters
         wpa_encryption_params = [
@@ -9487,22 +9492,18 @@ class WirelessDesign(DnacBase):
                         self.log("Setting {0} parameter '{1}' to False.".format(param_type, param), "DEBUG")
                         updated_ssid[param] = False
                     else:
-                        # Log that the parameter is already present in requested_ssid
                         self.log("{0} parameter '{1}' already present in requested SSID. No reset required.".format(param_type, param), "DEBUG")
             else:
-                # Log that no parameters of the given type were found in requested_ssid
                 self.log("No {0} parameters found in requested_ssid. Skipping reset for {0} parameters.".format(param_type), "DEBUG")
 
         # Reset WPA encryption and authentication key management parameters
         if auth_type == "OPEN":
-            # Log that the auth_type is OPEN and both parameter types will be reset
             self.log("Auth type is 'OPEN'. Resetting both WPA encryption and authentication key management parameters.", "DEBUG")
             # Reset all WPA encryption parameters to False
             reset_parameters(wpa_encryption_params, "WPA encryption", reset_all=True)
             # Reset all authentication key management parameters to False
             reset_parameters(auth_key_management_params, "authentication key management", reset_all=True)
         else:
-            # Log that the auth_type is not OPEN and conditional resets will be performed
             self.log("Auth type is not 'OPEN'. Proceeding with conditional resets based on requested_ssid.", "DEBUG")
             # Reset WPA encryption parameters only if they exist in requested_ssid
             reset_parameters(wpa_encryption_params, "WPA encryption")
@@ -14122,9 +14123,12 @@ class WirelessDesign(DnacBase):
 
     def unset_existing_default_rf_profile(self, existing_rf_profiles):
         """
-        Unsets the existing default RF profile if one is found in the config.
+        Unsets the existing default RF profile if one is found in the configuration.
         Args:
-            existing_rf_profiles (list): A list of dictionaries containing existing RF profile details.
+            existing_rf_profiles (list): A list of dictionaries containing details of existing RF profiles.
+                Each dictionary should include the "defaultRfProfile" key to indicate if the profile is set as default.
+        Raises:
+            Exception: If the operation to unset the default RF profile fails, an exception is raised with a descriptive message.
         """
         self.log("Checking for an existing default RF profile to unset.", "INFO")
 
@@ -14133,36 +14137,38 @@ class WirelessDesign(DnacBase):
             (profile for profile in existing_rf_profiles if profile.get("defaultRfProfile", False)), None
         )
 
-        if existing_default_profile:
-            self.log(
-                "Found an existing default RF profile: {0}. Proceeding to unset it.".format(existing_default_profile["rfProfileName"]),
-                "INFO"
-            )
-
-            # Unset the default RF profile
-            existing_default_profile["defaultRfProfile"] = False
-            task_id = self.update_radio_frequency_profile(existing_default_profile)
-
-            # Verify the update operation
-            task_name = "Unset Default RF Profile"
-            operation_msg = "Successfully unset the default RF profile: {0}".format(existing_default_profile["rfProfileName"])
-            self.log(
-                "Initiated task '{0}' to unset the default RF profile. Task ID: {1}".format(task_name, task_id),
-                "DEBUG"
-            )
-
-            # Check the status of the task using the task ID
-            self.get_task_status_from_tasks_by_id(task_id, task_name, operation_msg).check_return_status()
-
-            if self.status != "success":
-                self.fail_and_exit("Failed to unset the default RF profile: {0}".format(existing_default_profile["rfProfileName"]))
-
-            self.log(
-                "Successfully unset the default RF profile: {0}".format(existing_default_profile["rfProfileName"]),
-                "INFO"
-            )
-        else:
+        if not existing_default_profile:
             self.log("No existing default RF profile found. No action required.", "INFO")
+            return
+
+        profile_name = existing_default_profile.get("rfProfileName", "Unknown")
+        self.log(
+            "Found an existing default RF profile: {0}. Proceeding to unset it.".format(profile_name),
+            "INFO"
+        )
+
+        # Unset the default RF profile
+        existing_default_profile["defaultRfProfile"] = False
+        task_id = self.update_radio_frequency_profile(existing_default_profile)
+
+        # Verify the update operation
+        task_name = "Unset Default RF Profile"
+        operation_msg = "Successfully unset the default RF profile: {0}".format(profile_name)
+        self.log(
+            "Initiated task '{0}' to unset the default RF profile. Task ID: {1}".format(task_name, task_id),
+            "DEBUG"
+        )
+
+        # Check the status of the task using the task ID
+        self.get_task_status_from_tasks_by_id(task_id, task_name, operation_msg).check_return_status()
+
+        if self.status != "success":
+            self.fail_and_exit("Failed to unset the default RF profile: {0}".format(profile_name))
+
+        self.log(
+            "Successfully unset the default RF profile: {0}".format(profile_name),
+            "INFO"
+        )
 
     def verify_create_update_radio_frequency_profiles_requirement(
         self, radio_frequency_profiles
