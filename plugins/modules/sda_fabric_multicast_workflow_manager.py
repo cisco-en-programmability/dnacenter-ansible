@@ -3305,7 +3305,7 @@ class FabricMulticast(DnacBase):
             to_create_multicast_grouped_by_fabric_id = self.group_payload_by_fabric_id(
                 to_create_multicast)
             self.log(
-                f"Total fabricId groups to be created: {len(to_create_multicast_grouped_by_fabric_id)}",
+                f"Total fabric ID groups to be created: {len(to_create_multicast_grouped_by_fabric_id)}",
                 "INFO",
             )
             for fabric_id, to_create_multicast_configs in to_create_multicast_grouped_by_fabric_id.items():
@@ -3337,7 +3337,7 @@ class FabricMulticast(DnacBase):
             to_update_multicast_grouped_by_fabric_id = self.group_payload_by_fabric_id(
                 to_update)
             self.log(
-                f"Total fabricId groups to be updated: {len(to_update_multicast_grouped_by_fabric_id)}",
+                f"Total fabric ID groups to be updated: {len(to_update_multicast_grouped_by_fabric_id)}",
                 "INFO",
             )
             for fabric_id, to_update_multicast_configs in to_update_multicast_grouped_by_fabric_id.items():
@@ -3370,7 +3370,7 @@ class FabricMulticast(DnacBase):
             items specific to each fabric site in Cisco Catalyst Center.
             If the input is not a list of dictionaries or is empty, it returns an empty dictionary.
         """
-        self.log(f"Initializing grouping of multicast configs by 'fabricId': {payload_list}.", "INFO")
+        self.log(f"Initializing grouping of multicast configs by fabric ID: {payload_list}.", "INFO")
 
         if not isinstance(payload_list, list):
             self.log(f"Invalid input: 'payload_list' must be a list. Received: {type(payload_list).__name__}", "ERROR")
@@ -3388,15 +3388,15 @@ class FabricMulticast(DnacBase):
         for item in payload_list:
             fabric_id = item.get("fabricId")
             if fabric_id is None:
-                self.log(f"Skipping item without 'fabricId': {item}", "WARNING")
+                self.log(f"Skipping item without fabric ID: {item}", "WARNING")
                 continue
             if fabric_id not in grouped_payload:
-                self.log(f"New 'fabricId' found: {fabric_id}. Initializing grouping.", "DEBUG")
+                self.log(f"New fabric ID found: {fabric_id}. Initializing grouping.", "DEBUG")
                 grouped_payload[fabric_id] = []
 
             grouped_payload[fabric_id].append(item)
 
-        self.log(f"Completed grouping by 'fabricId'. Result: {self.pprint(grouped_payload)}", "DEBUG")
+        self.log(f"Completed grouping by fabric ID. Result: {self.pprint(grouped_payload)}", "DEBUG")
 
         return grouped_payload
 
