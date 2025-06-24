@@ -2550,7 +2550,7 @@ class Template(DnacBase):
             "Received API response from 'get_template_details': {0}".format(items),
             "DEBUG",
         )
-        self.result["response"][0].get("configurationTemplate").update({"items": items})
+
         return result
 
     def get_uncommitted_template_id(self, project_name, template_name):
@@ -5425,9 +5425,6 @@ class Template(DnacBase):
             self.log(
                 "Successfully validated the Template in the Catalyst Center.", "INFO"
             )
-            self.result["response"][0].get("configurationTemplate").get(
-                "response"
-            ).update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Configuration Templates."
         self.status = "success"
