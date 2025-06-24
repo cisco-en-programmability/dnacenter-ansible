@@ -1498,6 +1498,54 @@ class DnacBase():
         except socket.error:
             return False
 
+    def split_cidr(self,cidr_block):
+        """
+        Splits a given CIDR block into prefix and suffix lengths.
+        Supports both IPv4 and IPv6 formats.
+
+        Parameters:
+            cidr_block (str): The CIDR block to process, e.g., '192.168.1.0/24' or '2001:db8::/64'.
+
+        Returns:
+            dict: A dictionary containing:
+                - 'ip_version': 'IPv4' or 'IPv6'
+                - 'prefix_length': Length of the network prefix
+                - 'suffix_length': Length of the host portion
+                - 'network_prefix': Network address portion of the CIDR
+            None: If the CIDR block is invalid.
+        """
+
+        self.log("Parsing CIDR block: {}".format(cidr_block), "DEBUG")
+        try:
+            network = ipaddress.ip_network(cidr_block, strict=False)
+        except ValueError as e:
+            error_msg = "Invalid CIDR block '{}': {}".format(cidr_block, e)
+            self.msg = error_msg
+            self.log(error_msg, "ERROR")
+            self.set_operation_result("failed", False, error_msg, "ERROR")
+
+        total_bits = 128 if network.version == 6 else 32
+        prefix_length = network.prefixlen
+        suffix_length = total_bits - prefix_length
+
+        self.log(
+            "Parsed CIDR block: {}, IP version: {}, Prefix length: {}, Suffix length: {}, Network prefix: {}".format(
+                cidr_block,
+                "IPv6" if network.version == 6 else "IPv4",
+                prefix_length,
+                suffix_length,
+                network.network_address
+            ),
+            "DEBUG"
+        )
+
+        return {
+            "ip_version": "IPv6" if network.version == 6 else "IPv4",
+            "prefix_length": prefix_length,
+            "suffix_length": suffix_length,
+            "network_prefix": str(network.network_address),
+        }
+
     def is_valid_ipv6(self, ip_address):
         """
         Validates an IPv6 address.
