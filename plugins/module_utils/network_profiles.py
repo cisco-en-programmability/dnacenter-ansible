@@ -405,8 +405,15 @@ class NetworkProfileFunctions(DnacBase):
             if not previous_templates:
                 self.log("No previous templates to check, attaching '{0}'.".format(
                     template_name), "DEBUG")
-                template_response.append(self.attach_networkprofile_cli_template(
-                    profile_name, profile_id, template_name, template_id))
+
+                template_status = self.attach_networkprofile_cli_template(
+                    profile_name, profile_id, template_name, template_id)
+                if template_status.get("progress"):
+                    msg = "Template '{0}' successfully attached to the network profile".format(
+                        template_name
+                    )
+                    template_response.append(msg)
+
                 continue  # Continue to the next template
 
             # If template already exists in previous templates, skip it
@@ -418,8 +425,14 @@ class NetworkProfileFunctions(DnacBase):
             # Otherwise, attach the template
             self.log("Template '{0}' not found in previous templates, attaching..".format(
                 template_name), "DEBUG")
-            template_response.append(self.attach_networkprofile_cli_template(
-                profile_name, profile_id, template_name, template_id))
+            template_status = self.attach_networkprofile_cli_template(
+                profile_name, profile_id, template_name, template_id)
+
+            if template_status.get("progress"):
+                msg = "Template '{0}' successfully attached to the network profile".format(
+                    template_name
+                )
+                template_response.append(msg)
 
         self.log("Finished processing templates. Total attached: {0}".format(
             len(template_response)), "DEBUG")
