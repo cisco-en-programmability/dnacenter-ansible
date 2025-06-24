@@ -242,6 +242,8 @@ class DNACSDK(object):
 
                 self.result.update({
                     'status': ANSIBLE_SUCCESS_STATUS,
+                    'failed': False,
+                    'msg': None,
                 })
             else:
                 response = func()

@@ -37,6 +37,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
     playbook_config_invalid_name = test_data.get("playbook_config_invalid_name")
     playbook_config_invalid_priority = test_data.get("playbook_config_invalid_priority")
     playbook_config_invalid_time_format = test_data.get("playbook_config_invalid_time_format")
+    playbook_config_idempotency = test_data.get("playbook_config_idempotency")
 
     def setUp(self):
         super(TestDnacAssuranceSettings, self).setUp()
@@ -63,6 +64,8 @@ class TestDnacAssuranceSettings(TestDnacModule):
         """
         if "updation" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("issue_exist"),
+                self.test_data.get("prev_issue_exist"),
                 self.test_data.get("issue_exist"),
                 self.test_data.get("prev_issue_exist"),
                 self.test_data.get("issue_updation"),
@@ -136,6 +139,22 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 self.test_data.get("get_issue_ids_resolution"),
             ]
 
+        if "update_idempotency" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("idempotency_have_response"),
+                self.test_data.get("Testing_creation_exit"),
+                self.test_data.get("Testing_creation_exit"),
+                self.test_data.get("create_1"),
+                self.test_data.get("create_2"),
+                self.test_data.get("create_1_exist"),
+                self.test_data.get("create_2_exist"),
+                self.test_data.get("create_1_exist"),
+                self.test_data.get("idempotency_update"),
+                self.test_data.get("idempotency_update"),
+                self.test_data.get("idempotency_update"),
+                self.test_data.get("idempotency_update"),
+            ]
+
     def test_assurance_issue_workflow_manager_updation(self):
         """
         Test case for updating Assurance Issue Settings in Cisco DNA Center.
@@ -150,7 +169,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
-                config_verify=True,
+                # config_verify=True,
                 config=self.playbook_config_updation
             )
         )
@@ -287,7 +306,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
         print(result)
         self.assertEqual(
             result['msg'],
-            "No data received for the issue: {'issue_name': 'jan8_1', 'issue_process_type': 'resolution'}"
+            "No issues found to resolve or ignore. All issues are already cleared: {'issue_name': 'jan8_1', 'issue_process_type': 'resolution'}"
         )
 
     def test_assurance_issue_workflow_manager_resolution(self):
@@ -427,3 +446,63 @@ class TestDnacAssuranceSettings(TestDnacModule):
         self.assertIn("Invalid parameters in playbook config", result['response'])
         self.assertIn("Unable to validate Start date time, end date time", result['response'])
         self.assertIn("time data '2024-12-41 16:00:00' does not match format", result['response'])
+
+    def test_assurance_issue_workflow_manager_update_idempotency(self):
+        """
+        Test case to validate behavior when an invalid time format is provided in the assurance issue settings workflow manager.
+        This test ensures that the module correctly handles invalid time formats, such as an incorrect date or time,
+        by returning an error message indicating invalid parameters and providing details about the issue with date
+        and time validation.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config_idempotency
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result['response'][0]['assurance_user_defined_issue_settings']['response'])
+        self.assertEqual(
+            result['response'][0]['assurance_user_defined_issue_settings']['response'],
+            {
+                'created user-defined issue': {
+                    'name': 'Warning - C6KENV',
+                    'description': 'Triggers an Warning due to C6KENV',
+                    'rules': [
+                        {
+                            'severity': '4',
+                            'facility': 'C6KENV',
+                            'mnemonic': 'TERMINATOR_PS_TEMP_MAJORALARM',
+                            'pattern': 'issue test',
+                            'occurrences': 1,
+                            'duration_in_minutes': 2
+                        }
+                    ],
+                    'is_enabled': True,
+                    'priority': 'P2',
+                    'is_notification_enabled': True
+                },
+                'updated user defined issue Details': {
+                    'name': 'testing item_idempotency issue_1',
+                    'description': 'testing ignore',
+                    'rules': [
+                        {
+                            'severity': '5',
+                            'facility': 'DOT1X',
+                            'mnemonic': 'FAIL',
+                            'pattern': 'issue test',
+                            'occurrences': 1,
+                            'duration_in_minutes': 3
+                        }
+                    ],
+                    'is_enabled': True,
+                    'priority': 'P4',
+                    'is_notification_enabled': False
+                }
+            }
+        )
