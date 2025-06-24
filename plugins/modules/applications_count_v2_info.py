@@ -1,11 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: applications_count_v2_info
-short_description: Information module for Applications Count V2
+short_description: Information module for Applications
+  Count V2
 description:
   - Get all Applications Count V2.
   - Get the number of all existing applications.
@@ -19,21 +22,27 @@ options:
     type: dict
   scalableGroupType:
     description:
-      - ScalableGroupType query parameter. Scalable group type to retrieve, valid
-        value APPLICATION.
+      - ScalableGroupType query parameter. Scalable
+        group type to retrieve, valid value APPLICATION.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Application Policy GetApplicationCountV2
-    description: Complete reference of the GetApplicationCountV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-application-count
+  - name: Cisco DNA Center documentation for Application
+      Policy GetApplicationCountV2
+    description: Complete reference of the GetApplicationCountV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-count-v-2
 notes:
-  - SDK Method used are application_policy.ApplicationPolicy.get_application_count_v2,
-  - Paths used are get /dna/intent/api/v2/applications-count,
+  - SDK Method used are
+    application_policy.ApplicationPolicy.get_application_count_v2,
+  - Paths used are
+    get /dna/intent/api/v2/applications-count,
 """
+
 EXAMPLES = r"""
+---
 - name: Get all Applications Count V2
   cisco.dnac.applications_count_v2_info:
     dnac_host: "{{dnac_host}}"

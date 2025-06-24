@@ -7163,7 +7163,12 @@ class WirelessDesign(DnacBase):
 
                     # Check if the parameter differs in the existing SSID
                     existing_value = existing_ssid.get(key)
-                    self.log("Comparing parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(key, existing_value, requested_value), "DEBUG")
+                    self.log(
+                        "Comparing parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(
+                            key, existing_value, requested_value
+                        ),
+                        "DEBUG",
+                    )
 
                     if existing_value != requested_value:
                         self.log(

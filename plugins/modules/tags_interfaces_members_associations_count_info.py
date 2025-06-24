@@ -1,14 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: tags_interfaces_members_associations_count_info
-short_description: Information module for Tags Interfaces Members Associations Count
-  Info
+short_description: Information module for Tags Interfaces
+  Members Associations Count
 description:
-  - This module represents an alias of the module tags_interfaces_members_associations_count_v1_info
+  - Get all Tags Interfaces Members Associations Count.
+    - > Fetches the count of interfaces that are associated
+    with at least one tag. A tag is a user-defined or
+    system- defined construct to group resources. When
+    an interface is tagged, it is called a member of
+    the tag.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,19 +28,21 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Tag RetrieveTheCountOfInterfacesThatAreAssociatedWithAtLeastOneTagV1
-    description: Complete reference of the RetrieveTheCountOfInterfacesThatAreAssociatedWithAtLeastOneTagV1
+  - name: Cisco DNA Center documentation for Tag RetrieveTheCountOfInterfacesThatAreAssociatedWithAtLeastOneTag
+    description: Complete reference of the RetrieveTheCountOfInterfacesThatAreAssociatedWithAtLeastOneTag
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-interfaces-that-are-associated-with-at-least-one-tag
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-interfaces-that-are-associated-with-at-least-one-tag
 notes:
   - SDK Method used are
-    tag.Tag.retrieve_the_count_of_interfaces_that_are_associated_with_at_least_one_tag_v1,
-  - Paths used are get /dna/intent/api/v1/tags/interfaces/membersAssociations/count,
-  - It should be noted that this module is an alias of tags_interfaces_members_associations_count_v1_info
+    tag.Tag.retrieve_the_count_of_interfaces_that_are_associated_with_at_least_one_tag,
+  - Paths used are
+    get /dna/intent/api/v1/tags/interfaces/membersAssociations/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Tags Interfaces Members Associations Count Info
+---
+- name: Get all Tags Interfaces Members Associations
+    Count
   cisco.dnac.tags_interfaces_members_associations_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
