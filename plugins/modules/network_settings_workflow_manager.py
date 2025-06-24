@@ -988,7 +988,7 @@ class NetworkSettings(DnacBase):
                         "force_delete": {
                             "type": "bool",
                             "required": False,
-                            "default": True,
+                            "default": False,
                         },
                     },
                 },
@@ -1021,7 +1021,7 @@ class NetworkSettings(DnacBase):
                     "type": "str",
                     "choices": ["Generic", "LAN", "Management", "Service", "WAN"],
                 },
-                'force_delete': {'type': 'bool', 'required': False, 'default': True},
+                'force_delete': {'type': 'bool', 'required': False, 'default': False},
                 "ipv4_unassignable_addresses": {'type': 'str', 'required': False},
                 "ipv4_assigned_addresses": {'type': 'str', 'required': False},
                 "ipv4_default_assigned_addresses": {'type': 'str', 'required': False},
@@ -1268,7 +1268,8 @@ class NetworkSettings(DnacBase):
 
     def get_global_pool_params_v1(self, pool_info):
         """
-        Process Global Pool params from playbook data for Global Pool config in Cisco Catalyst Center for DNAC version <= 2.3.7.6.
+        Process Global Pool parameters from playbook data for Global Pool configuration
+        in Cisco Catalyst Center version <= 2.3.7.6.
 
         Parameters:
             pool_info (dict) - Playbook data containing information about the global pool
@@ -1279,7 +1280,7 @@ class NetworkSettings(DnacBase):
         """
 
         if not pool_info:
-            self.log("Global Pool is empty", "INFO")
+            self.log("Global Pool data is empty or missing.", "INFO")
             return None
 
         self.log("Global Pool Details: {0}".format(pool_info), "DEBUG")
@@ -1325,6 +1326,9 @@ class NetworkSettings(DnacBase):
 
         self.log("Global Pool Details: {0}".format(self.pprint(pool_info)), "DEBUG")
         address_space = pool_info.get("addressSpace")
+        if not address_space:
+            self.log("Missing or invalid 'addressSpace' in Global Pool data.", "ERROR")
+            return None
         global_pool = pool_info
         self.log("Formated global pool details: {0}".format(self.pprint(global_pool)), "DEBUG")
 
@@ -1344,6 +1348,7 @@ class NetworkSettings(DnacBase):
         """
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            self.log("Using new Reserved Pool format for version 2.3.7.9 and above", "INFO")
             return pool_info
 
         reserve_pool = {
@@ -2306,6 +2311,7 @@ class NetworkSettings(DnacBase):
         Retrieve all the reserved IP subpool details from the Cisco Catalyst Center.
 
         Parameters:
+            site_name (str): The name of the site for which reserved pool details are requested.
             site_id (str) - The Site ID for which reserved pool details are requested.
             self (object) - The current object details.
 
@@ -2420,7 +2426,7 @@ class NetworkSettings(DnacBase):
                         params={"offset": offset,
                                 "limit": 500}
                     )
-                self.log("Received response for list of global pool details existing in CCC: {}".format(self.pprint(response)), "DEBUG")
+                self.log("Received response for list of global pool details existing in Catalyst Center: {}".format(self.pprint(response)), "DEBUG")
             except Exception as msg:
                 self.msg = "Exception occurred while getting the global pool details with name '{name}': {msg}".format(
                     name=name, msg=msg
@@ -2746,21 +2752,33 @@ class NetworkSettings(DnacBase):
             self - The current object with updated information.
         """
 
-        # Call the Catalyst Center API using family/function
-        response = self.dnac._exec(
-            family="site_design",
-            function="get_device_controllability_settings_v1",
-        )
-        response = response.get("response")
+        self.log("Fetching device controllability details from Cisco Catalyst Center.", "INFO")
 
-        # Check if the API call was successful
-        if not response:
+        try:
+            # Call the Catalyst Center API using family/function
+            response = self.dnac._exec(
+                family="site_design",
+                function="get_device_controllability_settings_v1",
+            )
+            response = response.get("response")
+
+            # Check if the API call was successful
+            if not response:
+                self.log("Device controllability response is empty or invalid.", "ERROR")
+                return self.check_return_status()
+
+            # Store response in 'have'
+            self.have.update({"have_device_controllability": response})
+            self.msg = "Collected device controllability details from Cisco Catalyst Center"
+            self.status = "success"
+
+        except Exception as e:
+            # Handle any exceptions that occur during the API call
+            self.log(f"Error occurred while fetching device controllability details: {str(e)}", "ERROR")
+            self.status = "failed"
+            self.msg = f"Exception during device controllability retrieval: {str(e)}"
             return self.check_return_status()
 
-        # Store response in 'have'
-        self.have.update({"have_device_controllability": response})
-        self.msg = "Collected device controllability details from Cisco Catalyst Center"
-        self.status = "success"
         return self
 
     def get_have_reserve_pool(self, reserve_pool_details):
@@ -2960,9 +2978,25 @@ class NetworkSettings(DnacBase):
         if network_details is not None:
             self.get_have_network(network_details).check_return_status()
 
+        # Retrieve device controllability details from the config
         device_controllability_details = config.get("device_controllability_details")
-        if device_controllability_details and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
-            self.get_have_device_controllability(device_controllability_details).check_return_status()
+
+        if device_controllability_details:
+            # Check if the CCC version is 2.3.7.9 or later
+            current_version = self.get_ccc_version()
+            if self.compare_dnac_versions(current_version, "2.3.7.9") >= 0:
+                self.log(
+                    f"Device controllability details found in config. Proceeding with version {current_version}.",
+                    "DEBUG",
+                )
+                self.get_have_device_controllability(device_controllability_details).check_return_status()
+            else:
+                self.log(
+                    f"Cisco Catalyst Center version {current_version} is lower than 2.3.7.9. Skipping device controllability retrieval.",
+                    "INFO",
+                )
+        else:
+            self.log("No device controllability details found in the provided config.", "DEBUG")
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
@@ -2984,8 +3018,11 @@ class NetworkSettings(DnacBase):
             str: The global pool CIDR (for versions <= 2.3.7.6) or the global pool ID (for later versions).
                 In case of error, the method sets internal status/message and returns from `check_return_status()`.
         """
+        self.log(f"Starting retrieval of global pool. CIDR: {global_pool_cidr}, Name: {global_pool_name}", "INFO")
+        current_version = self.get_ccc_version()
 
-        if global_pool_cidr and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+        if global_pool_cidr and self.compare_dnac_versions(current_version, "2.3.7.6") <= 0:
+            self.log(f"Using provided CIDR '{global_pool_cidr}' directly for older platform versions.", "INFO")
             return global_pool_cidr
 
         if not global_pool_name and not global_pool_cidr:
@@ -2993,21 +3030,21 @@ class NetworkSettings(DnacBase):
             self.status = "failed"
             return self.check_return_status()
 
-        value = 1
+        offset = 1
         while True:
+            self.log(f"Querying global pool details with offset {offset}.", "DEBUG")
             try:
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+                if self.compare_dnac_versions(current_version, "2.3.7.6") <= 0:
                     response = self.dnac._exec(
                         family="network_settings",
                         function="get_global_pool",
-                        params={"offset": value}
+                        params={"offset": offset}
                     )
                 else:
                     response = self.dnac._exec(
                         family="network_settings",
                         function="retrieves_global_ip_address_pools_v1",
-                        params={"offset": value,
-                                "limit": 500}
+                        params={"offset": offset}
                     )
             except Exception as msg:
                 self.msg = "Exception occurred while getting the global pool details with name '{name}': {msg}".format(
@@ -3017,7 +3054,12 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            value += 25
+            if self.compare_dnac_versions(current_version, "2.3.7.6") <= 0:
+                self.log(f"Global pool details retrieved successfully with offset {offset}.", "DEBUG")
+                offset += 25
+            else:
+                self.log(f"Global pool details retrieved successfully with offset {offset}.", "DEBUG")
+                offset += 500
             if not isinstance(response, dict):
                 self.msg = "Failed to retrieve the global pool details - Response is not a dictionary"
                 self.log(self.msg, "CRITICAL")
@@ -3031,45 +3073,73 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
 
+            # Process results for older platform versions
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+                self.log(f"Looking for global pool with name '{global_pool_name}' in older versions.", "DEBUG")
                 global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", global_pool_name)
                 if global_pool_details:
                     global_pool_cidr = global_pool_details.get("ipPoolCidr")
-                    self.log("Global pool found with name '{0}': {1}".format(global_pool_name, global_pool_details), "INFO")
-                    self.log("Global Pool '{0}' cidr: {1}".format(global_pool_name, global_pool_cidr), "INFO")
+                    self.log(f"Global pool found with name '{global_pool_name}': {global_pool_details}", "INFO")
+                    self.log(f"Global Pool '{global_pool_name}' CIDR: {global_pool_cidr}", "INFO")
                     return global_pool_cidr
+
+                self.log(f"No global pool found with name '{global_pool_name}'.", "WARNING")
+                continue
+
+            # Process results for newer platform versions
+            self.log(f"Looking for global pool with name '{global_pool_name}' in newer versions.", "DEBUG")
+            global_pool_details = None
+            if global_pool_name:
+                # Search by name
+                self.log(f"Attempting to find global pool with name '{global_pool_name}' in the current batch.", "DEBUG")
+                global_pool_details = get_dict_result(all_global_pool_details, "name", global_pool_name)
+                if global_pool_details:
+                    self.log(f"Global pool found with name '{global_pool_name}': {global_pool_details}", "INFO")
             else:
-                if global_pool_name:
-                    global_pool_details = get_dict_result(all_global_pool_details, "name", global_pool_name)
-                else:
+                # Search by CIDR
+                self.log(f"Global pool name is not provided. Attempting to match by CIDR: {global_pool_cidr}", "DEBUG")
+                try:
                     cidr = self.split_cidr(global_pool_cidr)
                     subnet = cidr.get("network_prefix")
-                    # Loop through and manually check nested addressSpace
-                    for item in all_global_pool_details:
-                        if not isinstance(item, dict):
-                            continue
-                        address_space = item.get("addressSpace")
-                        if not isinstance(address_space, dict):
-                            continue
-                        match = get_dict_result([address_space], "subnet", subnet)
-                        if match:
-                            global_pool_details = item
-                            break
-                    else:
-                        global_pool_details = None
+                    self.log(f"Extracted subnet '{subnet}' from provided CIDR '{global_pool_cidr}'.", "DEBUG")
 
-                if global_pool_details:
-                    global_pool_id = global_pool_details.get("id")
-                    self.log("Global pool found: {0}".format(global_pool_details), "INFO")
-                    self.log("Global Pool ID: {0}".format(global_pool_id), "INFO")
-                    return global_pool_id
-                else:
-                    self.log("No matching global pool found.", "ERROR")
-                    return None
+                except Exception as e:
+                    self.log(f"Error while splitting CIDR '{global_pool_cidr}': {e}", "ERROR")
+                    self.msg = "Invalid CIDR format provided."
+                    self.status = "failed"
+                    return self.check_return_status()
+
+                # Search for the global pool by subnet in nested addressSpace
+                for item in all_global_pool_details:
+                    if not isinstance(item, dict):
+                        self.log(f"Skipping non-dictionary item: {item}", "DEBUG")
+                        continue
+
+                    address_space = item.get("addressSpace")
+                    if not isinstance(address_space, dict):
+                        self.log(f"Skipping item with invalid 'addressSpace': {item}", "DEBUG")
+                        continue
+
+                    match = get_dict_result([address_space], "subnet", subnet)
+                    if match:
+                        global_pool_details = item
+                        self.log(f"Global pool matched by subnet '{subnet}': {global_pool_details}", "INFO")
+                        break
+
+            if global_pool_details:
+                global_pool_id = global_pool_details.get("id")
+                self.log(f"Global pool found: {global_pool_details}", "INFO")
+                self.log(f"Global Pool ID: {global_pool_id}", "INFO")
+                return global_pool_id
+
+            self.log("No matching global pool found in the current batch of results. Continuing to next batch.", "WARNING")
+
+            self.log("Failed to find the global pool after exhausting all results.", "ERROR")
+            return None
 
     def get_want_global_pool_v1(self, global_ippool):
         """
-        Get all the Global Pool information from playbook for DNAC version <= 2.3.7.6.
+        Get all the Global Pool information from playbook for Catalyst Center version <= 2.3.7.6.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
@@ -3116,7 +3186,9 @@ class NetworkSettings(DnacBase):
             pool_values.update({"IpAddressSpace": ip_address_space})
 
             # Converting to the required format based on the existing Global Pool
-            if not self.have.get("globalPool")[global_pool_index].get("exists"):
+            have_global_pool = self.have.get("globalPool")[global_pool_index]
+            if not have_global_pool.get("exists"):
+                self.log(f"Pool {pool_details.get('name')} does not exist. Applying defaults.", "DEBUG")
                 if pool_values.get("dhcpServerIps") is None:
                     pool_values.update({"dhcpServerIps": []})
                 if pool_values.get("dnsServerIps") is None:
@@ -3128,9 +3200,8 @@ class NetworkSettings(DnacBase):
                 if pool_values.get("type") is None:
                     pool_values.update({"type": "Generic"})
             else:
-                have_ippool = self.have.get("globalPool")[global_pool_index].get(
-                    "details"
-                )
+                self.log(f"Updating pool {pool_details.get('name')} with existing configuration.", "DEBUG")
+                have_ippool = have_global_pool.get("details", {})
 
                 # Copy existing Global Pool information if the desired configuration is not provided
                 pool_values.update(
@@ -3170,9 +3241,11 @@ class NetworkSettings(DnacBase):
                 - 'prefix_length': Length of the network prefix
                 - 'suffix_length': Length of the host portion
                 - 'network_prefix': Network address portion of the CIDR
+            None: If the CIDR block is invalid.
         """
+
+        self.log("Parsing CIDR block: {}".format(cidr_block), "DEBUG")
         try:
-            self.log("Parsing CIDR block: {}".format(cidr_block), "DEBUG")
             network = ipaddress.ip_network(cidr_block, strict=False)
         except ValueError as e:
             error_msg = "Invalid CIDR block '{}': {}".format(cidr_block, e)
@@ -3204,7 +3277,7 @@ class NetworkSettings(DnacBase):
 
     def get_want_global_pool_v2(self, global_ippool):
         """
-        Get all the Global Pool information from playbook for DNAC version > 2.3.7.6.
+        Get all the Global Pool information from playbook for Catalyst Center version > 2.3.7.6.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
@@ -3215,7 +3288,7 @@ class NetworkSettings(DnacBase):
         Returns:
             self - The current object with updated desired Global Pool information.
         """
-        self.log("initialize_want")
+        self.log("Starting to process global pool details from the playbook.", "INFO")
         # Initialize the desired Global Pool cwant_global = {
         want_global = {
             "settings": {
@@ -3224,9 +3297,17 @@ class NetworkSettings(DnacBase):
         }
         want_ippool = want_global.get("settings").get("ippool")
         global_pool_index = 0
+
+        # Process each pool in the global_ippool
         for pool_details in global_ippool:
             cidr_value = pool_details.get("cidr")
+            if not cidr_value:
+                self.log("Missing CIDR value in pool details. Skipping this pool.", "WARNING")
+                continue
             cidr = self.split_cidr(cidr_value)
+            if not cidr:
+                self.log(f"Invalid CIDR value '{cidr_value}'. Skipping this pool.", "WARNING")
+                continue
             subnet = cidr.get("network_prefix")
             prefix_len = cidr.get("prefix_length")
             pool_values = {
@@ -3242,16 +3323,17 @@ class NetworkSettings(DnacBase):
                 "name": pool_details.get("name"),
                 "poolType": pool_details.get("pool_type")
             }
+            self.log(f"Initial pool values: {pool_values}", "DEBUG")
 
             # Converting to the required format based on the existing Global Pool
-            addressSpace = pool_values.get("addressSpace")
+            address_space = pool_values.get("addressSpace")
             if not self.have.get("globalPool")[global_pool_index].get("exists"):
-                if addressSpace.get("dhcpServers") is None:
-                    addressSpace.update({"dhcpServers": []})
-                if addressSpace.get("dnsServers") is None:
-                    addressSpace.update({"dnsServers": []})
-                if addressSpace.get("gatewayIpAddress") is None:
-                    addressSpace.pop("gatewayIpAddress")
+                if address_space.get("dhcpServers") is None:
+                    address_space.update({"dhcpServers": []})
+                if address_space.get("dnsServers") is None:
+                    address_space.update({"dnsServers": []})
+                if address_space.get("gatewayIpAddress") is None:
+                    address_space.pop("gatewayIpAddress")
                 if pool_values.get("poolType") is None:
                     pool_values.update({"poolType": "Generic"})
             else:
@@ -3262,28 +3344,29 @@ class NetworkSettings(DnacBase):
                 # Copy existing Global Pool information if the desired configuration is not provided
                 pool_values["poolType"] = have_ippool.get("poolType")
                 pool_values["id"] = self.have.get("globalPool")[global_pool_index].get("id")
-                addressSpace.update({
+                address_space.update({
                     "subnet": have_ippool.get("addressSpace").get("subnet"),
                     "prefixLength": have_ippool.get("addressSpace").get("prefixLength"),
                 })
                 for key in ["dhcpServers", "dnsServers", "gatewayIpAddress"]:
-                    if addressSpace.get(key) is None and have_ippool.get("addressSpace").get(key) is not None:
-                        addressSpace[key] = have_ippool[key]
+                    if address_space.get(key) is None and have_ippool.get("addressSpace").get(key) is not None:
+                        address_space[key] = have_ippool[key]
                     else:
-                        addressSpace.pop(key)
+                        address_space.pop(key)
 
             want_ippool.append(pool_values)
+            self.log(f"Processed pool values: {pool_values}", "DEBUG")
             global_pool_index += 1
 
-        self.log("Global pool playbook details: {0}".format(self.pprint(want_global)), "DEBUG")
+        self.log("Final desired global pool configuration: {}".format(self.pprint(want_global)), "DEBUG")
         self.want.update({"wantGlobal": want_global})
-        self.msg = "Collecting the global pool details from the playbook"
+        self.msg = "Successfully collected global pool details from the playbook."
         self.status = "success"
         return self
 
     def get_want_reserve_pool_v1(self, reserve_pool):
         """
-        Get all the Reserved Pool information from playbook for DNAC version <= 2.3.7.6.
+        Get all the Reserved Pool information from playbook for Catalyst Center version <= 2.3.7.6.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
@@ -3453,38 +3536,45 @@ class NetworkSettings(DnacBase):
         Args:
             self: The object containing `msg` and `status`.
             total_hosts (int or str): Total number of addresses in the pool.
-            reserve_pool_index (int): Index of the reserve pool for logging.
             ip_version (str): Either 'IPv4' or 'IPv6'. Default is 'IPv4'.
 
         Returns:
             int or self: Prefix length on success, or self on failure.
         """
+        self.log(f"Calculating prefix length for total_hosts={total_hosts}, ip_version={ip_version}.", "INFO")
+
         try:
             total_hosts = int(total_hosts)
+            self.log(f"Parsed total_hosts as integer: {total_hosts}.", "DEBUG")
         except (ValueError, TypeError):
-            self.msg = "Failed to add {0} in reserve_pool_details. Total hosts must be a number.".format(
-                ip_version
-            )
+            self.msg = f"Invalid total_hosts '{total_hosts}' for {ip_version}. Total hosts must be a number."
             self.log(self.msg, "WARNING")
             self.set_operation_result("failed", False, self.msg,
                                       "ERROR", self.global_pool_response).check_return_status()
 
         max_bits = 32 if ip_version == "IPv4" else 128
         max_addresses = 2 ** max_bits
+        self.log(f"Max addresses for {ip_version}: {max_addresses}.", "DEBUG")
 
         if total_hosts <= 0 or total_hosts > max_addresses or (total_hosts & (total_hosts - 1)) != 0:
-            self.msg = "Failed to add {0} in reserve_pool_details." \
-                       "The value for 'total_hosts' must be a positive power of 2 and not exceed the maximum allowable addresses.".format(ip_version)
+            self.msg = (
+                f"Invalid total_hosts '{total_hosts}' for {ip_version}. "
+                f"Total hosts must be a positive power of 2 and not exceed {max_addresses}."
+            )
             self.log(self.msg, "WARNING")
             self.set_operation_result("failed", False, self.msg,
                                       "ERROR", self.global_pool_response).check_return_status()
 
         prefix_length = max_bits - int(math.log2(total_hosts))
+        self.log(
+            f"Calculated prefix length for total_hosts={total_hosts}, ip_version={ip_version}: {prefix_length}.",
+            "INFO",
+        )
         return prefix_length
 
     def get_want_reserve_pool_v2(self, reserve_pool):
         """
-        Get all the Reserved Pool information from playbook for DNAC version > 2.3.7.6.
+        Get all the Reserved Pool information from playbook for Catalyst Center version > 2.3.7.6.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
@@ -3527,8 +3617,12 @@ class NetworkSettings(DnacBase):
             }
 
             if not (ipv4_prefix_length and ipv4_subnet and ipv4_global_pool_id):
-                self.msg = "Failed to add IPv4 in reserve_pool_details '{0}'. ".format(reserve_pool_index + 1) + \
-                           "Required parameters 'ipv4_subnet' or 'ipv4_global_pool_id' or 'ipv4_prefix_length' are missing."
+                self.msg = (
+                    "Failed to add IPv4 in reserve_pool_details '{0}'. ".format(reserve_pool_index + 1) +
+                    "Missing or invalid required parameters: 'ipv4_subnet', 'ipv4_global_pool_name' or 'ipv4_global_pool', and 'ipv4_prefix_length'. "
+                    "These parameters are mandatory for version {0} and above.".format(self.dnac_version)
+                )
+
                 self.status = "failed"
                 return self
 
@@ -4673,22 +4767,22 @@ class NetworkSettings(DnacBase):
         if config.get("global_pool_details"):
             global_ippool = config.get("global_pool_details").get("settings").get("ip_pool")
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
-                self.log("Detected DNAC version <= 2.3.7.6: {}".format(self.get_ccc_version()), "DEBUG")
+                self.log("Detected Catalyst Center version <= 2.3.7.6: {}".format(self.get_ccc_version()), "DEBUG")
                 self.log("Using Global Pool handling method: V1 (legacy)", "DEBUG")
                 self.get_want_global_pool_v1(global_ippool).check_return_status()
             else:
-                self.log("Detected DNAC version > 2.3.7.6: {}".format(self.get_ccc_version()), "DEBUG")
+                self.log("Detected Catalyst Center version > 2.3.7.6: {}".format(self.get_ccc_version()), "DEBUG")
                 self.log("Using Global Pool handling method: V2 (latest)", "DEBUG")
                 self.get_want_global_pool_v2(global_ippool).check_return_status()
 
         if config.get("reserve_pool_details"):
             reserve_pool = config.get("reserve_pool_details")
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
-                self.log("Detected DNAC version <= 2.3.7.6: {}".format(self.get_ccc_version()), "DEBUG")
+                self.log("Detected Catalyst Center version <= 2.3.7.6: {}".format(self.get_ccc_version()), "DEBUG")
                 self.log("Using Reserve Pool handling method: V1 (legacy)", "DEBUG")
                 self.get_want_reserve_pool_v1(reserve_pool).check_return_status()
             else:
-                self.log("Detected DNAC version > 2.3.7.6: {}".format(self.get_ccc_version()), "DEBUG")
+                self.log("Detected Catalyst Center version > 2.3.7.6: {}".format(self.get_ccc_version()), "DEBUG")
                 self.log("Using Reserve Pool handling method: V2 (latest)", "DEBUG")
                 self.get_want_reserve_pool_v2(reserve_pool).check_return_status()
 
@@ -4723,7 +4817,7 @@ class NetworkSettings(DnacBase):
 
     def update_global_pool_v1(self, global_pool):
         """
-        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook for DNAC version <= 2.3.7.6.
+        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook for Catalyst Center version <= 2.3.7.6.
 
         Parameters:
             global_pool (list of dict) - Global Pool playbook details
@@ -4920,7 +5014,7 @@ class NetworkSettings(DnacBase):
 
     def update_global_pool_v2(self, global_pool):
         """
-        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook for DNAC version > 2.3.7.6.
+        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook for Catalyst Center version > 2.3.7.6.
 
         Parameters:
             global_pool (list of dict) - Global Pool playbook details
@@ -5037,7 +5131,7 @@ class NetworkSettings(DnacBase):
     def update_reserve_pool(self, reserve_pool):
         """
         Dispatcher function that routes to the appropriate reserve pool update method
-        based on DNAC version (v1 or v2).
+        based on Catalyst Center version (v1 or v2).
         """
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
             return self.update_reserve_pool_v1(reserve_pool)
@@ -5046,7 +5140,7 @@ class NetworkSettings(DnacBase):
 
     def update_reserve_pool_v1(self, reserve_pool):
         """
-        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration for DNAC version <= 2.3.7.6.
+        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration for Catalyst Center version <= 2.3.7.6.
         This method checks if a reserve pool with the specified name exists in Cisco Catalyst Center.
         If it exists and requires an update, it updates the pool. If not, it creates a new pool.
 
@@ -5197,7 +5291,7 @@ class NetworkSettings(DnacBase):
 
     def update_reserve_pool_v2(self, reserve_pool):
         """
-        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration for DNAC version > 2.3.7.6.
+        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration for Catalyst Center version > 2.3.7.6.
         This method checks if a reserve pool with the specified name exists in Cisco Catalyst Center.
         If it exists and requires an update, it updates the pool. If not, it creates a new pool.
 
