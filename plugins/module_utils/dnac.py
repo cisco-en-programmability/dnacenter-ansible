@@ -1498,7 +1498,7 @@ class DnacBase():
         except socket.error:
             return False
 
-    def split_cidr(self,cidr_block):
+    def split_cidr(self, cidr_block):
         """
         Splits a given CIDR block into prefix and suffix lengths.
         Supports both IPv4 and IPv6 formats.
