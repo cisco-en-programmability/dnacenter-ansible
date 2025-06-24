@@ -319,32 +319,32 @@ options:
             description: >
               - Specifies the number of IPv4 addresses that cannot be assigned due to constraints or reservations.
               - These addresses are excluded from allocation pools.
-            type: str
+            type: int
           ipv4_assigned_addresses:
             description: >
               - Specifies the number of IPv4 addresses that have already been allocated.
               - Reflects the count of addresses currently in use.
-            type: str
+            type: int
           ipv4_default_assigned_addresses:
             description: >
               - Specifies the number of IPv4 addresses assigned by default during pool creation.
               - Represents the initial allocation count when the pool is created.
-            type: str
+            type: int
           ipv6_unassignable_addresses:
             description: >
               - Specifies the number of IPv6 addresses that cannot be assigned due to constraints or reservations.
               - These addresses are excluded from allocation pools.
-            type: str
+            type: int
           ipv6_assigned_addresses:
             description: >
               - Specifies the number of IPv6 addresses that have already been allocated.
               - Reflects the count of addresses currently in use.
-            type: str
+            type: int
           ipv6_default_assigned_addresses:
             description: >
               - Specifies the number of IPv6 addresses assigned by default during pool creation.
               - Represents the initial allocation count when the pool is created.
-            type: str
+            type: int
           force_delete:
             description: >
               Forcefully delete all IP pools from the
@@ -1021,12 +1021,12 @@ class NetworkSettings(DnacBase):
                     "choices": ["Generic", "LAN", "Management", "Service", "WAN"],
                 },
                 'force_delete': {'type': 'bool', 'required': False, 'default': False},
-                "ipv4_unassignable_addresses": {'type': 'str', 'required': False},
-                "ipv4_assigned_addresses": {'type': 'str', 'required': False},
-                "ipv4_default_assigned_addresses": {'type': 'str', 'required': False},
-                "ipv6_unassignable_addresses": {'type': 'str', 'required': False},
-                "ipv6_assigned_addresses": {'type': 'str', 'required': False},
-                "ipv6_default_assigned_addresses": {'type': 'str', 'required': False}
+                "ipv4_unassignable_addresses": {'type': int, 'required': False},
+                "ipv4_assigned_addresses": {'type': int, 'required': False},
+                "ipv4_default_assigned_addresses": {'type': int, 'required': False},
+                "ipv6_unassignable_addresses": {'type': int, 'required': False},
+                "ipv6_assigned_addresses": {'type': int, 'required': False},
+                "ipv6_default_assigned_addresses": {'type': int, 'required': False}
             },
             "network_management_details": {
                 "type": "list",
