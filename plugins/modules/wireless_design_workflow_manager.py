@@ -2966,6 +2966,9 @@ options:
           - An Anchor Group represents a collection
             of mobility anchors, enabling seamless roaming
             and mobility between different network segments.
+          - Bulk operations such as create, update, or delete
+            for anchor groups are not supported in Catalyst
+            Center versions 2.3.7.9 and below.
         type: list
         elements: dict
         suboptions:
@@ -4880,6 +4883,7 @@ class WirelessDesign(DnacBase):
           The method does not return a value.
         """
         self.supported_states = ["merged", "deleted"]
+        self.is_default_rf_profile_in_config = False
         super().__init__(module)
 
     def validate_input(self):
@@ -6009,9 +6013,10 @@ class WirelessDesign(DnacBase):
             # Extract necessary information from aaa
             auth_servers_ip_list = aaa.get("auth_servers_ip_address_list", [])
             # aaa_override = aaa.get("aaa_override", False)
-            mac_filtering = aaa.get("mac_filtering", False)
+            # mac_filtering = aaa.get("mac_filtering", False)
             enable_posture = aaa.get("enable_posture", False)
             pre_auth_acl_name = aaa.get("pre_auth_acl_name", None)
+            l3_auth_type = l3_security.get("l3_auth_type") if l3_security else None
 
             # Validate AAA for Guest SSID with Central Web Authentication
             if (
@@ -7017,7 +7022,12 @@ class WirelessDesign(DnacBase):
                 ).format(rule)
                 self.fail_and_exit(self.msg)
 
-            interface_type = rule.get("interface_type")
+            # Normalize values to uppercase for case-insensitive validation
+            interface_type = rule.get("interface_type", "").upper()
+            interface_id = rule.get("interface_id", "").upper()
+            parameter_type = rule.get("parameter_type", "").upper()
+            parameter_value = rule.get("parameter_value", "").upper()
+
             if interface_type not in valid_interface_types:
                 self.msg = ("Invalid 'interface_type': {}. Must be one of {}.").format(
                     interface_type, valid_interface_types
@@ -7026,17 +7036,17 @@ class WirelessDesign(DnacBase):
 
             # Additional validation for USB interface
             if interface_type == "USB":
-                if "interface_id" in rule and rule["interface_id"] != "USB0":
+                if 'interface_id' in rule and interface_id != "USB0":
                     self.msg = (
                         "For 'USB' interface_type, if provided, 'interface_id' must be 'USB0'. Provided rule: {}"
                     ).format(rule)
                     self.fail_and_exit(self.msg)
-                if "parameter_type" in rule and rule["parameter_type"] != "STATE":
+                if 'parameter_type' in rule and parameter_type != "STATE":
                     self.msg = (
                         "For 'USB' interface_type, if provided, 'parameter_type' must be 'STATE'. Provided rule: {}"
                     ).format(rule)
                     self.fail_and_exit(self.msg)
-                if "parameter_value" in rule and rule["parameter_value"] != "DISABLE":
+                if 'parameter_value' in rule and parameter_value != "DISABLE":
                     self.msg = (
                         "For 'USB' interface_type, if provided, 'parameter_value' must be 'DISABLE'. Provided rule: {}"
                     ).format(rule)
@@ -7044,7 +7054,7 @@ class WirelessDesign(DnacBase):
 
             # Additional validation for ETHERNET interface
             if interface_type == "ETHERNET":
-                if "parameter_type" in rule and rule["parameter_type"] not in [
+                if "parameter_type" in rule and parameter_type not in [
                     "SPEED",
                     "STATE",
                 ]:
@@ -7054,8 +7064,6 @@ class WirelessDesign(DnacBase):
                     self.fail_and_exit(self.msg)
 
             # Validate interface_id
-            interface_id = rule.get("interface_id")
-
             if interface_id and interface_id not in valid_interface_ids:
                 self.msg = ("Invalid 'interface_id': {}. Must be one of {}.").format(
                     interface_id, valid_interface_ids
@@ -7063,8 +7071,6 @@ class WirelessDesign(DnacBase):
                 self.fail_and_exit(self.msg)
 
             # Validate parameter_type
-            parameter_type = rule.get("parameter_type")
-
             if parameter_type and parameter_type not in valid_parameter_types:
                 self.msg = ("Invalid 'parameter_type': {}. Must be one of {}.").format(
                     parameter_type, valid_parameter_types
@@ -7072,8 +7078,6 @@ class WirelessDesign(DnacBase):
                 self.fail_and_exit(self.msg)
 
             # Validate parameter_value
-            parameter_value = rule.get("parameter_value")
-
             if parameter_value and parameter_value not in valid_parameter_values:
                 self.msg = ("Invalid 'parameter_value': {}. Must be one of {}.").format(
                     parameter_value, valid_parameter_values
@@ -7172,72 +7176,7 @@ class WirelessDesign(DnacBase):
                 "INFO",
             )
 
-        # Define security policy guidelines
-        security_policy = (
-            "- Password Policy (recommendations, not mandatory):"
-            "  - Length: 8-120 characters"
-            "  - At least one uppercase character"
-            "  - At least one lowercase character"
-            "  - At least one digit"
-            "- What's Not Allowed:"
-            "  - Default passwords (For example, 'Cisco') and reverse passwords (For example, 'Ocsic')"
-            "  - Alphabets repeated more than twice in sequence (For example, 'ccc')"
-            "  - Digits repeated more than twice in sequence (For example, '111')"
-            "  - Sequential alphabets (For example, 'abc')"
-            "  - Sequential digits (For example, '123')"
-        )
-
-        # Validate management_password
-        management_password = management_settings.get("management_password")
-        self.log(
-            "Checking 'management_password' for AP Profile: {0}".format(
-                access_point_profile_name
-            ),
-            "DEBUG",
-        )
-
-        if management_password and not self.is_valid_password(management_password):
-            self.msg = (
-                "For AP Profile: {0}, the 'management_password' does not meet the security criteria.{1}"
-            ).format(access_point_profile_name, security_policy)
-            self.fail_and_exit(self.msg)
-        else:
-            self.log(
-                "The 'management_password' for AP Profile: {0} meets the security criteria.".format(
-                    access_point_profile_name
-                ),
-                "INFO",
-            )
-
-        # Validate management_enable_password
-        management_enable_password = management_settings.get(
-            "management_enable_password"
-        )
-        self.log(
-            "Checking 'management_enable_password' for AP Profile: {0}".format(
-                access_point_profile_name
-            ),
-            "DEBUG",
-        )
-
-        if management_enable_password and not self.is_valid_password(
-            management_enable_password
-        ):
-            self.msg = (
-                "For AP Profile: {0}, the 'management_enable_password' does not meet the security criteria.{1}"
-            ).format(access_point_profile_name, security_policy)
-            self.fail_and_exit(self.msg)
-        else:
-            self.log(
-                "The 'management_enable_password' for AP Profile: {0} meets the security criteria.".format(
-                    access_point_profile_name
-                ),
-                "INFO",
-            )
-
-    def validate_ap_profile_security_settings(
-        self, security_settings, access_point_profile_name
-    ):
+    def validate_ap_profile_security_settings(self, security_settings, access_point_profile_name):
         """
         Validates the security settings of an access point profile.
         Args:
@@ -8262,6 +8201,45 @@ class WirelessDesign(DnacBase):
             "INFO",
         )
 
+    def validate_single_default_rf_profile(self, radio_frequency_profiles):
+        """
+        Validates that there is only one RF profile set as default across the entire Catalyst Center.
+        Args:
+            radio_frequency_profiles (list): A list of dictionaries containing RF profile parameters.
+        Raises:
+            Exception: If more than one RF profile is set as default.
+        """
+        self.log("Validating that only one RF profile is set as default across RF profiles in the config.", "INFO")
+
+        # Variable to track the default RF profile
+        default_profile = None
+
+        # Iterate over each RF profile
+        for profile in radio_frequency_profiles:
+            profile_name = profile.get("radio_frequency_profile_name", "Unknown")
+            is_default = profile.get("default_rf_profile", False)
+            self.log(
+                "Processing RF Profile: Name='{0}', Default='{1}'.".format(profile_name, is_default),
+                "DEBUG",
+            )
+
+            # If the profile is set as default, check for conflicts
+            if is_default:
+                if default_profile:
+                    self.msg = (
+                        "Validation failed: Multiple RF profiles are set as default. "
+                        "Conflicting profiles: '{0}' and '{1}'.".format(default_profile, profile_name)
+                    )
+                    self.fail_and_exit(self.msg)
+                default_profile = profile_name
+                # Set a global parameter for default RF profile
+                self.is_default_rf_profile_in_config = True
+
+        if default_profile:
+            self.log("Validation successful: '{0}' is the only default RF profile.".format(default_profile), "INFO")
+        else:
+            self.log("No default RF profile is set.", "INFO")
+
     def validate_radio_frequency_profiles_params(self, radio_frequency_profiles, state):
         """
         Validate the parameters for radio frequency profiles based on the specified state.
@@ -8490,6 +8468,14 @@ class WirelessDesign(DnacBase):
             self.log(
                 "Completed validation for profile: {0}".format(profile_name), "INFO"
             )
+
+        # Perform validation for a single default RF profile only if the state is "merged"
+        if state == "merged":
+            self.log(
+                "Validating that only one RF profile is set as default for state: 'merged'.",
+                "DEBUG",
+            )
+            self.validate_single_default_rf_profile(radio_frequency_profiles)
 
         self.log(
             "Completed validation for Radio Frequency Profiles with state: {0}".format(
@@ -8980,34 +8966,33 @@ class WirelessDesign(DnacBase):
         Returns:
             list: A list of dictionaries containing the retrieved data based on the filtering parameters.
         """
+        def update_params(offset, limit, use_strings=False):
+            """Update the params dictionary with pagination info."""
+            params.update({
+                "offset": str(offset) if use_strings else offset,
+                "limit": str(limit) if use_strings else limit
+            })
+
         try:
             # Initialize pagination variables
             offset = 1
             limit = 500
             results = []
+            use_strings = api_function in {"get_ap_profiles", "get_anchor_groups"}
 
             # Start the loop for paginated API calls
             while True:
+                # Update parameters for pagination
+                update_params(offset, limit, use_strings)
+
                 try:
-                    # Handle get_ap_profiles specifically
-                    if api_function == "get_ap_profiles":
-                        # First attempt with string type
-                        params.update({"offset": str(offset), "limit": str(limit)})
-                        self.log(
-                            "Attempting API call with string offset and limit for family '{0}', function '{1}': {2}".format(
-                                api_family, api_function, params
-                            ),
-                            "INFO",
-                        )
-                    else:
-                        # For all other API calls, use integers
-                        params.update({"offset": offset, "limit": limit})
-                        self.log(
-                            "Attempting API call with integer offset and limit for family '{0}', function '{1}': {2}".format(
-                                api_family, api_function, params
-                            ),
-                            "INFO",
-                        )
+                    # Execute the API call
+                    self.log(
+                        "Attempting API call with {0} offset and limit for family '{1}', function '{2}': {3}".format(
+                            "string" if use_strings else "integer", api_family, api_function, params
+                        ),
+                        "INFO"
+                    )
 
                     # Execute the API call
                     response = self.dnac._exec(
@@ -9018,31 +9003,23 @@ class WirelessDesign(DnacBase):
                     )
 
                 except Exception as e:
-                    # Retry with integer type for get_ap_profiles if the first attempt fails
-                    if api_function == "get_ap_profiles":
+                    # Retry with integer offset/limit for specific cases
+                    if api_function == "get_ap_profiles" and use_strings:
                         self.log(
                             "API call failed with string offset and limit. Retrying with integer values. Error: {0}".format(
                                 str(e)
                             ),
                             "WARNING",
                         )
-                        params.update({"offset": offset, "limit": limit})
-                        self.log(
-                            "Retrying API call with integer offset and limit for family '{0}', function '{1}': {2}".format(
-                                api_family, api_function, params
-                            ),
-                            "INFO",
-                        )
-                        # Execute the API call again
-                        response = self.dnac._exec(
-                            family=api_family,
-                            function=api_function,
-                            op_modifies=False,
-                            params=params,
-                        )
+                        use_strings = False
+                        continue
+
                     else:
-                        # Raise the exception for all other API calls
-                        raise
+                        self.msg = (
+                            "An error occurred while retrieving data using family '{0}', function '{1}'. "
+                            "Details using API call. Error: {2}".format(api_family, api_function, str(e))
+                        )
+                        self.fail_and_exit(self.msg)
 
                 self.log(
                     "Response received from API call for family '{0}', function '{1}': {2}".format(
@@ -9293,9 +9270,10 @@ class WirelessDesign(DnacBase):
         # Handle multiPSKSettings separately
         mpsk_settings = ssid_settings.get("l2_security", {}).get("mpsk_settings")
         if mpsk_settings:
-            self.log("Processing MPSK settings.", "DEBUG")
+            self.log("Processing MPSK settings: {0}".format(mpsk_settings), "DEBUG")
             modified_ssid["multiPSKSettings"] = []
             for setting in mpsk_settings:
+                self.log("Processing MPSK setting: {0}".format(setting), "DEBUG")
                 entry = {}
                 self.log(
                     "Creating entry for MPSK setting: {0}".format(setting), "DEBUG"
@@ -9456,6 +9434,98 @@ class WirelessDesign(DnacBase):
         self.log("Final modified SSID: {}".format(modified_ssid), "INFO")
         return modified_ssid
 
+    def reset_encryption_and_auth_params(self, auth_type, updated_ssid, requested_ssid):
+        """
+        Resets WPA encryption and authentication key management parameters to False.
+        Args:
+            auth_type (str): The type of authentication being used (e.g., "WPA2", "WPA3").
+            updated_ssid (dict): The existing SSID dictionary to update.
+            requested_ssid (dict): The requested SSID dictionary containing the desired parameters.
+        """
+        self.log("Starting reset of encryption and authentication parameters.", "INFO")
+
+        # Log the initial state of updated_ssid and requested_ssid
+        self.log("Initial updated_ssid: {0}".format(updated_ssid), "DEBUG")
+        self.log("Initial requested_ssid: {0}".format(requested_ssid), "DEBUG")
+
+        # WPA Encryption parameters
+        wpa_encryption_params = [
+            "rsnCipherSuiteGcmp256",
+            "rsnCipherSuiteCcmp256",
+            "rsnCipherSuiteGcmp128",
+            "rsnCipherSuiteCcmp128"
+        ]
+
+        # Authentication key management parameters
+        auth_key_management_params = [
+            "isAuthKeySae",
+            "isAuthKeySaeExt",
+            "isAuthKeySaePlusFT",
+            "isAuthKeySaeExtPlusFT",
+            "isAuthKeyOWE",
+            "isAuthKeyPSK",
+            "isAuthKeyPSKPlusFT",
+            "isAuthKeyEasyPSK",
+            "isAuthKeyPSKSHA256",
+            "isAuthKey8021x",
+            "isAuthKey8021x_SHA256",
+            "isAuthKey8021xPlusFT",
+            "isAuthKeySuiteB1x",
+            "isAuthKeySuiteB1921x",
+            "isCckmEnabled"
+        ]
+
+        def reset_parameters(params, param_type, reset_all=False):
+            """
+            Resets the given parameters in `updated_ssid` to False.
+            Args:
+                params (list): List of parameter names to reset.
+                param_type (str): Type of parameters being reset (e.g., "WPA encryption", "authentication key management").
+                reset_all (bool): If True, resets all parameters regardless of their presence in `requested_ssid`.
+            """
+            # Log the start of the reset process for the given parameter type
+            if reset_all or any(param in requested_ssid for param in params):
+                self.log("Resetting {0} parameters.".format(param_type), "DEBUG")
+                for param in params:
+                    # If reset_all is True or the parameter is not in requested_ssid, reset it to False
+                    if reset_all or param not in requested_ssid:
+                        self.log("Setting {0} parameter '{1}' to False.".format(param_type, param), "DEBUG")
+                        updated_ssid[param] = False
+                    else:
+                        self.log("{0} parameter '{1}' already present in requested SSID. No reset required.".format(param_type, param), "DEBUG")
+            else:
+                self.log("No {0} parameters found in requested_ssid. Skipping reset for {0} parameters.".format(param_type), "DEBUG")
+
+        # Reset WPA encryption and authentication key management parameters
+        if auth_type == "OPEN":
+            self.log("Auth type is 'OPEN'. Resetting both WPA encryption and authentication key management parameters.", "DEBUG")
+            # Reset all WPA encryption parameters to False
+            reset_parameters(wpa_encryption_params, "WPA encryption", reset_all=True)
+            # Reset all authentication key management parameters to False
+            reset_parameters(auth_key_management_params, "authentication key management", reset_all=True)
+        else:
+            self.log("Auth type is not 'OPEN'. Proceeding with conditional resets based on requested_ssid.", "DEBUG")
+            # Reset WPA encryption parameters only if they exist in requested_ssid
+            reset_parameters(wpa_encryption_params, "WPA encryption")
+            # Reset authentication key management parameters only if they exist in requested_ssid
+            reset_parameters(auth_key_management_params, "authentication key management")
+
+        # Reset passphrase, multiPSKSettings, and openSsid based on auth_type
+        self.log("Checking auth_type '{0}' for resetting additional parameters.".format(auth_type), "DEBUG")
+        if auth_type == "OPEN" or auth_type != "OPEN-SECURED":
+            self.log("Resetting 'openSsid' due to auth_type '{0}'.".format(auth_type), "DEBUG")
+            updated_ssid["openSsid"] = ""
+
+        if auth_type == "OPEN" or auth_type not in ["WPA2_PERSONAL", "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL"]:
+            self.log("Resetting 'passphrase' due to auth_type '{0}'.".format(auth_type), "DEBUG")
+            updated_ssid["passphrase"] = ""
+
+        if auth_type == "OPEN" or auth_type != "WPA2_PERSONAL":
+            self.log("Resetting 'multiPSKSettings' due to auth_type '{0}'.".format(auth_type), "DEBUG")
+            updated_ssid["multiPSKSettings"] = []
+
+        self.log("Completed reset of encryption and authentication parameters.", "INFO")
+
     def compare_global_ssids(self, existing_ssids, requested_ssid):
         """
         Compares global SSIDs to determine if they exist and whether updates are required.
@@ -9487,18 +9557,18 @@ class WirelessDesign(DnacBase):
         )
 
         # Iterate over the list of existing SSIDs
-        for existing in existing_ssids:
+        for existing_ssid in existing_ssids:
             self.log(
                 "Checking existing SSID: '{0}' of type '{1}'.".format(
-                    existing.get("ssid"), existing.get("wlanType")
+                    existing_ssid.get("ssid"), existing_ssid.get("wlanType")
                 ),
                 "DEBUG",
             )
 
             # Check if there is an SSID with the same name and type
             if (
-                existing.get("ssid") == requested_ssid_name
-                and existing.get("wlanType") == requested_ssid_type
+                existing_ssid.get("ssid") == requested_ssid_name
+                and existing_ssid.get("wlanType") == requested_ssid_type
             ):
                 self.log(
                     "Matching SSID found: '{0}'. Proceeding with parameter comparison.".format(
@@ -9507,10 +9577,10 @@ class WirelessDesign(DnacBase):
                     "INFO",
                 )
                 ssid_exists = True
-                ssid_id = existing.get("id")
+                ssid_id = existing_ssid.get("id")
 
                 # Start with a copy of the existing SSID
-                updated_ssid = existing.copy()
+                updated_ssid = existing_ssid.copy()
 
                 # Iterate over the parameters of the requested SSID
                 for key, requested_value in requested_ssid.items():
@@ -9519,7 +9589,7 @@ class WirelessDesign(DnacBase):
                         continue
 
                     # Check if the parameter differs in the existing SSID
-                    existing_value = existing.get(key)
+                    existing_value = existing_ssid.get(key)
                     self.log(
                         "Comparing parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(
                             key, existing_value, requested_value
@@ -9550,6 +9620,15 @@ class WirelessDesign(DnacBase):
                         ),
                         "INFO",
                     )
+
+                    # Determine auth_type based on requested_ssid or existing_ssid
+                    auth_type = updated_ssid.get("authType", existing_ssid.get("authType"))
+                    self.log("Determined auth_type: {0}".format(auth_type), "DEBUG")
+
+                    # Reset encryption and auth params based on authType
+                    self.log("Resetting encryption and authentication key management parameters.", "DEBUG")
+                    self.reset_encryption_and_auth_params(auth_type, updated_ssid, requested_ssid)
+                    self.log("Final updated SSID parameters: {0}".format(updated_ssid), "DEBUG")
 
                 # Exit the loop after handling the match
                 break
@@ -9659,7 +9738,8 @@ class WirelessDesign(DnacBase):
                         "INFO",
                     )
 
-                break  # Exit the loop once the matching SSID is found
+                # Exit the loop once the matching SSID is found
+                break
 
         if not ssid_exists:
             self.log(
@@ -9869,14 +9949,10 @@ class WirelessDesign(DnacBase):
 
                         ssid_entry = {"site_details": site_details}
 
-                        site_override_l2_security = site_override_settings.get(
-                            "l2_security", {}
-                        )
                         get_ssids_params = self.get_ssids_params(
                             site_id,
                             requested_ssid_name,
-                            requested_ssid_type,
-                            site_override_l2_security.get("l2_auth_type"),
+                            requested_ssid_type
                         )
                         existing_site_ssids = self.get_ssids(site_id, get_ssids_params)
 
@@ -14045,6 +14121,55 @@ class WirelessDesign(DnacBase):
             "wireless", "get_rf_profiles", get_radio_frequency_profiles_params
         )
 
+    def unset_existing_default_rf_profile(self, existing_rf_profiles):
+        """
+        Unsets the existing default RF profile if one is found in the configuration.
+        Args:
+            existing_rf_profiles (list): A list of dictionaries containing details of existing RF profiles.
+                Each dictionary should include the "defaultRfProfile" key to indicate if the profile is set as default.
+        Raises:
+            Exception: If the operation to unset the default RF profile fails, an exception is raised with a descriptive message.
+        """
+        self.log("Checking for an existing default RF profile to unset.", "INFO")
+
+        # Find the existing default RF profile
+        existing_default_profile = next(
+            (profile for profile in existing_rf_profiles if profile.get("defaultRfProfile", False)), None
+        )
+
+        if not existing_default_profile:
+            self.log("No existing default RF profile found. No action required.", "INFO")
+            return
+
+        profile_name = existing_default_profile.get("rfProfileName", "Unknown")
+        self.log(
+            "Found an existing default RF profile: {0}. Proceeding to unset it.".format(profile_name),
+            "INFO"
+        )
+
+        # Unset the default RF profile
+        existing_default_profile["defaultRfProfile"] = False
+        task_id = self.update_radio_frequency_profile(existing_default_profile)
+
+        # Verify the update operation
+        task_name = "Unset Default RF Profile"
+        operation_msg = "Successfully unset the default RF profile: {0}".format(profile_name)
+        self.log(
+            "Initiated task '{0}' to unset the default RF profile. Task ID: {1}".format(task_name, task_id),
+            "DEBUG"
+        )
+
+        # Check the status of the task using the task ID
+        self.get_task_status_from_tasks_by_id(task_id, task_name, operation_msg).check_return_status()
+
+        if self.status != "success":
+            self.fail_and_exit("Failed to unset the default RF profile: {0}".format(profile_name))
+
+        self.log(
+            "Successfully unset the default RF profile: {0}".format(profile_name),
+            "INFO"
+        )
+
     def verify_create_update_radio_frequency_profiles_requirement(
         self, radio_frequency_profiles
     ):
@@ -14081,6 +14206,13 @@ class WirelessDesign(DnacBase):
             ),
             "DEBUG",
         )
+
+        # Check if a default RF profile is marked in the configuration
+        if getattr(self, "is_default_rf_profile_in_config", False):
+            self.log("A default RF profile is marked in the configuration. Checking existing RF profiles.", "INFO")
+            self.unset_existing_default_rf_profile(existing_rf_profiles)
+        else:
+            self.log("The 'is_default_rf_profile_in_config' is set to False. Skipping default RF profile operations.", "INFO")
 
         # Initialize lists to store profiles that need to be created, updated, or not changed
         create_profiles = []
@@ -15257,22 +15389,30 @@ class WirelessDesign(DnacBase):
             "INFO",
         )
 
-        # Execute the GET request to retrieve anchor groups
-        api_response = self.execute_get_request(
-            "wireless", "get_anchor_groups", get_anchor_groups_params
-        )
-        self.log("API response received: {0}".format(api_response), "DEBUG")
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            self.log("Using 'execute_get_request' for version <= 2.3.7.9", "DEBUG")
+            # Execute the GET request to retrieve anchor groups
+            api_response = self.execute_get_request(
+                "wireless", "get_anchor_groups", get_anchor_groups_params
+            )
+            # Attempt to extract anchor groups from the response
+            anchor_groups = api_response.get("response")
+        else:
+            self.log("Using 'execute_get_with_pagination' for version > 2.3.7.9", "DEBUG")
+            anchor_groups = self.execute_get_with_pagination(
+                "wireless", "get_anchor_groups", get_anchor_groups_params
+            )
+
+        self.log("API response received: {0}".format(anchor_groups), "DEBUG")
 
         # Extract the 'response' part of the API response
-        if not api_response or not api_response.get("response"):
+        if not anchor_groups:
             self.log(
                 "No response received from API call 'get_anchor_groups'. Returning an empty list.",
                 "ERROR",
             )
             return []
 
-        # Attempt to extract anchor groups from the response
-        anchor_groups = api_response.get("response")
         self.log(
             "Anchor groups extracted from response: {0}".format(anchor_groups), "DEBUG"
         )
