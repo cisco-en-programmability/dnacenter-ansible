@@ -422,10 +422,14 @@ options:
             required: true
           ignore_duration:
             description: >
-              Ignore issues for next 1 hour to 30 days.
-              ignore_duration available from Catalyst Center
-              version 2.3.7.10
-              eg. 1h or 3d
+                Specifies how long to ignore the issue. The value is a string with a numeric
+                value followed by a time unit suffix. Supported units:
+                - 'h' for hours (e.g., '1h' for 1 hour, '24h' for 24 hours).
+                - 'd' for days (e.g., '3d' for 3 days, '30d' for 30 days).
+                The range is from '1h' to '30d'. The default value is '24h'.
+                This parameter is available from Cisco Catalyst Center version 2.3.7.10 onwards.
+                Example valid values: '1h', '3d', '24h'.
+                Example invalid values: '24', '3days', 'h3', '0h', '31d', '2.5h'.
             type: str
             required: false
             default: 24h
@@ -1595,35 +1599,54 @@ class AssuranceSettings(DnacBase):
         and is preceded by an integer between 1 and 720.
 
         Parameters:
-            duration (str) - String contains number of hours or number of days
-            Examples of valid inputs: '1h', '24d', '720h'
+            duration (str): String containing the duration, with a numeric value
+                            followed by 'h' (hours) or 'd' (days).
+                            Examples of valid inputs: '1h', '24d', '720h'.
 
         Returns:
-            bool: True if valid, False otherwise
+            bool: True if the duration is valid, False otherwise.
+
+        Examples:
+            Valid inputs:
+                - '1h', '24d', '720h'
+            Invalid inputs:
+                - '0h' (out of range)
+                - '31d' (out of range)
+                - '720' (missing unit)
+                - '1x' (invalid unit)
+                - 720 (not a string)
         """
         self.log("Validation the ignore duration: {0}.".format(
             duration
         ))
 
         if not isinstance(duration, str) or len(duration) < 2:
+            self.log("Ignore duration '{0}' is invalid: Must be a string and at least 2 characters long.".format(
+                duration), "ERROR")
             return False
 
         unit = duration[-1]
-        number_part = duration[:-1]
+        number_part = int(duration[:-1])
 
         if unit not in ('h', 'd'):
+            self.log("Ignore duration '{0}' is invalid: Unit must be 'h' (hours) or 'd' (days).".format(
+                duration), "ERROR")
             return False
 
         if not number_part.isdigit():
+            self.log("Ignore duration '{0}' is invalid: Must start with a numeric value.".format(
+                duration), "ERROR")
             return False
 
         number = int(number_part)
         if (unit == 'd' and 1 <= number <= 30) or (
-           unit == 'h' and 1 <= number <= 720) :
-            self.log("Ignore duration validated: {0}.".format(
-                duration))
+           unit == 'h' and 1 <= number <= 720):
+            self.log("Ignore duration '{0}' is valid.".format(
+                duration), "INFO")
             return True
 
+        self.log("Ignore duration '{0}' is invalid: Value out of range.".format(
+            duration), "ERROR")
         return False
 
     def validate_start_end_datetime(self, start_time, end_time, errormsg):
