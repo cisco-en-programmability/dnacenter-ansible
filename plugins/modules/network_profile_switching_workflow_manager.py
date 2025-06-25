@@ -1408,7 +1408,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     )
 
                 if dn_template and profile_id:
-                    template_state =  self.process_templates(
+                    template_state = self.process_templates(
                         dn_template, previous_templates, profile_name, profile_id)
 
                     if template_state:
