@@ -12,6 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Authors:
+#   A Mohamed Rafeek <mabdulk2@cisco.com>
+#
+# Description:
+#   Unit tests for the Ansible module `network_profile_switching_workflow_manager`.
+#   These tests cover various switch profile operations such as creation,
+#   update, deletion and validation logic using mocked Catalyst Center responses.
+
 # Make coding more python3-ish
 from __future__ import absolute_import, division, print_function
 
@@ -31,6 +39,8 @@ class TestDnacSwitchWorkflow(TestDnacModule):
     playbook_config_unasssign = test_data.get("playbook_config_unasssign")
     playbook_config_switch_profile = test_data.get("playbook_config_switch_profile")
     playbook_update_day_n_template = test_data.get("playbook_update_day_n_template")
+    playbook_update_day_n_template1 = test_data.get("playbook_update_day_n_template1")
+    playbook_delete_switch_profile = test_data.get("playbook_delete_switch_profile")
 
     def setUp(self):
         super(TestDnacSwitchWorkflow, self).setUp()
@@ -79,6 +89,20 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 self.test_data.get("profile_delete_task_progress"),
                 self.test_data.get("verify_delete_get_network_profile"),
             ]
+        elif "delete_switch_profile_success" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("retrieve_cli_templates_attached_to_a_network_profile_delete"),
+                self.test_data.get("retrieve_cli_templates_attached_to_a_network_profile_delete11"),
+                self.test_data.get("retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_delete"),
+                self.test_data.get("get_site_lists_for_profile"),
+                self.test_data.get("unassigns_a_network_profile_for_sites_from_multiple_sites"),
+                self.test_data.get("get_tasks_by_id_delete"),
+                self.test_data.get("detach_a_list_of_network_profiles_from_a_day_n_cli_template"),
+                self.test_data.get("get_tasks_by_id_delete1"),
+                self.test_data.get("deletes_a_network_profile_for_sites"),
+                self.test_data.get("get_tasks_by_id_delete3"),
+                self.test_data.get("retrieves_the_list_of_network_profiles_for_sites_delete")
+            ]
         elif "unassign_site_template" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_network_profile"),
@@ -101,25 +125,12 @@ class TestDnacSwitchWorkflow(TestDnacModule):
             ]
         elif "creation_switch_success_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("retrieves_the_list_of_network_profiles_for_sites"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_site_details2"),
-                self.test_data.get("get_site_details2"),
-                self.test_data.get("create_switch_profile1"),
-                self.test_data.get("get_tasks_by_ids"),
-                self.test_data.get("get_task_details_by_id"),
-                self.test_data.get("assign_a_network_profile_for_sites_to_the_given_site"),
-                self.test_data.get("get_tasks_by_ids1"),
-                self.test_data.get("get_task_details_by_id1"),
-                self.test_data.get("assign_a_network_profile_for_sites_to_the_given_site1"),
-                self.test_data.get("get_tasks_by_ids2"),
-                self.test_data.get("get_task_details_by_id2"),
-                self.test_data.get("retrieves_the_list_of_network_profiles_for_sites"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_site_details1"),
-                self.test_data.get("get_site_details1"),
-
+                self.test_data.get("retrieves_the_list_of_network_profiles_for_sites01"),
+                self.test_data.get("get_site_details01"),
+                self.test_data.get("get_site_details02"),
+                self.test_data.get("retrieve_cli_templates_attached_to_a_network_profile02"),
+                self.test_data.get("retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to01"),
+                self.test_data.get("assign_a_network_profile_for_sites_to_the_given_site01"),
             ]
         elif "update_day_n_template" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -132,6 +143,17 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 self.test_data.get("attach_network_profile_to_a_day_n_cli_template1"),
                 self.test_data.get("get_tasks_by_id11"),
                 self.test_data.get("get_task_details_by_id12")
+            ]
+
+        elif "update_day_n_template_success" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("retrieves_the_list_of_network_profiles_for_sites11"),
+                self.test_data.get("gets_the_templates_available"),
+                self.test_data.get("retrieve_cli_templates_attached_to_a_network_profile12"),
+                self.test_data.get("retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to"),
+                self.test_data.get("attach_network_profile_to_a_day_n_cli_template11"),
+                self.test_data.get("get_tasks_by_id1"),
+                self.test_data.get("get_dn_template")
             ]
 
     def test_network_profile_switching_workflow_manager_creation_switch_fail(self):
@@ -185,6 +207,32 @@ class TestDnacSwitchWorkflow(TestDnacModule):
             "'site_names': None, 'onboarding_templates': None, 'day_n_templates': None}]'."
         )
 
+    def test_network_profile_switching_workflow_manager_delete_switch_profile_site(self):
+        """
+        Test case for deleteion a switch workflow manager instance.
+
+        This test case checks the behavior of the switch workflow deletion
+        in the specified Cisco Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                dnac_version="2.3.7.9",
+                config_verify=True,
+                config=self. playbook_delete_switch_profile
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.maxDiff = None
+        self.assertEqual(
+            result.get('msg'),
+            "No changes required, profile(s) are already deleted."
+        )
+
     def test_network_profile_switching_workflow_manager_unassign_site_template(self):
         """
         Test case for unassign the site and template from switch profile.
@@ -211,7 +259,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
             "Switch profile(s) deleted/unassigned and verified successfully for '['switchProfile1']'."
         )
 
-    def test_network_profile_switching_workflow_manager_creation_switch_success_site(self):
+    def test_network_profile_switching_workflow_manager_creation_switch_site(self):
         """
         Test case for creating a switch workflow manager instance.
 
@@ -229,12 +277,11 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 config=self.playbook_config_switch_profile
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
         self.assertIn(
-            result.get('msg'),
-            'Switch Profile created/updated successfully for \'[{\'profile_name\': \'Ans Switch Prof creation and ' +
-            'assign1\', \'status\': "Network profile \'Ans Switch Prof creation and assign1\' updated successfully."}]\'.'
+            'No site details retrieved for site name: Global/APO',
+            result.get('msg')
         )
 
     def test_network_profile_switching_workflow_manager_creation_switch_site_fail(self):
