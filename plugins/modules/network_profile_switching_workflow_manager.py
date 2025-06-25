@@ -78,21 +78,21 @@ requirements:
   - python >= 3.9
 notes:
   - This module utilizes the following SDK methods:
-      - site_design.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1
-      - site_design.assign_sites
-      - site_design.retrieves_the_list_of_network_profiles_for_sites_v1
-      - site_design.assign_a_network_profile_for_sites_to_the_given_site_v1
-      - site_design.unassigns_a_network_profile_for_sites_from_multiple_sites_v1
-      - site_design.deletes_a_network_profile_for_sites_v1
-      - configuration_templates.gets_the_templates_available_v1
-      - network_settings.retrieve_cli_templates_attached_to_a_network_profile_v1
+    site_design.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1
+    site_design.assign_sites
+    site_design.retrieves_the_list_of_network_profiles_for_sites_v1
+    site_design.assign_a_network_profile_for_sites_to_the_given_site_v1
+    site_design.unassigns_a_network_profile_for_sites_from_multiple_sites_v1
+    site_design.deletes_a_network_profile_for_sites_v1
+    configuration_templates.gets_the_templates_available_v1
+    network_settings.retrieve_cli_templates_attached_to_a_network_profile_v1
   - The following API paths are used:
-      - GET /dna/intent/api/v1/networkProfilesForSites
-      - GET /dna/intent/api/v1/template-programmer/template
-      - GET /dna/intent/api/v1/networkProfilesForSites/{profileId}/templates
-      - POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments
-      - POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk
-      - POST /api/v1/siteprofile
+    GET /dna/intent/api/v1/networkProfilesForSites
+    GET /dna/intent/api/v1/template-programmer/template
+    GET /dna/intent/api/v1/networkProfilesForSites/{profileId}/templates
+    POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments
+    POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk
+    POST /api/v1/siteprofile
 """
 
 EXAMPLES = r"""
