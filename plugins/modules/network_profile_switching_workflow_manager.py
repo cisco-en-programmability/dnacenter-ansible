@@ -13,15 +13,12 @@ __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 DOCUMENTATION = r"""
 ---
 module: network_profile_switching_workflow_manager
-short_description: Resource module for managing switch
-  profiles in Cisco Catalyst Center
+short_description: Resource module for managing switch profiles in Cisco Catalyst Center
 description: >
-  This module allows the creation and deletion of network
-  switch profiles in Cisco Catalyst Center. - Supports
-  creating and deleting switch profiles. - Allows assignment
-  of profiles to sites, onboarding templates, and Day-N
-  templates.
-version_added: '6.31.0'
+  This module facilitates the creation and deletion of network switch profiles in Cisco Catalyst Center.
+  - Supports creating and deleting switch profiles.
+  - Enables assignment of profiles to sites, onboarding templates, and Day-N templates.
+version_added: "6.31.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -30,52 +27,49 @@ author:
 options:
   config_verify:
     description: >
-      Set to `True` to enable configuration verification
-      on Cisco Catalyst Center after applying the playbook
-      configuration. This ensures that the system validates
-      the configuration state after the change is applied.
+      Set to `True` to enable configuration verification on Cisco Catalyst Center after applying the playbook configuration.
+      This ensures that the system validates the configuration state after the changes are applied.
     type: bool
     default: false
   state:
     description: >
       Specifies the desired state for the configuration.
-      If `merged`, the module will create or update
-      the configuration, adding new settings or modifying
-      existing ones. If `deleted`, it will remove the
-      specified settings.
+      If set to `merged`, the module will create or update the configuration by adding new settings or modifying existing ones.
+      If set to `deleted`, the module will remove the specified settings.
     type: str
-    choices: ["merged", "deleted"]
+    choices:
+      - merged
+      - deleted
     default: merged
   config:
-    description: A list containing the details for network
-      switch profile creation.
+    description: >
+      A list containing the details required for network switch profile creation.
     type: list
     elements: dict
     required: true
     suboptions:
       profile_name:
-        description: Name of the switch profile to be
-          created.
+        description: >
+          The name of the switch profile to be created.
         type: str
         required: true
       site_names:
         description: >
-          Site names must be specified in the full site
-          hierarchy format for example 'Global/Country/City/Building'.
+          A list of site names specified in the full site hierarchy format.
+          For example: 'Global/Country/City/Building'.
         type: list
         elements: str
         required: false
       onboarding_templates:
         description: >
-          List of onboarding template names assigned
-          to the profile. Note: Onboarding templates
-          are currently unavailable due to SDK/API constraints.
+          A list of onboarding template names assigned to the profile.
+          Note: Onboarding templates are currently unavailable due to SDK/API constraints.
         type: list
         elements: str
         required: false
       day_n_templates:
-        description: List of Day-N template names assigned
-          to the profile.
+        description: >
+          A list of Day-N template names assigned to the profile.
         type: list
         elements: str
         required: false
@@ -83,20 +77,22 @@ requirements:
   - dnacentersdk >= 2.8.6
   - python >= 3.9
 notes:
-  - This module uses the following SDK methods site_design.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1
-    site_design.assign_sites site_design.retrieves_the_list_of_network_profiles_for_sites_v1
-    site_design.assign_a_network_profile_for_sites_to_the_given_site_v1
-    site_design.unassigns_a_network_profile_for_sites_from_multiple_sites_v1
-    site_design.deletes_a_network_profile_for_sites_v1
-    configuration_templates.gets_the_templates_available_v1
-    network_settings.retrieve_cli_templates_attached_to_a_network_profile_v1
-  - Paths used are
-    GET /dna/intent/api/v1/networkProfilesForSites
-    GET /dna/intent/api/v1/template-programmer/template
-    GET /dna/intent/api/v1/networkProfilesForSites/{profileId}/templates
-    POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments
-    POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk
-    POST /api/v1/siteprofile
+  - This module utilizes the following SDK methods:
+      - site_design.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1
+      - site_design.assign_sites
+      - site_design.retrieves_the_list_of_network_profiles_for_sites_v1
+      - site_design.assign_a_network_profile_for_sites_to_the_given_site_v1
+      - site_design.unassigns_a_network_profile_for_sites_from_multiple_sites_v1
+      - site_design.deletes_a_network_profile_for_sites_v1
+      - configuration_templates.gets_the_templates_available_v1
+      - network_settings.retrieve_cli_templates_attached_to_a_network_profile_v1
+  - The following API paths are used:
+      - GET /dna/intent/api/v1/networkProfilesForSites
+      - GET /dna/intent/api/v1/template-programmer/template
+      - GET /dna/intent/api/v1/networkProfilesForSites/{profileId}/templates
+      - POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments
+      - POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk
+      - POST /api/v1/siteprofile
 """
 
 EXAMPLES = r"""
@@ -244,7 +240,7 @@ response_create:
         ],
         "status": "success"
     }
-#Case 2: Successful updatation of Switch profile
+#Case 2: Successful updation of Switch profile
 response_update:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -282,8 +278,8 @@ response_delete_profile:
         "response": [
             {
                 "profile_name": "Enterprise_Switching_Profile",
-                "site_unassign_status": "Site(s) are unassigned Successfully.",
-                "status": "Network Profile [740ebd91-4f82-42ac-bbca-94393f0cc799] Successfully Deleted"
+                "site_unassign_status": "Site(s) are unassigned successfully.",
+                "status": "Network profile [740ebd91-4f82-42ac-bbca-94393f0cc799] successfully deleted"
             }
         ],
         "status": "success"
@@ -299,7 +295,7 @@ response_unassign_site:
         "response": [
             {
                 "profile_name": "Enterprise_Switching_Profile",
-                "site_unassign_status": "Site(s) '['Global/India/Chennai/Main_Office']' unassigned Successfully."
+                "site_unassign_status": "Site(s) '['Global/India/Chennai/Main_Office']' unassigned successfully."
             }
         ],
         "status": "success"
@@ -315,7 +311,7 @@ response_unassign_template:
         "response": [
             {
                 "profile_name": "Enterprise_Switching_Profile",
-                "template_unassign_status": "Template(s) '['Periodic_Config_Audit']' unassigned Successfully."
+                "template_unassign_status": "Template(s) '['Periodic_Config_Audit']' unassigned successfully."
             }
         ],
         "status": "success"
@@ -920,7 +916,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
                         if unassign_site:
                             profile_response["site_unassign_status"] = (
-                                "Site(s) '{0}' unassigned Successfully.".format(
+                                "Site(s) '{0}' unassigned successfully.".format(
                                     sites
                                 )
                             )
@@ -938,7 +934,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
                         if unassign_templates:
                             profile_response["template_unassign_status"] = (
-                                "Template(s) '{0}' unassigned Successfully.".format(
+                                "Template(s) '{0}' unassigned successfully.".format(
                                     each_profile.get("day_n_templates")
                                 )
                             )
@@ -965,7 +961,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         break
                     else:
                         if unassign_site:
-                            self.msg += "Site(s) '{0}' unassigned Successfully for the profile {1}.".format(
+                            self.msg += "Site(s) '{0}' unassigned successfully for the profile {1}.".format(
                                 sites, given_profile)
 
                         if unassign_templates:
@@ -1024,7 +1020,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
                 if unassign_templates:
                     profile_response["template_unassign_status"] = (
-                        "Template(s) '{0}' unassigned Successfully.".format(
+                        "Template(s) '{0}' unassigned successfully.".format(
                             str(have_templates)
                         )
                     )
@@ -1068,7 +1064,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
     def process_unassign_sites(self, given_sites, existing_sites, profile_name,
                                profile_id, unassign_site):
         """
-        Unassigns sites from the network profile if it exists in the delete state.
+        Unassign sites from the network profile if it exists in the delete state.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -1139,7 +1135,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     )
                 )
                 if unassign_response:
-                    msg = "Site '{0}' Successfully Disassociated from Network Profile.".format(
+                    msg = "Site '{0}' successfully disassociated from network profile.".format(
                         each_site.get("site_names")
                     )
                     unassign_site.append(msg)
@@ -1163,7 +1159,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
     def process_unassign_templates(self, given_templates, existing_templates, profile_name,
                                    profile_id, unassign_templates):
         """
-        Unassigns templates from the network profile if it exists in the delete state.
+        Unassign templates from the network profile if it exists in the delete state.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -1192,7 +1188,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
             if not filter_templates:
                 self.log(
-                    "Nothing to unassign, Given template(s): {0} not available in the profile '{1}'.".format(
+                    "Nothing to unassign, given template(s): {0} not available in the profile '{1}'.".format(
                         given_templates, profile_name), "INFO")
                 return None
 
@@ -1407,7 +1403,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     self.switch.append(profile_response)
                 elif not update_temp_status and not assign_site_task:
                     self.already_processed.append(
-                        "No changes required, Switch profile '{0}' already processed".format(
+                        "No changes required, switch profile '{0}' already processed".format(
                             each_profile["profile_name"]))
                 else:
                     self.not_processed.append(each_profile["profile_name"])
@@ -1569,7 +1565,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             self.changed = True
 
         if len(self.not_processed) > 0:
-            self.msg += " Unable to delete below Switch profile '{0}'.".format(config)
+            self.msg += " Unable to delete below switch profile '{0}'.".format(config)
             self.changed = False
             self.status = "failed"
 
