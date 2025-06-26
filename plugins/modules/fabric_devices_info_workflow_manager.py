@@ -1015,7 +1015,7 @@ class FabricDevicesInfo(DnacBase):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                requested_info = device.get("requested_infp", [])
+                requested_info = device.get("requested_info", [])
                 if not isinstance(requested_info, list):
                     self.msg = "'requested_info' must be a list of strings"
                     self.set_operation_result("failed", False, self.msg, "ERROR")
