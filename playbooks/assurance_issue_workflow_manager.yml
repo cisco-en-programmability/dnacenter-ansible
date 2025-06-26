@@ -25,6 +25,15 @@
           - assurance_issue:
               - issue_name: Time synchronization mismatch between Cisco Catalyst Center and device 'CORE-SWITCH-01'
                 issue_process_type: ignore  # Options: resolution, ignore, command_execution
+                ignore_duration: 1h
+                start_datetime: "2025-03-11 16:00:00"  # optional field
+                end_datetime: "2025-03-16 18:30:00"  # optional field
+                priority: P4  # optional field
+                issue_status: ACTIVE  # optional field
+                site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
+                device_name: NY-EN-9300.cisco.local  # optional field
+                mac_address: e4:38:7e:42:bc:40  # optional field
+                network_device_ip_address: 204.1.2.4  # optional field
           - assurance_user_defined_issue_settings:
               - name: High CPU Usage Alert
                 description: "Triggers an alert when CPU usage exceeds threshold"
