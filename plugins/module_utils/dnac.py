@@ -58,6 +58,7 @@ class DnacBase():
         self.dnac = DNACSDK(params=dnac_params)
         self.dnac_apply = {'exec': self.dnac._exec}
         self.get_diff_state_apply = {'merged': self.get_diff_merged,
+                                     'queried': self.get_diff_queried,
                                      'deleted': self.get_diff_deleted,
                                      'replaced': self.get_diff_replaced,
                                      'overridden': self.get_diff_overridden,
@@ -117,7 +118,7 @@ class DnacBase():
         masked_config = self.get_safe_log_config(masked_config)
 
         self.log('Cisco Catalyst Center parameters: {0}'.format(masked_config), "DEBUG")
-        self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
+        self.supported_states = ["merged", "queried", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
     def compare_dnac_versions(self, version1, version2):
@@ -190,6 +191,11 @@ class DnacBase():
     def get_diff_merged(self):
         # Implement logic to merge the resource configuration
         self.merged = True
+        return self
+    
+    def get_diff_queried(self):
+        # Implement logic to query the resource configuration
+        self.queried = True
         return self
 
     def get_diff_deleted(self):
