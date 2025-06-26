@@ -1,0 +1,52 @@
+- name: get network devices info on Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: get network devices info on Cisco Catalyst Center
+      cisco.dnac.network_devices_info_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: queried
+        config:
+          - network_devices:
+              - management_ip_address: ["204.1.2.3"]
+                mac_address: ["90:88:55:07:59:00", "2.22.2.22"]
+                hostname: ["NY-BN-9300", "karth-333"]
+                serial_number: ["FOX2639PAY7"]
+                software_type: ["IOS-XE"]
+                software_version: ["17.12.4"]
+                role: ["ACCESS"]
+                device_type: ["Cisco Catalyst 9130AXE Unified Access Point"]
+                family: ["Switches and Hubs"]
+                site_hierarchy: ["Global/USA/New York/NY_BLD1"]
+                timeout: 30
+                retries: 1
+                interval: 3
+                output_file_path: /Users/karthick/Downloads/INFO 
+                requested_info:
+                  - device_info
+                  - interface_info
+                  - interface_vlan_info
+                  - line_card_info
+                  - supervisor_card_info
+                  - poe_info
+                  - module_count_info
+                  - connected_device_info
+                  - device_interfaces_by_range_info
+                  - device_config_info
+                  - device_summary_info
+                  - device_polling_interval_info
+                  - device_stack_info
+                  - device_link_mismatch_info
