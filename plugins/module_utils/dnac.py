@@ -58,12 +58,13 @@ class DnacBase():
         self.dnac = DNACSDK(params=dnac_params)
         self.dnac_apply = {'exec': self.dnac._exec}
         self.get_diff_state_apply = {'merged': self.get_diff_merged,
+                                     'queried': self.get_diff_queried,
                                      'deleted': self.get_diff_deleted,
                                      'replaced': self.get_diff_replaced,
                                      'overridden': self.get_diff_overridden,
                                      'gathered': self.get_diff_gathered,
                                      'rendered': self.get_diff_rendered,
-                                     'parsed': self.get_diff_parsed
+                                     'parsed': self.get_diff_parsed,
                                      }
         self.verify_diff_state_apply = {'merged': self.verify_diff_merged,
                                         'deleted': self.verify_diff_deleted,
@@ -190,6 +191,11 @@ class DnacBase():
     def get_diff_merged(self):
         # Implement logic to merge the resource configuration
         self.merged = True
+        return self
+    
+    def get_diff_queried(self):
+        # Implement logic to query the resource configuration
+        self.queried = True
         return self
 
     def get_diff_deleted(self):
@@ -1498,54 +1504,6 @@ class DnacBase():
         except socket.error:
             return False
 
-    def split_cidr(self, cidr_block):
-        """
-        Splits a given CIDR block into prefix and suffix lengths.
-        Supports both IPv4 and IPv6 formats.
-
-        Parameters:
-            cidr_block (str): The CIDR block to process, e.g., '192.168.1.0/24' or '2001:db8::/64'.
-
-        Returns:
-            dict: A dictionary containing:
-                - 'ip_version': 'IPv4' or 'IPv6'
-                - 'prefix_length': Length of the network prefix
-                - 'suffix_length': Length of the host portion
-                - 'network_prefix': Network address portion of the CIDR
-            None: If the CIDR block is invalid.
-        """
-
-        self.log("Parsing CIDR block: {}".format(cidr_block), "DEBUG")
-        try:
-            network = ipaddress.ip_network(cidr_block, strict=False)
-        except ValueError as e:
-            error_msg = "Invalid CIDR block '{}': {}".format(cidr_block, e)
-            self.msg = error_msg
-            self.log(error_msg, "ERROR")
-            self.set_operation_result("failed", False, error_msg, "ERROR")
-
-        total_bits = 128 if network.version == 6 else 32
-        prefix_length = network.prefixlen
-        suffix_length = total_bits - prefix_length
-
-        self.log(
-            "Parsed CIDR block: {}, IP version: {}, Prefix length: {}, Suffix length: {}, Network prefix: {}".format(
-                cidr_block,
-                "IPv6" if network.version == 6 else "IPv4",
-                prefix_length,
-                suffix_length,
-                network.network_address
-            ),
-            "DEBUG"
-        )
-
-        return {
-            "ip_version": "IPv6" if network.version == 6 else "IPv4",
-            "prefix_length": prefix_length,
-            "suffix_length": suffix_length,
-            "network_prefix": str(network.network_address),
-        }
-
     def is_valid_ipv6(self, ip_address):
         """
         Validates an IPv6 address.
@@ -2266,161 +2224,6 @@ class DnacBase():
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
-
-    def deduplicate_list_of_dict(self, list_of_dicts):
-        """
-        Removes duplicate dictionaries from a list while preserving order.
-
-        This method logs the initial input list, processes each dictionary to ensure uniqueness
-        based on its key-value pairs, and logs detailed information about each dictionary processed,
-        including whether it was added as unique or skipped as a duplicate. Finally, it logs the
-        summary of the deduplication process along with the resulting list.
-
-        Args:
-            list_of_dicts (list of dict): A list containing dictionaries that may have duplicates.
-
-        Returns:
-            list of dict: A new list containing only unique dictionaries from the input list,
-                        with order preserved based on the first occurrence.
-
-        Description:
-            The method iterates over the input list, converting each dictionary into a frozenset of
-            its items for hashable comparison. It tracks dictionaries that have already been seen,
-            and if a dictionary is unique (not previously seen), it is added to the result list.
-            Logs are generated to track the start of the process, each dictionary's processing result,
-            and the completion of deduplication including original and deduplicated list sizes.
-        """
-
-        self.log(f"Initializing deduplication of list of dictionaries : {list_of_dicts}.", "INFO")
-
-        if not isinstance(list_of_dicts, list):
-            self.log("Invalid input: Expected a list of dictionaries but received a non-list object.", "ERROR")
-            return []
-
-        if not all(isinstance(d, dict) for d in list_of_dicts):
-            self.log("Invalid input: List contains non-dictionary items.", "ERROR")
-            return []
-
-        if not list_of_dicts:
-            self.log("Input list is empty. No deduplication required.", "INFO")
-            return []
-
-        self.log(f"Input list:\n{list_of_dicts}", "INFO")
-        seen_dicts = set()
-        unique_dicts = []
-
-        for index, current_dict in enumerate(list_of_dicts):
-            try:
-                dict_identifier = frozenset(current_dict.items())  # Used only for comparison
-                if dict_identifier not in seen_dicts:
-                    seen_dicts.add(dict_identifier)
-                    unique_dicts.append(current_dict)  # Keep original dict
-                    self.log(f"Added unique dictionary at index {index}: {current_dict}", "INFO")
-                else:
-                    self.log(f"Skipped duplicate dictionary at index {index}: {current_dict}", "INFO")
-            except TypeError as e:
-                self.log(
-                    f"Error processing dictionary at index {index}: {current_dict}. "
-                    f"Skipping this entry. Error: {e}",
-                    "ERROR"
-                )
-                continue  # Skip unhashable dictionaries
-
-        if len(unique_dicts) == len(list_of_dicts):
-            self.log("No duplicates found. All dictionaries are unique.", "INFO")
-        else:
-            self.log(
-                f"Deduplication complete.\nOriginal list length: {len(list_of_dicts)}\n"
-                f"Deduplicated list length: {len(unique_dicts)}",
-                "INFO"
-            )
-
-        self.log(f"Final output (deduplicated list):\n{unique_dicts}", "DEBUG")
-
-        return unique_dicts
-
-    def compare_unordered_lists_of_dicts(self, list1, list2):
-        """
-        Compare two unordered lists of dictionaries for equality.
-
-        Args:
-            list1 (list): First list of dictionaries to compare.
-            list2 (list): Second list of dictionaries to compare.
-
-        Returns:
-            bool: True if both lists contain the same dictionaries (order-independent), False otherwise.
-
-        Description:
-            This function normalizes each dictionary by converting it to a JSON string with sorted keys,
-            then sorts both lists of these strings and compares them to determine equality.
-        """
-        self.log("Starting comparison of two unordered lists of dictionaries", "INFO")
-
-        if not isinstance(list1, list) or not isinstance(list2, list):
-            self.log("Invalid input: Both inputs must be lists.", "ERROR")
-            return False
-
-        if not all(isinstance(d, dict) for d in list1):
-            self.log("Invalid input: First list contains non-dictionary items.", "ERROR")
-            return False
-
-        if not all(isinstance(d, dict) for d in list2):
-            self.log("Invalid input: Second list contains non-dictionary items.", "ERROR")
-            return False
-
-        # Log the lengths of the input lists
-        self.log(f"Length of first list: {len(list1)}", "DEBUG")
-        self.log(f"Length of second list: {len(list2)}", "DEBUG")
-
-        # Convert dicts to JSON strings with sorted keys for consistent comparison
-        def normalize(d):
-            return json.dumps(d, sort_keys=True)
-
-        normalized1 = sorted(normalize(d) for d in list1)
-        normalized2 = sorted(normalize(d) for d in list2)
-        result = normalized1 == normalized2
-        if not result:
-            self.log("Lists are not equal. Differences detected.", "DEBUG")
-            self.log(f"Normalized first list: {normalized1}", "DEBUG")
-            self.log(f"Normalized second list: {normalized2}", "DEBUG")
-        else:
-            self.log("Lists are equal. No differences detected.", "DEBUG")
-
-        return result
-
-    def find_dict_by_key_value(self, data_list, key, value):
-        """
-        Find a dictionary in a list by a matching key-value pair.
-
-        Parameters:
-            data_list (list): List of dictionaries to search.
-            key (str): The key to match in each dictionary.
-            value (any): The value to match against the given key.
-
-        Returns:
-            dict or None: The dictionary that matches the key-value pair, or None if not found.
-
-        Description:
-            Iterates through the list of dictionaries and returns the first dictionary
-            where the specified key has the specified value. If no match is found, returns None.
-        """
-        if not isinstance(data_list, list):
-            self.log("The 'data_list' parameter must be a list.", "ERROR")
-            return None
-
-        if not all(isinstance(item, dict) for item in data_list):
-            self.log("All items in 'data_list' must be dictionaries.", "ERROR")
-            return None
-
-        self.log(f"Searching for key '{key}' with value '{value}' in a list of {len(data_list)} items.", "DEBUG")
-        for idx, item in enumerate(data_list):
-            self.log(f"Checking item at index {idx}: {item}", "DEBUG")
-            if item.get(key) == value:
-                self.log(f"Match found at index {idx}: {item}", "DEBUG")
-                return item
-
-        self.log(f"No matching item found for key '{key}' with value '{value}'.", "DEBUG")
-        return None
 
 
 def is_list_complex(x):
