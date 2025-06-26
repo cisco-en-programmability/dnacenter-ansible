@@ -1626,7 +1626,7 @@ class AssuranceSettings(DnacBase):
             return False
 
         unit = duration[-1]
-        number_part = int(duration[:-1])
+        number_part = duration[:-1]
 
         if unit not in ('h', 'd'):
             self.log("Ignore duration '{0}' is invalid: Unit must be 'h' (hours) or 'd' (days).".format(
