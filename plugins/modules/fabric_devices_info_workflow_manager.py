@@ -867,7 +867,7 @@ class FabricDevicesInfo(DnacBase):
             - Detects and prevents duplicate IP addresses, hostnames, or serial numbers across devices.
         """
         config_spec = {
-            'network_devices': {
+            'fabric_devices': {
                 'type': 'list',
                 'elements': 'dict',
                 'ip_address': {'type': 'list', 'elements': 'str'},
