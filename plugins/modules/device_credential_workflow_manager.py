@@ -52,6 +52,8 @@ options:
         description:
           - Manages global-level device credentials (create, update, or delete).
           - This is only for credential lifecycle operations (e.g., storing CLI, SNMP, HTTP credentials centrally).
+          - To assign credentials to a site, use the C(assign_credentials_to_site) parameter.
+          - To apply (sync) assigned credentials to devices under a site, use the C(apply_credentials_to_site) parameter.
         type: dict
         suboptions:
           cli_credential:
