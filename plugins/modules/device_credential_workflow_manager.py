@@ -49,7 +49,9 @@ options:
     required: true
     suboptions:
       global_credential_details:
-        description: Manages global device credentials
+        description:
+          - Manages global-level device credentials (create, update, or delete).
+          - This is only for credential lifecycle operations (e.g., storing CLI, SNMP, HTTP credentials centrally).
         type: dict
         suboptions:
           cli_credential:
