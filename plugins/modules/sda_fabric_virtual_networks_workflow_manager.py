@@ -39,10 +39,10 @@ options:
     description: Sets the maximum number of fabric VLANs
       that can be created or updated at a time via the
       SDA API, aligning with GUI constraints. The default
-      is 50, as the GUI allows creating up to 50 fabric
+      is 20, as the GUI allows creating up to 20 fabric
       VLANs at a time.
     type: int
-    default: 50
+    default: 20
   sda_fabric_gateway_limit:
     description: Sets the maximum number of anycast
       gateways that can be created or updated at a time
@@ -1399,7 +1399,7 @@ class VirtualNetwork(DnacBase):
             class status accordingly.
         """
 
-        req_limit = self.params.get("sda_fabric_vlan_limit", 50)
+        req_limit = self.params.get("sda_fabric_vlan_limit", 20)
         self.log(
             "API request batch size set to '{0}' for fabric VLAN creation.".format(
                 req_limit
@@ -1580,7 +1580,7 @@ class VirtualNetwork(DnacBase):
             and sets the status to "failed".
         """
 
-        req_limit = self.params.get("sda_fabric_vlan_limit", 50)
+        req_limit = self.params.get("sda_fabric_vlan_limit", 20)
         self.log(
             "API request batch size set to '{0}' for fabric VLAN updation.".format(
                 req_limit
@@ -5329,7 +5329,7 @@ def main():
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "sda_fabric_vlan_limit": {"type": "int", "default": 50},
+        "sda_fabric_vlan_limit": {"type": "int", "default": 20},
         "sda_fabric_gateway_limit": {"type": "int", "default": 20},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
