@@ -161,10 +161,10 @@ class NetworkProfileFunctions(DnacBase):
         try:
             response = self.dnac._exec(
                 family="configuration_templates",
-                function="gets_the_templates_available_v1",
+                function="gets_the_templates_available",
                 params={}
             )
-            self.log("Response from gets_the_templates_available_v1 API: {0}".
+            self.log("Response from gets_the_templates_available API: {0}".
                      format(self.pprint(response)), "DEBUG")
 
             if not response or not isinstance(response, list):
@@ -232,8 +232,8 @@ class NetworkProfileFunctions(DnacBase):
 
         try:
             response = self.execute_get_request(
-                "site_design", "retrieves_the_list_of_network_profiles_for_sites_v1", param)
-            self.log("Response from retrieves_the_list_of_network_profiles_for_sites_v1 API: {0}".
+                "site_design", "retrieves_the_list_of_network_profiles_for_sites", param)
+            self.log("Response from retrieves_the_list_of_network_profiles_for_sites API: {0}".
                      format(self.pprint(response)), "DEBUG")
 
             profiles = response.get("response")
@@ -249,7 +249,6 @@ class NetworkProfileFunctions(DnacBase):
             self.msg = "Error on retrieving {0} profile list: Unable to get the profile list. ".format(
                 profile_type)
             self.log(self.msg + str(e), "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
     def get_templates_for_profile(self, profile_id):
@@ -273,9 +272,9 @@ class NetworkProfileFunctions(DnacBase):
 
         try:
             response = self.execute_get_request(
-                "network_settings", "retrieve_cli_templates_attached_to_a_network_profile_v1",
+                "network_settings", "retrieve_cli_templates_attached_to_a_network_profile",
                 param)
-            self.log("Response from retrieve_cli_templates_attached_to_a_network_profile_v1 " +
+            self.log("Response from retrieve_cli_templates_attached_to_a_network_profile " +
                      "API: {0}".format(self.pprint(response)), "DEBUG")
 
             templates = response.get("response")
@@ -315,7 +314,7 @@ class NetworkProfileFunctions(DnacBase):
         """
         self.log("Attaching CLI template '{0}' (ID: {1}) to profile '{2}' (ID: {3})".format(
             template_name, template_id, profile_name, profile_id), "INFO")
-        function_name = "attach_network_profile_to_a_day_n_cli_template_v1"
+        function_name = "attach_network_profile_to_a_day_n_cli_template"
         profile_payload = {
             "profileId": profile_id,
             "template_id": template_id
@@ -354,7 +353,7 @@ class NetworkProfileFunctions(DnacBase):
 
         self.log("Detaching CLI template '{0}' (ID: {1}) from network profile '{2}' (ID: {3})".
                  format(template_name, template_id, profile_name, profile_id), "INFO")
-        function_name = "detach_a_list_of_network_profiles_from_a_day_n_cli_template_v1"
+        function_name = "detach_a_list_of_network_profiles_from_a_day_n_cli_template"
         profile_payload = {
             "profileId": profile_id,
             "template_id": template_id
@@ -448,7 +447,7 @@ class NetworkProfileFunctions(DnacBase):
         param = {
             "profile_id": profile_id
         }
-        func_name = "retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1"
+        func_name = "retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to"
 
         try:
             response = self.execute_get_request("site_design", func_name, param)
@@ -579,7 +578,7 @@ class NetworkProfileFunctions(DnacBase):
 
         try:
             return self.execute_process_task_data(
-                "site_design", "assign_a_network_profile_for_sites_to_the_given_site_v1",
+                "site_design", "assign_a_network_profile_for_sites_to_the_given_site",
                 params
             )
         except Exception as e:
@@ -615,7 +614,7 @@ class NetworkProfileFunctions(DnacBase):
 
         try:
             return self.execute_process_task_data(
-                "site_design", "unassigns_a_network_profile_for_sites_from_multiple_sites_v1",
+                "site_design", "unassigns_a_network_profile_for_sites_from_multiple_sites",
                 param
             )
         except Exception as e:
@@ -649,7 +648,7 @@ class NetworkProfileFunctions(DnacBase):
 
         try:
             return self.execute_process_task_data(
-                "site_design", "deletes_a_network_profile_for_sites_v1", param
+                "site_design", "deletes_a_network_profile_for_sites", param
             )
         except Exception as e:
             error_msg = "Failed to delete network profile '{0}'. ".format(profile_name)

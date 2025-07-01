@@ -1615,3 +1615,34 @@ releases:
       release_summary: Changes in reserve_ip_subpool modules
       minor_changes:
         - Correction of issue 266 in the reserve_ip_subpool modules
+
+  6.33.2:
+    release_date: "2025-05-13"
+    changes:
+      release_summary: Changes in request modules
+      minor_changes:
+        - modify problems in requests to the API
+
+  6.34.0:
+    release_date: "2025-06-03"
+    changes:
+      release_summary: Added compatibility with Cisco version 3.1.3.0
+      minor_changes:
+        - Added compatibility with Cisco version 3.1.3.0 -all corresponding modules were added-.
+        - API Modules 2_2_2_3, 2_2_3_3, 2_3_3_0 were removed
+        - Changes in assurance_issue_workflow_manager workflow manager module
+        - New enhancment in template_workflow_manager workflow manager module
+        - Added attribute 'resource_parameters' and 'copy_config' in 'template_workflow_manager' module
+        - All alias modules were removed  -*v1-.
+
+  6.35.0:
+    release_date: "2025-06-12"
+    changes:
+      release_summary: Changes in workflow manager module
+      minor_changes:
+        - Changes in application_policy_workflow_manager workflow manager module
+        - Changes in assurance_device_health_score_settings_workflow_manager module
+        - Changes in assurance_issue_workflow_manager workflow manager module
+        - Changes in path_trace_workflow_manager module
+        - Removed attribute 'application_sets' and 'application' in 'application_policy_workflow_manager' module
+        - Removed attribute 'control_path'  in 'path_trace_workflow_manager' module

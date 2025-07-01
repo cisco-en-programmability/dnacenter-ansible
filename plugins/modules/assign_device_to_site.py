@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: assign_device_to_site
-short_description: Resource module for Assign Device To Site
+short_description: Resource module for Assign Device
+  To Site
 description:
-  - This module represents an alias of the module assign_device_to_site_v1
+  - Manage operation create of the resource Assign Device
+    To Site.
+  - Assigns unassigned devices to a site. This API does
+    not move assigned devices to other sites.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -18,29 +24,35 @@ options:
     elements: dict
     suboptions:
       ip:
-        description: Device IP. It can be either IPv4 or IPv6. IPV4 e.g., 10.104.240.64.
-          IPV6 e.g., 2001 420 284 2004 4 181 500 183.
+        description: Device IP. It can be either IPv4
+          or IPv6. IPV4 e.g., 10.104.240.64. IPV6 e.g.,
+          2001 420 284 2004 4 181 500 183.
         type: str
     type: list
   headers:
     description: Additional headers.
     type: dict
   siteId:
-    description: SiteId path parameter. Site Id where device(s) needs to be assigned.
+    description: SiteId path parameter. Site Id where
+      device(s) needs to be assigned.
     type: str
 requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Sites AssignDevicesToSiteV1
-    description: Complete reference of the AssignDevicesToSiteV1 API.
+  - name: Cisco DNA Center documentation for Sites AssignDevicesToSite
+    description: Complete reference of the AssignDevicesToSite
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!assign-devices-to-site
 notes:
-  - SDK Method used are sites.Sites.assign_devices_to_site_v1,
-  - Paths used are post /dna/intent/api/v1/assign-device-to-site/{siteId}/device,
-  - It should be noted that this module is an alias of assign_device_to_site_v1
+  - SDK Method used are
+    sites.Sites.assign_devices_to_site,
+  - Paths used are
+    post /dna/intent/api/v1/assign-device-to-site/{siteId}/device,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.assign_device_to_site:
     dnac_host: "{{dnac_host}}"

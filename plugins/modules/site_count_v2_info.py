@@ -1,15 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: site_count_v2_info
-short_description: Information module for Site Count V2
+short_description: Information module for Site Count
+  V2
 description:
   - Get all Site Count V2.
-  - Get the site count of the specified site's sub-hierarchy inclusive of the provided
-    site .
+  - Get the site count of the specified site's sub-hierarchy
+    inclusive of the provided site .
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,13 +30,18 @@ requirements:
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Sites GetSiteCountV2
-    description: Complete reference of the GetSiteCountV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-site-count
+    description: Complete reference of the GetSiteCountV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-site-count-v-2
 notes:
-  - SDK Method used are sites.Sites.get_site_count_v2,
-  - Paths used are get /dna/intent/api/v2/site/count,
+  - SDK Method used are
+    sites.Sites.get_site_count_v2,
+  - Paths used are
+    get /dna/intent/api/v2/site/count,
 """
+
 EXAMPLES = r"""
+---
 - name: Get all Site Count V2
   cisco.dnac.site_count_v2_info:
     dnac_host: "{{dnac_host}}"
