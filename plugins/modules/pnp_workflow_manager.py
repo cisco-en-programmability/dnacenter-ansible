@@ -968,7 +968,7 @@ class PnP(DnacBase):
                 list: A list of serial numbers of the authorized or unauthorized devices.
         """
         self.log("Processing bulk authorize devices started for: {0}".format(
-                self.pprint(processed_devices)), "INFO")
+            self.pprint(processed_devices)), "INFO")
 
         authorized_devices = []
         unauthorized_devices = []
@@ -982,8 +982,8 @@ class PnP(DnacBase):
             for each_config in self.config:
                 input_device_info = each_config.get("device_info")
                 if not any(each_info.get("serialNumber") == serial_number
-                            and each_info.get("authorize") is True
-                            for each_info in input_device_info):
+                           and each_info.get("authorize") is True
+                           for each_info in input_device_info):
                     self.log("Config does not match with bulk processed serial number", "DEBUG")
                     continue
 
@@ -1510,12 +1510,12 @@ class PnP(DnacBase):
                         self.log("Updating device info for serial: '{0}' as it's not provisioned or config doesn't match.".format(
                             serial_number), "DEBUG")
                         self.update_device_info(
-                             existing_device_info, device_info, device_response.get("id"))
+                            existing_device_info, device_info, device_response.get("id"))
 
                         if authorize_flag:
                             authorize_response = self.authorize_device(device_response.get("id"))
                             self.log("Device authorize response: '{0}'".format(
-                                    authorize_response), "INFO")
+                                authorize_response), "INFO")
 
                             if isinstance(authorize_response, dict):
                                 self.log("Device '{0}' authorized successfully.".format(
