@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: applications
 short_description: Resource module for Applications
 description:
-  - This module represents an alias of the module applications_v1
+  - Manage operations create, update and delete of the
+    resource Applications.
+  - Create new Custom application.
+  - Delete existing application by its id.
+  - Edit the attributes of an existing application.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -108,23 +114,34 @@ requirements:
   - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Application Policy CreateApplicationV1
-    description: Complete reference of the CreateApplicationV1 API.
+  - name: Cisco DNA Center documentation for Application
+      Policy CreateApplication
+    description: Complete reference of the CreateApplication
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-application
-  - name: Cisco DNA Center documentation for Application Policy DeleteApplicationV1
-    description: Complete reference of the DeleteApplicationV1 API.
+  - name: Cisco DNA Center documentation for Application
+      Policy DeleteApplication
+    description: Complete reference of the DeleteApplication
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-application
-  - name: Cisco DNA Center documentation for Application Policy EditApplicationV1
-    description: Complete reference of the EditApplicationV1 API.
+  - name: Cisco DNA Center documentation for Application
+      Policy EditApplication
+    description: Complete reference of the EditApplication
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!edit-application
 notes:
-  - SDK Method used are application_policy.ApplicationPolicy.create_application_v1,
-    application_policy.ApplicationPolicy.delete_application_v1, application_policy.ApplicationPolicy.edit_application_v1,
-  - Paths used are post /dna/intent/api/v1/applications, delete /dna/intent/api/v1/applications,
+  - SDK Method used are
+    application_policy.ApplicationPolicy.create_application,
+    application_policy.ApplicationPolicy.delete_application,
+    application_policy.ApplicationPolicy.edit_application,
+  - Paths used are
+    post /dna/intent/api/v1/applications,
+    delete /dna/intent/api/v1/applications,
     put /dna/intent/api/v1/applications,
-  - It should be noted that this module is an alias of applications_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.dnac.applications:
     dnac_host: "{{dnac_host}}"
