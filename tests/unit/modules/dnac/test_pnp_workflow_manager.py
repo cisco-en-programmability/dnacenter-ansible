@@ -402,7 +402,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "2 device(s) imported successfully"
+            "2 device(s) imported successfully. Unable to authorize the device(s): []"
         )
 
     def test_pnp_workflow_manager_devices_idempotent(self):
