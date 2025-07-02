@@ -1679,103 +1679,158 @@ class Provision(DnacBase):
             - Handles and logs any exceptions that may occur during the API execution.
         """
 
-        self.log(
-            "Starting application_telemetry function: Enabling/disabling telemetry on network devices. "
-            "Received telemetry configuration: {0}".format(telemetry_config),
-            "INFO",
-        )
-        application_telemetry_details = telemetry_config.get(
-            "application_telemetry", []
-        )
-
-        if not application_telemetry_details:
-            self.log(
-                "No application telemetry details found in the configuration.", "DEBUG"
-            )
-            self.msg = "No valid application telemetry configuration provided."
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
-            return self
+        application_telemetry_details = telemetry_config.get("application_telemetry", [])
 
         enable_payload = []
         disable_ids = []
 
         telemetry_api_map = {
-            "enable": "enable_application_telemetry_feature_on_multiple_network_devices_v1",
-            "disable": "disable_application_telemetry_feature_on_multiple_network_devices_v1",
+            "enable": "enable_application_telemetry_feature_on_multiple_network_devices",
+            "disable": "disable_application_telemetry_feature_on_multiple_network_devices"
         }
 
         for detail in application_telemetry_details:
             device_ips = detail.get("device_ips", [])
             telemetry = detail.get("telemetry")  # "enable" or "disable"
+            if telemetry not in ["enable", "disable"]:
+                self.msg = "Invalid telemetry action '{0}'. Expected 'enable' or 'disable'.".format(telemetry)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             wlan_mode = detail.get("wlan_mode")
             include_guest_ssid = detail.get("include_guest_ssid", False)
 
             for ip in device_ips:
                 self.validated_config["management_ip_address"] = ip
+                device_role = self.get_device_role(ip)
+                self.log("Device role for IP {0} is {1}".format(ip, device_role), "DEBUG")
+
+                if device_role and device_role.lower() in ["distribution", "border router"]:
+                    self.msg = ("No telemetry-applicable interfaces/WLANs found. Telemetry not supported for device role: {0}".format(device_role), "WARNING")
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    return self
                 device_type = self.get_dev_type()
                 device_id = self.get_device_id()
 
-                if not device_ips:
-                    self.log(
-                        "No device IPs found in the telemetry configuration: {0}".format(
-                            detail
-                        ),
-                        "WARNING",
-                    )
-                    continue
-
-                if telemetry not in ["enable", "disable"]:
-                    self.log(
-                        "Invalid telemetry action '{0}' specified in the configuration. Skipping.".format(
-                            telemetry
-                        ),
-                        "WARNING",
-                    )
-                    continue
-
                 if not device_id:
-                    self.log(
-                        "Skipping IP {0} due to missing device_id".format(ip), "WARNING"
-                    )
+                    self.log("Skipping IP {0} due to missing device_id".format(ip), "WARNING")
                     continue
+
+                is_device_assigned_to_site = self.is_device_assigned_to_site(device_id)
+                self.log("Device with IP {0} is assigned to site: {1}".format(ip, is_device_assigned_to_site), "DEBUG")
+                if not is_device_assigned_to_site:
+                    self.msg = "Device with IP {0} is not assigned to any site. Telemetry cannot be enabled/disabled.".format(ip)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 if telemetry == "enable":
                     device_data = {"id": device_id}
                     if device_type != "wired":
                         if not wlan_mode:
-                            self.msg = "wlan_mode is mandatory for wireless devices. Skipping device {0}.".format(
-                                ip
-                            )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            ).check_return_status()
-                        else:
+                            self.msg = "wlan_mode is mandatory when the device type is wireless"
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                        if wlan_mode:
                             device_data["includeWlanModes"] = [wlan_mode]
-
                         if include_guest_ssid:
                             device_data["includeGuestSsids"] = include_guest_ssid
                     enable_payload.append(device_data)
                 else:
                     disable_ids.append(device_id)
-        self.log("Enable payload: {0}".format(enable_payload), "DEBUG")
+
         # Enable telemetry
         if enable_payload:
-            self.execute_api(
-                telemetry_api_map["enable"],
-                {"networkDevices": enable_payload},
-                "enabling",
-            )
+            api_function = telemetry_api_map["enable"]
+            payload = {"networkDevices": enable_payload}
+            self.log("Sending enable payload: {0}".format(payload))
 
+            try:
+                response = self.dnac._exec(
+                    family="application_policy",
+                    function=api_function,
+                    op_modifies=True,
+                    params={"payload": payload}
+                )
+                self.log("Received API response for enable: {0}".format(response), "DEBUG")
+                self.check_tasks_response_status(response, api_function)
+
+                if self.status not in ["failed", "exited"]:
+                    self.msg = "Application telemetry enabled successfully for all devices."
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                else:
+                    self.msg = "Enabling telemetry failed: {0}".format(self.msg)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            except Exception as e:
+                self.msg = "Exception while enabling telemetry: {0}".format(e)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        # Disable telemetry
         if disable_ids:
-            self.execute_api(
-                telemetry_api_map["disable"],
-                {"networkDeviceIds": disable_ids},
-                "disabling",
-            )
+            api_function = telemetry_api_map["disable"]
+            payload = {"networkDeviceIds": disable_ids}
+            self.log("Sending disable payload: {0}".format(payload))
+
+            try:
+                response = self.dnac._exec(
+                    family="application_policy",
+                    function=api_function,
+                    op_modifies=True,
+                    params={"payload": payload}
+                )
+                self.log("Received API response for Disable: {0}".format(response), "DEBUG")
+                self.check_tasks_response_status(response, api_function)
+
+                if self.status not in ["failed", "exited"]:
+                    self.msg = "Application telemetry disabled successfully for all devices."
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                else:
+                    self.msg = "Disabling telemetry failed: {0}".format(self.msg)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            except Exception as e:
+                self.msg = "Exception while disabling telemetry: {0}".format(e)
+                self.result['response'] = self.msg
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return self
+
+    def get_device_role(self, device_ip):
+        """
+        Retrieves the family type of a device based on its IP address.
+
+        Args:
+            device_ip (str): The IP address of the device to check.
+        Returns:
+            str: The family type of the device (e.g., 'wired', 'wireless') or None if not found.
+        Description:
+            This method queries the Cisco DNA Center API to get the device details by its IP address.
+        """
+
+        self.log("Fetching device family for IP: {0}".format(device_ip), "DEBUG")
+
+        try:
+            dev_response = self.dnac_apply['exec'](
+                family="devices",
+                function='get_network_device_by_ip',
+                params={"ip_address": device_ip}
+            )
+
+            self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
+
+            dev_dict = dev_response.get("response", {})
+            if not dev_dict:
+                self.log("Invalid response received from the API 'get_network_device_by_ip'. 'response' is empty or missing.", "WARNING")
+                return None
+
+            device_family = dev_dict.get("role")
+
+            return device_family
+
+        except Exception as e:
+            msg = (
+                "The Device - {0} not present in the Cisco Catalyst Center."
+                .format(self.validated_config.get("management_ip_address"))
+            )
+            self.log(msg, "INFO")
+
+            return None
 
     def execute_api(self, api_function, payload, action):
         """

@@ -2375,6 +2375,39 @@ class ApplicationPolicy(DnacBase):
                 )
                 return False
 
+            relevance_differences = {
+                "BUSINESS_RELEVANT": final_business_relevant_set_name,
+                "BUSINESS_IRRELEVANT": final_business_irrelevant_set_name,
+                "DEFAULT": final_default_set_name,
+            }
+
+            relevance_types_with_differences = []
+            for relevance_type, missing_app_sets in relevance_differences.items():
+                if missing_app_sets:
+                    relevance_types_with_differences.append(relevance_type)
+
+            if len(relevance_types_with_differences) == 0:
+                return False
+
+            if len(relevance_types_with_differences) == 1:
+                differing_type = relevance_types_with_differences[0]
+
+                if (
+                    differing_type == "BUSINESS_RELEVANT"
+                    and not want_business_relevant_set_name
+                ) or (
+                    differing_type == "BUSINESS_IRRELEVANT"
+                    and not want_business_irrelevant_set_name
+                ) or (
+                    differing_type == "DEFAULT"
+                    and not want_default_set_name
+                ):
+                    self.log(
+                        "No update required: Only '{0}' set is empty in config. Ignoring difference.".format(differing_type),
+                        "INFO"
+                    )
+                    return False
+
         return True
 
     def get_diff_application_policy(self):
