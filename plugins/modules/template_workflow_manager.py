@@ -4706,7 +4706,7 @@ class Template(DnacBase):
         )
         try:
             device_ips = device_details.get("device_ips")
-            if not isinstance(device_ips, list):
+            if device_ips and not isinstance(device_ips, list):
                 self.msg = "Device IPs should be a list, but got: {0}".format(type(device_ips).__name__)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
