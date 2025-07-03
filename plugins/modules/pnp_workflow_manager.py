@@ -503,16 +503,19 @@ class PnP(DnacBase):
             list: A list of serial numbers that appear more than once.
                 Returns an empty list if no duplicates are found.
         """
+        self.log("Starting the process to find duplicate serial numbers.", "INFO")
         seen_serials = set()
         duplicates = set()
 
         # Iterate through each device dictionary in the input list
-        for device in input_config:
+        for idx, device in enumerate(input_config):
+            self.log("Processing device at index {0}: {1}".format(idx, device), "DEBUG")
             # The "device_info" key contains a list, so we loop through it
             for info in device.get("device_info", []):
                 serial_number = info.get("serial_number")
 
                 if not serial_number:
+                    self.log("No serial number found in device info: {0}".format(info), "WARNING")
                     continue
 
                 if serial_number in seen_serials:
@@ -525,6 +528,9 @@ class PnP(DnacBase):
                     self.log("Adding serial number to seen list: {0}".format(
                         serial_number), "DEBUG")
                     seen_serials.add(serial_number)
+
+        self.log("Duplicate serial numbers found: {0}".format(list(duplicates)), "INFO")
+        self.log("Completed the process to find duplicate serial numbers.", "INFO")
 
         return list(duplicates)
 
