@@ -1163,12 +1163,13 @@ class Tags(DnacBase):
         )
 
         if invalid_params:
-            self.msg = "The playbook contains invalid parameters: {0}. Please check the playbook".format(
-                invalid_params
+            formatted_errors = '\n'.join(invalid_params)
+            self.msg = (
+                "The playbook contains invalid parameters: \n"
+                f"{formatted_errors}"
+                "\nRefer to the documentation for more details on the expected input type."
             )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.fail_and_exit(self.msg)
             return self
 
         self.validated_config = valid_temp
