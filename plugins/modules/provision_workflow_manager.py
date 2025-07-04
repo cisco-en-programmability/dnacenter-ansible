@@ -1803,7 +1803,7 @@ class Provision(DnacBase):
             This method queries the Cisco DNA Center API to get the device details by its IP address.
         """
 
-        self.log("Fetching device family for IP: {0}".format(device_ip), "DEBUG")
+        self.log("Starting device role retrieval for IP: {0}".format(device_ip), "INFO")
 
         try:
             dev_response = self.dnac_apply['exec'](
@@ -1812,23 +1812,30 @@ class Provision(DnacBase):
                 params={"ip_address": device_ip}
             )
 
-            self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
+            self.log("Received API response from 'get_network_device_by_ip': {0}".format(str(dev_response)), "DEBUG")
 
-            dev_dict = dev_response.get("response", {})
-            if not dev_dict:
+            device_details = dev_response.get("response", {})
+            if not device_details:
                 self.log("Invalid response received from the API 'get_network_device_by_ip'. 'response' is empty or missing.", "WARNING")
                 return None
 
-            device_family = dev_dict.get("role")
+            device_family = device_details.get("role")
+            if device_family:
+                self.log(
+                    "Successfully retrieved device family '{0}' for IP: {1}".format(device_family, device_ip), "INFO"
+                )
+            else:
+                self.log(
+                    "Device family not found in the API response for IP: {0}".format(device_ip),
+                    "WARNING"
+                )
 
             return device_family
 
         except Exception as e:
-            msg = (
-                "The Device - {0} not present in the Cisco Catalyst Center."
-                .format(self.validated_config.get("management_ip_address"))
-            )
-            self.log(msg, "INFO")
+            device_ip = self.validated_config.get("management_ip_address")
+            msg = "An unexpected error occurred while retrieving device role for IP {0}: {1}".format(device_ip, str(e))
+            self.log(msg, "ERROR")
 
             return None
 

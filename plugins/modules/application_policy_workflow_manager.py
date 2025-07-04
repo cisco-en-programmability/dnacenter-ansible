@@ -2150,14 +2150,6 @@ class ApplicationPolicy(DnacBase):
         application_policy = self.have
         application_policy_name = self.want.get("application_policy", {}).get("name")
 
-        if application_policy.get("application_policy_exists") is False:
-            self.log(
-                "Application policy does not exist. Creating a new application policy.",
-                "INFO",
-            )
-            self.create_application_policy()
-            return self
-
         req_application_policy_details = self.config.get("application_policy")
 
         if not req_application_policy_details:
@@ -2408,6 +2400,7 @@ class ApplicationPolicy(DnacBase):
                     )
                     return False
 
+        self.log("Updates are required for the application policy.", "INFO")
         return True
 
     def get_diff_application_policy(self):
@@ -2761,7 +2754,6 @@ class ApplicationPolicy(DnacBase):
                 "INFO",
             )
 
-            # Mapping relevance type to expected sets
             relevant_set_names = {
                 "BUSINESS_RELEVANT": want_business_relevant_set_name,
                 "BUSINESS_IRRELEVANT": want_business_irrelevant_set_name,
@@ -2783,9 +2775,7 @@ class ApplicationPolicy(DnacBase):
                         expected_set_names = relevant_set_names[current_relevance_type]
                     else:
                         self.log(
-                            "Unexpected relevance type encountered: {0}".format(
-                                current_relevance_type
-                            ),
+                            "Unexpected relevance type encountered: {0}".format(current_relevance_type),
                             "WARNING",
                         )
                         expected_set_names = []
@@ -2799,22 +2789,28 @@ class ApplicationPolicy(DnacBase):
 
                     elif current_relevance_type == "DEFAULT":
                         have_default_set_name.append(app_set_name)
+                        self.log("Have Default: {0}".format(app_set_name), "INFO")
 
                     total_current_app_set.append(app_set_name)
 
                     # Determine if update is required
                     update_not_required = False
-                    for set_name in expected_set_names:
 
-                        if set_name in full_name:
-                            update_not_required = True
-                            self.log(
-                                "No update required for application set: {0}".format(
-                                    app_set_name
-                                ),
-                                "INFO",
-                            )
-                            break  # Exit loop early
+                    if not expected_set_names:
+                        update_not_required = True
+                        self.log(
+                            "No update required (empty expected set list) for application set: {0}".format(app_set_name),
+                            "INFO",
+                        )
+                    else:
+                        for set_name in expected_set_names:
+                            if set_name in full_name:
+                                update_not_required = True
+                                self.log(
+                                    "No update required for application set: {0}".format(app_set_name),
+                                    "INFO",
+                                )
+                                break  # Exit loop early
 
             self.log(
                 "Total Current Application Sets: {0}".format(total_current_app_set),
