@@ -80,7 +80,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="configuration_archive",
-            function='download_unmaskedraw_device_configuration_as_z_ip',
+            function='download_unmaskedraw_device_configuration_as_zip',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
