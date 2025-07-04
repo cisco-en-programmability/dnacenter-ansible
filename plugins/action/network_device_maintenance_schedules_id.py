@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,13 +32,15 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    description=dict(type="str"),
-    maintenanceSchedule=dict(type="dict"),
-    networkDeviceIds=dict(type="list"),
-    id=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        description=dict(type="str"),
+        maintenanceSchedule=dict(type="dict"),
+        networkDeviceIds=dict(type="list"),
+        id=dict(type="str"),
+    )
+)
 
 required_if = [
     ("state", "present", ["id"], True),
@@ -58,17 +63,17 @@ class NetworkDeviceMaintenanceSchedulesId(object):
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['id'] = self.new_object.get('id')
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params['description'] = self.new_object.get('description')
-        new_object_params['maintenanceSchedule'] = self.new_object.get(
-            'maintenanceSchedule')
-        new_object_params['networkDeviceIds'] = self.new_object.get(
-            'networkDeviceIds')
-        new_object_params['id'] = self.new_object.get('id')
+        new_object_params["description"] = self.new_object.get("description")
+        new_object_params["maintenanceSchedule"] = self.new_object.get(
+            "maintenanceSchedule"
+        )
+        new_object_params["networkDeviceIds"] = self.new_object.get("networkDeviceIds")
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -82,12 +87,12 @@ class NetworkDeviceMaintenanceSchedulesId(object):
             items = self.dnac.exec(
                 family="devices",
                 function="retrieves_the_maintenance_schedule_information",
-                params={"id": id}
+                params={"id": id},
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'id', id)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
         except Exception:
             result = None
         return result
@@ -108,7 +113,8 @@ class NetworkDeviceMaintenanceSchedulesId(object):
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -127,9 +133,12 @@ class NetworkDeviceMaintenanceSchedulesId(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def update(self):
         id = self.new_object.get("id")
@@ -173,7 +182,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -219,8 +229,7 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                dnac.fail_json(
-                    "Object does not exists, plugin only has update")
+                dnac.fail_json("Object does not exists, plugin only has update")
         elif state == "absent":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:
