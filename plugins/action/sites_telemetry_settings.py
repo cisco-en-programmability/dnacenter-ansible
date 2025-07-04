@@ -19,7 +19,7 @@ from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     DNACSDK,
     dnac_argument_spec,
-    dnac_compare_equality,
+    dnac_compare_equality2,
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
@@ -82,32 +82,19 @@ class SitesTelemetrySettings(object):
     def get_object_by_name(self, name):
         result = None
         # NOTE: Does not have a get by name method, using get all
-        try:
-            items = self.dnac.exec(
-                family="network_settings",
-                function="retrieve_telemetry_settings_for_a_site",
-                params=self.get_all_params(name=name),
-            )
-            if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'name', name)
-        except Exception:
-            result = None
         return result
 
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.dnac.exec(
+            items= self.dnac.exec(
                 family="network_settings",
                 function="retrieve_telemetry_settings_for_a_site",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
                 if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'id', id)
+                    result = items.get('response')
         except Exception:
             result = None
         return result
@@ -136,18 +123,16 @@ class SitesTelemetrySettings(object):
 
     def requires_update(self, current_obj):
         requested_obj = self.new_object
-
         obj_params = [
             ("wiredDataCollection", "wiredDataCollection"),
             ("wirelessTelemetry", "wirelessTelemetry"),
             ("snmpTraps", "snmpTraps"),
             ("syslogs", "syslogs"),
             ("applicationVisibility", "applicationVisibility"),
-            ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
+        return any(not dnac_compare_equality2(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
 
@@ -208,7 +193,7 @@ class ActionModule(ActionBase):
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
-                    response = obj.update()
+                    # response = obj.update()
                     dnac.object_updated()
                 else:
                     response = prev_obj
