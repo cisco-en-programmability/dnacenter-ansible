@@ -63,8 +63,19 @@ class ActionModule(ActionBase):
             raise AnsibleActionFail(errors)
 
     def get_object(self, params):
+        payload = params.get("payload")
+        
+        # Transform payload if it's a list of dictionaries
+        if isinstance(payload, list) and all(isinstance(item, dict) for item in payload):
+            # Check if we need to merge (format from Ansible playbook with each param as separate item)
+            if len(payload) > 1:
+                merged_dict = {}
+                for item in payload:
+                    merged_dict.update(item)
+                payload = [merged_dict]
+        
         new_object = dict(
-            payload=params.get("payload"),
+            payload=payload,
         )
         return new_object
 
