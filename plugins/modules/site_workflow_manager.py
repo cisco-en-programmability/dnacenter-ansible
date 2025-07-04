@@ -474,6 +474,7 @@ class Site(DnacBase):
             self.msg = "Configuration is not available in the playbook for validation"
             self.log("Error: {0}".format(self.msg), "ERROR")
             return self
+
         self.log("Configuration details found in the playbook: {0}".format(self.config), "INFO")
         temp_spec = dict(
             type=dict(required=False, type='str'),
@@ -483,6 +484,17 @@ class Site(DnacBase):
         valid_temp, invalid_params = validate_list_of_dicts(
             self.config, temp_spec
         )
+
+        if valid_temp and isinstance(valid_temp, list):
+            self.log("Valid site configurations received: {0}".format(
+                len(valid_temp)), "DEBUG")
+            duplicate_site_names = self.find_duplicate_site_name(valid_temp)
+            if duplicate_site_names:
+                msg = "Duplicate site names found in the playbook config: {0}".format(
+                    ", ".join(duplicate_site_names)
+                )
+                self.log(msg, "ERROR")
+                invalid_params.append(msg)
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
@@ -498,6 +510,48 @@ class Site(DnacBase):
         self.status = "success"
 
         return self
+
+    def find_duplicate_site_name(self, input_config):
+        """
+        Identifies duplicate site names from a list of site dictionaries.
+        Args:
+            input_config (list): A list of dictionaries containing site information.
+        Returns:
+            list: A list of site names that appear more than once.
+        """
+        self.log("Starting duplicate site name check.", "DEBUG")
+        seen_sites = set()
+        duplicates = set()
+
+        for index, entry in enumerate(input_config, start=1):
+            self.log("Processing site entry {0}: {1}".format(index, entry), "DEBUG")
+            site = entry.get("site", {})
+            site_types = ["area", "building", "floor"]
+            site_name = None
+
+            for site_type in site_types:
+                if site_type in site:
+                    site_name = site[site_type].get("name")
+                    self.log("Found site type '{0}' with name '{1}' in entry {2}.".format(site_type, site_name, index), "DEBUG")
+                    break
+
+            if not site_name:
+                self.log("No valid site name found in entry {0}. Skipping this entry.".format(index), "WARNING")
+                continue
+
+            if site_name in seen_sites:
+                self.log("Duplicate site name found: {0} (Entry {1})".format(site_name, index), "ERROR")
+                duplicates.add(site_name)
+            else:
+                self.log("Adding site name to seen list: {0} (Entry {1})".format(site_name, index), "DEBUG")
+                seen_sites.add(site_name)
+
+        if duplicates:
+            self.log("Duplicate site names detected: {0}".format(", ".join(duplicates)), "ERROR")
+        else:
+            self.log("No duplicate site names found.", "DEBUG")
+
+        return list(duplicates)
 
     def get_current_site(self, site):
         """
