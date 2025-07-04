@@ -540,13 +540,14 @@ notes:
     configuration_templates.ConfigurationTemplates.deletes_the_template,
     configuration_templates.ConfigurationTemplates.update_template,
   - Paths used are
+    post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
     delete /dna/intent/api/v1/template-programmer/template/{templateId},
     put /dna/intent/api/v1/template-programmer/template,
 """
 
 EXAMPLES = r"""
 ---
-- name: Update all
+- name: Create or Update
   cisco.dnac.configuration_template:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
