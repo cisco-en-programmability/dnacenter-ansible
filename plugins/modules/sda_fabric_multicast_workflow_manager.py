@@ -3520,7 +3520,7 @@ class FabricMulticast(DnacBase):
         want_nw_device_ids = want_asm_confg.get("networkDeviceIds")
         want_nw_device_ids = set(want_nw_device_ids)
         self.log(
-            f"The network device ID of the 'FABRIC' is '{want_nw_device_ids}'.",
+            f"The network device IDs of the 'FABRIC' is '{want_nw_device_ids}'.",
             "DEBUG",
         )
         have_nw_device = get_dict_result(
@@ -3530,47 +3530,42 @@ class FabricMulticast(DnacBase):
             f"The RP device details: {have_nw_device}",
             "DEBUG",
         )
-        if have_nw_device:
-            have_nw_device_ids = have_nw_device.get(
-                "networkDeviceIds"
-            )
-            common_elem = [
-                multicast_id
-                for multicast_id in have_nw_device_ids
-                if multicast_id not in want_nw_device_ids
-            ]
-
-            self.log(f"Device IDs to retain after comparison: {common_elem}", "DEBUG")
-
-            if common_elem:
-                self.log(f"Updating ASM RP config with new device IDs: {common_elem}", "INFO")
-                for updated_asm_config in updated_asm:
-                    if updated_asm_config.get("rpDeviceLocation") == "FABRIC":
-                        updated_asm_config.update({"networkDeviceIds": common_elem})
-            else:
-                self.log(
-                    f"Removing the Fabric multicast RP config: {want_asm_confg}.",
-                    "DEBUG",
-                )
-                updated_asm[:] = [value for value in updated_asm if value.get("rpDeviceLocation") != "FABRIC"]
-            is_need_update = True
-        else:
+        if not have_nw_device:
             self.log(
                 "ASM RP config with device location 'FABRIC' is not present in the Cisco Catalyst Center.",
                 "DEBUG",
             )
+            return False
 
-        if is_need_update:
-            self.log(
-                "Completed processing delete of fabric ASM RP configuration. "
-                f"Updated config: {self.pprint(updated_asm)}",
-                "INFO"
-            )
+        have_nw_device_ids = have_nw_device.get(
+            "networkDeviceIds"
+        )
+        common_elem = [
+            multicast_id
+            for multicast_id in have_nw_device_ids
+            if multicast_id not in want_nw_device_ids
+        ]
+
+        self.log(f"Device IDs to retain after comparison: {common_elem}", "DEBUG")
+
+        if common_elem:
+            self.log(f"Updating ASM RP config with new device IDs: {common_elem}", "INFO")
+            for updated_asm_config in updated_asm:
+                if updated_asm_config.get("rpDeviceLocation") == "FABRIC":
+                    updated_asm_config.update({"networkDeviceIds": common_elem})
         else:
             self.log(
-                "No updates were made to the fabric ASM RP configuration.",
+                f"Removing the Fabric multicast RP config: {want_asm_confg}.",
                 "DEBUG",
             )
+            updated_asm[:] = [value for value in updated_asm if value.get("rpDeviceLocation") != "FABRIC"]
+        is_need_update = True
+
+        self.log(
+            "Completed processing delete of fabric ASM RP configuration. "
+            f"Updated config: {self.pprint(updated_asm)}",
+            "INFO"
+        )
 
         return is_need_update
 
@@ -3601,37 +3596,31 @@ class FabricMulticast(DnacBase):
         ex_rp_ipv4_address = want_asm_confg.get("ipv4Address")
         ex_rp_ipv6_address = want_asm_confg.get("ipv6Address")
 
+        # a helper function to process deletion for IPv4 or IPv6
+        def remove_rp_entries(address_type, address_key, address_value):
+            nonlocal is_need_update
+            self.log(f"Attempting to remove ASM RP with {address_type} address: {address_value}", "DEBUG")
+
+            matching_entries = get_dict_result(updated_asm, address_key, address_value)
+            if matching_entries:
+                for entry in updated_asm[:]:
+                    if entry.get(address_key) == address_value:
+                        self.log(f"Removing ASM RP entry with {address_type}: {entry}", "INFO")
+                        updated_asm.remove(entry)
+                is_need_update = True
+            else:
+                self.log(
+                    f"ASM RP config with {address_type} address '{address_value}' is not present in the Cisco Catalyst Center.",
+                    "DEBUG"
+                )
+
+        # Process IPv4 removal
         if ex_rp_ipv4_address:
-            self.log(f"Attempting to remove ASM RP with IPv4 address: {ex_rp_ipv4_address}", "DEBUG")
-            ex_ipv4_details = get_dict_result(updated_asm, "ipv4Address", ex_rp_ipv4_address)
-            if ex_ipv4_details:
-                for value in updated_asm[:]:
-                    if value.get("ipv4Address") == ex_rp_ipv4_address:
-                        self.log(f"Removing ASM RP entry with IPv4: {value}", "INFO")
-                        updated_asm.remove(value)
+            remove_rp_entries("IPv4", "ipv4Address", ex_rp_ipv4_address)
 
-                is_need_update = True
-            else:
-                self.log(
-                    f"ASM RP config with IPv4 address '{ex_rp_ipv4_address}' is not present in the Cisco Catalyst Center.",
-                    "DEBUG",
-                )
-
-        elif ex_rp_ipv6_address:
-            self.log(f"Attempting to remove ASM RP with IPv6 address: {ex_rp_ipv6_address}", "DEBUG")
-            ex_ipv6_details = get_dict_result(updated_asm, "ipv6Address", ex_rp_ipv6_address)
-
-            if ex_ipv6_details:
-                for value in updated_asm[:]:
-                    if value.get("ipv6Address") == ex_rp_ipv6_address:
-                        self.log(f"Removing ASM RP entry with IPv6: {value}", "INFO")
-                        updated_asm.remove(value)
-                is_need_update = True
-            else:
-                self.log(
-                    f"ASM RP config with IPv6 address '{ex_rp_ipv6_address}' is not present in the Cisco Catalyst Center.",
-                    "DEBUG",
-                )
+        # Process IPv6 removal
+        if ex_rp_ipv6_address:
+            remove_rp_entries("IPv6", "ipv6Address", ex_rp_ipv6_address)
 
         if is_need_update:
             self.log(
