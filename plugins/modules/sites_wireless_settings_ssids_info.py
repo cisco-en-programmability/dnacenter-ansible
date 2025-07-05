@@ -62,7 +62,7 @@ options:
       - Id path parameter. SSID ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.4.9
+  - dnacentersdk >= 2.10.1
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Wireless

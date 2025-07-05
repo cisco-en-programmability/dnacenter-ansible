@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,18 +32,20 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    parentId=dict(type="str"),
-    name=dict(type="str"),
-    floorNumber=dict(type="int"),
-    rfModel=dict(type="str"),
-    width=dict(type="float"),
-    length=dict(type="float"),
-    height=dict(type="float"),
-    unitsOfMeasure=dict(type="str"),
-    id=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        parentId=dict(type="str"),
+        name=dict(type="str"),
+        floorNumber=dict(type="int"),
+        rfModel=dict(type="str"),
+        width=dict(type="float"),
+        length=dict(type="float"),
+        height=dict(type="float"),
+        unitsOfMeasure=dict(type="str"),
+        id=dict(type="str"),
+    )
+)
 
 required_if = [
     ("state", "present", ["id", "name"], True),
@@ -68,34 +73,32 @@ class Floors(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['parentId'] = self.new_object.get('parentId')
-        new_object_params['name'] = self.new_object.get('name')
-        new_object_params['floorNumber'] = self.new_object.get('floorNumber')
-        new_object_params['rfModel'] = self.new_object.get('rfModel')
-        new_object_params['width'] = self.new_object.get('width')
-        new_object_params['length'] = self.new_object.get('length')
-        new_object_params['height'] = self.new_object.get('height')
-        new_object_params['unitsOfMeasure'] = self.new_object.get(
-            'unitsOfMeasure')
+        new_object_params["parentId"] = self.new_object.get("parentId")
+        new_object_params["name"] = self.new_object.get("name")
+        new_object_params["floorNumber"] = self.new_object.get("floorNumber")
+        new_object_params["rfModel"] = self.new_object.get("rfModel")
+        new_object_params["width"] = self.new_object.get("width")
+        new_object_params["length"] = self.new_object.get("length")
+        new_object_params["height"] = self.new_object.get("height")
+        new_object_params["unitsOfMeasure"] = self.new_object.get("unitsOfMeasure")
         return new_object_params
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['id'] = self.new_object.get('id')
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params['parentId'] = self.new_object.get('parentId')
-        new_object_params['name'] = self.new_object.get('name')
-        new_object_params['floorNumber'] = self.new_object.get('floorNumber')
-        new_object_params['rfModel'] = self.new_object.get('rfModel')
-        new_object_params['width'] = self.new_object.get('width')
-        new_object_params['length'] = self.new_object.get('length')
-        new_object_params['height'] = self.new_object.get('height')
-        new_object_params['unitsOfMeasure'] = self.new_object.get(
-            'unitsOfMeasure')
-        new_object_params['id'] = self.new_object.get('id')
+        new_object_params["parentId"] = self.new_object.get("parentId")
+        new_object_params["name"] = self.new_object.get("name")
+        new_object_params["floorNumber"] = self.new_object.get("floorNumber")
+        new_object_params["rfModel"] = self.new_object.get("rfModel")
+        new_object_params["width"] = self.new_object.get("width")
+        new_object_params["length"] = self.new_object.get("length")
+        new_object_params["height"] = self.new_object.get("height")
+        new_object_params["unitsOfMeasure"] = self.new_object.get("unitsOfMeasure")
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -108,14 +111,12 @@ class Floors(object):
         result = None
         try:
             items = self.dnac.exec(
-                family="site_design",
-                function="gets_a_floor_v2",
-                params={"id": id}
+                family="site_design", function="gets_a_floor_v2", params={"id": id}
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'id', id)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
         except Exception:
             result = None
         return result
@@ -136,7 +137,8 @@ class Floors(object):
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -160,9 +162,12 @@ class Floors(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def create(self):
         result = self.dnac.exec(
@@ -215,7 +220,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

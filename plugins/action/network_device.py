@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,38 +32,40 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    cliTransport=dict(type="str"),
-    computeDevice=dict(type="bool"),
-    enablePassword=dict(type="str", no_log=True),
-    extendedDiscoveryInfo=dict(type="str"),
-    httpPassword=dict(type="str"),
-    httpPort=dict(type="str"),
-    httpSecure=dict(type="bool"),
-    httpUserName=dict(type="str"),
-    ipAddress=dict(type="list"),
-    merakiOrgId=dict(type="list"),
-    netconfPort=dict(type="str"),
-    password=dict(type="str", no_log=True),
-    serialNumber=dict(type="str"),
-    snmpAuthPassphrase=dict(type="str"),
-    snmpAuthProtocol=dict(type="str"),
-    snmpMode=dict(type="str"),
-    snmpPrivPassphrase=dict(type="str"),
-    snmpPrivProtocol=dict(type="str"),
-    snmpROCommunity=dict(type="str"),
-    snmpRwCommunity=dict(type="str"),
-    snmpRetry=dict(type="int"),
-    snmpTimeout=dict(type="int"),
-    snmpUserName=dict(type="str"),
-    snmpVersion=dict(type="str"),
-    type=dict(type="str"),
-    userName=dict(type="str"),
-    id=dict(type="str"),
-    updateMgmtIPaddressList=dict(type="list"),
-    cleanConfig=dict(type="bool"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        cliTransport=dict(type="str"),
+        computeDevice=dict(type="bool"),
+        enablePassword=dict(type="str", no_log=True),
+        extendedDiscoveryInfo=dict(type="str"),
+        httpPassword=dict(type="str"),
+        httpPort=dict(type="str"),
+        httpSecure=dict(type="bool"),
+        httpUserName=dict(type="str"),
+        ipAddress=dict(type="list"),
+        merakiOrgId=dict(type="list"),
+        netconfPort=dict(type="str"),
+        password=dict(type="str", no_log=True),
+        serialNumber=dict(type="str"),
+        snmpAuthPassphrase=dict(type="str"),
+        snmpAuthProtocol=dict(type="str"),
+        snmpMode=dict(type="str"),
+        snmpPrivPassphrase=dict(type="str"),
+        snmpPrivProtocol=dict(type="str"),
+        snmpROCommunity=dict(type="str"),
+        snmpRwCommunity=dict(type="str"),
+        snmpRetry=dict(type="int"),
+        snmpTimeout=dict(type="int"),
+        snmpUserName=dict(type="str"),
+        snmpVersion=dict(type="str"),
+        type=dict(type="str"),
+        userName=dict(type="str"),
+        id=dict(type="str"),
+        updateMgmtIPaddressList=dict(type="list"),
+        cleanConfig=dict(type="bool"),
+    )
+)
 
 required_if = [
     ("state", "present", ["id", "ipAddress"], True),
@@ -109,148 +114,163 @@ class NetworkDevice(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['hostname'] = self.new_object.get('hostname')
-        new_object_params['management_ip_address'] = self.new_object.get(
-            'management_ip_address') or self.new_object.get('ipAddress')
-        new_object_params['mac_address'] = self.new_object.get(
-            'macAddress') or self.new_object.get('mac_address')
-        new_object_params['location_name'] = self.new_object.get(
-            'locationName') or self.new_object.get('location_name')
-        new_object_params['serial_number'] = self.new_object.get(
-            'serialNumber') or self.new_object.get('serial_number')
-        new_object_params['location'] = self.new_object.get('location')
-        new_object_params['family'] = self.new_object.get('family')
+        new_object_params["hostname"] = self.new_object.get("hostname")
+        new_object_params["management_ip_address"] = self.new_object.get(
+            "management_ip_address"
+        ) or self.new_object.get("ipAddress")
+        new_object_params["mac_address"] = self.new_object.get(
+            "macAddress"
+        ) or self.new_object.get("mac_address")
+        new_object_params["location_name"] = self.new_object.get(
+            "locationName"
+        ) or self.new_object.get("location_name")
+        new_object_params["serial_number"] = self.new_object.get(
+            "serialNumber"
+        ) or self.new_object.get("serial_number")
+        new_object_params["location"] = self.new_object.get("location")
+        new_object_params["family"] = self.new_object.get("family")
         # new_object_params['type'] = self.new_object.get('type')
-        new_object_params['series'] = self.new_object.get('series')
-        new_object_params['collection_status'] = self.new_object.get(
-            'collectionStatus') or self.new_object.get('collection_status')
-        new_object_params['collection_interval'] = self.new_object.get(
-            'collectionInterval') or self.new_object.get('collection_interval')
-        new_object_params['not_synced_for_minutes'] = self.new_object.get(
-            'notSyncedForMinutes') or self.new_object.get('not_synced_for_minutes')
-        new_object_params['error_code'] = self.new_object.get('errorCode') or \
-            self.new_object.get('error_code')
-        new_object_params['error_description'] = self.new_object.get(
-            'errorDescription') or self.new_object.get('error_description')
-        new_object_params['software_version'] = self.new_object.get(
-            'softwareVersion') or self.new_object.get('software_version')
-        new_object_params['software_type'] = self.new_object.get(
-            'softwareType') or self.new_object.get('software_type')
-        new_object_params['platform_id'] = self.new_object.get(
-            'platformId') or self.new_object.get('platform_id')
-        new_object_params['role'] = self.new_object.get('role')
-        new_object_params['reachability_status'] = self.new_object.get(
-            'reachabilityStatus') or self.new_object.get('reachability_status')
-        new_object_params['up_time'] = self.new_object.get('upTime') or \
-            self.new_object.get('up_time')
-        new_object_params['associated_wlc_ip'] = self.new_object.get(
-            'associatedWlcIp') or self.new_object.get('associated_wlc_ip')
-        new_object_params['license_name'] = self.new_object.get('license_name')
-        new_object_params['license_type'] = self.new_object.get('license_type')
-        new_object_params['license_status'] = self.new_object.get(
-            'license_status')
-        new_object_params['module_name'] = self.new_object.get('module_name')
-        new_object_params['module_equpimenttype'] = self.new_object.get(
-            'module_equpimenttype')
-        new_object_params['module_servicestate'] = self.new_object.get(
-            'module_servicestate')
-        new_object_params['module_vendorequipmenttype'] = self.new_object.get(
-            'module_vendorequipmenttype')
-        new_object_params['module_partnumber'] = self.new_object.get(
-            'module_partnumber')
-        new_object_params['module_operationstatecode'] = self.new_object.get(
-            'module_operationstatecode')
-        new_object_params['id'] = id or self.new_object.get('id')
-        new_object_params['device_support_level'] = self.new_object.get(
-            'deviceSupportLevel') or self.new_object.get('device_support_level')
-        new_object_params['offset'] = self.new_object.get('offset')
-        new_object_params['limit'] = self.new_object.get('limit')
+        new_object_params["series"] = self.new_object.get("series")
+        new_object_params["collection_status"] = self.new_object.get(
+            "collectionStatus"
+        ) or self.new_object.get("collection_status")
+        new_object_params["collection_interval"] = self.new_object.get(
+            "collectionInterval"
+        ) or self.new_object.get("collection_interval")
+        new_object_params["not_synced_for_minutes"] = self.new_object.get(
+            "notSyncedForMinutes"
+        ) or self.new_object.get("not_synced_for_minutes")
+        new_object_params["error_code"] = self.new_object.get(
+            "errorCode"
+        ) or self.new_object.get("error_code")
+        new_object_params["error_description"] = self.new_object.get(
+            "errorDescription"
+        ) or self.new_object.get("error_description")
+        new_object_params["software_version"] = self.new_object.get(
+            "softwareVersion"
+        ) or self.new_object.get("software_version")
+        new_object_params["software_type"] = self.new_object.get(
+            "softwareType"
+        ) or self.new_object.get("software_type")
+        new_object_params["platform_id"] = self.new_object.get(
+            "platformId"
+        ) or self.new_object.get("platform_id")
+        new_object_params["role"] = self.new_object.get("role")
+        new_object_params["reachability_status"] = self.new_object.get(
+            "reachabilityStatus"
+        ) or self.new_object.get("reachability_status")
+        new_object_params["up_time"] = self.new_object.get(
+            "upTime"
+        ) or self.new_object.get("up_time")
+        new_object_params["associated_wlc_ip"] = self.new_object.get(
+            "associatedWlcIp"
+        ) or self.new_object.get("associated_wlc_ip")
+        new_object_params["license_name"] = self.new_object.get("license_name")
+        new_object_params["license_type"] = self.new_object.get("license_type")
+        new_object_params["license_status"] = self.new_object.get("license_status")
+        new_object_params["module_name"] = self.new_object.get("module_name")
+        new_object_params["module_equpimenttype"] = self.new_object.get(
+            "module_equpimenttype"
+        )
+        new_object_params["module_servicestate"] = self.new_object.get(
+            "module_servicestate"
+        )
+        new_object_params["module_vendorequipmenttype"] = self.new_object.get(
+            "module_vendorequipmenttype"
+        )
+        new_object_params["module_partnumber"] = self.new_object.get(
+            "module_partnumber"
+        )
+        new_object_params["module_operationstatecode"] = self.new_object.get(
+            "module_operationstatecode"
+        )
+        new_object_params["id"] = id or self.new_object.get("id")
+        new_object_params["device_support_level"] = self.new_object.get(
+            "deviceSupportLevel"
+        ) or self.new_object.get("device_support_level")
+        new_object_params["offset"] = self.new_object.get("offset")
+        new_object_params["limit"] = self.new_object.get("limit")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['cliTransport'] = self.new_object.get('cliTransport')
-        new_object_params['computeDevice'] = self.new_object.get(
-            'computeDevice')
-        new_object_params['enablePassword'] = self.new_object.get(
-            'enablePassword')
-        new_object_params['extendedDiscoveryInfo'] = self.new_object.get(
-            'extendedDiscoveryInfo')
-        new_object_params['httpPassword'] = self.new_object.get('httpPassword')
-        new_object_params['httpPort'] = self.new_object.get('httpPort')
-        new_object_params['httpSecure'] = self.new_object.get('httpSecure')
-        new_object_params['httpUserName'] = self.new_object.get('httpUserName')
-        new_object_params['ipAddress'] = self.new_object.get('ipAddress')
-        new_object_params['merakiOrgId'] = self.new_object.get('merakiOrgId')
-        new_object_params['netconfPort'] = self.new_object.get('netconfPort')
-        new_object_params['password'] = self.new_object.get('password')
-        new_object_params['serialNumber'] = self.new_object.get('serialNumber')
-        new_object_params['snmpAuthPassphrase'] = self.new_object.get(
-            'snmpAuthPassphrase')
-        new_object_params['snmpAuthProtocol'] = self.new_object.get(
-            'snmpAuthProtocol')
-        new_object_params['snmpMode'] = self.new_object.get('snmpMode')
-        new_object_params['snmpPrivPassphrase'] = self.new_object.get(
-            'snmpPrivPassphrase')
-        new_object_params['snmpPrivProtocol'] = self.new_object.get(
-            'snmpPrivProtocol')
-        new_object_params['snmpROCommunity'] = self.new_object.get(
-            'snmpROCommunity')
-        new_object_params['snmpRwCommunity'] = self.new_object.get(
-            'snmpRwCommunity')
-        new_object_params['snmpRetry'] = self.new_object.get('snmpRetry')
-        new_object_params['snmpTimeout'] = self.new_object.get('snmpTimeout')
-        new_object_params['snmpUserName'] = self.new_object.get('snmpUserName')
-        new_object_params['snmpVersion'] = self.new_object.get('snmpVersion')
-        new_object_params['type'] = self.new_object.get('type')
-        new_object_params['userName'] = self.new_object.get('userName')
+        new_object_params["cliTransport"] = self.new_object.get("cliTransport")
+        new_object_params["computeDevice"] = self.new_object.get("computeDevice")
+        new_object_params["enablePassword"] = self.new_object.get("enablePassword")
+        new_object_params["extendedDiscoveryInfo"] = self.new_object.get(
+            "extendedDiscoveryInfo"
+        )
+        new_object_params["httpPassword"] = self.new_object.get("httpPassword")
+        new_object_params["httpPort"] = self.new_object.get("httpPort")
+        new_object_params["httpSecure"] = self.new_object.get("httpSecure")
+        new_object_params["httpUserName"] = self.new_object.get("httpUserName")
+        new_object_params["ipAddress"] = self.new_object.get("ipAddress")
+        new_object_params["merakiOrgId"] = self.new_object.get("merakiOrgId")
+        new_object_params["netconfPort"] = self.new_object.get("netconfPort")
+        new_object_params["password"] = self.new_object.get("password")
+        new_object_params["serialNumber"] = self.new_object.get("serialNumber")
+        new_object_params["snmpAuthPassphrase"] = self.new_object.get(
+            "snmpAuthPassphrase"
+        )
+        new_object_params["snmpAuthProtocol"] = self.new_object.get("snmpAuthProtocol")
+        new_object_params["snmpMode"] = self.new_object.get("snmpMode")
+        new_object_params["snmpPrivPassphrase"] = self.new_object.get(
+            "snmpPrivPassphrase"
+        )
+        new_object_params["snmpPrivProtocol"] = self.new_object.get("snmpPrivProtocol")
+        new_object_params["snmpROCommunity"] = self.new_object.get("snmpROCommunity")
+        new_object_params["snmpRwCommunity"] = self.new_object.get("snmpRwCommunity")
+        new_object_params["snmpRetry"] = self.new_object.get("snmpRetry")
+        new_object_params["snmpTimeout"] = self.new_object.get("snmpTimeout")
+        new_object_params["snmpUserName"] = self.new_object.get("snmpUserName")
+        new_object_params["snmpVersion"] = self.new_object.get("snmpVersion")
+        new_object_params["type"] = self.new_object.get("type")
+        new_object_params["userName"] = self.new_object.get("userName")
         return new_object_params
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['clean_config'] = self.new_object.get('clean_config')
-        new_object_params['id'] = self.new_object.get('id')
+        new_object_params["clean_config"] = self.new_object.get("clean_config")
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def update_all_params(self):
         new_object_params = {}
-        new_object_params['cliTransport'] = self.new_object.get('cliTransport')
-        new_object_params['computeDevice'] = self.new_object.get(
-            'computeDevice')
-        new_object_params['enablePassword'] = self.new_object.get(
-            'enablePassword')
-        new_object_params['extendedDiscoveryInfo'] = self.new_object.get(
-            'extendedDiscoveryInfo')
-        new_object_params['httpPassword'] = self.new_object.get('httpPassword')
-        new_object_params['httpPort'] = self.new_object.get('httpPort')
-        new_object_params['httpSecure'] = self.new_object.get('httpSecure')
-        new_object_params['httpUserName'] = self.new_object.get('httpUserName')
-        new_object_params['ipAddress'] = self.new_object.get('ipAddress')
-        new_object_params['merakiOrgId'] = self.new_object.get('merakiOrgId')
-        new_object_params['netconfPort'] = self.new_object.get('netconfPort')
-        new_object_params['password'] = self.new_object.get('password')
-        new_object_params['serialNumber'] = self.new_object.get('serialNumber')
-        new_object_params['snmpAuthPassphrase'] = self.new_object.get(
-            'snmpAuthPassphrase')
-        new_object_params['snmpAuthProtocol'] = self.new_object.get(
-            'snmpAuthProtocol')
-        new_object_params['snmpMode'] = self.new_object.get('snmpMode')
-        new_object_params['snmpPrivPassphrase'] = self.new_object.get(
-            'snmpPrivPassphrase')
-        new_object_params['snmpPrivProtocol'] = self.new_object.get(
-            'snmpPrivProtocol')
-        new_object_params['snmpROCommunity'] = self.new_object.get(
-            'snmpROCommunity')
-        new_object_params['snmpRwCommunity'] = self.new_object.get(
-            'snmpRwCommunity')
-        new_object_params['snmpRetry'] = self.new_object.get('snmpRetry')
-        new_object_params['snmpTimeout'] = self.new_object.get('snmpTimeout')
-        new_object_params['snmpUserName'] = self.new_object.get('snmpUserName')
-        new_object_params['snmpVersion'] = self.new_object.get('snmpVersion')
-        new_object_params['type'] = self.new_object.get('type')
-        new_object_params['updateMgmtIPaddressList'] = self.new_object.get(
-            'updateMgmtIPaddressList')
-        new_object_params['userName'] = self.new_object.get('userName')
+        new_object_params["cliTransport"] = self.new_object.get("cliTransport")
+        new_object_params["computeDevice"] = self.new_object.get("computeDevice")
+        new_object_params["enablePassword"] = self.new_object.get("enablePassword")
+        new_object_params["extendedDiscoveryInfo"] = self.new_object.get(
+            "extendedDiscoveryInfo"
+        )
+        new_object_params["httpPassword"] = self.new_object.get("httpPassword")
+        new_object_params["httpPort"] = self.new_object.get("httpPort")
+        new_object_params["httpSecure"] = self.new_object.get("httpSecure")
+        new_object_params["httpUserName"] = self.new_object.get("httpUserName")
+        new_object_params["ipAddress"] = self.new_object.get("ipAddress")
+        new_object_params["merakiOrgId"] = self.new_object.get("merakiOrgId")
+        new_object_params["netconfPort"] = self.new_object.get("netconfPort")
+        new_object_params["password"] = self.new_object.get("password")
+        new_object_params["serialNumber"] = self.new_object.get("serialNumber")
+        new_object_params["snmpAuthPassphrase"] = self.new_object.get(
+            "snmpAuthPassphrase"
+        )
+        new_object_params["snmpAuthProtocol"] = self.new_object.get("snmpAuthProtocol")
+        new_object_params["snmpMode"] = self.new_object.get("snmpMode")
+        new_object_params["snmpPrivPassphrase"] = self.new_object.get(
+            "snmpPrivPassphrase"
+        )
+        new_object_params["snmpPrivProtocol"] = self.new_object.get("snmpPrivProtocol")
+        new_object_params["snmpROCommunity"] = self.new_object.get("snmpROCommunity")
+        new_object_params["snmpRwCommunity"] = self.new_object.get("snmpRwCommunity")
+        new_object_params["snmpRetry"] = self.new_object.get("snmpRetry")
+        new_object_params["snmpTimeout"] = self.new_object.get("snmpTimeout")
+        new_object_params["snmpUserName"] = self.new_object.get("snmpUserName")
+        new_object_params["snmpVersion"] = self.new_object.get("snmpVersion")
+        new_object_params["type"] = self.new_object.get("type")
+        new_object_params["updateMgmtIPaddressList"] = self.new_object.get(
+            "updateMgmtIPaddressList"
+        )
+        new_object_params["userName"] = self.new_object.get("userName")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -263,9 +283,9 @@ class NetworkDevice(object):
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "name", name)
         except Exception:
             result = None
         return result
@@ -274,14 +294,12 @@ class NetworkDevice(object):
         result = None
         try:
             items = self.dnac.exec(
-                family="devices",
-                function="get_device_by_id",
-                params={"id": id}
+                family="devices", function="get_device_by_id", params={"id": id}
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'id', id)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
         except Exception:
             result = None
         return result
@@ -291,8 +309,7 @@ class NetworkDevice(object):
         name_exists = False
         prev_obj = None
         o_id = self.new_object.get("id")
-        name = self.new_object.get("name") or \
-            self.new_object.get('ipAddress')
+        name = self.new_object.get("name") or self.new_object.get("ipAddress")
         if isinstance(name, list) and len(name) > 0:
             name = name[0]
         if o_id:
@@ -305,7 +322,8 @@ class NetworkDevice(object):
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -348,9 +366,12 @@ class NetworkDevice(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def create(self):
         result = self.dnac.exec(
@@ -363,8 +384,7 @@ class NetworkDevice(object):
 
     def update(self):
         id = self.new_object.get("id")
-        name = self.new_object.get("name") or \
-            self.new_object.get('ipAddress')
+        name = self.new_object.get("name") or self.new_object.get("ipAddress")
         if isinstance(name, list) and len(name) > 0:
             name = name[0]
         result = None
@@ -378,8 +398,7 @@ class NetworkDevice(object):
 
     def delete(self):
         id = self.new_object.get("id")
-        name = self.new_object.get("name") or \
-            self.new_object.get('ipAddress')
+        name = self.new_object.get("name") or self.new_object.get("ipAddress")
         if isinstance(name, list) and len(name) > 0:
             name = name[0]
         result = None
@@ -402,7 +421,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

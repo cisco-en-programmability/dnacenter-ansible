@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -24,44 +27,46 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    startTime=dict(type="float"),
-    endTime=dict(type="float"),
-    limit=dict(type="float"),
-    offset=dict(type="float"),
-    sortBy=dict(type="str"),
-    order=dict(type="str"),
-    isGlobal=dict(type="bool"),
-    priority=dict(type="str"),
-    severity=dict(type="str"),
-    status=dict(type="str"),
-    entityType=dict(type="str"),
-    category=dict(type="str"),
-    deviceType=dict(type="str"),
-    name=dict(type="str"),
-    issueId=dict(type="str"),
-    entityId=dict(type="str"),
-    updatedBy=dict(type="str"),
-    siteHierarchy=dict(type="str"),
-    siteHierarchyId=dict(type="str"),
-    siteName=dict(type="str"),
-    siteId=dict(type="str"),
-    fabricSiteId=dict(type="str"),
-    fabricVnName=dict(type="str"),
-    fabricTransitSiteId=dict(type="str"),
-    networkDeviceId=dict(type="str"),
-    networkDeviceIpAddress=dict(type="str"),
-    macAddress=dict(type="str"),
-    view=dict(type="str"),
-    attribute=dict(type="str"),
-    aiDriven=dict(type="bool"),
-    fabricDriven=dict(type="bool"),
-    fabricSiteDriven=dict(type="bool"),
-    fabricVnDriven=dict(type="bool"),
-    fabricTransitDriven=dict(type="bool"),
-    id=dict(type="str"),
-    headers=dict(type="dict"),
-))
+argument_spec.update(
+    dict(
+        startTime=dict(type="float"),
+        endTime=dict(type="float"),
+        limit=dict(type="float"),
+        offset=dict(type="float"),
+        sortBy=dict(type="str"),
+        order=dict(type="str"),
+        isGlobal=dict(type="bool"),
+        priority=dict(type="str"),
+        severity=dict(type="str"),
+        status=dict(type="str"),
+        entityType=dict(type="str"),
+        category=dict(type="str"),
+        deviceType=dict(type="str"),
+        name=dict(type="str"),
+        issueId=dict(type="str"),
+        entityId=dict(type="str"),
+        updatedBy=dict(type="str"),
+        siteHierarchy=dict(type="str"),
+        siteHierarchyId=dict(type="str"),
+        siteName=dict(type="str"),
+        siteId=dict(type="str"),
+        fabricSiteId=dict(type="str"),
+        fabricVnName=dict(type="str"),
+        fabricTransitSiteId=dict(type="str"),
+        networkDeviceId=dict(type="str"),
+        networkDeviceIpAddress=dict(type="str"),
+        macAddress=dict(type="str"),
+        view=dict(type="str"),
+        attribute=dict(type="str"),
+        aiDriven=dict(type="bool"),
+        fabricDriven=dict(type="bool"),
+        fabricSiteDriven=dict(type="bool"),
+        fabricVnDriven=dict(type="bool"),
+        fabricTransitDriven=dict(type="bool"),
+        id=dict(type="str"),
+        headers=dict(type="dict"),
+    )
+)
 
 required_if = []
 required_one_of = []
@@ -73,7 +78,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -152,9 +158,8 @@ class ActionModule(ActionBase):
         if id:
             response = dnac.exec(
                 family="issues",
-                function='get_all_the_details_and_suggested_actions_of_an_issue_for_the_given_issue_id',
-                params=self.get_object(
-                    self._task.args),
+                function="get_all_the_details_and_suggested_actions_of_an_issue_for_the_given_issue_id",
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())
@@ -162,9 +167,8 @@ class ActionModule(ActionBase):
         if not id:
             response = dnac.exec(
                 family="issues",
-                function='get_the_details_of_issues_for_given_set_of_filters_know_your_network',
-                params=self.get_object(
-                    self._task.args),
+                function="get_the_details_of_issues_for_given_set_of_filters_know_your_network",
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

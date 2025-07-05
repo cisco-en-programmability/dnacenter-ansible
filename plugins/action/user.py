@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,16 +32,18 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    firstName=dict(type="str"),
-    lastName=dict(type="str"),
-    username=dict(type="str"),
-    password=dict(type="str", no_log=True),
-    email=dict(type="str"),
-    roleList=dict(type="list"),
-    userId=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        firstName=dict(type="str"),
+        lastName=dict(type="str"),
+        username=dict(type="str"),
+        password=dict(type="str", no_log=True),
+        email=dict(type="str"),
+        roleList=dict(type="list"),
+        userId=dict(type="str"),
+    )
+)
 
 required_if = [
     ("state", "present", ["userId"], True),
@@ -65,35 +70,37 @@ class User(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['invoke_source'] = self.new_object.get(
-            'invokeSource') or self.new_object.get('invoke_source')
-        new_object_params['auth_source'] = self.new_object.get(
-            'authSource') or self.new_object.get('auth_source')
+        new_object_params["invoke_source"] = self.new_object.get(
+            "invokeSource"
+        ) or self.new_object.get("invoke_source")
+        new_object_params["auth_source"] = self.new_object.get(
+            "authSource"
+        ) or self.new_object.get("auth_source")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['firstName'] = self.new_object.get('firstName')
-        new_object_params['lastName'] = self.new_object.get('lastName')
-        new_object_params['username'] = self.new_object.get('username')
-        new_object_params['password'] = self.new_object.get('password')
-        new_object_params['email'] = self.new_object.get('email')
-        new_object_params['roleList'] = self.new_object.get('roleList')
+        new_object_params["firstName"] = self.new_object.get("firstName")
+        new_object_params["lastName"] = self.new_object.get("lastName")
+        new_object_params["username"] = self.new_object.get("username")
+        new_object_params["password"] = self.new_object.get("password")
+        new_object_params["email"] = self.new_object.get("email")
+        new_object_params["roleList"] = self.new_object.get("roleList")
         return new_object_params
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['user_id'] = self.new_object.get('user_id')
+        new_object_params["user_id"] = self.new_object.get("user_id")
         return new_object_params
 
     def update_all_params(self):
         new_object_params = {}
-        new_object_params['firstName'] = self.new_object.get('firstName')
-        new_object_params['lastName'] = self.new_object.get('lastName')
-        new_object_params['email'] = self.new_object.get('email')
-        new_object_params['username'] = self.new_object.get('username')
-        new_object_params['userId'] = self.new_object.get('userId')
-        new_object_params['roleList'] = self.new_object.get('roleList')
+        new_object_params["firstName"] = self.new_object.get("firstName")
+        new_object_params["lastName"] = self.new_object.get("lastName")
+        new_object_params["email"] = self.new_object.get("email")
+        new_object_params["username"] = self.new_object.get("username")
+        new_object_params["userId"] = self.new_object.get("userId")
+        new_object_params["roleList"] = self.new_object.get("roleList")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -101,14 +108,14 @@ class User(object):
         # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_users_api",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "name", name)
         except Exception:
             result = None
         return result
@@ -118,14 +125,14 @@ class User(object):
         # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.dnac.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_users_api",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'id', id)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
         except Exception:
             result = None
         return result
@@ -148,7 +155,8 @@ class User(object):
             _id = _id or prev_obj.get("userId")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(user_id=_id))
@@ -169,13 +177,16 @@ class User(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def create(self):
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="add_user_api",
             params=self.create_params(),
             op_modifies=True,
@@ -187,7 +198,7 @@ class User(object):
         name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="update_user_api",
             params=self.update_all_params(),
             op_modifies=True,
@@ -208,7 +219,7 @@ class User(object):
             if id_:
                 self.new_object.update(dict(user_id=id_))
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="delete_user_api",
             params=self.delete_by_id_params(),
         )
@@ -219,7 +230,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
