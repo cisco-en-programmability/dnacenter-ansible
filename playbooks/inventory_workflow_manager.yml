@@ -26,6 +26,7 @@
             enable_password: "{{ item.enable_password }}"
             ip_address_list: "{{ item.ip_address_list }}"
             cli_transport: "{{ item.cli_transport }}"
+            netconf_port: "{{ item.netconf_port }}"
             snmp_auth_passphrase: "{{ item.snmp_auth_passphrase }}"
             snmp_auth_protocol: "{{ item.snmp_auth_protocol }}"
             snmp_mode: "{{ item.snmp_mode }}"
