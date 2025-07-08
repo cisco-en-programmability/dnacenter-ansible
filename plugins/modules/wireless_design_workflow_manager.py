@@ -12890,7 +12890,7 @@ class WirelessDesign(DnacBase):
             }
 
             # Map the management settings if they exist
-            if "management_settings" in profile:
+            if "management_settings" in profile and profile["management_settings"]:
                 management_settings = profile["management_settings"]
                 mapped_profile["managementSetting"] = {}
 
@@ -12917,7 +12917,7 @@ class WirelessDesign(DnacBase):
             }
 
             # Map the rogue detection settings if they exist
-            if "security_settings" in profile:
+            if "security_settings" in profile and profile["security_settings"]:
                 security_settings = profile["security_settings"]
                 if security_settings.get("rogue_detection_enabled", False):
                     mapped_profile["rogueDetectionSetting"] = {}
@@ -12948,7 +12948,8 @@ class WirelessDesign(DnacBase):
             }
 
             # Map the mesh settings if they exist
-            if "mesh_settings" in profile:
+            if "mesh_settings" in profile and profile["mesh_settings"]:
+                self.log("Found 'mesh_settings': {0} in profile: {1}".format(profile["mesh_settings"], profile), "DEBUG")
                 mesh_settings = profile["mesh_settings"]
                 mapped_profile["meshSetting"] = {}
 
@@ -12965,7 +12966,7 @@ class WirelessDesign(DnacBase):
                         )
 
             # Map calendar power profiles if they exist
-            if "power_settings" in profile:
+            if "power_settings" in profile and profile["power_settings"]:
                 power_settings = profile["power_settings"]
 
                 calendar_power_profiles_mapping = {
@@ -15395,8 +15396,12 @@ class WirelessDesign(DnacBase):
             api_response = self.execute_get_request(
                 "wireless", "get_anchor_groups", get_anchor_groups_params
             )
-            # Attempt to extract anchor groups from the response
-            anchor_groups = api_response.get("response")
+            # Handle the case where api_response is None
+            if api_response is None:
+                self.log("API response is None. Resetting anchor_groups to an empty list.", "ERROR")
+                anchor_groups = []
+            else:
+                anchor_groups = api_response.get("response", [])
         else:
             self.log("Using 'execute_get_with_pagination' for version > 2.3.7.9", "DEBUG")
             anchor_groups = self.execute_get_with_pagination(
