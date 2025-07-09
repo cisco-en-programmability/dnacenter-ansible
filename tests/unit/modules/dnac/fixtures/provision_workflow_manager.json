@@ -1338,6 +1338,18 @@
     ],
     "version": "1.0"
   },
+  "get_site_type": {"response": [      {
+        "id": "1edcd5a3-c586-47dd-995b-9f1038f3045c",
+        "parentId": "d8f7e1b4-aa0d-4877-8779-07f67d6acfc0",
+        "name": "SF_BLD1",
+        "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD1",
+        "type": "building",
+        "latitude": 37.78986,
+        "longitude": -122.39695,
+        "address": "Salesforce Tower, 415 Mission St, San Francisco, California 94105, United States",
+        "country": "United States"
+      }]},
+
   "get_provisioned_devices_20": {
     "response": [
       

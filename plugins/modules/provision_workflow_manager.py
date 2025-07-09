@@ -3399,7 +3399,7 @@ class Provision(DnacBase):
             self.msg = "Devices deleted successfully: {0}".format(
                 ", ".join(self.device_deleted)
             )
-            self.set_operation_result("success", False, self.msg, "Info")
+            self.set_operation_result("success", True, self.msg, "Info")
             return self
 
 
