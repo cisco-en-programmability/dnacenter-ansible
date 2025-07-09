@@ -509,7 +509,7 @@ class Provision(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.device_type = None
-
+        self.device_deleted = []
     def validate_input(self, state=None):
         """
         Validate the fields provided in the playbook.
@@ -600,7 +600,7 @@ class Provision(DnacBase):
                                 "device_ips" not in telemetry_entry
                                 or not telemetry_entry["device_ips"]
                             ):
-                                missing_params.add("device_ips")
+                                missing_params.append("device_ips")
                                 self.log(
                                     "Missing or empty 'device_ips' in 'application_telemetry' at config item {}, telemetry entry {}.".format(
                                         index, entry_index
@@ -612,7 +612,7 @@ class Provision(DnacBase):
                                 "telemetry" not in telemetry_entry
                                 or telemetry_entry["telemetry"] is None
                             ):
-                                missing_params.add("telemetry")
+                                missing_params.append("telemetry")
                                 self.log(
                                     "Missing or empty 'telemetry' in 'application_telemetry' at config item {}, telemetry entry {}.".format(
                                         index, entry_index
@@ -642,7 +642,7 @@ class Provision(DnacBase):
                         "site_name_hierarchy" not in config_item
                         or not config_item["site_name_hierarchy"]
                     ):
-                        missing_params.add("site_name_hierarchy")
+                        missing_params.append("site_name_hierarchy")
                         self.log(
                             "Missing or empty 'site_name_hierarchy' in config item at index {0}.".format(
                                 index
@@ -654,7 +654,7 @@ class Provision(DnacBase):
                         "management_ip_address" not in config_item
                         or not config_item["management_ip_address"]
                     ):
-                        missing_params.add("management_ip_address")
+                        missing_params.append("management_ip_address")
                         self.log(
                             "Missing or empty 'management_ip_address' in config item at index {0}.".format(
                                 index
@@ -1764,6 +1764,7 @@ class Provision(DnacBase):
         # Disable telemetry
         if disable_ids:
             api_function = telemetry_api_map["disable"]
+            disable_ids = list(set(disable_ids))  # Remove duplicates
             payload = {"networkDeviceIds": disable_ids}
             self.log("Sending disable payload: {0}".format(payload))
 
@@ -1941,7 +1942,16 @@ class Provision(DnacBase):
             site_id_tuple = self.get_site_id(site_name)
             site_id = site_id_tuple[1]
             self.device_ips.append(device_ip)
-
+            site_type = self.get_sites_type(site_name)
+            self.log(
+                "Site type for site '{0}': {1}".format(site_name, site_type), "DEBUG"
+            )
+            if site_type in ["area", "global"]:
+                self.msg = (
+                    "Site type '{0}' is not supported for provisioning. "
+                    "Please use a site type of 'building' or 'floor'.".format(site_type)
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             network_device_id = self.get_device_ids_from_device_ips([device_ip]).get(
                 device_ip
             )
@@ -1972,6 +1982,7 @@ class Provision(DnacBase):
                     ),
                     "INFO",
                 )
+                self.log(site_name, "DEBUG")
                 if self.assign_device_to_site([network_device_id], site_name, site_id):
                     success_msg.append(
                         "Wired Device '{0}' is assigned to site {1}.".format(
@@ -3026,13 +3037,13 @@ class Provision(DnacBase):
         device_id = self.get_device_id()
         provision_id, status = self.get_device_provision_status(device_id)
 
-        if status != "success":
-            self.result["msg"] = (
-                "Device associated with the passed IP address is not provisioned"
-            )
-            self.log(self.result["msg"], "CRITICAL")
-            self.result["response"] = self.want["prov_params"]
-            return self
+        # if status != "success":
+        #     self.result["msg"] = (
+        #         "Device associated with the passed IP address is not provisioned"
+        #     )
+        #     self.log(self.result["msg"], "CRITICAL")
+        #     self.result["response"] = self.want["prov_params"]
+        #     return self
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
 
@@ -3125,7 +3136,7 @@ class Provision(DnacBase):
 
         else:
             try:
-                clean_up = self.config[0].get("clean_config", False)
+                clean_up = self.config[0].get("clean_config", True) 
 
                 if clean_up:
                     api_function = "delete_network_device_with_configuration_cleanup"
@@ -3158,6 +3169,7 @@ class Provision(DnacBase):
                 self.check_tasks_response_status(response, api_name=device_id)
 
                 if self.status not in ["failed", "exited"]:
+                    self.device_deleted.append(self.validated_config["management_ip_address"])
                     self.msg = (
                         "Deletion done Successfully for the device '{0}' ".format(
                             self.validated_config["management_ip_address"]
@@ -3363,7 +3375,17 @@ class Provision(DnacBase):
         self.status = "success"
 
         return self
-
+    def update_all_messages(self):
+        """
+        Update all messages in the module.
+        This function is a placeholder for updating messages in the module.
+        """
+        if self.device_deleted:
+            self.msg = "Devices deleted successfully: {0}".format(
+                ", ".join(self.device_deleted)
+            )
+            self.set_operation_result("success", False, self.msg, "Info")
+            return self
 
 def main():
     """
@@ -3392,6 +3414,7 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_provision = Provision(module)
     config_verify = ccc_provision.params.get("config_verify")
+    provision_performed = False
 
     if (
         ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.5.3")
@@ -3442,6 +3465,7 @@ def main():
                 ccc_provision.device_type = "wired"
                 ccc_provision.log("Applying configuration for wired devices.", "INFO")
                 ccc_provision.get_diff_state_apply[state]().check_return_status()
+                provision_performed = True
                 if config_verify:
                     ccc_provision.log(
                         "Verifying configuration for wired devices.", "INFO"
@@ -3464,6 +3488,7 @@ def main():
                         ccc_provision.get_diff_state_apply[
                             state
                         ]().check_return_status()
+                        provision_performed = True
                         if config_verify:
                             ccc_provision.log(
                                 "Verifying configuration for wireless device: {0}".format(
@@ -3495,7 +3520,7 @@ def main():
                 ccc_provision.reset_values()
                 ccc_provision.get_want(config).check_return_status()
                 ccc_provision.get_diff_state_apply[state]().check_return_status()
-
+                provision_performed = True
                 if config_verify:
                     ccc_provision.log("Verifying telemetry configuration", "INFO")
                     ccc_provision.verify_diff_state_apply[state]().check_return_status()
@@ -3511,6 +3536,7 @@ def main():
             ccc_provision.reset_values()
             ccc_provision.get_want(config).check_return_status()
             ccc_provision.get_diff_state_apply[state]().check_return_status()
+            provision_performed = True
             if config_verify:
                 ccc_provision.log(
                     "Verifying configuration for device with management IP: {0}".format(
@@ -3519,6 +3545,14 @@ def main():
                     "INFO",
                 )
                 ccc_provision.verify_diff_state_apply[state]().check_return_status()
+
+    ccc_provision.update_all_messages()
+
+    if not provision_performed:
+        ccc_provision.msg = "No provisioning operation was performed."
+        ccc_provision.set_operation_result(
+            "success", False, ccc_provision.msg, "INFO"
+        )
 
     module.exit_json(**ccc_provision.result)
 
