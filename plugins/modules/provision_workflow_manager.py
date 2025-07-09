@@ -1996,7 +1996,6 @@ class Provision(DnacBase):
                     ),
                     "INFO",
                 )
-                self.log(site_name, "DEBUG")
                 if self.assign_device_to_site([network_device_id], site_name, site_id):
                     success_msg.append(
                         "Wired Device '{0}' is assigned to site {1}.".format(

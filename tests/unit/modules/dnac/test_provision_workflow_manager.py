@@ -220,11 +220,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 config=self.playbook_reprovision_wired_device
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        print("Re-provisioning result:")
-        print("========================================")
-        print("========================================")
-        print("========================================")           
+        result = self.execute_module(changed=True, failed=False)       
         print(result)
         self.assertEqual(
             result.get('msg'),
