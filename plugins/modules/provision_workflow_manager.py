@@ -510,6 +510,7 @@ class Provision(DnacBase):
         super().__init__(module)
         self.device_type = None
         self.device_deleted = []
+
     def validate_input(self, state=None):
         """
         Validate the fields provided in the playbook.
@@ -662,6 +663,15 @@ class Provision(DnacBase):
                             "ERROR",
                         )
 
+                    if "provisioning" in config_item:
+                        valid_bools = [True, False]
+                        if config_item["provisioning"] not in valid_bools:
+                            self.msg = (
+                                "Invalid value '{0}' for 'provisioning' in config "
+                                "Expected a boolean-compatible value.".format(config_item["provisioning"])
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                 if missing_params:
                     self.msg = "Missing or invalid required parameter(s): {0}".format(
                         ", ".join(set(missing_params))
@@ -673,6 +683,10 @@ class Provision(DnacBase):
             self.config, provision_spec
         )
         if invalid_params:
+            self.log(
+                "Invalid parameters found in the playbook configuration: {0}".format(
+                    "\n".join(invalid_params)), "ERROR"
+            )
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params)
             )
@@ -3037,13 +3051,13 @@ class Provision(DnacBase):
         device_id = self.get_device_id()
         provision_id, status = self.get_device_provision_status(device_id)
 
-        # if status != "success":
-        #     self.result["msg"] = (
-        #         "Device associated with the passed IP address is not provisioned"
-        #     )
-        #     self.log(self.result["msg"], "CRITICAL")
-        #     self.result["response"] = self.want["prov_params"]
-        #     return self
+        if status != "success":
+            self.result["msg"] = (
+                "Device associated with the passed IP address is not provisioned"
+            )
+            self.log(self.result["msg"], "CRITICAL")
+            self.result["response"] = self.want["prov_params"]
+            return self
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
 
@@ -3136,7 +3150,7 @@ class Provision(DnacBase):
 
         else:
             try:
-                clean_up = self.config[0].get("clean_config", True) 
+                clean_up = self.config[0].get("clean_config", False)
 
                 if clean_up:
                     api_function = "delete_network_device_with_configuration_cleanup"
@@ -3375,6 +3389,7 @@ class Provision(DnacBase):
         self.status = "success"
 
         return self
+
     def update_all_messages(self):
         """
         Update all messages in the module.
@@ -3386,6 +3401,7 @@ class Provision(DnacBase):
             )
             self.set_operation_result("success", False, self.msg, "Info")
             return self
+
 
 def main():
     """
