@@ -64,7 +64,6 @@ class TestEventsWorkflow(TestDnacModule):
     playbook_config_update_syslog_subscription = test_data.get("playbook_config_update_syslog_subscription")
     playbook_config_delete_syslog_subscription_with_verify = test_data.get("playbook_config_delete_syslog_subscription_with_verify")
     playbook_config_absent_syslog_subscription = test_data.get("playbook_config_absent_syslog_subscription")
-   
 
     def setUp(self):
         super(TestEventsWorkflow, self).setUp()
@@ -156,7 +155,7 @@ class TestEventsWorkflow(TestDnacModule):
         elif "update_snmp_dest" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_all_snmp_destinations"),
-                self.test_data.get("update_snmp_destination_response")  
+                self.test_data.get("update_snmp_destination_response")
             ]
 
         elif "invalid_url_in_itsm" in self._testMethodName:
@@ -335,7 +334,6 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("empty_event_subscription")
             ]
 
-
     def test_events_and_notifications_workflow_manager_create_webhook_destination_with_verify(self):
         """
         Test case for events and notifications workflow manager when creating a webhook destination along with the verification.
@@ -362,7 +360,7 @@ class TestEventsWorkflow(TestDnacModule):
             "added successfully",
             result.get('msg')
         )
- 
+
     def test_events_and_notifications_workflow_manager_no_webhook_destination_update(self):
         """
         Test case for events and notifications workflow manager when a webhook destination needs no update.
@@ -848,7 +846,7 @@ class TestEventsWorkflow(TestDnacModule):
             "updated successfully",
             result.get('response')
         )
-    
+
     def test_events_and_notifications_workflow_manager_delete_webhook_subscription_with_verify(self):
         """
         Test case for events and notifications workflow manager when deleting a webhook subscription along with the verification.
@@ -984,7 +982,7 @@ class TestEventsWorkflow(TestDnacModule):
             "updated successfully",
             result.get('response')
         )
-    
+
     def test_events_and_notifications_workflow_manager_delete_email_subscription_with_verify(self):
         """
         Test case for events and notifications workflow manager when deleting an email subscription along with the verification.
@@ -1120,7 +1118,7 @@ class TestEventsWorkflow(TestDnacModule):
             "updated successfully",
             result.get('response')
         )
-    
+
     def test_events_and_notifications_workflow_manager_delete_syslog_subscription_with_verify(self):
         """
         Test case for events and notifications workflow manager when deleting a syslog subscription along with the verification.
