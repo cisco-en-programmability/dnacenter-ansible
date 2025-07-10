@@ -665,10 +665,11 @@ class Provision(DnacBase):
 
                     if "provisioning" in config_item:
                         valid_bools = [True, False]
-                        if config_item["provisioning"] not in valid_bools:
+                        provisioning_value = config_item["provisioning"]
+                        if provisioning_value not in valid_bools:
                             self.msg = (
-                                "Invalid value '{0}' for 'provisioning' in config "
-                                "Expected a boolean-compatible value.".format(config_item["provisioning"])
+                                "Invalid value '{0}' for 'provisioning' in config. "
+                                "Expected a boolean-compatible value.".format(provisioning_value)
                             )
                             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -3391,8 +3392,8 @@ class Provision(DnacBase):
 
     def update_all_messages(self):
         """
-        Update all messages in the module.
-        This function is a placeholder for updating messages in the module.
+        Update messages related to device deletions in the module.
+        If devices have been deleted, sets a success message listing them.
         """
         if self.device_deleted:
             self.msg = "Devices deleted successfully: {0}".format(
