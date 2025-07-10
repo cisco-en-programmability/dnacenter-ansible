@@ -77,6 +77,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 self.test_data.get("device_response_10"),
                 self.test_data.get("get_sites_10"),
                 self.test_data.get("get_network_device_by_ip_20"),
+                self.test_data.get("get_site_type"),
                 self.test_data.get("get_sites_11"),
                 self.test_data.get("re_provision_devices"),
                 self.test_data.get("Task_Details_10"),
@@ -89,6 +90,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 self.test_data.get("device_response_20"),
                 self.test_data.get("get_sites_20"),
                 self.test_data.get("get_network_device_by_ip_20"),
+                self.test_data.get("get_site_type"),
                 self.test_data.get("get_provisioned_devices_20"),
                 self.test_data.get("provision_devices"),
                 self.test_data.get("task_details"),
@@ -348,8 +350,8 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Deletion done Successfully for the device '204.192.3.40' "
+            result.get('response'),
+            "Devices deleted successfully: 204.192.3.40"
         )
 
     def test_provision_workflow_manager_playbook_enable(self):
