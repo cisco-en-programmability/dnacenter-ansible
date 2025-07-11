@@ -841,15 +841,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     config:
-    - image_activation_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        site_name: Global/USA/San Francisco/BGL_18
-        device_role: ALL
-        device_family_name: Switches and Hubs
-        device_series_name: Cisco Catalyst 9300 Series Switches
-        scehdule_validate: False
-        activate_lower_image_version: True
-        distribute_if_needed: True
+      - image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/USA/San Francisco/BGL_18
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_series_name: Cisco Catalyst 9300 Series Switches
+          scehdule_validate: false
+          activate_lower_image_version: true
+          distribute_if_needed: true
 
 - name: Activate the given image on devices associated
     to that site for v3.1.3.0.
@@ -864,14 +864,14 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     config:
-    - image_activation_details:
-        image_name: cat9k_iosxe.17.12.01.SPA.bin
-        site_name: Global/USA/San Francisco/BGL_18
-        compatible_features:
-          - key: "ISSU"
-            value: Enable
-          - key: "Rommon update"
-            value: Disable
+      - image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/USA/San Francisco/BGL_18
+          compatible_features:
+            - key: "ISSU"
+              value: Enable
+            - key: "Rommon update"
+              value: Disable
 
 - name: Sync cco images to Cisco Catalyst Center for v3.1.3.0.
   cisco.dnac.swim_workflow_manager:
@@ -896,15 +896,14 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: deleted
     config:
       - image_name: [C9800-SW-iosxe-wlc.17.07.01.SPA.bin]
-
 """
 RETURN = r"""
 #Case: SWIM image is successfully imported, tagged as golden, distributed and activated on a device
