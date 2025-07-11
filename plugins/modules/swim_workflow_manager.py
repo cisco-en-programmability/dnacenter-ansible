@@ -1360,7 +1360,6 @@ class Swim(DnacBase):
                     self.log("No child sites found or child_site_data is None. Using direct site name: {0}".format(site_name), "DEBUG")
                     site_names = site_name
 
-
             elif site_type == "floor":
                 self.log(
                     "Processing site as a floor: {site_name}".format(
@@ -2264,10 +2263,10 @@ class Swim(DnacBase):
                         import_params = {"id": cco_image_id}
                         try:
                             response = self.dnac._exec(
-                                # family="software_image_management_swim",
-                                # function=import_function,
-                                # op_modifies=True,
-                                # params=import_params,
+                                family="software_image_management_swim",
+                                function=import_function,
+                                op_modifies=True,
+                                params=import_params,
                             )
                             self.log(
                                 "Received API response from {0}: {1}".format(
