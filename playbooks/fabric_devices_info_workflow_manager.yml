@@ -21,20 +21,16 @@
         state: merged
         config:
           - fabric_devices:
-              - ip_address: ["204.1.2.2","204.1.2.3"]
-                # hostname: ["TB1-DM-Transit.solutionsanity.com"]
-                # serial_number: ["FJC2335S09F"]
+              # - site_hierarchy: ["Global/USA/New York/BLDNYC"]
+              - ip_address: ["204.1.1.37"]
+              # - hostname: ["AP0CD0.F894.0C44","AP0CD0.F894.0C44"]
+              # - serial_number: ["KWC22440QJ2"]
                 # device_role: ["ACCESS"]
                 # device_type: ["Cisco Catalyst 9130AXE Unified Access Point"]
-                # site_hierarchy: ["Global/USA/New York/NY_BLD1", "Global/USA/New York/NY_BLD1/FLOOR1"]
-                timeout: 12
-                retries: 4
-                interval: 10
-                # output_file_path: "/Users/Priya/Downloads/INFO"
                 requested_info: 
-                  - fabric_info
-                  - handoff_info
-                  - onboarding_info
-                  - connected_devices_info
-                  - device_health_info
-                  - device_issues_info
+                   - device_issues_info
+                # file_info:
+                #   file_path: /Users/priyadharshini/Downloads/device_pireeeeya
+                #   file_format: yaml
+                #   file_mode: a
+                #   timestamp: True
