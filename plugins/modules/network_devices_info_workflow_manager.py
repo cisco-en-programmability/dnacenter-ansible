@@ -2281,7 +2281,7 @@ class NetworkDevicesInfo(DnacBase):
                 if file_format == "json":
                     json.dump(data_to_write, f, indent=2)
                 else:
-                    yaml.safe_dump(data_to_write, f, default_flow_style=False)
+                    yaml.dump(data_to_write, f, default_flow_style=False)
 
             self.log("Successfully wrote device info to file: {0}".format(full_path_with_ext), "INFO")
 
