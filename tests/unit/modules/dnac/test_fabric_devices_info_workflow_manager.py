@@ -184,7 +184,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("get_fabric_devices_32"),
                 self.test_data.get("get_fabric_devices_33"),
                 self.test_data.get("get_fabric_devices_34"),
-                self.test_data.get("isssues"),
+                self.test_data.get("issues"),
             ]
 
         elif "playbook_onboarding_info_details" in self._testMethodName:
@@ -272,8 +272,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         Test error handling in Fabric Devices Info Workflow Manager with no valid filters.
 
         This test verifies that the workflow appropriately handles cases where the input
-        filters do not match, ensuring that
-        informative error messages are logged and no unexpected failures occur.
+        filters do not match.
         """
         set_module_args(
             dict(
@@ -820,7 +819,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         """
         Test the Fabric Devices Info Workflow Manager with a playbook that has invalid timeout value.
 
-        This test ensures that the module correctly identifies and handles an negative timeout value,
+        This test ensures that the module correctly identifies and handles negative timeout value,
         returning an appropriate error message.
         """
         set_module_args(
