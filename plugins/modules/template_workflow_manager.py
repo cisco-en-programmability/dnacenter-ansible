@@ -3151,7 +3151,7 @@ class Template(DnacBase):
             )
             items = self.dnac_apply["exec"](
                 family="configuration_templates",
-                function="get_projects_details_v2",
+                function="get_projects_details",
                 op_modifies=True,
                 params={"name": project_name},
             )
@@ -3347,7 +3347,7 @@ class Template(DnacBase):
             project_id, project_name), "INFO")
 
         try:
-            function_name = "delete_template_project_v1"
+            function_name = "delete_template_project"
             params = {"project_id": project_id}
             task_id = self.get_taskid_post_api_call("configuration_templates",
                                                     function_name, params)
@@ -3771,10 +3771,10 @@ class Template(DnacBase):
         """
 
         all_project_details = self.dnac._exec(
-            family="configuration_templates", function="get_projects_details_v2"
+            family="configuration_templates", function="get_projects_details"
         )
         self.log(
-            "Received response from 'get_projects_details_v2' is {0}".format(
+            "Received response from 'get_projects_details' is {0}".format(
                 all_project_details
             ),
             "DEBUG",
