@@ -1,0 +1,36 @@
+---
+get_devices_info:
+  - network_devices:
+              - management_ip_address: ["91.1.1.2"]
+                mac_address: ["0c:d0:f8:94:c8:80"]
+                hostname: ["SJ-Edge1-9300"]
+                serial_number: ["FCW2304F0KF"]
+                software_type: ["IOS-XE"]
+                software_version: ["17.17.1prd6"]
+                role: ["ACCESS"]
+                device_type: ["Cisco Catalyst 9300 Switch"]
+                family: ["Switches and Hubs"]
+                site_hierarchy: ["Global/USA/SAN JOSE/BLD23"]
+                timeout: 10
+                retries: 1
+                interval: 1
+                requested_info:
+                  - device_info
+                  - interface_info
+                  - interface_vlan_info
+                  - line_card_info
+                  - supervisor_card_info
+                  - poe_info
+                  - module_count_info
+                  - connected_device_info
+                  - device_interfaces_by_range_info
+                  - device_config_info
+                  - device_summary_info
+                  - device_polling_interval_info
+                  - device_stack_info
+                  - device_link_mismatch_info
+                file_info:
+                  file_path: /Users/karthick/Downloads/slow
+                  file_format: json
+                  file_mode: a
+                  timestamp: true

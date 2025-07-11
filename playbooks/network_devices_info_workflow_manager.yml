@@ -21,36 +21,36 @@
         state: queried
         config:
           - network_devices:
-              # - management_ip_address: ["204.192.4.2"]
-                # mac_address: ["90:88:55:07:59:00", "2.22.2.22"]
-              - hostname: ["TB1-DM-WLC.solutionsanity.com"]
-                # serial_number: ["FOX2639PAY7"]
-                # software_type: ["IOS-XE"]
-                # software_version: ["17.12.4"]
-                # role: ["ACCESS"]
-                # device_type: ["Cisco Catalyst 9130AXE Unified Access Point"]
-                # family: ["Switches and Hubs"]
-                site_hierarchy: ["Global/USA/SAN JOSE/BLD23"]
+              - management_ip_address: ["91.1.1.2"]
+              #   mac_address: ["90:88:55:07:59:00", "2.22.2.22"]
+              # - hostname: ["karthick"]
+              # - serial_number: ["FOX2639PAY7"]
+              #   software_type: ["IOS-XE"]
+              #   software_version: ["17.12.4"]
+              #   role: ["ACCESS"]
+              #   device_type: ["Cisco Catalyst 9130AXE Unified Access Point"]
+              # - family: ["Switches and Hubs"]
+              # - site_hierarchy: ["Global/USA/SAN JOSE/123"]
                 timeout: 10
                 retries: 1
                 interval: 1
                 requested_info:
-                  - device_info
-                #   # - interface_info
-                #   # - interface_vlan_info
-                #   # - line_card_info
+                  # - device_info
+                  # - interface_info
+                  # - interface_vlan_info
+                  # - line_card_info
                   # - supervisor_card_info
                   # - poe_info
-                #   - module_count_info
-                #   - connected_device_info
+                  # - module_count_info
+                  # - connected_device_info
                   # - device_interfaces_by_range_info
-                  # - device_config_info
+                  - device_config_info
                   # - device_summary_info
                   # - device_polling_interval_info
                   # - device_stack_info
                   # - device_link_mismatch_info
-                # file_info:
-                #   file_path: /Users/karthick/Downloads/naruto
-                #   file_format: json
-                #   file_mode: a
-                #   timestamp: true
+                file_info:
+                  file_path: /Users/karthick/Downloads/fast
+                  file_format: yaml
+                  file_mode: a
+                  timestamp: true
