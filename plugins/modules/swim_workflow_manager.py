@@ -1339,8 +1339,6 @@ class Swim(DnacBase):
                     self.log("No child site data found under: {0}".format(wildcard_site_name), "DEBUG")
                     site_names = site_name
 
-                self.log(site_info, "DEBUG")
-
             elif site_type == "area":
                 self.log(
                     "Processing site as an area: {site_name}".format(site_name=site_name),
