@@ -15,7 +15,7 @@ short_description: >
   This module filters and retrieves fabric device details from Cisco Catalyst Center based on the input device list.
 
 description:
-  - Accepts a list of network devices with attributes like IP, hostname, serial number,site hierarchy,device type and device role.
+  - Accepts a list of network devices with attributes like IP, hostname, serial number, site hierarchy,device type, device role.
   - Filters fabric devices from the list of network devices.
   - Retrieves detailed fabric-specific information for the matched devices from Cisco Catalyst Center.
   - Supports timeout, retry, and interval configuration to find devices from Cisco Catalyst Center.
@@ -132,7 +132,7 @@ options:
             suboptions:
               file_path:
                 description:
-                  - Absolute Path to the output file without extension.
+                  - Absolute path to the output file without extension.
                   - The file extension (.json or .yaml) is added automatically based on file_format.
                 type: str
                 required: true
@@ -867,7 +867,7 @@ response_all_info:
 
 response_info:
   description: A list with details of connected device info.
-  returned: None
+  returned: always
   type: list
   sample: {
     "response":[
@@ -1780,26 +1780,26 @@ class FabricDevicesInfo(DnacBase):
                     break
 
                 offset += limit
-
-            for device_data in health_data:
-                device_ip = device_data.get("ipAddress")
-                if device_ip in fabric_devices and device_ip not in seen_ips:
-                    seen_ips.add(device_ip)
-                    self.log(
-                        "Processing health data for device {0}: {1}".format(device_ip, device_data),
-                        "DEBUG"
-                    )
-                    all_health_info.append({
-                        "device_ip": device_ip,
-                        "health_details": device_data
-                    })
-                elif device_ip in fabric_devices and device_ip not in seen_ips:
-                    seen_ips.add(device_ip)
-                    self.log("No health info found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_health_info.append({
-                        "device_ip": device_ip,
-                        "health_details": "No health info found"
-                    })
+            if health_data:
+                for device_data in health_data:
+                    device_ip = device_data.get("ipAddress")
+                    if device_ip in fabric_devices and device_ip not in seen_ips:
+                        seen_ips.add(device_ip)
+                        self.log(
+                            "Processing health data for device {0}: {1}".format(device_ip, device_data),
+                            "DEBUG"
+                        )
+                        all_health_info.append({
+                            "device_ip": device_ip,
+                            "health_details": device_data
+                        })
+            else:
+                seen_ips.add(device_ip)
+                self.log("No health info found for device IP: {0}".format(device_ip), "DEBUG")
+                all_health_info.append({
+                    "device_ip": device_ip,
+                    "health_details": "No health info found"
+                })
 
         except Exception as api_err:
             self.msg = "Exception occurred while getting health info: {0}".format(api_err)
@@ -2122,7 +2122,7 @@ class FabricDevicesInfo(DnacBase):
 
         fabric_site_ids = self.get_fabric_site_id()
         all_onboarding_info = []
-        self.log("Fabric site IDs retrieved: {0}".format(fabric_site_ids), "error")
+        self.log("Fabric site IDs retrieved: {0}".format(fabric_site_ids))
         for fabric_id in fabric_site_ids:
             for ip_address, device_uuid in ip_uuid_map.items():
                 if ip_address in fabric_devices:
@@ -2274,7 +2274,7 @@ class FabricDevicesInfo(DnacBase):
                         if file_format == "json":
                             existing_data = json.load(f)
                         else:
-                            existing_data = yaml.dump(f)
+                            existing_data = yaml.safe_load(f)
 
                         if existing_data is None:
                             existing_data = []
@@ -2311,7 +2311,7 @@ def main():
                     'dnac_port': {'type': 'str', 'default': '443'},
                     'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
                     'dnac_password': {'type': 'str', 'no_log': True},
-                    'dnac_verify': {'type': 'bool', 'default': 'True'},
+                    'dnac_verify': {'type': 'bool', 'default': True},
                     'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
                     'dnac_debug': {'type': 'bool', 'default': False},
                     'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
