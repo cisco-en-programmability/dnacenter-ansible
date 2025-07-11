@@ -122,15 +122,6 @@ options:
                     - Default value is 10 seconds if not specified.
                 type: int
                 default: 10
-            output_file_path:
-                description:
-                    - The full file path where the output data will be saved. (e.g.,/Users/Karthick/Downloads/Info)
-                    - The file format is inferred from the file extension (e.g., .json, .xlsx, .pdf).
-                    - Default file format is JSON if no other extension is specified.
-                    - Ensure the directory exists and the process has write permissions to this path.
-                    - Recommended formats depend on usage; JSON for raw data, Excel (.xlsx) for tabular reports, PDF for formatted documents.
-                type: str
-                required: false
             requested_info:
                 description:
                     - List of device information types to retrieve.
@@ -154,8 +145,45 @@ options:
                     - device_summary_info
                     - device_polling_interval_info
                     - device_stack_info
-                    - device_link_mismatch_info
-
+                    - device_link_mismatch_info #site_hierarchy is required for this info type
+            file_info:
+              description:
+                - Optional settings to control output file generation for fabric device information.
+                - If provided, the content will be saved to the output file. Else, it will be displayed in the terminal.
+                - Use this block to define the file path, format, mode, and timestamp handling.
+              type: dict
+              suboptions:
+                file_path:
+                  description:
+                    - Absolute Path to the output file without extension.
+                    - The file extension (.json or .yaml) is added automatically based on file_format.
+                  type: str
+                  required: true
+                file_format:
+                  description:
+                    - Format of the output file.
+                    - Supported formats are json & yaml.
+                    - Default is yaml if not specified.
+                  type: str
+                  choices:
+                    - json
+                    - yaml
+                  default: yaml
+                file_mode:
+                  description:
+                    - Writing mode for the output file.
+                    - Use 'w' to overwrite or 'a' to append to the existing file content.
+                  type: str
+                  default: w
+                  choices:
+                    - w
+                    - a
+                timestamp:
+                  description:
+                    - Indicates whether to include a timestamp within the output content.
+                    - If set to true, the download time will be added as the first entry in the output.
+                  type: bool
+                  default: false
 requirements:
     - dnacentersdk >= 2.9.3
     - python >= 3.9.19
@@ -233,7 +261,7 @@ EXAMPLES = r"""
                 timeout: 60    #default: 60sec
                 retries: 3    #default: 3
                 interval: 10   #default: 10sec
-                output_file_path: /Users/karthick/Downloads/info #Default json format
+                output_file_path: /Users/karthick/Downloads/info #Default yaml format
                 requested_info:
                   - all
                   - device_info
@@ -250,6 +278,11 @@ EXAMPLES = r"""
                   - device_polling_interval_info
                   - device_stack_info
                   - device_link_mismatch_info
+                file_info:
+                  file_path: /Users/karthick/Downloads/info
+                  file_format: json
+                  file_mode: w
+                  timestamp: true
 """
 
 RETURN = r"""
@@ -783,12 +816,20 @@ class NetworkDevicesInfo(DnacBase):
                     'type': 'list',
                     'elements': 'str',
                     'default': [
-                        "device_info", "interface_info", "interface_vlan_info",
-                        "line_card_info", "supervisor_card_info", "poe_info",
-                        "module_count_info", "connected_device_info",
-                        "device_interfaces_by_range_info", "device_config_info",
-                        "device_summary_info", "device_polling_interval_info",
-                        "device_stack_info", "device_link_mismatch_info"
+                        "device_info",
+                        "interface_info",
+                        "interface_vlan_info",
+                        "line_card_info",
+                        "supervisor_card_info",
+                        "poe_info",
+                        "module_count_info",
+                        "connected_device_info",
+                        "device_interfaces_by_range_info",
+                        "device_config_info",
+                        "device_summary_info",
+                        "device_polling_interval_info",
+                        "device_stack_info",
+                        "device_link_mismatch_info"
                     ]
                 },
                 "file_info": {
@@ -825,48 +866,6 @@ class NetworkDevicesInfo(DnacBase):
         if not valid_config:
             self.log("Configuration validation failed: {0}".format(valid_config), "ERROR")
             return self
-
-        for device in valid_config:
-            file_info = device.get("file_info")
-
-            if file_info:
-                if not isinstance(file_info, dict):
-                    self.msg = "'file_info' must be a dictionary"
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                file_info.setdefault("file_format", "yaml")
-                file_info.setdefault("file_mode", "w")
-                file_info.setdefault("timestamp", False)
-
-                allowed_file_info_keys = {"file_path", "file_format", "file_mode", "timestamp"}
-                for key in file_info:
-                    if key not in allowed_file_info_keys:
-                        self.msg = "'{0}' is not a valid key in file_info. Allowed keys are: {1}".format(
-                            key, sorted(allowed_file_info_keys)
-                        )
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
-
-                if "file_path" in file_info and not isinstance(file_info["file_path"], str):
-                    self.msg = "'file_path' in file_info must be a string"
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                if "file_format" in file_info and not isinstance(file_info["file_format"], str):
-                    self.msg = "'file_format' in file_info must be a string"
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                if "file_mode" in file_info and not isinstance(file_info["file_mode"], str):
-                    self.msg = "'file_mode' in file_info must be a string"
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                if "timestamp" in file_info and not isinstance(file_info["timestamp"], bool):
-                    self.msg = "'timestamp' in file_info must be a boolean"
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
 
         self.log("Configuration validated successfully: {0}".format(valid_config), "INFO")
         self.validated_config = valid_config
@@ -1124,15 +1123,15 @@ class NetworkDevicesInfo(DnacBase):
                 result = self.get_device_link_mismatch_by_sites(device_ids=device_ids, site_ids=site_ids)
                 self.total_response.append(result)
                 combined_data["device_link_mismatch_info"] = result
+        if network_device_details:
+            file_info = network_device_details[0].get("file_info")
+
+        if file_info:
+            self.write_device_info_to_file({"file_info": file_info})
 
         if self.total_response:
             self.msg = self.total_response
             self.set_operation_result("success", False, self.msg, "INFO")
-            if network_device_details:
-                file_info = network_device_details[0].get("file_info")
-
-            if file_info:
-                self.write_device_info_to_file({"file_info": file_info})
 
         return self
 
@@ -1162,18 +1161,18 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_device_list",
                     params={'id': device_id}
                 )
+                self.log(
+                    "Received API response from 'get_device_list': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
                 devices = response.get("response", [])
                 if devices:
-                    if isinstance(devices, list):
-                        all_devices.append({
-                            "device_ip": device_ip,
-                            "device_details": devices
-                        })
-                    else:
-                        all_devices.append({
-                            "device_ip": device_ip,
-                            "device_details": devices
-                        })
+                    all_devices.append({
+                        "device_ip": device_ip,
+                        "device_details": [devices]
+                    })
                 else:
                     self.log("No device details found for device IP: {0}".format(device_ip), "DEBUG")
                     all_devices.append({
@@ -1218,18 +1217,19 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_device_interface_vlans",
                     params={'id': device_id}
                 )
+                self.log(
+                    "Received API response from 'get_device_interface_vlans': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
+
                 vlan_data = response.get("response", [])
                 if vlan_data:
-                    if isinstance(vlan_data, list):
-                        all_vlans.append({
-                            "device_ip": device_ip,
-                            "interface_vlan_details": vlan_data
-                        })
-                    else:
-                        all_vlans.append({
-                            "device_ip": device_ip,
-                            "interface_vlan_details": vlan_data
-                        })
+                    all_vlans.append({
+                        "device_ip": device_ip,
+                        "interface_vlan_details": [vlan_data]
+                    })
                 else:
                     self.log("No VLAN interface data found for device IP: {0}".format(device_ip), "DEBUG")
                     all_vlans.append({
@@ -1274,18 +1274,18 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_linecard_details",
                     params={'device_uuid': device_id}
                 )
+                self.log(
+                    "Received API response from 'get_linecard_details': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
                 linecard_data = response.get("response", [])
                 if linecard_data:
-                    if isinstance(linecard_data, list):
-                        all_linecards.append({
-                            "device_ip": device_ip,
-                            "linecard_details": linecard_data
-                        })
-                    else:
-                        all_linecards.append({
-                            "device_ip": device_ip,
-                            "linecard_details": linecard_data
-                        })
+                    all_linecards.append({
+                        "device_ip": device_ip,
+                        "linecard_details": [linecard_data]
+                    })
                 else:
                     self.log("No line card details found for device IP: {0}".format(device_ip), "DEBUG")
                     all_linecards.append({
@@ -1318,7 +1318,7 @@ class NetworkDevicesInfo(DnacBase):
                 Returns None if an exception occurs during the API call.
         """
 
-        self.log("Fetching stack details for devices: {0}".format(device_ids), "INFO")
+        self.log("Fetching stack details for devices: {0}".format(device_ids), "ERROR")
 
         all_stack_details = []
 
@@ -1330,18 +1330,18 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_stack_details_for_device",
                     params={'device_id': device_id}
                 )
+                self.log(
+                    "Received API response from 'get_stack_details_for_device': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
                 stack_info = response.get("response", [])
                 if stack_info:
-                    if isinstance(stack_info, list):
-                        all_stack_details.append({
-                            "device_ip": device_ip,
-                            "stack_details": stack_info
-                        })
-                    else:
-                        all_stack_details.append({
-                            "device_ip": device_ip,
-                            "stack_details": [stack_info]
-                        })
+                    all_stack_details.append({
+                        "device_ip": device_ip,
+                        "stack_details": [stack_info]
+                    })
                 else:
                     self.log("No stack details found for device IP: {0}".format(device_ip), "DEBUG")
                     all_stack_details.append({
@@ -1386,18 +1386,18 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_device_config_by_id",
                     params={'network_device_id': device_id}
                 )
+                self.log(
+                    "Received API response from 'get_device_config_by_id': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
                 configs = response.get("response", [])
                 if configs:
-                    if isinstance(configs, list):
-                        all_configs.append({
-                            "device_ip": device_ip,
-                            "device_config_details": configs
-                        })
-                    else:
-                        all_configs.append({
-                            "device_ip": device_ip,
-                            "device_config_details": [configs]
-                        })
+                    all_configs.append({
+                        "device_ip": device_ip,
+                        "device_config_details": [configs]
+                    })
                 else:
                     self.log("No device config card details found for device IP: {0}".format(device_ip), "DEBUG")
                     all_configs.append({
@@ -1442,18 +1442,18 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_polling_interval_by_id",
                     params={'id': device_id}
                 )
+                self.log(
+                    "Received API response from 'get_device_polling_interval_by_id': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
                 intervals = response.get("response", [])
                 if intervals:
-                    if isinstance(intervals, list):
-                        all_polling_intervals.append({
-                            "device_ip": device_ip,
-                            "polling_interval_details": intervals
-                        })
-                    else:
-                        all_polling_intervals.append({
-                            "device_ip": device_ip,
-                            "polling_interval_details": [intervals]
-                        })
+                    all_polling_intervals.append({
+                        "device_ip": device_ip,
+                        "polling_interval_details": [intervals]
+                    })
                 else:
                     self.log("No polling interval details found for device IP: {0}".format(device_ip), "DEBUG")
                     all_polling_intervals.append({
@@ -1498,18 +1498,19 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_device_summary",
                     params={'id': device_id}
                 )
+                self.log(
+                    "Received API response from 'get_device_summary': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
                 summary_data = response.get("response", [])
+                self.log("Summary data: {0}".format(summary_data), "DEBUG")
                 if summary_data:
-                    if isinstance(summary_data, list):
-                        all_summaries.append({
-                            "device_ip": device_ip,
-                            "device_summary_details": summary_data
-                        })
-                    else:
-                        all_summaries.append({
-                            "device_ip": device_ip,
-                            "device_summary_details": [summary_data]
-                        })
+                    all_summaries.append({
+                        "device_ip": device_ip,
+                        "device_summary_details": [summary_data]
+                    })
                 else:
                     self.log("No device summary details found for device IP: {0}".format(device_ip), "DEBUG")
                     all_summaries.append({
@@ -1554,18 +1555,18 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_supervisor_card_detail",
                     params={'device_uuid': device_id}
                 )
+                self.log(
+                    "Received API response from 'get_supervisor_card_detail': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
                 supervisor_cards = response.get("response", [])
                 if supervisor_cards:
-                    if isinstance(supervisor_cards, list):
-                        all_supervisor_cards.append({
-                            "device_ip": device_ip,
-                            "supervisor_card_details": supervisor_cards
-                        })
-                    else:
-                        all_supervisor_cards.append({
-                            "device_ip": device_ip,
-                            "supervisor_card_details": supervisor_cards
-                        })
+                    all_supervisor_cards.append({
+                        "device_ip": device_ip,
+                        "supervisor_card_details": [supervisor_cards]
+                    })
                 else:
                     self.log("No supervisor card details found for device IP: {0}".format(device_ip), "DEBUG")
                     all_supervisor_cards.append({
@@ -1610,18 +1611,18 @@ class NetworkDevicesInfo(DnacBase):
                     function="poe_details",
                     params={'device_uuid': device_id}
                 )
+                self.log(
+                    "Received API response from 'poe_details': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
                 poe_data = response.get("response", [])
                 if poe_data:
-                    if isinstance(poe_data, list):
-                        all_poe_details.append({
-                            "device_ip": device_ip,
-                            "poe_details": poe_data
-                        })
-                    else:
-                        all_poe_details.append({
-                            "device_ip": device_ip,
-                            "poe_details": [poe_data]
-                        })
+                    all_poe_details.append({
+                        "device_ip": device_ip,
+                        "poe_details": [poe_data]
+                    })
                 else:
                     self.log("No PoE details found for device IP: {0}".format(device_ip), "DEBUG")
                     all_poe_details.append({
@@ -1666,18 +1667,18 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_interface_info_by_id",
                     params={'device_id': device_id}
                 )
+                self.log(
+                    "Received API response from 'get_interface_info_by_id': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
                 interface_data = response.get("response", [])
                 if interface_data:
-                    if isinstance(interface_data, list):
-                        all_interface_info.append({
-                            "device_ip": device_ip,
-                            "interface_details": interface_data
-                        })
-                    else:
-                        all_interface_info.append({
-                            "device_ip": device_ip,
-                            "interface_details": interface_data
-                        })
+                    all_interface_info.append({
+                        "device_ip": device_ip,
+                        "interface_details": [interface_data]
+                    })
                 else:
                     self.log("No interface details found for device IP: {0}".format(device_ip), "DEBUG")
                     all_interface_info.append({
@@ -1722,18 +1723,18 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_module_count",
                     params={'device_id': device_id}
                 )
+                self.log(
+                    "Received API response from 'get_module_count': {0}".format(
+                        (response)
+                    ),
+                    "DEBUG",
+                )
                 module_count_data = response.get("response", [])
                 if module_count_data:
-                    if isinstance(module_count_data, list):
-                        all_module_counts.append({
-                            "device_ip": device_ip,
-                            "module_count_details": module_count_data
-                        })
-                    else:
-                        all_module_counts.append({
-                            "device_ip": device_ip,
-                            "module_count_details": [module_count_data]
-                        })
+                    all_module_counts.append({
+                        "device_ip": device_ip,
+                        "module_count_details": [module_count_data]
+                    })
                 else:
                     self.log("No module count details found for device IP: {0}".format(device_ip), "DEBUG")
                     all_module_counts.append({
@@ -1780,7 +1781,12 @@ class NetworkDevicesInfo(DnacBase):
                     function="get_interface_info_by_id",
                     params={"device_id": device_id}
                 )
-
+                self.log(
+                    "Received API response from 'get_interface_info_by_id': {0}".format(
+                        str(response)
+                    ),
+                    "DEBUG",
+                )
                 interfaces = response.get("response", [])
                 self.log("Found interfaces {} for device_id: {}".format(interfaces, device_id), "DEBUG")
 
@@ -1832,7 +1838,12 @@ class NetworkDevicesInfo(DnacBase):
                             "interface_uuid": interface_uuid
                         }
                     )
-
+                    self.log(
+                        "Received API response from 'get_connected_device_detail': {0}".format(
+                            (connected_response)
+                        ),
+                        "DEBUG",
+                    )
                     detail = connected_response.get("response", {})
                     if detail:
                         self.log("Connected data for device {} and interface {}: {}".format(
@@ -1899,8 +1910,8 @@ class NetworkDevicesInfo(DnacBase):
                         }
                     )
 
-                    self.log("Received API response from 'get_device_interfaces_by_specified_range' for device_id {0} start_index {1}: {2}".format(
-                        device_id, start_index, response), "DEBUG"
+                    self.log("Received API response from 'get_device_interfaces_by_specified_range': {0}".format(
+                        response), "DEBUG"
                     )
 
                     if not response or 'response' not in response:
@@ -1926,7 +1937,7 @@ class NetworkDevicesInfo(DnacBase):
 
             all_interface_results.append({
                 "device_ip": device_ip,
-                "interface_info": interface_data
+                "interface_info": [interface_data]
             })
         self.log("No interface info found for device ip: {}".format(device_ip), "INFO")
 
@@ -1964,7 +1975,6 @@ class NetworkDevicesInfo(DnacBase):
                 device_ips.append(device_ip)
 
                 site_result = {
-                    # "device_id": site_id,
                     "device_ip": device_ip,
                     "vlan": [],
                     "speed-duplex": []
@@ -1980,6 +1990,12 @@ class NetworkDevicesInfo(DnacBase):
                                 'category': category
                             }
                         )
+                        self.log(
+                            "Received API response from 'inventory_insight_device_link_mismatch': {0}".format(
+                                (response)
+                            ),
+                            "DEBUG",
+                        )
                         mismatch_data = response.get("response", [])
                         if mismatch_data:
                             self.log(
@@ -1990,11 +2006,6 @@ class NetworkDevicesInfo(DnacBase):
                                 site_result[category].append({
                                     "device_ip": device_ip,
                                     "link_mismatch_details": mismatch_data
-                                })
-                            else:
-                                site_result[category].append({
-                                    "device_ip": device_ip,
-                                    "link_mismatch_details": [mismatch_data]
                                 })
 
                         else:
@@ -2077,81 +2088,80 @@ class NetworkDevicesInfo(DnacBase):
         all_results = []
         device_ids = []
 
-        try:
-            timeout = filtered_config.get("timeout", 60)
-            retries = filtered_config.get("retries", 3)
-            interval = filtered_config.get("interval", 10)
+        timeout = filtered_config.get("timeout", 60)
+        retries = filtered_config.get("retries", 3)
+        interval = filtered_config.get("interval", 10)
 
-            for key in param_keys:
-                values = filtered_config.get(key, [])
-                if not isinstance(values, list) or len(values) == 0:
-                    self.log("Skipping {0} as it is empty list".format(key), "INFO")
-                    continue
+        for key in param_keys:
+            values = filtered_config.get(key, [])
+            if not isinstance(values, list) or len(values) == 0:
+                self.log("Skipping {0} as it is empty list".format(key), "INFO")
+                continue
 
-                self.log("Processing {0} with values: {1}".format(key, values), "INFO")
-                for val in values:
+            self.log("Processing {0} with values: {1}".format(key, values), "INFO")
+            for val in values:
+                params = {param_key_map[key]: val}
+                start_time = time.time()
+                attempt = 0
+                self.log("Calling API with params: {0}".format(params))
+
+                while attempt < retries and (time.time() - start_time) < timeout:
                     params = {param_key_map[key]: val}
-                    start_time = time.time()
-                    attempt = 0
-                    self.log("Calling API with params: {0}".format(params))
+                    self.log("Attempt {0} - Calling API with params: {1}".format(attempt + 1, params))
 
-                    while attempt < retries and (time.time() - start_time) < timeout:
-                        params = {param_key_map[key]: val}
-                        self.log("Attempt {0} - Calling API with params: {1}".format(attempt + 1, params))
+                    response = self.dnac._exec(
+                        family="devices",
+                        function="get_device_list",
+                        params=params
+                    )
+                    self.log(
+                        "Received API response from 'get_device_list': {0}".format(
+                            (response)
+                        ),
+                        "DEBUG",
+                    )
 
-                        response = self.dnac._exec(
-                            family="devices",
-                            function="get_device_list",
-                            params=params
-                        )
-                        self.log("Response for {0}={1}: {2}".format(key, val, response))
-
-                        devices = response.get('response', [])
-                        self.log(devices)
-                        if devices:
-                            for device in devices:
-                                uuid = device.get('instanceUuid')
-                                if uuid:
-                                    device_ids.append(uuid)
-                            break
-                        else:
-                            self.log("No device response found, retrying in {0} seconds...".format(interval))
-                            attempt += 1
-                            time.sleep(interval)
-
+                    devices = response.get('response', [])
+                    if devices:
+                        for device in devices:
+                            uuid = device.get('instanceUuid')
+                            if uuid:
+                                device_ids.append(uuid)
+                        break
                     else:
-                        msg = ("Max retries and timeout reached, No information available for {0} - {1}".format(key, val))
-                        self.log(msg)
-                        self.total_response.append(msg)
+                        self.log("No device response found, retrying in {0} seconds...".format(interval))
+                        attempt += 1
+                        time.sleep(interval)
 
-                    all_results.append(response)
+                else:
+                    msg = ("Max retries and timeout reached, No information available for {0} - {1}".format(key, val))
+                    self.log(msg)
+                    self.total_response.append(msg)
 
-            # Site-based
-            site_names = filtered_config.get("site_hierarchy")
-            site_ids = []
+                all_results.append(response)
 
-            if site_names:
-                if not isinstance(site_names, list):
-                    site_names = [site_names]
-                for site_name in site_names:
-                    success, site_id = self.get_site_id(site_name)
-                    site_ids.append((success, site_id, site_name))
+        # Site-based
+        site_names = filtered_config.get("site_hierarchy")
+        site_ids = []
 
-                for success, site_id, site_name in site_ids:
-                    if success and site_id:
-                        response, site_device_ids = self.get_device_ids_from_site(site_name=None, site_id=site_id)
+        if site_names:
+            if not isinstance(site_names, list):
+                site_names = [site_names]
+            for site_name in site_names:
+                success, site_id = self.get_site_id(site_name)
+                site_ids.append((success, site_id, site_name))
 
-                        self.log("Devices from site {0}: {1}".format(site_id, site_device_ids), "INFO")
-                        device_ids.extend(site_device_ids)
+            for success, site_id, site_name in site_ids:
+                if success and site_id:
+                    response, site_device_ids = self.get_device_ids_from_site(site_name=None, site_id=site_id)
 
-            unique_device_ids = list(set(device_ids))
-            self.log("Collected device instance UUIDs: {0}".format(device_ids), "INFO")
-            self.log("Collected unique device instance UUIDs: {0}".format(unique_device_ids), "INFO")
-            return unique_device_ids
+                    self.log("Devices from site {0}: {1}".format(site_id, site_device_ids), "INFO")
+                    device_ids.extend(site_device_ids)
 
-        except Exception as e:
-            self.log("Exception in get_device_id: {0}".format(e), "ERROR")
-            self.set_operation_result("failed", False, str(e), "ERROR").check_return_status()
+        unique_device_ids = list(set(device_ids))
+        self.log("Collected device instance UUIDs: {0}".format(device_ids), "INFO")
+        self.log("Collected unique device instance UUIDs: {0}".format(unique_device_ids), "INFO")
+        return unique_device_ids
 
     def get_device_ip_from_id(self, device_id):
         """
@@ -2206,7 +2216,7 @@ class NetworkDevicesInfo(DnacBase):
                 - Writes to the file path specified in config['file_info']['file_path'].
                 - File format defaults to YAML but can be set to JSON.
                 - File mode defaults to overwrite ('w') but can be append ('a').
-                - If timestamp is True, inserts a 'Downloaded_at' timestamp inside the file content.
+                - If timestamp is True, inserts a 'Downloaded at' timestamp inside the file content.
                 - Creates directories in the file path if they do not exist.
         """
         file_info = config.get("file_info", {})
@@ -2235,13 +2245,15 @@ class NetworkDevicesInfo(DnacBase):
 
         try:
             if isinstance(self.total_response, list):
-                new_data = self.total_response
+                new_data = self.total_response[:]
             else:
                 new_data = [self.total_response]
 
             if timestamp_flag:
-                timestamp_entry = {"Downloaded_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-                new_data.insert(0, timestamp_entry)
+                timestamp_entry = {"Downloaded at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+                new_data_with_timestamp = [timestamp_entry] + new_data
+            else:
+                new_data_with_timestamp = new_data
 
             if file_mode == "a" and os.path.exists(full_path_with_ext):
                 try:
@@ -2260,10 +2272,10 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("Failed to read existing file. Starting fresh.", "WARNING")
                     existing_data = []
 
-                data_to_write = existing_data + new_data
+                data_to_write = existing_data + new_data_with_timestamp
 
             else:
-                data_to_write = new_data
+                data_to_write = new_data_with_timestamp
 
             with open(full_path_with_ext, "w") as f:
                 if file_format == "json":
