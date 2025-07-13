@@ -923,7 +923,7 @@ class PnP(DnacBase):
                     "failed", False, self.msg, "ERROR", bulk_params
                 ).check_return_status()
 
-            self.result['msg'] = "{0} device(s) imported successfully.".format(
+            self.result['msg'] = "{0} device(s) imported successfully".format(
                 len(bulk_params.get("successList")))
             self.log(self.result['msg'], "INFO")
             self.result['response'] = bulk_params
