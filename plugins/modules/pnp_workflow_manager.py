@@ -1490,7 +1490,7 @@ class PnP(DnacBase):
                         )
                         devices_exists.append(serial_number)
                         if authorize_flag and claim_stat == "Claimed" and self.compare_dnac_versions(
-                            self.get_ccc_version(), "2.3.7.6") > 0:
+                           self.get_ccc_version(), "2.3.7.6") > 0:
                             authorize_response = self.authorize_device(device_response.get("id"))
                             self.log("Device authorize response: '{0}'".format(
                                 authorize_response), "INFO")
