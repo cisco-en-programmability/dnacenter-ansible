@@ -929,16 +929,6 @@ class PnP(DnacBase):
             self.result['response'] = bulk_params
             self.result['diff'] = self.validated_config
             self.result['changed'] = True
-
-            authorize_status, serial_number_list = self.bulk_authorize_devices(add_devices)
-            if authorize_status:
-                self.result['msg'] += " {0} device(s) authorized successfully".format(
-                    len(serial_number_list))
-                self.log(self.result['msg'], "INFO")
-            else:
-                self.result['msg'] += " Unable to authorize the device(s): {0}".format(
-                    serial_number_list)
-                self.log(self.result['msg'], "INFO")
             return self
 
         except Exception as e:
@@ -954,65 +944,6 @@ class PnP(DnacBase):
             "failed", False, self.msg, "ERROR"
         ).check_return_status()
         return self
-
-    def bulk_authorize_devices(self, processed_devices):
-        """
-        Authorizes multiple devices after bulk import is completed.
-
-        Parameters:
-            processed_devices (list): A list of dictionaries containing bulk device information.
-
-        Returns:
-            tuple:
-                bool: True if all devices are successfully authorized, False otherwise.
-                list: A list of serial numbers of the authorized or unauthorized devices.
-        """
-        self.log("Processing bulk authorize devices started for: {0}".format(
-            self.pprint(processed_devices)), "INFO")
-
-        authorized_devices = []
-        unauthorized_devices = []
-
-        for device in processed_devices:
-            self.log("Checking device '{0}' for authorization flag.".format(
-                str(device)), "INFO")
-            device_info = device.get("deviceInfo", {})
-            serial_number = device_info.get("serialNumber")
-
-            for each_config in self.config:
-                input_device_info = each_config.get("device_info")
-                if not any(each_info.get("serialNumber") == serial_number
-                           and each_info.get("authorize") is True
-                           for each_info in input_device_info):
-                    self.log("Config does not match with bulk processed serial number", "DEBUG")
-                    continue
-
-                device_response = self.get_device_list_pnp(serial_number)
-                if device_response and isinstance(device_response, dict):
-                    authorize_response = self.authorize_device(device_response.get("id"))
-                    self.log("Device authorization response: '{0}'".format(
-                        authorize_response), "INFO")
-
-                    if isinstance(authorize_response, dict):
-                        self.log("Device '{0}' authorized successfully.".format(
-                            serial_number), "INFO")
-                        authorized_devices.append(serial_number)
-                    else:
-                        self.log("Unable to authorized device: '{0}', error: {1}".format(
-                            serial_number, authorize_response), "INFO")
-                        unauthorized_devices.append(serial_number)
-                else:
-                    self.log("No valid device response for serial number: '{0}'".format(
-                        serial_number), "INFO"
-                    )
-                    unauthorized_devices.append(serial_number)
-
-        if authorized_devices and not unauthorized_devices:
-            self.log("Devices authorized successfully for '{0}'".format(
-                self.pprint(processed_devices)), "INFO")
-            return True, authorized_devices
-
-        return False, unauthorized_devices
 
     def compare_config_with_device_info(self, input_config, device_info):
         """
@@ -1507,23 +1438,15 @@ class PnP(DnacBase):
                     )
 
                     if claim_stat != "Provisioned" and not match_stat:
-                        self.log("Updating device info for serial: '{0}' as it's not provisioned or config doesn't match.".format(
-                            serial_number), "DEBUG")
+                        self.log(
+                            "Updating device info for serial: '{0}' as it's not provisioned or config doesn't match.".format(
+                                serial_number
+                            ),
+                            "DEBUG"
+                        )
                         self.update_device_info(
-                            existing_device_info, device_info, device_response.get("id"))
-
-                        if authorize_flag:
-                            authorize_response = self.authorize_device(device_response.get("id"))
-                            self.log("Device authorize response: '{0}'".format(
-                                authorize_response), "INFO")
-
-                            if isinstance(authorize_response, dict):
-                                self.log("Device '{0}' authorized successfully.".format(
-                                    serial_number), "INFO")
-                            else:
-                                self.log("Unable to authorized device: '{0}', error: {1}".format(
-                                    serial_number, authorize_response), "INFO")
-
+                            existing_device_info, device_info, device_response.get("id")
+                        )
                     else:
                         self.log(
                             "Device '{0}' already provisioned with matching config. No update needed.".format(
@@ -1566,6 +1489,17 @@ class PnP(DnacBase):
                             "DEBUG",
                         )
                         devices_exists.append(serial_number)
+                        if authorize_flag and claim_stat == "Claimed":
+                            authorize_response = self.authorize_device(device_response.get("id"))
+                            self.log("Device authorize response: '{0}'".format(
+                                authorize_response), "INFO")
+
+                            if isinstance(authorize_response, dict):
+                                self.log("Device '{0}' authorized successfully.".format(
+                                    serial_number), "INFO")
+                            else:
+                                self.log("Unable to authorized device: '{0}', error: {1}".format(
+                                    serial_number, authorize_response), "INFO")
                 else:
                     self.log(
                         "No valid device info returned for serial: '{0}'. Marking as not existing.".format(
@@ -1679,6 +1613,20 @@ class PnP(DnacBase):
                     and self.have["deviceInfo"]
                 ):
                     self.result["msg"] = "Device Added and Claimed Successfully"
+                    authorize_flag = self.want.get("device_info").get("authorize", False)
+                    if authorize_flag:
+                        authorize_response = self.authorize_device(claim_params["deviceId"])
+                        self.log("Device authorize response: '{0}'".format(
+                            authorize_response), "INFO")
+
+                        if isinstance(authorize_response, dict):
+                            self.log("Device '{0}' authorized successfully.".format(
+                                self.have["deviceInfo"].get("serialNumber")), "INFO")
+                            self.result['msg'] += " device authorized successfully"
+                        else:
+                            self.log("Unable to authorized device: '{0}', error: {1}".format(
+                                claim_params["deviceId"], authorize_response), "INFO")
+
                     self.log(self.result["msg"], "INFO")
                     self.result["response"] = claim_response
                     self.result["diff"] = self.validated_config
@@ -1770,6 +1718,20 @@ class PnP(DnacBase):
 
         if claim_response.get("response") == "Device Claimed":
             self.result["msg"] = "Only Device Claimed Successfully"
+            authorize_flag = self.want.get("device_info").get("authorize", False)
+            if authorize_flag:
+                authorize_response = self.authorize_device(claim_params["deviceId"])
+                self.log("Device authorize response: '{0}'".format(
+                    authorize_response), "INFO")
+
+                if isinstance(authorize_response, dict):
+                    self.log("Device '{0}' authorized successfully.".format(
+                        self.have["deviceInfo"].get("serialNumber")), "INFO")
+                    self.result['msg'] += " device authorized successfully"
+                else:
+                    self.log("Unable to authorized device: '{0}', error: {1}".format(
+                        claim_params["deviceId"], authorize_response), "INFO")
+
             self.log(self.result["msg"], "INFO")
             self.result["response"] = claim_response
             self.result["diff"] = self.validated_config
