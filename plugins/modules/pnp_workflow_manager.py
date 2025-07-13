@@ -1489,7 +1489,8 @@ class PnP(DnacBase):
                             "DEBUG",
                         )
                         devices_exists.append(serial_number)
-                        if authorize_flag and claim_stat == "Claimed":
+                        if authorize_flag and claim_stat == "Claimed" and self.compare_dnac_versions(
+                            self.get_ccc_version(), "2.3.7.6") > 0:
                             authorize_response = self.authorize_device(device_response.get("id"))
                             self.log("Device authorize response: '{0}'".format(
                                 authorize_response), "INFO")
@@ -1614,7 +1615,7 @@ class PnP(DnacBase):
                 ):
                     self.result["msg"] = "Device Added and Claimed Successfully"
                     authorize_flag = self.want.get("device_info").get("authorize", False)
-                    if authorize_flag:
+                    if authorize_flag and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") > 0:
                         authorize_response = self.authorize_device(claim_params["deviceId"])
                         self.log("Device authorize response: '{0}'".format(
                             authorize_response), "INFO")
@@ -1719,7 +1720,7 @@ class PnP(DnacBase):
         if claim_response.get("response") == "Device Claimed":
             self.result["msg"] = "Only Device Claimed Successfully"
             authorize_flag = self.want.get("device_info").get("authorize", False)
-            if authorize_flag:
+            if authorize_flag and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") > 0:
                 authorize_response = self.authorize_device(claim_params["deviceId"])
                 self.log("Device authorize response: '{0}'".format(
                     authorize_response), "INFO")
