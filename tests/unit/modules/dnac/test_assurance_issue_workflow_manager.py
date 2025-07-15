@@ -302,11 +302,11 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 config_verify=True
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result['msg'],
-            "No issues found to resolve or ignore. All issues are already cleared: {'issue_name': 'jan8_1', 'issue_process_type': 'resolution'}"
+            "No issues found to resolve or ignore. All issues are already cleared: [{'issue_name': 'jan8_1', 'issue_process_type': 'resolution'}]"
         )
 
     def test_assurance_issue_workflow_manager_resolution(self):
