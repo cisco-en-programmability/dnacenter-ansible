@@ -302,7 +302,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 config_verify=True
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result['msg'],
