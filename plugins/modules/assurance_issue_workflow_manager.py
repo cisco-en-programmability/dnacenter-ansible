@@ -2460,6 +2460,8 @@ class AssuranceSettings(DnacBase):
                     str(payload_data)
                 )
                 self.log(self.msg, "INFO")
+                self.changed = False
+                self.status = "success"
 
         except Exception as e:
             self.msg = "An error occurred during get issue ids : {0}".format(str(e))
@@ -2478,6 +2480,8 @@ class AssuranceSettings(DnacBase):
         self.msg = "No issues found to resolve or ignore. All issues are already cleared: {0}".format(
             config_data)
         self.log(self.msg, "ERROR")
+        self.changed = False
+        self.status = "success"
         return []
 
     def resolve_issue(self, issue_ids):
