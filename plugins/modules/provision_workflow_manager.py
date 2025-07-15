@@ -642,6 +642,7 @@ class Provision(DnacBase):
                     if (
                         "site_name_hierarchy" not in config_item
                         or not config_item["site_name_hierarchy"]
+                        or not isinstance(config_item["site_name_hierarchy"], str)
                     ):
                         missing_params.append("site_name_hierarchy")
                         self.log(
@@ -811,6 +812,53 @@ class Provision(DnacBase):
             ).check_return_status()
 
         return device_id
+
+    def get_device_id_for_app_telemetry(self):
+        """
+        Fetches the UUID of the device added in the inventory for application telemetry
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+        Returns:
+          The method returns the serial number of the device as a string. If it fails, it returns None.
+        Example:
+          After creating the validated input, this method retrieves the
+          UUID of the device.
+        """
+        try:
+            dev_response = self.dnac_apply["exec"](
+                family="devices",
+                function="get_network_device_by_ip",
+                params={"ip_address": self.validated_config["management_ip_address"]},
+            )
+
+            self.log(
+                "The device response from 'get_network_device_by_ip' API is {0}".format(
+                    str(dev_response)
+                ),
+                "DEBUG",
+            )
+            dev_dict = dev_response.get("response")
+            device_id = dev_dict.get("id")
+
+            self.log(
+                "Device ID of the device with IP address {0} is {1}".format(
+                    self.validated_config["management_ip_address"], device_id
+                ),
+                "INFO",
+            )
+            return device_id
+
+        except Exception as e:
+            self.msg = (
+                "The Device - {0} not present in the Cisco Catalyst Center.".format(
+                    self.validated_config.get("management_ip_address")
+                )
+            )
+            self.log(self.msg, "ERROR")
+
+            return None
 
     def get_task_status(self, task_id=None):
         """
@@ -1369,37 +1417,40 @@ class Provision(DnacBase):
 
         MIN_SUPPORTED_VERSION = "2.3.7.9"
         current_version = self.get_ccc_version()
-
-        if self.compare_dnac_versions(current_version, MIN_SUPPORTED_VERSION) >= 0:
-            self.log(
-                "Current Catalyst Center version ({0}) supports application telemetry.".format(
-                    current_version
-                ),
-                "DEBUG",
-            )
-
-            if application_telemetry:
+        self.log(
+            "Current Catalyst Center version is {0}".format(current_version), "DEBUG"
+        )
+        if application_telemetry:
+            if self.compare_dnac_versions(current_version, MIN_SUPPORTED_VERSION) >= 0:
                 self.log(
-                    "Application telemetry configuration detected: {0}".format(
-                        application_telemetry
+                    "Current Catalyst Center version ({0}) supports application telemetry.".format(
+                        current_version
                     ),
                     "DEBUG",
                 )
-                self.want["application_telemetry"] = application_telemetry
-                return self
+
+                if application_telemetry:
+                    self.log(
+                        "Application telemetry configuration detected: {0}".format(
+                            application_telemetry
+                        ),
+                        "DEBUG",
+                    )
+                    self.want["application_telemetry"] = application_telemetry
+                    return self
+                else:
+                    self.log(
+                        "No application telemetry configuration found in the validated config.",
+                        "DEBUG",
+                    )
             else:
-                self.log(
-                    "No application telemetry configuration found in the validated config.",
-                    "DEBUG",
+                self.msg = "Application telemetry is available only in version {0} or higher. Current version: {1}".format(
+                    MIN_SUPPORTED_VERSION, current_version
                 )
-        else:
-            self.msg = "Application telemetry is available only in version {0} or higher. Current version: {1}".format(
-                MIN_SUPPORTED_VERSION, current_version
-            )
-            self.log(self.msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+                self.log(self.msg, "ERROR")
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
         self.want["device_type"] = self.get_dev_type()
 
@@ -1723,7 +1774,8 @@ class Provision(DnacBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     return self
                 device_type = self.get_dev_type()
-                device_id = self.get_device_id()
+
+                device_id = self.get_device_id_for_app_telemetry()
 
                 if not device_id:
                     self.log("Skipping IP {0} due to missing device_id".format(ip), "WARNING")
@@ -3097,6 +3149,9 @@ class Provision(DnacBase):
                 ).check_return_status()
 
         elif self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+            self.log(
+                "Detected Catalyst Center version <= 2.3.7.6"
+            )
             try:
                 response = self.dnac._exec(
                     family="sda",
