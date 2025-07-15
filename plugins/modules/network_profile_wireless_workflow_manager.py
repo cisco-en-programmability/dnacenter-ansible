@@ -917,7 +917,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 )
                 if device_type == "ADVANCED_SSID_CONFIGURATION" and len(feature_templates) > 1:
                     errormsg.append(
-                        "device_type: 'ADVANCED_SSID_CONFIGURATION' is a special case and should be the only device type in feature_templates." \
+                        "device_type: 'ADVANCED_SSID_CONFIGURATION' is a special case and should be the only device type in feature_templates." +
                         "Please remove other device types if 'ADVANCED_SSID_CONFIGURATION' is used."
                     )
 
@@ -946,8 +946,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     )
                 elif "Default Advanced SSID Design" in template_design and len(template_design) > 1:
                     errormsg.append(
-                        "template_design: 'Default Advanced SSID Design' is a special case and should be the only " \
-                        "template design in feature_templates." \
+                        "template_design: 'Default Advanced SSID Design' is a special case and should be the only " +
+                        "template design in feature_templates. " +
                         "Please remove other template designs if 'Default Advanced SSID Design' is used."
                     )
 
@@ -970,9 +970,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         )
 
                     validate_str(feature_ssid,
-                            dict(type="str", length_max=32),
-                            "applicability_ssids", errormsg,
-                        )
+                                 dict(type="str", length_max=32),
+                                 "applicability_ssids", errormsg)
 
                     if not self.value_exists(ssid_list, "ssid_name", feature_ssid):
                         errormsg.append(
@@ -1749,7 +1748,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 if feature_templates:
                     for each_template in feature_templates:
                         if each_template.get("design_id") and not self.value_exists(
-                            have_feature_templates, "id", each_template.get("design_id")):
+                           have_feature_templates, "id", each_template.get("design_id")):
                             unmatched_keys.append(
                                 "Feature template with template_design '{0}' not found.".format(
                                     each_template.get("design_name")
@@ -1763,7 +1762,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                             )
 
                         if each_template.get("ssids") and not self.value_exists(
-                            have_feature_templates, "ssids", each_template.get("ssids")):
+                           have_feature_templates, "ssids", each_template.get("ssids")):
                             unmatched_keys.append(
                                 "Feature template with applicability_ssids '{0}' not found.".format(
                                     each_template.get("ssids")
