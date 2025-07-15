@@ -48,13 +48,13 @@
             day_n_templates:
               - "WLC_Standard_Config"
             feature_templates:
-                - device_type: CleanAir Configuration
-                  template_design:
-                    - Default CleanAir 802.11b Design
-                    - Default CleanAir 6GHz Design
-                - device_type: Flex Configuration
-                  template_design:
-                    - Default Dot11ax 802.11b Design
+              - device_type: CleanAir Configuration
+                template_design:
+                  - Default CleanAir 802.11b Design
+                  - Default CleanAir 6GHz Design
+              - device_type: Flex Configuration
+                template_design:
+                  - Default Dot11ax 802.11b Design
 
           - profile_name: "Enterprise_Wireless_Profile"
             site_names:
@@ -84,11 +84,11 @@
             day_n_templates:
               - WLC_Advanced_Config
             feature_templates:
-                - device_type: Advanced SSID Configuration
-                  template_design:
-                    - Default Advanced SSID Design
-                  applicability_ssids:
-                    - HQ_WiFi
-                    - Branch_Secure
+              - device_type: Advanced SSID Configuration
+                template_design:
+                  - Default Advanced SSID Design
+                applicability_ssids:
+                  - HQ_WiFi
+                  - Branch_Secure
 
       register: output_list
