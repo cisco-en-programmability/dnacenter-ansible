@@ -513,38 +513,51 @@ class Site(DnacBase):
 
     def find_duplicate_site_name(self, input_config):
         """
-        Identifies duplicate site names from a list of site dictionaries.
+        Identifies duplicate site names under the same parent from a list of site dictionaries.
         Args:
             input_config (list): A list of dictionaries containing site information.
         Returns:
-            list: A list of site names that appear more than once.
+            list: A list of strings in the form "parent/name" that appear more than once.
         """
         self.log("Starting duplicate site name check.", "DEBUG")
         seen_sites = set()
         duplicates = set()
 
         for index, entry in enumerate(input_config, start=1):
-            self.log("Processing site entry {0}: {1}".format(index, entry), "DEBUG")
+            self.log("Processing entry {0}: {1}".format(index, entry), "DEBUG")
             site = entry.get("site", {})
             site_types = ["area", "building", "floor"]
             site_name = None
+            parent_name = None
 
             for site_type in site_types:
                 if site_type in site:
-                    site_name = site[site_type].get("name")
-                    self.log("Found site type '{0}' with name '{1}' in entry {2}.".format(site_type, site_name, index), "DEBUG")
+                    site_data = site[site_type]
+                    site_name = site_data.get("name")
+                    parent_name = site_data.get("parentName") or site_data.get("parent_name")
+                    self.log(
+                        "Found site type '{0}' with name '{1}' and parent '{2}' in entry {3}.".format(
+                            site_type, site_name, parent_name, index
+                        ),
+                        "DEBUG"
+                    )
                     break
 
-            if not site_name:
-                self.log("No valid site name found in entry {0}. Skipping this entry.".format(index), "WARNING")
+            if not site_name or not parent_name:
+                self.log("No valid site name or parent found in entry {0}. Skipping.".format(index), "WARNING")
                 continue
 
-            if site_name in seen_sites:
-                self.log("Duplicate site name found: {0} (Entry {1})".format(site_name, index), "ERROR")
-                duplicates.add(site_name)
+            site_key = (parent_name.strip(), site_name.strip())
+
+            if site_key in seen_sites:
+                self.log(
+                    "Duplicate site name found under same parent: {0} (Entry {1})".format(site_key, index),
+                    "ERROR"
+                )
+                duplicates.add("{}/{}".format(site_key[0], site_key[1]))
             else:
-                self.log("Adding site name to seen list: {0} (Entry {1})".format(site_name, index), "DEBUG")
-                seen_sites.add(site_name)
+                self.log("Adding site to seen list: {0} (Entry {1})".format(site_key, index), "DEBUG")
+                seen_sites.add(site_key)
 
         if duplicates:
             self.log("Duplicate site names detected: {0}".format(", ".join(duplicates)), "ERROR")
