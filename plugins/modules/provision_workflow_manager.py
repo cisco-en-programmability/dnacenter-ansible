@@ -1766,11 +1766,17 @@ class Provision(DnacBase):
 
             for ip in device_ips:
                 self.validated_config["management_ip_address"] = ip
-                device_role = self.get_device_role(ip)
-                self.log("Device role for IP {0} is {1}".format(ip, device_role), "DEBUG")
+                device_type, device_family = self.get_device_type_and_family(ip)
 
-                if device_role and device_role.lower() in ["distribution", "border router"]:
-                    self.msg = ("No telemetry-applicable interfaces/WLANs found. Telemetry not supported for device role: {0}".format(device_role), "WARNING")
+                unsupported_devices = [
+                    "Cisco Catalyst 9500 Switch",
+                    "Cisco Catalyst 9600 Switch"
+                ]
+
+                if (device_type and device_type in unsupported_devices) or \
+                   (device_family and device_family.lower() not in ["routers", "wireless lan controllers", "switches and hubs"]):
+                    self.msg = ("No telemetry-applicable interfaces/WLANs found. "
+                                "device : {0} Telemetry not supported for device type: {1}, family: {2}".format(ip, device_type, device_family))
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     return self
                 device_type = self.get_dev_type()
@@ -1859,19 +1865,11 @@ class Provision(DnacBase):
 
         return self
 
-    def get_device_role(self, device_ip):
+    def get_device_type_and_family(self, device_ip):
         """
-        Retrieves the family type of a device based on its IP address.
-
-        Args:
-            device_ip (str): The IP address of the device to check.
-        Returns:
-            str: The family type of the device (e.g., 'wired', 'wireless') or None if not found.
-        Description:
-            This method queries the Cisco DNA Center API to get the device details by its IP address.
+        Retrieves the 'type' and 'family' of a device using its IP address.
         """
-
-        self.log("Starting device role retrieval for IP: {0}".format(device_ip), "INFO")
+        self.log("Starting device type/family retrieval for IP: {0}".format(device_ip), "INFO")
 
         try:
             dev_response = self.dnac_apply['exec'](
@@ -1880,32 +1878,24 @@ class Provision(DnacBase):
                 params={"ip_address": device_ip}
             )
 
-            self.log("Received API response from 'get_network_device_by_ip': {0}".format(str(dev_response)), "DEBUG")
+            self.log("API response for device IP {0}: {1}".format(device_ip, str(dev_response)), "DEBUG")
 
-            device_details = dev_response.get("response", {})
-            if not device_details:
-                self.log("Invalid response received from the API 'get_network_device_by_ip'. 'response' is empty or missing.", "WARNING")
-                return None
+            device = dev_response.get("response", {})
+            if not device:
+                self.log("Device response empty or missing for IP: {0}".format(device_ip), "WARNING")
+                return None, None
 
-            device_family = device_details.get("role")
-            if device_family:
-                self.log(
-                    "Successfully retrieved device family '{0}' for IP: {1}".format(device_family, device_ip), "INFO"
-                )
-            else:
-                self.log(
-                    "Device family not found in the API response for IP: {0}".format(device_ip),
-                    "WARNING"
-                )
+            device_type = device.get("type", "")
+            device_family = device.get("family", "")
 
-            return device_family
+            self.log("Device type: '{0}', family: '{1}' for IP: {2}".format(device_type, device_family, device_ip), "INFO")
+
+            return device_type, device_family
 
         except Exception as e:
-            device_ip = self.validated_config.get("management_ip_address")
-            msg = "An unexpected error occurred while retrieving device role for IP {0}: {1}".format(device_ip, str(e))
+            msg = "Failed to get device details for IP {0}: {1}".format(device_ip, str(e))
             self.log(msg, "ERROR")
-
-            return None
+            return None, None
 
     def execute_api(self, api_function, payload, action):
         """
