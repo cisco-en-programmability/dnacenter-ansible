@@ -1867,7 +1867,25 @@ class Provision(DnacBase):
 
     def get_device_type_and_family(self, device_ip):
         """
-        Retrieves the 'type' and 'family' of a device using its IP address.
+        Retrieves the type and family of a network device based on its IP address.
+
+        This method interacts with the Cisco Catalyst Center to fetch metadata about a device
+        using its IP address, specifically retrieving its 'type' and 'family' attributes.
+
+        Args:
+            device_ip (str): The IP address of the network device to query.
+
+        Returns:
+            Tuple[str, str]: A tuple containing the device's type and family.
+                            Returns (None, None) if the device is not found or an error occurs.
+
+        Description:
+            This method:
+            - Initiates an API call to retrieve device details from Catalyst Center using the given IP address.
+            - Parses the response to extract the device's 'type' and 'family'.
+            - Logs the retrieval process at various stages including request initiation, API response, and the final result.
+            - Handles scenarios where the device response is empty or an exception occurs during the API call.
+            - Ensures that all operations are logged with appropriate context for easier debugging and traceability.
         """
         self.log("Starting device type/family retrieval for IP: {0}".format(device_ip), "INFO")
 
