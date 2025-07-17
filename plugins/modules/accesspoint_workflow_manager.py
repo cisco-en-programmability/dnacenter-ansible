@@ -8,14 +8,16 @@ __author__ = ("A Mohamed Rafeek, Megha Kandari, Sonali Deepthi Kesali, Natarajan
 DOCUMENTATION = r"""
 ---
 module: accesspoint_workflow_manager
-short_description: Automates bulk AP configuration changes.
+short_description: Manage Cisco Catalyst Center access points
 description:
-  - Automates bulk configuration changes for Access Points (APs).
-  - Modify AP display names, AP names, or other parameters.
-  - Filter specific device details, such as selecting devices with hostnames matching
-    "NFW-AP1-9130AXE".
-  - Compares input details with current AP configurations and applies desired changes
-    only to relevant APs.
+  - Manage access point configurations in Cisco Catalyst Center.
+  - Configure individual AP settings including radio interfaces, controller assignments, and location parameters.
+  - Perform bulk configuration updates across multiple access points of the same series.
+  - Execute lifecycle operations including AP reboot and factory reset for up to 100 devices.
+  - Provision access points to sites and assign RF profiles (HIGH, LOW, TYPICAL, or custom).
+  - Support advanced radio configurations for 2.4GHz, 5GHz, 6GHz, XOR, and TRI radio interfaces.
+  - Compare current configurations with desired state to apply only necessary changes.
+  - Identify access points using MAC address, hostname, or management IP address.
 version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -46,7 +48,7 @@ options:
     type: int
     default: 2
   next_task_after_interval:
-    description: Time in second between Provision and AP updated execution
+    description: Time in seconds between Provision and AP updated execution
     type: int
     default: 5
   config:
@@ -150,20 +152,23 @@ options:
         required: false
       clean_air_si_2.4ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
         type: str
         required: false
       clean_air_si_5ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
         type: str
         required: false
       clean_air_si_6ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
         type: str
         required: false
       primary_controller_name:
@@ -300,7 +305,7 @@ options:
           radio_role_assignment:
             description: |
               Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-              or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
+              or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
             type: str
             required: false
           cable_loss:
@@ -530,7 +535,7 @@ options:
           channel_width:
             description: |
               Width of the channel configured for the TRI radio interface. Accepts values
-              "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
+              "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". For example, 20 MHz.
             type: str
             required: false
           power_assignment_mode:
@@ -547,18 +552,18 @@ options:
           dual_radio_mode:
             description: |
               Mode of operation configured for the TRI radio interface. Specifies how the
-              access point (AP) manages its dual radio functionality. eg . Auto
+              access point (AP) manages its dual radio functionality. For example, Auto.
             type: str
             required: false
       ap_selected_fields:
-        description: When enable the verify flag "config_verify" to see only the filter
+        description: When enabling the verify flag "config_verify" to see only the filter
           field of the AP details in the output. (eg.
           "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address")
         type: str
         required: false
       ap_config_selected_fields:
         description: |
-          When enable the verify flag "config_verify" to see only the filter field of the AP configuration in the output.
+          When enabling the verify flag "config_verify" to see only the filter field of the AP configuration in the output.
           (eg. "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs")
         type: str
         required: false
@@ -632,7 +637,7 @@ options:
           ap_identifier:
             description: |
               AP identifier is a list of dict which contains MAC address, hostname, or management IP address
-              which is used to identify the access points for bulk updated with AP Name to update access point.
+              which is used to identify the access points for bulk updated with AP Name to update the access point.
             type: list
             elements: str
             required: true
@@ -671,7 +676,7 @@ options:
                 required: false
           common_fields_to_change:
             description: |
-              Common fields to change AP is a dict which contains below data which need to update all listed access points.
+              Common fields to change AP is a dict which contains below data which is needed to update all listed access points.
             type: dict
             required: true
             suboptions:
@@ -714,20 +719,23 @@ options:
                 required: false
               clean_air_si_2.4ghz:
                 description: |
-                  Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, "Enabled".
-                  Clean Air Spectrum Intelligence is enabled or disabled.
+                  Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.
+                  Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+                  For example, "Enabled".
                 type: str
                 required: false
               clean_air_si_5ghz:
                 description: |
-                  Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, "Enabled".
-                  Clean Air Spectrum Intelligence is enabled or disabled.
+                  Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.
+                  Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+                  For example, "Enabled".
                 type: str
                 required: false
               clean_air_si_6ghz:
                 description: |
-                  Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, "Enabled".
-                  Clean Air Spectrum Intelligence is enabled or disabled.
+                  Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.
+                  Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+                  For example, "Enabled".
                 type: str
                 required: false
               primary_controller_name:
@@ -865,7 +873,7 @@ options:
                   radio_role_assignment:
                     description: |
                       Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-                      or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
+                      or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
                     type: str
                     required: false
                   cable_loss:
@@ -1095,7 +1103,7 @@ options:
                   channel_width:
                     description: |
                       Width of the channel configured for the TRI radio interface. Accepts values
-                      "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
+                      "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". For example, 20 MHz.
                     type: str
                     required: false
                   power_assignment_mode:
@@ -1112,7 +1120,7 @@ options:
                   dual_radio_mode:
                     description: |
                       Mode of operation configured for the TRI radio interface. Specifies how the
-                      access point (AP) manages its dual radio functionality. eg . Auto
+                      access point (AP) manages its dual radio functionality. For example, Auto.
                     type: str
                     required: false
 requirements:
@@ -3941,7 +3949,7 @@ class Accesspoint(DnacBase):
 
     def reset_access_point(self, ap_list):
         """
-        Factroy reset access points, handling single or bulk APs.
+        Factory reset access points, handling single or bulk APs.
 
         Parameters:
             self (dict): A dictionary used to collect the execution results.
@@ -3978,6 +3986,7 @@ class Accesspoint(DnacBase):
                 task_details_response = self.get_tasks_by_id(task_id)
                 self.log("Status of the reset task: {0} .".format(self.status), "INFO")
                 responses = {}
+
                 if task_details_response.get("endTime") is not None:
                     if task_details_response.get("status") == "SUCCESS":
                         self.log("Reset Task Details: {0} .".format(self.pprint(
@@ -3992,11 +4001,18 @@ class Accesspoint(DnacBase):
                         }
                         self.result['changed'] = True
                         self.result['response'] = responses
-                        self.log("Given APs '{0}' factory reset done successfully with task: '{1}'."
-                                 .format(ap_list, self.pprint(task_details_response)), "INFO")
+                        self.log(
+                            "Factory reset of APs '{0}' completed successfully with task: '{1}'.".format(
+                                ap_list, self.pprint(task_details_response)
+                            ),
+                            "INFO"
+                        )
                         return self
 
-                    self.msg = "Unable to get success response, hence APs are not resetted"
+                    self.msg = (
+                        "Failed to receive a successful response from the reset task; "
+                        "therefore, the APs were not reset."
+                    )
                     self.log(self.msg, "ERROR")
                     self.log("Reset Task Details: {0} .".format(self.pprint(
                         task_details_response)), "ERROR")

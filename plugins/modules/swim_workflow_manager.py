@@ -1296,27 +1296,83 @@ class Swim(DnacBase):
             site_type = self.get_sites_type(site_name)
             site_info = {}
 
+            self.log("Starting site hierarchy processing for: '{0}' (Type: {1})".format(site_name, site_type), "INFO")
             if site_type == "building":
                 self.log(
-                    "Processing site as a building: {site_name}".format(
-                        site_name=site_name
-                    ),
+                    "Processing site as a building: {site_name}".format(site_name=site_name),
                     "DEBUG",
                 )
-                get_site_names = self.get_site(site_name)
-                for item in get_site_names["response"]:
-                    if "nameHierarchy" in item and "id" in item:
-                        site_info[item["nameHierarchy"]] = item["id"]
-                site_names = site_name + "/.*"
+
+                site_info = {}
+
+                self.log("Fetching parent site data for building: {0}".format(site_name), "DEBUG")
+                parent_site_data = self.get_site(site_name)
+
+                if parent_site_data.get("response"):
+                    self.log(
+                        "Parent site data found for building: '{0}'. Processing {1} items.".format(
+                            site_name,
+                            len(parent_site_data.get('response') or [])
+                        ),
+                        "DEBUG"
+                    )
+                    for item in parent_site_data["response"]:
+                        if "nameHierarchy" in item and "id" in item:
+                            site_info[item["nameHierarchy"]] = item["id"]
+                            self.log("Added parent site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
+                        else:
+                            self.log(
+                                "Missing 'nameHierarchy' or 'id' in parent site item: {0}".format(str(item)),
+                                "WARNING"
+                            )
+                    self.log("Parent site data: {0}".format(str(parent_site_data)), "DEBUG")
+                else:
+                    self.log("No data found for parent site: {0}".format(site_name), "WARNING")
+                self.log("Current site_info after parent processing: {0}".format(site_info), "DEBUG")
+                wildcard_site_name = site_name + "/.*"
+                self.log("Attempting to fetch child sites for building with wildcard: {0}".format(wildcard_site_name), "DEBUG")
+                child_site_data = self.get_site(wildcard_site_name)
+
+                if child_site_data and child_site_data.get("response"):
+                    self.log(
+                        "Child site data found for building: '{0}'. Processing {1} items.".format(
+                            wildcard_site_name,
+                            len(child_site_data.get('response') or [])
+                        ),
+                        "DEBUG"
+                    )
+                    for item in child_site_data["response"]:
+                        if "nameHierarchy" in item and "id" in item:
+                            site_info[item["nameHierarchy"]] = item["id"]
+                            self.log("Added child site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
+                        else:
+                            self.log(
+                                "Missing 'nameHierarchy' or 'id' in child site item: {0}".format(str(item)),
+                                "WARNING"
+                            )
+                    self.log("Child site data found and logged for: {0}".format(wildcard_site_name), "DEBUG")
+                    site_names = wildcard_site_name
+                else:
+                    self.log("No child site data found under: {0}".format(wildcard_site_name), "DEBUG")
+                    site_names = site_name
 
             elif site_type == "area":
                 self.log(
-                    "Processing site as an area: {site_name}".format(
-                        site_name=site_name
-                    ),
+                    "Processing site as an area: {site_name}".format(site_name=site_name),
                     "DEBUG",
                 )
-                site_names = site_name + "/.*"
+
+                wildcard_site_name = site_name + "/.*"
+                self.log("Attempting to fetch child sites for area using wildcard:: {0}".format(wildcard_site_name), "DEBUG")
+                child_site_data = self.get_site(wildcard_site_name)
+                self.log("Child site data: {0}".format(str(child_site_data)), "DEBUG")
+
+                if child_site_data and child_site_data.get("response"):
+                    self.log("Child sites found for area: '{0}'. Setting site_names to wildcard.".format(wildcard_site_name), "DEBUG")
+                    site_names = wildcard_site_name
+                else:
+                    self.log("No child sites found under area: '{0}'. Using original site name: '{1}'.".format(wildcard_site_name, site_name), "DEBUG")
+                    site_names = site_name
 
             elif site_type == "floor":
                 self.log(

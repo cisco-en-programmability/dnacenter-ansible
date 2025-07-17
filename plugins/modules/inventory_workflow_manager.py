@@ -1575,7 +1575,7 @@ class Inventory(DnacBase):
         if len(udf) == 1:
             return True
 
-        message = "Global User Defined Field with name '{0}' doesnot exist in Cisco Catalyst Center".format(
+        message = "Global User Defined Field with name '{0}' does not exist in Cisco Catalyst Center".format(
             field_name
         )
         self.log(message, "INFO")
@@ -5895,16 +5895,22 @@ class Inventory(DnacBase):
                 device_username = device_data.get("cli_username")
                 device_password = device_data.get("cli_password")
                 cli_enable_password = device_data.get("cli_enable_password")
+                device_netconf_port = device_data.get("netconf_port")
+                device_snmp_username = device_data.get("snmpv3_user_name")
 
                 playbook_username = playbook_params.get("userName")
                 playbook_password = playbook_params.get("password")
                 playbook_enable_password = playbook_params.get("enablePassword")
+                playbook_netconf_port = playbook_params.get("netconfPort")
+                playbook_snmp_username = playbook_params.get("snmpUserName")
 
                 if (
                     (
                         playbook_username is not None
                         or playbook_password is not None
                         or playbook_enable_password is not None
+                        or playbook_netconf_port is not None
+                        or playbook_snmp_username is not None
                     )
                     and (
                         device_username == playbook_username
@@ -5917,6 +5923,14 @@ class Inventory(DnacBase):
                     and (
                         cli_enable_password == playbook_enable_password
                         or playbook_enable_password is None
+                    )
+                    and (
+                        device_netconf_port == playbook_netconf_port
+                        or playbook_netconf_port is None
+                    )
+                    and (
+                        device_snmp_username == playbook_snmp_username
+                        or playbook_snmp_username is None
                     )
                 ):
                     self.log(
