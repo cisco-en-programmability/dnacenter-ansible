@@ -48,7 +48,7 @@ options:
     type: int
     default: 2
   next_task_after_interval:
-    description: Time in second between Provision and AP updated execution
+    description: Time in seconds between Provision and AP updated execution
     type: int
     default: 5
   config:
@@ -302,7 +302,7 @@ options:
           radio_role_assignment:
             description: |
               Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-              or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
+              or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
             type: str
             required: false
           cable_loss:
@@ -532,7 +532,7 @@ options:
           channel_width:
             description: |
               Width of the channel configured for the TRI radio interface. Accepts values
-              "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
+              "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". For example, 20 MHz.
             type: str
             required: false
           power_assignment_mode:
@@ -549,18 +549,18 @@ options:
           dual_radio_mode:
             description: |
               Mode of operation configured for the TRI radio interface. Specifies how the
-              access point (AP) manages its dual radio functionality. eg . Auto
+              access point (AP) manages its dual radio functionality. For example, Auto.
             type: str
             required: false
       ap_selected_fields:
-        description: When enable the verify flag "config_verify" to see only the filter
+        description: When enabling the verify flag "config_verify" to see only the filter
           field of the AP details in the output. (eg.
           "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address")
         type: str
         required: false
       ap_config_selected_fields:
         description: |
-          When enable the verify flag "config_verify" to see only the filter field of the AP configuration in the output.
+          When enabling the verify flag "config_verify" to see only the filter field of the AP configuration in the output.
           (eg. "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs")
         type: str
         required: false
@@ -634,7 +634,7 @@ options:
           ap_identifier:
             description: |
               AP identifier is a list of dict which contains MAC address, hostname, or management IP address
-              which is used to identify the access points for bulk updated with AP Name to update access point.
+              which is used to identify the access points for bulk updated with AP Name to update the access point.
             type: list
             elements: str
             required: true
@@ -673,7 +673,7 @@ options:
                 required: false
           common_fields_to_change:
             description: |
-              Common fields to change AP is a dict which contains below data which need to update all listed access points.
+              Common fields to change AP is a dict which contains below data which is needed to update all listed access points.
             type: dict
             required: true
             suboptions:
@@ -867,7 +867,7 @@ options:
                   radio_role_assignment:
                     description: |
                       Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-                      or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
+                      or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
                     type: str
                     required: false
                   cable_loss:
@@ -1097,7 +1097,7 @@ options:
                   channel_width:
                     description: |
                       Width of the channel configured for the TRI radio interface. Accepts values
-                      "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
+                      "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". For example, 20 MHz.
                     type: str
                     required: false
                   power_assignment_mode:
@@ -1114,7 +1114,7 @@ options:
                   dual_radio_mode:
                     description: |
                       Mode of operation configured for the TRI radio interface. Specifies how the
-                      access point (AP) manages its dual radio functionality. eg . Auto
+                      access point (AP) manages its dual radio functionality. For example, Auto.
                     type: str
                     required: false
 requirements:
