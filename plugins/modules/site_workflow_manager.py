@@ -572,7 +572,7 @@ class Site(DnacBase):
                 self.log(
                     "Duplicate site name found under same parent: {0} (Entry {1}). Adding to duplicates list.".format(
                         site_key, index), "ERROR"
-                    )
+                )
                 duplicates.add("{}/{}".format(site_key[0], site_key[1]))
             else:
                 self.log("Adding site to seen list: {0} (Entry {1})".format(site_key, index), "DEBUG")
