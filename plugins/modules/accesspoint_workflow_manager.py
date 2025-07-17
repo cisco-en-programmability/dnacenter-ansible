@@ -152,20 +152,23 @@ options:
         required: false
       clean_air_si_2.4ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
         type: str
         required: false
       clean_air_si_5ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
         type: str
         required: false
       clean_air_si_6ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
         type: str
         required: false
       primary_controller_name:
@@ -716,20 +719,23 @@ options:
                 required: false
               clean_air_si_2.4ghz:
                 description: |
-                  Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, "Enabled".
-                  Clean Air Spectrum Intelligence is enabled or disabled.
+                  Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.
+                  Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+                  For example, "Enabled".
                 type: str
                 required: false
               clean_air_si_5ghz:
                 description: |
-                  Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, "Enabled".
-                  Clean Air Spectrum Intelligence is enabled or disabled.
+                  Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.
+                  Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+                  For example, "Enabled".
                 type: str
                 required: false
               clean_air_si_6ghz:
                 description: |
-                  Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, "Enabled".
-                  Clean Air Spectrum Intelligence is enabled or disabled.
+                  Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.
+                  Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+                  For example, "Enabled".
                 type: str
                 required: false
               primary_controller_name:
