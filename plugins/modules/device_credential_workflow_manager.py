@@ -471,7 +471,7 @@ notes:
   - SDK Method used are
     discovery.Discovery.create_global_credentials,
     discovery.Discovery.delete_global_credential,
-    discovery.Discovery.update_global_credentials,
+    discovery.Discovery.update_global_credentials_v2,
     network_settings.NetworkSettings.assign_device_credential_to_site,
     network_settings.NetworkSettings.get_device_credential_settings_for_a_site,
     network_settings.NetworkSettings.update_device_credential_settings_for_a_site,
@@ -3090,12 +3090,12 @@ class DeviceCredential(DnacBase):
                 final_response.append(credential_params)
                 response = self.dnac._exec(
                     family="discovery",
-                    function="update_global_credentials",
+                    function="update_global_credentials_v2",
                     op_modifies=True,
                     params=credential_params,
                 )
                 self.log(
-                    "Received API response for 'update_global_credentials': {0}".format(
+                    "Received API response for 'update_global_credentials_v2': {0}".format(
                         response
                     ),
                     "DEBUG",
@@ -3107,11 +3107,11 @@ class DeviceCredential(DnacBase):
                 ):
                     validation_string = "global credential update performed"
                     self.check_task_response_status(
-                        response, validation_string, "update_global_credentials"
+                        response, validation_string, "update_global_credentials_v2"
                     ).check_return_status()
                 else:
                     self.check_tasks_response_status(
-                        response, "update_global_credentials"
+                        response, "update_global_credentials_v2"
                     ).check_return_status()
 
         self.log(
