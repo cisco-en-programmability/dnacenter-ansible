@@ -67,6 +67,25 @@ options:
           description: >
             The name of the view group as defined in Catalyst Center (e.g., "Inventory").
             Used to identify the viewGroupId via API.
+          choices:
+            - Compliance
+            - Executive Summary
+            - Inventory
+            - SWIM
+            - Access Point
+            - Long Term
+            - Network Devices
+            - Group Pair Communication Analytics
+            - Telemetry
+            - Group Communication Summary
+            - EoX
+            - Rogue and aWIPS
+            - Licensing
+            - AI Endpoint Analytics
+            - Audit Log
+            - Configuration Archive
+            - Client
+            - Security Advisories
           type: str
           required: true
         tags:
@@ -79,6 +98,23 @@ options:
           description: >
             The category of the report, as defined in Catalyst Center (e.g., "Inventory").
             Used to look up viewGroupId.
+          choices:
+            - Network #Compliance, Configuration Archive
+            - Executive
+            - Inventory
+            - SWIM
+            - AP
+            - Cloud
+            - Network Devices
+            - Activity #Group Pair Communication Analytics, Group Communication Summary
+            - Telemetry
+            - EoX
+            - Rogue and aWIPS
+            - Licensing
+            - AI Endpoint Analytics
+            - AuditLog
+            - Client
+            - Security Advisories
           type: str
           required: true
         schedule:
@@ -147,6 +183,74 @@ options:
             subcategory_name:
               description: >
                 The subcategory or view name from which viewId is derived.
+              choices:
+                - Network Device Compliance #viewname in viewGroup Compliance
+                - Network Device Availability # viewName in viewGroup Network Devices
+                - Channel Change Count # viewName in viewGroup Network Devices
+                - Transmit Power Change Count # viewName in viewGroup Network Devices
+                - VLAN # viewName in viewGroup Network Devices
+                - Port Capacity # viewName in viewGroup Network Devices
+                - Energy Management # viewName in viewGroup Network Devices
+                - PoE # viewName in viewGroup Network Devices
+                - Device CPU and Memory Utilization # viewName in viewGroup Network Devices
+                - Network Interface Utilization # viewName in viewGroup Network Devices
+                - Executive Summary # viewName in viewGroup Executive Summary
+                - All Data # viewName in viewGroup Inventory
+                - Port Reclaim View # viewName in viewGroup Inventory
+                - All Data Version 2.0 # viewName in viewGroup Inventory
+                - All Data # viewName in viewGroup SWIM
+                - All Data Version 2.0 # viewName in viewGroup SWIM
+                - AP # viewName in viewGroup Access Point
+                - AP Radio # viewName in viewGroup Access Point
+                - AP - Usage and Client Breakdown # viewName in viewGroup Access Point
+                - Worst Interferers # viewName in viewGroup Access Point
+                - AP RRM Events # viewName in viewGroup Access Point
+                - AP Performance Report # viewName in viewGroup Long Term
+                - Long Term AP Detail # viewName in viewGroup Long Term
+                - Long Term AP Radio # viewName in viewGroup Long Term
+                - Long Term AP Usage and Client Breakdown # viewName in viewGroup Long Term
+                - Long Term Client Detail # viewName in viewGroup Long Term
+                - Long Term Client Session # viewName in viewGroup Long Term
+                - Long Term Network Device Availability # viewName in viewGroup Long Term
+                - Security Group to Security Group # viewName in viewGroup Group Pair Communication Analytics
+                - Security Group to ISE Endpoint Profile Group # viewName in viewGroup Group Pair Communication Analytics
+                - Security Group to Host Group # viewName in viewGroup Group Pair Communication Analytics
+                - ISE Endpoint Profile Group to Security Group # viewName in viewGroup Group Pair Communication Analytics
+                - ISE Endpoint Profile Group to ISE Endpoint Profile Group # viewName in viewGroup Group Pair Communication Analytics
+                - ISE Endpoint Profile Group to Host Group # viewName in viewGroup Group Pair Communication Analytics
+                - Host Group to Security Group # viewName in viewGroup Group Pair Communication Analytics
+                - Host Group to ISE Endpoint Profile Group # viewName in viewGroup Group Pair Communication Analytics
+                - Host Group to Host Group # viewName in viewGroup Group Pair Communication Analytics
+                - Device Lifecycle Information # viewName in viewGroup Telemetry
+                - Security Group to Security Groups # viewName in viewGroup Group Communication Summary
+                - Security Group to ISE Endpoint Profile Groups # viewName in viewGroup Group Communication Summary
+                - Security Group to Host Groups # viewName in viewGroup Group Communication Summary
+                - ISE Endpoint Profile Group to Security Groups # viewName in viewGroup Group Communication Summary
+                - ISE Endpoint Profile Group to ISE Endpoint Profile Groups # viewName in viewGroup Group Communication Summary
+                - ISE Endpoint Profile Group to Host Groups # viewName in viewGroup Group Communication Summary
+                - Host Group to Security Groups # viewName in viewGroup Group Communication Summary
+                - Host Group to ISE Endpoint Profile Group # viewName in viewGroup Group Communication Summary
+                - Host Group to Host Group # viewName in viewGroup Group Communication Summary
+                - EoX Data # viewName in viewGroup EoX
+                - Threat Detail # viewName in viewGroup Rogue and aWIPS
+                - New Threat # viewName in viewGroup Rogue and aWIPS
+                - Rogue Additional Detail # viewName in viewGroup Rogue and aWIPS
+                - Non Compliant Devices # viewName in viewGroup Licensing
+                - Non Compliance Summary # viewName in viewGroup Licensing
+                - AireOS Controllers Licenses # viewName in viewGroup Licensing
+                - License Usage Upload Details # viewName in viewGroup Licensing
+                - License Historical Usage # viewName in viewGroup Licensing
+                - Endpoint Profiling # viewName in viewGroup AI Endpoint Analytics
+                - Audit Log # viewName in viewGroup Audit Log
+                - Configuration Archive  #viewname in viewGroup Configuration Archive
+                - Client #viewname in viewGroup Client
+                - Client Summary # viewName in viewGroup Client
+                - Top N Summary # viewName in viewGroup Client
+                - Client Detail # viewName in viewGroup Client
+                - Client Trend # viewName in viewGroup Client
+                - Client Session # viewName in viewGroup Client
+                - Busiest Client # viewName in viewGroup Client
+                - Unique Clients and Users Summary # viewName in viewGroup Client
               type: str
               required: true
             field_groups:
@@ -720,12 +824,176 @@ class FlexibleReport(DnacBase):
         Returns:
             self: The current instance of the class with updated 'want' attributes.
         """
+        self.log("Retrieving 'want' attributes from configuration: {0}".format(self.pprint(config)), "DEBUG")
+
 
         want = {"generate_report": config.get("generate_report", [])}
+        if not want["generate_report"]:
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-        self.log(want["generate_report"])
         self.want = want
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
+        return self
+
+    def get_all_view_groups(self, category):
+        """
+        Retrieve all view groups from Cisco Catalyst Center.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            category (str): The category of the view groups to retrieve.
+
+        Returns:
+            view_group_id (str): The ID of the view group that matches the specified category.
+            If no view group is found for the specified category, returns None and sets an error message
+        """
+        self.log("Retrieving all view groups for category: {0}".format(self.pprint(category)), "DEBUG")
+        try:
+          response = self.dnac._exec(
+              family="reports",
+              function="get_all_view_groups",
+          )
+          self.log("Response from get_all_view_groups: {0}".format(self.pprint(response)), "DEBUG")
+          if not response:
+              self.msg = "Failed to retrieve view groups from Cisco Catalyst Center."
+              self.set_operation_result("failed", False, self.msg, "ERROR")
+              return self
+          view_group_id = None
+          for view_group_detail in response:
+              if view_group_detail.get("category") == category:
+                  self.log("Found category '{0}' in view groups.".format(category), "DEBUG")
+                  view_group_id = view_group_detail.get("viewGroupId")
+                  self.log("View group ID for category '{0}': {1}".format(category, view_group_id), "DEBUG")
+                  break
+
+          if not view_group_id:
+              self.msg = "No view group found for category '{0}'.".format(category)
+              self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+              return self
+
+          return view_group_id
+        except Exception as e:
+          self.msg = "An error occurred while retrieving all view groups: {0}".format(str(e))
+          self.set_operation_result("failed", False, self.msg, "ERROR")
+          return self
+
+    def get_views_for_a_given_view_group(self, view_group_id, view_name):
+        """
+        Retrieve all views for a given view group from Cisco Catalyst Center.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            view_group_id (str): The ID of the view group for which to retrieve views.
+            view_name (str): The name of the view to retrieve. If not provided, all views will be returned.
+
+        Returns:
+            list: A list of views associated with the specified view group.
+        """
+        self.log("Retrieving views for view group ID: {0}".format(view_group_id), "DEBUG")
+        response = self.dnac._exec(
+            family="reports",
+            function="get_views_for_a_given_view_group",
+            params={"view_group_id": view_group_id},
+        )
+        self.log("Response from get_views_for_a_given_view_group: {0}".format(self.pprint(response)), "DEBUG")
+        if not response:
+            self.msg = "Failed to retrieve views for view group ID '{0}'.".format(view_group_id)
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return []
+
+        all_views_detail = response.get("views")
+        self.log("All views detail for view group ID '{0}': {1}".format(view_group_id, self.pprint(all_views_detail)), "DEBUG")
+        if not all_views_detail:
+            self.msg = "No views found for view group ID '{0}'.".format(view_group_id)
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return []
+
+        # Match the desired view by name
+        if view_name:
+            views_detail = None
+            for view in all_views_detail:
+                if view.get("viewName") == view_name:
+                    views_detail = view
+                    self.log("Found view with name '{0}': {1}".format(view_name, self.pprint(views_detail)), "DEBUG")
+                    break
+            if not views_detail:
+                self.msg = "No views found with name '{0}' in view group ID '{1}'.".format(view_name, view_group_id)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            view_id = views_detail.get("viewId")
+            self.log("View ID for view name '{0}': {1}".format(view_name, view_id), "DEBUG")
+            return view_id
+
+    def get_have(self, config):
+        """
+        Retrieve and store the current state of the flexible report from Cisco Catalyst Center.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            config (dict): The configuration dictionary containing report details.
+
+        Returns:
+            self: The current instance of the class with updated 'have' attributes.
+        """
+        self.log("Retrieving 'have' attributes from configuration: {0}".format(self.pprint(config)), "DEBUG")
+        # view_groups_details = self.get_all_view_groups(config)
+        # view_details = self.get_view_details()
+        generate_report = config.get("generate_report", [])
+
+        for report_entry in generate_report:
+          category = report_entry.get("category")
+          if not category:
+              # self.log("Missing 'category' in generate_report entry: {0}".format(report_entry), "WARNING")
+              # continue
+              self.log(f"Category '{category}' not found in view_groups_details", "WARNING")
+              self.msg = "Mandatory parameter 'Category' '{0}' not found in view_groups_details.".format(category)
+              self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+              return self
+
+          view_group_id = self.get_all_view_groups(category)
+          # view_group_id = view_group_info.get("viewGroupId")
+          if view_group_id:
+              report_entry["viewGroupId"] = view_group_id
+              self.log(f"Found view group ID '{view_group_id}' for category '{category}'", "DEBUG")
+              view_name = report_entry["view"]["view_name"]
+              view_id = self.get_views_for_a_given_view_group(view_group_id, view_name)
+              if not view_id:
+                  self.msg = "No views found for view group ID '{0}'.".format(view_group_id)
+                  self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                  return self
+              report_entry["view"]["viewsId"] = view_id
+              self.log(f"Mapped category '{category}' to viewGroupId '{view_group_id}'", "DEBUG")
+
+        # for report_entry in generate_report:
+        #   view_group_id = report_entry.get("viewGroupId")
+        #   view_id = report_entry.get("view", {}).get("viewsId")
+        #   self.fetch_view_details(view_group_id, view_id)
+
+        have = {"generate_report": config.get("generate_report", [])}
+        self.have = have
+        self.log("Current State (have): {0}".format(str(self.pprint(self.have))), "INFO")
+        return self
+
+    def get_diff_merged(self, config):
+        """
+        generate a customized report based on the configuration provided in the playbook.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            config (dict): The configuration dictionary containing report details.
+
+        Returns:
+            self: The current instance of the class with updated 'diff' attributes.
+        """
+
+        diff = {"generate_report": config.get("generate_report", [])}
+
+        self.log(diff["generate_report"])
+        self.diff = diff
+        self.log("Differences (diff): {0}".format(str(self.diff)), "INFO")
         return self
 
 
@@ -775,10 +1043,10 @@ def main():
     config_verify = ccc_report.params.get("config_verify")
 
     for config in ccc_report.validated_config:
-        ccc_report.input_data_validation(config).check_return_status()
-        ccc_report.get_want(config).check_return_status()
+        # ccc_report.input_data_validation(config).check_return_status()
+        # ccc_report.get_want(config).check_return_status()
         ccc_report.get_have(config).check_return_status()
-        ccc_report.get_diff_state_apply[state](config).check_return_status()
+        # ccc_report.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_report.verify_diff_state_apply[state](config).check_return_status()
 
