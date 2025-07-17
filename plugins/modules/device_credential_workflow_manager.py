@@ -3090,12 +3090,12 @@ class DeviceCredential(DnacBase):
                 final_response.append(credential_params)
                 response = self.dnac._exec(
                     family="discovery",
-                    function="update_global_credentials",
+                    function="update_global_credentials_v2",
                     op_modifies=True,
                     params=credential_params,
                 )
                 self.log(
-                    "Received API response for 'update_global_credentials': {0}".format(
+                    "Received API response for 'update_global_credentials_v2': {0}".format(
                         response
                     ),
                     "DEBUG",
