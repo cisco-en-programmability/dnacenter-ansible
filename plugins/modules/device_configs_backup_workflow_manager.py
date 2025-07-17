@@ -111,13 +111,13 @@ options:
           - For example - ["FCW2225C020", "FJB2334D06N",
             "FJC2327U0S2", "FJC2721271T"]
         type: str
-      family:
+      family_list:
         description:
           - Specifies list of families for which device
             configuration backups need to be taken.
           - For example - ["Switches and Hubs", "Routers"]
         type: str
-      type:
+      type_list:
         description:
           - Specifies the list of types of device(s)
             from a specific device family for which
@@ -125,7 +125,7 @@ options:
           - For example - ["Cisco Catalyst 9300 Switch",
             "Cisco Catalyst 9500 Switch"]
         type: str
-      series:
+      series_list:
         description:
           - Specifies the list of series of the device(s)
             for a specific device type for which configuration
