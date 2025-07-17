@@ -536,7 +536,7 @@ class Site(DnacBase):
             site_types = ["area", "building", "floor"]
             site_name = None
             parent_name = None
-            site_type_found = False # Flag to track if any valid site type was found
+            site_type_found = False  # Flag to track if any valid site type was found
 
             for site_type in site_types:
                 if site_type in site:
@@ -571,14 +571,12 @@ class Site(DnacBase):
             if site_key in seen_sites:
                 self.log(
                     "Duplicate site name found under same parent: {0} (Entry {1}). Adding to duplicates list.".format(
-                        site_key, index),
-                        "ERROR"
+                        site_key, index), "ERROR"
                     )
                 duplicates.add("{}/{}".format(site_key[0], site_key[1]))
             else:
                 self.log("Adding site to seen list: {0} (Entry {1})".format(site_key, index), "DEBUG")
                 seen_sites.add(site_key)
-
 
         if duplicates:
             self.log("Duplicate site names detected: {0}".format(", ".join(duplicates)), "ERROR")
