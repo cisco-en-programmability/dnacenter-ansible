@@ -4,103 +4,183 @@
   gather_facts: no
   connection: local
   tasks:
-    - name: Generate a flexible report
-      cisco.dnac.flexible_report_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
-        state: merged
-        config_verify: True
-        config:
-        - generate_report:
-            - name: "Report Name" # The name of the report
-              view_group_name: "Inventory" # The name of the view group as defined in Catalyst Center
-              tags: [] # Tags to filter reports (optional)
-              category: "Inventory" # The category as defined in Catalyst Center- used to fetch viewGroupId
-              # subcategory: "All Data" # (this is report subtype) From this subcategory or view name, we need to fetch viewId (from viewGroupId we can fetch view and viewId based on the name of the view)
-              schedule:
-                type: "SCHEDULE_LATER" # Options: "SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRING"
-                date_time: "2025-04-19 08:00 AM" # Scheduled time for the report execution => This needs to be converted in epoch
-                time_zone_id: "Asia/Calcutta" # Time zone ID for scheduling
-              delivery:
-                type: "DOWNLOAD" # Options: "DOWNLOAD", "NOTIFICATION", "WEBHOOK"
-                # If type is WEBHOOK, fetch webhook ID from API using webhook name
-                location: "../Desktop/Reports" # Local path to save the report (valid for DOWNLOAD type)
-                # Alternative delivery option: NOTIFICATION
-                # type: "NOTIFICATION"
-                # email_addresses:  # List of recipients for email notifications
-                #   - abc@zzz.com
-                #   - xyz@zzz.com
-                # email_attach: true  # Attach report to email (true/false)
-                # notify: "COMPLETED"  # Options: "IN_QUEUE", "IN_PROGRESS", "COMPLETED"
-              view:
-                subcategory_name: "All Data"
-                # name: "Default"
-                field_groups:
-                  - name: "inventoryAllData"  # Name of the field group
-                    display_name: "All Data"  # Display name in UI
-                    fields:
-                      - name: "type"  # Field name
-                        display_name: "Device Type"  # Display name in UI
-                      - name: "hostname"
-                        display_name: "Device Name"
-                      - name: "ipAddress"
-                        display_name: "IP Address"
-                format:
-                  name: "CSV" # The name of the report format
-                  format_type: "CSV" # Supported formats: "CSV", "PDF", "JSON", "TDE"
-                filters:
-                  - name: "Location"  # Filter name
-                    display_name: "Location"  # Display name in UI
-                    type: "MULTI_SELECT_TREE"  # Type of filter
-                    value:
-                      - value: "/50f15f14-4c73-47a7-9dc3-cb10eb9508bd/"  # Location ID
-                        display_value: "Global"  # Readable name for selection
-                      - value: "/50f15f14-4c73-47a7-9dc3-cb10eb9508bd/4e7815d1-e33a-465c-a8b7-d5d4449640a7/" # Need to provide ID of each location specifically and attach it together
-                        display_value: "Global/AB_Test"
+      - name: Create/Schedule a report configuration.
+        cisco.dnac.flexible_reports_workflow_manager:
+          dnac_host: "{{ dnac_host }}"
+          dnac_port: "{{ dnac_port }}"
+          dnac_username: "{{ dnac_username }}"
+          dnac_password: "{{ dnac_password }}"
+          dnac_verify: "{{ dnac_verify }}"
+          dnac_version: "{{dnac_version}}"
+          dnac_debug: "{{ dnac_debug }}"
+          dnac_log_level: DEBUG
+          dnac_log: True
+          state: merged
+          config_verify: false
+          config:
+            - generate_report:
+              - name: "Report Name"
+                category: "Inventory"
+                view_group_name: "Inventory"
+                view_group_version: 2.0.0
+                tags: []
+                delivery:
+                    type: "DOWNLOAD"
+                    location: "../Desktop/Reports"
+                schedule:
+                    type: "SCHEDULE_LATER"
+                    date_time: "2025-04-19 08:00 AM"
+                    time_zone_id: "Asia/Calcutta"
+                view:
+                  view_name: "All Data"
+                  fieldGroups: 
+                    - name: "inventoryAllData"
+                      display_name: "All Data"
+                      fields:
+                        - name: "type"
+                          display_name: "Device Type"
+                        - name: "hostname"
+                          display_name: "Device Name"
+                        - name: "ipAddress"
+                          display_name: "IP Address"
+                  format:
+                    name: "CSV"
+                    format_type: "CSV"
+                  filters:
+                    - name: "Location"
+                      display_name: "Location"
+                      type: "MULTI_SELECT_TREE"
+                      value:
+                        - value: "/50f15f14-4c73-47a7-9dc3-cb10eb9508bd/"
+                          display_value: "Global"
+                        - value: "/50f15f14-4c73-47a7-9dc3-cb10eb9508bd/4e7815d1-e33a-465c-a8b7-d5d4449640a7/"
+                          display_value: "Global/AB_Test"
 
-                  - name: "SSID"
-                    display_name: "SSID"
-                    type: "MULTI_SELECT"
-                    value:
-                      - value: "NY_SSID" # need to validate these SSIDs based on the site that users provides or default: global
-                        display_value: "NY_SSID"
-                      - value: "ent_ssid_1_wpa3"
-                        display_value: "ent_ssid_1_wpa3"
+                    - name: "SSID"
+                      display_name: "SSID"
+                      type: "MULTI_SELECT"
+                      value:
+                        - value: "NY_SSID"
+                          display_value: "NY_SSID"
+                        - value: "ent_ssid_1_wpa3"
+                          display_value: "ent_ssid_1_wpa3"
 
-                  - name: "Band"
-                    display_name: "Band"
-                    type: "MULTI_SELECT"
-                    value:
-                      - value: "6"
-                        display_value: "6"
+                    - name: "Band"
+                      display_name: "Band"
+                      type: "MULTI_SELECT"
+                      value:
+                        - value: "6"
+                          display_value: "6"
 
-                  - name: "GroupBy"
-                    display_name: "Group By"
-                    type: "SINGLE_SELECT_ARRAY"
-                    value:
-                      - value: "BUILDING"
-                        display_value: "BUILDING"
+                    - name: "GroupBy"
+                      display_name: "Group By"
+                      type: "SINGLE_SELECT_ARRAY"
+                      value:
+                        - value: "BUILDING"
+                          display_value: "BUILDING"
 
-                  - name: "TimeRange"
-                    display_name: "Time Range"
-                    type: "TIME_RANGE"
-                    value:
-                      time_range_option: "CUSTOM"  # Options: "CUSTOM", "LAST_24_HOURS", "LAST_7_DAYS"
-                      start_date_time: "2025-03-01 08:00 AM"  # Custom start time (if CUSTOM is selected)
-                      end_date_time: "2025-03-19 08:00 AM"  # Custom end time (if CUSTOM is selected)
-                      time_zone_id: "America/Los_Angeles"  # Time zone ID for time range filtering
-              download: true  # <--- NEW: Whether to download the report after execution
-              file_path: "../Desktop/Reports"  # <--- NEW: Path where the report should be saved if download is True
-              view_group_version: "1.0"  # Version of the view group, can be fetched from API
+                    - name: "TimeRange"
+                      display_name: "Time Range"
+                      type: "TIME_RANGE"
+                      value:
+                        time_range_option: "CUSTOM"
+                        start_date_time: "2025-03-01 08:00 AM"
+                        end_date_time: "2025-03-19 08:00 AM"
+                        time_zone_id: "America/Los_Angeles"
 
 
-    # - name: Download flexible reports
+
+
+
+
+
+
+        # - generate_report:
+        #     - name: "Report Name" # The name of the report
+        #       view_group_name: "Inventory" # The name of the view group as defined in Catalyst Center
+        #       tags: [] # Tags to filter reports (optional)
+        #       category: "Inventory" # The category as defined in Catalyst Center- used to fetch viewGroupId
+        #       # subcategory: "All Data" # (this is report subtype) From this subcategory or view name, we need to fetch viewId (from viewGroupId we can fetch view and viewId based on the name of the view)
+        #       schedule:
+        #         type: "SCHEDULE_LATER" # Options: "SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRING"
+        #         date_time: "2025-04-19 08:00 AM" # Scheduled time for the report execution => This needs to be converted in epoch
+        #         time_zone_id: "Asia/Calcutta" # Time zone ID for scheduling
+        #       delivery:
+        #         type: "DOWNLOAD" # Options: "DOWNLOAD", "NOTIFICATION", "WEBHOOK"
+        #         # If type is WEBHOOK, fetch webhook ID from API using webhook name
+        #         location: "../Desktop/Reports" # Local path to save the report (valid for DOWNLOAD type)
+        #         # Alternative delivery option: NOTIFICATION
+        #         # type: "NOTIFICATION"
+        #         # email_addresses:  # List of recipients for email notifications
+        #         #   - abc@zzz.com
+        #         #   - xyz@zzz.com
+        #         # email_attach: true  # Attach report to email (true/false)
+        #         # notify: "COMPLETED"  # Options: "IN_QUEUE", "IN_PROGRESS", "COMPLETED"
+        #       view:
+        #         subcategory_name: "All Data"
+        #         # name: "Default"
+        #         field_groups:
+        #           - name: "inventoryAllData"  # Name of the field group
+        #             display_name: "All Data"  # Display name in UI
+        #             fields:
+        #               - name: "type"  # Field name
+        #                 display_name: "Device Type"  # Display name in UI
+        #               - name: "hostname"
+        #                 display_name: "Device Name"
+        #               - name: "ipAddress"
+        #                 display_name: "IP Address"
+        #         format:
+        #           name: "CSV" # The name of the report format
+        #           format_type: "CSV" # Supported formats: "CSV", "PDF", "JSON", "TDE"
+        #         filters:
+        #           - name: "Location"  # Filter name
+        #             display_name: "Location"  # Display name in UI
+        #             type: "MULTI_SELECT_TREE"  # Type of filter
+        #             value:
+        #               - value: site_name #"/50f15f14-4c73-47a7-9dc3-cb10eb9508bd/"  # Location ID
+        #                 display_value: "Global"  # Readable name for selection
+        #               - value: site_name #"/50f15f14-4c73-47a7-9dc3-cb10eb9508bd/4e7815d1-e33a-465c-a8b7-d5d4449640a7/" # Need to provide ID of each location specifically and attach it together
+        #                 display_value: "Global/AB_Test"
+
+        #           - name: "SSID"
+        #             display_name: "SSID"
+        #             type: "MULTI_SELECT"
+        #             value:
+        #               - value: "NY_SSID" # need to validate these SSIDs based on the site that users provides or default: global
+        #                 display_value: "NY_SSID"
+        #               - value: "ent_ssid_1_wpa3"
+        #                 display_value: "ent_ssid_1_wpa3"
+
+        #           - name: "Band"
+        #             display_name: "Band"
+        #             type: "MULTI_SELECT"
+        #             value:
+        #               - value: "6"
+        #                 display_value: "6"
+
+        #           - name: "GroupBy"
+        #             display_name: "Group By"
+        #             type: "SINGLE_SELECT_ARRAY"
+        #             value:
+        #               - value: "BUILDING"
+        #                 display_value: "BUILDING"
+
+        #           - name: "TimeRange"
+        #             display_name: "Time Range"
+        #             type: "TIME_RANGE"
+        #             value:
+        #               time_range_option: "CUSTOM"  # Options: "CUSTOM", "LAST_24_HOURS", "LAST_7_DAYS"
+        #               start_date_time: "2025-03-01 08:00 AM"  # Custom start time (if CUSTOM is selected)
+        #               end_date_time: "2025-03-19 08:00 AM"  # Custom end time (if CUSTOM is selected)
+        #               time_zone_id: "America/Los_Angeles"  # Time zone ID for time range filtering
+        #       # download: true  # <--- NEW: Whether to download the report after execution
+        #       # file_path: "../Desktop/Reports"  # <--- NEW: Path where the report should be saved if download is True
+        #       view_group_version: "1.0"  # Version of the view group, can be fetched from API
+
+
+
+
+    # - name: Delete a flexible report
     #   cisco.dnac.flexible_report_workflow_manager:
     #     dnac_host: "{{ dnac_host }}"
     #     dnac_port: "{{ dnac_port }}"
@@ -113,42 +193,5 @@
     #     state: merged
     #     config_verify: True
     #     config:
-    #     - download_report:
+    #     - generate_report:
     #         name: "Report Name" # The name of the report
-    #         category: "Inventory" # The category as defined in Catalyst Center- used to fetch viewGroupId
-    #         subcategory: "All Data" # (this is report subtype) From this subcategory or view name, we need to fetch viewId (from viewGroupId we can fetch view and viewId based on the name of the view)
-    #         schedule:
-    #           type: "SCHEDULE_LATER" # Options: "SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRING"
-    #           date_time: "2025-04-19 08:00 AM" # Scheduled time for the report execution => This needs to be converted in epoch
-    #           time_zone_id: "Asia/Calcutta" # Time zone ID for scheduling
-    #         delivery:
-    #           type: "DOWNLOAD" # Options: "DOWNLOAD", "NOTIFICATION", "WEBHOOK"
-    #           # If type is WEBHOOK, fetch webhook ID from API using webhook name
-    #           location: "../Desktop/Reports" # Local path to save the report (valid for DOWNLOAD type)
-    #           # Alternative delivery option: NOTIFICATION
-    #           # type: "NOTIFICATION"
-    #           # email_addresses:  # List of recipients for email notifications
-    #           #   - abc@zzz.com
-    #           #   - xyz@zzz.com
-    #           # email_attach: true  # Attach report to email (true/false)
-    #           # notify: "COMPLETED"  # Options: "IN_QUEUE", "IN_PROGRESS", "COMPLETED"
-    #         format:
-    #           name: "CSV" # The name of the report format
-    #           format_type: "CSV" # Supported formats: "CSV", "PDF", "JSON", "TDE"
-
-
-    - name: Delete a flexible report
-      cisco.dnac.flexible_report_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
-        state: merged
-        config_verify: True
-        config:
-        - generate_report:
-            name: "Report Name" # The name of the report
