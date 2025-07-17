@@ -1575,7 +1575,7 @@ class Inventory(DnacBase):
         if len(udf) == 1:
             return True
 
-        message = "Global User Defined Field with name '{0}' doesnot exist in Cisco Catalyst Center".format(
+        message = "Global User Defined Field with name '{0}' does not exist in Cisco Catalyst Center".format(
             field_name
         )
         self.log(message, "INFO")
