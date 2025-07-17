@@ -526,9 +526,17 @@ class Site(DnacBase):
         for index, entry in enumerate(input_config, start=1):
             self.log("Processing entry {0}: {1}".format(index, entry), "DEBUG")
             site = entry.get("site", {})
+            if not site:
+                self.log("Entry {0} does not contain a 'site' key or it is empty. Skipping.".format(
+                    index),
+                    "WARNING"
+                )
+                continue
+
             site_types = ["area", "building", "floor"]
             site_name = None
             parent_name = None
+            site_type_found = False # Flag to track if any valid site type was found
 
             for site_type in site_types:
                 if site_type in site:
@@ -541,29 +549,46 @@ class Site(DnacBase):
                         ),
                         "DEBUG"
                     )
+                    site_type_found = True
                     break
 
+            if not site_type_found:
+                self.log("No recognized site type (area, building, floor) found in site data for entry {0}. Skipping.".format(
+                    index),
+                    "WARNING"
+                )
+                continue
+
             if not site_name or not parent_name:
-                self.log("No valid site name or parent found in entry {0}. Skipping.".format(index), "WARNING")
+                self.log("Site name ('{0}') or parent name ('{1}') is missing or invalid in entry {2}. Skipping.".format(
+                    site_name, parent_name, index),
+                    "WARNING"
+                )
                 continue
 
             site_key = (parent_name.strip(), site_name.strip())
 
             if site_key in seen_sites:
                 self.log(
-                    "Duplicate site name found under same parent: {0} (Entry {1})".format(site_key, index),
-                    "ERROR"
-                )
+                    "Duplicate site name found under same parent: {0} (Entry {1}). Adding to duplicates list.".format(
+                        site_key, index),
+                        "ERROR"
+                    )
                 duplicates.add("{}/{}".format(site_key[0], site_key[1]))
             else:
                 self.log("Adding site to seen list: {0} (Entry {1})".format(site_key, index), "DEBUG")
                 seen_sites.add(site_key)
+
 
         if duplicates:
             self.log("Duplicate site names detected: {0}".format(", ".join(duplicates)), "ERROR")
         else:
             self.log("No duplicate site names found.", "DEBUG")
 
+        self.log("Finished duplicate site name check. Returning {0} duplicates.".format(
+            len(duplicates)),
+            "DEBUG"
+        )
         return list(duplicates)
 
     def get_current_site(self, site):
