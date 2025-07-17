@@ -8,14 +8,16 @@ __author__ = ("A Mohamed Rafeek, Megha Kandari, Sonali Deepthi Kesali, Natarajan
 DOCUMENTATION = r"""
 ---
 module: accesspoint_workflow_manager
-short_description: Automates bulk AP configuration changes.
+short_description: Manage Cisco Catalyst Center access points
 description:
-  - Automates bulk configuration changes for Access Points (APs).
-  - Modify AP display names, AP names, or other parameters.
-  - Filter specific device details, such as selecting devices with hostnames matching
-    "NFW-AP1-9130AXE".
-  - Compares input details with current AP configurations and applies desired changes
-    only to relevant APs.
+  - Manage access point configurations in Cisco Catalyst Center.
+  - Configure individual AP settings including radio interfaces, controller assignments, and location parameters.
+  - Perform bulk configuration updates across multiple access points of the same series.
+  - Execute lifecycle operations including AP reboot and factory reset for up to 100 devices.
+  - Provision access points to sites and assign RF profiles (HIGH, LOW, TYPICAL, or custom).
+  - Support advanced radio configurations for 2.4GHz, 5GHz, 6GHz, XOR, and TRI radio interfaces.
+  - Compare current configurations with desired state to apply only necessary changes.
+  - Identify access points using MAC address, hostname, or management IP address.
 version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
