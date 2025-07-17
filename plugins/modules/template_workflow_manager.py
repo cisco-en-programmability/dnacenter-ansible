@@ -3139,7 +3139,6 @@ class Template(DnacBase):
 
         self.result['changed'] = True
         self.msg = "{0} created successfully with id {1}".format(name, creation_id)
-        self.result['response'][0].get("configurationTemplate")['msg'] = self.msg
         self.log("New {0} created with id {1}".format(name, creation_id), "DEBUG")
         return creation_id, created
 
@@ -3391,22 +3390,11 @@ class Template(DnacBase):
             if not self.result.get('response'):
                 self.result['response'] = [{}]  # Initialize as a list with one empty dictionary
 
-            if not self.result['response'][0].get("configurationTemplate"):
-                self.result['response'][0]["configurationTemplate"] = {}  # Initialize as an empty dictionary
-
-            # Update the response message and task details
-            self.result['response'][0]["configurationTemplate"]['msg'] = self.msg
-            self.result['response'][0]["configurationTemplate"]['response'] = task_details if task_details else response
             self.log("Updated self.result structure for template '{0}': {1}".format(template_name, self.result), "DEBUG")
             # Add the template name to the committed list
             self.template_committed.append(template_name)
             self.log("Template '{0}' added to the committed list.".format(template_name), "INFO")
             self.result['changed'] = True
-            if not self.result['response'][0].get("configurationTemplate").get('msg'):
-                self.msg = "Error while versioning the template '{0}'.".format(template_name)
-                self.status = "failed"
-                return self
-
             self.log("Successfully committed template '{0}'.".format(template_name), "INFO")
         except Exception as e:
             self.msg = "Error while executing 'version_template' API for template '{0}': {1}".format(template_name, str(e))
@@ -3554,10 +3542,6 @@ class Template(DnacBase):
             if not self.requires_update():
                 # Template does not need update
                 self.no_update_template.append(current_template_name)
-                self.result['response'][0].get("configurationTemplate").update({
-                    'response': self.have_template.get("template"),
-                    'msg': "Template does not need update"
-                })
                 is_template_un_committed = self.get_template_commit_status(template_id, current_template_name)
                 self.log("Template '{0}' uncommitted status: {1}".format(current_template_name, is_template_un_committed), "DEBUG")
                 # Check whether the above template is committed or not
