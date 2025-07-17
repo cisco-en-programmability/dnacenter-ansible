@@ -3941,7 +3941,7 @@ class Accesspoint(DnacBase):
 
     def reset_access_point(self, ap_list):
         """
-        Factroy reset access points, handling single or bulk APs.
+        Factory reset access points, handling single or bulk APs.
 
         Parameters:
             self (dict): A dictionary used to collect the execution results.
@@ -3978,6 +3978,7 @@ class Accesspoint(DnacBase):
                 task_details_response = self.get_tasks_by_id(task_id)
                 self.log("Status of the reset task: {0} .".format(self.status), "INFO")
                 responses = {}
+
                 if task_details_response.get("endTime") is not None:
                     if task_details_response.get("status") == "SUCCESS":
                         self.log("Reset Task Details: {0} .".format(self.pprint(
@@ -3992,11 +3993,18 @@ class Accesspoint(DnacBase):
                         }
                         self.result['changed'] = True
                         self.result['response'] = responses
-                        self.log("Given APs '{0}' factory reset done successfully with task: '{1}'."
-                                 .format(ap_list, self.pprint(task_details_response)), "INFO")
+                        self.log(
+                            "Factory reset of APs '{0}' completed successfully with task: '{1}'.".format(
+                                ap_list, self.pprint(task_details_response)
+                            ),
+                            "INFO"
+                        )
                         return self
 
-                    self.msg = "Unable to get success response, hence APs are not resetted"
+                    self.msg = (
+                        "Failed to receive a successful response from the reset task; "
+                        "therefore, the APs were not reset."
+                    )
                     self.log(self.msg, "ERROR")
                     self.log("Reset Task Details: {0} .".format(self.pprint(
                         task_details_response)), "ERROR")
