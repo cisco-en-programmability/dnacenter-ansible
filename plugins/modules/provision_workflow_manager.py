@@ -816,16 +816,24 @@ class Provision(DnacBase):
     def get_device_id_for_app_telemetry(self):
         """
         Fetches the UUID of the device added in the inventory for application telemetry
+        using its management IP address.
 
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
         Returns:
-          The method returns the serial number of the device as a string. If it fails, it returns None.
+            str: The UUID of the device as a string if found successfully.
+            None: If the device is not found in Cisco Catalyst Center or an error occurs.
         Example:
           After creating the validated input, this method retrieves the
           UUID of the device.
         """
+        self.log(
+            "Fetching device UUID for application telemetry for IP: {}".format(
+                self.validated_config.get("management_ip_address", "N/A")
+            ),
+            "DEBUG"
+        )
         try:
             dev_response = self.dnac_apply["exec"](
                 family="devices",
@@ -840,7 +848,25 @@ class Provision(DnacBase):
                 "DEBUG",
             )
             dev_dict = dev_response.get("response")
+            if not dev_dict:
+                self.msg = (
+                    "No device response found for IP address {0} from Cisco Catalyst Center.".format(
+                        self.validated_config.get("management_ip_address")
+                    )
+                )
+                self.log(self.msg, "ERROR")
+                return None
+
             device_id = dev_dict.get("id")
+
+            if not device_id:
+                self.msg = (
+                    "Device ID not found in the response for IP address {0}.".format(
+                        self.validated_config.get("management_ip_address")
+                    )
+                )
+                self.log(self.msg, "ERROR")
+                return None
 
             self.log(
                 "Device ID of the device with IP address {0} is {1}".format(
@@ -851,10 +877,8 @@ class Provision(DnacBase):
             return device_id
 
         except Exception as e:
-            self.msg = (
-                "The Device - {0} not present in the Cisco Catalyst Center.".format(
-                    self.validated_config.get("management_ip_address")
-                )
+            self.msg = "Failed to retrieve device ID for {0}. Error: {1}".format(
+                self.validated_config.get("management_ip_address"), str(e)
             )
             self.log(self.msg, "ERROR")
 
@@ -1428,21 +1452,15 @@ class Provision(DnacBase):
                     ),
                     "DEBUG",
                 )
+                self.log(
+                    "Application telemetry configuration detected: {0}".format(
+                        application_telemetry
+                    ),
+                    "DEBUG",
+                )
+                self.want["application_telemetry"] = application_telemetry
+                return self
 
-                if application_telemetry:
-                    self.log(
-                        "Application telemetry configuration detected: {0}".format(
-                            application_telemetry
-                        ),
-                        "DEBUG",
-                    )
-                    self.want["application_telemetry"] = application_telemetry
-                    return self
-                else:
-                    self.log(
-                        "No application telemetry configuration found in the validated config.",
-                        "DEBUG",
-                    )
             else:
                 self.msg = "Application telemetry is available only in version {0} or higher. Current version: {1}".format(
                     MIN_SUPPORTED_VERSION, current_version
@@ -1451,6 +1469,11 @@ class Provision(DnacBase):
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
+        else:
+            self.log(
+                "No application telemetry configuration found in the validated config.",
+                "DEBUG",
+            )
 
         self.want["device_type"] = self.get_dev_type()
 
