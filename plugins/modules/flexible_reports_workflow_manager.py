@@ -20,7 +20,7 @@ description:
   - Enables scheduling, output format selection (CSV/ZIP), and delivery methods including Email and Webhook.
   - Requires successful device discovery in Catalyst Center for accurate reporting.
   - Flexible Reports help monitor network and client health, device behavior, and utilization trends.
-  - The Flexible Report APIs support multiple operations including fetching schedules, executing reports, and downloading results.
+  - The Flexible Report APIs support multiple operations inluding fetching schedules, executing reports, and downloading results.
   - Applicable from Cisco Catalyst Center version 2.3.3.1 and later.
 version_added: '6.36.0'
 extends_documentation_fragment:
@@ -94,9 +94,9 @@ options:
           type: list
           elements: str
           required: false
-        category:
+        data_category:
           description: >
-            The category of the report, as defined in Catalyst Center (e.g., "Inventory").
+            The data_category of the report, as defined in Catalyst Center (e.g., "Inventory").
             Used to look up viewGroupId.
           choices:
             - Network #Compliance, Configuration Archive
@@ -116,7 +116,7 @@ options:
             - Client
             - Security Advisories
           type: str
-          required: true
+          required: false
         schedule:
           description: >
             Defines when the report should be executed (immediately, later, or on a recurring basis).
@@ -176,13 +176,13 @@ options:
               required: false
         view:
           description: >
-            Contains view details such as subcategory, fields, filters, and format for the report.
+            Contains view details such as subdata_category, fields, filters, and format for the report.
           type: dict
           required: true
           suboptions:
-            subcategory_name:
+            subdata_category_name:
               description: >
-                The subcategory or view name from which viewId is derived.
+                The subdata_category or view name from which viewId is derived.
               choices:
                 - Network Device Compliance #viewname in viewGroup Compliance
                 - Network Device Availability # viewName in viewGroup Network Devices
@@ -394,10 +394,8 @@ EXAMPLES = r"""
         config:
         - generate_report:
             name: "Report Name" # The name of the report
-            view_group_name: "Inventory" # The name of the view group as defined in Catalyst Center
+            view_group_name: "Inventory" # The name of the view group as defined in Catalyst Center - used to fetch viewGroupId
             tags: [] # Tags to filter reports (optional)
-            category: "Inventory" # The category as defined in Catalyst Center- used to fetch viewGroupId
-            # subcategory: "All Data" # (this is report subtype) From this subcategory or view name, we need to fetch viewId (from viewGroupId we can fetch view and viewId based on the name of the view)
             schedule:
               type: "SCHEDULE_LATER" # Options: "SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRING"
               date_time: "2025-04-19 08:00 AM" # Scheduled time for the report execution => This needs to be converted in epoch
@@ -414,7 +412,7 @@ EXAMPLES = r"""
               # email_attach: true  # Attach report to email (true/false)
               # notify: "COMPLETED"  # Options: "IN_QUEUE", "IN_PROGRESS", "COMPLETED"
             view:
-              subcategory_name: "All Data"
+              subdata_category_name: "All Data"
               # name: "Default"
               field_groups:
                 - name: "inventoryAllData"  # Name of the field group
@@ -494,8 +492,8 @@ EXAMPLES = r"""
             - name: "Report Name" # The name of the report
               view_group_name: "Inventory" # The name of the view group as defined in Catalyst Center
               tags: [] # Tags to filter reports (optional)
-              category: "Inventory" # The category as defined in Catalyst Center- used to fetch viewGroupId
-              # subcategory: "All Data" # (this is report subtype) From this subcategory or view name, we need to fetch viewId (from viewGroupId we can fetch view and viewId based on the name of the view)
+              data_category: "Inventory" # The data_category as defined in Catalyst Center- used to fetch viewGroupId
+              # subdata_category: "All Data" # (this is report subtype) From this subdata_category or view name, we need to fetch viewId (from viewGroupId we can fetch view and viewId based on the name of the view)
               schedule:
                 type: "SCHEDULE_LATER" # Options: "SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRING"
                 date_time: "2025-04-19 08:00 AM" # Scheduled time for the report execution => This needs to be converted in epoch
@@ -512,7 +510,7 @@ EXAMPLES = r"""
                 # email_attach: true  # Attach report to email (true/false)
                 # notify: "COMPLETED"  # Options: "IN_QUEUE", "IN_PROGRESS", "COMPLETED"
               view:
-                subcategory_name: "All Data"
+                subdata_category_name: "All Data"
                 # name: "Default"
                 field_groups:
                   - name: "inventoryAllData"  # Name of the field group
@@ -677,6 +675,7 @@ response_download_report_content:
   sample: "CSV-formatted string content or report data"
 """
 
+from datetime import datetime
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -690,9 +689,11 @@ class FlexibleReport(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.result["response"] = [
-            {"flexible_report": {"response": {}, "msg": {}}},
+            {"create_report": {"response": {}, "msg": {}}},
+            {"download_report": {"response": "", "msg": {}}},
+            {"delete_report": {"response": {}, "msg": {}}}
         ]
-        self.create_report, self.update_report, self.no_update_report = [], [], []
+        self.create_report, self.update_report = [], []
 
 
     def validate_input(self):
@@ -722,7 +723,7 @@ class FlexibleReport(DnacBase):
                 "name": {"type": "str", "required": True},
                 "view_group_name": {"type": "str", "required": True},
                 "tags": {"type": "list", "elements": "str", "required": False},
-                "category": {"type": "str", "required": True},
+                "data_category": {"type": "str", "required": True},
                 "schedule": {
                     "type": "dict",
                     "options": {
@@ -744,7 +745,7 @@ class FlexibleReport(DnacBase):
                 "view": {
                     "type": "dict",
                     "options": {
-                        "subcategory_name": {"type": "str", "required": True},
+                        "subdata_category_name": {"type": "str", "required": True},
                         "field_groups": {
                             "type": "list",
                             "elements": "dict",
@@ -812,6 +813,47 @@ class FlexibleReport(DnacBase):
 
         return self
 
+    def input_data_validation(self, config):
+        """
+        Validate the input data provided in the playbook configuration.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            config (dict): The configuration dictionary containing image import and other details.
+
+        Returns:
+            self: The current instance of the class with updated attribute.
+        """
+        self.log("Validating input data: {0}".format(self.pprint(config)), "DEBUG")
+        generate_report = config.get("generate_report", [])
+        for entry in generate_report:
+            if not isinstance(entry, dict):
+                self.msg = "Each entry in 'generate_report' must be a dictionary."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Validate required fields
+            required_fields = ["view_group_name", "view", "view_group_version"]
+            for field in required_fields:
+                if field not in entry:
+                    self.msg = f"Missing required field '{field}' in 'generate_report' entry."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                
+            # If 'name' is missing or empty, generate one dynamically
+            if not entry.get("name"):
+                timestamp = datetime.now().strftime("%b %d %Y %I:%M %p")  # e.g., Jul 20 2025 08:26 PM
+                entry["name"] = f"{entry['data_category']} - {entry['view']['view_name']} - {timestamp}"
+
+            # Validate view structure
+            view = entry.get("view", {})
+            if not isinstance(view, dict):
+                self.msg = "'view' must be a dictionary."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+        # self.config = config
+        return self
 
     def get_want(self, config):
         """
@@ -837,19 +879,19 @@ class FlexibleReport(DnacBase):
         self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
         return self
 
-    def get_all_view_groups(self, category):
+    def get_all_view_groups(self, view_group_name):
         """
         Retrieve all view groups from Cisco Catalyst Center.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            category (str): The category of the view groups to retrieve.
+            view_group_name (str): The name of the view group to retrieve.
 
         Returns:
-            view_group_id (str): The ID of the view group that matches the specified category.
-            If no view group is found for the specified category, returns None and sets an error message
+            view_group_id (str): The ID of the view group that matches the specified name.
+            If no view group is found for the specified name, returns None and sets an error message
         """
-        self.log("Retrieving all view groups for category: {0}".format(self.pprint(category)), "DEBUG")
+        self.log("Retrieving all view groups for view_group_name: {0}".format(self.pprint(view_group_name)), "DEBUG")
         try:
           response = self.dnac._exec(
               family="reports",
@@ -862,18 +904,19 @@ class FlexibleReport(DnacBase):
               return self
           view_group_id = None
           for view_group_detail in response:
-              if view_group_detail.get("category") == category:
-                  self.log("Found category '{0}' in view groups.".format(category), "DEBUG")
+              if view_group_detail.get("name") == view_group_name:
+                  self.log("Found data_category '{0}' in view groups.".format(view_group_name), "DEBUG")
                   view_group_id = view_group_detail.get("viewGroupId")
-                  self.log("View group ID for category '{0}': {1}".format(category, view_group_id), "DEBUG")
+                  data_category = view_group_detail.get("category")
+                  self.log("View group ID and data_category for view_group_name '{0}': {1}, {2}".format(view_group_name, view_group_id, data_category), "DEBUG")
                   break
 
           if not view_group_id:
-              self.msg = "No view group found for category '{0}'.".format(category)
+              self.msg = "No view group found for view_group_name '{0}'.".format(view_group_name)
               self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
               return self
 
-          return view_group_id
+          return view_group_id, data_category
         except Exception as e:
           self.msg = "An error occurred while retrieving all view groups: {0}".format(str(e))
           self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -892,40 +935,77 @@ class FlexibleReport(DnacBase):
             list: A list of views associated with the specified view group.
         """
         self.log("Retrieving views for view group ID: {0}".format(view_group_id), "DEBUG")
-        response = self.dnac._exec(
-            family="reports",
-            function="get_views_for_a_given_view_group",
-            params={"view_group_id": view_group_id},
-        )
-        self.log("Response from get_views_for_a_given_view_group: {0}".format(self.pprint(response)), "DEBUG")
-        if not response:
-            self.msg = "Failed to retrieve views for view group ID '{0}'.".format(view_group_id)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return []
+        try:
+          response = self.dnac._exec(
+              family="reports",
+              function="get_views_for_a_given_view_group",
+              params={"view_group_id": view_group_id},
+          )
+          self.log("Response from get_views_for_a_given_view_group: {0}".format(self.pprint(response)), "DEBUG")
+          if not response:
+              self.msg = "Failed to retrieve views for view group ID '{0}'.".format(view_group_id)
+              self.set_operation_result("failed", False, self.msg, "ERROR")
+              return self
 
-        all_views_detail = response.get("views")
-        self.log("All views detail for view group ID '{0}': {1}".format(view_group_id, self.pprint(all_views_detail)), "DEBUG")
-        if not all_views_detail:
-            self.msg = "No views found for view group ID '{0}'.".format(view_group_id)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return []
+          all_views_detail = response.get("views")
+          self.log("All views detail for view group ID '{0}': {1}".format(view_group_id, self.pprint(all_views_detail)), "DEBUG")
+          if not all_views_detail:
+              self.msg = "No views found for view group ID '{0}'.".format(view_group_id)
+              self.set_operation_result("failed", False, self.msg, "ERROR")
+              return self
 
-        # Match the desired view by name
-        if view_name:
-            views_detail = None
-            for view in all_views_detail:
-                if view.get("viewName") == view_name:
-                    views_detail = view
-                    self.log("Found view with name '{0}': {1}".format(view_name, self.pprint(views_detail)), "DEBUG")
-                    break
-            if not views_detail:
-                self.msg = "No views found with name '{0}' in view group ID '{1}'.".format(view_name, view_group_id)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+          # Match the desired view by name
+          if view_name:
+              views_detail = None
+              for view in all_views_detail:
+                  if view.get("viewName") == view_name:
+                      views_detail = view
+                      self.log("Found view with name '{0}': {1}".format(view_name, self.pprint(views_detail)), "DEBUG")
+                      break
+              if not views_detail:
+                  self.msg = "No views found with name '{0}' in view group ID '{1}'.".format(view_name, view_group_id)
+                  self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                  return self
 
-            view_id = views_detail.get("viewId")
-            self.log("View ID for view name '{0}': {1}".format(view_name, view_id), "DEBUG")
-            return view_id
+              view_id = views_detail.get("viewId")
+              self.log("View ID for view name '{0}': {1}".format(view_name, view_id), "DEBUG")
+              return view_id
+        except Exception as e:
+          self.msg = "An error occurred while retrieving views for view group ID '{0}': {1}".format(view_group_id, str(e))
+          self.set_operation_result("failed", False, self.msg, "ERROR")
+          return self
+
+    def fetch_view_details(self, view_group_id, view_id):
+        """
+        Fetch view details for a given view group and view ID from Cisco Catalyst Center.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            view_group_id (str): The ID of the view group.
+            view_id (str): The ID of the view.
+
+        Returns:
+            None: This method updates the 'view_details' attribute of the instance with the fetched details.
+        """
+        self.log("Fetching view details for view group ID: {0}, view ID: {1}".format(view_group_id, view_id), "DEBUG")
+        try:
+          response = self.dnac._exec(
+              family="reports",
+              function="get_view_details_for_a_given_view_group_and_view",
+              params={"view_group_id": view_group_id, "view_id": view_id},
+          )
+          self.log("Response from get_view_details_for_a_given_view_group_and_view: {0}".format(self.pprint(response)), "DEBUG")
+          if not response:
+              self.msg = "Failed to fetch view details for view group ID '{0}' and view ID '{1}'.".format(view_group_id, view_id)
+              self.set_operation_result("failed", False, self.msg, "ERROR")
+              return self
+
+          self.view_details = response
+          self.log("Fetched view details: {0}".format(self.pprint(self.view_details)), "DEBUG")
+        except Exception as e:
+          self.msg = "An error occurred while fetching view details: {0}".format(str(e))
+          self.set_operation_result("failed", False, self.msg, "ERROR")
+          return self
 
     def get_have(self, config):
         """
@@ -944,37 +1024,168 @@ class FlexibleReport(DnacBase):
         generate_report = config.get("generate_report", [])
 
         for report_entry in generate_report:
-          category = report_entry.get("category")
-          if not category:
-              # self.log("Missing 'category' in generate_report entry: {0}".format(report_entry), "WARNING")
-              # continue
-              self.log(f"Category '{category}' not found in view_groups_details", "WARNING")
-              self.msg = "Mandatory parameter 'Category' '{0}' not found in view_groups_details.".format(category)
+          #check if the report already exists
+          response = self.dnac._exec(
+              family="reports",
+              function="get_list_of_scheduled_reports",
+          )
+          self.log("Response from get_list_of_scheduled_reports: {0}".format(self.pprint(response)), "DEBUG")
+          if not response:
+              self.msg = "Failed to retrieve list of scheduled reports."
+              self.set_operation_result("failed", False, self.msg, "ERROR")
+              return self
+          get_list_of_scheduled_reports = response
+          report_name = report_entry.get("name")
+          if not report_name:
+              self.msg = "The 'name' field is mandatory in the 'generate_report' configuration."
+              self.set_operation_result("failed", False, self.msg, "ERROR")
+              return self
+
+          for report in get_list_of_scheduled_reports:
+              if report.get("name") == report_name:
+                  self.log(f"Report '{report_name}' already exists.", "DEBUG")
+                  report_entry["report_id"] = report.get("reportId")
+                  report_entry["view_group_id"] = report.get("viewGroupId")
+                  report_entry["view"]["views_id"] = report.get("view", {}).get("viewsId")
+                  report_entry["exists"] = True
+                  self.log(f"Report '{report_name}' exists with ID: {report.get('reportId')}", "DEBUG")
+                  break
+
+          view_group_name = report_entry.get("view_group_name")
+          if not view_group_name:
+              self.log(f"view_group_name '{view_group_name}' not found in view_groups_details", "WARNING")
+              self.msg = "Mandatory parameter 'view_group_name' '{0}' not found in view_groups_details.".format(view_group_name)
               self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
               return self
 
-          view_group_id = self.get_all_view_groups(category)
-          # view_group_id = view_group_info.get("viewGroupId")
+          view_group_id, data_category = self.get_all_view_groups(view_group_name)
           if view_group_id:
-              report_entry["viewGroupId"] = view_group_id
-              self.log(f"Found view group ID '{view_group_id}' for category '{category}'", "DEBUG")
+              report_entry["view_group_id"] = view_group_id
+              report_entry["data_category"] = data_category
+              self.log(f"Found view group ID '{view_group_id}' for view_group_name '{view_group_name}'", "DEBUG")
               view_name = report_entry["view"]["view_name"]
               view_id = self.get_views_for_a_given_view_group(view_group_id, view_name)
               if not view_id:
                   self.msg = "No views found for view group ID '{0}'.".format(view_group_id)
                   self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                   return self
-              report_entry["view"]["viewsId"] = view_id
-              self.log(f"Mapped category '{category}' to viewGroupId '{view_group_id}'", "DEBUG")
+              report_entry["view"]["views_id"] = view_id
+              self.log(f"Mapped view_group_name '{view_group_name}' to view_group'_id '{view_group_id}'", "DEBUG")
 
-        # for report_entry in generate_report:
-        #   view_group_id = report_entry.get("viewGroupId")
-        #   view_id = report_entry.get("view", {}).get("viewsId")
-        #   self.fetch_view_details(view_group_id, view_id)
+        for report_entry in generate_report:
+          view_group_id = report_entry.get("view_group_id")
+          view_id = report_entry.get("view", {}).get("views_id")
+          self.fetch_view_details(view_group_id, view_id)
 
         have = {"generate_report": config.get("generate_report", [])}
         self.have = have
         self.log("Current State (have): {0}".format(str(self.pprint(self.have))), "INFO")
+        return self
+
+    def create_n_schedule_reports(self, generate_report):
+        """
+        Create or schedule a report based on the provided configuration.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            generate_report (list): A list of report configurations to be created or scheduled.
+
+        Returns:
+            None: This method updates the 'result' attribute with the response from the report creation API call.
+        """
+        self.log("Creating or scheduling reports with configuration: {0}".format(self.pprint(generate_report)), "DEBUG")
+        if not generate_report:
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        try:
+          for report_entry in generate_report:
+              if not report_entry.get("name"):
+                  self.msg = "The 'name' field is mandatory in the 'generate_report' configuration."
+                  self.set_operation_result("failed", False, self.msg, "ERROR")
+                  return self
+
+              if not report_entry.get("view_group_id"):
+                  self.msg = "The 'view_group_id' field is mandatory in the 'generate_report' configuration."
+                  self.set_operation_result("failed", False, self.msg, "ERROR")
+                  return self
+
+              if not report_entry.get("view", {}).get("views_id"):
+                  self.msg = "The 'views_id' field is mandatory in the 'view' configuration."
+                  self.set_operation_result("failed", False, self.msg, "ERROR")
+                  return self
+
+              # Check if the report already exists
+              if report_entry.get("exists"):
+                  self.log("Report '{0}' already exists. Skipping creation.".format(report_entry.get("name")), "DEBUG")
+                  result = {
+                      "response": {
+                          "reportId": report_entry.get("reportId"),
+                          "viewGroupId": report_entry.get("viewGroupId"),
+                          "viewsId": report_entry.get("view", {}).get("viewsId"),
+                      },
+                      "msg": "Report '{0}' already exists.".format(report_entry.get("name")),
+                  }
+                  self.result["response"].append({"create_report": result})
+                  continue
+              self.log("Processing report creation: {0}".format(self.pprint(report_entry)), "DEBUG")
+              # Prepare the payload for creating or scheduling a report
+
+              payload = {
+                  "name": report_entry.get("name"),
+                  "viewGroupId": report_entry.get("view_group_id"),
+                  "view": {
+                      "viewsId": report_entry.get("view", {}).get("views_id"),
+                      "name": report_entry.get("view", {}).get("view_name"),
+                      "fieldGroups": report_entry.get("view", {}).get("field_groups", []),
+                      "format": {
+                          "formatType": report_entry.get("view", {}).get("format", {}).get("format_type", "CSV"),
+                          "name": report_entry.get("view", {}).get("format", {}).get(
+                              "name",
+                              payload.get("view", {}).get("format", {}).get("format_type", "CSV")
+                          ),
+                      },
+                      "filters": {
+                          "name": report_entry.get("view", {}).get("filters", []).get("name", ""),
+                          "displayName": report_entry.get("view", {}).get("filters", []).get("display_name", ""),
+                      },
+                  },
+                  "schedule": report_entry.get("schedule", {}),
+                  "deliveries": report_entry.get("delivery", {}),
+                  "viewGroupVersion": report_entry.get("view_group_version", "1.0"),
+                  "tags": report_entry.get("tags", []),
+                  "dataCategory": report_entry.get("data_category", ""),
+              }
+              self.log("Payload for create_or_schedule_a_report: {0}".format(self.pprint(payload)), "DEBUG")
+              response = self.dnac._exec(
+                  family="reports",
+                  function="create_or_schedule_a_report",
+                  params=payload,
+              )
+              self.log("Response from create_or_schedule_a_report: {0}".format(self.pprint(response)), "DEBUG")
+              if not response:
+                  self.msg = "Failed to create or schedule report '{0}'.".format(report_entry.get("name"))
+                  self.set_operation_result("failed", False, self.msg, "ERROR")
+                  return self
+              result = {
+                  "response": {
+                      "reportId": response.get("reportId"),
+                      "viewGroupId": response.get("viewGroupId"),
+                      "viewsId": response.get("view", {}).get("viewsId"),
+                  },
+                  "msg": "Successfully created or scheduled report '{0}'.".format(report_entry.get("name")),
+              }
+              self.result["response"].append({"create_report": result})
+              self.log("Successfully created or scheduled report: {0}".format(report_entry.get("name")), "INFO")
+              self.status = "success"
+              self["changed"] = True
+              if report_entry.get("download"):
+                  self.report_download(report_entry, response)
+        except Exception as e:
+            self.msg = "An error occurred while creating or scheduling the report: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self  
         return self
 
     def get_diff_merged(self, config):
@@ -988,12 +1199,175 @@ class FlexibleReport(DnacBase):
         Returns:
             self: The current instance of the class with updated 'diff' attributes.
         """
+        self.log("Generating 'diff' for merged state from configuration: {0}".format(self.pprint(config)), "DEBUG")
+        generate_report = config.get("generate_report", [])
+        if not generate_report:
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-        diff = {"generate_report": config.get("generate_report", [])}
+        self.create_n_schedule_reports(generate_report).check_return_status()
 
-        self.log(diff["generate_report"])
-        self.diff = diff
-        self.log("Differences (diff): {0}".format(str(self.diff)), "INFO")
+        return self
+
+    def report_download(self, report_entry, response):
+        """
+        Download the report content after it has been created or scheduled.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            report_entry (dict): The report entry containing details for downloading the report.
+            response (dict): The response from the report creation or scheduling API call.
+
+        Returns:
+            None: This method updates the 'result' attribute with the downloaded report content.
+        """
+        if not report_entry.get("download"):
+            self.log("Download not requested for report '{0}'.".format(report_entry.get("name")), "DEBUG")
+            return
+
+        file_path = report_entry.get("file_path", "./")
+        if not file_path:
+            self.msg = "File path is required for downloading the report."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return
+
+        download_response = self.dnac._exec(
+            family="reports",
+            function="download_report_content",
+            params={"report_id": response.get("reportId")},
+        )
+        self.log("Response from download_report_content: {0}".format(self.pprint(download_response)), "DEBUG")
+        
+        if not download_response:
+            self.msg = "Failed to download report content for '{0}'.".format(report_entry.get("name"))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return
+
+        # Save the downloaded content to a file
+        with open(file_path, 'w') as file:
+            file.write(download_response)
+        
+        result = {
+            "response": download_response,
+            "msg": "Successfully downloaded report '{0}' to '{1}'.".format(report_entry.get("name"), file_path),
+        }
+        self.result["response"].append({"download_report": result})
+        self.log("Successfully downloaded report: {0}".format(report_entry.get("name")), "INFO")
+        self.status = "success"
+        self["changed"] = True
+        return self
+
+    def get_diff_deleted(self, config):
+        """
+        Delete a flexible report based on the configuration provided in the playbook.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            config (dict): The configuration dictionary containing report details.
+
+        Returns:
+            self: The current instance of the class with updated 'diff' attributes.
+        """
+        self.log("Starting deletion from configuration: {0}".format(self.pprint(config)), "DEBUG")
+        generate_report = config.get("generate_report", [])
+        if not generate_report:
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        for report_entry in generate_report:
+            if not report_entry.get("reportId"):
+                self.msg = "The 'reportId' field is mandatory in the 'generate_report' configuration for deletion."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+            
+            if report_entry["exists"] == False:
+                report_name = report_entry.get("name")
+                result = {
+                    "response": {},
+                    "msg": "Report '{0}' does not exist.".format(report_name),
+                }
+                self.result["response"].append({"delete_report": result})
+                self.msg = "Report '{0}' does not exist.".format(report_name)
+                self.log("Report '{0}' does not exist, skipping deletion.".format(report_name), "DEBUG")
+                continue
+
+            response = self.dnac._exec(
+                family="reports",
+                function="delete_a_scheduled_report",
+                params={"report_id": report_entry.get("reportId")},
+            )
+            self.log("Response from delete_a_scheduled_report: {0}".format(self.pprint(response)), "DEBUG")
+            if not response:
+                self.msg = "Failed to delete report with ID '{0}'.".format(report_entry.get("reportId"))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            result = {
+                    "response": {},
+                    "msg": "Report '{0}' has been successfully deleted.".format(report_entry.get("report_name")),
+                }
+            self.result["response"].append({"delete_report": result})
+            self.log("Successfully deleted report with ID: {0}".format(report_entry.get("reportId")), "INFO")
+            self.status = "success"
+            self["changed"] = True
+
+        return self
+
+    def verify_diff_merged(self):
+        """ Verify the creation or scheduling of a flexible report.
+        This method checks if the specified report has been successfully created or scheduled in Cisco Catalyst Center.
+        Returns:
+            self: The current instance of the class with updated 'verify' attributes.
+        """
+        getattr(self, "get_have")(self.validated_config[0])
+        generate_report = self.have.get("generate_report", [])
+        if not generate_report:
+            self.msg = "No reports found in the current state after creation."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+        for report_entry in generate_report:
+            if report_entry["exists"] == True:
+                report_name = report_entry.get("name")
+                result = {
+                    "Validation": "Success",
+                }
+                self.result["response"].append({"create_report": result})
+                self.msg = "Report '{0}' has been successfully created or scheduled.".format(report_name)
+            else:
+                self.log("Report '{0}' does not exist in the current state.".format(report_name), "DEBUG")
+                self.msg = "Report '{0}' does not exist in the current state.".format(report_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+        return self
+
+    def verify_diff_deleted(self):
+        """ Verify the deletion of a flexible report.
+        This method checks if the specified report has been successfully deleted from Cisco Catalyst Center.
+        Returns:
+            self: The current instance of the class with updated 'verify' attributes.
+        """
+        getattr(self, "get_have")(self.validated_config[0])
+        generate_report = self.have.get("generate_report", [])
+        if not generate_report:
+            self.msg = "No reports found in the current state after deletion."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+        for report_entry in generate_report:
+            if report_entry["exists"] == False:
+                report_name = report_entry.get("name")
+                result = {
+                    "response": {},
+                    "Validation": "Success",
+                }
+                self.result["response"].append({"delete_report": result})
+                self.msg = "Report '{0}' has been successfully deleted.".format(report_name)
+
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
         return self
 
 
@@ -1043,10 +1417,10 @@ def main():
     config_verify = ccc_report.params.get("config_verify")
 
     for config in ccc_report.validated_config:
-        # ccc_report.input_data_validation(config).check_return_status()
-        # ccc_report.get_want(config).check_return_status()
+        ccc_report.input_data_validation(config).check_return_status()
+        ccc_report.get_want(config).check_return_status()
         ccc_report.get_have(config).check_return_status()
-        # ccc_report.get_diff_state_apply[state](config).check_return_status()
+        ccc_report.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_report.verify_diff_state_apply[state](config).check_return_status()
 

@@ -19,74 +19,88 @@
           config_verify: false
           config:
             - generate_report:
-              - name: "Report Name"
-                category: "Inventory"
-                view_group_name: "Inventory"
-                view_group_version: 2.0.0
+              - name: "ansible Report"
+                # category: "Activity"  #NEED TO DISCUSS #not required can be fetched from view_group_name
+                view_group_name: "Group Communication Summary" 
+                view_group_version: 2.0.0. #check with pawan
                 tags: []
                 delivery:
-                    type: "DOWNLOAD"
-                    location: "../Desktop/Reports"
+                   - type: "Email"
+                     location: "../Desktop/Reports"
+                    #  format_type: "CSV"
                 schedule:
                     type: "SCHEDULE_LATER"
                     date_time: "2025-04-19 08:00 AM"
-                    time_zone_id: "Asia/Calcutta"
+                    time_zone: "Asia/Calcutta"
                 view:
-                  view_name: "All Data"
-                  fieldGroups: 
-                    - name: "inventoryAllData"
-                      display_name: "All Data"
-                      fields:
-                        - name: "type"
-                          display_name: "Device Type"
+                  view_name: "Host Group to Host Group"
+                  field_groups: #check if provided by user or it will take from backend
+                    - name: "inventoryAllData" #optional
+                      display_name: "All Data" #optional
+                      fields: #optional
+                        - name: "type" #optional
+                          display_name: "Device Type" #optional
                         - name: "hostname"
                           display_name: "Device Name"
                         - name: "ipAddress"
                           display_name: "IP Address"
                   format:
-                    name: "CSV"
-                    format_type: "CSV"
+                      # format_type: "CSV"
+                      name: "CSV"
                   filters:
                     - name: "Location"
                       display_name: "Location"
                       type: "MULTI_SELECT_TREE"
                       value:
-                        - value: "/50f15f14-4c73-47a7-9dc3-cb10eb9508bd/"
-                          display_value: "Global"
-                        - value: "/50f15f14-4c73-47a7-9dc3-cb10eb9508bd/4e7815d1-e33a-465c-a8b7-d5d4449640a7/"
-                          display_value: "Global/AB_Test"
+                          value: "/cb13cf7d-d592-492a-b0bc-c6b250857bb8/6e7afd94-fdc6-412f-b3d1-cb3ae5e1f7d3/c0dbcff4-f98e-4609-bfcb-f31e5c17ea97/44de8b4c-2a09-412f-90b4-64b6cdbf4a50/20fdc082-6ccb-4101-906d-b6c0477ddf6e/"
+                          display_value: "Global/India/Bangalore/Mantri Square/Floor1"
 
-                    - name: "SSID"
-                      display_name: "SSID"
-                      type: "MULTI_SELECT"
-                      value:
-                        - value: "NY_SSID"
-                          display_value: "NY_SSID"
-                        - value: "ent_ssid_1_wpa3"
-                          display_value: "ent_ssid_1_wpa3"
 
-                    - name: "Band"
-                      display_name: "Band"
-                      type: "MULTI_SELECT"
-                      value:
-                        - value: "6"
-                          display_value: "6"
 
-                    - name: "GroupBy"
-                      display_name: "Group By"
-                      type: "SINGLE_SELECT_ARRAY"
-                      value:
-                        - value: "BUILDING"
-                          display_value: "BUILDING"
 
-                    - name: "TimeRange"
-                      display_name: "Time Range"
-                      type: "TIME_RANGE"
-                      value:
-                        time_range_option: "CUSTOM"
-                        start_date_time: "2025-03-01 08:00 AM"
-                        end_date_time: "2025-03-19 08:00 AM"
-                        time_zone_id: "America/Los_Angeles"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    # - name: "SSID"
+                    #   display_name: "SSID"
+                    #   type: "MULTI_SELECT"
+                    #   value:
+                    #     - value: "NY_SSID"
+                    #       display_value: "NY_SSID"
+
+                    # - name: "Band"
+                    #   display_name: "Band"
+                    #   type: "MULTI_SELECT"
+                    #   value:
+                    #     - value: "6"
+                    #       display_value: "6"
+
+                    # - name: "GroupBy"
+                    #   display_name: "Group By"
+                    #   type: "SINGLE_SELECT_ARRAY"
+                    #   value:
+                    #     - value: "BUILDING"
+                    #       display_value: "BUILDING"
+
+                    # - name: "TimeRange"
+                    #   display_name: "Time Range"
+                    #   type: "TIME_RANGE"
+                    #   value:
+                    #     time_range_option: "CUSTOM"
+                    #     start_date_time: "2025-03-01 08:00 AM"
+                    #     end_date_time: "2025-03-19 08:00 AM"
+                    #     time_zone_id: "America/Los_Angeles"
 
 
 
