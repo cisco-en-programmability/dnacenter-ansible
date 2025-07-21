@@ -342,12 +342,12 @@ notes:
     sda.Sda.get_fabric_sites,
     sda.Sda.get_fabric_zones,
     sda.Sda.get_provisioned_devices,
-    sda.Sda.get_multicast_virtual_networks_v1,
-    sda.Sda.get_multicast_v1,
-    sda.Sda.add_multicast_virtual_networks_v1,
-    sda.Sda.update_multicast_v1,
-    sda.Sda.update_multicast_virtual_networks_v1,
-    sda.Sda.delete_multicast_virtual_network_by_id_v1,
+    sda.Sda.get_multicast_virtual_networks,
+    sda.Sda.get_multicast,
+    sda.Sda.add_multicast_virtual_networks,
+    sda.Sda.update_multicast,
+    sda.Sda.update_multicast_virtual_networks,
+    sda.Sda.delete_multicast_virtual_network_by_id,
     task.Task.get_tasks_by_id,
     task.Task.get_task_details_by_id,
   - Paths used are
@@ -1181,12 +1181,12 @@ class FabricMulticast(DnacBase):
 
         Parameters:
             fabric_name (str): The name of the fabric site.
-            multicast_get_params (dict): The payload for the 'get_multicast_virtual_networks_v1' API which contains the fabric_id
+            multicast_get_params (dict): The payload for the 'get_multicast_virtual_networks' API which contains the fabric_id
                                          and the layer 3 virtual network.
         Returns:
             fabric_multicast_details (dict or None): The fabric multicast details of the fabric site with the given layer 3 virtual network.
         Description:
-            Call the API 'get_multicast_virtual_networks_v1' with 'fabric_id' and 'virtual_network_name'
+            Call the API 'get_multicast_virtual_networks' with 'fabric_id' and 'virtual_network_name'
             as the filter parameters. Catch the exception, if the API throws any.
         """
 
@@ -1204,7 +1204,7 @@ class FabricMulticast(DnacBase):
                 params=multicast_get_params,
             )
             self.log(
-                "Response received from 'get_multicast_virtual_networks_v1': {response}".format(
+                "Response received from 'get_multicast_virtual_networks': {response}".format(
                     response=fabric_multicast_details
                 ),
                 "DEBUG",
@@ -1218,7 +1218,7 @@ class FabricMulticast(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "Exception occurred while running the API 'get_multicast_virtual_networks_v1' "
+                "Exception occurred while running the API 'get_multicast_virtual_networks' "
                 "with parameters {params}: {error_msg}".format(
                     params=multicast_get_params, error_msg=e
                 )
@@ -1240,7 +1240,7 @@ class FabricMulticast(DnacBase):
         Returns:
             replication_mode_details (dict): The multicast replication mode details of the fabric site.
         Description:
-            Calls the 'get_multicast_v1' API with the 'fabric_id' as the filter parameter to retrieve
+            Calls the 'get_multicast' API with the 'fabric_id' as the filter parameter to retrieve
             the multicast replication mode details.
             If the response is not in the expected dictionary format, an error message is logged and
             the operation result is marked as failed.
@@ -1260,7 +1260,7 @@ class FabricMulticast(DnacBase):
                 family="sda", function="get_multicast", params={"fabric_id": fabric_id}
             )
             self.log(
-                "Response received from 'get_multicast_v1': {response}".format(
+                "Response received from 'get_multicast': {response}".format(
                     response=replication_mode_details
                 ),
                 "DEBUG",
@@ -1274,7 +1274,7 @@ class FabricMulticast(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "Exception occurred while calling the 'get_multicast_v1' API with fabric name "
+                "Exception occurred while calling the 'get_multicast' API with fabric name "
                 "{fabric_name} fabric_id {fabric_id}: {error_msg}".format(
                     fabric_name=fabric_name, fabric_id=fabric_id, error_msg=e
                 )
@@ -2753,7 +2753,7 @@ class FabricMulticast(DnacBase):
         Returns:
             self (object): The current object with adding SDA multicast configurations.
         Description:
-            Process the payload in batches of 20 and send it to the SDA API 'add_multicast_virtual_networks_v1'.
+            Process the payload in batches of 20 and send it to the SDA API 'add_multicast_virtual_networks'.
             Validate the API response, check for the 'task_id', and ensure the task completes successfully.
             Log an error if the task fails.
         """
@@ -2784,7 +2784,7 @@ class FabricMulticast(DnacBase):
                     ),
                     "DEBUG",
                 )
-                task_name = "add_multicast_virtual_networks_v1"
+                task_name = "add_multicast_virtual_networks"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = "Failed to retrieve task_id for task '{task_name}' with payload: {batch_payload}.".format(
@@ -2833,7 +2833,7 @@ class FabricMulticast(DnacBase):
             self (object): The current object with updated replication mode information.
         Description:
             Processes the payload in batches of 20 entries and sends them to the SDA API
-            'update_multicast_v1'. Validates the API response, checks for the 'task_id',
+            'update_multicast'. Validates the API response, checks for the 'task_id',
             and ensures the task completes successfully. Logs an error and stops the module
             if a task fails.
         """
@@ -2867,7 +2867,7 @@ class FabricMulticast(DnacBase):
                 )
 
                 # Prepare API payload and task details
-                task_name = "update_multicast_v1"
+                task_name = "update_multicast"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = "Failed to retrieve task_id for task '{task_name}' with payload: {batch_payload}.".format(
@@ -2913,7 +2913,7 @@ class FabricMulticast(DnacBase):
             self (object): The current object with updated SDA multicast configurations.
         Description:
             Processes the payload in batches of 20 entries and sends them to the SDA API
-            'update_multicast_virtual_networks_v1'. Validates the API response, checks for the 'task_id',
+            'update_multicast_virtual_networks'. Validates the API response, checks for the 'task_id',
             and ensures the task completes successfully. Logs an error and stops the module if a task fails.
         """
 
@@ -2950,11 +2950,11 @@ class FabricMulticast(DnacBase):
                     ),
                     "DEBUG",
                 )
-                task_name = "update_multicast_virtual_networks_v1"
+                task_name = "update_multicast_virtual_networks"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = "Failed to retrieve task_id for task '{task_name}' with payload: {batch_payload}.".format(
-                        task_name="update_multicast_virtual_networks_v1",
+                        task_name="update_multicast_virtual_networks",
                         batch_payload=payload,
                     )
                     self.set_operation_result(
@@ -3003,13 +3003,13 @@ class FabricMulticast(DnacBase):
         Description:
             Check if the multicast configuration associated with the Layer 3 virtual network is
             present in the Cisco Catalyst Center or not.
-            If it does not exist, use the API 'add_multicast_virtual_networks_v1'
+            If it does not exist, use the API 'add_multicast_virtual_networks'
             to add the multicast configuration.
             If it does exist, check whether the multicast configuration requires an update
-            or not. If it requires, use the API 'update_multicast_virtual_networks_v1'
+            or not. If it requires, use the API 'update_multicast_virtual_networks'
             to update the multicast configuration.
             Check if the replication mode requires any update or not. If it does,
-            use the API 'update_multicast_v1' to update the replication mode configurations.
+            use the API 'update_multicast' to update the replication mode configurations.
         """
 
         self.log(
@@ -3454,7 +3454,7 @@ class FabricMulticast(DnacBase):
         )
         try:
             payload = {"id": multicast_id}
-            task_name = "delete_multicast_virtual_network_by_id_v1"
+            task_name = "delete_multicast_virtual_network_by_id"
 
             self.log(f"Sending deletion request using task '{task_name}' with payload: {payload}", "DEBUG")
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
