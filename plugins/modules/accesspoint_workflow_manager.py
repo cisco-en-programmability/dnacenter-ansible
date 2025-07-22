@@ -2023,8 +2023,7 @@ class Accesspoint(DnacBase):
             self.result["changed"] = True if self.result["changed"] else False
             self.result["response"] = responses
             self.set_operation_result(
-                    "success", False, self.msg, "INFO", responses
-                ).check_return_status()
+                "success", False, self.msg, "INFO", responses).check_return_status()
             return self
 
         self.log("Final AP Configuration data to update {0}".format(self.pprint(
