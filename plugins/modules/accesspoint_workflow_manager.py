@@ -140,7 +140,7 @@ options:
         type: str
         required: false
       is_assigned_site_as_location:
-        description:
+        description: |
           - Determines whether the access point's location is automatically set to its assigned site.
           - When set to C(Enabled), the assigned site is used as the location and no manual location configuration is needed.
           - When set to C(Disabled), the location must be specified manually.
