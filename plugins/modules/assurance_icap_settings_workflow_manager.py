@@ -165,15 +165,13 @@ options:
             type: str
             required: true
           start_time:
-            description: "The start date and time of
-              the ICAP session in the format 'YYYY-MM-DD
-              HH:MM:SS'."
+            description: The start date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'.
+              (24-hour format, e.g., '2025-07-21 17:42:58' for 5:42:58 PM).
             type: str
             required: false
           end_time:
-            description: "The end date and time of the
-              ICAP session in the format 'YYYY-MM-DD
-              HH:MM:SS'."
+            description: The end date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'.
+              (24-hour format, e.g., '2025-07-21 18:07:49' for 6:07:49 PM).
             type: str
             required: false
           file_path:
@@ -396,11 +394,56 @@ class Icap(DnacBase):
             self: The current instance of the class with updated 'want' attributes.
 
         """
-
+        self.log("Starting to retrieve the desired state from the playbook configuration", "DEBUG")
         want = {}
         want["assurance_icap_settings"] = config.get("assurance_icap_settings")
+        want["assurance_icap_download"] = config.get("assurance_icap_download")
+        if not want["assurance_icap_settings"] and not want["assurance_icap_download"]:
+            self.msg = "No data provided for ICAP configuration creation."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        valid_capture_types = ["FULL", "ONBOARDING", "OTA", "RFSTATS", "ANOMALY"]
+
+        if want["assurance_icap_settings"]:
+            # Loop through each ICAP settings batch
+            for batch in want.get("assurance_icap_settings", []):
+                icap_settings_type = str(batch.get("capture_type", "")).upper()
+                batch["capture_type"] = icap_settings_type  # Update to uppercase
+
+                if icap_settings_type not in valid_capture_types:
+                    self.msg = (
+                        f"Invalid capture type provided in assurance_icap_settings: {icap_settings_type}. "
+                        f"Valid options are: {', '.join(valid_capture_types)}."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+            # Update ota_band value
+            for setting in want.get("assurance_icap_settings", []):
+                if "ota_band" in setting and isinstance(setting["ota_band"], str):
+                    # Remove 'GHz', strip spaces, and convert to float or int
+                    band_str = setting["ota_band"].replace("GHz", "").strip()
+                    band_value = float(band_str)
+                    # Convert to int if it's a whole number (like 5.0)
+                    setting["ota_band"] = int(band_value) if band_value.is_integer() else band_value
+
+        if want["assurance_icap_download"]:
+            # Normalize and validate assurance_icap_download capture type
+            for batch in want.get("assurance_icap_download", []):
+                icap_download_type = str(batch.get("capture_type", "")).upper()
+                batch["capture_type"] = icap_download_type
+
+                if icap_download_type not in valid_capture_types:
+                    self.msg = (
+                        f"Invalid capture type provided in assurance_icap_download: {icap_download_type}. "
+                        f"Valid options are: {', '.join(valid_capture_types)}."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
         self.want = want
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log("Desired State (want): {0}".format((self.pprint(want))), "INFO")
 
         return self
 
@@ -586,15 +629,17 @@ class Icap(DnacBase):
             # Handle time filtering if both are provided
             start_time = assurance_icap_download.get("start_time")
             end_time = assurance_icap_download.get("end_time")
-            if start_time is not None and end_time is not None:
+            if start_time is not None or end_time is not None:
                 errormsg = []
                 validated_start, validated_end = self.validate_start_end_datetime(
                     start_time, end_time, errormsg
                 )
                 self.log("Start Time (Epoch): {}".format(validated_start), "DEBUG")
                 self.log("End Time (Epoch): {}".format(validated_end), "DEBUG")
-                param["startTime"] = validated_start
-                param["endTime"] = validated_end
+                if validated_start:
+                    param["startTime"] = validated_start
+                if validated_end:
+                    param["endTime"] = validated_end
 
                 if errormsg:
                     self.msg = errormsg
@@ -617,12 +662,8 @@ class Icap(DnacBase):
 
             # Check if response is an empty list
             if isinstance(response, list) and not response:
-                failure_reason = (
-                    "Empty response received for ICAP parameters: {}".format(param)
-                )
-                self.msg = "ICAP configuration download failed: {}".format(
-                    failure_reason
-                )
+                failure_reason = "Empty response received for ICAP parameters: {}".format(param)
+                self.msg = "ICAP capture download failed: {}".format(failure_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 self.log(self.msg, "ERROR")
                 return None
@@ -630,14 +671,8 @@ class Icap(DnacBase):
             # Extract response dictionary
             response_data = response.get("response", [])
             if not response_data:
-                failure_reason = (
-                    "No ICAP packet capture files found for parameters: {}".format(
-                        param
-                    )
-                )
-                self.msg = "ICAP configuration deployment failed: {}".format(
-                    failure_reason
-                )
+                failure_reason = "No ICAP packet capture files found for parameters: {}".format(param)
+                self.msg = "ICAP capture download failed: {}".format(failure_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 self.log(self.msg, "ERROR")
                 return None
@@ -646,9 +681,7 @@ class Icap(DnacBase):
             file_id = response_data[0].get("id")
             if not file_id:
                 failure_reason = "ICAP packet capture file ID missing in response."
-                self.msg = "ICAP configuration deployment failed: {}".format(
-                    failure_reason
-                )
+                self.msg = "ICAP capture download failed: {}".format(failure_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 self.log(self.msg, "ERROR")
                 return None
@@ -657,15 +690,13 @@ class Icap(DnacBase):
             return file_id
 
         except Exception as e:
-            failure_reason = "An error occurred while retrieving ICAP packet capture files: {}".format(
-                str(e)
-            )
-            self.msg = "ICAP configuration deployment failed: {}".format(failure_reason)
+            failure_reason = "An error occurred while retrieving ICAP packet capture files: {}".format(str(e))
+            self.msg = "ICAP capture download failed: {}".format(failure_reason)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.log(self.msg, "ERROR")
             return None
 
-    def validate_start_end_datetime(self, start_time, end_time, errormsg):
+    def validate_start_end_datetime(self, start_time=None, end_time=None, errormsg=None):
         """
         Validate and convert input datetimes into Unix epoch milliseconds.
 
@@ -686,25 +717,25 @@ class Icap(DnacBase):
         date_format = "%Y-%m-%d %H:%M:%S"
 
         try:
-            start_datetime = datetime.strptime(start_time, date_format)
-            end_datetime = datetime.strptime(end_time, date_format)
-
-            if start_datetime > end_datetime:
-                msg = "Start datetime '{}' must be before end datetime '{}'.".format(
-                    start_time, end_time
-                )
+            start_datetime, end_datetime = None, None
+            if start_time:
+                start_datetime = datetime.strptime(start_time, date_format)
+            if end_time:
+                end_datetime = datetime.strptime(end_time, date_format)
+            self.log("Parsed start datetime: {}, end datetime: {}".format(start_datetime, end_datetime), "DEBUG")
+            if start_datetime and end_datetime and start_datetime > end_datetime:
+                msg = "Start datetime '{}' must be before end datetime '{}'.".format(start_time, end_time)
                 errormsg.append(msg)
                 self.log(msg, "ERROR")
                 return None, None
 
-            start_epoch_ms = int(start_datetime.timestamp() * 1000)
-            end_epoch_ms = int(end_datetime.timestamp() * 1000)
-            self.log(
-                "Datetime validation successful. Start: {}, End: {}".format(
-                    start_epoch_ms, end_epoch_ms
-                ),
-                "INFO",
-            )
+            start_epoch_ms, end_epoch_ms = None, None
+            # Convert to epoch milliseconds
+            if start_datetime:
+                start_epoch_ms = int(start_datetime.timestamp() * 1000)
+            if end_datetime:
+                end_epoch_ms = int(end_datetime.timestamp() * 1000)
+            self.log("Datetime validation successful. Start: {}, End: {}".format(start_epoch_ms, end_epoch_ms), "INFO")
             return start_epoch_ms, end_epoch_ms
 
         except ValueError as e:
@@ -1025,6 +1056,257 @@ class Icap(DnacBase):
         self.log("Updating dictionary keys based on mapping.", "DEBUG")
         return [{mapping.get(k, k): v for k, v in item.items()} for item in data]
 
+    def get_icap_configuration_status_per_network_device(self, preview_activity_id, preview_description):
+        """
+        Retrieves the status of an Intelligent Capture (ICAP) configuration per network device.
+
+        Args:
+            preview_activity_id (str): The unique identifier for the preview activity.
+            preview_description (str): A description of the ICAP configuration being previewed.
+
+        Returns:
+            network_device_id (str): The network device ID associated with the ICAP configuration.
+        """
+        self.log("Retrieving ICAP configuration status for activity ID: {0}".format(preview_activity_id), "INFO")
+
+        start_time = time.time()
+        retry_interval = int(self.payload.get("dnac_task_poll_interval", 5))
+        resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
+
+        while True:
+            try:
+                icap_configuration_status_per_network_device = self.dnac._exec(
+                    family="sensors",
+                    function="get_i_cap_configuration_status_per_network_device",
+                    params={"preview_activity_id": preview_activity_id}
+                )
+
+                self.log("Received response for ICAP configuration status: {0}".format(icap_configuration_status_per_network_device), "DEBUG")
+
+                # Validate response
+                if not icap_configuration_status_per_network_device or not isinstance(icap_configuration_status_per_network_device, dict):
+                    self.msg = "Invalid response received for preview activity ID: {0}".format(preview_activity_id)
+                    self.delete_icap_config(preview_activity_id, preview_description)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    return None
+
+                response = icap_configuration_status_per_network_device.get("response", [])
+                response = response[0] if response else {}
+                self.log("Parsed ICAP configuration status response: {0}".format(response), "DEBUG")
+
+                network_device_id = response.get("networkDeviceId")
+                status = response.get("status")
+
+                if network_device_id and status == "Not Started":
+                    self.log("Retrieved network device ID: {0} for preview activity ID: {1}".format(network_device_id, preview_activity_id), "INFO")
+                    return network_device_id
+
+                self.msg = "No network device ID found for preview activity ID: {0}".format(preview_activity_id)
+                self.delete_icap_config(preview_activity_id, preview_description)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return None
+
+            except Exception as e:
+                self.msg = "Error retrieving ICAP configuration status: {0}".format(str(e))
+                self.log(self.msg, "ERROR")
+
+            # Check if timeout has been reached
+            if time.time() - start_time >= resync_retry_count:
+                self.msg = "Max retries reached while retrieving ICAP configuration status for activity ID: {0}".format(preview_activity_id)
+                self.log(self.msg, "ERROR")
+                self.delete_icap_config(preview_activity_id, preview_description)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return None
+
+            # Log before sleeping and retry
+            self.log("Waiting for {} seconds before retrying ICAP configuration status for activity ID: {}"
+                     .format(retry_interval, preview_activity_id), "DEBUG")
+            time.sleep(retry_interval)
+
+    def generate_device_cli_of_icap_config(self, preview_activity_id, network_device_id, preview_description):
+        """
+        Generates CLI commands for the Intelligent Capture Configuration based on the preview activity ID and network device ID.
+
+        Args:
+            preview_activity_id (str): The unique identifier for the preview activity.
+            network_device_id (str): The unique identifier for the network device.
+            preview_description (str): A description of the ICAP configuration being previewed.
+
+        Returns:
+            self: The current object with operation result and status message.
+        """
+        self.log(
+            "Generating CLI commands for preview activity ID: {0} and network device ID: {1}".format(
+                preview_activity_id, network_device_id
+            ),
+            "INFO"
+        )
+
+        retry_interval = int(self.payload.get("dnac_task_poll_interval", 5))
+        timeout = int(self.payload.get("dnac_api_task_timeout", 100))
+        start_time = time.time()
+
+        devices_clis_of_the_icap_configuration = {}
+
+        # Polling loop until we get a valid response or timeout
+        while True:
+            try:
+                devices_clis_of_the_icap_configuration = self.dnac._exec(
+                    family="sensors",
+                    function="generates_the_devices_clis_of_the_i_cap_configuration_intent_v1",
+                    params={
+                        "preview_activity_id": preview_activity_id,
+                        "network_device_id": network_device_id
+                    }
+                )
+
+                self.log(
+                    "Response from CLI generation: {0}".format(devices_clis_of_the_icap_configuration),
+                    "DEBUG"
+                )
+
+                # Check if valid response is received
+                if devices_clis_of_the_icap_configuration and isinstance(devices_clis_of_the_icap_configuration, dict):
+                    response = devices_clis_of_the_icap_configuration.get("response", {})
+                    if response:
+                        self.log(
+                            "Valid response received for CLI command generation: {0}".format(response),
+                            "INFO"
+                        )
+                        break  # Exit polling loop if response is valid
+
+            except Exception as e:
+                self.msg = "Error while calling API to generate CLI commands: {0}".format(str(e))
+                self.log(self.msg, "ERROR")
+
+            # Check if timeout has been reached
+            if time.time() - start_time >= timeout:
+                self.msg = "Max retries reached while generating CLI commands for preview activity ID: {0}".format(
+                    preview_activity_id
+                )
+                self.log(self.msg, "ERROR")
+                self.delete_icap_config(preview_activity_id, preview_description)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return self
+
+            # Wait before retry
+            self.log("No valid response yet, retrying in {0} seconds...".format(retry_interval), "DEBUG")
+            time.sleep(retry_interval)
+
+        # After loop, process the final response
+        response = devices_clis_of_the_icap_configuration.get("response", {})
+        task_id = response.get("taskId")
+
+        if not task_id:
+            self.msg = "Failed to retrieve task ID for ICAP deployment."
+            self.log(
+                "Calling delete_icap_config due to missing task ID of generates_the_devices_clis_of_the_i_cap_configuration_intent_v1 ",
+                "DEBUG"
+            )
+            self.delete_icap_config(preview_activity_id, preview_description)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.log(self.msg, "ERROR")
+            return self
+
+        # Validate task details
+        task_details = self.get_task_details(task_id)
+        if task_details.get("isError"):
+            failure_reason = task_details.get("failureReason", "Unknown error")
+            self.msg = "ICAP configuration deployment failed: {0}".format(failure_reason)
+            self.log(
+                "Calling delete_icap_config due to failed task details of generates_the_devices_clis_of_the_i_cap_configuration_intent_v1 ",
+                "DEBUG"
+            )
+            self.delete_icap_config(preview_activity_id, preview_description)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.log(self.msg, "ERROR")
+            return self
+
+        self.log("Successfully generated CLI commands for ICAP configuration.", "INFO")
+        return self
+
+    def retrieves_the_devices_clis_of_the_icap(self, preview_activity_id, network_device_id, preview_description):
+        """
+        Retrieves the CLI commands that will be applied to the device for the specified ICAP configuration.
+
+        Args:
+            preview_activity_id (str): The unique identifier for the preview activity.
+            network_device_id (str): The unique identifier for the network device.
+            preview_description (str): A description of the ICAP configuration being previewed.
+
+        Returns:
+            response: A list of CLI commands to be applied to the device.
+        """
+        # Implementation to retrieve CLI commands
+        try:
+            self.log("Retrieving CLI commands for preview activity ID: {0} and network device ID: {1}".format(preview_activity_id, network_device_id), "DEBUG")
+            response = self.dnac._exec(
+                family="sensors",
+                function="retrieves_the_devices_clis_of_the_i_capintent_v1",
+                params={
+                    "preview_activity_id": preview_activity_id,
+                    "network_device_id": network_device_id
+                }
+            )
+            if response is None or not isinstance(response, dict):
+                self.msg = "Invalid response received for preview activity ID: {0}".format(preview_activity_id)
+                self.log("calling delete_icap_config due to invalid response in retrieves_the_devices_clis_of_the_i_capintent_v1 ", "DEBUG")
+                self.delete_icap_config(preview_activity_id, preview_description)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return self
+
+            device_clis_of_icap = response.get("response")
+            self.log("Retrieved device CLI's: {0}".format(device_clis_of_icap), "DEBUG")
+        except Exception as e:
+            self.msg = "An error occurred while retrieving device CLI's: {0}".format(str(e))
+            self.log("calling delete_icap_config due to exception in retrieves_the_devices_clis_of_the_i_capintent_v1 ", "DEBUG")
+            self.delete_icap_config(preview_activity_id, preview_description)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.log(self.msg, "ERROR")
+        return device_clis_of_icap
+
+    def existing_icap_configuration(self, icap):
+        """
+        Checks if an ICAP configuration with the same parameters is already in progress.
+
+        Args:
+            icap (dict): A dictionary containing the ICAP configuration details.
+
+        Returns:
+            None: If no existing configuration is found, otherwise raises an error.
+        """
+        try:
+            capture_type = icap.get("capture_type")
+            client_mac = icap.get("client_mac")
+            apid = icap.get("ap_id", None)
+            wlc_id = icap.get("wlc_id")
+            param = {
+                'capture_status': "INPROGRESS",
+                'captureType': capture_type,
+                'clientMac': client_mac,
+                'wlcId': wlc_id
+            }
+            if apid:
+                param['apId'] = apid
+
+            # Check if an ICAP configuration with the same parameters is already in progress
+            existing_config = self.dnac._exec(
+                family="sensors",
+                function="retrieves_deployed_i_cap_configurations_while_supporting_basic_filtering",
+                params=param
+            )
+            self.log("Existing ICAP configurations: {0}".format(existing_config), "DEBUG")
+            if existing_config and existing_config.get("response"):
+                self.msg = "An ICAP configuration {0} with capture type '{1}' is already in progress.".format(icap, capture_type)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.log(self.msg, "ERROR")
+                return self
+        except Exception as e:
+            self.msg = "An error occurred while checking existing ICAP configurations: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.log(self.msg, "ERROR")
+            return self
+
     def create_icap(self, assurance_icap_details):
         """
         Creates Intelligent Capture Configuration in the Cisco Catalyst Center, monitors its task status, and takes appropriate actions
@@ -1054,6 +1336,9 @@ class Icap(DnacBase):
                 self.msg = "Missing required parameter 'capture_type' in assurance_icap_settings"
                 self.set_operation_result("failed", False, self.msg, "ERROR")
 
+            # check if the icap with same config is already is in progress
+            self.existing_icap_configuration(icap)
+
         preview_description = assurance_icap_details[0].get("preview_description")
         key_mapping = {
             "capture_type": "captureType",
@@ -1062,6 +1347,9 @@ class Icap(DnacBase):
             "client_mac": "clientMac",
             "wlc_id": "wlcId",
             "ap_id": "apId",
+            "ota_channel": "otaChannel",
+            "ota_band": "otaBand",
+            "ota_channel_width": "otaChannelWidth",
         }
 
         # Update keys in assurance_icap_details
@@ -1077,15 +1365,8 @@ class Icap(DnacBase):
 
         try:
             task_name = "creates_an_i_cap_configuration_intent_for_preview_approve_v1"
-            param = {
-                "previewDescription": preview_description,
-                "payload": updated_assurance_icap_details,
-            }
-            self.log(
-                "Creating Intelligent Capture Configuration with the following parameters: {0}.".format(
-                    param
-                )
-            )
+            param = {"previewDescription": preview_description, "payload": updated_assurance_icap_details}
+            self.log("Creating Intelligent Capture Configuration with the following parameters: {0}.".format(self.pprint(param)))
 
             response = self.dnac._exec(
                 family="sensors",
@@ -1114,6 +1395,35 @@ class Icap(DnacBase):
                 )
                 self.set_operation_result("failed", False, failure_reason, "ERROR")
                 return self
+
+            network_device_id = self.get_icap_configuration_status_per_network_device(preview_activity_id, preview_description)
+            if not network_device_id:
+                self.msg = "Failed to retrieve network device ID for ICAP configuration."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.log(self.msg, "ERROR")
+                return self
+
+            self.log("Network Device ID for ICAP configuration: {0}".format(network_device_id), "INFO")
+
+            # Generate the CLI commands that will be applied to device.
+            self.log("Generating CLI commands for ICAP configuration.", "DEBUG")
+            self.generate_device_cli_of_icap_config(
+                preview_activity_id=preview_activity_id,
+                network_device_id=network_device_id,
+                preview_description=preview_description
+            )
+            self.log("Generated CLI commands", "DEBUG")
+
+            # to view the CLIs that will be applied to the device
+            to_be_applied_clis = self.retrieves_the_devices_clis_of_the_icap(
+                preview_activity_id=preview_activity_id,
+                network_device_id=network_device_id,
+                preview_description=preview_description
+            )
+            self.log("Retrieved device CLI's to be applied: {0}".format(to_be_applied_clis), "DEBUG")
+            result_icap_settings.setdefault("device_cli", {}).update(
+                {"The device's CLIs of the ICAP intent": to_be_applied_clis}
+            )
 
             # Proceed with deployment if successful
             self.log(
@@ -1181,7 +1491,6 @@ class Icap(DnacBase):
                 ),
                 "INFO",
             )
-            self.msg = "Successfully discarded ICAP config."
             return self
 
         except Exception as e:
@@ -1189,6 +1498,7 @@ class Icap(DnacBase):
                 str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.log(self.msg, "ERROR")
             return self
 
     def get_device_deployment_status(self, deployment_task_id):
