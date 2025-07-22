@@ -139,8 +139,11 @@ options:
         required: false
       is_assigned_site_as_location:
         description: |
-          Configures whether the access point location is automatically set to the site assigned to the access point.
-          Accepts "Enabled" or "Disabled". If set to "Enabled", no additional location configuration is required.
+          Configures whether the access point's location is automatically set to its assigned site.
+          If "Enabled", the assigned site is used as the location, and no further location configuration is required.
+          If "Disabled", the access point's location must be configured manually.
+          Accepted values: "Enabled", "Disabled".
+          Note: Idempotent behavior is not supported for this field.
         type: str
         required: false
       failover_priority:
@@ -1859,8 +1862,8 @@ class Accesspoint(DnacBase):
             return self
 
         self.validated_config = valid_param
-        self.msg = "Successfully validated playbook config params:{0}".format(self.pprint(valid_param))
-        self.log(self.msg, "INFO")
+        msg = "Successfully validated playbook config params:{0}".format(self.pprint(valid_param))
+        self.log(msg, "INFO")
         self.status = "success"
         return self
 
@@ -2002,7 +2005,8 @@ class Accesspoint(DnacBase):
         self.log("Comparing current AP configuration with input data.", "INFO")
         consolidated_data = self.config_diff(self.have["current_ap_config"])
         if not consolidated_data:
-            self.msg = "AP - {0} does not need any update".format(self.have.get("current_ap_config").get("ap_name"))
+            self.msg += "AP - {0} does not need any update".format(
+                self.have.get("current_ap_config").get("ap_name"))
             self.log(self.msg, "INFO")
             del self.payload["access_point_details"]
             responses["accesspoints_updates"].update({
@@ -2010,6 +2014,9 @@ class Accesspoint(DnacBase):
             })
             self.result["changed"] = True if self.result["changed"] else False
             self.result["response"] = responses
+            self.set_operation_result(
+                    "success", False, self.msg, "INFO", responses
+                ).check_return_status()
             return self
 
         self.log("Final AP Configuration data to update {0}".format(self.pprint(
@@ -2104,6 +2111,7 @@ class Accesspoint(DnacBase):
 
         ap_exists = self.have.get("ap_exists")
         ap_name = self.have.get("current_ap_config").get("ap_name")
+        responses = {}
 
         if not ap_exists:
             self.status = "failed"
@@ -2143,7 +2151,6 @@ class Accesspoint(DnacBase):
 
         self.log("Unmatch count for the radio configuration : {0}".format(str(unmatch_count)), "INFO")
         self.log(str(require_update), "INFO")
-        responses = {}
         responses["accesspoints_verify"] = {}
 
         if self.have.get("site_required_changes") is False:
@@ -2444,8 +2451,8 @@ class Accesspoint(DnacBase):
             self.status = "failed"
             return self
 
-        self.msg = "Successfully validated config params: {0}".format(str(ap_config))
-        self.log(self.msg, "INFO")
+        msg = "Successfully validated config params: {0}".format(str(ap_config))
+        self.log(msg, "INFO")
         self.status = "success"
         return self
 
