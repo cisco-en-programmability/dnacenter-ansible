@@ -2116,9 +2116,6 @@ class FabricDevicesInfo(DnacBase):
           Post creation of the validated input, we use this method to get the
           type of the device.
         """
-
-        # for ip_address, device_id in ip_uuid_map.items():
-        #     if ip_address in fabric_devices:
         try:
             dev_response = self.dnac_apply["exec"](
                 family="devices",
@@ -2156,6 +2153,7 @@ class FabricDevicesInfo(DnacBase):
             self.log("The device type is {0}".format(device_type), "INFO")
 
             return device_type
+
         except Exception as e:
             self.msg = "The Device - {0} not present in the Cisco Catalyst Center.".format(
                 ip_address
@@ -2189,7 +2187,9 @@ class FabricDevicesInfo(DnacBase):
 
         fabric_site_ids = self.get_fabric_site_id()
         all_onboarding_info = []
+
         self.log("Fabric site IDs retrieved: {0}".format(fabric_site_ids))
+
         for fabric_id in fabric_site_ids:
             for ip_address, device_uuid in ip_uuid_map.items():
                 if ip_address in fabric_devices:
