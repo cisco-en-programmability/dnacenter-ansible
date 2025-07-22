@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.36.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2099,12 +2099,12 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 50, as the GUI allows creating up to 50 fabric VLANs at a time.
+      Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 fabric VLANs at a time.
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`50`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`20`
 
       .. raw:: html
 

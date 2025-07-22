@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.36.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,14 @@ Synopsis
 
 .. Description
 
-- Automates bulk configuration changes for Access Points (APs).
-- Modify AP display names, AP names, or other parameters.
-- Filter specific device details, such as selecting devices with hostnames matching "NFW-AP1-9130AXE".
-- Compares input details with current AP configurations and applies desired changes only to relevant APs.
+- Manage access point configurations in Cisco Catalyst Center.
+- Configure individual AP settings including radio interfaces, controller assignments, and location parameters.
+- Perform bulk configuration updates across multiple access points of the same series.
+- Execute lifecycle operations including AP reboot and factory reset for up to 100 devices.
+- Provision access points to sites and assign RF profiles (HIGH, LOW, TYPICAL, or custom).
+- Support advanced radio configurations for 2.4GHz, 5GHz, 6GHz, XOR, and TRI radio interfaces.
+- Compare current configurations with desired state to apply only necessary changes.
+- Identify access points using MAC address, hostname, or management IP address.
 
 
 .. Aliases
@@ -893,7 +897,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-          or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
+          or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
           
 
 
@@ -1342,7 +1346,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      When enable the verify flag "config\_verify" to see only the filter field of the AP configuration in the output.
+      When enabling the verify flag "config\_verify" to see only the filter field of the AP configuration in the output.
           (eg. "mac\_address,eth\_mac,ap\_name,led\_brightness\_level,led\_status,location,radioDTOs")
           
 
@@ -1448,7 +1452,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      When enable the verify flag "config\_verify" to see only the filter field of the AP details in the output. (eg. "id,hostname,family,type,mac\_address,management\_ip\_address,ap\_ethernet\_mac\_address")
+      When enabling the verify flag "config\_verify" to see only the filter field of the AP details in the output. (eg. "id,hostname,family,type,mac\_address,management\_ip\_address,ap\_ethernet\_mac\_address")
 
 
       .. raw:: html
@@ -1523,7 +1527,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       AP identifier is a list of dict which contains MAC address, hostname, or management IP address
-          which is used to identify the access points for bulk updated with AP Name to update access point.
+          which is used to identify the access points for bulk updated with AP Name to update the access point.
           
 
 
@@ -1710,7 +1714,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Common fields to change AP is a dict which contains below data which need to update all listed access points.
+      Common fields to change AP is a dict which contains below data which is needed to update all listed access points.
           
 
 
@@ -2469,7 +2473,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-          or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
+          or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
           
 
 
@@ -2954,8 +2958,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+      Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
           
 
 
@@ -2990,8 +2995,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+      Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
           
 
 
@@ -3026,8 +3032,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+      Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
           
 
 
@@ -3831,7 +3838,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Width of the channel configured for the TRI radio interface. Accepts values
-          "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
+          "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". For example, 20 MHz.
           
 
 
@@ -3867,7 +3874,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Mode of operation configured for the TRI radio interface. Specifies how the
-          access point (AP) manages its dual radio functionality. eg . Auto
+          access point (AP) manages its dual radio functionality. For example, Auto.
           
 
 
@@ -4482,8 +4489,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+      Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
           
 
 
@@ -4518,8 +4526,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+      Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
           
 
 
@@ -4554,8 +4563,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+      Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
           
 
 
@@ -4807,9 +4817,20 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configures whether the access point location is automatically set to the site assigned to the access point.
-          Accepts "Enabled" or "Disabled". If set to "Enabled", no additional location configuration is required.
+      - Determines whether the access point's location is automatically set to its assigned site.
+          - When set to \ :literal:`Enabled`\ , the assigned site is used as the location and no manual location configuration is needed.
+          - When set to \ :literal:`Disabled`\ , the location must be specified manually.
+          - Accepted values are \ :literal:`Enabled`\  and \ :literal:`Disabled`\ .
+          - Note: Idempotent behavior is not supported for this field; repeated runs may not guarantee consistent results.
           
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Enabled"`
+      - :ansible-option-choices-entry:`"Disabled"`
 
 
       .. raw:: html
@@ -5938,7 +5959,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Width of the channel configured for the TRI radio interface. Accepts values
-          "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
+          "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". For example, 20 MHz.
           
 
 
@@ -5974,7 +5995,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Mode of operation configured for the TRI radio interface. Specifies how the
-          access point (AP) manages its dual radio functionality. eg . Auto
+          access point (AP) manages its dual radio functionality. For example, Auto.
           
 
 
@@ -7162,7 +7183,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Time in second between Provision and AP updated execution
+      Time in seconds between Provision and AP updated execution
 
 
       .. rst-class:: ansible-option-line

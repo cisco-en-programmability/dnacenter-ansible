@@ -42,7 +42,7 @@ cisco.dnac.device_configs_backup_workflow_manager module -- Device Configs Backu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.36.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -162,7 +162,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -184,21 +184,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/family"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/family_list"></div>
 
-      .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/family:
+      .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/family_list:
 
       .. rst-class:: ansible-option-title
 
-      **family**
+      **family_list**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/family" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/family_list" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -310,7 +310,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -348,7 +348,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -386,7 +386,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -420,7 +420,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -442,21 +442,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/series"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/series_list"></div>
 
-      .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/series:
+      .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/series_list:
 
       .. rst-class:: ansible-option-title
 
-      **series**
+      **series_list**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/series" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/series_list" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -492,7 +492,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -518,21 +518,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/type_list"></div>
 
-      .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/type:
+      .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/type_list:
 
       .. rst-class:: ansible-option-title
 
-      **type**
+      **type_list**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/type_list" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 

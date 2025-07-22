@@ -60,7 +60,7 @@
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_top_nanalytics_module.html">cisco.dnac.aaa_services_top_nanalytics module -- Resource module for Aaa Services Top Nanalytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_trend_analytics_module.html">cisco.dnac.aaa_services_trend_analytics module -- Resource module for Aaa Services Trend Analytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
-<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_count_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_count_info module -- Information module for Activities Activity Id Triggered Jobs Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_info module -- Information module for Activities Activity Id Triggered Jobs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_count_info_module.html">cisco.dnac.activities_count_info module -- Information module for Activities Count</a></li>
@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.device_configs_backup_workflow_manager module -- Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-device-configs-backup-workflow-manager-module-device-configs-backup-module-for-taking-configuration-backups-of-reachable-devices-in-the-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.36.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.37.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1278,15 +1278,15 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-device-c
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/collection_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-collection-status"><strong>collection_status</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/collection_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/collection_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the list of collection status of the device(s) as displayed in the inventory GUI of the Cisco Catalyst Center.</p>
 <p>For example - [&quot;Managed&quot;]</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/family"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-family"><strong>family</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/family" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/family_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-family-list"><strong>family_list</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/family_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies list of families for which device configuration backups need to be taken.</p>
 <p>For example - [&quot;Switches and Hubs&quot;, &quot;Routers&quot;]</p>
@@ -1311,7 +1311,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-device-c
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/hostname_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-hostname-list"><strong>hostname_list</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/hostname_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/hostname_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of hostnames of the devices for which a configuration backup is to be taken.</p>
 <p>The hostnames must be identical to those displayed under the inventory section in the Cisco Catalyst Center GUI.</p>
@@ -1320,7 +1320,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-device-c
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/ip_address_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-ip-address-list"><strong>ip_address_list</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/ip_address_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/ip_address_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of IP addresses of the devices for which configuration backups need to be taken.</p>
 <p>The IP addresses should match those displayed in the inventory GUI of the Cisco Catalyst Center, specifically the management IP addresses of the devices.</p>
@@ -1329,22 +1329,22 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-device-c
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/mac_address_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-mac-address-list"><strong>mac_address_list</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/mac_address_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/mac_address_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies list of MAC addresses of the devices for which configuration backups are to be taken.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/serial_number_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-serial-number-list"><strong>serial_number_list</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/serial_number_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/serial_number_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the list of serial numbers of the devices for which configuration backups need to be taken.</p>
 <p>For example - [&quot;FCW2225C020&quot;, &quot;FJB2334D06N&quot;, &quot;FJC2327U0S2&quot;, &quot;FJC2721271T&quot;]</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/series"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-series"><strong>series</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/series" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/series_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-series-list"><strong>series_list</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/series_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the list of series of the device(s) for a specific device type for which configuration backups need to be taken.</p>
 <p>For example - [&quot;Cisco Catalyst 9300 Series Switches&quot;]</p>
@@ -1352,7 +1352,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-device-c
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-site-list"><strong>site_list</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies a list of sites. The module takes a configuration backup of all devices located within the specified site(s).</p>
 <p>Each site should be represented as a string value that indicates the complete hierarchical path of the site.</p>
@@ -1361,8 +1361,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-device-c
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-type"><strong>type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/type_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-device-configs-backup-workflow-manager-module-parameter-config-type-list"><strong>type_list</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/type_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the list of types of device(s) from a specific device family for which configuration backups need to be taken.</p>
 <p>For example - [&quot;Cisco Catalyst 9300 Switch&quot;, &quot;Cisco Catalyst 9500 Switch&quot;]</p>

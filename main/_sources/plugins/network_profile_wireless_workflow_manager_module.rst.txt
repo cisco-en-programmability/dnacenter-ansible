@@ -42,7 +42,7 @@ cisco.dnac.network_profile_wireless_workflow_manager module -- Resource module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.36.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1471,7 +1471,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.create\_wireless\_profile , wireless.update\_application\_policy, wireless.get\_wireless\_profile, site\_design.assign\_sites, wireless.get\_interfaces\_v1 wireless.create\_interface\_v1
+   - SDK Method used are wireless.create\_wireless\_profile , wireless.update\_application\_policy, wireless.get\_wireless\_profile, site\_design.assign\_sites, wireless.get\_interfaces wireless.create\_interface
    - Paths used are GET dna/intent/api/v1/wirelessProfiles POST dna/intent/api/v1/wirelessProfiles/{ GET /dna/intent/api/v1/app-policy-intent DELETE /dna/intent/api/v1/app-policy-intent GET /dna/intent/api/v1/wirelessSettings/interfaces POST /dna/intent/api/v1/wirelessSettings/interfaces
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
