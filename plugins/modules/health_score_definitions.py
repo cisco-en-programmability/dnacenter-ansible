@@ -33,7 +33,7 @@ options:
     description: Thresehold Value.
     type: float
 requirements:
-  - dnacentersdk >= 2.4.9
+  - dnacentersdk >= 2.10.1
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Devices
