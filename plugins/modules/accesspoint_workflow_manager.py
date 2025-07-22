@@ -147,6 +147,7 @@ options:
           - Accepted values are C(Enabled) and C(Disabled).
           - Note: Idempotent behavior is not supported for this field; repeated runs may not guarantee consistent results.
         type: str
+        choices: ["Enabled", "Disabled"]
         required: false
       failover_priority:
         description: Priority order for failover in AP configuration. Accepts "Low",
