@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -24,36 +27,38 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 # Get common arguements specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    templateName=dict(type="str"),
-    name=dict(type="str"),
-    _id=dict(type="str"),
-    version=dict(type="int"),
-    modelVersion=dict(type="int"),
-    startTime=dict(type="int"),
-    lastModifiedTime=dict(type="int"),
-    numAssociatedSensor=dict(type="int"),
-    location=dict(type="str"),
-    siteHierarchy=dict(type="str"),
-    status=dict(type="str"),
-    connection=dict(type="str"),
-    actionInProgress=dict(type="str"),
-    frequency=dict(type="dict"),
-    rssiThreshold=dict(type="int"),
-    numNeighborAPThreshold=dict(type="int"),
-    scheduleInDays=dict(type="int"),
-    wlans=dict(type="list"),
-    ssids=dict(type="list"),
-    profiles=dict(type="list"),
-    testScheduleMode=dict(type="str"),
-    showWlcUpgradeBanner=dict(type="bool"),
-    radioAsSensorRemoved=dict(type="bool"),
-    encryptionMode=dict(type="str"),
-    runNow=dict(type="str"),
-    locationInfoList=dict(type="list"),
-    sensors=dict(type="list"),
-    apCoverage=dict(type="list"),
-))
+argument_spec.update(
+    dict(
+        templateName=dict(type="str"),
+        name=dict(type="str"),
+        _id=dict(type="str"),
+        version=dict(type="int"),
+        modelVersion=dict(type="int"),
+        startTime=dict(type="int"),
+        lastModifiedTime=dict(type="int"),
+        numAssociatedSensor=dict(type="int"),
+        location=dict(type="str"),
+        siteHierarchy=dict(type="str"),
+        status=dict(type="str"),
+        connection=dict(type="str"),
+        actionInProgress=dict(type="str"),
+        frequency=dict(type="dict"),
+        rssiThreshold=dict(type="int"),
+        numNeighborAPThreshold=dict(type="int"),
+        scheduleInDays=dict(type="int"),
+        wlans=dict(type="list"),
+        ssids=dict(type="list"),
+        profiles=dict(type="list"),
+        testScheduleMode=dict(type="str"),
+        showWlcUpgradeBanner=dict(type="bool"),
+        radioAsSensorRemoved=dict(type="bool"),
+        encryptionMode=dict(type="str"),
+        runNow=dict(type="str"),
+        locationInfoList=dict(type="list"),
+        sensors=dict(type="list"),
+        apCoverage=dict(type="list"),
+    )
+)
 
 required_if = []
 required_one_of = []
@@ -65,7 +70,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -132,7 +138,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="sensors",
-            function='edit_sensor_test_template',
+            function="edit_sensor_test_template",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

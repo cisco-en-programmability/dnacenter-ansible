@@ -124,7 +124,7 @@ options:
       name of the layer 2 virtual network.
     type: str
 requirements:
-  - dnacentersdk >= 2.4.9
+  - dnacentersdk >= 2.10.1
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for SDA AddLayer2VirtualNetworks
