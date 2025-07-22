@@ -1616,5 +1616,52 @@
                 }
             }
         }
-    ]
+    ],
+    "updating_tag_name_case_14": [
+        {
+            "tag": {
+                "name": "Test_tag_update",
+                "new_name": "Test_tag_update_renamed"
+            }
+        }
+    ],
+    "get_tag_case_14_call_1": {
+        "response": [
+            {
+                "systemTag": false,
+                "name": "Test_tag_update",
+                "instanceTenantId": "67e6885ba7e51e7021a8a263",
+                "id": "384dc747-edc4-473e-9478-c67e8a9eb16e"
+            }
+        ],
+        "version": "1.0"
+    },
+    "update_tag_case_14_call_1": {
+        "response": {
+            "taskId": "01975470-4de8-7f1d-820d-1b43445a5bb4",
+            "url": "/api/v1/task/01975470-4de8-7f1d-820d-1b43445a5bb4"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_case_14_call_1": {
+        "response": {
+            "endTime": 1749468335619,
+            "status": "SUCCESS",
+            "startTime": 1749468335592,
+            "resultLocation": "/dna/intent/api/v1/tasks/01975470-4de8-7f1d-820d-1b43445a5bb4/detail",
+            "id": "01975470-4de8-7f1d-820d-1b43445a5bb4"
+        },
+        "version": "1.0"
+    },
+    "get_tag_case_14_call_2": {
+        "response": [
+            {
+                "systemTag": false,
+                "name": "Test_tag_update_renamed",
+                "instanceTenantId": "67e6885ba7e51e7021a8a263",
+                "id": "384dc747-edc4-473e-9478-c67e8a9eb16e"
+            }
+        ],
+        "version": "1.0"
+    }
 }
