@@ -66,7 +66,8 @@ options:
             the Cisco Catalyst Center GUI.
           - For example - ["DC-T-9300.cisco.local",
             "NY-BN-9300.cisco.local"]
-        type: str
+        type: list
+        elements: str
       ip_address_list:
         description:
           - List of IP addresses of the devices for
@@ -77,7 +78,8 @@ options:
             of the devices.
           - For example - ["204.1.2.2", "204.1.2.5",
             "204.1.2.4"]
-        type: str
+        type: list
+        elements: str
       site_list:
         description:
           - Specifies a list of sites. The module takes
@@ -96,13 +98,15 @@ options:
             words, the operation will be performed on
             devices within the site(s) and those that
             meet the additional criteria.
-        type: str
+        type: list
+        elements: str
       mac_address_list:
         description:
           - Specifies list of MAC addresses of the devices
             for which configuration backups are to be
             taken.
-        type: str
+        type: list
+        elements: str
       serial_number_list:
         description:
           - Specifies the list of serial numbers of
@@ -110,36 +114,41 @@ options:
             need to be taken.
           - For example - ["FCW2225C020", "FJB2334D06N",
             "FJC2327U0S2", "FJC2721271T"]
-        type: str
-      family:
+        type: list
+        elements: str
+      family_list:
         description:
           - Specifies list of families for which device
             configuration backups need to be taken.
           - For example - ["Switches and Hubs", "Routers"]
-        type: str
-      type:
+        type: list
+        elements: str
+      type_list:
         description:
           - Specifies the list of types of device(s)
             from a specific device family for which
             configuration backups need to be taken.
           - For example - ["Cisco Catalyst 9300 Switch",
             "Cisco Catalyst 9500 Switch"]
-        type: str
-      series:
+        type: list
+        elements: str
+      series_list:
         description:
           - Specifies the list of series of the device(s)
             for a specific device type for which configuration
             backups need to be taken.
           - For example - ["Cisco Catalyst 9300 Series
             Switches"]
-        type: str
+        type: list
+        elements: str
       collection_status:
         description:
           - Specifies the list of collection status
             of the device(s) as displayed in the inventory
             GUI of the Cisco Catalyst Center.
           - For example - ["Managed"]
-        type: str
+        type: list
+        elements: str
       file_path:
         description:
           - The location or directory where the configuration

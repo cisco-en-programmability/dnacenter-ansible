@@ -341,6 +341,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_existing_device_details_in_system"),
                 self.test_data.get("get_empty_existing_device_detail_in_system"),
                 self.test_data.get("get_device_list_for_schedule_device_1"),
+                self.test_data.get("get_complete_schedule_maintenance_status_details"),
                 self.test_data.get("get_device_list_for_schedule_device_2"),
                 self.test_data.get("get_complete_schedule_maintenance_status_details"),
                 self.test_data.get("get_task_id_post_response"),
