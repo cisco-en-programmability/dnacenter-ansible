@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,18 +32,20 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    rfProfileName=dict(type="str"),
-    defaultRfProfile=dict(type="bool"),
-    enableRadioTypeA=dict(type="bool"),
-    enableRadioTypeB=dict(type="bool"),
-    enableRadioType6GHz=dict(type="bool"),
-    radioTypeAProperties=dict(type="dict"),
-    radioTypeBProperties=dict(type="dict"),
-    radioType6GHzProperties=dict(type="dict"),
-    id=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        rfProfileName=dict(type="str"),
+        defaultRfProfile=dict(type="bool"),
+        enableRadioTypeA=dict(type="bool"),
+        enableRadioTypeB=dict(type="bool"),
+        enableRadioType6GHz=dict(type="bool"),
+        radioTypeAProperties=dict(type="dict"),
+        radioTypeBProperties=dict(type="dict"),
+        radioType6GHzProperties=dict(type="dict"),
+        id=dict(type="str"),
+    )
+)
 
 required_if = [
     ("state", "present", ["id"], True),
@@ -68,62 +73,66 @@ class WirelessSettingsRfProfiles(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['limit'] = self.new_object.get('limit')
-        new_object_params['offset'] = self.new_object.get('offset')
-        new_object_params['rf_profile_name'] = self.new_object.get(
-            'rfProfileName') or self.new_object.get('rf_profile_name')
-        new_object_params['enable_radio_type_a'] = self.new_object.get(
-            'enableRadioTypeA') or self.new_object.get('enable_radio_type_a')
-        new_object_params['enable_radio_type_b'] = self.new_object.get(
-            'enableRadioTypeB') or self.new_object.get('enable_radio_type_b')
-        new_object_params['enable_radio_type6_g_hz'] = self.new_object.get(
-            'enableRadioType6GHz') or self.new_object.get('enable_radio_type6_g_hz')
+        new_object_params["limit"] = self.new_object.get("limit")
+        new_object_params["offset"] = self.new_object.get("offset")
+        new_object_params["rf_profile_name"] = self.new_object.get(
+            "rfProfileName"
+        ) or self.new_object.get("rf_profile_name")
+        new_object_params["enable_radio_type_a"] = self.new_object.get(
+            "enableRadioTypeA"
+        ) or self.new_object.get("enable_radio_type_a")
+        new_object_params["enable_radio_type_b"] = self.new_object.get(
+            "enableRadioTypeB"
+        ) or self.new_object.get("enable_radio_type_b")
+        new_object_params["enable_radio_type6_g_hz"] = self.new_object.get(
+            "enableRadioType6GHz"
+        ) or self.new_object.get("enable_radio_type6_g_hz")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['rfProfileName'] = self.new_object.get(
-            'rfProfileName')
-        new_object_params['defaultRfProfile'] = self.new_object.get(
-            'defaultRfProfile')
-        new_object_params['enableRadioTypeA'] = self.new_object.get(
-            'enableRadioTypeA')
-        new_object_params['enableRadioTypeB'] = self.new_object.get(
-            'enableRadioTypeB')
-        new_object_params['enableRadioType6GHz'] = self.new_object.get(
-            'enableRadioType6GHz')
-        new_object_params['radioTypeAProperties'] = self.new_object.get(
-            'radioTypeAProperties')
-        new_object_params['radioTypeBProperties'] = self.new_object.get(
-            'radioTypeBProperties')
-        new_object_params['radioType6GHzProperties'] = self.new_object.get(
-            'radioType6GHzProperties')
+        new_object_params["rfProfileName"] = self.new_object.get("rfProfileName")
+        new_object_params["defaultRfProfile"] = self.new_object.get("defaultRfProfile")
+        new_object_params["enableRadioTypeA"] = self.new_object.get("enableRadioTypeA")
+        new_object_params["enableRadioTypeB"] = self.new_object.get("enableRadioTypeB")
+        new_object_params["enableRadioType6GHz"] = self.new_object.get(
+            "enableRadioType6GHz"
+        )
+        new_object_params["radioTypeAProperties"] = self.new_object.get(
+            "radioTypeAProperties"
+        )
+        new_object_params["radioTypeBProperties"] = self.new_object.get(
+            "radioTypeBProperties"
+        )
+        new_object_params["radioType6GHzProperties"] = self.new_object.get(
+            "radioType6GHzProperties"
+        )
         return new_object_params
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['id'] = self.new_object.get('id')
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params['rfProfileName'] = self.new_object.get(
-            'rfProfileName')
-        new_object_params['defaultRfProfile'] = self.new_object.get(
-            'defaultRfProfile')
-        new_object_params['enableRadioTypeA'] = self.new_object.get(
-            'enableRadioTypeA')
-        new_object_params['enableRadioTypeB'] = self.new_object.get(
-            'enableRadioTypeB')
-        new_object_params['enableRadioType6GHz'] = self.new_object.get(
-            'enableRadioType6GHz')
-        new_object_params['radioTypeAProperties'] = self.new_object.get(
-            'radioTypeAProperties')
-        new_object_params['radioTypeBProperties'] = self.new_object.get(
-            'radioTypeBProperties')
-        new_object_params['radioType6GHzProperties'] = self.new_object.get(
-            'radioType6GHzProperties')
-        new_object_params['id'] = self.new_object.get('id')
+        new_object_params["rfProfileName"] = self.new_object.get("rfProfileName")
+        new_object_params["defaultRfProfile"] = self.new_object.get("defaultRfProfile")
+        new_object_params["enableRadioTypeA"] = self.new_object.get("enableRadioTypeA")
+        new_object_params["enableRadioTypeB"] = self.new_object.get("enableRadioTypeB")
+        new_object_params["enableRadioType6GHz"] = self.new_object.get(
+            "enableRadioType6GHz"
+        )
+        new_object_params["radioTypeAProperties"] = self.new_object.get(
+            "radioTypeAProperties"
+        )
+        new_object_params["radioTypeBProperties"] = self.new_object.get(
+            "radioTypeBProperties"
+        )
+        new_object_params["radioType6GHzProperties"] = self.new_object.get(
+            "radioType6GHzProperties"
+        )
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -136,9 +145,9 @@ class WirelessSettingsRfProfiles(object):
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "name", name)
         except Exception:
             result = None
         return result
@@ -147,14 +156,12 @@ class WirelessSettingsRfProfiles(object):
         result = None
         try:
             items = self.dnac.exec(
-                family="wireless",
-                function="get_rf_profile_by_id",
-                params={"id": id}
+                family="wireless", function="get_rf_profile_by_id", params={"id": id}
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'id', id)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
         except Exception:
             result = None
         return result
@@ -175,7 +182,8 @@ class WirelessSettingsRfProfiles(object):
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -199,9 +207,12 @@ class WirelessSettingsRfProfiles(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def create(self):
         result = self.dnac.exec(
@@ -254,7 +265,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

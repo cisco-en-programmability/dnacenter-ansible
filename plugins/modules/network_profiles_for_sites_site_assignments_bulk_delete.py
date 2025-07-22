@@ -35,7 +35,7 @@ options:
       same name ( siteId=388a23e9-4739-4be7-a0aa-cc5a95d158dd&siteId...
     type: str
 requirements:
-  - dnacentersdk >= 2.4.9
+  - dnacentersdk >= 2.10.1
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Site Design
