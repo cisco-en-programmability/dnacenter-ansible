@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.36.0
+Collection version 6.37.0
 
 .. contents::
    :local:
@@ -79,7 +79,7 @@ Modules
 * :ref:`aaa_services_top_nanalytics module <ansible_collections.cisco.dnac.aaa_services_top_nanalytics_module>` -- Resource module for Aaa Services Top Nanalytics
 * :ref:`aaa_services_trend_analytics module <ansible_collections.cisco.dnac.aaa_services_trend_analytics_module>` -- Resource module for Aaa Services Trend Analytics
 * :ref:`accesspoint_configuration_details_by_task_id_info module <ansible_collections.cisco.dnac.accesspoint_configuration_details_by_task_id_info_module>` -- Information module for Accesspoint Configuration Details By Task Id
-* :ref:`accesspoint_workflow_manager module <ansible_collections.cisco.dnac.accesspoint_workflow_manager_module>` -- Automates bulk AP configuration changes.
+* :ref:`accesspoint_workflow_manager module <ansible_collections.cisco.dnac.accesspoint_workflow_manager_module>` -- Manage Cisco Catalyst Center access points
 * :ref:`activities_activity_id_triggered_jobs_count_info module <ansible_collections.cisco.dnac.activities_activity_id_triggered_jobs_count_info_module>` -- Information module for Activities Activity Id Triggered Jobs Count
 * :ref:`activities_activity_id_triggered_jobs_info module <ansible_collections.cisco.dnac.activities_activity_id_triggered_jobs_info_module>` -- Information module for Activities Activity Id Triggered Jobs
 * :ref:`activities_count_info module <ansible_collections.cisco.dnac.activities_count_info_module>` -- Information module for Activities Count

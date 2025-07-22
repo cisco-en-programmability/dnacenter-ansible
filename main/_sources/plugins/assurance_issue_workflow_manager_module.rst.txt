@@ -42,7 +42,7 @@ cisco.dnac.assurance_issue_workflow_manager module -- Resource module for managi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.36.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -243,6 +243,45 @@ Parameters
       A filter to select issues that ended at or before this date and time. The format is "YYYY-MM-DD HH:MM:SS".
           
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/ignore_duration"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/ignore_duration:
+
+      .. rst-class:: ansible-option-title
+
+      **ignore_duration**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/ignore_duration" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies how long to ignore the issue. The value is a string with a numeric value followed by a time unit suffix. Supported units: - 'h' for hours (e.g., '1h' for 1 hour, '24h' for 24 hours). - 'd' for days (e.g., '3d' for 3 days, '30d' for 30 days). The range is from '1h' to '30d'. The default value is '24h'. This parameter is available from Cisco Catalyst Center version 2.3.7.10 onwards. Example valid values: '1h', '3d', '24h'. Example invalid values: '24', '3days', 'h3', '0h', '31d', '2.5h'.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"24h"`
 
       .. raw:: html
 
@@ -2409,6 +2448,7 @@ Examples
                   - issue_name: Fabric BGP session status
                       is down with Peer Device  # required field
                     issue_process_type: ignore  # required field
+                    ignore_duration: 4h
                     start_datetime: "2024-12-11 16:00:00"  # optional field
                     end_datetime: "2024-12-11 18:30:00"  # optional field
                     site_hierarchy: Global/USA/San Jose/BLDG23  # optional field

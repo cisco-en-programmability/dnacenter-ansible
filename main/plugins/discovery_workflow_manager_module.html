@@ -60,7 +60,7 @@
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_top_nanalytics_module.html">cisco.dnac.aaa_services_top_nanalytics module -- Resource module for Aaa Services Top Nanalytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_trend_analytics_module.html">cisco.dnac.aaa_services_trend_analytics module -- Resource module for Aaa Services Trend Analytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
-<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_count_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_count_info module -- Information module for Activities Activity Id Triggered Jobs Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_info module -- Information module for Activities Activity Id Triggered Jobs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_count_info_module.html">cisco.dnac.activities_count_info module -- Information module for Activities Count</a></li>
@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.discovery_workflow_manager module -- A resource module for handling device discovery tasks.<a class="headerlink" href="#cisco-dnac-discovery-workflow-manager-module-a-resource-module-for-handling-device-discovery-tasks" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.36.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.37.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-discovery-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1964,7 +1964,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-discover
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
-<li><p>SDK Method used are discovery.Discovery.get_all_global_credentials_v2, discovery.Discovery.start_discovery, task.Task.get_task_by_id, discovery.Discovery.get_discoveries_by_range, discovery.Discovery.get_discovered_network_devices_by_discovery_id', discovery.Discovery.delete_discovery_by_id discovery.Discovery.delete_all_discovery discovery.Discovery.get_count_of_all_discovery_jobs</p></li>
+<li><p>SDK Method used are discovery.Discovery.get_all_global_credentials, discovery.Discovery.start_discovery, task.Task.get_task_by_id, discovery.Discovery.get_discoveries_by_range, discovery.Discovery.get_discovered_network_devices_by_discovery_id', discovery.Discovery.delete_discovery_by_id discovery.Discovery.delete_all_discovery discovery.Discovery.get_count_of_all_discovery_jobs</p></li>
 <li><p>Paths used are get /dna/intent/api/v2/global-credential post /dna/intent/api/v1/discovery get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn} get /dna/intent/api/v1/discovery/{id}/network-device delete /dna/intent/api/v1/discovery/{id} delete /dna/intent/api/v1/delete get /dna/intent/api/v1/discovery/count</p></li>
 <li><p>Removed 'global_cli_len' option in v6.12.0.</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>

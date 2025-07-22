@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.36.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -206,6 +206,50 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Creator of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/commit"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/commit:
+
+      .. rst-class:: ansible-option-title
+
+      **commit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/commit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether the template should be committed after configuration changes.
+
+      If set to 'false', the changes are not committed immediately, allowing for additional modifications before an explicit commit.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -3936,7 +3980,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The type of the resource param that is to be provisioned during template deployment - Specifies the type of the resource parameter to be provisioned during template deployment. - Possible enum values are - - MANAGED\_DEVICE\_UUID - Used when the parameter value is the UUID of the device. - MANAGED\_DEVICE\_IP - Used when the parameter value is the device's IP address. - MANAGED\_DEVICE\_HOSTNAME - Used when the parameter value is the device's hostname. - SITE\_UUID - Used when the parameter value is the UUID of a site. - MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of managed access points within the network. - SECONDARY\_MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of secondary or backup managed access points. - SSID\_NAME - Used when the parameter value is the name of a wireless network. - POLICY\_PROFILE - Used when the parameter value is a set of policies that can be applied to network devices or users.
+      The type of the resource param that is to be provisioned during template deployment - Specifies the type of the resource parameter to be provisioned during template deployment. - Possible enum values are - - MANAGED\_DEVICE\_UUID - Used when the parameter value is the UUID of the device. - MANAGED\_DEVICE\_IP - Used when the parameter value is the device's IP address. - MANAGED\_DEVICE\_HOSTNAME - Used when the parameter value is the device's hostname. - SITE\_UUID - Used when the parameter value is the UUID of a site. - MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of managed access points within the network. - SECONDARY\_MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of secondary or backup managed access points. - SSID\_NAME - Used when the parameter value is the name of a wireless network. - POLICY\_PROFILE - Used when the parameter value is a set of policies that can be applied to network devices or users. - From the above enum values, the following resource types support value provisioning at runtime - MANAGED\_DEVICE\_UUID - MANAGED\_DEVICE\_IP - MANAGED\_DEVICE\_HOSTNAME - SITE\_UUID - For all other resource types, the values must be provided at design time in the playbook.
 
 
       .. raw:: html
@@ -4285,6 +4329,40 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This is useful for targeting specific template versions, such as rolling back to a tested version.
+
+
+      .. raw:: html
+
+        </div>
 
 
   * - .. raw:: html
@@ -8733,6 +8811,7 @@ Notes
 .. note::
    - SDK Method used are configuration\_templates.ConfigurationTemplates.create\_template, configuration\_templates.ConfigurationTemplates.deletes\_the\_template, configuration\_templates.ConfigurationTemplates.update\_template, configuration\_templates.ConfigurationTemplates.export\_projects, configuration\_templates.ConfigurationTemplates.export\_templates, configuration\_templates.ConfigurationTemplates.imports\_the\_projects\_provided, configuration\_templates.ConfigurationTemplates.imports\_the\_templates\_provided,
    - Paths used are post /dna/intent/api/v1/template-programmer/project/{projectId}/template, delete /dna/intent/api/v1/template-programmer/template/{templateId}, put /dna/intent/api/v1/template-programmer/template, post /dna/intent/api/v1/template-programmer/project/name/exportprojects, post /dna/intent/api/v1/template-programmer/template/exporttemplates, post /dna/intent/api/v1/template-programmer/project/importprojects, post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
+   - While deploying the template to devices, the value for the following resource types can be filled in the resource parameters at RUNTIME- MANAGED\_DEVICE\_UUID, MANAGED\_DEVICE\_IP, MANAGED\_DEVICE\_HOSTNAME, and SITE\_UUID. For all other resource types, the value must be provided at DESIGN time in the playbook.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes. &mdash; DNACenterAnsibleActions  documentation</title>
+  <title>cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points &mdash; DNACenterAnsibleActions  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/ansible-basic-sphinx-ext.css" />
@@ -60,7 +60,7 @@
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_top_nanalytics_module.html">cisco.dnac.aaa_services_top_nanalytics module -- Resource module for Aaa Services Top Nanalytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_trend_analytics_module.html">cisco.dnac.aaa_services_trend_analytics module -- Resource module for Aaa Services Trend Analytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_count_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_count_info module -- Information module for Activities Activity Id Triggered Jobs Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_info module -- Information module for Activities Activity Id Triggered Jobs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_count_info_module.html">cisco.dnac.activities_count_info module -- Information module for Activities Count</a></li>
@@ -1212,7 +1212,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Cisco.Dnac</a></li>
-      <li class="breadcrumb-item active">cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.</li>
+      <li class="breadcrumb-item active">cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/plugins/accesspoint_workflow_manager_module.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -1222,11 +1222,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module"></span><section id="cisco-dnac-accesspoint-workflow-manager-module-automates-bulk-ap-configuration-changes">
-<h1>cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.<a class="headerlink" href="#cisco-dnac-accesspoint-workflow-manager-module-automates-bulk-ap-configuration-changes" title="Permalink to this heading"></a></h1>
+  <span class="target" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module"></span><section id="cisco-dnac-accesspoint-workflow-manager-module-manage-cisco-catalyst-center-access-points">
+<h1>cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points<a class="headerlink" href="#cisco-dnac-accesspoint-workflow-manager-module-manage-cisco-catalyst-center-access-points" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.36.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.37.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1235,26 +1235,30 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <p class="ansible-version-added">New in cisco.dnac 6.17.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id55">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id56">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id57">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id58">Notes</a></p></li>
-<li><p><a class="reference internal" href="#see-also" id="id59">See Also</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id60">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id61">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id59">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id60">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id61">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id62">Notes</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id63">See Also</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id64">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id65">Return Values</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id55" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id59" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>Automates bulk configuration changes for Access Points (APs).</p></li>
-<li><p>Modify AP display names, AP names, or other parameters.</p></li>
-<li><p>Filter specific device details, such as selecting devices with hostnames matching &quot;NFW-AP1-9130AXE&quot;.</p></li>
-<li><p>Compares input details with current AP configurations and applies desired changes only to relevant APs.</p></li>
+<li><p>Manage access point configurations in Cisco Catalyst Center.</p></li>
+<li><p>Configure individual AP settings including radio interfaces, controller assignments, and location parameters.</p></li>
+<li><p>Perform bulk configuration updates across multiple access points of the same series.</p></li>
+<li><p>Execute lifecycle operations including AP reboot and factory reset for up to 100 devices.</p></li>
+<li><p>Provision access points to sites and assign RF profiles (HIGH, LOW, TYPICAL, or custom).</p></li>
+<li><p>Support advanced radio configurations for 2.4GHz, 5GHz, 6GHz, XOR, and TRI radio interfaces.</p></li>
+<li><p>Compare current configurations with desired state to apply only necessary changes.</p></li>
+<li><p>Identify access points using MAC address, hostname, or management IP address.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id56" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id60" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>dnacentersdk &gt;= 2.7.2</p></li>
@@ -1262,7 +1266,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id57" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id61" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -1441,7 +1445,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the 5GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;,</dt><dd><p>or &quot;Monitor&quot;. For example, &quot;Auto&quot;. This field not required for xor series access point slot 1</p>
+<dt>Role assignment mode for the 5GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;,</dt><dd><p>or &quot;Monitor&quot;. For example, &quot;Auto&quot;. This field is not required for xor series access point slot 1</p>
 </dd>
 </dl>
 </div></td>
@@ -1541,7 +1545,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <a class="ansibleOptionLink" href="#parameter-config/ap_config_selected_fields" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>When enable the verify flag &quot;config_verify&quot; to see only the filter field of the AP configuration in the output.</dt><dd><p>(eg. &quot;mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs&quot;)</p>
+<dt>When enabling the verify flag &quot;config_verify&quot; to see only the filter field of the AP configuration in the output.</dt><dd><p>(eg. &quot;mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs&quot;)</p>
 </dd>
 </dl>
 </div></td>
@@ -1567,7 +1571,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/ap_selected_fields"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-ap-selected-fields"><strong>ap_selected_fields</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/ap_selected_fields" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>When enable the verify flag &quot;config_verify&quot; to see only the filter field of the AP details in the output. (eg. &quot;id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address&quot;)</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>When enabling the verify flag &quot;config_verify&quot; to see only the filter field of the AP details in the output. (eg. &quot;id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address&quot;)</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1589,7 +1593,7 @@ At least one of these parameters must be specified to identify the APs for updat
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/ap_identifier" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>AP identifier is a list of dict which contains MAC address, hostname, or management IP address</dt><dd><p>which is used to identify the access points for bulk updated with AP Name to update access point.</p>
+<dt>AP identifier is a list of dict which contains MAC address, hostname, or management IP address</dt><dd><p>which is used to identify the access points for bulk updated with AP Name to update the access point.</p>
 </dd>
 </dl>
 </div></td>
@@ -1644,7 +1648,7 @@ At least one of these parameters must be specified to identify the APs for updat
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change"><strong>common_fields_to_change</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Common fields to change AP is a dict which contains below data which need to update all listed access points.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Common fields to change AP is a dict which contains below data which is needed to update all listed access points.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1811,7 +1815,7 @@ At least one of these parameters must be specified to identify the APs for updat
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the 5GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;,</dt><dd><p>or &quot;Monitor&quot;. For example, &quot;Auto&quot;. This field not required for xor series access point slot 1</p>
+<dt>Role assignment mode for the 5GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;,</dt><dd><p>or &quot;Monitor&quot;. For example, &quot;Auto&quot;. This field is not required for xor series access point slot 1</p>
 </dd>
 </dl>
 </div></td>
@@ -1921,7 +1925,8 @@ At least one of these parameters must be specified to identify the APs for updat
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_2.4ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, &quot;Enabled&quot;.</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
+<dt>Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.</dt><dd><p>Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+For example, &quot;Enabled&quot;.</p>
 </dd>
 </dl>
 </div></td>
@@ -1931,7 +1936,8 @@ At least one of these parameters must be specified to identify the APs for updat
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_5ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, &quot;Enabled&quot;.</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
+<dt>Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.</dt><dd><p>Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+For example, &quot;Enabled&quot;.</p>
 </dd>
 </dl>
 </div></td>
@@ -1941,7 +1947,8 @@ At least one of these parameters must be specified to identify the APs for updat
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/clean_air_si_6ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, &quot;Enabled&quot;.</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
+<dt>Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.</dt><dd><p>Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+For example, &quot;Enabled&quot;.</p>
 </dd>
 </dl>
 </div></td>
@@ -2129,7 +2136,7 @@ to &quot;Inherit from site / Clear&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Width of the channel configured for the TRI radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, &quot;160 MHz&quot;, or &quot;320 MHz&quot;. . For example, 20 MHz.</p>
+<dt>Width of the channel configured for the TRI radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, &quot;160 MHz&quot;, or &quot;320 MHz&quot;. For example, 20 MHz.</p>
 </dd>
 </dl>
 </div></td>
@@ -2139,7 +2146,7 @@ to &quot;Inherit from site / Clear&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/dual_radio_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of operation configured for the TRI radio interface. Specifies how the</dt><dd><p>access point (AP) manages its dual radio functionality. eg . Auto</p>
+<dt>Mode of operation configured for the TRI radio interface. Specifies how the</dt><dd><p>access point (AP) manages its dual radio functionality. For example, Auto.</p>
 </dd>
 </dl>
 </div></td>
@@ -2304,7 +2311,8 @@ For example, &quot;Auto&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-config/clean_air_si_2.4ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, &quot;Enabled&quot;.</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
+<dt>Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.</dt><dd><p>Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+For example, &quot;Enabled&quot;.</p>
 </dd>
 </dl>
 </div></td>
@@ -2314,7 +2322,8 @@ For example, &quot;Auto&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-config/clean_air_si_5ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, &quot;Enabled&quot;.</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
+<dt>Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.</dt><dd><p>Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+For example, &quot;Enabled&quot;.</p>
 </dd>
 </dl>
 </div></td>
@@ -2324,7 +2333,8 @@ For example, &quot;Auto&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-config/clean_air_si_6ghz" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, &quot;Enabled&quot;.</dt><dd><p>Clean Air Spectrum Intelligence is enabled or disabled.</p>
+<dt>Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.</dt><dd><p>Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+For example, &quot;Enabled&quot;.</p>
 </dd>
 </dl>
 </div></td>
@@ -2387,10 +2397,23 @@ For example, &quot;Auto&quot;.</p>
 <div class="ansibleOptionAnchor" id="parameter-config/is_assigned_site_as_location"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-is-assigned-site-as-location"><strong>is_assigned_site_as_location</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/is_assigned_site_as_location" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Configures whether the access point location is automatically set to the site assigned to the access point.</dt><dd><p>Accepts &quot;Enabled&quot; or &quot;Disabled&quot;. If set to &quot;Enabled&quot;, no additional location configuration is required.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><ul class="simple">
+<li><dl class="simple">
+<dt>Determines whether the access point's location is automatically set to its assigned site.</dt><dd><ul>
+<li><p>When set to <code class="docutils literal notranslate"><span class="pre">Enabled</span></code>, the assigned site is used as the location and no manual location configuration is needed.</p></li>
+<li><p>When set to <code class="docutils literal notranslate"><span class="pre">Disabled</span></code>, the location must be specified manually.</p></li>
+<li><p>Accepted values are <code class="docutils literal notranslate"><span class="pre">Enabled</span></code> and <code class="docutils literal notranslate"><span class="pre">Disabled</span></code>.</p></li>
+<li><p>Note: Idempotent behavior is not supported for this field; repeated runs may not guarantee consistent results.</p></li>
+</ul>
 </dd>
 </dl>
+</li>
+</ul>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`&quot;Enabled&quot;`</span></a></p></li>
+<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`&quot;Disabled&quot;`</span></a></p></li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2657,7 +2680,7 @@ to &quot;Inherit from site / Clear&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Width of the channel configured for the TRI radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, &quot;160 MHz&quot;, or &quot;320 MHz&quot;. . For example, 20 MHz.</p>
+<dt>Width of the channel configured for the TRI radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, &quot;160 MHz&quot;, or &quot;320 MHz&quot;. For example, 20 MHz.</p>
 </dd>
 </dl>
 </div></td>
@@ -2667,7 +2690,7 @@ to &quot;Inherit from site / Clear&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/dual_radio_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Mode of operation configured for the TRI radio interface. Specifies how the</dt><dd><p>access point (AP) manages its dual radio functionality. eg . Auto</p>
+<dt>Mode of operation configured for the TRI radio interface. Specifies how the</dt><dd><p>access point (AP) manages its dual radio functionality. For example, Auto.</p>
 </dd>
 </dl>
 </div></td>
@@ -2834,8 +2857,8 @@ For example, &quot;Auto&quot;.</p>
 <td><div class="ansible-option-cell"><p>Set to true to verify the Cisco Catalyst Center configuration after applying the playbook config.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2844,7 +2867,7 @@ For example, &quot;Auto&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The number of times to retry resynchronization.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id5"><span class="problematic" id="id6">:ansible-option-default:`1200`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id9"><span class="problematic" id="id10">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2854,8 +2877,8 @@ For example, &quot;Auto&quot;.</p>
 <td><div class="ansible-option-cell"><p>Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2878,8 +2901,8 @@ For example, &quot;Auto&quot;.</p>
 <p>If the log file exists, - It is overwritten or appended based on the &quot;dnac_log_append&quot; flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2890,8 +2913,8 @@ For example, &quot;Auto&quot;.</p>
 <td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2902,7 +2925,7 @@ For example, &quot;Auto&quot;.</p>
 <td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if dnac_log is True.</p>
 <p>If path is not specified, - When 'dnac_log_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac_log_append' is False, 'dnac.log' is generated; logs are overwritten.</p>
 <p>If path is specified, - When 'dnac_log_append' is True, the file opens in append mode. - When 'dnac_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2915,7 +2938,7 @@ For example, &quot;Auto&quot;.</p>
 <p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
 <p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
 <p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id21"><span class="problematic" id="id22">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2930,7 +2953,7 @@ For example, &quot;Auto&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`&quot;443&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2938,7 +2961,7 @@ For example, &quot;Auto&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The interval, in seconds, for polling Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`2`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2948,7 +2971,7 @@ For example, &quot;Auto&quot;.</p>
 <p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The username for authentication at the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2958,8 +2981,8 @@ For example, &quot;Auto&quot;.</p>
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2968,15 +2991,15 @@ For example, &quot;Auto&quot;.</p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the version of the Cisco Catalyst Center that the SDK should use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id33"><span class="problematic" id="id34">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id37"><span class="problematic" id="id38">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-next_task_after_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-next-task-after-interval"><strong>next_task_after_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-next_task_after_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Time in second between Provision and AP updated execution</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id35"><span class="problematic" id="id36">:ansible-option-default:`5`</span></a></p>
+<td><div class="ansible-option-cell"><p>Time in seconds between Provision and AP updated execution</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id39"><span class="problematic" id="id40">:ansible-option-default:`5`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2986,8 +3009,8 @@ For example, &quot;Auto&quot;.</p>
 <td><div class="ansible-option-cell"><p>The desired state of the device replacement workflow.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -2998,8 +3021,8 @@ For example, &quot;Auto&quot;.</p>
 <td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -3007,7 +3030,7 @@ For example, &quot;Auto&quot;.</p>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id58" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id62" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -3037,7 +3060,7 @@ For example, &quot;Auto&quot;.</p>
 </div>
 </section>
 <section id="see-also">
-<h2><a class="toc-backref" href="#id59" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id63" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Permalink to this heading"></a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
@@ -3049,7 +3072,7 @@ For example, &quot;Auto&quot;.</p>
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id60" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id64" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Provision/Move/Update Wireless Access Point Configuration</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
 <span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
@@ -3513,7 +3536,7 @@ For example, &quot;Auto&quot;.</p>
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id61" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id65" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v11)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -3528,7 +3551,7 @@ For example, &quot;Auto&quot;.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A list of dictionaries containing details about the AP updates and verification results, as returned by the Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id45"><span class="problematic" id="id46">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;changed&quot;: true, &quot;response&quot;: {&quot;ap\_config\_update\_status&quot;: &quot;The update for AP Config Cisco\_Test\_9120\_T1 has been successfully verified.&quot;}}]}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;changed&quot;: true, &quot;response&quot;: {&quot;ap\_config\_update\_status&quot;: &quot;The update for AP Config Cisco\_Test\_9120\_T1 has been successfully verified.&quot;}}]}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -3537,7 +3560,7 @@ For example, &quot;Auto&quot;.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with provision status returned by the Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;changed&quot;: true, &quot;response&quot;: {&quot;ap\_provision\_update\_status&quot;: &quot;AP provision for the site 'Global/Chennai/LTTS/FLOOR1' has been successfully verified.&quot;}}]}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;changed&quot;: true, &quot;response&quot;: {&quot;ap\_provision\_update\_status&quot;: &quot;AP provision for the site 'Global/Chennai/LTTS/FLOOR1' has been successfully verified.&quot;}}]}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -3546,7 +3569,7 @@ For example, &quot;Auto&quot;.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with reboot status of AP returned by the Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;accesspoints\_updates&quot;: {&quot;ap\_reboot\_status&quot;: &quot;AP ['6c:d6:e3:69:49:b4', '68:49:92:75:0f:d0'] Rebooted Successfully&quot;, &quot;ap\_reboot\_task\_details&quot;: {&quot;reboot\_api\_response&quot;: {&quot;apList&quot;: [{&quot;apName&quot;: &quot;LTTS\_Test\_9120\_T2&quot;, &quot;failureReason&quot;: null, &quot;rebootStatus&quot;: &quot;Success&quot;}, {&quot;apName&quot;: &quot;LTTS\_Test\_9166\_T3&quot;, &quot;failureReason&quot;: null, &quot;rebootStatus&quot;: &quot;Success&quot;}], &quot;wlcIP&quot;: &quot;204.192.6.200&quot;}}}}}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id53"><span class="problematic" id="id54">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;accesspoints\_updates&quot;: {&quot;ap\_reboot\_status&quot;: &quot;AP ['6c:d6:e3:69:49:b4', '68:49:92:75:0f:d0'] Rebooted Successfully&quot;, &quot;ap\_reboot\_task\_details&quot;: {&quot;reboot\_api\_response&quot;: {&quot;apList&quot;: [{&quot;apName&quot;: &quot;LTTS\_Test\_9120\_T2&quot;, &quot;failureReason&quot;: null, &quot;rebootStatus&quot;: &quot;Success&quot;}, {&quot;apName&quot;: &quot;LTTS\_Test\_9166\_T3&quot;, &quot;failureReason&quot;: null, &quot;rebootStatus&quot;: &quot;Success&quot;}], &quot;wlcIP&quot;: &quot;204.192.6.200&quot;}}}}}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -3555,7 +3578,7 @@ For example, &quot;Auto&quot;.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with bulk update status of AP returned by the Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;: {\\n    \\&quot;accesspoints\_updates\\&quot;: {\\n        \\&quot;ap\_config\_update\_status\\&quot;: \\&quot;\\&quot;List of AP Configuration ['Cisco\_9120\_T2', 'Cisco\_9166\_T2'] updated Successfully\\&quot;\\&quot;,\\n        \\&quot;ap\_update\_config\_task\_details\\&quot;: {\\n            \\&quot;data\\&quot;: \\&quot;workflow\_id=76da6b66-ebf8-4697-bf78-5bd1b45b6367;cfs\_id=2fca9272-0209-4fd8-9c54-4e1e690b39ff,a6595513-d395-4a99-bd53-a42b722e9aee;\\n                    rollback\_status=not\_supported;rollback\_taskid=0;failure\_task=NA;processcfs\_complete=true\\&quot;,\\n            \\&quot;progress\\&quot;: \\&quot;TASK\_INTENT\\&quot;\\n        }\\n    }\\n  }\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id55"><span class="problematic" id="id56">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;: {\\n    \\&quot;accesspoints\_updates\\&quot;: {\\n        \\&quot;ap\_config\_update\_status\\&quot;: \\&quot;\\&quot;List of AP Configuration ['Cisco\_9120\_T2', 'Cisco\_9166\_T2'] updated Successfully\\&quot;\\&quot;,\\n        \\&quot;ap\_update\_config\_task\_details\\&quot;: {\\n            \\&quot;data\\&quot;: \\&quot;workflow\_id=76da6b66-ebf8-4697-bf78-5bd1b45b6367;cfs\_id=2fca9272-0209-4fd8-9c54-4e1e690b39ff,a6595513-d395-4a99-bd53-a42b722e9aee;\\n                    rollback\_status=not\_supported;rollback\_taskid=0;failure\_task=NA;processcfs\_complete=true\\&quot;,\\n            \\&quot;progress\\&quot;: \\&quot;TASK\_INTENT\\&quot;\\n        }\\n    }\\n  }\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -3564,7 +3587,7 @@ For example, &quot;Auto&quot;.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with factory reset status of AP returned by the Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id53"><span class="problematic" id="id54">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;accesspoints\_updates&quot;: {&quot;ap\_reset\_status&quot;: &quot;APs ['a4:88:73:ce:0a:6c'] reset successfully&quot;, &quot;ap\_reset\_task\_details&quot;: {&quot;reset\_api\_response&quot;: [{&quot;apFactoryResetStatus&quot;: &quot;Success&quot;, &quot;apName&quot;: &quot;Cisco\_9120\_T1&quot;, &quot;ethernetMacAddress&quot;: &quot;a4:88:73:ce:0a:6c&quot;, &quot;failureReason&quot;: null, &quot;radioMacAddress&quot;: &quot;a4:88:73:d0:53:60&quot;}]}}}}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id57"><span class="problematic" id="id58">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;accesspoints\_updates&quot;: {&quot;ap\_reset\_status&quot;: &quot;APs ['a4:88:73:ce:0a:6c'] reset successfully&quot;, &quot;ap\_reset\_task\_details&quot;: {&quot;reset\_api\_response&quot;: [{&quot;apFactoryResetStatus&quot;: &quot;Success&quot;, &quot;apName&quot;: &quot;Cisco\_9120\_T1&quot;, &quot;ethernetMacAddress&quot;: &quot;a4:88:73:ce:0a:6c&quot;, &quot;failureReason&quot;: null, &quot;radioMacAddress&quot;: &quot;a4:88:73:d0:53:60&quot;}]}}}}`</span></a></p>
 </div></td>
 </tr>
 </tbody>

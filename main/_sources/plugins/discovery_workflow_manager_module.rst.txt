@@ -42,7 +42,7 @@ cisco.dnac.discovery_workflow_manager module -- A resource module for handling d
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.36.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3082,7 +3082,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are discovery.Discovery.get\_all\_global\_credentials\_v2, discovery.Discovery.start\_discovery, task.Task.get\_task\_by\_id, discovery.Discovery.get\_discoveries\_by\_range, discovery.Discovery.get\_discovered\_network\_devices\_by\_discovery\_id', discovery.Discovery.delete\_discovery\_by\_id discovery.Discovery.delete\_all\_discovery discovery.Discovery.get\_count\_of\_all\_discovery\_jobs
+   - SDK Method used are discovery.Discovery.get\_all\_global\_credentials, discovery.Discovery.start\_discovery, task.Task.get\_task\_by\_id, discovery.Discovery.get\_discoveries\_by\_range, discovery.Discovery.get\_discovered\_network\_devices\_by\_discovery\_id', discovery.Discovery.delete\_discovery\_by\_id discovery.Discovery.delete\_all\_discovery discovery.Discovery.get\_count\_of\_all\_discovery\_jobs
    - Paths used are get /dna/intent/api/v2/global-credential post /dna/intent/api/v1/discovery get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn} get /dna/intent/api/v1/discovery/{id}/network-device delete /dna/intent/api/v1/discovery/{id} delete /dna/intent/api/v1/delete get /dna/intent/api/v1/discovery/count
    - Removed 'global\_cli\_len' option in v6.12.0.
    - Does not support \ :literal:`check\_mode`\ 

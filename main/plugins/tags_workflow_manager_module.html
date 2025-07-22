@@ -60,7 +60,7 @@
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_top_nanalytics_module.html">cisco.dnac.aaa_services_top_nanalytics module -- Resource module for Aaa Services Top Nanalytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="aaa_services_trend_analytics_module.html">cisco.dnac.aaa_services_trend_analytics module -- Resource module for Aaa Services Trend Analytics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="accesspoint_configuration_details_by_task_id_info_module.html">cisco.dnac.accesspoint_configuration_details_by_task_id_info module -- Information module for Accesspoint Configuration Details By Task Id</a></li>
-<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuration changes.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="accesspoint_workflow_manager_module.html">cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_count_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_count_info module -- Information module for Activities Activity Id Triggered Jobs Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_activity_id_triggered_jobs_info_module.html">cisco.dnac.activities_activity_id_triggered_jobs_info module -- Information module for Activities Activity Id Triggered Jobs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="activities_count_info_module.html">cisco.dnac.activities_count_info module -- Information module for Activities Count</a></li>
@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.tags_workflow_manager module -- Create/ Update/ Delete Tag(s) and Tag Memberships in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-tags-workflow-manager-module-create-update-delete-tag-s-and-tag-memberships-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.36.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.37.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1373,20 +1373,27 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tag/new_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-new-name"><strong>new_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag/new_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The new name for the tag when updating an existing tag.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules"><strong>port_rules</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Rules for dynamically tagging ports based on attributes such as Port Name, Port Speed, Admin Status, Operational Status, Description. A port that meets the specified criteria will be automatically tagged. If multiple rules are provided - Rules with the same 'rule_name' are evaluated using OR logic (i.e., a port matching any of them is tagged). - Rules with different 'rule_name' values are evaluated using AND logic (i.e., a port must match all such rules to be tagged).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-rule-descriptions"><strong>rule_descriptions</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of rules that define how ports will be tagged.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/operation"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-rule-descriptions-operation"><strong>operation</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/operation" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1398,7 +1405,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/rule_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-rule-descriptions-rule-name"><strong>rule_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/rule_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -1413,7 +1420,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/search_pattern"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-rule-descriptions-search-pattern"><strong>search_pattern</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/search_pattern" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -1427,21 +1434,21 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-rule-descriptions-value"><strong>value</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The value that the rule will match against, such as port name or port speed.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-scope-description"><strong>scope_description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines the device scope for the rule, including scope category and scope members. The port rules apply only to ports of devices within the specified scope.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description/inherit"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-scope-description-inherit"><strong>inherit</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description/inherit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1453,7 +1460,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description/scope_category"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-scope-description-scope-category"><strong>scope_category</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description/scope_category" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -1465,91 +1472,91 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description/scope_members"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-scope-description-scope-members"><strong>scope_members</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description/scope_members" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of scope members to include. - When `scope_category` is `TAG`, this list contains tag names. - When `scope_category` is `SITE`, this list contains site hierarchy names.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships"><strong>tag_memberships</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A dictionary containing detailed configuration for managing tag memberships for devices and interfaces.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details"><strong>device_details</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details about the devices and interfaces to which tags are to be assigned.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/hostnames"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-hostnames"><strong>hostnames</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/hostnames" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of hostnames for the devices.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/ip_addresses"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-ip-addresses"><strong>ip_addresses</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/ip_addresses" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of IP addresses for the devices.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/mac_addresses"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-mac-addresses"><strong>mac_addresses</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/mac_addresses" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of MAC addresses for the devices.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/port_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-port-names"><strong>port_names</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/port_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of port names to which the tags are to be assigned under the devices. It is an optional parameter, used as per requirement. If port_names is not given, the tags will be assigned to devices. If port_names is given, the tags will be assigned to the ports under the respective devices.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/serial_numbers"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-serial-numbers"><strong>serial_numbers</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/serial_numbers" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of serial numbers for the devices.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/site_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-site-details"><strong>site_details</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships/site_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details about the sites under which devices or interfaces will be tagged.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/site_details/port_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-site-details-port-names"><strong>port_names</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships/site_details/port_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of port names to which the tags are to be assigned under the devices belonging to the given sites. It is an optional parameter, used as per requirement. If port_names is not given, the tags will be assigned to devices under the given sites. If port_names is given, the tags will be assigned to these ports under devices belonging to the given sites.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/site_details/site_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-site-details-site-names"><strong>site_names</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships/site_details/site_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of the site name hierarchies under which devices or interfaces will be tagged.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/tags"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-tags"><strong>tags</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tag_memberships/tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of tag names to assign to devices or interfaces. These tags should be present in Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1561,7 +1568,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1569,7 +1576,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id63"><span class="problematic" id="id64">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1581,14 +1588,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1605,7 +1612,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1617,7 +1624,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1627,7 +1634,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id77"><span class="problematic" id="id78">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1640,14 +1647,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id79"><span class="problematic" id="id80">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1655,7 +1662,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id81"><span class="problematic" id="id82">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1663,7 +1670,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id83"><span class="problematic" id="id84">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
 <div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
@@ -1673,7 +1680,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id85"><span class="problematic" id="id86">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1685,7 +1692,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1693,7 +1700,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id91"><span class="problematic" id="id92">:ansible-option-default:`&quot;2.3.7.9&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1705,7 +1712,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
