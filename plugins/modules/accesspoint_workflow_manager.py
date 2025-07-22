@@ -140,12 +140,12 @@ options:
         type: str
         required: false
       is_assigned_site_as_location:
-        description: |
-          Configures whether the access point's location is automatically set to its assigned site.
-          If "Enabled", the assigned site is used as the location, and no further location configuration is required.
-          If "Disabled", the access point's location must be configured manually.
-          Accepted values: "Enabled", "Disabled".
-          Note: Idempotent behavior is not supported for this field.
+        description:
+          - Determines whether the access point's location is automatically set to its assigned site.
+          - When set to C(Enabled), the assigned site is used as the location and no manual location configuration is needed.
+          - When set to C(Disabled), the location must be specified manually.
+          - Accepted values are C(Enabled) and C(Disabled).
+          - Note: Idempotent behavior is not supported for this field; repeated runs may not guarantee consistent results.
         type: str
         required: false
       failover_priority:
