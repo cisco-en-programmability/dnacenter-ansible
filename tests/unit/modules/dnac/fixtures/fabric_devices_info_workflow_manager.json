@@ -182,6 +182,7 @@
     ],
     "version": "1.0"
   },
+
   "playbook_error_handling1_novalid_filter": [
     {
       "fabric_devices": [
@@ -199,6 +200,7 @@
       ]
     }
   ],
+
   "playbook_error_handling2_novalid_filter": [
     {
       "fabric_devices": [
@@ -216,6 +218,7 @@
       ]
     }
   ],
+
   "playbook_nofabricdevice_and_no_networkdevice": [
     {
       "fabric_devices": [
@@ -309,6 +312,7 @@
     ],
     "version": "1.0"
   },
+
   "playbook_with_fabric_info": [
     {
       "fabric_devices": [
@@ -588,6 +592,7 @@
     ],
     "version": "1.0"
   },
+
   "playbook_handoff_info": [
     {
       "fabric_devices": [
@@ -905,6 +910,7 @@
     ],
     "version": "1.0"
   },
+
   "playbook_health_info": [
     {
       "fabric_devices": [
@@ -1603,6 +1609,7 @@
       }
     ]
   },
+
   "playbook_connected_device_info": [
     {
       "fabric_devices": [
@@ -2166,6 +2173,7 @@
     },
     "version": "1.0"
   },
+
   "playbook_issues_info": [
     {
       "fabric_devices": [
@@ -2381,86 +2389,87 @@
     "totalCount": "496",
     "version": "1.0"
   },
-  "playbook_onboarding_info_details": [
+
+  "playbook_onboarding_info_details":  [
     {
-      "fabric_devices": [
-        {
-          "file_info": {
-            "file_format": "yaml",
-            "file_mode": "a",
-            "file_path": "/Users/priyadharshini/Downloads/device_pireeeeya",
-            "timestamp": true
-          },
-          "ip_address": [
-            "204.192.5.2"
-          ],
-          "requested_info": [
-            "onboarding_info"
-          ]
-        }
-      ]
+        "fabric_devices": [
+            {
+                "file_info": {
+                    "file_format": "json",
+                    "file_mode": "a",
+                    "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
+                    "timestamp": true
+                },
+                "ip_address": [
+                    "204.192.5.2"
+                ],
+                "requested_info": [
+                    "onboarding_info"
+                ]
+            }
+        ]
+    }
+],
+  "get_device_list5": {
+  "response": [
+    {
+      "memorySize": "NA",
+      "family": "Wireless Controller",
+      "lastUpdateTime": 1753152585448,
+      "macAddress": "4c:e1:75:02:2b:0b",
+      "roleSource": "AUTO",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.15.2b",
+      "serialNumber": "TTM234301CM",
+      "syncRequestedByApp": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "204.192.5.2",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "upTime": "6 days, 3:50:54.67",
+      "interfaceCount": "0",
+      "bootDateTime": "2025-07-15 22:59:45",
+      "managementIpAddress": "204.192.5.2",
+      "platformId": "C9800-40-K9",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "hostname": "TB17-eWLC-SJ.cisco.com",
+      "locationName": null,
+      "lastUpdated": "2025-07-22 02:49:45",
+      "associatedWlcIp": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-07-22 02:49:12",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 534949,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9800-40 Wireless Controller",
+      "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.2b, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Feb-25 07:14 by mcpre netconf enabled",
+      "location": null,
+      "role": "ACCESS",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "instanceUuid": "1841ff80-886b-47fa-9053-85000e4af745",
+      "id": "1841ff80-886b-47fa-9053-85000e4af745"
     }
   ],
-  "get_device_list5": {
-    "response": [
-      {
-        "memorySize": "NA",
-        "family": "Wireless Controller",
-        "lastUpdateTime": 1752129527847,
-        "macAddress": "4c:e1:75:02:2b:0b",
-        "roleSource": "AUTO",
-        "deviceSupportLevel": "Supported",
-        "softwareType": "IOS-XE",
-        "softwareVersion": "17.15.2b",
-        "serialNumber": "TTM234301CM",
-        "syncRequestedByApp": "",
-        "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
-        "collectionInterval": "Global Default",
-        "dnsResolvedManagementAddress": "204.192.5.2",
-        "lastManagedResyncReasons": "Config Change Event",
-        "managementState": "Managed",
-        "pendingSyncRequestsCount": "0",
-        "reasonsForDeviceResync": "Config Change Event",
-        "reasonsForPendingSyncRequests": "",
-        "upTime": "16 days, 9:54:23.49",
-        "interfaceCount": "0",
-        "bootDateTime": "2025-06-23 20:44:47",
-        "managementIpAddress": "204.192.5.2",
-        "platformId": "C9800-40-K9",
-        "reachabilityFailureReason": "",
-        "reachabilityStatus": "Reachable",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "snmpContact": "",
-        "snmpLocation": "",
-        "apManagerInterfaceIp": "",
-        "collectionStatus": "Managed",
-        "hostname": "TB17-eWLC-SJ.cisco.com",
-        "locationName": null,
-        "lastUpdated": "2025-07-10 06:38:47",
-        "associatedWlcIp": "",
-        "apEthernetMacAddress": null,
-        "errorCode": null,
-        "errorDescription": null,
-        "lastDeviceResyncStartTime": "2025-07-10 06:38:13",
-        "lineCardCount": "0",
-        "lineCardId": "",
-        "managedAtleastOnce": true,
-        "tagCount": "0",
-        "tunnelUdpPort": null,
-        "uptimeSeconds": 1419747,
-        "vendor": "Cisco",
-        "waasDeviceMode": null,
-        "type": "Cisco Catalyst 9800-40 Wireless Controller",
-        "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.2b, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Feb-25 07:14 by mcpre netconf enabled",
-        "location": null,
-        "role": "ACCESS",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "instanceUuid": "1841ff80-886b-47fa-9053-85000e4af745",
-        "id": "1841ff80-886b-47fa-9053-85000e4af745"
-      }
-    ],
-    "version": "1.0"
-  },
+  "version": "1.0"
+},
   "get_fabric_sites19": {
     "response": [
       {
@@ -2533,13 +2542,13 @@
   },
   "get_fabric_devices_40": {
     "response": [
-      "1"
+      
     ],
     "version": "1.0"
   },
   "get_fabric_devices_41": {
     "response": [
-      "2"
+      
     ],
     "version": "1.0"
   },
@@ -2558,13 +2567,13 @@
   },
   "get_fabric_devices_43": {
     "response": [
-      "3"
+      
     ],
     "version": "1.0"
   },
   "get_fabric_devices_44": {
     "response": [
-      "4"
+      
     ],
     "version": "1.0"
   },
@@ -2609,12 +2618,226 @@
     ],
     "version": "1.0"
   },
+  "get_device_type": {
+    "response": {
+      "type": "Cisco Catalyst 9800-40 Wireless Controller",
+      "memorySize": "NA",
+      "family": "Wireless Controller",
+      "lastUpdateTime": 1753152585448,
+      "macAddress": "4c:e1:75:02:2b:0b",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.15.2b",
+      "deviceSupportLevel": "Supported",
+      "serialNumber": "TTM234301CM",
+      "lastUpdated": "2025-07-22 02:49:45",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "204.192.5.2",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "syncRequestedByApp": "",
+      "upTime": "6 days, 3:50:54.67",
+      "managementIpAddress": "204.192.5.2",
+      "platformId": "C9800-40-K9",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "interfaceCount": "0",
+      "roleSource": "AUTO",
+      "bootDateTime": "2025-07-15 22:59:45",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "hostname": "TB17-eWLC-SJ.cisco.com",
+      "locationName": null,
+      "associatedWlcIp": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-07-22 02:49:12",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 534953,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.2b, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Feb-25 07:14 by mcpre netconf enabled",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "1841ff80-886b-47fa-9053-85000e4af745",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "1841ff80-886b-47fa-9053-85000e4af745"
+    },
+    "version": "1.0"
+  },
+  "get_ssid_details": {
+    "response": [
+      {
+        "wlanId": 28,
+        "wlanProfileName": "ARUBA_SSID_profile",
+        "l2Security": "open",
+        "l3Security": "web_auth",
+        "ssidName": "ARUBA_SSIDtb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 1,
+        "wlanProfileName": "CiscoSensorProvisioning",
+        "l2Security": "wpa2_enterprise",
+        "l3Security": "open",
+        "ssidName": "CiscoSensorProvisioning",
+        "radioPolicy": "2.4GHz + 5GHz + 6GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 26,
+        "wlanProfileName": "GUEST2_profile",
+        "l2Security": "open",
+        "l3Security": "open",
+        "ssidName": "GUEST2tb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 18,
+        "wlanProfileName": "Guest_passthrough_int_profile",
+        "l2Security": "open",
+        "l3Security": "web_auth",
+        "ssidName": "Guest_passthrough_inttb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 20,
+        "wlanProfileName": "GUEST_profile",
+        "l2Security": "open",
+        "l3Security": "open",
+        "ssidName": "GUESTtb17",
+        "radioPolicy": "2.4GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 22,
+        "wlanProfileName": "Guest_webauthinternal_profile",
+        "l2Security": "wpa2_enterprise",
+        "l3Security": "web_auth",
+        "ssidName": "Guest_webauthinternaltb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 19,
+        "wlanProfileName": "Guest_webpassthrough_profile",
+        "l2Security": "open",
+        "l3Security": "web_auth",
+        "ssidName": "Guest_webpassthroughtb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 23,
+        "wlanProfileName": "OPEN_profile",
+        "l2Security": "open",
+        "l3Security": "open",
+        "ssidName": "OPENtb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 21,
+        "wlanProfileName": "posture_profile",
+        "l2Security": "wpa2_enterprise",
+        "l3Security": "open",
+        "ssidName": "posturetb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 17,
+        "wlanProfileName": "Radius_ssid_profile",
+        "l2Security": "wpa2_enterprise",
+        "l3Security": "open",
+        "ssidName": "Radius_ssidtb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 29,
+        "wlanProfileName": "Random_mac_profile",
+        "l2Security": "wpa2_enterprise",
+        "l3Security": "open",
+        "ssidName": "Random_mactb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 27,
+        "wlanProfileName": "Single5KBand_profile",
+        "l2Security": "wpa2_personal",
+        "l3Security": "open",
+        "ssidName": "Single5KBandtb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 30,
+        "wlanProfileName": "SSIDDot1XIndia_profile",
+        "l2Security": "wpa2_enterprise",
+        "l3Security": "open",
+        "ssidName": "SSIDDot1XIndiatb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 25,
+        "wlanProfileName": "SSIDDUAL BAND_profile",
+        "l2Security": "wpa2_enterprise",
+        "l3Security": "open",
+        "ssidName": "SSIDDUAL BANDtb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": true,
+        "managed": true
+      },
+      {
+        "wlanId": 24,
+        "wlanProfileName": "SSIDScheduler_profile",
+        "l2Security": "wpa2_enterprise",
+        "l3Security": "open",
+        "ssidName": "SSIDSchedulertb17",
+        "radioPolicy": "2.4GHz + 5GHz",
+        "adminStatus": false,
+        "managed": true
+      }
+    ],
+    "version": "1.0"
+  },
   "provision_status1": {
     "deviceManagementIpAddress": "204.192.5.2",
     "siteNameHierarchy": "Global/USA/SAN JOSE/BLD23",
     "status": "success",
     "description": "Wired Provisioned device detail retrieved successfully."
   },
+
   "playbook_negative_scenario1": [
     {
       "ip_address": [
@@ -2625,6 +2848,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario2": [
     {
       "fabric_devices": [
@@ -2644,6 +2868,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario3": [
     {
       "fabric_devices": [
@@ -2659,6 +2884,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario4": [
     {
       "fabric_devices": [
@@ -2674,6 +2900,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario5": [
     {
       "fabric_devices": [
@@ -2686,6 +2913,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario6": [
     {
       "fabric_devices": [
@@ -2703,6 +2931,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario7": [
     {
       "fabric_devices": [
@@ -2728,6 +2957,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario8": [
     {
       "fabric_devices": [
@@ -2753,6 +2983,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario9": [
     {
       "fabric_devices": [
@@ -2778,6 +3009,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario10": [
     {
       "fabric_devices": [
@@ -2801,6 +3033,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario11": [
     {
       "fabric_devices": [
@@ -2824,6 +3057,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario12": [
     {
       "fabric_devices": [
@@ -2848,6 +3082,7 @@
       ]
     }
   ],
+
   "playbook_negative_scenario13": [
     {
       "fabric_devices": [

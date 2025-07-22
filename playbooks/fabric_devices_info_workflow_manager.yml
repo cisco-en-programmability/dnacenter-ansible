@@ -1,3 +1,4 @@
+---
 - name: Get Fabric devices info from Cisco Catalyst Center
   hosts: localhost
   connection: local
@@ -41,4 +42,4 @@
                   file_path: /Users/priyadharshini/Downloads/fabric_device_info
                   file_format: yaml
                   file_mode: a
-                  timestamp: True
+                  timestamp: true

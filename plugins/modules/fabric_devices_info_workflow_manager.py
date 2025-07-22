@@ -30,9 +30,9 @@ author:
 
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: Set to true to verify the Cisco Catalyst Center after applying the playbook config.
     type: bool
-    default: True
+    default: true
   state:
     description: The desired state of the configuration after module execution.
     type: str
@@ -230,7 +230,7 @@ EXAMPLES = r"""
                   file_path: /Users/priyadharshini/Downloads/fabric_device_info
                   file_format: yaml
                   file_mode: a
-                  timestamp: True
+                  timestamp: true
 
 
 - name: Get Fabric devices info from Cisco Catalyst Center
@@ -276,7 +276,7 @@ EXAMPLES = r"""
                   file_path: /Users/priyadharshini/Downloads/fabric_device_info
                   file_format: yaml
                   file_mode: a
-                  timestamp: True
+                  timestamp: true
 
 - name: Get Fabric devices info from Cisco Catalyst Center
   hosts: localhost
@@ -315,7 +315,7 @@ EXAMPLES = r"""
                   file_path: /Users/priyadharshini/Downloads/fabric_device_info
                   file_format: yaml
                   file_mode: a
-                  timestamp: True
+                  timestamp: true
 """
 
 RETURN = r"""
@@ -1296,6 +1296,10 @@ class FabricDevicesInfo(DnacBase):
                 self.total_response.append(onboarding_info_result)
                 combined_fabric_data["onboarding_info"] = onboarding_info_result
 
+                ssid_info_result = self.get_ssid_details(fabric_devices, ip_uuid_map)
+                self.total_response.append(ssid_info_result)
+                combined_fabric_data["ssid_info"] = ssid_info_result
+
                 provision_status_result = self.get_provision_status(ip_uuid_map, fabric_devices)
                 self.total_response.append(provision_status_result)
                 combined_fabric_data["provision_status_info"] = provision_status_result
@@ -2097,6 +2101,69 @@ class FabricDevicesInfo(DnacBase):
         self.log("Final aggregated connected device info: {0}".format(result), "DEBUG")
         return result
 
+    def get_dev_type(self, ip_address):
+        """
+        Fetches the type of device (wired/wireless)
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+          str: The type of the device ('wired' or 'wireless'), or None if the device is
+              unrecognized, not present, or an error occurs.
+        Example:
+          Post creation of the validated input, we use this method to get the
+          type of the device.
+        """
+
+        # for ip_address, device_id in ip_uuid_map.items():
+        #     if ip_address in fabric_devices:
+        try:
+            dev_response = self.dnac_apply["exec"](
+                family="devices",
+                function="get_network_device_by_ip",
+                params={"ip_address": ip_address},
+            )
+
+            self.log(
+                "The device response from 'get_network_device_by_ip' API for IP {0} is {1}".format(
+                    ip_address, str(dev_response)
+                ),
+                "DEBUG",
+            )
+
+            dev_dict = dev_response.get("response", {})
+            if not dev_dict:
+                self.log(
+                    "Invalid response received from the API 'get_network_device_by_ip'. 'response' is empty or missing.",
+                    "WARNING",
+                )
+                return None
+
+            device_family = dev_dict.get("family")
+            if not device_family:
+                self.log("Device family is missing in the response.", "WARNING")
+                return None
+
+            if device_family == "Wireless Controller":
+                device_type = "wireless"
+            elif device_family in ["Switches and Hubs", "Routers"]:
+                device_type = "wired"
+            else:
+                device_type = None
+
+            self.log("The device type is {0}".format(device_type), "INFO")
+
+            return device_type
+        except Exception as e:
+            self.msg = "The Device - {0} not present in the Cisco Catalyst Center.".format(
+                ip_address
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+            return None
+
     def get_onboarding_info(self, ip_uuid_map, fabric_devices):
         """
         Retrieves onboarding information for devices associated with fabric sites.
@@ -2218,6 +2285,69 @@ class FabricDevicesInfo(DnacBase):
 
         result = [{"provision_status_info": all_provision_status_info}]
         self.log("Aggregated provision status info: {0}".format(result), "DEBUG")
+        return result
+
+    def get_ssid_details(self, fabric_devices, ip_uuid_map):
+        """
+        Retrieves SSID details for the given fabric devices, if fabric device is wireless.
+
+        Args:
+            self (object): The class instance interacting with Catalyst Center.
+            fabric_devices (list): List of IP addresses identified as fabric devices.
+            ip_uuid_map (dict): Mapping of device IP addresses to instance UUIDs.
+
+        Returns:
+            list: A list containing a dictionary of SSID details per device.
+
+        Description:
+            This method fetches SSID information for each fabric device and structures the data
+            into a list of dictionaries, where each dictionary contains:
+                - 'device_ip': The IP address of the device.
+                - 'ssid_details': A list of SSID records, or a string stating "No SSID info found".
+        """
+        self.log("Starting to fetch SSID details for devices: {0}".format(fabric_devices), "INFO")
+
+        all_ssid_info = []
+
+        for ip_address, device_id in ip_uuid_map.items():
+            if ip_address in fabric_devices:
+                device_type = self.get_dev_type(ip_address)
+                self.log("Device {0} is identified as '{1}'".format(ip_address, device_type), "DEBUG")
+
+                if device_type != "wireless":
+                    self.log("Skipping {0} as it is not a wireless device.".format(ip_address), "DEBUG")
+                    all_ssid_info.append({
+                        "device_ip": ip_address,
+                        "ssid_details": "The device is not wireless; therefore, SSID information retrieval is not applicable."
+                    })
+                    continue
+
+                try:
+                    response = self.dnac._exec(
+                        family="wireless",
+                        function="get_ssid_details_for_specific_wireless_controller_v1",
+                        params={"network_device_id": device_id}
+                    )
+                    ssid_data = response.get("response", [])
+                    self.log(
+                        "Received API response from 'get_ssid_details_for_specific_wireless_controller_v1' "
+                        "for device {0}: {1}".format(ip_address, response),
+                        "DEBUG"
+                    )
+                    all_ssid_info.append({
+                        "device_ip": ip_address,
+                        "ssid_details": ssid_data if ssid_data else "No SSID info found"
+                    })
+
+                except Exception as api_err:
+                    self.msg = "Exception occurred while getting SSID details for {0}: {1}".format(
+                        ip_address, api_err
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return None
+
+        result = [{"ssid_info": all_ssid_info}]
+        self.log("Final aggregated SSID info: {0}".format(result), "DEBUG")
         return result
 
     def write_device_info_to_file(self, config):
