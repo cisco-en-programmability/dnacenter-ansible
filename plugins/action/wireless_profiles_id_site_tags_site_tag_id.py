@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,15 +32,17 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    siteIds=dict(type="list"),
-    siteTagName=dict(type="str"),
-    flexProfileName=dict(type="str"),
-    apProfileName=dict(type="str"),
-    id=dict(type="str"),
-    siteTagId=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        siteIds=dict(type="list"),
+        siteTagName=dict(type="str"),
+        flexProfileName=dict(type="str"),
+        apProfileName=dict(type="str"),
+        id=dict(type="str"),
+        siteTagId=dict(type="str"),
+    )
+)
 
 required_if = [
     ("state", "present", ["id", "siteTagId"], True),
@@ -62,20 +67,18 @@ class WirelessProfilesIdSiteTagsSiteTagId(object):
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['id'] = self.new_object.get('id')
-        new_object_params['site_tag_id'] = self.new_object.get('site_tag_id')
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["site_tag_id"] = self.new_object.get("site_tag_id")
         return new_object_params
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params['siteIds'] = self.new_object.get('siteIds')
-        new_object_params['siteTagName'] = self.new_object.get('siteTagName')
-        new_object_params['flexProfileName'] = self.new_object.get(
-            'flexProfileName')
-        new_object_params['apProfileName'] = self.new_object.get(
-            'apProfileName')
-        new_object_params['id'] = self.new_object.get('id')
-        new_object_params['siteTagId'] = self.new_object.get('siteTagId')
+        new_object_params["siteIds"] = self.new_object.get("siteIds")
+        new_object_params["siteTagName"] = self.new_object.get("siteTagName")
+        new_object_params["flexProfileName"] = self.new_object.get("flexProfileName")
+        new_object_params["apProfileName"] = self.new_object.get("apProfileName")
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["siteTagId"] = self.new_object.get("siteTagId")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -89,12 +92,12 @@ class WirelessProfilesIdSiteTagsSiteTagId(object):
             items = self.dnac.exec(
                 family="wireless",
                 function="retrieve_a_specific_site_tag_for_a_wireless_profile",
-                params={"site_tag_id": id}
+                params={"site_tag_id": id},
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'site_tag_id', id)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "site_tag_id", id)
         except Exception:
             result = None
         return result
@@ -117,7 +120,8 @@ class WirelessProfilesIdSiteTagsSiteTagId(object):
             _id = _id or prev_obj.get("siteTagId")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(site_tag_id=_id))
@@ -139,9 +143,12 @@ class WirelessProfilesIdSiteTagsSiteTagId(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def update(self):
         id = self.new_object.get("id")
@@ -189,7 +196,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -235,8 +243,7 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                dnac.fail_json(
-                    "Object does not exists, plugin only has update")
+                dnac.fail_json("Object does not exists, plugin only has update")
         elif state == "absent":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:

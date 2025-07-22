@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,10 +32,12 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present"]),
-    payload=dict(type="list"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present"]),
+        payload=dict(type="list"),
+    )
+)
 
 required_if = [
     ("state", "present", ["payload"], True),
@@ -51,19 +56,22 @@ class SdaAuthenticationProfiles(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['fabric_id'] = self.new_object.get('fabricId') or \
-            self.new_object.get('fabric_id')
-        new_object_params['authentication_profile_name'] = self.new_object.get(
-            'authenticationProfileName') or self.new_object.get('authentication_profile_name')
-        new_object_params['is_global_authentication_profile'] = self.new_object.get(
-            'isGlobalAuthenticationProfile') or self.new_object.get('is_global_authentication_profile')
-        new_object_params['offset'] = self.new_object.get('offset')
-        new_object_params['limit'] = self.new_object.get('limit')
+        new_object_params["fabric_id"] = self.new_object.get(
+            "fabricId"
+        ) or self.new_object.get("fabric_id")
+        new_object_params["authentication_profile_name"] = self.new_object.get(
+            "authenticationProfileName"
+        ) or self.new_object.get("authentication_profile_name")
+        new_object_params["is_global_authentication_profile"] = self.new_object.get(
+            "isGlobalAuthenticationProfile"
+        ) or self.new_object.get("is_global_authentication_profile")
+        new_object_params["offset"] = self.new_object.get("offset")
+        new_object_params["limit"] = self.new_object.get("limit")
         return new_object_params
 
     def update_all_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        new_object_params["payload"] = self.new_object.get("payload")
         return new_object_params
 
     def get_object_by_name(self, name, is_absent=False):
@@ -76,14 +84,14 @@ class SdaAuthenticationProfiles(object):
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
+                if "response" in items:
+                    items = items.get("response")
                 if isinstance(items, dict) and items.get("status") == "failed":
                     if is_absent:
                         raise AnsibleSDAException(response=items)
                     result = None
                     return result
-            result = get_dict_result(items, 'name', name)
+            result = get_dict_result(items, "name", name)
         except Exception:
             if is_absent:
                 raise
@@ -98,12 +106,15 @@ class SdaAuthenticationProfiles(object):
     def exists(self, is_absent=False):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
-        it_exists = prev_obj is not None and isinstance(
-            prev_obj, dict) and prev_obj.get("status") != "failed"
+        it_exists = (
+            prev_obj is not None
+            and isinstance(prev_obj, dict)
+            and prev_obj.get("status") != "failed"
+        )
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object.get('payload')
+        requested_obj = self.new_object.get("payload")
         if requested_obj and len(requested_obj) > 0:
             requested_obj = requested_obj[0]
 
@@ -121,12 +132,15 @@ class SdaAuthenticationProfiles(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def update(self):
-        requested_obj = self.new_object.get('payload')
+        requested_obj = self.new_object.get("payload")
         if requested_obj and len(requested_obj) > 0:
             requested_obj = requested_obj[0]
         id = self.new_object.get("id") or requested_obj.get("id")
@@ -145,7 +159,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -191,8 +206,7 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                dnac.fail_json(
-                    "Object does not exists, plugin only has update")
+                dnac.fail_json("Object does not exists, plugin only has update")
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

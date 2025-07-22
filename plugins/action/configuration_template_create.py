@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -24,34 +27,36 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 # Get common arguements specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    tags=dict(type="list"),
-    author=dict(type="str"),
-    composite=dict(type="bool"),
-    containingTemplates=dict(type="list"),
-    createTime=dict(type="int"),
-    customParamsOrder=dict(type="bool"),
-    description=dict(type="str"),
-    deviceTypes=dict(type="list"),
-    failurePolicy=dict(type="str"),
-    id=dict(type="str"),
-    language=dict(type="str"),
-    lastUpdateTime=dict(type="int"),
-    latestVersionTime=dict(type="int"),
-    name=dict(type="str"),
-    parentTemplateId=dict(type="str"),
-    projectId=dict(type="str"),
-    projectName=dict(type="str"),
-    rollbackTemplateContent=dict(type="str"),
-    rollbackTemplateParams=dict(type="list"),
-    softwareType=dict(type="str"),
-    softwareVariant=dict(type="str"),
-    softwareVersion=dict(type="str"),
-    templateContent=dict(type="str"),
-    templateParams=dict(type="list"),
-    validationErrors=dict(type="dict"),
-    version=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        tags=dict(type="list"),
+        author=dict(type="str"),
+        composite=dict(type="bool"),
+        containingTemplates=dict(type="list"),
+        createTime=dict(type="int"),
+        customParamsOrder=dict(type="bool"),
+        description=dict(type="str"),
+        deviceTypes=dict(type="list"),
+        failurePolicy=dict(type="str"),
+        id=dict(type="str"),
+        language=dict(type="str"),
+        lastUpdateTime=dict(type="int"),
+        latestVersionTime=dict(type="int"),
+        name=dict(type="str"),
+        parentTemplateId=dict(type="str"),
+        projectId=dict(type="str"),
+        projectName=dict(type="str"),
+        rollbackTemplateContent=dict(type="str"),
+        rollbackTemplateParams=dict(type="list"),
+        softwareType=dict(type="str"),
+        softwareVariant=dict(type="str"),
+        softwareVersion=dict(type="str"),
+        templateContent=dict(type="str"),
+        templateParams=dict(type="list"),
+        validationErrors=dict(type="dict"),
+        version=dict(type="str"),
+    )
+)
 
 required_if = []
 required_one_of = []
@@ -63,7 +68,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -129,7 +135,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="configuration_templates",
-            function='create_template',
+            function="create_template",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
