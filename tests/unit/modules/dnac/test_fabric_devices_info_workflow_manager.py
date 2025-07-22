@@ -199,6 +199,8 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("get_fabric_devices_44"),
                 self.test_data.get("get_fabric_sites21"),
                 self.test_data.get("get_port_assignments_v1"),
+                self.test_data.get("get_device_type"),
+                self.test_data.get("get_ssid_details"),
                 self.test_data.get("provision_status1"),
             ]
 
@@ -664,24 +666,185 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 "The fabric devices filtered from the network devices are: ['204.192.5.2']",
                 [
                     {
-                        "device_onboarding_info": [
+                        'device_onboarding_info': [
                             {
-                                "device_ip": "204.192.5.2",
-                                "port_details": "No port assignment details found"
+                                'device_ip': '204.192.5.2',
+                                'port_details': 'No port assignment details found'
                             }
                         ]
                     }
                 ],
                 [
                     {
-                        "provision_status_info": [
+                        'ssid_info': [
                             {
-                                "device_ip": "204.192.5.2",
-                                "provision_status": {
-                                    "description": "Wired Provisioned device detail retrieved successfully.",
-                                    "deviceManagementIpAddress": "204.192.5.2",
-                                    "siteNameHierarchy": "Global/USA/SAN JOSE/BLD23",
-                                    "status": "success"
+                                'device_ip': '204.192.5.2',
+                                'ssid_details': [
+                                    {
+                                        'wlanId': 28,
+                                        'wlanProfileName': 'ARUBA_SSID_profile',
+                                        'l2Security': 'open',
+                                        'l3Security': 'web_auth',
+                                        'ssidName': 'ARUBA_SSIDtb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 1,
+                                        'wlanProfileName': 'CiscoSensorProvisioning',
+                                        'l2Security': 'wpa2_enterprise',
+                                        'l3Security': 'open',
+                                        'ssidName': 'CiscoSensorProvisioning',
+                                        'radioPolicy': '2.4GHz + 5GHz + 6GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 26,
+                                        'wlanProfileName': 'GUEST2_profile',
+                                        'l2Security': 'open',
+                                        'l3Security': 'open',
+                                        'ssidName': 'GUEST2tb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 18,
+                                        'wlanProfileName': 'Guest_passthrough_int_profile',
+                                        'l2Security': 'open',
+                                        'l3Security': 'web_auth',
+                                        'ssidName': 'Guest_passthrough_inttb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 20,
+                                        'wlanProfileName': 'GUEST_profile',
+                                        'l2Security': 'open',
+                                        'l3Security': 'open',
+                                        'ssidName': 'GUESTtb17',
+                                        'radioPolicy': '2.4GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 22,
+                                        'wlanProfileName': 'Guest_webauthinternal_profile',
+                                        'l2Security': 'wpa2_enterprise',
+                                        'l3Security': 'web_auth',
+                                        'ssidName': 'Guest_webauthinternaltb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 19,
+                                        'wlanProfileName': 'Guest_webpassthrough_profile',
+                                        'l2Security': 'open',
+                                        'l3Security': 'web_auth',
+                                        'ssidName': 'Guest_webpassthroughtb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 23,
+                                        'wlanProfileName': 'OPEN_profile',
+                                        'l2Security': 'open',
+                                        'l3Security': 'open',
+                                        'ssidName': 'OPENtb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 21,
+                                        'wlanProfileName': 'posture_profile',
+                                        'l2Security': 'wpa2_enterprise',
+                                        'l3Security': 'open',
+                                        'ssidName': 'posturetb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 17,
+                                        'wlanProfileName': 'Radius_ssid_profile',
+                                        'l2Security': 'wpa2_enterprise',
+                                        'l3Security': 'open',
+                                        'ssidName': 'Radius_ssidtb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 29,
+                                        'wlanProfileName': 'Random_mac_profile',
+                                        'l2Security': 'wpa2_enterprise',
+                                        'l3Security': 'open',
+                                        'ssidName': 'Random_mactb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 27,
+                                        'wlanProfileName': 'Single5KBand_profile',
+                                        'l2Security': 'wpa2_personal',
+                                        'l3Security': 'open',
+                                        'ssidName': 'Single5KBandtb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 30,
+                                        'wlanProfileName': 'SSIDDot1XIndia_profile',
+                                        'l2Security': 'wpa2_enterprise',
+                                        'l3Security': 'open',
+                                        'ssidName': 'SSIDDot1XIndiatb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 25,
+                                        'wlanProfileName': 'SSIDDUAL BAND_profile',
+                                        'l2Security': 'wpa2_enterprise',
+                                        'l3Security': 'open',
+                                        'ssidName': 'SSIDDUAL BANDtb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': True,
+                                        'managed': True
+                                    },
+                                    {
+                                        'wlanId': 24,
+                                        'wlanProfileName': 'SSIDScheduler_profile',
+                                        'l2Security': 'wpa2_enterprise',
+                                        'l3Security': 'open',
+                                        'ssidName': 'SSIDSchedulertb17',
+                                        'radioPolicy': '2.4GHz + 5GHz',
+                                        'adminStatus': False,
+                                        'managed': True
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        'provision_status_info': [
+                            {
+                                'device_ip': '204.192.5.2',
+                                'provision_status': {
+                                    'deviceManagementIpAddress': '204.192.5.2',
+                                    'siteNameHierarchy': 'Global/USA/SAN JOSE/BLD23',
+                                    'status': 'success',
+                                    'description': 'Wired Provisioned device detail retrieved successfully.'
                                 }
                             }
                         ]
