@@ -179,8 +179,8 @@ notes:
     wireless.update_application_policy,
     wireless.get_wireless_profile,
     site_design.assign_sites,
-    wireless.get_interfaces_v1
-    wireless.create_interface_v1
+    wireless.get_interfaces
+    wireless.create_interface
   - Paths used are
     GET dna/intent/api/v1/wirelessProfiles
     POST dna/intent/api/v1/wirelessProfiles/{ GET /dna/intent/api/v1/app-policy-intent
@@ -1264,7 +1264,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         }
         try:
             interfaces = self.execute_get_request(
-                "wireless", "get_interfaces_v1", payload
+                "wireless", "get_interfaces", payload
             )
             if interfaces and isinstance(interfaces.get("response"), list):
                 self.log(
@@ -1290,7 +1290,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             )
             payload = {"interfaceName": interface, "vlanId": vlan_id}
             task_details = self.execute_process_task_data(
-                "wireless", "create_interface_v1", payload
+                "wireless", "create_interface", payload
             )
             if task_details:
                 self.log(
