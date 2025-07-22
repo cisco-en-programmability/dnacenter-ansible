@@ -1646,3 +1646,14 @@ releases:
         - Changes in path_trace_workflow_manager module
         - Removed attribute 'application_sets' and 'application' in 'application_policy_workflow_manager' module
         - Removed attribute 'control_path'  in 'path_trace_workflow_manager' module
+
+  6.36.0:
+    release_date: "2025-07-04"
+    changes:
+      release_summary: Changes in workflow manager module
+      bugfixes:
+        - Fixed get in sites_telemetry_settings module
+      minor_changes:
+        - Update dnacentersdk requirement from 2.7.0 to 2.10.1
+        - Changes in lan_automation_create module
+        - Added create in configuration_template module

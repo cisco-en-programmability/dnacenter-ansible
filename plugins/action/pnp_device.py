@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,11 +32,13 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    deviceInfo=dict(type="dict"),
-    id=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        deviceInfo=dict(type="dict"),
+        id=dict(type="str"),
+    )
+)
 
 required_if = [
     ("state", "present", ["id", "deviceInfo"], True),
@@ -54,52 +59,63 @@ class PnpDevice(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['limit'] = self.new_object.get('limit')
-        new_object_params['offset'] = self.new_object.get('offset')
-        new_object_params['sort'] = self.new_object.get('sort')
-        new_object_params['sort_order'] = self.new_object.get('sortOrder') or \
-            self.new_object.get('sort_order')
-        new_object_params['serial_number'] = self.new_object.get(
-            'serialNumber') or self.new_object.get('serial_number')
-        new_object_params['state'] = self.new_object.get('state_') or \
-            self.new_object.get('state')
-        new_object_params['onb_state'] = self.new_object.get('onbState') or \
-            self.new_object.get('onb_state')
-        new_object_params['name'] = name or self.new_object.get('name')
-        new_object_params['pid'] = self.new_object.get('pid')
-        new_object_params['source'] = self.new_object.get('source')
-        new_object_params['workflow_id'] = self.new_object.get(
-            'workflowId') or self.new_object.get('workflow_id')
-        new_object_params['workflow_name'] = self.new_object.get(
-            'workflowName') or self.new_object.get('workflow_name')
-        new_object_params['smart_account_id'] = self.new_object.get(
-            'smartAccountId') or self.new_object.get('smart_account_id')
-        new_object_params['virtual_account_id'] = self.new_object.get(
-            'virtualAccountId') or self.new_object.get('virtual_account_id')
-        new_object_params['last_contact'] = self.new_object.get(
-            'lastContact') or self.new_object.get('last_contact')
-        new_object_params['mac_address'] = self.new_object.get(
-            'macAddress') or self.new_object.get('mac_address')
-        new_object_params['hostname'] = self.new_object.get('hostname')
-        new_object_params['site_name'] = self.new_object.get('siteName') or \
-            self.new_object.get('site_name')
+        new_object_params["limit"] = self.new_object.get("limit")
+        new_object_params["offset"] = self.new_object.get("offset")
+        new_object_params["sort"] = self.new_object.get("sort")
+        new_object_params["sort_order"] = self.new_object.get(
+            "sortOrder"
+        ) or self.new_object.get("sort_order")
+        new_object_params["serial_number"] = self.new_object.get(
+            "serialNumber"
+        ) or self.new_object.get("serial_number")
+        new_object_params["state"] = self.new_object.get(
+            "state_"
+        ) or self.new_object.get("state")
+        new_object_params["onb_state"] = self.new_object.get(
+            "onbState"
+        ) or self.new_object.get("onb_state")
+        new_object_params["name"] = name or self.new_object.get("name")
+        new_object_params["pid"] = self.new_object.get("pid")
+        new_object_params["source"] = self.new_object.get("source")
+        new_object_params["workflow_id"] = self.new_object.get(
+            "workflowId"
+        ) or self.new_object.get("workflow_id")
+        new_object_params["workflow_name"] = self.new_object.get(
+            "workflowName"
+        ) or self.new_object.get("workflow_name")
+        new_object_params["smart_account_id"] = self.new_object.get(
+            "smartAccountId"
+        ) or self.new_object.get("smart_account_id")
+        new_object_params["virtual_account_id"] = self.new_object.get(
+            "virtualAccountId"
+        ) or self.new_object.get("virtual_account_id")
+        new_object_params["last_contact"] = self.new_object.get(
+            "lastContact"
+        ) or self.new_object.get("last_contact")
+        new_object_params["mac_address"] = self.new_object.get(
+            "macAddress"
+        ) or self.new_object.get("mac_address")
+        new_object_params["hostname"] = self.new_object.get("hostname")
+        new_object_params["site_name"] = self.new_object.get(
+            "siteName"
+        ) or self.new_object.get("site_name")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['deviceInfo'] = self.new_object.get('deviceInfo')
+        new_object_params["deviceInfo"] = self.new_object.get("deviceInfo")
         return new_object_params
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['id'] = self.new_object.get('id')
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params['id'] = self.new_object.get('id')
-        new_object_params['deviceInfo'] = self.new_object.get('deviceInfo')
-        new_object_params['id'] = self.new_object.get('id')
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["deviceInfo"] = self.new_object.get("deviceInfo")
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -113,9 +129,9 @@ class PnpDevice(object):
             )
             if isinstance(items, list):
                 for i in items:
-                    if isinstance(i, dict) and i.get('deviceInfo'):
-                        tmp = i.get('deviceInfo')
-                        if isinstance(tmp, dict) and tmp.get('name') == name:
+                    if isinstance(i, dict) and i.get("deviceInfo"):
+                        tmp = i.get("deviceInfo")
+                        if isinstance(tmp, dict) and tmp.get("name") == name:
                             result = dict(i)
                             break
         except Exception:
@@ -128,12 +144,12 @@ class PnpDevice(object):
             items = self.dnac.exec(
                 family="device_onboarding_pnp",
                 function="get_device_by_id",
-                params={"id": id}
+                params={"id": id},
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = result or get_dict_result(items, 'id', id)
+                if "response" in items:
+                    items = items.get("response")
+            result = result or get_dict_result(items, "id", id)
         except Exception:
             result = None
         return result
@@ -145,11 +161,9 @@ class PnpDevice(object):
         o_id = self.new_object.get("id")
         name = self.new_object.get("name")
         o_id = o_id or self.new_object.get("_id")
-        device_info = self.new_object.get('deviceInfo')
-        if device_info and isinstance(
-                device_info,
-                dict) and device_info.get('name'):
-            name = name or device_info.get('name')
+        device_info = self.new_object.get("deviceInfo")
+        if device_info and isinstance(device_info, dict) and device_info.get("name"):
+            name = name or device_info.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -160,7 +174,8 @@ class PnpDevice(object):
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -177,9 +192,12 @@ class PnpDevice(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def create(self):
         result = self.dnac.exec(
@@ -195,11 +213,9 @@ class PnpDevice(object):
         name = self.new_object.get("name")
         result = None
         id = id or self.new_object.get("_id")
-        device_info = self.new_object.get('deviceInfo')
-        if device_info and isinstance(
-                device_info,
-                dict) and device_info.get('name'):
-            name = name or device_info.get('name')
+        device_info = self.new_object.get("deviceInfo")
+        if device_info and isinstance(device_info, dict) and device_info.get("name"):
+            name = name or device_info.get("name")
         if not id:
             prev_obj_name = self.get_object_by_name(name)
             id_ = None
@@ -219,11 +235,9 @@ class PnpDevice(object):
         id = self.new_object.get("id")
         name = self.new_object.get("name")
         id = id or self.new_object.get("_id")
-        device_info = self.new_object.get('deviceInfo')
-        if device_info and isinstance(
-                device_info,
-                dict) and device_info.get('name'):
-            name = name or device_info.get('name')
+        device_info = self.new_object.get("deviceInfo")
+        if device_info and isinstance(device_info, dict) and device_info.get("name"):
+            name = name or device_info.get("name")
         result = None
         if not id:
             prev_obj_name = self.get_object_by_name(name)
@@ -244,7 +258,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

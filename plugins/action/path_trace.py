@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -28,18 +31,20 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    controlPath=dict(type="bool"),
-    destIP=dict(type="str"),
-    destPort=dict(type="str"),
-    inclusions=dict(type="list"),
-    periodicRefresh=dict(type="bool"),
-    protocol=dict(type="str"),
-    sourceIP=dict(type="str"),
-    sourcePort=dict(type="str"),
-    flowAnalysisId=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        controlPath=dict(type="bool"),
+        destIP=dict(type="str"),
+        destPort=dict(type="str"),
+        inclusions=dict(type="list"),
+        periodicRefresh=dict(type="bool"),
+        protocol=dict(type="str"),
+        sourceIP=dict(type="str"),
+        sourcePort=dict(type="str"),
+        flowAnalysisId=dict(type="str"),
+    )
+)
 
 required_if = [
     ("state", "present", ["flowAnalysisId"], True),
@@ -67,50 +72,58 @@ class PathTrace(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['periodic_refresh'] = self.new_object.get(
-            'periodicRefresh') or self.new_object.get('periodic_refresh')
-        new_object_params['source_ip'] = self.new_object.get('sourceIP') or \
-            self.new_object.get('source_ip')
-        new_object_params['dest_ip'] = self.new_object.get('destIP') or \
-            self.new_object.get('dest_ip')
-        new_object_params['source_port'] = self.new_object.get(
-            'sourcePort') or self.new_object.get('source_port')
-        new_object_params['dest_port'] = self.new_object.get('destPort') or \
-            self.new_object.get('dest_port')
-        new_object_params['gt_create_time'] = self.new_object.get(
-            'gtCreateTime') or self.new_object.get('gt_create_time')
-        new_object_params['lt_create_time'] = self.new_object.get(
-            'ltCreateTime') or self.new_object.get('lt_create_time')
-        new_object_params['protocol'] = self.new_object.get('protocol')
-        new_object_params['status'] = self.new_object.get('status')
-        new_object_params['task_id'] = self.new_object.get('taskId') or \
-            self.new_object.get('task_id')
-        new_object_params['last_update_time'] = self.new_object.get(
-            'lastUpdateTime') or self.new_object.get('last_update_time')
-        new_object_params['limit'] = self.new_object.get('limit')
-        new_object_params['offset'] = self.new_object.get('offset')
-        new_object_params['order'] = self.new_object.get('order')
-        new_object_params['sort_by'] = self.new_object.get('sortBy') or \
-            self.new_object.get('sort_by')
+        new_object_params["periodic_refresh"] = self.new_object.get(
+            "periodicRefresh"
+        ) or self.new_object.get("periodic_refresh")
+        new_object_params["source_ip"] = self.new_object.get(
+            "sourceIP"
+        ) or self.new_object.get("source_ip")
+        new_object_params["dest_ip"] = self.new_object.get(
+            "destIP"
+        ) or self.new_object.get("dest_ip")
+        new_object_params["source_port"] = self.new_object.get(
+            "sourcePort"
+        ) or self.new_object.get("source_port")
+        new_object_params["dest_port"] = self.new_object.get(
+            "destPort"
+        ) or self.new_object.get("dest_port")
+        new_object_params["gt_create_time"] = self.new_object.get(
+            "gtCreateTime"
+        ) or self.new_object.get("gt_create_time")
+        new_object_params["lt_create_time"] = self.new_object.get(
+            "ltCreateTime"
+        ) or self.new_object.get("lt_create_time")
+        new_object_params["protocol"] = self.new_object.get("protocol")
+        new_object_params["status"] = self.new_object.get("status")
+        new_object_params["task_id"] = self.new_object.get(
+            "taskId"
+        ) or self.new_object.get("task_id")
+        new_object_params["last_update_time"] = self.new_object.get(
+            "lastUpdateTime"
+        ) or self.new_object.get("last_update_time")
+        new_object_params["limit"] = self.new_object.get("limit")
+        new_object_params["offset"] = self.new_object.get("offset")
+        new_object_params["order"] = self.new_object.get("order")
+        new_object_params["sort_by"] = self.new_object.get(
+            "sortBy"
+        ) or self.new_object.get("sort_by")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['controlPath'] = self.new_object.get('controlPath')
-        new_object_params['destIP'] = self.new_object.get('destIP')
-        new_object_params['destPort'] = self.new_object.get('destPort')
-        new_object_params['inclusions'] = self.new_object.get('inclusions')
-        new_object_params['periodicRefresh'] = self.new_object.get(
-            'periodicRefresh')
-        new_object_params['protocol'] = self.new_object.get('protocol')
-        new_object_params['sourceIP'] = self.new_object.get('sourceIP')
-        new_object_params['sourcePort'] = self.new_object.get('sourcePort')
+        new_object_params["controlPath"] = self.new_object.get("controlPath")
+        new_object_params["destIP"] = self.new_object.get("destIP")
+        new_object_params["destPort"] = self.new_object.get("destPort")
+        new_object_params["inclusions"] = self.new_object.get("inclusions")
+        new_object_params["periodicRefresh"] = self.new_object.get("periodicRefresh")
+        new_object_params["protocol"] = self.new_object.get("protocol")
+        new_object_params["sourceIP"] = self.new_object.get("sourceIP")
+        new_object_params["sourcePort"] = self.new_object.get("sourcePort")
         return new_object_params
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['flow_analysis_id'] = self.new_object.get(
-            'flow_analysis_id')
+        new_object_params["flow_analysis_id"] = self.new_object.get("flow_analysis_id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -123,8 +136,8 @@ class PathTrace(object):
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
+                if "response" in items:
+                    items = items.get("response")
             result = items
         except Exception:
             result = None
@@ -136,13 +149,13 @@ class PathTrace(object):
             items = self.dnac.exec(
                 family="path_trace",
                 function="retrieves_previous_pathtrace",
-                params={"flow_analysis_id": id}
+                params={"flow_analysis_id": id},
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-                if 'request' in items:
-                    items = items.get('request')
+                if "response" in items:
+                    items = items.get("response")
+                if "request" in items:
+                    items = items.get("request")
             result = items
         except Exception:
             result = None
@@ -166,7 +179,8 @@ class PathTrace(object):
             _id = _id or prev_obj.get("flowAnalysisId")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(flow_analysis_id=_id))
@@ -191,9 +205,12 @@ class PathTrace(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def create(self):
         result = self.dnac.exec(
@@ -229,7 +246,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
