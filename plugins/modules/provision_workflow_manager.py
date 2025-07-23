@@ -18,6 +18,7 @@ description:
     provisioning
   - API to re-provision provisioned devices
   - API to un-provision provisioned devices
+  - Un-provisioning refers to removing a device from the inventory list
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -56,6 +57,7 @@ options:
             only.
           - Set to 'true' to proceed with provisioning
             to a site.
+          - only applicable for wired devices.
         type: bool
         required: false
         default: true
@@ -1780,6 +1782,23 @@ class Provision(DnacBase):
 
         for detail in application_telemetry_details:
             device_ips = detail.get("device_ips", [])
+
+            if device_ips is None or len(device_ips) == 0:
+                self.msg = "No valid device IPs provided for application telemetry."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return self
+
+            all_empty = True
+            for ip in device_ips:
+                if ip.strip() != "":
+                    all_empty = False
+                    break
+
+            if all_empty:
+                self.msg = "No valid device IPs provided for application telemetry."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return self
+
             telemetry = detail.get("telemetry")  # "enable" or "disable"
             if telemetry not in ["enable", "disable"]:
                 self.msg = "Invalid telemetry action '{0}'. Expected 'enable' or 'disable'.".format(telemetry)
