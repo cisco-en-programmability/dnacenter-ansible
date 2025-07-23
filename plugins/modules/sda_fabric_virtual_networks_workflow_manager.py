@@ -39,10 +39,10 @@ options:
     description: Sets the maximum number of fabric VLANs
       that can be created or updated at a time via the
       SDA API, aligning with GUI constraints. The default
-      is 50, as the GUI allows creating up to 50 fabric
+      is 20, as the GUI allows creating up to 20 fabric
       VLANs at a time.
     type: int
-    default: 50
+    default: 20
   sda_fabric_gateway_limit:
     description: Sets the maximum number of anycast
       gateways that can be created or updated at a time
@@ -1399,7 +1399,7 @@ class VirtualNetwork(DnacBase):
             class status accordingly.
         """
 
-        req_limit = self.params.get("sda_fabric_vlan_limit", 50)
+        req_limit = self.params.get("sda_fabric_vlan_limit", 20)
         self.log(
             "API request batch size set to '{0}' for fabric VLAN creation.".format(
                 req_limit
@@ -1580,7 +1580,7 @@ class VirtualNetwork(DnacBase):
             and sets the status to "failed".
         """
 
-        req_limit = self.params.get("sda_fabric_vlan_limit", 50)
+        req_limit = self.params.get("sda_fabric_vlan_limit", 20)
         self.log(
             "API request batch size set to '{0}' for fabric VLAN updation.".format(
                 req_limit
@@ -4668,6 +4668,7 @@ class VirtualNetwork(DnacBase):
             deletions and any gateways that could not be found, ensuring clarity and traceability of actions taken within
             the Cisco Catalyst Center.
         """
+        self.log("Starting the process to delete anycast gateways from Cisco Catalyst Center.", "INFO")
         anchored_gateway_dict = {}
 
         for anycast in anycast_gateways:
@@ -4686,6 +4687,11 @@ class VirtualNetwork(DnacBase):
                 ).check_return_status()
 
             fabric_type = anycast.get("fabric_site_location").get("fabric_type")
+            self.log(
+                f"Processing Anycast Gateway: VN='{vn_name}', IP Pool='{ip_pool_name}', "
+                f"Site='{site_name}', Fabric Type='{fabric_type}'.",
+                "DEBUG",
+            )
 
             if fabric_type == "fabric_site":
                 fabric_id = self.get_fabric_site_id(site_name, site_id)
@@ -4694,6 +4700,19 @@ class VirtualNetwork(DnacBase):
 
             # Collect the gateway id with combination of vn_name, ip_pool_name and fabric id
             unique_anycast = vn_name + "_" + ip_pool_name + "_" + site_name
+            if not fabric_id:
+                self.absent_anycast_gateways.append(unique_anycast)
+                self.log(
+                    f"Anycast Gateway '{unique_anycast}' is not associated with a valid Fabric ID in the Catalyst Center. "
+                    f"Fabric Type: '{fabric_type}', Site: '{site_name}'. Skipping deletion.",
+                    "INFO",
+                )
+                continue
+
+            self.log(
+                f"Checking if IP Pool '{ip_pool_name}' exists in site '{site_name}' (Fabric Type: {fabric_type}).",
+                "DEBUG",
+            )
             is_pool_exist = self.is_ip_pool_exist(ip_pool_name, site_id)
             self.log(
                 "Checking if given ip pool '{0}' already deleted from the Cisco Catalyst Center "
@@ -5310,7 +5329,7 @@ def main():
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "sda_fabric_vlan_limit": {"type": "int", "default": 50},
+        "sda_fabric_vlan_limit": {"type": "int", "default": 20},
         "sda_fabric_gateway_limit": {"type": "int", "default": 20},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
