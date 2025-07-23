@@ -782,8 +782,8 @@ EXAMPLES = r"""
       - anycast_gateways:
           - vn_name: VN_Test
             fabric_site_location:
-                site_name_hierarchy: Global/India
-                fabric_type: fabric_site
+              site_name_hierarchy: Global/India
+              fabric_type: fabric_site
             ip_pool_name: AB_Pool
             tcp_mss_adjustment: 701
             traffic_type: DATA
@@ -817,8 +817,8 @@ EXAMPLES = r"""
       - anycast_gateways:
           - vn_name: VN_Test
             fabric_site_location:
-                site_name_hierarchy: Global/India
-                fabric_type: fabric_site
+              site_name_hierarchy: Global/India
+              fabric_type: fabric_site
             ip_pool_name: AB_Pool
             flooding_address_assignment: SHARED
             is_resource_guard_enable: true
