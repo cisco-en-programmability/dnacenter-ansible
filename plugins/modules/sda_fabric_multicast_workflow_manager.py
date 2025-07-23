@@ -342,12 +342,12 @@ notes:
     sda.Sda.get_fabric_sites,
     sda.Sda.get_fabric_zones,
     sda.Sda.get_provisioned_devices,
-    sda.Sda.get_multicast_virtual_networks_v1,
-    sda.Sda.get_multicast_v1,
-    sda.Sda.add_multicast_virtual_networks_v1,
-    sda.Sda.update_multicast_v1,
-    sda.Sda.update_multicast_virtual_networks_v1,
-    sda.Sda.delete_multicast_virtual_network_by_id_v1,
+    sda.Sda.get_multicast_virtual_networks,
+    sda.Sda.get_multicast,
+    sda.Sda.add_multicast_virtual_networks,
+    sda.Sda.update_multicast,
+    sda.Sda.update_multicast_virtual_networks,
+    sda.Sda.delete_multicast_virtual_network_by_id,
     task.Task.get_tasks_by_id,
     task.Task.get_task_details_by_id,
   - Paths used are
@@ -588,9 +588,9 @@ response_4:
     }
 """
 
-import time
 import copy
 from ansible.module_utils.basic import AnsibleModule
+from collections import defaultdict
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
@@ -801,23 +801,24 @@ class FabricMulticast(DnacBase):
         Returns:
             True or False (bool): True if the reserved pool exists. Else, return False.
         Description:
-            Call the API 'get_reserve_ip_subpool' by setting the 'site_id' and 'offset' field.
-            Iterates through paginated results to find a reserved pool with the given name.
-            If found, returns True. If not found or an error occurs, returns False.
+            Calls the API 'get_reserve_ip_subpool' by setting the 'site_id' (retrieved using fabric_name)
+            and 'groupName' (mapped from reserved_pool_name).
+            Checks the results to find a reserved pool with the given name.
+            If found, returns True. If not found, returns False.
         """
 
         self.log(
-            "Starting to check for reserved pool '{pool_name}' in fabric '{fabric_name}'.".format(
-                pool_name=reserved_pool_name, fabric_name=fabric_name
-            ),
-            "DEBUG",
+            f"Checking if reserved pool '{reserved_pool_name}' exists in fabric '{fabric_name}'.",
+            "DEBUG"
         )
+        if reserved_pool_name is None:
+            self.log(f"There is no reserved subpool in the site '{fabric_name}' with reserved pool name: '{reserved_pool_name}'.", "DEBUG")
+            return False
+
         try:
             (site_exists, site_id) = self.get_site_id(fabric_name)
             self.log(
-                "The site with the name '{site_name} exists in Cisco Catalyst Center is '{site_exists}'".format(
-                    site_name=fabric_name, site_exists=site_exists
-                ),
+                f"Site lookup for '{fabric_name}' completed. Exists: {site_exists}, Site ID: {site_id}.",
                 "DEBUG",
             )
             if not site_id:
@@ -830,77 +831,40 @@ class FabricMulticast(DnacBase):
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
 
-            offset = 1
-            start_time = time.time()
+            self.log(
+
+                f"Calling API 'get_reserve_ip_subpool' with site_id '{site_id}', groupName: '{reserved_pool_name}'.", "DEBUG"
+            )
+            all_reserved_pool_details = self.dnac._exec(
+                family="network_settings",
+                function="get_reserve_ip_subpool",
+                params={
+                    "site_id": site_id,
+                    "groupName" : reserved_pool_name,
+                },
+            )
+            self.log(
+                "Response received from 'get_reserve_ip_subpool': {response}"
+                .format(response=all_reserved_pool_details), "DEBUG"
+            )
+
+            if not isinstance(all_reserved_pool_details, dict):
+                self.msg = "Error in getting reserve pool - Response is not a dictionary"
+                self.log(self.msg, "CRITICAL")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            reserved_pool_details = all_reserved_pool_details.get("response")
+            if not reserved_pool_details:
+                self.log(
+                    f"There is no reserved subpool in the site '{fabric_name}' with reserved pool name: '{reserved_pool_name}'.", "DEBUG"
+                )
+                return False
 
             self.log(
-                "Calling API 'get_reserve_ip_subpool' with site_id '{site_id}' and offset '{offset}'.".format(
-                    site_id=site_id, offset=offset
-                ),
-                "DEBUG",
+                f"The reserved pool '{reserved_pool_name}' found in the site '{fabric_name}'." , "DEBUG"
             )
-            while True:
-                all_reserved_pool_details = self.dnac._exec(
-                    family="network_settings",
-                    function="get_reserve_ip_subpool",
-                    params={"site_id": site_id, "offset": offset},
-                )
-                self.log(
-                    "Response received from 'get_reserve_ip_subpool': {response}".format(
-                        response=all_reserved_pool_details
-                    ),
-                    "DEBUG",
-                )
+            return True
 
-                if not isinstance(all_reserved_pool_details, dict):
-                    self.msg = (
-                        "Error in getting reserve pool - Response is not a dictionary"
-                    )
-                    self.log(self.msg, "CRITICAL")
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
-
-                offset += 25
-                all_reserved_pool_details = all_reserved_pool_details.get("response")
-                if not all_reserved_pool_details:
-                    self.log(
-                        "There is no reserved subpool in the site '{site_name}'.".format(
-                            site_name=fabric_name
-                        ),
-                        "DEBUG",
-                    )
-                    return False
-
-                # Check for maximum timeout, default value is 1200 seconds
-                if (time.time() - start_time) >= self.max_timeout:
-                    self.msg = "Max timeout of {0} sec has reached for the API 'get_reserved_ip_subpool' status.".format(
-                        self.max_timeout
-                    )
-                    self.log(self.msg, "CRITICAL")
-                    self.status = "failed"
-                    return True
-
-                # Find the reserved pool with the given name in the list of reserved pools
-                reserved_pool_details = get_dict_result(
-                    all_reserved_pool_details, "groupName", reserved_pool_name
-                )
-                if reserved_pool_details:
-                    self.log(
-                        "The reserved pool '{reserved_pool}' found in the site '{site_name}'.".format(
-                            reserved_pool=reserved_pool_name, site_name=fabric_name
-                        ),
-                        "DEBUG",
-                    )
-                    return True
-
-                self.log(
-                    "No matching reserved pool found for '{pool}' in site '{site_name}' at offset '{offset}'."
-                    "Continuing to next offset.".format(
-                        pool=reserved_pool_name, site_name=fabric_name, offset=offset
-                    ),
-                    "DEBUG",
-                )
         except Exception as e:
             self.msg = "Exception occurred while running the API 'get_reserve_ip_subpool': {error_msg}".format(
                 error_msg=e
@@ -909,8 +873,6 @@ class FabricMulticast(DnacBase):
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
-
-        return True
 
     def get_fabric_site_id_from_name(self, site_name, site_id):
         """
@@ -1219,12 +1181,12 @@ class FabricMulticast(DnacBase):
 
         Parameters:
             fabric_name (str): The name of the fabric site.
-            multicast_get_params (dict): The payload for the 'get_multicast_virtual_networks_v1' API which contains the fabric_id
+            multicast_get_params (dict): The payload for the 'get_multicast_virtual_networks' API which contains the fabric_id
                                          and the layer 3 virtual network.
         Returns:
             fabric_multicast_details (dict or None): The fabric multicast details of the fabric site with the given layer 3 virtual network.
         Description:
-            Call the API 'get_multicast_virtual_networks_v1' with 'fabric_id' and 'virtual_network_name'
+            Call the API 'get_multicast_virtual_networks' with 'fabric_id' and 'virtual_network_name'
             as the filter parameters. Catch the exception, if the API throws any.
         """
 
@@ -1242,7 +1204,7 @@ class FabricMulticast(DnacBase):
                 params=multicast_get_params,
             )
             self.log(
-                "Response received from 'get_multicast_virtual_networks_v1': {response}".format(
+                "Response received from 'get_multicast_virtual_networks': {response}".format(
                     response=fabric_multicast_details
                 ),
                 "DEBUG",
@@ -1256,7 +1218,7 @@ class FabricMulticast(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "Exception occurred while running the API 'get_multicast_virtual_networks_v1' "
+                "Exception occurred while running the API 'get_multicast_virtual_networks' "
                 "with parameters {params}: {error_msg}".format(
                     params=multicast_get_params, error_msg=e
                 )
@@ -1278,7 +1240,7 @@ class FabricMulticast(DnacBase):
         Returns:
             replication_mode_details (dict): The multicast replication mode details of the fabric site.
         Description:
-            Calls the 'get_multicast_v1' API with the 'fabric_id' as the filter parameter to retrieve
+            Calls the 'get_multicast' API with the 'fabric_id' as the filter parameter to retrieve
             the multicast replication mode details.
             If the response is not in the expected dictionary format, an error message is logged and
             the operation result is marked as failed.
@@ -1298,7 +1260,7 @@ class FabricMulticast(DnacBase):
                 family="sda", function="get_multicast", params={"fabric_id": fabric_id}
             )
             self.log(
-                "Response received from 'get_multicast_v1': {response}".format(
+                "Response received from 'get_multicast': {response}".format(
                     response=replication_mode_details
                 ),
                 "DEBUG",
@@ -1312,7 +1274,7 @@ class FabricMulticast(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "Exception occurred while calling the 'get_multicast_v1' API with fabric name "
+                "Exception occurred while calling the 'get_multicast' API with fabric name "
                 "{fabric_name} fabric_id {fabric_id}: {error_msg}".format(
                     fabric_name=fabric_name, fabric_id=fabric_id, error_msg=e
                 )
@@ -1441,13 +1403,12 @@ class FabricMulticast(DnacBase):
             "DEBUG",
         )
         self.log(
-            "SDA fabric multicast replication mode details: {replication_mode_details}".format(
-                replication_mode_details=multicast_info.get("replication_mode_details")
-            ),
-            "DEBUG",
+            "SDA fabric multicast details: {multicast_details}"
+            .format(multicast_details=self.pprint(multicast_info.get("multicast_details"))), "DEBUG"
         )
         self.log(
-            "SDA fabric multicast id: {id}".format(id=multicast_info.get("id")), "DEBUG"
+            "SDA fabric multicast replication mode details: {replication_mode_details}"
+            .format(replication_mode_details=self.pprint(multicast_info.get("replication_mode_details"))), "DEBUG"
         )
 
         return multicast_info
@@ -1479,10 +1440,10 @@ class FabricMulticast(DnacBase):
 
             # Fabric name is mandatory for this workflow
             if not fabric_name:
-                self.msg = "The required parameter 'fabric_name' in 'fabric_multicast' is missing."
-                self.log(self.msg, "ERROR")
-                self.status = "failed"
-                return self
+                self.msg = (
+                    "The required parameter 'fabric_name' in 'fabric_multicast' is missing."
+                )
+                self.fail_and_exit(self.msg)
 
             self.log(
                 "Initiating site ID retrieval for fabric '{fabric_name}'.".format(
@@ -1507,9 +1468,8 @@ class FabricMulticast(DnacBase):
                 self.msg = "Invalid site hierarchy name '{site_name}'.".format(
                     site_name=fabric_name
                 )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+
+                self.fail_and_exit(self.msg)
 
             self.log(
                 "Fetching fabric site ID for site '{site_id}'.".format(site_id=site_id),
@@ -1528,16 +1488,12 @@ class FabricMulticast(DnacBase):
                         self.status = "exited"
                         return self
 
-                    self.log(self.msg, "ERROR")
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.fail_and_exit(self.msg)
 
-                self.msg = "The Multicast should only be associated with fabric sites, not fabric zones."
-                self.log(self.msg, "ERROR")
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = (
+                    "The Multicast should only be associated with fabric sites, not fabric zones."
+                )
+                self.fail_and_exit(self.msg)
 
             else:
                 self.log(
@@ -1588,10 +1544,8 @@ class FabricMulticast(DnacBase):
             fabric_multicast_details.append(multicast_info)
 
         self.log(
-            "All multicast details of the fabric sites are collected: {details}".format(
-                details=fabric_multicast_details
-            ),
-            "INFO",
+            "All multicast details of the fabric sites are collected: {details}"
+            .format(details=self.pprint(fabric_multicast_details)), "INFO"
         )
         self.have.update({"fabric_multicast": fabric_multicast_details})
         self.msg = (
@@ -1627,15 +1581,10 @@ class FabricMulticast(DnacBase):
         )
         self.get_have_fabric_multicast(fabric_multicast).check_return_status()
         self.log(
-            "Fabric multicast information retrieval was successful. Details: {details}".format(
-                details=self.have
-            ),
-            "DEBUG",
+            "Fabric multicast information retrieval was successful. Details: {details}"
+            .format(details=self.pprint(self.have)), "DEBUG"
         )
-        self.log(
-            "Current State (have): {current_state}".format(current_state=self.have),
-            "INFO",
-        )
+        self.log("Current State (have): {current_state}".format(current_state=self.pprint(self.have)), "INFO")
         self.msg = "Successfully retrieved the SDA fabric multicast details from the Cisco Catalyst Center."
         self.status = "success"
         return self
@@ -1825,33 +1774,7 @@ class FabricMulticast(DnacBase):
         )
         return network_device_ids
 
-    def determine_rp_device_location(
-        self, network_device_ips, ex_rp_ipv4_address, ex_rp_ipv6_address
-    ):
-        """
-        Determine the RP device location ('FABRIC' or 'EXTERNAL') based on input parameters.
-        Parameters:
-            network_device_ips (list): The list of network device ips.
-            ex_rp_ipv4_address (str): The IPv4 address of the RP location at the EXTERNAL location.
-            ex_rp_ipv6_address (str): The IPv6 address of the RP location at the EXTERNAL location.
-        """
-
-        if network_device_ips:
-            return "FABRIC"
-
-        if ex_rp_ipv4_address or ex_rp_ipv6_address:
-            return "EXTERNAL"
-
-        return None
-
-    def validate_rp_device_location(
-        self,
-        rp_device_location,
-        network_device_ips,
-        ex_rp_ipv4_address,
-        ex_rp_ipv6_address,
-        fabric_name,
-    ):
+    def validate_rp_device_location(self, rp_device_location, network_device_ips, ex_rp_ipv4_address, ex_rp_ipv6_address, fabric_name):
         """
         Validate the RP device location and its related parameters.
 
@@ -1901,37 +1824,181 @@ class FabricMulticast(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-    def process_fabric_rp(
-        self, item, fabric_name, layer3_virtual_network, network_device_ips
-    ):
+    def process_asm_ipv4_ranges(self, item, rendezvous_point, default_ipv4_allowed, fabric_name, layer3_virtual_network):
         """
-        Process FABRIC RP details.
+        Process IPv4 ASM Range details or default Rendezvous Point (RP) flag for a given L3 Virtual Network.
 
         Parameters:
-            item (dict): The details of the Any-source multicast.
-            fabric_name (str): The name of the fabric site.
-            layer3_virtual_network (str): The name of the Layer 3 virtual network.
-            network_device_ips (list of str): The IPs of the network devices.
-        Returns:
-            rendezvous_point (dict): The IDs of the RP network devices.
-        Description:
-            Check if there are more than two network device IDs. If so, fail the module.
-            Collect the network device IDs using the network device IPs.
-            Return the network device IDs.
+            item (dict): Dictionary containing IPv4 ASM range and/or default RP flag.
+            rendezvous_point (dict): Dictionary to store processed Rendezvous Point configuration.
+            default_ipv4_allowed (bool): Indicates whether a default IPv4 RP is permitted.
+            fabric_name (str): Name of the fabric.
+            layer3_virtual_network (str): Name of the Layer 3 Virtual Network.
 
+        Returns:
+            None
+
+        Description:
+            This method checks if 'ipv4_asm_ranges' or 'is_default_v4_rp' is provided in the input item.
+            If valid, it updates the rendezvous_point dictionary accordingly.
+            If neither is provided or if configuration is inconsistent, the method raises an error and exits.
         """
 
+        self.log(f"Processing IPv4 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+
+        if item.get("ipv4_asm_ranges"):
+            if not isinstance(item["ipv4_asm_ranges"], list):
+                self.msg = (
+                    f"Invalid input: 'ipv4_asm_ranges' must be a list for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(f"'ipv4_asm_ranges' found. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            rendezvous_point["isDefaultV4RP"] = False
+            rendezvous_point["ipv4AsmRanges"] = item["ipv4_asm_ranges"]
+        elif item.get("is_default_v4_rp"):
+            if not isinstance(item["is_default_v4_rp"], bool):
+                self.msg = (
+                    f"Invalid input: 'is_default_v4_rp' must be a boolean for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+                )
+                self.fail_and_exit(self.msg)
+
+            if not default_ipv4_allowed:
+                self.msg = (
+                    f"More than one Rendezvous Point Device Locations are provided for the L3 VN '{layer3_virtual_network}' "
+                    f"under fabric: {fabric_name}\n"
+                    f"Can not pass 'is_default_v4_rp' as '{item.get('is_default_v4_rp')}', IPv4 ASM Group details are required."
+                )
+                self.fail_and_exit(self.msg)
+
+            if not item["is_default_v4_rp"]:
+                self.msg = (
+                    f"Invalid input: 'is_default_v4_rp' is: 'false' but 'ipv4_asm_ranges' are not provided for the L3 VN '{layer3_virtual_network}' "
+                    f"under fabric: {fabric_name}\n"
+                    f"Can not pass 'is_default_v4_rp' as 'false', IPv4 ASM Group details are required or pass 'is_default_v4_rp' as 'true."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(
+                f"Default IPv4 RP is allowed. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG"
+            )
+            rendezvous_point["isDefaultV4RP"] = item["is_default_v4_rp"]
+            rendezvous_point["ipv4AsmRanges"] = []
+        else:
+            self.msg = (
+                "Both 'ipv4_asm_ranges' and 'is_default_v4_rp' are not provided. "
+                "Setting it to empty list and null value."
+            )
+            rendezvous_point["isDefaultV4RP"] = False
+            rendezvous_point["ipv4AsmRanges"] = []
+
         self.log(
-            "Processing FABRIC RP details for fabric '{fabric_name}'.".format(
-                fabric_name=fabric_name
-            ),
-            "DEBUG",
+            f"Completed processing IPv4 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+            f"Current 'rendezvous_point' details: {rendezvous_point}",
+            "DEBUG"
         )
 
+    def process_asm_ipv6_ranges(self, item, rendezvous_point, default_ipv6_allowed, fabric_name, layer3_virtual_network):
+        """
+        Process IPv6 ASM Range details or default Rendezvous Point (RP) flag for a given L3 Virtual Network.
+
+        Parameters:
+            item (dict): Dictionary containing IPv6 ASM range and/or default RP flag.
+            rendezvous_point (dict): Dictionary to store processed Rendezvous Point configuration.
+            default_ipv6_allowed (bool): Indicates whether a default IPv6 RP is permitted.
+            fabric_name (str): Name of the fabric.
+            layer3_virtual_network (str): Name of the Layer 3 Virtual Network.
+
+        Returns:
+            None
+
+        Description:
+            This method checks if 'ipv6_asm_ranges' or 'is_default_v6_rp' is provided in the input item.
+            If valid, it updates the rendezvous_point dictionary accordingly.
+            If neither is provided or if configuration is inconsistent, the method raises an error and exits.
+        """
+
+        self.log(f"Processing IPv6 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+
+        if item.get("ipv6_asm_ranges"):
+            if not isinstance(item["ipv6_asm_ranges"], list):
+                self.msg = (
+                    f"Invalid input: 'ipv6_asm_ranges' must be a list for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(f"'ipv6_asm_ranges' found. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            rendezvous_point["isDefaultV6RP"] = False
+            rendezvous_point["ipv6AsmRanges"] = item["ipv6_asm_ranges"]
+        elif item.get("is_default_v6_rp"):
+            if not isinstance(item["is_default_v6_rp"], bool):
+                self.msg = (
+                    f"Invalid input: 'is_default_v6_rp' must be a boolean for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+                )
+                self.fail_and_exit(self.msg)
+
+            if not default_ipv6_allowed:
+                self.msg = (
+                    f"More than one Rendezvous Point Device Locations are provided for the L3 VN '{layer3_virtual_network}' "
+                    f"under fabric: {fabric_name}\n"
+                    f"Can not pass 'is_default_v6_rp' as '{item.get('is_default_v6_rp')}', IPv6 ASM Group details are required."
+                )
+                self.fail_and_exit(self.msg)
+
+            if item["is_default_v6_rp"] is False:
+                self.msg = (
+                    f"Invalid input: 'is_default_v6_rp' is: 'false' but 'ipv6_asm_ranges' are not provided for the L3 VN '{layer3_virtual_network}' "
+                    f"under fabric: {fabric_name}\n"
+                    f"Can not pass 'is_default_v6_rp' as 'false', IPv6 ASM Group details are required or pass 'is_default_v6_rp' as 'true."
+                )
+                self.fail_and_exit(self.msg)
+
+            self.log(
+                f"Default IPv6 RP is allowed. Updating rendezvous_point for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["isDefaultV6RP"] = item["is_default_v6_rp"]
+            rendezvous_point["ipv6AsmRanges"] = []
+        else:
+            self.msg = (
+                "Both 'ipv6_asm_ranges' and 'is_default_v6_rp' are not provided. "
+                "Setting it to empty list and null value."
+            )
+            rendezvous_point["isDefaultV6RP"] = False
+            rendezvous_point["ipv6AsmRanges"] = []
+
+        self.log(
+            f"Completed processing IPv6 ASM Range details for the L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'. "
+            f"Current 'rendezvous_point' details: {rendezvous_point}",
+            "DEBUG"
+        )
+
+    def validate_and_process_fabric_rp(self, item, fabric_name, layer3_virtual_network, default_allowed):
+        """
+        Validate and process Fabric Rendezvous Point (RP) details for a given fabric and Layer 3 Virtual Network.
+
+        Parameters:
+            item (dict): Dictionary containing RP configuration for the fabric.
+            fabric_name (str): Name of the fabric.
+            layer3_virtual_network (str): Name of the Layer 3 Virtual Network.
+            default_allowed (bool): Indicates whether default RP is permitted.
+
+        Returns:
+            dict: Dictionary containing the processed Rendezvous Point configuration.
+
+        Description:
+            This method validates the 'network_device_ips' parameter and ensures the presence of IPv4/IPv6
+            ASM group configuration. It then processes the details accordingly and returns the resulting
+            rendezvous_point dictionary.
+        """
+
+        self.log(f"Processing FABRIC RP details for fabric '{fabric_name}'.", "DEBUG")
+
         # Validate network device IPs
-        if not isinstance(network_device_ips, list):
-            self.msg = "The parameter 'network_device_ips' must be a list for L3 VN '{l3_vn}' under fabric '{fabric_name}'.".format(
-                l3_vn=layer3_virtual_network, fabric_name=fabric_name
+        network_device_ips = item.get("network_device_ips")
+        if not network_device_ips or not isinstance(network_device_ips, list):
+            self.msg = (
+                f"The parameter 'network_device_ips' must be a non-empty list for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result(
@@ -1939,8 +2006,8 @@ class FabricMulticast(DnacBase):
             ).check_return_status()
 
         if len(network_device_ips) > 2:
-            self.msg = "Maximum of two 'network_device_ips' are allowed for fabric '{fabric_name}'.".format(
-                fabric_name=fabric_name
+            self.msg = (
+                f"Maximum of two 'network_device_ips' are allowed for fabric '{fabric_name}'."
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result(
@@ -1948,69 +2015,152 @@ class FabricMulticast(DnacBase):
             ).check_return_status()
 
         # Get device IDs
+        self.log(
+            f"Retrieving device IDs for the L3 VN : '{layer3_virtual_network}' under fabric '{fabric_name}' "
+            f"using network_device_ips: {network_device_ips}",
+            "DEBUG"
+        )
         network_device_ids = self.get_the_device_ids(fabric_name, network_device_ips)
 
         # Build RP details
         rendezvous_point = {
             "networkDeviceIds": network_device_ids,
+            "ipv4Address": None,
+            "ipv6Address": None,
+            "rpDeviceLocation": "FABRIC",
         }
 
         # Process IPv4 and IPv6 ASM ranges
-        self.process_asm_ranges(item, rendezvous_point)
+        ipv4_asm_group_config_exists = bool(item.get("ipv4_asm_ranges") or item.get("is_default_v4_rp"))
+        ipv6_asm_group_config_exists = bool(item.get("ipv6_asm_ranges") or item.get("is_default_v6_rp"))
 
-        return rendezvous_point
+        if not (ipv4_asm_group_config_exists or ipv6_asm_group_config_exists):
+            self.msg = (
+                "None of 'ipv4_asm_ranges', 'is_default_v4_rp', 'ipv6_asm_ranges' or 'is_default_v6_rp' are provided. "
+                f"At least one is required to configure ASM Groups for L3 VN '{layer3_virtual_network}' under fabric: '{fabric_name}'"
+            )
+            self.fail_and_exit(self.msg)
 
-    def process_external_rp(self, item, fabric_name):
-        """
-        Process EXTERNAL RP details.
-        Parameters:
-            item (dict): The details of the Any-source multicast.
-            fabric_name (str): The name of the fabric site.
-        Returns:
-            rendezvous_point (dict): The EXTERNAL IPv4 or IPv6 address.
-        Description:
-            If 'ex_rp_ipv4_address' is provided, store the address in the 'ipv4Address'.
-            If 'ex_rp_ipv6_address' is provided, store the address in the 'ipv6Address'.
-        """
+        # Process IPv4 ASM ranges
+        if ipv4_asm_group_config_exists:
+            self.log(f"Calling process_asm_ipv4_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            self.process_asm_ipv4_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No IPv4 ASM ranges or default RP provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["isDefaultV4RP"] = False
+            rendezvous_point["ipv4AsmRanges"] = []
+
+        # Process IPv6 ASM ranges
+        if ipv6_asm_group_config_exists:
+            self.log(f"Calling process_asm_ipv6_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            self.process_asm_ipv6_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No IPv6 ASM ranges or default RP provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["isDefaultV6RP"] = False
+            rendezvous_point["ipv6AsmRanges"] = []
 
         self.log(
-            "Processing EXTERNAL RP details for fabric '{fabric_name}'.".format(
-                fabric_name=fabric_name
-            ),
-            "DEBUG",
+            f"Completed processing FABRIC RP details for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.\n"
+            f"Final rendezvous_point: {self.pprint(rendezvous_point)}",
+            "DEBUG"
         )
-
-        rendezvous_point = {}
-
-        # Add external IPv4 and IPv6 addresses
-        if item.get("ex_rp_ipv4_address"):
-            rendezvous_point["ipv4Address"] = item["ex_rp_ipv4_address"]
-        if item.get("ex_rp_ipv6_address"):
-            rendezvous_point["ipv6Address"] = item["ex_rp_ipv6_address"]
-
-        # Process IPv4 and IPv6 ASM ranges
-        self.process_asm_ranges(item, rendezvous_point)
 
         return rendezvous_point
 
-    def process_asm_ranges(self, item, rendezvous_point):
+    def validate_and_process_external_rp(self, item, fabric_name, layer3_virtual_network, default_allowed):
         """
-        Process IPv4 and IPv6 ASM ranges for a rendezvous point.
+        Validate and process External Rendezvous Point (RP) details for a given fabric and Layer 3 Virtual Network.
 
         Parameters:
-            item (dict): The details of the Any-source multicast.
-            fabric_name (str): The name of the fabric site.
+            item (dict): Dictionary containing External RP configuration.
+            fabric_name (str): Name of the fabric.
+            layer3_virtual_network (str): Name of the Layer 3 Virtual Network.
+            default_allowed (bool): Indicates whether default RP is permitted.
+
+        Returns:
+            dict: Dictionary containing the processed External Rendezvous Point configuration.
+
+        Description:
+            This method validates the presence of external RP IP addresses ('ex_rp_ipv4_address' or 'ex_rp_ipv6_address')
+            when the RP device location is 'EXTERNAL'. It then processes the IPv4 and IPv6 ASM ranges accordingly
+            and returns the resulting rendezvous_point dictionary.
         """
 
-        if item.get("ipv4_asm_ranges"):
-            rendezvous_point["ipv4AsmRanges"] = item["ipv4_asm_ranges"]
-        elif item.get("is_default_v4_rp"):
-            rendezvous_point["isDefaultV4RP"] = item["is_default_v4_rp"]
+        self.log(f"Processing EXTERNAL RP details for fabric '{fabric_name}'.", "DEBUG")
+        # Ensure `item` is a dictionary
+        if not isinstance(item, dict):
+            self.msg = f"The 'item' parameter must be a dictionary. Invalid input provided for fabric '{fabric_name}'."
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        if item.get("ipv6_asm_ranges"):
-            rendezvous_point["ipv6AsmRanges"] = item["ipv6_asm_ranges"]
-        elif item.get("is_default_v6_rp"):
-            rendezvous_point["isDefaultV6RP"] = item["is_default_v6_rp"]
+        # Validate external rp device IPs
+        ex_rp_ipv4_address = item.get("ex_rp_ipv4_address")
+        ex_rp_ipv6_address = item.get("ex_rp_ipv6_address")
+
+        if not (ex_rp_ipv4_address or ex_rp_ipv6_address):
+            self.msg = (
+                f"The parameters 'ex_rp_ipv4_address' or 'ex_rp_ipv6_address' are mandatory when "
+                f"'rp_device_location' is 'EXTERNAL' for the L3 VN '{layer3_virtual_network}' in fabric '{fabric_name}'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        rendezvous_point = {
+            "rpDeviceLocation": "EXTERNAL",
+            "networkDeviceIds": [],
+            "ipv4Address": None,
+            "isDefaultV4RP": False,
+            "ipv4AsmRanges": [],
+            "ipv6Address": None,
+            "isDefaultV6RP": False,
+            "ipv6AsmRanges": [],
+        }
+
+        # Add external IPv4 and Process IPv4 ASM ranges
+        if ex_rp_ipv4_address:
+            self.log(
+                f"External IPv4 address found: {ex_rp_ipv4_address}. Updating rendezvous_point for L3 VN '{layer3_virtual_network}' "
+                f"under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["ipv4Address"] = ex_rp_ipv4_address
+            self.log(f"Calling process_asm_ipv4_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            self.process_asm_ipv4_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No external IPv4 address provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+
+        # Add external IPv6 and Process IPv6 ASM ranges
+        if ex_rp_ipv6_address:
+            self.log(
+                f"External IPv6 address found: {ex_rp_ipv6_address}. Updating rendezvous_point for L3 VN '{layer3_virtual_network}' "
+                f"under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["ipv6Address"] = ex_rp_ipv6_address
+            self.log(f"Calling process_asm_ipv6_ranges() for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+            self.process_asm_ipv6_ranges(item, rendezvous_point, default_allowed, fabric_name, layer3_virtual_network)
+        else:
+            self.log(
+                f"No external IPv6 address provided for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+
+        self.log(
+            f"Completed processing EXTERNAL RP details for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.\n"
+            f"Final rendezvous_point: {self.pprint(rendezvous_point)}",
+            "DEBUG"
+        )
+
+        return rendezvous_point
 
     def process_any_source_multicast_details(
         self,
@@ -2053,31 +2203,27 @@ class FabricMulticast(DnacBase):
             ).check_return_status()
 
         multicast_rps = []
+
+        default_allowed = (len(any_source_multicast) == 1)
         for item in any_source_multicast:
             rendezvous_point = {}
-            network_device_ips = item.get("network_device_ips")
-            ex_rp_ipv4_address = item.get("ex_rp_ipv4_address")
-            ex_rp_ipv6_address = item.get("ex_rp_ipv6_address")
+            rp_device_location = item.get("rp_device_location")
+            allowed_rp_device_location = ["FABRIC", "EXTERNAL"]
 
-            # Determine RP device location
-            rp_device_location = self.determine_rp_device_location(
-                network_device_ips, ex_rp_ipv4_address, ex_rp_ipv6_address
-            )
-            self.validate_rp_device_location(
-                rp_device_location,
-                network_device_ips,
-                ex_rp_ipv4_address,
-                ex_rp_ipv6_address,
-                fabric_name,
-            )
+            self.log(f"Validating 'rp_device_location': {rp_device_location} parameter.", "DEBUG")
+            # Check if rp_device_location is valid
+            if not rp_device_location or rp_device_location not in allowed_rp_device_location:
+                self.msg = (
+                    f"Provided 'rp_device_location': '{rp_device_location}' is invalid. "
+                    f"'rp_device_location' should be one of {', '.join(allowed_rp_device_location)}"
+                )
+                self.fail_and_exit(self.msg)
 
             # Process based on RP device location
             if rp_device_location == "FABRIC":
-                rendezvous_point = self.process_fabric_rp(
-                    item, fabric_name, layer3_virtual_network, network_device_ips
-                )
+                rendezvous_point = self.validate_and_process_fabric_rp(item, fabric_name, layer3_virtual_network, default_allowed)
             elif rp_device_location == "EXTERNAL":
-                rendezvous_point = self.process_external_rp(item, fabric_name)
+                rendezvous_point = self.validate_and_process_external_rp(item, fabric_name, layer3_virtual_network, default_allowed)
 
             # Add RP device location
             rendezvous_point["rpDeviceLocation"] = rp_device_location
@@ -2087,10 +2233,9 @@ class FabricMulticast(DnacBase):
 
         # Log the final RP details
         self.log(
-            "Processed rendezvous points for fabric '{fabric_name}': {multicast_rps}".format(
-                fabric_name=fabric_name, multicast_rps=multicast_rps
-            ),
-            "DEBUG",
+            "Processed rendezvous points for fabric '{fabric_name}': {multicast_rps}"
+            .format(fabric_name=fabric_name, multicast_rps=self.pprint(multicast_rps)),
+            "DEBUG"
         )
 
         return multicast_rps
@@ -2166,7 +2311,7 @@ class FabricMulticast(DnacBase):
                 else:
                     replication_mode = "HEADEND_REPLICATION"
                     self.msg = (
-                        "The parameter 'replication_mode' is missing for the fabric with name '{fabric_name}'."
+                        "The parameter 'replication_mode' is missing for fabric site '{fabric_name}'."
                         "Setting it to its default value of '{replication_mode}'".format(
                             fabric_name=fabric_name, replication_mode=replication_mode
                         )
@@ -2191,7 +2336,7 @@ class FabricMulticast(DnacBase):
 
             layer3_virtual_network = item.get("layer3_virtual_network")
             if not layer3_virtual_network:
-                self.msg = "The parameter 'layer3_virtual_network' is missing for the fabric with name '{fabric_name}'.".format(
+                self.msg = "The parameter 'layer3_virtual_network' is missing for fabric site '{fabric_name}'.".format(
                     fabric_name=fabric_name
                 )
                 self.set_operation_result(
@@ -2241,24 +2386,43 @@ class FabricMulticast(DnacBase):
                 if have_fabric_multicast_exists:
                     ip_pool_name = have_multicast_details.get("ipPoolName")
                 else:
-                    self.msg = "The parameter 'ip_pool_name' is missing for the fabric with name '{fabric_name}'.".format(
-                        fabric_name=fabric_name
+                    state = self.params.get("state")
+                    if state == "deleted":
+                        #  Deleted Case: ip_pool_name is mandatory if ssm or asm config change is required.
+                        self.log(f"Checking if 'asm' or 'ssm' config change is required for the fabric site '{fabric_name}'.", "DEBUG")
+                        if item.get("ssm") or item.get("asm"):
+                            self.msg = (
+                                f"The parameter 'ip_pool_name' is mandatory for fabric site '{fabric_name}' "
+                                "when the state is 'deleted' and 'ssm' or 'asm' configuration is provided."
+                            )
+                            self.fail_and_exit(self.msg)
+
+                        # Deleted Case: ip_pool_name is not mandatory when deleting entire multicast.
+                        self.log(
+                            f"The parameter 'ip_pool_name' is not mandatory for fabric site '{fabric_name}' "
+                            "when the state is 'deleted' and the 'ssm' or 'asm' configuration is not provided.",
+                            "DEBUG",
+                        )
+                    else:
+                        # Merged Case
+                        self.msg = f"The parameter 'ip_pool_name' is missing for fabric site '{fabric_name}'."
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
+
+            if ip_pool_name:
+                self.log(f"Validating IP pool name '{ip_pool_name}' for fabric site '{fabric_name}'.", "DEBUG")
+                is_valid_reserved_pool = self.check_valid_reserved_pool(
+                    ip_pool_name, fabric_name
+                )
+                if not is_valid_reserved_pool:
+                    self.msg = (
+                        "The 'ip_pool_name' is not a valid reserved pool under "
+                        f"fabric site '{fabric_name}'."
                     )
                     self.set_operation_result(
                         "failed", False, self.msg, "ERROR"
                     ).check_return_status()
-
-            is_valid_reserved_pool = self.check_valid_reserved_pool(
-                ip_pool_name, fabric_name
-            )
-            if not is_valid_reserved_pool:
-                self.msg = (
-                    "The 'ip_pool_name' is not a valid reserved pool under the "
-                    "fabric with name '{fabric_name}'.".format(fabric_name=fabric_name)
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
 
             multicast_details = {
                 "fabricId": fabric_id,
@@ -2293,16 +2457,8 @@ class FabricMulticast(DnacBase):
                     multicast_details.update({"ipv4SsmRanges": ipv4_ssm_ranges})
 
             else:
-                if have_fabric_multicast_exists:
-                    have_ssm = have_multicast_details.get("ipv4SsmRanges")
-                    self.log(
-                        "The 'ssm' details for the fabric site '{fabric_name}' is present in the CC: {details}".format(
-                            fabric_name=fabric_name, details=have_ssm
-                        ),
-                        "INFO",
-                    )
-                    if have_ssm:
-                        multicast_details.update({"ipv4SsmRanges": have_ssm})
+                self.log(f"No 'ssm' details provided for the fabric site '{fabric_name}'.", "DEBUG")
+                multicast_details.update({"ipv4SsmRanges": []})
 
             any_source_multicast = item.get("asm")
             have_multicast_rps = None
@@ -2321,8 +2477,8 @@ class FabricMulticast(DnacBase):
                     }
                 )
             else:
-                if have_multicast_rps:
-                    multicast_details.update({"multicastRPs": have_multicast_rps})
+                self.log(f"No 'asm' details provided for the fabric site '{fabric_name}'.", "DEBUG")
+                multicast_details.update({"multicastRPs": []})
 
             if self.params.get("state") != "deleted" and not self.have.get(
                 "fabric_multicast"
@@ -2402,10 +2558,7 @@ class FabricMulticast(DnacBase):
         self.get_want_fabric_multicast(fabric_multicast).check_return_status()
         self.log("Fabric multicast details successfully processed.", "INFO")
 
-        self.log(
-            "Desired State (want): {requested_state}".format(requested_state=self.want),
-            "INFO",
-        )
+        self.log("Desired State (want): {requested_state}".format(requested_state=self.pprint(self.want)), "INFO")
         self.msg = "Successfully retrieved details from the playbook."
         self.status = "success"
         return self
@@ -2510,9 +2663,7 @@ class FabricMulticast(DnacBase):
                 fabric_rp_ipv4_address = None
                 fabric_rp_ipv6_address = None
                 if rp_device_location == "FABRIC":
-                    asm_config_in_cc = get_dict_result(
-                        have_asm_config, "rpDeviceLocation", "FABRIC"
-                    )
+                    asm_config_in_cc = self.find_dict_by_key_value(have_asm_config, "rpDeviceLocation", "FABRIC")
                     self.log(
                         "The asm config for the RP with location 'FABRIC' is '{asm_config}'.".format(
                             asm_config=asm_config_in_cc
@@ -2520,12 +2671,18 @@ class FabricMulticast(DnacBase):
                         "DEBUG",
                     )
                     if asm_config_in_cc:
-                        fabric_rp_ipv4_address = asm_config_in_cc.get("ipv4Address")
-                        fabric_rp_ipv6_address = asm_config_in_cc.get("ipv6Address")
                         self.log(
                             "The multicast configuration with the RP as 'FABRIC' is available "
                             "in the Cisco Catalyst Center.",
                             "DEBUG",
+                        )
+                        fabric_rp_ipv4_address = asm_config_in_cc.get("ipv4Address")
+                        fabric_rp_ipv6_address = asm_config_in_cc.get("ipv6Address")
+                        item.update(
+                            {
+                                "ipv4Address": fabric_rp_ipv4_address,
+                                "ipv6Address": fabric_rp_ipv6_address,
+                            }
                         )
                     else:
                         self.log(
@@ -2546,54 +2703,28 @@ class FabricMulticast(DnacBase):
                         ),
                         "DEBUG",
                     )
-                elif ipv4_address:
-                    asm_config_in_cc = get_dict_result(
-                        have_asm_config, "ipv4Address", ipv4_address
-                    )
-                    if len(have_asm_config) == 1:
-                        if (
-                            have_asm_config[0].get("ipv4Address") is None
-                            or have_asm_config[0].get("ipv4Address") == ipv4_address
-                        ):
-                            asm_config_in_cc = None
+                else:
+                    if ipv4_address:
+                        asm_config_in_cc = self.find_dict_by_key_value(have_asm_config, "ipv4Address", ipv4_address)
+                        self.log(
+                            "The asm config for the IPv4 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'."
+                            .format(ip=ipv4_address, asm_config=asm_config_in_cc), "INFO"
+                        )
+
+                    if ipv6_address:
+                        asm_config_in_cc = self.find_dict_by_key_value(have_asm_config, "ipv6Address", ipv6_address)
+                        self.log(
+                            "The asm config for the IPv6 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'."
+                            .format(ip=ipv6_address, asm_config=asm_config_in_cc), "INFO"
+                        )
 
                     self.log(
-                        "The asm config for the IPv4 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'.".format(
-                            ip=ipv4_address, asm_config=asm_config_in_cc
-                        ),
-                        "INFO",
+                        "Before updating the asm config: {updated_asm_config}"
+                        .format(updated_asm_config=updated_asm_config), "DEBUG"
                     )
-                elif ipv6_address:
-                    asm_config_in_cc = get_dict_result(
-                        have_asm_config, "ipv6Address", ipv6_address
-                    )
-                    if len(have_asm_config) == 1:
-                        if (
-                            have_asm_config[0].get("ipv6Address") is None
-                            or have_asm_config[0].get("ipv6Address") == ipv6_address
-                        ):
-                            asm_config_in_cc = None
-
-                    self.log(
-                        "The asm config for the IPv6 RP '{ip}' with location 'EXTERNAL' is '{asm_config}'.".format(
-                            ip=ipv6_address, asm_config=asm_config_in_cc
-                        ),
-                        "INFO",
-                    )
-
-                self.log(
-                    "Before updating the asm config: {updated_asm_config}".format(
-                        updated_asm_config=updated_asm_config
-                    ),
-                    "DEBUG",
-                )
                 if asm_config_in_cc:
+                    self.log(f"Removing the existing asm config: {asm_config_in_cc} from updated_asm_config to update with playbook config.")
                     updated_asm_config.remove(asm_config_in_cc)
-                    if fabric_rp_ipv4_address:
-                        item.update({"ipv4Address": fabric_rp_ipv4_address})
-
-                    if fabric_rp_ipv6_address:
-                        item.update({"ipv6Address": fabric_rp_ipv6_address})
 
                 updated_asm_config.append(item)
                 self.log(
@@ -2604,12 +2735,13 @@ class FabricMulticast(DnacBase):
                 )
 
         updated_multicast_params.update({"multicastRPs": updated_asm_config})
+
         self.log(
-            "Final updated asm config: {updated_asm_config}".format(
-                updated_asm_config=updated_asm_config
-            ),
-            "INFO",
+            "The updated playbook details after retaining the Cisco Catalyst Center details "
+            f"to the playbook details: {self.pprint(updated_multicast_params)}",
+            "DEBUG",
         )
+
         return updated_multicast_params
 
     def bulk_add_multicast_config(self, add_multicast_config):
@@ -2621,7 +2753,7 @@ class FabricMulticast(DnacBase):
         Returns:
             self (object): The current object with adding SDA multicast configurations.
         Description:
-            Process the payload in batches of 20 and send it to the SDA API 'add_multicast_virtual_networks_v1'.
+            Process the payload in batches of 20 and send it to the SDA API 'add_multicast_virtual_networks'.
             Validate the API response, check for the 'task_id', and ensure the task completes successfully.
             Log an error if the task fails.
         """
@@ -2652,7 +2784,7 @@ class FabricMulticast(DnacBase):
                     ),
                     "DEBUG",
                 )
-                task_name = "add_multicast_virtual_networks_v1"
+                task_name = "add_multicast_virtual_networks"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = "Failed to retrieve task_id for task '{task_name}' with payload: {batch_payload}.".format(
@@ -2701,7 +2833,7 @@ class FabricMulticast(DnacBase):
             self (object): The current object with updated replication mode information.
         Description:
             Processes the payload in batches of 20 entries and sends them to the SDA API
-            'update_multicast_v1'. Validates the API response, checks for the 'task_id',
+            'update_multicast'. Validates the API response, checks for the 'task_id',
             and ensures the task completes successfully. Logs an error and stops the module
             if a task fails.
         """
@@ -2735,7 +2867,7 @@ class FabricMulticast(DnacBase):
                 )
 
                 # Prepare API payload and task details
-                task_name = "update_multicast_v1"
+                task_name = "update_multicast"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = "Failed to retrieve task_id for task '{task_name}' with payload: {batch_payload}.".format(
@@ -2781,7 +2913,7 @@ class FabricMulticast(DnacBase):
             self (object): The current object with updated SDA multicast configurations.
         Description:
             Processes the payload in batches of 20 entries and sends them to the SDA API
-            'update_multicast_virtual_networks_v1'. Validates the API response, checks for the 'task_id',
+            'update_multicast_virtual_networks'. Validates the API response, checks for the 'task_id',
             and ensures the task completes successfully. Logs an error and stops the module if a task fails.
         """
 
@@ -2818,11 +2950,11 @@ class FabricMulticast(DnacBase):
                     ),
                     "DEBUG",
                 )
-                task_name = "update_multicast_virtual_networks_v1"
+                task_name = "update_multicast_virtual_networks"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
                     self.msg = "Failed to retrieve task_id for task '{task_name}' with payload: {batch_payload}.".format(
-                        task_name="update_multicast_virtual_networks_v1",
+                        task_name="update_multicast_virtual_networks",
                         batch_payload=payload,
                     )
                     self.set_operation_result(
@@ -2871,13 +3003,13 @@ class FabricMulticast(DnacBase):
         Description:
             Check if the multicast configuration associated with the Layer 3 virtual network is
             present in the Cisco Catalyst Center or not.
-            If it does not exist, use the API 'add_multicast_virtual_networks_v1'
+            If it does not exist, use the API 'add_multicast_virtual_networks'
             to add the multicast configuration.
             If it does exist, check whether the multicast configuration requires an update
-            or not. If it requires, use the API 'update_multicast_virtual_networks_v1'
+            or not. If it requires, use the API 'update_multicast_virtual_networks'
             to update the multicast configuration.
             Check if the replication mode requires any update or not. If it does,
-            use the API 'update_multicast_v1' to update the replication mode configurations.
+            use the API 'update_multicast' to update the replication mode configurations.
         """
 
         self.log(
@@ -2886,7 +3018,6 @@ class FabricMulticast(DnacBase):
             ),
             "DEBUG",
         )
-        fabric_multicast_index = -1
         to_create_multicast = []
         to_update_replication_mode = []
         to_update = []
@@ -2899,64 +3030,55 @@ class FabricMulticast(DnacBase):
             )
             return self
 
-        # Process each multicast configuration
-        for multicast_config in fabric_multicast:
-            fabric_multicast_index += 1
-            fabric_name = multicast_config.get("fabric_name")
-            if not fabric_name:
-                self.log("Error: 'fabric_name' is missing from input.", "ERROR")
+        # Check for conflicting replication mode within the same fabric
+        self.log("Starting to build replication mode conflict check list.", "DEBUG")
+
+        to_check_for_replication_mode_conflicts = []
+        for index, multicast_config in enumerate(fabric_multicast):
+            try:
+                self.log(f"Processing fabric_multicast index {index}: {multicast_config}", "DEBUG")
+
+                replication_params = copy.deepcopy(self.want.get("fabric_multicast")[index].get("replication_mode_details"))
+                self.log(f"replication_mode_details at index {index}: {replication_params}", "DEBUG")
+
+                fabric_name = multicast_config.get("fabric_name")
+                self.log(f"fabric_name at index '{index}': '{fabric_name}'", "DEBUG")
+
+                replication_params.update({"fabricName": fabric_name})
+                to_check_for_replication_mode_conflicts.append(replication_params)
+            except Exception as e:
+                self.log(
+                    f"Error processing fabric_multicast index {index}: {e}",
+                    "ERROR"
+                )
                 self.set_operation_result(
-                    "failed", False, "Fabric name is required.", "ERROR"
+                    "failed", False, f"Error processing fabric_multicast index {index}: {e}", "ERROR"
                 )
                 return self
 
-            self.log(
-                "Fabric name: '{fabric_name}".format(fabric_name=fabric_name), "DEBUG"
-            )
+        self.log(f"Completed building list for conflict check: {to_check_for_replication_mode_conflicts}", "DEBUG")
+
+        self.check_replication_mode_conflicts(to_check_for_replication_mode_conflicts)
+
+        # Process each multicast configuration
+        for fabric_multicast_index, multicast_config in enumerate(fabric_multicast):
+            self.log(f"Processing multicast configuration at index {fabric_multicast_index}: {self.pprint(multicast_config)}", "DEBUG")
             self.response.append({"response": {}, "msg": {}})
+
+            fabric_name = multicast_config.get("fabric_name")
             self.response[0].get("response").update({fabric_name: {}})
             self.response[0].get("msg").update({fabric_name: {}})
-            layer3_virtual_network = multicast_config.get("layer3_virtual_network")
-            if not layer3_virtual_network:
-                self.log(
-                    "Error: 'layer3_virtual_network' is missing from input.", "ERROR"
-                )
-                self.set_operation_result(
-                    "failed",
-                    False,
-                    "Layer 3 virtual network name is required.",
-                    "ERROR",
-                )
-                return self
 
-            self.log(
-                "Layer 3 virtual network name: '{l3_vn}".format(
-                    l3_vn=layer3_virtual_network
-                ),
-                "DEBUG",
-            )
-            self.response[0].get("response").get(fabric_name).update(
-                {layer3_virtual_network: {}}
-            )
-            self.response[0].get("msg").get(fabric_name).update(
-                {layer3_virtual_network: {}}
-            )
-            result_fabric_multicast_msg = (
-                self.response[0].get("msg").get(fabric_name).get(layer3_virtual_network)
-            )
-            result_fabric_multicast_response = (
-                self.response[0]
-                .get("response")
-                .get(fabric_name)
-                .get(layer3_virtual_network)
-            )
-            multicast_details_exists = self.have.get("fabric_multicast")[
-                fabric_multicast_index
-            ].get("exists")
-            self.log(
-                "Check if the multicast configuration is present in the Cisco Catalyst Center or not.",
-                "DEBUG",
-            )
+            layer3_virtual_network = multicast_config.get("layer3_virtual_network")
+            self.response[0].get("response").get(fabric_name).update({layer3_virtual_network: {}})
+            self.response[0].get("msg").get(fabric_name).update({layer3_virtual_network: {}})
+
+            result_fabric_multicast_msg = (self.response[0].get("msg").get(fabric_name).get(layer3_virtual_network))
+            result_fabric_multicast_response = (self.response[0].get("response").get(fabric_name).get(layer3_virtual_network))
+
+            multicast_details_exists = self.have.get("fabric_multicast")[fabric_multicast_index].get("exists")
+            self.log("Check if the multicast configuration is present in the Cisco Catalyst Center or not.", "DEBUG")
+
             if not multicast_details_exists:
                 self.log(
                     "The multicast configurations for the VN '{l3_vn}' under the '{fabric_name}' is not present "
@@ -2965,30 +3087,15 @@ class FabricMulticast(DnacBase):
                     ),
                     "DEBUG",
                 )
-                multicast_params = self.want.get("fabric_multicast")[
-                    fabric_multicast_index
-                ].get("multicast_details")
-                replication_params = self.want.get("fabric_multicast")[
-                    fabric_multicast_index
-                ].get("replication_mode_details")
+                multicast_params = self.want.get("fabric_multicast")[fabric_multicast_index].get("multicast_details")
                 to_create_multicast.append(multicast_params)
-                result_fabric_multicast_response.update(
-                    {"multicast_details": multicast_params}
-                )
-                result_fabric_multicast_msg.update(
-                    {
-                        "multicast_details": "SDA fabric multicast configurations added successfully."
-                    }
-                )
+                result_fabric_multicast_response.update({"multicast_details": multicast_params})
+                result_fabric_multicast_msg.update({"multicast_details": "SDA fabric multicast configurations added successfully."})
+
+                replication_params = self.want.get("fabric_multicast")[fabric_multicast_index].get("replication_mode_details")
                 to_update_replication_mode.append(replication_params)
-                result_fabric_multicast_response.update(
-                    {"replication_mode": replication_params}
-                )
-                result_fabric_multicast_msg.update(
-                    {
-                        "replication_mode": "SDA fabric replication mode updated successfully."
-                    }
-                )
+                result_fabric_multicast_response.update({"replication_mode": replication_params})
+                result_fabric_multicast_msg.update({"replication_mode": "SDA fabric replication mode updated successfully."})
             else:
                 self.log(
                     "The multicast configurations for the VN '{l3_vn}' under the '{fabric_name}' is available "
@@ -2997,61 +3104,35 @@ class FabricMulticast(DnacBase):
                     ),
                     "DEBUG",
                 )
-                want_multicast_params = self.want.get("fabric_multicast")[
-                    fabric_multicast_index
-                ].get("multicast_details")
-                want_replication_params = self.want.get("fabric_multicast")[
-                    fabric_multicast_index
-                ].get("replication_mode_details")
-                have_multicast_params = self.have.get("fabric_multicast")[
-                    fabric_multicast_index
-                ].get("multicast_details")
-                have_replication_params = self.have.get("fabric_multicast")[
-                    fabric_multicast_index
-                ].get("replication_mode_details")
-                updated_multicast_params = self.retain_multicast_cc_values(
-                    want_multicast_params, have_multicast_params
-                )
+
+                want_multicast_params = self.want.get("fabric_multicast")[fabric_multicast_index].get("multicast_details")
+                want_replication_params = self.want.get("fabric_multicast")[fabric_multicast_index].get("replication_mode_details")
+                have_multicast_params = self.have.get("fabric_multicast")[fabric_multicast_index].get("multicast_details")
+                have_replication_params = self.have.get("fabric_multicast")[fabric_multicast_index].get("replication_mode_details")
+                updated_multicast_params = self.retain_multicast_cc_values(want_multicast_params, have_multicast_params)
+
                 self.log(
                     "The updated playbook details after retaining the Cisco Catalyst Center details "
-                    "to the playbook details: {updated_multicast_params}".format(
-                        updated_multicast_params=updated_multicast_params
-                    )
+                    f"to the playbook details: {updated_multicast_params}",
+                    "DEBUG",
                 )
 
-                if not self.requires_update(
-                    have_multicast_params,
-                    updated_multicast_params,
-                    self.multicast_vn_obj_params,
-                ):
+                if not self.requires_update(have_multicast_params, updated_multicast_params, self.multicast_vn_obj_params):
                     self.log(
-                        "SDA fabric multicast configuration for the layer 3 VN '{l3_vn}' under the fabric "
-                        "'{fabric_name}' doesn't require an update.".format(
-                            l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                        ),
+                        f"SDA fabric multicast configuration for the layer 3 VN '{layer3_virtual_network}' under the fabric "
+                        f"'{fabric_name}' doesn't require an update.",
                         "INFO",
                     )
-                    result_fabric_multicast_msg.update(
-                        {
-                            "multicast_details": "SDA fabric multicast configurations doesn't require an update."
-                        }
-                    )
+                    result_fabric_multicast_msg.update({"multicast_details": "SDA fabric multicast configurations doesn't require an update."})
                 else:
-
                     # Multicast configuration needs an update
                     self.log(
-                        "Updating multicast configuration for VN '{l3_vn}' under fabric '{fabric_name}'.".format(
-                            l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                        ),
+                        f"Updating multicast configuration for VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
                         "INFO",
                     )
                     self.log(
-                        "Desired SDA multicast configuration for '{l3_vn}' under the fabric '{fabric_name} "
-                        "in Cisco Catalyst Center: {desired_state}".format(
-                            l3_vn=layer3_virtual_network,
-                            fabric_name=fabric_name,
-                            desired_state=updated_multicast_params,
-                        ),
+                        f"Desired SDA multicast configuration for '{layer3_virtual_network}' under the fabric '{fabric_name} "
+                        f"in Cisco Catalyst Center: {updated_multicast_params}"
                         "DEBUG",
                     )
                     updated_multicast_params.update(
@@ -3062,64 +3143,31 @@ class FabricMulticast(DnacBase):
                         }
                     )
                     to_update.append(updated_multicast_params)
-                    result_fabric_multicast_response.update(
-                        {"multicast_details": want_multicast_params}
-                    )
-                    result_fabric_multicast_msg.update(
-                        {
-                            "multicast_details": "SDA fabric multicast configurations updated successfully."
-                        }
-                    )
+                    result_fabric_multicast_response.update({"multicast_details": updated_multicast_params})
+                    result_fabric_multicast_msg.update({"multicast_details": "SDA fabric multicast configurations updated successfully."})
 
-                if not self.requires_update(
-                    have_replication_params,
-                    want_replication_params,
-                    self.replication_mode_obj_params,
-                ):
+                if not self.requires_update(have_replication_params, want_replication_params, self.replication_mode_obj_params,):
                     self.log(
-                        "No updates required for replication mode for VN '{l3_vn}' under fabric '{fabric_name}'.".format(
-                            l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                        ),
+                        f"No updates required for replication mode for VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
                         "INFO",
                     )
-                    if "updated successfully" not in result_fabric_multicast_msg.get(
-                        "multicast_details"
-                    ):
-                        result_fabric_multicast_msg.update(
-                            {
-                                "multicast_details": "SDA fabric replication mode doesn't require an update."
-                            }
-                        )
+                    if "updated successfully" not in result_fabric_multicast_msg.get("multicast_details"):
+                        result_fabric_multicast_msg.update({"multicast_details": "SDA fabric replication mode doesn't require an update."})
                 else:
-
                     # Replication mode needs an update
                     self.log(
-                        "Current SDA fabric replication mode for '{l3_vn}' under the fabric '{fabric_name} "
-                        "in Cisco Catalyst Center: {current_state}".format(
-                            l3_vn=layer3_virtual_network,
-                            fabric_name=fabric_name,
-                            current_state=have_replication_params,
-                        ),
+                        f"Current SDA fabric replication mode for '{layer3_virtual_network}' under the fabric '{fabric_name} "
+                        f"in Cisco Catalyst Center: {have_replication_params}",
                         "DEBUG",
                     )
                     self.log(
-                        "Desired SDA fabric replication mode for '{l3_vn}' under the fabric '{fabric_name} "
-                        "in Cisco Catalyst Center: {desired_state}".format(
-                            l3_vn=layer3_virtual_network,
-                            fabric_name=fabric_name,
-                            desired_state=want_replication_params,
-                        ),
+                        f"Desired SDA fabric replication mode for '{layer3_virtual_network}' under the fabric '{fabric_name} "
+                        f"in Cisco Catalyst Center: {want_replication_params}"
                         "DEBUG",
                     )
                     to_update_replication_mode.append(want_replication_params)
-                    result_fabric_multicast_response.update(
-                        {"multicast_details": want_replication_params}
-                    )
-                    result_fabric_multicast_msg.update(
-                        {
-                            "multicast_details": "SDA fabric replication mode updated successfully."
-                        }
-                    )
+                    result_fabric_multicast_response.update({"multicast_details": want_replication_params})
+                    result_fabric_multicast_msg.update({"multicast_details": "SDA fabric replication mode updated successfully."})
 
         if to_create_multicast:
             self.log(
@@ -3128,9 +3176,21 @@ class FabricMulticast(DnacBase):
                 ),
                 "INFO",
             )
-            self.bulk_add_multicast_config(to_create_multicast).check_return_status()
+            to_create_multicast_grouped_by_fabric_id = self.group_payload_by_fabric_id(
+                to_create_multicast)
+            self.log(
+                f"Total fabric ID groups to be created: {len(to_create_multicast_grouped_by_fabric_id)}",
+                "INFO",
+            )
+            for fabric_id, to_create_multicast_configs in to_create_multicast_grouped_by_fabric_id.items():
+                self.log(
+                    f"Adding multicast configurations for fabric ID '{fabric_id}': {to_create_multicast_configs}",
+                    "DEBUG",
+                )
+                self.bulk_add_multicast_config(to_create_multicast_configs).check_return_status()
 
         if to_update_replication_mode:
+            to_update_replication_mode = self.deduplicate_by_fabric_id(to_update_replication_mode)
             self.log(
                 "Attempting to update {count} replication mode(s).".format(
                     count=len(to_update_replication_mode)
@@ -3148,13 +3208,169 @@ class FabricMulticast(DnacBase):
                 ),
                 "INFO",
             )
-            self.bulk_update_multicast_config(to_update).check_return_status()
+            to_update_multicast_grouped_by_fabric_id = self.group_payload_by_fabric_id(
+                to_update)
+            self.log(
+                f"Total fabric ID groups to be updated: {len(to_update_multicast_grouped_by_fabric_id)}",
+                "INFO",
+            )
+            for fabric_id, to_update_multicast_configs in to_update_multicast_grouped_by_fabric_id.items():
+                self.log(
+                    f"Updating multicast configurations for fabric ID '{fabric_id}': {to_update_multicast_configs}",
+                    "DEBUG",
+                )
+                self.bulk_update_multicast_config(to_update_multicast_configs).check_return_status()
 
         self.result.update({"response": self.response})
         self.log("SDA fabric multicast updates completed successfully.", "INFO")
         self.msg = "The operations on fabric device is successful."
         self.status = "success"
         return self
+
+    def group_payload_by_fabric_id(self, payload_list):
+        """
+        Group the list of multicast payload dictionaries by 'fabricId'.
+
+        Parameters:
+            payload_list (list of dict): List of dictionaries containing 'fabricId' keys.
+
+        Returns:
+            dict: A dictionary with each unique 'fabricId' as a key and its associated
+                list of payloads as the corresponding value.
+
+        Description:
+            This function iterates over the given payload list and groups the dictionaries
+            by their 'fabricId'. This helps in organizing or processing configuration
+            items specific to each fabric site in Cisco Catalyst Center.
+            If the input is not a list of dictionaries or is empty, it returns an empty dictionary.
+        """
+        self.log(f"Initializing grouping of multicast configs by fabric ID: {payload_list}.", "INFO")
+
+        if not isinstance(payload_list, list):
+            self.log(f"Invalid input: 'payload_list' must be a list. Received: {type(payload_list).__name__}", "ERROR")
+            return {}
+
+        if not all(isinstance(item, dict) for item in payload_list):
+            self.log("Invalid input: All items in 'payload_list' must be dictionaries.", "ERROR")
+            return {}
+
+        if not payload_list:
+            self.log("'payload_list' is empty. Returning an empty dictionary.", "INFO")
+            return {}
+
+        grouped_payload = {}
+        for item in payload_list:
+            fabric_id = item.get("fabricId")
+            if fabric_id is None:
+                self.log(f"Skipping item without fabric ID: {item}", "WARNING")
+                continue
+            if fabric_id not in grouped_payload:
+                self.log(f"New fabric ID found: {fabric_id}. Initializing grouping.", "DEBUG")
+                grouped_payload[fabric_id] = []
+
+            grouped_payload[fabric_id].append(item)
+
+        self.log(f"Completed grouping by fabric ID. Result: {self.pprint(grouped_payload)}", "DEBUG")
+
+        return grouped_payload
+
+    def check_replication_mode_conflicts(self, fabric_list):
+        """
+        Check for conflicting replication modes per fabric ID.
+
+        Parameters:
+            fabric_list (list of dict): List of dictionaries with keys 'fabricId', 'fabricName', and 'replicationMode'.
+
+        Returns:
+            None
+
+        Description:
+            Raises an error via self.fail_and_exit if any fabricId has multiple replication modes.
+            Logs start, conflict errors, and successful completion.
+        """
+
+        self.log(f"Starting conflict check for {len(fabric_list)} fabric entries.", "DEBUG")
+        if not isinstance(fabric_list, list):
+            self.msg = "Invalid input: 'fabric_list' must be a list of dictionaries."
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        if not fabric_list:
+            self.log("The 'fabric_list' is empty. No conflicts to check.", "DEBUG")
+            return
+
+        fabric_modes = defaultdict(set)
+        fabric_names = {}
+
+        for entry in fabric_list:
+            fabric_id = entry["fabricId"]
+            replication_mode = entry["replicationMode"]
+            fabric_modes[fabric_id].add(replication_mode)
+            fabric_names[fabric_id] = entry["fabricName"]
+
+        for fabric_id, modes in fabric_modes.items():
+            if len(modes) > 1:
+                fabric_name = fabric_names.get(fabric_id, "Unknown")
+                self.msg = (
+                    f"Conflict detected for fabric Name '{fabric_name}: "
+                    f"multiple replication modes found: {modes}. "
+                    "Only one replication mode is allowed per fabric site."
+                )
+                self.fail_and_exit(self.msg)
+
+        self.log("Conflict check completed successfully. No conflicts found.", "DEBUG")
+
+    def deduplicate_by_fabric_id(self, fabric_list):
+        """
+        Deduplicate fabric list by fabricId.
+
+        Parameters:
+            fabric_list (list of dict): List of fabric dictionaries containing 'fabricId' and 'replicationMode'.
+
+        Returns:
+            list of dict: Deduplicated list with unique fabricId entries.
+
+        Description:
+            Iterates over fabric_list and returns a list of unique fabric dictionaries,
+            preserving the first occurrence of each fabricId.
+            Logs start and end with counts of entries before and after deduplication.
+        """
+        self.log(f"Starting deduplication by fabricId for the fabric list: {fabric_list}.", "DEBUG")
+
+        if not isinstance(fabric_list, list):
+            self.msg = "Invalid input: 'fabric_list' must be a list of dictionaries."
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        if not fabric_list:
+            self.log("The 'fabric_list' is empty. Nothing to deduplicate.", "DEBUG")
+            return []
+
+        deduped = {}
+        # Deduplicate entries
+        skipped_entries = 0
+        for idx, entry in enumerate(fabric_list):
+            if not isinstance(entry, dict) or "fabricId" not in entry:
+                self.log(f"Skipping entry at index {idx} due to missing or invalid 'fabricId': {entry}", "WARNING")
+                skipped_entries += 1
+                continue
+
+            fabric_id = entry["fabricId"]
+            if fabric_id not in deduped:
+                deduped[fabric_id] = entry
+
+        deduped_list = list(deduped.values())
+
+        self.log(
+            f"Deduplication completed. Reduced from {len(fabric_list)} to {len(deduped_list)} unique entries.",
+            "DEBUG"
+        )
+        if skipped_entries > 0:
+            self.log(f"Skipped {skipped_entries} invalid or malformed entries during deduplication.", "WARNING")
+
+        self.log(f"Deduplicated list: {deduped_list}", "DEBUG")
+
+        return deduped_list
 
     def get_diff_merged(self, config):
         """
@@ -3211,6 +3427,214 @@ class FabricMulticast(DnacBase):
         self.status = "success"
         return self
 
+    def delete_entire_fabric_multicast(self, fabric_name, layer3_virtual_network, result_msg_fabric_name, result_response_fabric_name, multicast_id):
+        """
+        Delete the entire multicast configuration associated with a Layer 3 virtual network
+        under a specific fabric site in Cisco Catalyst Center.
+
+        Parameters:
+            fabric_name (str): Name of the SDA fabric site.
+            layer3_virtual_network (str): The Layer 3 virtual network under the fabric.
+            result_msg_fabric_name (dict): Dictionary to store status messages per VN.
+            result_response_fabric_name (dict): Dictionary to store multicast ID info per VN.
+            multicast_id (str): Unique identifier of the multicast configuration to be deleted.
+
+        Returns:
+            self (object): The current object after processing the deletion request.
+
+        Description:
+            Sends a deletion request for the provided multicast ID using SDA API.
+            If the deletion is successful, updates the result tracking dictionaries.
+            Logs success and failure scenarios clearly. Handles unexpected exceptions.
+        """
+        self.log(
+            f"Initiating deletion of fabric multicast config for L3 VN '{layer3_virtual_network}' "
+            f"under fabric site '{fabric_name}' with multicast ID '{multicast_id}'.",
+            "INFO"
+        )
+        try:
+            payload = {"id": multicast_id}
+            task_name = "delete_multicast_virtual_network_by_id"
+
+            self.log(f"Sending deletion request using task '{task_name}' with payload: {payload}", "DEBUG")
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+            if not task_id:
+                self.msg = f"Unable to retrieve the task_id for the task '{task_name}'."
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            success_msg = (
+                "Successfully deleted the SDA fabric multicast configurations."
+            )
+
+            self.log(f"Checking task status for task ID '{task_id}'", "DEBUG")
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, success_msg
+            ).check_return_status()
+            result_msg_fabric_name.get(layer3_virtual_network).update(
+                {
+                    "multicast_details": "SDA device successfully removed for the layer 3 virtual network."
+                }
+            )
+            result_response_fabric_name.get(layer3_virtual_network).update(
+                {"multicast_details": multicast_id}
+            )
+            self.log(
+                f"Deletion completed for multicast ID '{multicast_id}' in VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "INFO"
+            )
+            return self
+
+        except Exception as e:
+            self.msg = (
+                "Exception occurred while deleting the multicast configurations "
+                f"for the layer 3 virtual network '{layer3_virtual_network}' for the fabric site '{fabric_name}': {(e)}"
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+    def process_delete_fabric_asm_rp(self, want_asm_confg, updated_asm):
+        """
+        Delete or update the fabric ASM Rendezvous Point (RP) configuration in Cisco Catalyst Center
+        based on the network device IDs provided in the playbook.
+
+        Parameters:
+            want_asm_confg (dict): Desired ASM RP configuration from playbook input, specifically
+                                for RPs with 'FABRIC' device location.
+            updated_asm (list): Current ASM RP configuration fetched from the Catalyst Center
+                                that may need modification.
+
+        Returns:
+            bool: True if the fabric RP config was modified or removed; otherwise, False.
+
+        Description:
+            This method checks if a 'FABRIC' type ASM RP configuration exists in the current state.
+            If it exists, it compares the list of network device IDs with the desired configuration.
+            Based on the comparison, it either updates the RP entry with reduced device IDs or
+            removes the entire 'FABRIC' RP configuration if no common elements are found.
+        """
+        self.log(f"Starting fabric ASM RP removal process from fabric multicast configuration for provided config: {self.pprint(want_asm_confg)}.", "INFO")
+
+        is_need_update = False
+        want_nw_device_ids = want_asm_confg.get("networkDeviceIds")
+        want_nw_device_ids = set(want_nw_device_ids)
+        self.log(
+            f"The network device IDs of the 'FABRIC' is '{want_nw_device_ids}'.",
+            "DEBUG",
+        )
+        have_nw_device = get_dict_result(
+            updated_asm, "rpDeviceLocation", "FABRIC"
+        )
+        self.log(
+            f"The RP device details: {have_nw_device}",
+            "DEBUG",
+        )
+        if not have_nw_device:
+            self.log(
+                "ASM RP config with device location 'FABRIC' is not present in the Cisco Catalyst Center.",
+                "DEBUG",
+            )
+            return False
+
+        have_nw_device_ids = have_nw_device.get(
+            "networkDeviceIds"
+        )
+        common_elem = [
+            multicast_id
+            for multicast_id in have_nw_device_ids
+            if multicast_id not in want_nw_device_ids
+        ]
+
+        self.log(f"Device IDs to retain after comparison: {common_elem}", "DEBUG")
+
+        if common_elem:
+            self.log(f"Updating ASM RP config with new device IDs: {common_elem}", "INFO")
+            for updated_asm_config in updated_asm:
+                if updated_asm_config.get("rpDeviceLocation") == "FABRIC":
+                    updated_asm_config.update({"networkDeviceIds": common_elem})
+        else:
+            self.log(
+                f"Removing the Fabric multicast RP config: {want_asm_confg}.",
+                "DEBUG",
+            )
+            updated_asm[:] = [value for value in updated_asm if value.get("rpDeviceLocation") != "FABRIC"]
+        is_need_update = True
+
+        self.log(
+            "Completed processing delete of fabric ASM RP configuration. "
+            f"Updated config: {self.pprint(updated_asm)}",
+            "INFO"
+        )
+
+        return is_need_update
+
+    def process_delete_external_asm_rp(self, want_asm_confg, updated_asm):
+        """
+        Delete external ASM Rendezvous Point (RP) configuration from the fabric multicast settings
+        in Cisco Catalyst Center, based on the IPv4 or IPv6 address provided in the playbook.
+
+        Parameters:
+            want_asm_confg (dict): Desired ASM RP configuration from playbook input, containing
+                                'ipv4Address' or 'ipv6Address' as key.
+            updated_asm (list): Current ASM RP configuration fetched from the Catalyst Center
+                                that may need modification.
+
+        Returns:
+            bool: True if an external RP config was found and removed; otherwise, False.
+
+        Description:
+            This method identifies and removes the external ASM RP configuration (either IPv4 or IPv6)
+            from the current configuration if present. If the given RP address is not found in the
+            Catalyst Center's current configuration, it logs a debug message. The method ensures that
+            only the specific RP entries are deleted from the configuration.
+        """
+        self.log(f"Starting external ASM RP removal process from fabric multicast configuration for provided config: {self.pprint(want_asm_confg)}.", "INFO")
+
+        is_need_update = False
+
+        ex_rp_ipv4_address = want_asm_confg.get("ipv4Address")
+        ex_rp_ipv6_address = want_asm_confg.get("ipv6Address")
+
+        # a helper function to process deletion for IPv4 or IPv6
+        def remove_rp_entries(address_type, address_key, address_value):
+            nonlocal is_need_update
+            self.log(f"Attempting to remove ASM RP with {address_type} address: {address_value}", "DEBUG")
+
+            matching_entries = get_dict_result(updated_asm, address_key, address_value)
+            if matching_entries:
+                for entry in updated_asm[:]:
+                    if entry.get(address_key) == address_value:
+                        self.log(f"Removing ASM RP entry with {address_type}: {entry}", "INFO")
+                        updated_asm.remove(entry)
+                is_need_update = True
+            else:
+                self.log(
+                    f"ASM RP config with {address_type} address '{address_value}' is not present in the Cisco Catalyst Center.",
+                    "DEBUG"
+                )
+
+        # Process IPv4 removal
+        if ex_rp_ipv4_address:
+            remove_rp_entries("IPv4", "ipv4Address", ex_rp_ipv4_address)
+
+        # Process IPv6 removal
+        if ex_rp_ipv6_address:
+            remove_rp_entries("IPv6", "ipv6Address", ex_rp_ipv6_address)
+
+        if is_need_update:
+            self.log(
+                "Completed processing delete of external ASM RP configuration. "
+                f"Updated config: {self.pprint(updated_asm)}",
+                "INFO"
+            )
+        else:
+            self.log(
+                "No updates were made to the external ASM RP configuration.",
+                "DEBUG",
+            )
+        return is_need_update
+
     def delete_fabric_multicast(self, fabric_multicast):
         """
         Delete fabric multicast configurations associated with the virtual network
@@ -3239,26 +3663,10 @@ class FabricMulticast(DnacBase):
         self.response.append({"response": {}, "msg": {}})
         result_fabric_multicast_response = self.response[0].get("response")
         result_fabric_multicast_msg = self.response[0].get("msg")
-        fabric_multicast_index = -1
-        for item in fabric_multicast:
-            fabric_multicast_index += 1
-            fabric_name = item.get("fabric_name")
-            if not fabric_name:
-                self.log("Error: 'fabric_name' is missing from input.", "ERROR")
-                self.set_operation_result(
-                    "failed", False, "Fabric name is required.", "ERROR"
-                )
-                return self
 
+        for fabric_multicast_index, item in enumerate(fabric_multicast):
+            fabric_name = item.get("fabric_name")
             layer3_virtual_network = item.get("layer3_virtual_network")
-            if not layer3_virtual_network:
-                self.log(
-                    "Error: 'layer3_virtual_network' is missing from input.", "ERROR"
-                )
-                self.set_operation_result(
-                    "failed", False, "Layer 3 virtual network is required.", "ERROR"
-                )
-                return self
 
             if result_fabric_multicast_response.get(fabric_name) is None:
                 result_fabric_multicast_response.update({fabric_name: {}})
@@ -3279,11 +3687,8 @@ class FabricMulticast(DnacBase):
             result_msg_fabric_name = result_fabric_multicast_msg.get(fabric_name)
 
             self.log(
-                "Starting deletion of fabric multicast configuration under fabric '{fabric_name}' "
-                "for the Layer 3 virtual network {layer3_virtual_network}.".format(
-                    fabric_name=fabric_name,
-                    layer3_virtual_network=layer3_virtual_network,
-                ),
+                f"Starting deletion of fabric multicast configuration under fabric '{fabric_name}' "
+                f"for the Layer 3 virtual network {layer3_virtual_network}.",
                 "DEBUG",
             )
 
@@ -3293,20 +3698,14 @@ class FabricMulticast(DnacBase):
             multicast_config_exists = have_fabric_multicast_config.get("exists")
 
             self.log(
-                "The multicast configuration exists '{exists}' with the layer 3 virtual network "
-                "'{layer3_vn}' for the fabric site '{fabric_name}'.".format(
-                    exists=multicast_config_exists,
-                    layer3_vn=layer3_virtual_network,
-                    fabric_name=fabric_name,
-                ),
+                f"The multicast configuration exists '{multicast_config_exists}' with the layer 3 virtual network "
+                f"'{layer3_virtual_network}' for the fabric site '{fabric_name}'.",
                 "INFO",
             )
             if not multicast_config_exists:
                 self.log(
-                    "Multicast conigurations for the layer 3 virtual network '{l3_vn}' under the "
-                    "fabric site '{fabric_name}' is not found in Cisco Catalyst Center.".format(
-                        l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                    ),
+                    f"Multicast conigurations for the layer 3 virtual network '{layer3_virtual_network}' under the "
+                    f"fabric site '{fabric_name}' is not found in Cisco Catalyst Center.",
                     "INFO",
                 )
                 result_msg_fabric_name.get(layer3_virtual_network).update(
@@ -3323,118 +3722,72 @@ class FabricMulticast(DnacBase):
 
             # Retrieve details
             self.log(
-                "Deleting specific SSM or ASM configurations for Layer 3 VN '{l3_vn}' in fabric '{fabric_name}'.".format(
-                    l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                ),
+                f"Deleting specific SSM or ASM configurations for Layer 3 VN '{layer3_virtual_network}' in fabric '{fabric_name}'.",
                 "DEBUG",
             )
             ssm_details = item.get("ssm")
             asm_details = item.get("asm")
-            id = have_fabric_multicast_config.get("id")
+            multicast_id = have_fabric_multicast_config.get("id")
             if not (ssm_details or asm_details):
                 self.log(
-                    "Deleting fabric multicast configuration for the layer 3 virtual network '{l3_vn}' "
-                    "under the fabric site '{fabric_name}' with ID '{id}'".format(
-                        l3_vn=layer3_virtual_network, fabric_name=fabric_name, id=id
-                    ),
+                    f"No SSM or ASM configurations provided for the Layer 3 VN '{layer3_virtual_network}' in fabric '{fabric_name}'. "
+                    f"Deleting entire multicast configuration.",
                     "DEBUG",
                 )
-                try:
-                    payload = {"id": id}
-                    task_name = "delete_multicast_virtual_network_by_id_v1"
-                    task_id = self.get_taskid_post_api_call("sda", task_name, payload)
-                    if not task_id:
-                        self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
-                            task_name=task_name
-                        )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
-
-                    success_msg = (
-                        "Successfully deleted the SDA fabric multicast configurations."
-                    )
-                    self.get_task_status_from_tasks_by_id(
-                        task_id, task_name, success_msg
-                    ).check_return_status()
-                    result_msg_fabric_name.get(layer3_virtual_network).update(
-                        {
-                            "multicast_details": "SDA device successfully removed for the layer 3 virtual network."
-                        }
-                    )
-                    result_response_fabric_name.get(layer3_virtual_network).update(
-                        {"multicast_details": id}
-                    )
-
-                except Exception as e:
-                    self.msg = (
-                        "Exception occurred while deleting the multicast configurations "
-                        "for the layer 3 virtual network '{l3_vn}' for the fabric site '{fabric_name}': {error_msg}".format(
-                            l3_vn=layer3_virtual_network,
-                            fabric_name=fabric_name,
-                            error_msg=e,
-                        )
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                self.delete_entire_fabric_multicast(fabric_name, layer3_virtual_network, result_msg_fabric_name, result_response_fabric_name, multicast_id)
             else:
                 self.log(
-                    "Deleting specific SSM or ASM configurations for Layer 3 VN '{l3_vn}' in fabric '{fabric_name}'.".format(
-                        l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                    ),
+                    f"Deleting specific SSM or ASM configurations for Layer 3 VN '{layer3_virtual_network}' in fabric '{fabric_name}'.",
                     "DEBUG",
                 )
                 to_update = []
-                have_multicast_params = self.have.get("fabric_multicast")[
-                    fabric_multicast_index
-                ].get("multicast_details")
-                want_multicast_params = self.want.get("fabric_multicast")[
-                    fabric_multicast_index
-                ].get("multicast_details")
+                have_multicast_params = self.have.get("fabric_multicast")[fabric_multicast_index].get("multicast_details")
+                want_multicast_params = self.want.get("fabric_multicast")[fabric_multicast_index].get("multicast_details")
+
                 want_ssm = want_multicast_params.get("ipv4SsmRanges")
                 have_ssm = have_multicast_params.get("ipv4SsmRanges")
+                updated_ssm = copy.deepcopy(have_ssm)
                 is_ssm_empty = False
                 is_need_update = False
                 if not have_ssm:
-                    if not want_ssm:
-                        is_ssm_empty = True
-
+                    is_ssm_empty = True
+                    updated_ssm = []
                     self.log(
-                        "SDA fabric multicast ssm configurations are not present in the "
-                        "layer 3 VN '{l3_vn}' under the fabric '{fabric_name}'.".format(
-                            l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                        ),
+                        f"SDA fabric multicast ssm configurations are not present in the "
+                        f"layer 3 VN '{layer3_virtual_network}' under the fabric '{fabric_name}'.",
                         "INFO",
                     )
                 else:
                     if want_ssm:
-                        want_multicast_params.update({"ipv4SsmRanges": have_ssm})
                         for item in want_ssm:
                             if item in have_ssm:
-
                                 # Multicast configuration needs an update
                                 is_need_update = True
                                 self.log(
-                                    "The ssm config '{item}' is still present in the Cisco Catalyst Center.".format(
-                                        item=item
-                                    ),
+                                    f"The ssm config '{item}' is still present in the Cisco Catalyst Center. "
+                                    "Multicast configuration needs an update.",
                                     "INFO",
                                 )
-                                want_multicast_params.get("ipv4SsmRanges").remove(item)
-                                if want_multicast_params.get("ipv4SsmRanges") == []:
-                                    self.log(
-                                        "The entire ssm config is going to be removed from the L3 virtual network "
-                                        "'{l3_vn}' under the fabric site '{fabric_name}'".format(
-                                            l3_vn=layer3_virtual_network,
-                                            fabric_name=fabric_name,
-                                        ),
-                                        "INFO",
-                                    )
-                                    is_ssm_empty = True
+                                updated_ssm.remove(item)
+
+                        if updated_ssm == []:
+                            self.log(
+                                f"The entire ssm config is going to be removed from the L3 virtual network "
+                                f"'{layer3_virtual_network}' under the fabric site '{fabric_name}'",
+                                "INFO",
+                            )
+                            is_ssm_empty = True
+                        else:
+                            self.log(
+                                f"The updated ssm config to be retained in the L3 virtual network "
+                                f"'{layer3_virtual_network}' under the fabric site '{fabric_name}' is: {updated_ssm}",
+                                "DEBUG",
+                            )
                     else:
-                        is_ssm_empty = True
+                        self.log(
+                            f"No SSM configuration provided for the Layer 3 VN '{layer3_virtual_network}' in fabric '{fabric_name}'. ",
+                            "DEBUG",
+                        )
 
                 have_asm = (
                     self.have.get("fabric_multicast")[fabric_multicast_index]
@@ -3443,167 +3796,82 @@ class FabricMulticast(DnacBase):
                 )
                 want_asm = want_multicast_params.get("multicastRPs")
                 is_asm_empty = False
+                updated_asm = copy.deepcopy(have_asm)
 
                 if not have_asm:
-                    if not want_asm:
-                        is_asm_empty = True
-
+                    is_asm_empty = True
                     self.log(
-                        "SDA fabric multicast asm configurations are not present in the "
-                        "layer 3 VN '{l3_vn}' under the fabric '{fabric_name}'.".format(
-                            l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                        ),
+                        f"SDA fabric multicast asm configurations are not present in the "
+                        f"layer 3 VN '{layer3_virtual_network}' under the fabric '{fabric_name}'.",
                         "INFO",
                     )
                 else:
                     if want_asm:
-                        want_multicast_params.update({"multicastRPs": have_asm})
                         for item in want_asm:
                             rp_device_location = item.get("rpDeviceLocation")
                             self.log(
-                                "The 'rp_device_location' is {rp_device_location}".format(
-                                    rp_device_location=rp_device_location
-                                ),
+                                f"The 'rp_device_location' is '{rp_device_location}' for the asm config: {item}",
                                 "DEBUG",
                             )
                             if rp_device_location == "FABRIC":
-                                want_nw_device_ids = item.get("networkDeviceIds")
-                                want_nw_device_ids = set(want_nw_device_ids)
                                 self.log(
-                                    "The network device ID of the 'FABRIC' is '{device_ids}'.".format(
-                                        device_ids=want_nw_device_ids
-                                    ),
+                                    "The 'rp_device_location' is 'FABRIC'. "
+                                    f"Processing deletion of the fabric RP config: {item} from the multicastRPs.",
                                     "DEBUG",
                                 )
-                                have_nw_device = get_dict_result(
-                                    have_asm, "rpDeviceLocation", "FABRIC"
-                                )
-                                self.log(
-                                    "The RP device details: {have_nw_device}".format(
-                                        have_nw_device=have_nw_device
-                                    ),
-                                    "DEBUG",
-                                )
-                                if have_nw_device:
-                                    have_nw_device_ids = have_nw_device.get(
-                                        "networkDeviceIds"
-                                    )
-                                    common_elem = [
-                                        id
-                                        for id in have_nw_device_ids
-                                        if id not in want_nw_device_ids
-                                    ]
-                                    self.log(
-                                        "The common elements found in the playbook and Cisco Catalyst Center "
-                                        "are '{common_elem}".format(
-                                            common_elem=common_elem
-                                        ),
-                                        "DEBUG",
-                                    )
-                                    if common_elem:
-                                        item.update({"networkDeviceIds": common_elem})
-                                    else:
-                                        multicast_rps = (
-                                            self.want.get("fabric_multicast")[
-                                                fabric_multicast_index
-                                            ]
-                                            .get("multicast_details")
-                                            .get("multicastRPs")
-                                        )
-                                        for value in multicast_rps:
-                                            if (
-                                                value.get("rpDeviceLocation")
-                                                == "FABRIC"
-                                            ):
-                                                multicast_rps.remove(value)
-
-                                    is_need_update = True
+                                is_need_update = self.process_delete_fabric_asm_rp(item, updated_asm) or is_need_update
                             else:
-                                ex_rp_ipv4_address = item.get("ipv4Address")
-                                ex_rp_ipv6_address = item.get("ipv6Address")
-                                multicast_rps = (
-                                    self.want.get("fabric_multicast")[
-                                        fabric_multicast_index
-                                    ]
-                                    .get("multicast_details")
-                                    .get("multicastRPs")
-                                )
-                                if ex_rp_ipv4_address:
-                                    ex_ipv4_details = get_dict_result(
-                                        have_asm, "ipv4Address", ex_rp_ipv4_address
-                                    )
-                                    if ex_ipv4_details:
-                                        for value in multicast_rps:
-                                            if (
-                                                value.get("ipv4Address")
-                                                == ex_rp_ipv4_address
-                                            ):
-                                                want_multicast_params.get(
-                                                    "multicastRPs"
-                                                ).remove(value)
-
-                                        is_need_update = True
-
-                                elif ex_rp_ipv6_address:
-                                    ex_ipv6_details = get_dict_result(
-                                        have_asm, "ipv6Address", ex_rp_ipv6_address
-                                    )
-                                    if ex_ipv6_details:
-                                        for value in multicast_rps:
-                                            if (
-                                                value.get("ipv6Address")
-                                                == ex_rp_ipv6_address
-                                            ):
-                                                want_multicast_params.get(
-                                                    "multicastRPs"
-                                                ).remove(value)
-
-                                        is_need_update = True
-
-                            if not want_multicast_params.get("multicastRPs"):
                                 self.log(
-                                    "The entire asm config is going to be removed from the L3 virtual network "
-                                    "'{l3_vn}' under the fabric site '{fabric_name}'".format(
-                                        l3_vn=layer3_virtual_network,
-                                        fabric_name=fabric_name,
-                                    ),
-                                    "INFO",
+                                    "The 'rp_device_location' is 'EXTERNAL'. "
+                                    f"Processing deletion of the external RP config: {item} from the multicastRPs.",
+                                    "DEBUG",
                                 )
-                                is_asm_empty = True
-                    else:
-                        is_asm_empty = True
+                                is_need_update = self.process_delete_external_asm_rp(item, updated_asm) or is_need_update
 
+                        if not updated_asm:
+                            self.log(
+                                f"The entire asm config is going to be removed from the L3 virtual network "
+                                f"'{layer3_virtual_network}' under the fabric site '{fabric_name}'",
+                                "INFO",
+                            )
+                            is_asm_empty = True
+                        else:
+                            self.log(
+                                f"The updated asm config to be retained in the L3 virtual network "
+                                f"'{layer3_virtual_network}' under the fabric site '{fabric_name}' is: {updated_asm}",
+                                "DEBUG",
+                            )
+                    else:
+                        self.log(
+                            f"No ASM configuration provided for the Layer 3 VN '{layer3_virtual_network}' in fabric '{fabric_name}'. ",
+                            "DEBUG",
+                        )
                 if is_asm_empty and is_ssm_empty:
                     self.log(
-                        "Error: The multicast configurations should have either ssm or asm config "
-                        "for the layer 3 virtual network '{l3_vn}' under the fabric site '{fabric_name}'.".format(
-                            l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                        ),
-                        "ERROR",
+                        "Both SSM and ASM configurations are empty after comparision. "
+                        "Deleting the entire multicast configuration for the layer 3 "
+                        f"virtual network: '{layer3_virtual_network}' under fabric: '{fabric_name}'.",
+                        "DEBUG",
                     )
-                    self.msg = (
-                        "The multicast configurations should have either ssm or asm config "
-                        "for the layer 3 virtual network '{l3_vn}' under the fabric site '{fabric_name}'.".format(
-                            l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                        )
+                    self.delete_entire_fabric_multicast(
+                        fabric_name, layer3_virtual_network, result_msg_fabric_name, result_response_fabric_name, multicast_id
                     )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    continue
 
                 if is_need_update:
-                    want_multicast_params.update(
+                    updated_multicast_params = copy.deepcopy(want_multicast_params)
+                    updated_multicast_params.update(
                         {
-                            "id": self.have.get("fabric_multicast")[
-                                fabric_multicast_index
-                            ].get("id")
+                            "id": multicast_id,
+                            "ipv4SsmRanges": updated_ssm,
+                            "multicastRPs": updated_asm,
                         }
                     )
-                    to_update.append(want_multicast_params)
+                    to_update.append(updated_multicast_params)
 
                 if to_update:
                     result_response_fabric_name.get(layer3_virtual_network).update(
-                        {"multicast_details": want_multicast_params}
+                        {"multicast_details": updated_multicast_params}
                     )
                     result_msg_fabric_name.get(layer3_virtual_network).update(
                         {
@@ -3611,18 +3879,14 @@ class FabricMulticast(DnacBase):
                         }
                     )
                     self.log(
-                        "Attempting to update {count} multicast configuration(s).".format(
-                            count=len(to_update)
-                        ),
+                        f"Attempting to update {len(to_update)} multicast configuration(s).",
                         "INFO",
                     )
                     self.bulk_update_multicast_config(to_update).check_return_status()
                 else:
                     self.log(
-                        "SDA fabric multicast configuration for the layer 3 VN '{l3_vn}' under the fabric "
-                        "'{fabric_name}' doesn't require an update.".format(
-                            l3_vn=layer3_virtual_network, fabric_name=fabric_name
-                        ),
+                        f"SDA fabric multicast configuration for the layer 3 VN '{layer3_virtual_network}' under the fabric "
+                        f"'{fabric_name}' doesn't require an update.",
                         "INFO",
                     )
                     result_msg_fabric_name.get(layer3_virtual_network).update(
@@ -3668,6 +3932,104 @@ class FabricMulticast(DnacBase):
         self.msg = "Successfully deleted the SDA fabric multicast configurations."
         self.status = "success"
         return self
+
+    def multicast_config_needs_update(self, have_details, want_details):
+        """
+        Determine if the current multicast configuration ('have_details') requires an update
+        to match the desired configuration ('want_details').
+
+        Comparison rules:
+        - Only keys present in 'want_details' are checked.
+        - For dictionary values:
+            - Recursively compare corresponding keys.
+            - For entries where 'rpDeviceLocation' is 'FABRIC', skip checking 'ipv4Address' and 'ipv6Address'
+            if those values are None in 'want_details' (since these can be allocated dynamically).
+        - For list values:
+            - Lengths of the lists must be equal.
+            - Each item in the 'want_details' list must match at least one item in the 'have_details' list.
+            (Order of items does not matter.)
+        - For other values, simple equality check is performed.
+
+        Logs:
+        - Logs the starting state of comparison with 'have_details' and 'want_details'.
+        - Logs the result of whether an update is required or not.
+
+        Returns:
+            bool: True if update is required, False otherwise.
+        """
+        self.log("Starting multicast configuration update check...", "DEBUG")
+        self.log(f"Current HAVE details: {self.pprint(have_details)}", "DEBUG")
+        self.log(f"Desired WANT details: {self.pprint(want_details)}", "DEBUG")
+
+        def _compare(have, want, context=None, path="root"):
+            """
+            Recursively compare 'have' and 'want' configurations.
+
+            Args:
+                have (any): Current configuration (HAVE).
+                want (any): Desired configuration (WANT).
+                context (dict): Additional context from parent key (e.g., 'rpDeviceLocation').
+                path (str): Dot-separated path to the current key for logging purposes.
+
+            Returns:
+                bool: True if a mismatch is found (update needed), False otherwise.
+            """
+            if isinstance(want, dict):
+                for key, want_val in want.items():
+                    current_path = f"{path}.{key}"
+                    # Key is missing in 'have'
+                    if key not in have:
+                        self.log(f"Key '{current_path}' is missing in 'have_details'. Update required.", "DEBUG")
+                        return True
+
+                    # Skip IP address comparison for FABRIC RP when want value is None
+                    if context and context.get("rpDeviceLocation") == "FABRIC":
+                        if key in ("ipv4Address", "ipv6Address") and want_val is None:
+                            self.log(f"Skipping comparison for '{current_path}' as it's dynamically allocated in 'FABRIC'.", "DEBUG")
+                            continue
+
+                    next_context = want if "rpDeviceLocation" in want else context
+                    if _compare(have[key], want_val, context=next_context, path=f"{current_path}.{key}"):
+                        self.log(f"Mismatch found in nested dictionary at '{current_path}.{key}'.", "DEBUG")
+                        return True
+                return False
+
+            elif isinstance(want, list):
+                current_path = path
+
+                # Each want item must match at least one have item
+                for idx, w_item in enumerate(want):
+                    matched = False
+                    for h_item in have:
+                        if not _compare(h_item, w_item, context=w_item, path=f"{current_path}[{idx}]"):
+                            matched = True
+                            break
+
+                    if not matched:
+                        self.log(f"No match found for list item at '{current_path}[{idx}]'. Update required.", "DEBUG")
+                        return True
+
+                return False
+            else:
+                if have != want:
+                    self.log(f"Value mismatch at '{path}': HAVE='{have}', WANT='{want}'. Update required.", "DEBUG")
+                    return True
+
+                return False
+
+        # Ensure inputs are valid
+        if not isinstance(have_details, dict) or not isinstance(want_details, dict):
+            self.log("Invalid input: Both 'have_details' and 'want_details' must be dictionaries.", "ERROR")
+            self.fail_and_exit("Invalid input provided for multicast configuration comparison.")
+
+        update_needed = _compare(have_details, want_details)
+
+        if update_needed:
+            self.log("Multicast configuration requires update.", "DEBUG")
+        else:
+            self.log("Multicast configuration is up-to-date. No update required.", "DEBUG")
+
+        return update_needed
 
     def verify_diff_merged(self, config):
         """
@@ -3722,9 +4084,7 @@ class FabricMulticast(DnacBase):
             if want_details:
                 want_details = want_details.get("multicast_details")
 
-            if self.requires_update(
-                have_details, want_details, self.multicast_vn_obj_params
-            ):
+            if self.multicast_config_needs_update(have_details, want_details):
                 self.msg = (
                     "The SDA multicast configuration of the layer 3 virtual network '{l3_vn}' "
                     "under the fabric site '{fabric_name}' is not applied to the Cisco Catalyst Center.".format(
@@ -3781,7 +4141,7 @@ class FabricMulticast(DnacBase):
         self.status = "success"
         return self
 
-    def verify_ssm_asm(self, want_ssm, want_asm, fabric_multicast_index, fabric_name):
+    def verify_ssm_asm_deleted(self, want_ssm, want_asm, fabric_multicast_index, fabric_name):
         """
         Validating the Cisco Catalyst Center configuration with the playbook details
         for the state is deleted when the ssm and the asm configuration are provided.
@@ -3816,7 +4176,7 @@ class FabricMulticast(DnacBase):
         )
         self.log(
             "The ssm configurations provided in the playbook: {ssm}".format(
-                ssm=want_asm
+                ssm=want_ssm
             ),
             "INFO",
         )
@@ -3880,7 +4240,7 @@ class FabricMulticast(DnacBase):
                         )
                         continue
 
-                    want_nw_device_ips = item.get("networkDeviceIds")
+                    want_nw_device_ips = item.get("network_device_ips")
                     want_nw_device_ips = set(want_nw_device_ips)
                     want_nw_device_ids = []
                     for ip in want_nw_device_ips:
@@ -4013,7 +4373,7 @@ class FabricMulticast(DnacBase):
                     "their absence in Cisco Catalyst Center.",
                     "INFO",
                 )
-                self.verify_ssm_asm(ssm, asm, fabric_multicast_index, fabric_name)
+                self.verify_ssm_asm_deleted(ssm, asm, fabric_multicast_index, fabric_name)
             else:
                 fabric_multicast_details = self.have.get("fabric_multicast")[
                     fabric_multicast_index
