@@ -75,6 +75,9 @@ class TestDnacTagsWorkflow(TestDnacModule):
     playbook_config_updating_only_port_rules_description_when_no_port_rules_are_present_case_13 = test_data.get(
         "updating_only_port_rules_description_when_no_port_rules_are_present_case_13"
     )
+    playbook_config_updating_tag_name_case_14 = test_data.get(
+        "updating_tag_name_case_14"
+    )
 
     def setUp(self):
         super(TestDnacTagsWorkflow, self).setUp()
@@ -196,6 +199,13 @@ class TestDnacTagsWorkflow(TestDnacModule):
         ):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_tag_case_10_call_1"),
+            ]
+        elif "test_updating_tag_name_case_14" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_tag_case_14_call_1"),
+                self.test_data.get("update_tag_case_14_call_1"),
+                self.test_data.get("get_tasks_by_id_case_14_call_1"),
+                self.test_data.get("get_tag_case_14_call_2"),
             ]
 
     def test_create_a_tag_with_device_port_rules_case_1(self):
@@ -325,7 +335,9 @@ class TestDnacTagsWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("msg"),
-            "The playbook contains invalid parameters: ['name : Required parameter not found']. Please check the playbook",
+            "The playbook contains invalid parameters: \n"
+            "name : Required parameter not found"
+            "\nRefer to the documentation for more details on the expected input type."
         )
 
     def test_rule_description_not_provided_properly_in_device_rules_case_7(self):
@@ -346,8 +358,11 @@ class TestDnacTagsWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("msg"),
-            "The playbook contains invalid parameters: ['rule_name : Required parameter not found', 'search_pattern : Required parameter not found', "
-            "'value : Required parameter not found']. Please check the playbook",
+            "The playbook contains invalid parameters: \n"
+            "rule_name : Required parameter not found\n"
+            "search_pattern : Required parameter not found\n"
+            "value : Required parameter not found"
+            "\nRefer to the documentation for more details on the expected input type."
         )
 
     def test_rule_description_not_provided_properly_in_port_rules_case_8(self):
@@ -368,8 +383,11 @@ class TestDnacTagsWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("msg"),
-            "The playbook contains invalid parameters: ['rule_name : Required parameter not found', 'search_pattern : "
-            "Required parameter not found', 'value : Required parameter not found']. Please check the playbook",
+            "The playbook contains invalid parameters: \n"
+            "rule_name : Required parameter not found\n"
+            "search_pattern : Required parameter not found\n"
+            "value : Required parameter not found"
+            "\nRefer to the documentation for more details on the expected input type."
         )
 
     def test_scope_category_not_provided_case_9(self):
@@ -390,7 +408,9 @@ class TestDnacTagsWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("msg"),
-            "The playbook contains invalid parameters: ['scope_category : Required parameter not found']. Please check the playbook",
+            "The playbook contains invalid parameters: \n"
+            "scope_category : Required parameter not found"
+            "\nRefer to the documentation for more details on the expected input type."
         )
 
     def test_not_enough_details_provided_in_device_details_in_tag_memberships_case_10(
@@ -434,7 +454,9 @@ class TestDnacTagsWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("msg"),
-            "The playbook contains invalid parameters: ['tags : Required parameter not found']. Please check the playbook",
+            "The playbook contains invalid parameters: \n"
+            "tags : Required parameter not found"
+            "\nRefer to the documentation for more details on the expected input type."
         )
 
     def test_site_names_not_provided_in_tag_memberships_case_12(self):
@@ -455,7 +477,9 @@ class TestDnacTagsWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("msg"),
-            "The playbook contains invalid parameters: ['site_names : Required parameter not found']. Please check the playbook",
+            "The playbook contains invalid parameters: \n"
+            "site_names : Required parameter not found"
+            "\nRefer to the documentation for more details on the expected input type."
         )
 
     def test_updating_only_port_rules_description_when_no_port_rules_are_present_case_13(
@@ -480,4 +504,28 @@ class TestDnacTagsWorkflow(TestDnacModule):
             result.get("msg"),
             "Either rule_description:[{'operation': 'ILIKE', 'name': 'speed', 'value': '%100000%000%'}] or scope_description:None is empty in port_rules. "
             "Since no existing port rules are present, both are required for an update.",
+        )
+
+    def test_updating_tag_name_case_14(
+        self,
+    ):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                dnac_log_level="DEBUG",
+                config_verify=True,
+                config=self.playbook_config_updating_tag_name_case_14,
+            )
+        )
+
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get("msg"),
+            "Tag 'Test_tag_update' has been updated successfully in the Cisco Catalyst Center.",
         )

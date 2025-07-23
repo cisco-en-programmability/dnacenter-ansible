@@ -2828,9 +2828,20 @@ class FabricDevices(DnacBase):
                     "proceeding with provisioning checks.".format(ip=fabric_device_ip),
                     "DEBUG",
                 )
-                self.check_device_is_provisioned(
-                    fabric_device_ip, network_device_id, site_id, fabric_name
-                ).check_return_status()
+                state = self.params.get("state")
+                if state == "deleted":
+                    self.log(
+                        f"The state is 'deleted', so skipping the provisioning checks for the device with the IP '{fabric_device_ip}'.",
+                        "DEBUG",
+                    )
+                else:
+                    self.log(
+                        f"Checking if the device with the IP '{fabric_device_ip}' is provisioned in the fabric '{fabric_name}'.",
+                        "DEBUG",
+                    )
+                    self.check_device_is_provisioned(
+                        fabric_device_ip, network_device_id, site_id, fabric_name
+                    ).check_return_status()
             else:
                 self.log(
                     "The device with the IP '{ip}' is a Wireless Controller, "

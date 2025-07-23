@@ -825,7 +825,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address: "204.1.2.2"
-        # Set device_collection_status_checkwq to false to skip the check
+        # Set device_collection_status_check to false to skip the check
         device_collection_status_check: false
         fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
         port_assignments:

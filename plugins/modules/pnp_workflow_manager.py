@@ -475,6 +475,14 @@ class PnP(DnacBase):
                             self.log(msg, "ERROR")
                             invalid_params.append(msg)
 
+            duplicate_serial_numbers = self.find_duplicate_serial_numbers(valid_pnp)
+            if duplicate_serial_numbers:
+                msg = "Duplicate serial numbers found in the playbook config: {0}".format(
+                    ", ".join(duplicate_serial_numbers)
+                )
+                self.log(msg, "ERROR")
+                invalid_params.append(msg)
+
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params)
@@ -492,6 +500,49 @@ class PnP(DnacBase):
         self.status = "success"
 
         return self
+
+    def find_duplicate_serial_numbers(self, input_config):
+        """
+        Identifies duplicate serial numbers from a list of device dictionaries.
+
+        Args:
+            input_config (list): A list of dictionaries, where each dictionary
+                                contains device information.
+
+        Returns:
+            list: A list of serial numbers that appear more than once.
+                Returns an empty list if no duplicates are found.
+        """
+        self.log("Starting the process to find duplicate serial numbers.", "INFO")
+        seen_serials = set()
+        duplicates = set()
+
+        # Iterate through each device dictionary in the input list
+        for idx, device in enumerate(input_config):
+            self.log("Processing device at index {0}: {1}".format(idx, device), "DEBUG")
+            # The "device_info" key contains a list, so we loop through it
+            for info in device.get("device_info", []):
+                serial_number = info.get("serial_number")
+
+                if not serial_number:
+                    self.log("No serial number found in device info: {0}".format(info), "WARNING")
+                    continue
+
+                if serial_number in seen_serials:
+                    # If we've seen this serial number before, it's a duplicate
+                    self.log("Duplicate serial number found: {0}".format(
+                        serial_number), "ERROR")
+                    duplicates.add(serial_number)
+                else:
+                    # If this is the first time, add it to our set of seen serials
+                    self.log("Adding serial number to seen list: {0}".format(
+                        serial_number), "DEBUG")
+                    seen_serials.add(serial_number)
+
+        self.log("Duplicate serial numbers found: {0}".format(list(duplicates)), "INFO")
+        self.log("Completed the process to find duplicate serial numbers.", "INFO")
+
+        return list(duplicates)
 
     def get_site_details(self):
         """
