@@ -78,10 +78,6 @@
                     search_pattern: contains
                     value: Border To Fusion Link
                     operation: ILIKE
-              network_device_tag_retrieval_batch_size: 1
-              interface_tag_retrieval_batch_size: 1
-              network_device_tag_update_batch_size: 1
-              interface_tag_update_batch_size: 1
 
           - tag_memberships:
               tags:
@@ -112,7 +108,3 @@
                   port_names:
                     - FortyGigabitEthernet1/1/1
                     - FortyGigabitEthernet1/1/2
-              network_device_tag_retrieval_batch_size: 1
-              interface_tag_retrieval_batch_size: 1
-              network_device_tag_update_batch_size: 1
-              interface_tag_update_batch_size: 1
