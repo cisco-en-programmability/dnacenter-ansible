@@ -11,7 +11,8 @@ __author__ = (
 DOCUMENTATION = r"""
 ---
 module: inventory_workflow_manager
-short_description: Comprehensive network device inventory management for Cisco Catalyst Center description:
+short_description: Comprehensive network device inventory management for Cisco Catalyst Center
+description:
   - Add, update, delete, and synchronize network devices in Cisco Catalyst Center inventory
   - Provision wired devices and manage device configurations across multiple sites
   - Schedule and manage device maintenance windows with flexible recurrence options
