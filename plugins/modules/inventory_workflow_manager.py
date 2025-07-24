@@ -77,6 +77,7 @@ options:
         type: str
         choices: ["NETWORK_DEVICE", "COMPUTE_DEVICE", "MERAKI_DASHBOARD", "THIRD_PARTY_DEVICE", "FIREPOWER_MANAGEMENT_SYSTEM"]
         default: "NETWORK_DEVICE"
+
       # Connection and Transport Parameters
       cli_transport:
         description:
@@ -102,6 +103,7 @@ options:
             NETCONF for these Devices.
           - Standard NETCONF port is 830.
         type: str
+
       # Device Identification Parameters
       ip_address_list:
         description:
@@ -128,6 +130,7 @@ options:
           - Helpful for network discovery scenarios.
         type: list
         elements: str
+
       # Authentication Parameters
       username:
         description:
@@ -147,6 +150,7 @@ options:
           - Required for enabling configurations on the device.
         type: str
         no_log: true
+
       # HTTP Parameters (for specific device types)
       http_username:
         description:
@@ -169,6 +173,7 @@ options:
       http_secure:
         description: Flag indicating HTTP security.
         type: bool
+
       # SNMP Configuration Parameters
       snmp_version:
         description:
@@ -256,6 +261,7 @@ options:
         description: SNMP request timeout in seconds.
         type: int
         default: 5
+
       # Device Management Parameters
       role:
         description:
@@ -289,6 +295,7 @@ options:
       extended_discovery_info:
         description: Additional discovery information for the device.
         type: str
+
       # Update and Sync Parameters
       credential_update:
         description:
@@ -342,6 +349,7 @@ options:
           - Only applicable to Unified AP devices.
         type: bool
         default: false
+
       # Management IP Update
       update_mgmt_ipaddresslist:
         description: Update device management IP addresses.
@@ -356,6 +364,7 @@ options:
             description: Device's new Mgmt IpAddress.
             type: str
             required: true
+
       # Deletion Parameters
       clean_config:
         description:
@@ -366,6 +375,7 @@ options:
             configuration.
         type: bool
         default: false
+
       # User Defined Fields
       add_user_defined_field:
         description:
@@ -393,6 +403,7 @@ options:
               - Value to assign to tag with or without the same user defined field
                 name.
             type: str
+
       # Interface Management
       update_interface_details:
         description:
@@ -454,6 +465,7 @@ options:
               - Only supported on ACCESS role devices.
             type: bool
             default: false
+
       # Device Export
       export_device_list:
         description:
@@ -512,6 +524,7 @@ options:
         type: int
         default: 500
         range: [1, 800]
+
       # Device Provisioning
       provision_wired_device:
         description:
@@ -563,6 +576,7 @@ options:
             type: int
             default: 2
             version_added: 6.12.0
+
       # Maintenance Scheduling
       devices_maintenance_schedule:
         description:
