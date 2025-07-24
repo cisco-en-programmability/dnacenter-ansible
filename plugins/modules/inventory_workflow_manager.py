@@ -143,13 +143,11 @@ options:
           - Required for NETWORK_DEVICE additions.
           - Also used for CSV export file encryption.
         type: str
-        no_log: true
       enable_password:
         description:
           - Privileged EXEC mode password.
           - Required for enabling configurations on the device.
         type: str
-        no_log: true
 
       # HTTP Parameters (for specific device types)
       http_username:
@@ -163,7 +161,6 @@ options:
           - Required for COMPUTE_DEVICE, MERAKI_DASHBOARD, and
             FIREPOWER_MANAGEMENT_SYSTEM.
         type: str
-        no_log: true
       http_port:
         description:
           - HTTP service port.
@@ -221,7 +218,6 @@ options:
           - SNMPv3 authentication passphrase.
           - Required for AUTHNOPRIV and AUTHPRIV modes.
         type: str
-        no_log: true
       snmp_auth_protocol:
         description:
           - SNMPv3 authentication algorithm. SHA (Secure Hash Algorithm) -
@@ -235,7 +231,6 @@ options:
           - SNMPv3 privacy/encryption passphrase.
           - Required for AUTHPRIV mode.
         type: str
-        no_log: true
       snmp_priv_protocol:
         description:
           - SNMPv3 encryption algorithm.
@@ -480,7 +475,6 @@ options:
                 symbols).
             type: str
             required: true
-            no_log: true
           operation_enum:
             description:
               - Export data type.
