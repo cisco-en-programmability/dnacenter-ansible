@@ -826,11 +826,11 @@ notes:
   - Use appropriate batch sizes for large-scale operations.
 
   # Device Type Specific Requirements
-  - NETWORK_DEVICE: Requires username, password, and transport protocol.
-  - COMPUTE_DEVICE: Requires http_username, http_password, and http_port.
-  - MERAKI_DASHBOARD: Requires only http_password (API key).
-  - FIREPOWER_MANAGEMENT_SYSTEM: Requires http_username, http_password, http_port.
-  - THIRD_PARTY_DEVICE: Requires SNMP configuration for monitoring.
+  - NETWORK_DEVICE - Requires username, password, and transport protocol.
+  - COMPUTE_DEVICE - Requires http_username, http_password, and http_port.
+  - MERAKI_DASHBOARD -  Requires only http_password (API key).
+  - FIREPOWER_MANAGEMENT_SYSTEM - Requires http_username, http_password, http_port.
+  - THIRD_PARTY_DEVICE - Requires SNMP configuration for monitoring.
 
   # Operational Considerations
   - Device deletion with clean_config=false retains device configuration. To delete a
