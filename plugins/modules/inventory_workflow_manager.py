@@ -333,7 +333,6 @@ options:
             to enter an infinite loop.
         type: int
         default: 200
-        range: [1, 200]
       resync_max_timeout:
         description:
           - Maximum resync wait time in seconds.
@@ -432,7 +431,6 @@ options:
                 while updating interface details.
               - Must be valid VLAN number (1-4094).
             type: int
-            range: [1, 4094]
           voice_vlan_id:
             description:
               - Voice VLAN ID for IP phone traffic.
@@ -440,7 +438,6 @@ options:
                 to voice traffic used only while updating interface details.
               - Separate VLAN for voice traffic optimization.
             type: int
-            range: [1, 4094]
           admin_status:
             description:
               - Administrative interface state.
@@ -523,7 +520,6 @@ options:
           - Controls memory usage for large inventories.
         type: int
         default: 500
-        range: [1, 800]
 
       # Device Provisioning
       provision_wired_device:
@@ -775,7 +771,6 @@ options:
                 the duration of the maintenance schedules and must be within the
                 range 1 to 365 (inclusive).
             type: int
-            range: [1, 365]
 requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9
@@ -802,15 +797,15 @@ notes:
   - Enhanced provisioning features available in Catalyst Center >= 2.3.5.3.
 
   # API Methods and Endpoints
-  - Primary SDK Methods: devices.Devices.add_device, devices.Devices.delete_device_by_id, devices.Devices.sync_devices.
-  - REST Endpoints: POST /dna/intent/api/v1/network-device, DELETE /dna/intent/api/v1/network-device/{id}, PUT /dna/intent/api/v1/network-device.
+  - Primary SDK Methods - devices.Devices.add_device, devices.Devices.delete_device_by_id, devices.Devices.sync_devices.
+  - REST Endpoints - POST /dna/intent/api/v1/network-device, DELETE /dna/intent/api/v1/network-device/{id}, PUT /dna/intent/api/v1/network-device.
 
   # Parameter Changes and Deprecations
   - Parameter 'ip_address' renamed to 'ip_address_list' in v6.12.0.
   - Removed 'managementIpAddress' options in v4.3.0.
   - Removed parameters in v6.12.0 'serial_number', 'device_added', 'role_source'.
-  - Added in v6.13.1 'add_user_defined_field', 'update_interface_details', 'export_device_list', 'admin_status'.
-  - Removed in v6.13.1 'provision_wireless_device', 'reprovision_wired_device', 'device_updated'.
+  - Added in v6.13.1 - 'add_user_defined_field', 'update_interface_details', 'export_device_list', 'admin_status'.
+  - Removed in v6.13.1 - 'provision_wireless_device', 'reprovision_wired_device', 'device_updated'.
 
   # Security and Best Practices
   - Use strong passwords for device access and file encryption (8+ characters,
