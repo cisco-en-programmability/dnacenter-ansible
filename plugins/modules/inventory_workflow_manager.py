@@ -808,9 +808,9 @@ notes:
   # Parameter Changes and Deprecations
   - Parameter 'ip_address' renamed to 'ip_address_list' in v6.12.0.
   - Removed 'managementIpAddress' options in v4.3.0.
-  - Removed parameters in v6.12.0: 'serial_number', 'device_added', 'role_source'.
-  - Added in v6.13.1: 'add_user_defined_field', 'update_interface_details', 'export_device_list', 'admin_status'.
-  - Removed in v6.13.1: 'provision_wireless_device', 'reprovision_wired_device', 'device_updated'.
+  - Removed parameters in v6.12.0 'serial_number', 'device_added', 'role_source'.
+  - Added in v6.13.1 'add_user_defined_field', 'update_interface_details', 'export_device_list', 'admin_status'.
+  - Removed in v6.13.1 'provision_wireless_device', 'reprovision_wired_device', 'device_updated'.
 
   # Security and Best Practices
   - Use strong passwords for device access and file encryption (8+ characters,
