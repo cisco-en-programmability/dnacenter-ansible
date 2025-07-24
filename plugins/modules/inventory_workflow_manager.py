@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2025, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
 
@@ -11,8 +11,7 @@ __author__ = (
 DOCUMENTATION = r"""
 ---
 module: inventory_workflow_manager
-short_description: Comprehensive network device inventory management for Cisco Catalyst Center
-description:
+short_description: Comprehensive network device inventory management for Cisco Catalyst Center description:
   - Add, update, delete, and synchronize network devices in Cisco Catalyst Center inventory
   - Provision wired devices and manage device configurations across multiple sites
   - Schedule and manage device maintenance windows with flexible recurrence options
@@ -40,8 +39,8 @@ options:
       - C(merged) - Add new devices or update existing device configurations
       - C(deleted) - Remove devices from inventory (use clean_config for configuration cleanup)
     type: str
-    choices: [merged, deleted]
-    default: merged
+    choices: ["merged", "deleted"]
+    default: "merged"
   config:
     description: List of device configurations for inventory operations
     type: list
