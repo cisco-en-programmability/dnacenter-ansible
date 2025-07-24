@@ -1646,3 +1646,45 @@ releases:
         - Changes in path_trace_workflow_manager module
         - Removed attribute 'application_sets' and 'application' in 'application_policy_workflow_manager' module
         - Removed attribute 'control_path'  in 'path_trace_workflow_manager' module
+
+  6.36.0:
+    release_date: "2025-07-04"
+    changes:
+      release_summary: Changes in workflow manager module
+      bugfixes:
+        - Fixed get in sites_telemetry_settings module
+      minor_changes:
+        - Update dnacentersdk requirement from 2.7.0 to 2.10.1
+        - Changes in lan_automation_create module
+        - Added create in configuration_template module
+
+  6.37.0:
+    release_date: "2025-07-22"
+    changes:
+      release_summary: Changes in workflow manager module
+      minor_changes:
+        - Changes in networks_profile module
+        - Changes in validation.py module
+        - Adding log messages and minor documentation changes in accesspoint_workflow_manager module
+        - Changes in application_policy_workflow_manager workflow manager module
+        - Enhancements in assurance_issue_workflow_manager module to support ignore duration
+        - Documentation changes in device_configs_backup_workflow_manager module
+        - Changes in device_credential_workflow_manager module
+        - Changes in discovery_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in network_profile_switching_workflow_manager module
+        - Changes in network_profile_wireless_workflow_manager module
+        - Changes in path_trace_workflow_manager module
+        - Changes in pnp_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in site_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Changes in tags_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in user_role_workflow_manager module
+        - Changes in wireless_design_workflow_manger module
+        - Added attribute 'ignore_duration' in assurance_issue_workflow_manager module
+        - Added attribute 'new_name' in tags_workflow_manager module
+        - Added attributes 'commit' and 'version' in template_workflow_manager module

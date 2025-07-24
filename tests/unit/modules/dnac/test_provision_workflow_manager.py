@@ -37,6 +37,8 @@ class TestDnacProvisionWorkflow(TestDnacModule):
     playbook_application_telemetry_disable = test_data.get("playbook_application_telemetry_disable")
     playbook_application_telemetry_enable = test_data.get("playbook_application_telemetry_enable")
     playbook_delete_provision = test_data.get("playbook_delete_provision")
+    playbook_enable = test_data.get("playbook_enable")
+    playbook_disable = test_data.get("playbook_disable")
 
     def setUp(self):
         super(TestDnacProvisionWorkflow, self).setUp()
@@ -75,6 +77,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 self.test_data.get("device_response_10"),
                 self.test_data.get("get_sites_10"),
                 self.test_data.get("get_network_device_by_ip_20"),
+                self.test_data.get("get_site_type"),
                 self.test_data.get("get_sites_11"),
                 self.test_data.get("re_provision_devices"),
                 self.test_data.get("Task_Details_10"),
@@ -87,6 +90,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 self.test_data.get("device_response_20"),
                 self.test_data.get("get_sites_20"),
                 self.test_data.get("get_network_device_by_ip_20"),
+                self.test_data.get("get_site_type"),
                 self.test_data.get("get_provisioned_devices_20"),
                 self.test_data.get("provision_devices"),
                 self.test_data.get("task_details"),
@@ -135,6 +139,27 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 self.test_data.get("enable"),
                 self.test_data.get("Task_Details_1"),
                 self.test_data.get("enable_response"),
+            ]
+        elif "playbook_enable" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_network_device_by_ip_enable"),
+                self.test_data.get("get_network_device_by_ip_enable1"),
+                self.test_data.get("get_network_device_by_ip_enable2"),
+                self.test_data.get("get_device_detail"),
+                self.test_data.get("enable_1"),
+                self.test_data.get("Task_Details_enable"),
+                self.test_data.get("get_device_detail_enable"),
+            ]
+
+        elif "playbook_disable" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_network_device_by_ip_enable3"),
+                self.test_data.get("get_network_device_by_ip_enable4"),
+                self.test_data.get("get_network_device_by_ip_enable5"),
+                self.test_data.get("get_device_detail1"),
+                self.test_data.get("enable_2"),
+                self.test_data.get("Task_Details_enable1"),
+                self.test_data.get("get_device_detail_enable1"),
             ]
 
         elif "playbook_delete_provision" in self._testMethodName:
@@ -253,7 +278,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
             "Provisioning of the wireless device '204.192.13.1' completed successfully."
         )
 
-    def test_provision_workflow_manager_playbook_application_telemetry_disable(self):
+    def test_provision_workflow_manager_playbook_application_telemetry_disable_no_site_assigned(self):
         """
         Test disabling of application telemetry using the playbook workflow.
 
@@ -271,14 +296,14 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 config=self.playbook_application_telemetry_disable
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Application telemetry disabling successfully for all devices."
+            "Device with IP 204.1.1.2 is not assigned to any site. Telemetry cannot be enabled/disabled."
         )
 
-    def test_provision_workflow_manager_playbook_application_telemetry_enable(self):
+    def test_provision_workflow_manager_playbook_application_telemetry_enable_no_site_assigned(self):
         """
         Test enabling of application telemetry using the playbook workflow.
 
@@ -296,11 +321,11 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 config=self.playbook_application_telemetry_enable
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Application telemetry enabling successfully for all devices."
+            "Device with IP 204.1.1.2 is not assigned to any site. Telemetry cannot be enabled/disabled."
         )
 
     def test_provision_workflow_manager_playbook_delete_provision(self):
@@ -325,6 +350,56 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
+            result.get('response'),
+            "Devices deleted successfully: 204.192.3.40"
+        )
+
+    def test_provision_workflow_manager_playbook_enable(self):
+        """
+        Test deletion of a provisioned device using the playbook workflow.
+
+        Validates that a previously provisioned network device can be successfully deleted
+        from Cisco Catalyst Center using the playbook workflow with full device credentials.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_version="2.3.7.9",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_enable
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
             result.get('msg'),
-            "Deletion done Successfully for the device '204.192.3.40' "
+            "Application telemetry enabled successfully for all devices."
+        )
+
+    def test_provision_workflow_manager_playbook_disable(self):
+        """
+        Test deletion of a provisioned device using the playbook workflow.
+
+        Validates that a previously provisioned network device can be successfully deleted
+        from Cisco Catalyst Center using the playbook workflow with full device credentials.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_version="2.3.7.9",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_disable
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Application telemetry disabled successfully for all devices."
         )

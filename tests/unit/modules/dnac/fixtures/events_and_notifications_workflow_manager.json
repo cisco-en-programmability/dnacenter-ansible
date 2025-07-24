@@ -1,0 +1,1654 @@
+{
+  "playbook_config_create_webhook_destination_with_verify": [
+    {
+      "webhook_destination":
+        {
+          "name": "webhook test",
+          "description": "creating webhook for testing",
+          "url": "https://10.195.227.14/dna",
+          "method": "POST",
+          "trust_cert": false
+        }
+    }    
+  ],
+
+  "playbook_config_no_webhook_destination_update": [
+    {
+      "webhook_destination":
+        {
+          "name": "webhook test",
+          "description": "creating webhook for testing",
+          "url": "https://10.195.227.14/dna",
+          "method": "POST",
+          "trust_cert": false
+        }
+    }    
+  ],
+
+  "playbook_config_update_webhook_destination": [
+    {
+      "webhook_destination":
+        {
+          "name": "webhook test",
+          "description": "updating webhook for testing"
+        }
+    }    
+  ],
+
+  "playbook_config_update_email_destination": [
+    {
+      "email_destination": {
+        "sender_email": "test@cisco.com",
+        "recipient_email": "demo@cisco.com",
+        "subject": "Ansible testing",
+        "primary_smtp_config": {
+          "server_address": "outbound.cisco.com",
+          "port": "25",
+          "smtp_type": "DEFAULT"
+        }
+      }
+    }
+  ],
+
+  "playbook_config_no_email_destination_update": [
+    {
+      "email_destination": {
+        "sender_email": "test@cisco.com",
+        "recipient_email": "demo@cisco.com",
+        "subject": "Ansible testing",
+        "primary_smtp_config": {
+          "server_address": "outbound.cisco.com",
+          "port": "25",
+          "smtp_type": "DEFAULT"
+        }
+      }
+    }
+  ],
+
+  "playbook_config_create_syslog_destination_with_verify": [
+    {
+      "syslog_destination": {
+        "name": "Syslog UT",
+        "description": "Adding syslog destination",
+        "server_address": "10.30.0.90",
+        "protocol": "TCP",
+        "port": 6553
+      }
+    }  
+  ],
+
+  "playbook_config_syslog_destination_no_update": [
+    {
+      "syslog_destination": {
+        "name": "Syslog UT",
+        "description": "Adding syslog destination"
+      }
+    }  
+  ],
+
+  "playbook_config_update_syslog_destination": [
+    {
+      "syslog_destination": {
+        "name": "Syslog UT",
+        "description": "Updating syslog destination"
+      }
+    }  
+  ],
+
+  "playbook_config_create_snmp_dest_with_verify": [
+    {
+      "snmp_destination": {
+        "name": "Snmp test",
+        "description": "Adding snmp destination for testing.",
+        "server_address": "10.30.0.90",
+        "port": "25",
+        "snmp_version": "V3",
+        "username": "cisco",
+        "mode": "AUTH_PRIVACY",
+        "auth_type": "SHA",
+        "auth_password": "authpass123",
+        "privacy_type": "AES128",
+        "privacy_password": "privacy123"
+      }
+    }
+  ],
+
+  "playbook_config_snmp_dest_no_update": [
+    {
+      "snmp_destination": {
+        "name": "Snmp test",
+        "description": "Adding snmp destination for testing.",
+        "server_address": "10.30.0.90",
+        "port": "25",
+        "snmp_version": "V3",
+        "username": "cisco",
+        "mode": "AUTH_PRIVACY",
+        "auth_type": "SHA",
+        "auth_password": "authpass123",
+        "privacy_type": "AES128",
+        "privacy_password": "privacy123"
+      }
+    }
+  ],
+
+  "playbook_config_update_snmp_dest": [
+    {
+      "snmp_destination": {
+        "name": "Snmp test",
+        "description": "Updating snmp destination for testing."
+      }
+    }
+  ],
+
+  "playbook_config_create_itsm_with_verify": [
+    {
+      "itsm_setting": {
+        "instance_name": "ITSM test",
+        "description": "ITSM description for testing",
+        "connection_settings": {
+          "url": "https://catalystcenter.com",
+          "username": "catalyst",
+          "password": "catalyst@123"
+        }
+      }
+    }
+  ],
+
+  "playbook_config_invalid_url_in_itsm": [
+    {
+      "itsm_setting": {
+        "instance_name": "ITSM test",
+        "description": "ITSM description for testing",
+        "connection_settings": {
+          "url": "http/catalystcenter.com",
+          "username": "catalyst",
+          "password": "catalyst@123"
+        }
+      }
+    }
+  ],
+
+  "playbook_config_no_itsm_update": [
+    {
+      "itsm_setting": {
+        "instance_name": "ITSM test",
+        "description": "ITSM description for testing"
+      }
+    }
+  ],
+
+  "playbook_config_update_itsm_setting": [
+    {
+      "itsm_setting": {
+        "instance_name": "ITSM test",
+        "description": "ITSM description for updating",
+        "connection_settings": {
+          "password": "catalyst@123"
+        }
+      }
+    }
+  ],
+
+  "playbook_config_delete_itsm_with_verfiy": [
+    {
+      "itsm_setting": {
+        "instance_name": "ITSM test",
+        "description": "ITSM description for updating"
+      }
+    }
+  ],
+
+  "playbook_config_create_webhook_subscription_with_verify": [
+    {
+      "webhook_event_notification": {
+        "name": "Webhook UT",
+        "description": "Webhook subscription creation",
+        "sites": ["Global/India", "Global/USA"],
+        "events": ["AP Flap", "AP Reboot Crash"],
+        "destination": "webhook test"
+      }
+    }
+  ],
+
+  "playbook_config_no_update_need_webhook_subscription": [
+    {
+      "webhook_event_notification": {
+        "name": "Webhook UT",
+        "description": "Webhook subscription creation",
+        "sites": ["Global/India", "Global/USA"],
+        "events": ["AP Flap", "AP Reboot Crash"],
+        "destination": "webhook test"
+      }
+    }
+  ],
+
+  "playbook_config_update_webhook_subscription": [
+    {
+      "webhook_event_notification": {
+        "name": "Webhook UT",
+        "description": "Webhook subscription updation",
+        "sites": ["Global/India", "Global/USA"],
+        "events": ["AP Flap", "AP Reboot Crash"],
+        "destination": "webhook test"
+      }
+    }
+  ],
+
+  "playbook_config_delete_webhook_subscription_with_verify": [
+    {
+      "webhook_event_notification": {
+        "name": "Webhook UT",
+        "description": "Webhook subscription updation"
+      }
+    }
+  ],
+
+  "playbook_config_absent_webhook_subscription": [
+    {
+      "webhook_event_notification": {
+        "name": "Webhook UT",
+        "description": "Webhook subscription updation"
+      }
+    }
+  ],
+
+  "playbook_config_create_email_subscription_with_verify": [
+    {
+      "email_event_notification": {
+        "name": "Email Notification",
+        "description": "Notification description for email subscription creation",
+        "sites": ["Global/India", "Global/USA"],
+        "events": ["AP Flap", "AP Reboot Crash"],
+        "sender_email": "catalyst@cisco.com",
+        "recipient_emails": [
+          "test@cisco.com",
+          "demo@cisco.com",
+          "update@cisco.com"
+        ],
+        "subject": "Mail test for updation",
+        "instance": "Email Instance",
+        "instance_description": "Email subscription description"
+      }
+    }    
+  ],
+
+  "playbook_config_no_update_email_subscription": [
+    {
+      "email_event_notification": {
+        "name": "Email Notification",
+        "description": "Notification description for email subscription creation",
+        "sites": ["Global/India", "Global/USA"],
+        "events": ["AP Flap", "AP Reboot Crash"],
+        "sender_email": "catalyst@cisco.com",
+        "recipient_emails": [
+          "test@cisco.com",
+          "demo@cisco.com",
+          "update@cisco.com"
+        ],
+        "subject": "Mail test for updation",
+        "instance": "Email Instance test",
+        "instance_description": "Email subscription description"
+      }
+    }    
+  ],
+
+  "playbook_config_update_email_subscription": [
+    {
+      "email_event_notification": {
+        "name": "Email Notification",
+        "description": "Notification description for email subscription updation",
+        "sites": ["Global/India", "Global/USA"],
+        "events": ["AP Flap", "AP Reboot Crash"],
+        "sender_email": "catalyst@cisco.com",
+        "recipient_emails": [
+          "test@cisco.com",
+          "demo@cisco.com",
+          "update@cisco.com"
+        ],
+        "subject": "Mail test for updation",
+        "instance": "Email Instance test",
+        "instance_description": "Email subscription description for UT updation"
+      }
+    }    
+  ],
+
+  "playbook_config_delete_email_subscription_with_verify": [
+    {
+      "email_event_notification": {
+        "name": "Email Notification",
+        "description": "Notification description for email subscription updation"
+      }
+    }    
+  ],
+
+  "playbook_config_delete_syslog_subscription_with_verify": [
+    {
+      "syslog_event_notification": {
+        "name": "Syslog UT Event Subscription",
+        "description": "Syslog subscription description for UT updation"
+      }
+    }
+  ],
+  
+  "playbook_config_absent_syslog_subscription": [
+    {
+      "syslog_event_notification": {
+        "name": "Syslog UT Event Subscription",
+        "description": "Syslog subscription description for UT updation"
+      }
+    }  
+  ],
+
+  "playbook_config_delete_absent_email_subscription": [
+    {
+      "email_event_notification": {
+        "name": "Email Notification",
+        "description": "Notification description for email subscription updation"
+      }
+    }    
+  ],
+
+  "playbook_config_create_syslog_subscription_with_verify": [
+    {
+      "syslog_event_notification": {
+        "name": "Syslog UT Event Subscription",
+        "description": "Syslog subscription description for UT",
+        "sites": [
+          "Global/India",
+          "Global/USA"
+        ],
+        "events": [
+          "AP Flap",
+          "AP Reboot Crash"
+        ],
+        "destination": "Syslog UT"
+      }
+    }
+  ],
+
+  "playbook_config_no_update_syslog_subscription": [
+    {
+      "syslog_event_notification": {
+        "name": "Syslog UT Event Subscription",
+        "description": "Syslog subscription description for UT",
+        "sites": [
+          "Global/India",
+          "Global/USA"
+        ],
+        "events": [
+          "AP Flap",
+          "AP Reboot Crash"
+        ],
+        "destination": "Syslog UT"
+      }
+    }
+  ],
+
+  "playbook_config_update_syslog_subscription": [
+    {
+      "syslog_event_notification": {
+        "name": "Syslog UT Event Subscription",
+        "description": "Syslog subscription description for UT updation",
+        "sites": [
+          "Global/India",
+          "Global/USA"
+        ],
+        "events": [
+          "AP Flap",
+          "AP Reboot Crash"
+        ],
+        "destination": "Syslog UT"
+      }
+    }
+  ],
+
+  "get_email_instance_details": [
+    {
+      "instanceId": "cbdda835-bfd3-4d1e-86cc-243ce1b85bee",
+      "name": "Email Instance test",
+      "description": "Email Instance description 1",
+      "connectorType": "EMAIL",
+      "fromEmailAddress": "catalyst@cisco.com",
+      "toEmailAddresses": [
+        "noc@cisco.com",
+        "soc@cisco.com",
+        "mohmshai@cisco.com"
+      ],
+      "subject": "Mail test"
+    }
+  ],
+
+  "get_email_subscription_creation_details": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Subscription's Email Notification created "
+  },
+
+  "created_email_subscription_details": [
+    {
+      "version": null,
+      "subscriptionId": "1ce65c00-3a3c-4177-b118-393478943013",
+      "name": "Email Notification",
+      "description": "Notification description for email subscription creation",
+      "subscriptionEndpoints": [
+        {
+          "instanceId": "cbdda835-bfd3-4d1e-86cc-243ce1b85bee",
+          "subscriptionDetails": {
+            "connectorType": "EMAIL",
+            "instanceId": "cbdda835-bfd3-4d1e-86cc-243ce1b85bee",
+            "name": "Email Instance test",
+            "description": "Email Instance description 1",
+            "fromEmailAddress": "catalyst@cisco.com",
+            "toEmailAddresses": [
+              "noc@cisco.com",
+              "soc@cisco.com",
+              "mohmshai@cisco.com"
+            ],
+            "subject": "Mail test"
+          },
+          "connectorType": "EMAIL",
+          "filter": {
+            "eventIds": [],
+            "others": [],
+            "domainsSubdomains": [],
+            "types": [],
+            "categories": [],
+            "severities": [],
+            "sources": [],
+            "siteIds": []
+          }
+        }
+      ],
+      "filter": {
+        "eventIds": [
+          "NETWORK-DEVICES-3-105",
+          "NETWORK-DEVICES-3-107"
+        ],
+        "others": [],
+        "domainsSubdomains": [],
+        "types": [],
+        "categories": [],
+        "severities": [],
+        "sources": [],
+        "siteIds": [
+          "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+          "5f7d1639-ab11-4a31-be64-8c90862c7de7"
+        ]
+      },
+      "isPrivate": false,
+      "isEnabled": true,
+      "tenantId": "66e48af26fe687300375675e"
+    }
+  ],
+
+  "get_email_subscription_no_update_1": [
+    {
+      "version": null,
+      "subscriptionId": "1ce65c00-3a3c-4177-b118-393478943013",
+      "name": "Email Notification",
+      "description": "Notification description for email subscription creation",
+      "subscriptionEndpoints": [
+        {
+          "instanceId": "cbdda835-bfd3-4d1e-86cc-243ce1b85bee",
+          "subscriptionDetails": {
+            "connectorType": "EMAIL",
+            "instanceId": "cbdda835-bfd3-4d1e-86cc-243ce1b85bee",
+            "name": "Email Instance test",
+            "description": "Email subscription description",
+            "fromEmailAddress": "catalyst@cisco.com",
+            "toEmailAddresses": [
+              "test@cisco.com",
+              "demo@cisco.com",
+              "update@cisco.com"
+            ],
+            "subject": "Mail test for updation"
+          },
+          "connectorType": "EMAIL",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-3-105",
+              "NETWORK-DEVICES-3-107"
+            ],
+            "others": [],
+            "domainsSubdomains": [],
+            "types": [],
+            "categories": [],
+            "severities": [],
+            "sources": [],
+            "siteIds": []
+          }
+        }
+      ],
+      "filter": {
+        "eventIds": [
+          "NETWORK-DEVICES-3-105",
+          "NETWORK-DEVICES-3-107"
+        ],
+        "others": [],
+        "domainsSubdomains": [],
+        "types": [],
+        "categories": [],
+        "severities": [],
+        "sources": [],
+        "siteIds": [
+          "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+          "5f7d1639-ab11-4a31-be64-8c90862c7de7"
+        ]
+      },
+      "isPrivate": false,
+      "isEnabled": true,
+      "tenantId": "66e48af26fe687300375675e"
+    }
+  ],
+  
+
+  "get_empty_webhook_destination": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": []
+  },
+
+  "get_all_webhook_destinations": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": [
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "79873d6e-4a24-41a8-b2bb-241d6b4b5ec9",
+        "name": "test",
+        "description": "",
+        "url": "https://abc.com",
+        "method": "POST",
+        "trustCert": true,
+        "headers": []
+      },
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "ab1d58fc-ce9c-4cb0-a474-ce6d82b74162",
+        "name": "webhook demo 104",
+        "description": "Webhook Demo Test SEEN-4890-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false,
+        "headers": [
+          {
+            "name": "X-Auth-Token",
+            "value": "abc",
+            "defaultValue": null,
+            "encrypt": false
+          },
+          {
+            "name": "extra",
+            "value": "def",
+            "defaultValue": null,
+            "encrypt": false
+          }
+        ]
+      },
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "c06d53e5-6a4a-45e0-aa3e-b48699d271b8",
+        "name": "webhook demo 105",
+        "description": "Webhook Demo Test SEEN-4890-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false,
+        "headers": [
+          {
+            "name": "X-Auth-Token",
+            "value": "abc",
+            "defaultValue": null,
+            "encrypt": false
+          },
+          {
+            "name": "extra",
+            "value": "def",
+            "defaultValue": null,
+            "encrypt": false
+          }
+        ]
+      },
+      {
+        "version": null,
+        "isProxyRoute": false,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "34fea3ae-f194-421d-b8d8-1c6108e759fe",
+        "name": "webhook demo 110",
+        "description": "Webhook Demo Test SEEN-5000-01",
+        "url": "https://4.5.6.8/dnac_test_webhook",
+        "method": "POST",
+        "trustCert": false,
+        "headers": []
+      },
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "71692c9e-b0be-40db-82a6-5100ed2f8501",
+        "name": "webhook demo 111",
+        "description": "Webhook Demo Test SEEN-5001-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false,
+        "headers": []
+      },
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "c64a04bc-ee8c-44a9-9739-7c9f7e6a10a2",
+        "name": "webhook demo 106",
+        "description": "Webhook Demo Test SEEN-4890-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false,
+        "headers": []
+      }
+    ]
+  },
+
+  "get_api_execution_response": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Webhook webhook test saved!"
+  },
+
+  "get_update_webhook_destination_response": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Webhook webhook test updated!"
+  },
+
+  "get_webhook_destinations_response": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": [
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "79873d6e-4a24-41a8-b2bb-241d6b4b5ec9",
+        "name": "test",
+        "description": "",
+        "url": "https://abc.com",
+        "method": "POST",
+        "trustCert": true,
+        "headers": []
+      },
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "ab1d58fc-ce9c-4cb0-a474-ce6d82b74162",
+        "name": "webhook demo 104",
+        "description": "Webhook Demo Test SEEN-4890-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false,
+        "headers": [
+          {
+            "name": "X-Auth-Token",
+            "value": "abc",
+            "defaultValue": null,
+            "encrypt": false
+          },
+          {
+            "name": "extra",
+            "value": "def",
+            "defaultValue": null,
+            "encrypt": false
+          }
+        ]
+      },
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "c06d53e5-6a4a-45e0-aa3e-b48699d271b8",
+        "name": "webhook demo 105",
+        "description": "Webhook Demo Test SEEN-4890-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false,
+        "headers": [
+          {
+            "name": "X-Auth-Token",
+            "value": "abc",
+            "defaultValue": null,
+            "encrypt": false
+          },
+          {
+            "name": "extra",
+            "value": "def",
+            "defaultValue": null,
+            "encrypt": false
+          }
+        ]
+      },
+      {
+        "version": null,
+        "isProxyRoute": false,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "34fea3ae-f194-421d-b8d8-1c6108e759fe",
+        "name": "webhook demo 110",
+        "description": "Webhook Demo Test SEEN-5000-01",
+        "url": "https://4.5.6.8/dnac_test_webhook",
+        "method": "POST",
+        "trustCert": false,
+        "headers": []
+      },
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "71692c9e-b0be-40db-82a6-5100ed2f8501",
+        "name": "webhook demo 111",
+        "description": "Webhook Demo Test SEEN-5001-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false,
+        "headers": []
+      },
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "c64a04bc-ee8c-44a9-9739-7c9f7e6a10a2",
+        "name": "webhook demo 106",
+        "description": "Webhook Demo Test SEEN-4890-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false,
+        "headers": []
+      },
+      {
+        "version": null,
+        "isProxyRoute": true,
+        "tenantId": "66e48af26fe687300375675e",
+        "webhookId": "6b9c69c0-9011-4792-adf6-4386390afeec",
+        "name": "webhook test",
+        "description": "creating webhook for testing",
+        "url": "https://10.195.227.14/dna",
+        "method": "POST",
+        "trustCert": false,
+        "headers": []
+      }
+    ]
+  },
+
+  "get_update_email_destination_response": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Email Configuration updated!"
+  },
+
+  "get_email_destination_in_ccc": [
+    {
+      "version": null,
+      "emailConfigId": "7a79e174-b830-490e-a420-d2a74bca0f5c",
+      "primarySMTPConfig": {
+        "hostName": "mail.cisco.com",
+        "port": "25",
+        "userName": "",
+        "password": "",
+        "smtpType": "DEFAULT"
+      },
+      "secondarySMTPConfig": {
+        "hostName": "outbound.cisco.com",
+        "port": "587",
+        "userName": "",
+        "password": "",
+        "smtpType": "TLS"
+      },
+      "fromEmail": "test@cisco.com",
+      "toEmail": "demo@cisco.com",
+      "subject": "Testing email destination",
+      "tenantId": "SYS0"
+    }
+  ],
+
+  "get_updated_email_destination": [
+    {
+      "version": null,
+      "emailConfigId": "7a79e174-b830-490e-a420-d2a74bca0f5c",
+      "primarySMTPConfig": {
+        "hostName": "outbound.cisco.com",
+        "port": "25",
+        "userName": "",
+        "password": "",
+        "smtpType": "DEFAULT"
+      },
+      "secondarySMTPConfig": {
+        "hostName": "outbound.cisco.com",
+        "port": "587",
+        "userName": "",
+        "password": "",
+        "smtpType": "TLS"
+      },
+      "fromEmail": "test@cisco.com",
+      "toEmail": "demo@cisco.com",
+      "subject": "Ansible testing",
+      "tenantId": "SYS0"
+    }
+  ],
+
+  "get_events_status_url": {
+    "statusUri": "/dna/intent/api/v1/event/api-status/f972b50b-b4d4-4919-a4fe-d571a33e3d41"
+  },
+
+  "get_empty_syslog_destination": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": []
+  },
+
+  "create_syslog_destination_response": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Syslog Configuration saved!"
+  },
+  
+  "get_syslog_details": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": [
+      {
+        "version": null,
+        "tenantId": "66e48af26fe687300375675e",
+        "configId": "56ccd715-dca1-4890-86b2-c6c42defa7cd",
+        "name": "Syslog UT",
+        "description": "Adding syslog destination",
+        "host": "10.30.0.90",
+        "port": 6553,
+        "protocol": "TCP",
+        "isSecure": false
+      }
+    ]
+  },
+
+  "update_syslog_destination_response": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Syslog Configuration updated!"
+  },
+
+  "get_snmp_destinations": [
+    {
+      "version": null,
+      "tenantId": "66e48af26fe687300375675e",
+      "configId": "4baa75e7-0940-4326-afb2-5adbb5ff1704",
+      "name": "SNMP Testing",
+      "description": "Test Cisco SNMP V2C",
+      "ipAddress": "22.10.30.34",
+      "port": 165,
+      "snmpVersion": "V2C",
+      "community": "testcisco_secure",
+      "userName": null,
+      "snmpMode": null,
+      "snmpAuthType": null,
+      "authPassword": null,
+      "snmpPrivacyType": null,
+      "privacyPassword": null
+    },
+    {
+      "version": null,
+      "tenantId": "66e48af26fe687300375675e",
+      "configId": "2f0f345f-f018-41c7-b271-b5ec7fe4a8dd",
+      "name": "Snmp test new",
+      "description": "Adding snmp destination for testing V3",
+      "ipAddress": "10.30.0.90",
+      "port": 125,
+      "snmpVersion": "V3",
+      "community": null,
+      "userName": "cisco",
+      "snmpMode": "AUTH_PRIVACY",
+      "snmpAuthType": "SHA",
+      "authPassword": "authpass123",
+      "snmpPrivacyType": "AES128",
+      "privacyPassword": "privacy123"
+    }
+  ],
+
+  "get_empty_snmp_destination": [],
+
+  "create_snmp_destination_response": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "SNMP Configuration saved!"
+  },
+  
+  "get_all_snmp_destinations": [
+    {
+      "version": null,
+      "tenantId": "66e48af26fe687300375675e",
+      "configId": "4baa75e7-0940-4326-afb2-5adbb5ff1704",
+      "name": "SNMP Testing",
+      "description": "Test Cisco SNMP V2C",
+      "ipAddress": "22.10.30.34",
+      "port": 165,
+      "snmpVersion": "V2C",
+      "community": "testcisco_secure",
+      "userName": null,
+      "snmpMode": null,
+      "snmpAuthType": null,
+      "authPassword": null,
+      "snmpPrivacyType": null,
+      "privacyPassword": null
+    },
+    {
+      "version": null,
+      "tenantId": "66e48af26fe687300375675e",
+      "configId": "2f0f345f-f018-41c7-b271-b5ec7fe4a8dd",
+      "name": "Snmp test new",
+      "description": "Adding snmp destination for testing V3",
+      "ipAddress": "10.30.0.90",
+      "port": 125,
+      "snmpVersion": "V3",
+      "community": null,
+      "userName": "cisco",
+      "snmpMode": "AUTH_PRIVACY",
+      "snmpAuthType": "SHA",
+      "authPassword": "authpass123",
+      "snmpPrivacyType": "AES128",
+      "privacyPassword": "privacy123"
+    },
+    {
+      "version": null,
+      "tenantId": "66e48af26fe687300375675e",
+      "configId": "0d699179-46ef-4c7c-ad19-2bf9811ddea3",
+      "name": "Snmp test",
+      "description": "Adding snmp destination for testing.",
+      "ipAddress": "10.30.0.90",
+      "port": 25,
+      "snmpVersion": "V3",
+      "community": null,
+      "userName": "cisco",
+      "snmpMode": "AUTH_PRIVACY",
+      "snmpAuthType": "SHA",
+      "authPassword": "authpass123",
+      "snmpPrivacyType": "AES128",
+      "privacyPassword": "privacy123"
+    }
+  ],
+
+  "update_snmp_destination_response": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Syslog Configuration updated!"
+  },
+
+  "get_empty_itsm_settings": {
+    "page": 1,
+    "pageSize": 50,
+    "totalPages": 0,
+    "data": [],
+    "totalRecords": 0
+  },
+
+  "create_itsm_setting": {
+    "id": "5a80-3882-4309-b330",
+    "dypId": "f4ab-5be5-42fa-9ee1",
+    "dypName": "ServiceNowConnection",
+    "name": "ITSM test",
+    "uniqueKey": "ServiceNowConnection-ITSM test-1",
+    "dypMajorVersion": 1,
+    "description": "ITSM description for testing",
+    "data": {
+      "ConnectionSettings": {
+        "Url": "https://catalystcenter.com",
+        "Auth_UserName": "catalyst",
+        "Auth_Password": ""
+      }
+    },
+    "createdDate": 1746284408743,
+    "createdBy": "admin",
+    "updatedBy": "",
+    "softwareVersionLog": [],
+    "schemaVersion": 0,
+    "tenantId": "66e48af26fe687300375675e",
+    "_id": "68162f78d1ee3f00273f9cf8"
+  },
+
+  "get_created_itsm_setting": {
+    "page": 1,
+    "pageSize": 50,
+    "totalPages": 1,
+    "data": [
+      {
+        "_id": "68162f78d1ee3f00273f9cf8",
+        "id": "5a80-3882-4309-b330",
+        "dypId": "f4ab-5be5-42fa-9ee1",
+        "dypName": "ServiceNowConnection",
+        "name": "ITSM test",
+        "uniqueKey": "ServiceNowConnection-ITSM test-1",
+        "dypMajorVersion": 1,
+        "description": "ITSM description for testing",
+        "createdDate": 1746284408743,
+        "createdBy": "admin",
+        "updatedBy": "",
+        "softwareVersionLog": [],
+        "schemaVersion": 0
+      }
+    ],
+    "totalRecords": 1
+  },
+
+  "get_itsm_setting_by_id": {
+    "_id": "68162f78d1ee3f00273f9cf8",
+    "id": "5a80-3882-4309-b330",
+    "dypId": "f4ab-5be5-42fa-9ee1",
+    "dypName": "ServiceNowConnection",
+    "name": "ITSM test",
+    "uniqueKey": "ServiceNowConnection-ITSM test-1",
+    "dypMajorVersion": 1,
+    "description": "ITSM description for testing",
+    "data": {
+      "ConnectionSettings": {
+        "Url": "https://catalystcenter.com",
+        "Auth_UserName": "catalyst",
+        "Auth_Password": ""
+      }
+    },
+    "createdDate": 1746284408743,
+    "createdBy": "admin",
+    "updatedBy": "",
+    "softwareVersionLog": [],
+    "schemaVersion": 0,
+    "tenantId": "66e48af26fe687300375675e"
+  },
+
+  "update_itsm_setting": {
+    "_id": "68162f78d1ee3f00273f9cf8",
+    "id": "5a80-3882-4309-b330",
+    "dypId": "f4ab-5be5-42fa-9ee1",
+    "dypName": "ServiceNowConnection",
+    "name": "ITSM test",
+    "uniqueKey": "ServiceNowConnection-ITSM test-1",
+    "dypMajorVersion": 1,
+    "description": "ITSM description for updation",
+    "data": {
+      "ConnectionSettings": {
+        "Url": "https://catalystcenter.com",
+        "Auth_UserName": "catalyst",
+        "Auth_Password": ""
+      }
+    },
+    "createdDate": 1746284408743,
+    "createdBy": "admin",
+    "updatedBy": "admin",
+    "softwareVersionLog": [],
+    "schemaVersion": 0,
+    "tenantId": "66e48af26fe687300375675e",
+    "updatedDate": 1746286289352
+  },
+
+  "get_updated_itsm_settings": {
+    "page": 1,
+    "pageSize": 50,
+    "totalPages": 1,
+    "data": [
+      {
+        "_id": "68162f78d1ee3f00273f9cf8",
+        "id": "5a80-3882-4309-b330",
+        "dypId": "f4ab-5be5-42fa-9ee1",
+        "dypName": "ServiceNowConnection",
+        "name": "ITSM test",
+        "uniqueKey": "ServiceNowConnection-ITSM test-1",
+        "dypMajorVersion": 1,
+        "description": "ITSM description for updation",
+        "createdDate": 1746284408743,
+        "createdBy": "admin",
+        "updatedBy": "admin",
+        "softwareVersionLog": [],
+        "schemaVersion": 0,
+        "updatedDate": 1746286289352
+      }
+    ],
+    "totalRecords": 1
+  },
+
+  "deleted_itsm_response": "Deleted instance successfully",
+
+  "empty_event_subscription": null,
+
+  "get_rest_webhook_destination": [
+    {
+      "instanceId": "6b9c69c0-9011-4792-adf6-4386390afeec",
+      "name": "webhook test",
+      "description": "updating webhook for testing",
+      "connectorType": "REST",
+      "url": "https://10.195.227.14/dna",
+      "basePath": null,
+      "resource": null,
+      "method": "POST",
+      "trustCert": false,
+      "headers": [],
+      "queryParams": [],
+      "pathParams": [],
+      "body": null,
+      "connectTimeout": 10,
+      "readTimeout": 10,
+      "serviceName": null,
+      "servicePort": null,
+      "namespace": null,
+      "proxyRoute": true
+    }
+  ],
+
+  "get_event_details_for_AP_Flap": [
+    {
+      "version": null,
+      "artifactId": "9c96-9b34-41e8-a1c6",
+      "namespace": "ASSURANCE",
+      "name": "AP Flap",
+      "description": "AP has flapped",
+      "domain": "Know Your Network",
+      "subDomain": "Devices",
+      "tags": ["ASSURANCE", "ap_flap"],
+      "isTemplateEnabled": true,
+      "ciscoDNAEventLink": "dna/assurance/issueDetails?issueId=$instanceId$",
+      "note": "To programmatically get more info see here - https://<ip-address>/dna/platform/app/consumer-portal/developer-toolkit/apis?apiId=8684-39bb-4e89-a6e4",
+      "isPrivate": false,
+      "eventPayload": {
+        "eventId": "NETWORK-DEVICES-3-107",
+        "version": "1.0.0",
+        "category": "WARN",
+        "type": "NETWORK",
+        "source": "",
+        "severity": 3,
+        "details": {
+          "Type": "$eventSource$",
+          "Assurance Issue Details": "AP $apName$ has flapped",
+          "Assurance Issue Priority": "$priority$",
+          "Device": "$eventUniqueId$",
+          "Assurance Issue Name": "AP $apName$ has flapped",
+          "Assurance Issue Category": "$category$",
+          "Assurance Issue Status": "$status$"
+        },
+        "additionalDetails": {}
+      },
+      "eventTemplates": [],
+      "isTenantAware": true,
+      "supportedConnectorTypes": [
+        "REST",
+        "SYSLOG",
+        "NO_ENDPOINT",
+        "EMAIL",
+        "WEBEX",
+        "PAGER_DUTY"
+      ],
+      "configs": {
+        "isACKnowledgeable": false,
+        "ruleType": "DEFAULT"
+      },
+      "deprecated": false,
+      "deprecationMessage": null,
+      "tenantId": "SYS0"
+    }
+  ],
+
+  "get_event_details_for_AP_reboot": [
+    {
+      "version": null,
+      "artifactId": "199b-79ba-4389-b941",
+      "namespace": "ASSURANCE",
+      "name": "AP Reboot Crash",
+      "description": "AP has rebooted due to a hardware or software crash",
+      "domain": "Know Your Network",
+      "subDomain": "Devices",
+      "tags": ["ASSURANCE", "ap_reboot_crash_trigger"],
+      "isTemplateEnabled": true,
+      "ciscoDNAEventLink": "dna/assurance/issueDetails?issueId=$instanceId$",
+      "note": "To programmatically get more info see here - https://<ip-address>/dna/platform/app/consumer-portal/developer-toolkit/apis?apiId=8684-39bb-4e89-a6e4",
+      "isPrivate": false,
+      "eventPayload": {
+        "eventId": "NETWORK-DEVICES-3-105",
+        "version": "1.0.0",
+        "category": "WARN",
+        "type": "NETWORK",
+        "source": null,
+        "severity": 3,
+        "details": {
+          "Type": "$eventSource$",
+          "Assurance Issue Details": "AP $apName$ has rebooted due to a hardware or software crash",
+          "Assurance Issue Priority": "$priority$",
+          "Device": "$eventUniqueId$",
+          "Assurance Issue Category": "$category$",
+          "Assurance Issue Name": "AP $apName$ has rebooted due to a hardware or software crash",
+          "Assurance Issue Status": "$status$"
+        },
+        "additionalDetails": {}
+      },
+      "eventTemplates": [],
+      "isTenantAware": true,
+      "supportedConnectorTypes": [
+        "REST",
+        "SYSLOG",
+        "NO_ENDPOINT",
+        "EMAIL",
+        "WEBEX",
+        "PAGER_DUTY"
+      ],
+      "configs": {
+        "isACKnowledgeable": false,
+        "ruleType": "DEFAULT"
+      },
+      "deprecated": false,
+      "deprecationMessage": null,
+      "tenantId": "SYS0"
+    }
+  ],
+  
+  "get_site_detail_india": {
+    "response": [
+      {
+        "id": "5f7d1639-ab11-4a31-be64-8c90862c7de7",
+        "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "name": "India",
+        "nameHierarchy": "Global/India",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+  
+  "get_site_detail_usa": {
+    "response": [
+      {
+        "id": "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+        "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "name": "USA",
+        "nameHierarchy": "Global/USA",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_status_api_for_webhook_subs": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Subscription's Webhook UT created"
+  },
+
+  "get_status_api_for_syslog_subs": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Subscription's Syslog UT created"
+  },
+
+  "get_status_api_update_detail_webhook_subs": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Subscription's Webhook UT updated"
+  },
+
+  "get_status_api_update_detail_email_subs": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Subscription's Email UT updated"
+  },
+
+  "get_status_api_update_detail_syslog_subs": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "Subscription's Syslog UT updated"
+  },
+
+  "get_delete_syslog_subscription_delete": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "EventSubscription's ad5601ad-bbb7-4ca1-a1a7-dc043ace3a80 un-registered "
+  },  
+
+  "create_webhook_status_url": {
+    "statusUri": "/dna/intent/api/v1/event/api-status/1f8808b0-dd89-471d-a8f0-2281d479cc22"
+  },
+
+  "create_email_status_url": {
+    "statusUri": "/dna/intent/api/v1/event/api-status/1f8808b0-dd89-471d-a8f0-2281d479cc22"
+  },
+
+  "create_syslog_status_url": {
+    "statusUri": "/dna/intent/api/v1/event/api-status/197b5919-5aaa-4554-b9d9-290f36775dec"
+  },
+
+  "get_created_webhook_subscription": [
+    {
+      "version": null,
+      "subscriptionId": "7d973fc0-9c4a-42fb-b341-7d7fd8d051a7",
+      "name": "Webhook UT",
+      "description": "Webhook subscription creation",
+      "subscriptionEndpoints": [
+        {
+          "instanceId": "6b9c69c0-9011-4792-adf6-4386390afeec",
+          "subscriptionDetails": {
+            "connectorType": "REST",
+            "instanceId": "6b9c69c0-9011-4792-adf6-4386390afeec",
+            "name": "webhook test",
+            "description": "updating webhook for testing",
+            "url": "https://10.195.227.14/dna",
+            "basePath": null,
+            "resource": null,
+            "method": "POST",
+            "trustCert": false,
+            "headers": [],
+            "queryParams": [],
+            "pathParams": [],
+            "body": null,
+            "connectTimeout": 10,
+            "readTimeout": 10,
+            "serviceName": null,
+            "servicePort": null,
+            "namespace": null,
+            "proxyRoute": true
+          },
+          "connectorType": "REST",
+          "filter": {
+            "eventIds": [],
+            "others": [],
+            "domainsSubdomains": [],
+            "types": [],
+            "categories": [],
+            "severities": [],
+            "sources": [],
+            "siteIds": []
+          }
+        }
+      ],
+      "filter": {
+        "eventIds": [
+          "NETWORK-DEVICES-3-105",
+          "NETWORK-DEVICES-3-107"
+        ],
+        "others": [],
+        "domainsSubdomains": [],
+        "types": [],
+        "categories": [],
+        "severities": [],
+        "sources": [],
+        "siteIds": [
+          "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+          "5f7d1639-ab11-4a31-be64-8c90862c7de7"
+        ]
+      },
+      "isPrivate": false,
+      "isEnabled": true,
+      "tenantId": "66e48af26fe687300375675e"
+    }
+  ],
+
+  "get_updated_webhook_subs_details": [
+    {
+      "version": null,
+      "subscriptionId": "ec06f794-adad-4529-82e5-e8ad5d62d289",
+      "name": "Webhook UT",
+      "description": "Webhook subscription updation",
+      "subscriptionEndpoints": [
+        {
+          "instanceId": "6b9c69c0-9011-4792-adf6-4386390afeec",
+          "subscriptionDetails": {
+            "connectorType": "REST",
+            "instanceId": "6b9c69c0-9011-4792-adf6-4386390afeec",
+            "name": "webhook test",
+            "description": "updating webhook for testing",
+            "url": "https://10.195.227.14/dna",
+            "basePath": null,
+            "resource": null,
+            "method": "POST",
+            "trustCert": false,
+            "headers": [],
+            "queryParams": [],
+            "pathParams": [],
+            "body": null,
+            "connectTimeout": 10,
+            "readTimeout": 10,
+            "serviceName": null,
+            "servicePort": null,
+            "namespace": null,
+            "proxyRoute": true
+          },
+          "connectorType": "REST",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-3-105",
+              "NETWORK-DEVICES-3-107"
+            ],
+            "others": [],
+            "domainsSubdomains": [],
+            "types": [],
+            "categories": [],
+            "severities": [],
+            "sources": [],
+            "siteIds": []
+          }
+        }
+      ],
+      "filter": {
+        "eventIds": [
+          "NETWORK-DEVICES-3-105",
+          "NETWORK-DEVICES-3-107"
+        ],
+        "others": [],
+        "domainsSubdomains": [],
+        "types": [],
+        "categories": [],
+        "severities": [],
+        "sources": [],
+        "siteIds": [
+          "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+          "5f7d1639-ab11-4a31-be64-8c90862c7de7"
+        ]
+      },
+      "isPrivate": false,
+      "isEnabled": true,
+      "tenantId": "66e48af26fe687300375675e"
+    }
+  ],
+  
+  "delete_webhook_subscription": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "EventSubscription's ec06f794-adad-4529-82e5-e8ad5d62d289 un-registered "
+  },
+
+  "delete_email_subscription": {
+    "errorMessage": {
+      "errors": []
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": "EventSubscription's ec06f794-adad-4529-82e5-e8ad5d62d289 un-registered "
+  },
+
+  "get_syslog_destination_details": [
+    {
+      "instanceId": "56ccd715-dca1-4890-86b2-c6c42defa7cd",
+      "name": "Syslog UT",
+      "description": "Updating syslog destination",
+      "connectorType": "SYSLOG",
+      "syslogConfig": {
+        "version": null,
+        "tenantId": "66e48af26fe687300375675e",
+        "configId": "56ccd715-dca1-4890-86b2-c6c42defa7cd",
+        "name": "Syslog UT",
+        "description": "Updating syslog destination",
+        "host": "10.30.0.90",
+        "port": 6553,
+        "protocol": "TCP",
+        "isSecure": false
+      }
+    }
+  ],
+
+  "get_created_syslog_subscription_details": [
+    {
+      "version": null,
+      "subscriptionId": "ad5601ad-bbb7-4ca1-a1a7-dc043ace3a80",
+      "name": "Syslog UT Event Subscription",
+      "description": "Syslog subscription description for UT",
+      "subscriptionEndpoints": [
+        {
+          "instanceId": "56ccd715-dca1-4890-86b2-c6c42defa7cd",
+          "subscriptionDetails": {
+            "connectorType": "SYSLOG",
+            "instanceId": "56ccd715-dca1-4890-86b2-c6c42defa7cd",
+            "name": "Syslog UT",
+            "description": "Updating syslog destination",
+            "syslogConfig": {
+              "version": null,
+              "tenantId": "66e48af26fe687300375675e",
+              "configId": "56ccd715-dca1-4890-86b2-c6c42defa7cd",
+              "name": "Syslog UT",
+              "description": "Updating syslog destination",
+              "host": "10.30.0.90",
+              "port": 6553,
+              "protocol": "TCP",
+              "isSecure": false
+            }
+          },
+          "connectorType": "SYSLOG",
+          "filter": {
+            "eventIds": [],
+            "others": [],
+            "domainsSubdomains": [],
+            "types": [],
+            "categories": [],
+            "severities": [],
+            "sources": [],
+            "siteIds": []
+          }
+        }
+      ],
+      "filter": {
+        "eventIds": [
+          "NETWORK-DEVICES-3-105",
+          "NETWORK-DEVICES-3-107"
+        ],
+        "others": [],
+        "domainsSubdomains": [],
+        "types": [],
+        "categories": [],
+        "severities": [],
+        "sources": [],
+        "siteIds": [
+          "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+          "5f7d1639-ab11-4a31-be64-8c90862c7de7"
+        ]
+      },
+      "isPrivate": false,
+      "isEnabled": true,
+      "tenantId": "66e48af26fe687300375675e"
+    }
+  ],
+
+  "get_updated_syslog_subscription_details": [
+    {
+      "version": null,
+      "subscriptionId": "ad5601ad-bbb7-4ca1-a1a7-dc043ace3a80",
+      "name": "Syslog UT Event Subscription",
+      "description": "Syslog subscription description for UT updation",
+      "subscriptionEndpoints": [
+        {
+          "instanceId": "56ccd715-dca1-4890-86b2-c6c42defa7cd",
+          "subscriptionDetails": {
+            "connectorType": "SYSLOG",
+            "instanceId": "56ccd715-dca1-4890-86b2-c6c42defa7cd",
+            "name": "Syslog UT",
+            "description": "Updating syslog destination",
+            "syslogConfig": {
+              "version": null,
+              "tenantId": "66e48af26fe687300375675e",
+              "configId": "56ccd715-dca1-4890-86b2-c6c42defa7cd",
+              "name": "Syslog UT",
+              "description": "Updating syslog destination",
+              "host": "10.30.0.90",
+              "port": 6553,
+              "protocol": "TCP",
+              "isSecure": false
+            }
+          },
+          "connectorType": "SYSLOG",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-3-105",
+              "NETWORK-DEVICES-3-107"
+            ],
+            "others": [],
+            "domainsSubdomains": [],
+            "types": [],
+            "categories": [],
+            "severities": [],
+            "sources": [],
+            "siteIds": []
+          }
+        }
+      ],
+      "filter": {
+        "eventIds": [
+          "NETWORK-DEVICES-3-105",
+          "NETWORK-DEVICES-3-107"
+        ],
+        "others": [],
+        "domainsSubdomains": [],
+        "types": [],
+        "categories": [],
+        "severities": [],
+        "sources": [],
+        "siteIds": [
+          "d42e6d8b-73b0-4ec3-99d3-fda53e339c83",
+          "5f7d1639-ab11-4a31-be64-8c90862c7de7"
+        ]
+      },
+      "isPrivate": false,
+      "isEnabled": true,
+      "tenantId": "66e48af26fe687300375675e"
+    }
+  ]
+
+}
