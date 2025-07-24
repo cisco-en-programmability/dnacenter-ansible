@@ -41,7 +41,7 @@ options:
       e290f1ee-6c54-4b01-90e6-d701748f0851.
     type: str
 requirements:
-  - dnacentersdk >= 2.4.9
+  - dnacentersdk >= 2.10.1
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Fabric

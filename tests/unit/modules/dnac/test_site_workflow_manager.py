@@ -342,13 +342,18 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_site_creation
+                config=self.playbook_config_empty
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "Parent name 'Global' does not exist in the Cisco Catalyst Center."
+            result.get('msg').strip(),
+            (
+                "Missing or invalid parameters in playbook config: "
+                "'name should not be None or empty, "
+                "parent_name should not be None or empty, "
+                "parent_name should not be None or empty'"
+            )
         )
 
     def test_Site_workflow_manager_invalid_create_site(self):

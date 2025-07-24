@@ -1022,9 +1022,6 @@
   "status": "SUCCESS",
   "bapiSyncResponse": "{\"status\":true,\"message\":\"Area deleted successfully.\"}"
 },
-"playbook_config_empty" :[
-
-],
 "playbook_config_delete" :
 [
   {
@@ -2386,6 +2383,45 @@
               "length": 118,
               "name": "cherry",
               "parent_name": "Global/bangalore1/s1",
+              "rf_model": "Outdoor Open Space",
+              "units_of_measure": "feet",
+              "width": 118
+          }
+      },
+      "type": "floor"
+  }
+],
+"playbook_config_empty":[
+  {
+      "site": {
+          "area": {
+              "name": "",
+              "parent_name": "Global"
+          }
+      },
+      "type": "area"
+  },
+  {
+      "site": {
+          "building": {
+              "address": "1234 Elm Street3",
+              "country": "india",
+              "latitude": 39.373,
+              "longitude": -122.873,
+              "name": "s1",
+              "parent_name": ""
+          }
+      },
+      "type": "building"
+  },
+  {
+      "site": {
+          "floor": {
+              "floor_number": 8,
+              "height": 19,
+              "length": 118,
+              "name": "cherry",
+              "parent_name": "",
               "rf_model": "Outdoor Open Space",
               "units_of_measure": "feet",
               "width": 118
