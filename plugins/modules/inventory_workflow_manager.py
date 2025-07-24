@@ -621,7 +621,7 @@ options:
               - Must be after start_time.
             type: str
             required: true
-           time_zone:
+          time_zone:
             description:
               - Timezone for maintenance schedule.
               - Time zone in which the maintenance schedule is defined (for
