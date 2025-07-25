@@ -689,9 +689,9 @@ class FlexibleReport(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.result["response"] = [
-            {"create_report": {"response": {}, "msg": {}}},
-            {"download_report": {"response": "", "msg": {}}},
-            {"delete_report": {"response": {}, "msg": {}}}
+            # {"create_report": {"response": {}, "msg": {}}},
+            # {"download_report": {"response": "", "msg": {}}},
+            # {"delete_report": {"response": {}, "msg": {}}}
         ]
         self.create_report, self.update_report = [], []
 
@@ -723,7 +723,6 @@ class FlexibleReport(DnacBase):
                 "name": {"type": "str", "required": True},
                 "view_group_name": {"type": "str", "required": True},
                 "tags": {"type": "list", "elements": "str", "required": False},
-                "data_category": {"type": "str", "required": True},
                 "schedule": {
                     "type": "dict",
                     "options": {
@@ -833,17 +832,27 @@ class FlexibleReport(DnacBase):
                 return self
 
             # Validate required fields
-            required_fields = ["view_group_name", "view", "view_group_version"]
+            required_fields = ["view_group_name", "view"]
             for field in required_fields:
                 if field not in entry:
                     self.msg = f"Missing required field '{field}' in 'generate_report' entry."
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
-                
+
             # If 'name' is missing or empty, generate one dynamically
             if not entry.get("name"):
                 timestamp = datetime.now().strftime("%b %d %Y %I:%M %p")  # e.g., Jul 20 2025 08:26 PM
                 entry["name"] = f"{entry['data_category']} - {entry['view']['view_name']} - {timestamp}"
+
+            #pass default values for optional fields
+            entry.setdefault("tags", [])
+            entry.setdefault("view_group_version", "2.0.0")
+            entry.get("view").setdefault("filters", [])
+            self.log("view_group_version to {0}".format(entry["view_group_version"]), "DEBUG")
+            if "view_group_version" not in entry:
+                self.msg = "Missing required field 'view_group_version' in 'generate_report' entry."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
             # Validate view structure
             view = entry.get("view", {})
@@ -1082,6 +1091,28 @@ class FlexibleReport(DnacBase):
         self.log("Current State (have): {0}".format(str(self.pprint(self.have))), "INFO")
         return self
 
+    def snake_to_camel(self, snake_str):
+      """Convert snake_case string to camelCase."""
+      parts = snake_str.split('_')
+      return parts[0] + ''.join(word.capitalize() for word in parts[1:])
+
+
+    def convert_keys_to_camel_case(self, data):
+        """
+        Recursively convert all dict keys from snake_case to camelCase.
+        Handles dicts, lists, and nested structures.
+        """
+        if isinstance(data, dict):
+            new_dict = {}
+            for k, v in data.items():
+                new_key = self.snake_to_camel(k)
+                new_dict[new_key] = self.convert_keys_to_camel_case(v)
+            return new_dict
+        elif isinstance(data, list):
+            return [self.convert_keys_to_camel_case(item) for item in data]
+        else:
+            return data
+
     def create_n_schedule_reports(self, generate_report):
         """
         Create or schedule a report based on the provided configuration.
@@ -1131,37 +1162,53 @@ class FlexibleReport(DnacBase):
                   continue
               self.log("Processing report creation: {0}".format(self.pprint(report_entry)), "DEBUG")
               # Prepare the payload for creating or scheduling a report
+              # --- Build Payload ---
+              report_entry_camel = self.convert_keys_to_camel_case(report_entry)
+              self.log("Converted report entry to camelCase: {0}".format(self.pprint(report_entry_camel)), "DEBUG")
 
-              payload = {
-                  "name": report_entry.get("name"),
-                  "viewGroupId": report_entry.get("view_group_id"),
-                  "view": {
-                      "viewsId": report_entry.get("view", {}).get("views_id"),
-                      "name": report_entry.get("view", {}).get("view_name"),
-                      "fieldGroups": report_entry.get("view", {}).get("field_groups", []),
-                      "format": {
-                          "formatType": report_entry.get("view", {}).get("format", {}).get("format_type", "CSV"),
-                          "name": report_entry.get("view", {}).get("format", {}).get(
-                              "name",
-                              payload.get("view", {}).get("format", {}).get("format_type", "CSV")
-                          ),
-                      },
-                      "filters": {
-                          "name": report_entry.get("view", {}).get("filters", []).get("name", ""),
-                          "displayName": report_entry.get("view", {}).get("filters", []).get("display_name", ""),
-                      },
-                  },
-                  "schedule": report_entry.get("schedule", {}),
-                  "deliveries": report_entry.get("delivery", {}),
-                  "viewGroupVersion": report_entry.get("view_group_version", "1.0"),
-                  "tags": report_entry.get("tags", []),
-                  "dataCategory": report_entry.get("data_category", ""),
-              }
-              self.log("Payload for create_or_schedule_a_report: {0}".format(self.pprint(payload)), "DEBUG")
+              if "schedule" in report_entry_camel and "timeZone" in report_entry_camel["schedule"]:
+                report_entry_camel["schedule"]["timeZoneId"] = report_entry_camel["schedule"].pop("timeZone")
+
+              if "view" in report_entry_camel and "format" in report_entry_camel["view"]:
+                  format_dict = report_entry_camel["view"]["format"]
+                  if "name" not in format_dict:
+                      format_dict["name"] = format_dict.get("formatType", "CSV")
+
+                  view_data = report_entry_camel["view"]
+                  if "viewName" in view_data:
+                      view_data["name"] = view_data.pop("viewName")
+
+              self.log("Payload for create_or_schedule_a_report: {0}".format(self.pprint(report_entry_camel)), "DEBUG")
               response = self.dnac._exec(
                   family="reports",
                   function="create_or_schedule_a_report",
-                  params=payload,
+                  params=report_entry_camel
+                #   {
+                #   "tags": [],
+                #   "deliveries": [
+                #     {
+                #       "type": "DOWNLOAD"
+                #     }
+                #   ],
+                #   "name": "Ansible test version as v1",
+                #   "schedule": {
+                #     "type": "SCHEDULE_NOW",
+                #     "timeZoneId": "Asia/Calcutta"
+                #   },
+                #   "view": {
+                #     "name": "Host Group to Host Group",
+                #     "viewId": "6b4b5c4f-046e-45fc-a9e3-89378fd37556",
+                #     "filters": [ ],
+                #     "format": {
+                #       "name": "CSV",
+                #       "formatType": "CSV"
+                #     },
+                #     "fieldGroups": []
+                #   },
+                #   "viewGroupId": "59c08996-b335-43a6-a6fe-07710f8a48e5",
+                #   "viewGroupVersion": "2.0.0",
+                #   "dataCategory": "Activity"
+                # },
               )
               self.log("Response from create_or_schedule_a_report: {0}".format(self.pprint(response)), "DEBUG")
               if not response:
@@ -1172,16 +1219,17 @@ class FlexibleReport(DnacBase):
                   "response": {
                       "reportId": response.get("reportId"),
                       "viewGroupId": response.get("viewGroupId"),
-                      "viewsId": response.get("view", {}).get("viewsId"),
+                      "viewsId": response.get("view", {}).get("viewId"),
                   },
                   "msg": "Successfully created or scheduled report '{0}'.".format(report_entry.get("name")),
               }
               self.result["response"].append({"create_report": result})
               self.log("Successfully created or scheduled report: {0}".format(report_entry.get("name")), "INFO")
-              self.status = "success"
-              self["changed"] = True
+              self.status="success"
+              self.result["changed"]=True
               if report_entry.get("download"):
                   self.report_download(report_entry, response)
+
         except Exception as e:
             self.msg = "An error occurred while creating or scheduling the report: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1255,7 +1303,7 @@ class FlexibleReport(DnacBase):
         self.result["response"].append({"download_report": result})
         self.log("Successfully downloaded report: {0}".format(report_entry.get("name")), "INFO")
         self.status = "success"
-        self["changed"] = True
+        self.result["changed"] = True
         return self
 
     def get_diff_deleted(self, config):
@@ -1276,43 +1324,48 @@ class FlexibleReport(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        for report_entry in generate_report:
-            if not report_entry.get("reportId"):
-                self.msg = "The 'reportId' field is mandatory in the 'generate_report' configuration for deletion."
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-            
-            if report_entry["exists"] == False:
-                report_name = report_entry.get("name")
-                result = {
-                    "response": {},
-                    "msg": "Report '{0}' does not exist.".format(report_name),
-                }
-                self.result["response"].append({"delete_report": result})
-                self.msg = "Report '{0}' does not exist.".format(report_name)
-                self.log("Report '{0}' does not exist, skipping deletion.".format(report_name), "DEBUG")
-                continue
+        try:
+          for report_entry in generate_report:
+              report_name = report_entry.get("name")
+              self.log("Attempting to delete report: {0}".format(report_name), "DEBUG")
+              if not report_entry["exists"]:
+                  self.log("Report '{0}' does not exist, skipping deletion.".format(report_name), "DEBUG")
+                  result = {
+                      "response": {},
+                      "msg": "Report '{0}' does not exist.".format(report_name),
+                  }
+                  self.result["response"].append({"delete_report": result})
+                  self.msg = "Report '{0}' does not exist.".format(report_name)
+                  self.log("Report '{0}' does not exist, skipping deletion.".format(report_name), "DEBUG")
+                  continue
+              if not report_entry.get("report_id"):
+                  self.msg = "The 'report_id' field is mandatory in the 'generate_report' configuration for deletion."
+                  self.set_operation_result("failed", False, self.msg, "ERROR")
+                  return self
 
-            response = self.dnac._exec(
-                family="reports",
-                function="delete_a_scheduled_report",
-                params={"report_id": report_entry.get("reportId")},
-            )
-            self.log("Response from delete_a_scheduled_report: {0}".format(self.pprint(response)), "DEBUG")
-            if not response:
-                self.msg = "Failed to delete report with ID '{0}'.".format(report_entry.get("reportId"))
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+              response = self.dnac._exec(
+                  family="reports",
+                  function="delete_a_scheduled_report",
+                  params={"report_id": report_entry.get("report_id")},
+              )
+              self.log("Response from delete_a_scheduled_report: {0}".format(self.pprint(response)), "DEBUG")
+              if not response.get("status")==200:
+                  self.msg = "Failed to delete report with ID '{0}'.".format(report_entry.get("report_id"))
+                  self.set_operation_result("failed", False, self.msg, "ERROR")
+                  return self
 
-            result = {
-                    "response": {},
-                    "msg": "Report '{0}' has been successfully deleted.".format(report_entry.get("report_name")),
-                }
-            self.result["response"].append({"delete_report": result})
-            self.log("Successfully deleted report with ID: {0}".format(report_entry.get("reportId")), "INFO")
-            self.status = "success"
-            self["changed"] = True
-
+              result = {
+                      "response": {},
+                      "msg": "Report '{0}' has been successfully deleted.".format(report_entry.get("report_name")),
+                  }
+              self.result["response"].append({"delete_report": result})
+              self.log("Successfully deleted report with ID: {0}".format(report_entry.get("report_id")), "INFO")
+              self.status = "success"
+              self.result["changed"] = True
+        except Exception as e:
+            self.msg = "An error occurred while deleting the report: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
         return self
 
     def verify_diff_merged(self):
