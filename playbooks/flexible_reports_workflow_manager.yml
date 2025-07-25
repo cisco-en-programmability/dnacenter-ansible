@@ -26,7 +26,6 @@
                 deliveries:
                    - type: "DOWNLOAD"
                      location: "/Users/mekandar/Desktop"
-                    #  format_type: "CSV"
                 schedule:
                     type: "SCHEDULE_NOW"
                     # date_time: "2025-04-19 08:00 AM"
@@ -45,14 +44,13 @@
                           display_name: "IP Address"
                   format:
                       format_type: "CSV"
-                  #     # name: "CSV"
-                  # filters: 
-                  #   - name: "Location"
-                  #     display_name: "Location"
-                  #     type: "MULTI_SELECT_TREE"
-                  #     value:
-                  #         value: "/cb13cf7d-d592-492a-b0bc-c6b250857bb8/6e7afd94-fdc6-412f-b3d1-cb3ae5e1f7d3/c0dbcff4-f98e-4609-bfcb-f31e5c17ea97/44de8b4c-2a09-412f-90b4-64b6cdbf4a50/20fdc082-6ccb-4101-906d-b6c0477ddf6e/"
-                  #         display_value: "Global/India/Bangalore/Mantri Square/Floor1"
+                  filters: 
+                    - name: "Location"
+                      display_name: "Location"
+                      type: "MULTI_SELECT_TREE"
+                      value:
+                          value: "/cb13cf7d-d592-492a-b0bc-c6b250857bb8/6e7afd94-fdc6-412f-b3d1-cb3ae5e1f7d3/c0dbcff4-f98e-4609-bfcb-f31e5c17ea97/44de8b4c-2a09-412f-90b4-64b6cdbf4a50/20fdc082-6ccb-4101-906d-b6c0477ddf6e/"
+                          display_value: "Global/India/Bangalore/Mantri Square/Floor1"
                 tags: []  
 
 
