@@ -228,6 +228,13 @@ options:
 requirements:
   - dnacentersdk == 2.4.5
   - python >= 3.9
+seealso:
+  - name: Cisco Catalyst Center API Documentation
+    description: Complete API reference for device management.
+    link: https://developer.cisco.com/docs/dna-center/
+  - name: Site Management API
+    description: Specific documentation for site operations in Catalyst Center version.
+    link: https://developer.cisco.com/docs/dna-center/#!sites
 notes:
   # Version Compatibility
     - Floor number and units_of_measure require Catalyst Center version 2.3.7.6 or later.
