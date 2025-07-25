@@ -248,13 +248,13 @@ notes:
         - POST/dna/intent/api/v1/sites/bulk GET/dna/intent/api/v1/networkDevices/assignedToSite
 
   # Hierarchical Site Management
-    - Sites must be created in order: areas first, then buildings, then floors.
+    - Sites must be created in order - areas first, then buildings, then floors.
     - Deleting a parent site will automatically delete all child sites.
 
   # Floor-Specific Considerations
     - RF models significantly impact wireless planning and should be selected based on the actual physical environment.
     - Floor dimensions (height, length, width) and RF models can be updated after creation, but floor_number cannot be modified once set.
-    - Floor images, once uploaded, remain associated with the floor until explicitly replaced using force_upload_floor_image: true.
+    - Floor images, once uploaded, remain associated with the floor until explicitly replaced using force_upload_floor_image to true.
     - Large floor plan images may take time to upload; ensure the connection to Catalyst Center remains stable during upload.
 
   # Geographic Coordinates
