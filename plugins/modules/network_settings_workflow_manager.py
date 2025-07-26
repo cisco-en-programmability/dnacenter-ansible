@@ -619,7 +619,7 @@ notes:
     network_settings.NetworkSettings.reserve_ip_subpool,
     network_settings.NetworkSettings.update_reserve_ip_subpool,
     network_settings.NetworkSettings.update_network_v2,
-    network_settings.NetworkSettings.retrieves_global_ip_address_pools_v1
+    network_settings.NetworkSettings.retrieves_global_ip_address_pools
     network_settings.NetworkSettings.retrieves_ip_address_subpools_v1
     network_settings.NetworkSettings.create_a_global_ip_address_pool
     network_settings.NetworkSettings.reservecreate_ip_address_subpools_v1
@@ -2425,7 +2425,7 @@ class NetworkSettings(DnacBase):
                 else:
                     response = self.dnac._exec(
                         family="network_settings",
-                        function="retrieves_global_ip_address_pools_v1",
+                        function="retrieves_global_ip_address_pools",
                         params={"offset": offset,
                                 "limit": 500}
                     )
@@ -3046,7 +3046,7 @@ class NetworkSettings(DnacBase):
                 else:
                     response = self.dnac._exec(
                         family="network_settings",
-                        function="retrieves_global_ip_address_pools_v1",
+                        function="retrieves_global_ip_address_pools",
                         params={"offset": offset}
                     )
             except Exception as msg:
