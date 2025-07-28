@@ -1780,9 +1780,15 @@ class Provision(DnacBase):
             "disable": "disable_application_telemetry_feature_on_multiple_network_devices"
         }
 
+        self.log("Starting application telemetry configuration process", "DEBUG")
+        self.log("Received telemetry configuration: {0}".format(telemetry_config), "DEBUG")
+
+        application_telemetry_details = telemetry_config.get("application_telemetry", [])
+        self.log("Processing {0} telemetry configuration entries".format(len(application_telemetry_details)), "INFO")
+
         for detail in application_telemetry_details:
             device_ips = detail.get("device_ips", [])
-
+            self.log("Processing device IPs: {0}".format(device_ips), "DEBUG")
             if device_ips is None or len(device_ips) == 0:
                 self.msg = "No valid device IPs provided for application telemetry."
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -1792,6 +1798,7 @@ class Provision(DnacBase):
             for ip in device_ips:
                 if ip.strip() != "":
                     all_empty = False
+                    self.log("Valid device IP found: {0}".format(ip), "DEBUG")
                     break
 
             if all_empty:
@@ -1805,10 +1812,15 @@ class Provision(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             wlan_mode = detail.get("wlan_mode")
             include_guest_ssid = detail.get("include_guest_ssid", False)
-
+            self.log("Telemetry action: {0}, WLAN mode: {1}, Include guest SSID: {2}".format(
+                telemetry, wlan_mode, include_guest_ssid
+            ), "DEBUG")
             for ip in device_ips:
                 self.validated_config["management_ip_address"] = ip
                 device_type, device_family = self.get_device_type_and_family(ip)
+                self.log("Device type: {0}, Device family: {1} for IP: {2}".format(
+                    device_type, device_family, ip
+                ), "DEBUG")
 
                 unsupported_devices = [
                     "Cisco Catalyst 9500 Switch",
