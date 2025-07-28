@@ -619,15 +619,15 @@ notes:
     network_settings.NetworkSettings.reserve_ip_subpool,
     network_settings.NetworkSettings.update_reserve_ip_subpool,
     network_settings.NetworkSettings.update_network_v2,
-    network_settings.NetworkSettings.retrieves_global_ip_address_pools
-    network_settings.NetworkSettings.retrieves_ip_address_subpools
-    network_settings.NetworkSettings.create_a_global_ip_address_pool
-    network_settings.NetworkSettings.reservecreate_ip_address_subpools
-    network_settings.NetworkSettings.delete_a_global_ip_address_pool
-    network_settings.NetworkSettings.release_an_ip_address_subpool
-    network_settings.NetworkSettings.updates_a_global_ip_address_pool
-    network_settings.NetworkSettings.updates_an_ip_address_subpool
-    network_settings.NetworkSettings.get_device_controllability_settings
+    network_settings.NetworkSettings.retrieves_global_ip_address_pools,
+    network_settings.NetworkSettings.retrieves_ip_address_subpools,
+    network_settings.NetworkSettings.create_a_global_ip_address_pool,
+    network_settings.NetworkSettings.reserve_create_ip_address_subpools,
+    network_settings.NetworkSettings.delete_a_global_ip_address_pool,
+    network_settings.NetworkSettings.release_an_ip_address_subpool,
+    network_settings.NetworkSettings.updates_a_global_ip_address_pool,
+    network_settings.NetworkSettings.updates_an_ip_address_subpool,
+    network_settings.NetworkSettings.get_device_controllability_settings,
     network_settings.NetworkSettings.update_device_controllability_settings
 
   - Paths used are
