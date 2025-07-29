@@ -830,6 +830,8 @@ EXAMPLES = r"""
         snmp_username: v3Public
         compute_device: true
         username: cisco
+        password: Lablab@123
+        enable_password: Cisco@123
         type: "COMPUTE_DEVICE"
 - name: Add new Meraki device in Inventory with full
     credentials.Inputs needed for Meraki Device.
