@@ -131,7 +131,7 @@ options:
             port assignments, and wireless SSIDs simultaneously,
             ensure that the operation is performed within
             the same fabric site.
-          - Example - "Global/USA/San Jose/BLDG23"
+          - For Example - "Global/USA/San Jose/BLDG23"
           - If only the "fabric_site_name_hierarchy"
             is provided in the "merged" state, only
             Wireless SSID(s) will be added or updated
@@ -140,6 +140,15 @@ options:
             is provided in the "deleted" state, all
             the Wireless SSID(s) configured for the
             specific fabric site will be deleted.
+          - If the device is provisioned in a fabric zone, when creating or updating
+            the host on the device provisioned in the fabric zone, make sure to enter
+            the site name of the fabric site's name and not the fabric zone's name.
+          - For Example
+            - "Global/USA/San Jose" is a fabric site.
+            - "Global/USA/San Jose/BLDG23" is a fabric zone within the fabric site,
+            and the edge device is provisioned in this fabric zone.
+            - But when performing host onboarding, provide "Global/USA/San Jose" as
+            the fabric_site_name_hierarchy and not the fabric zone.
         type: str
         required: true
       port_assignments:
@@ -411,7 +420,6 @@ options:
           - The default value is true.
         type: bool
         default: true
-
 requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
@@ -955,16 +963,16 @@ class SDAHostPortOnboarding(DnacBase):
                         "required": False,
                         "options": {
                             "ssid_name": {"type": "str"},
-                            "security_group_name": {"type": "str"}
-                        }
-                    }
-                }
+                            "security_group_name": {"type": "str"},
+                        },
+                    },
+                },
             },
             "device_collection_status_check": {
                 "type": "bool",
                 "required": False,
-                "default": True
-            }
+                "default": True,
+            },
         }
 
         # Validate params
@@ -983,7 +991,9 @@ class SDAHostPortOnboarding(DnacBase):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def validate_device_exists_and_reachable(self, ip_address, hostname, device_collection_status_check):
+    def validate_device_exists_and_reachable(
+        self, ip_address, hostname, device_collection_status_check
+    ):
         """
         Validates whether a device is present in the Catalyst Center, is reachable, and has an acceptable collection status.
         Args:
@@ -1050,26 +1060,32 @@ class SDAHostPortOnboarding(DnacBase):
                 "Skipping collection status check for device '{0}' as 'device_collection_status_check' is set to False.".format(
                     device_identifier
                 ),
-                "INFO"
+                "INFO",
             )
             return True
 
         # Check collection status
         if collection_status in ["In Progress", "Managed"]:
             self.log(
-                "Device '{0}' has an acceptable collection status: '{1}'.".format(device_identifier, collection_status),
-                "INFO"
+                "Device '{0}' has an acceptable collection status: '{1}'.".format(
+                    device_identifier, collection_status
+                ),
+                "INFO",
             )
             return True
 
         # Unacceptable collection status
         self.msg = (
             "Device '{0}' does not have an acceptable collection status. "
-            "Current collection status: '{1}'.".format(device_identifier, collection_status)
+            "Current collection status: '{1}'.".format(
+                device_identifier, collection_status
+            )
         )
         return False
 
-    def validate_ip_and_hostname(self, ip_address, hostname, device_collection_status_check):
+    def validate_ip_and_hostname(
+        self, ip_address, hostname, device_collection_status_check
+    ):
         """
         Validates the provided IP address and hostname.
         Args:
@@ -1105,7 +1121,9 @@ class SDAHostPortOnboarding(DnacBase):
             self.fail_and_exit(self.msg)
 
         # Check if device exists and is reachable in Catalyst Center
-        if not self.validate_device_exists_and_reachable(ip_address, hostname, device_collection_status_check):
+        if not self.validate_device_exists_and_reachable(
+            ip_address, hostname, device_collection_status_check
+        ):
             self.fail_and_exit(self.msg)
 
         self.log("Validation successful: Provided IP address or hostname are valid")
@@ -1861,16 +1879,20 @@ class SDAHostPortOnboarding(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
-        is_port_operation_requested = bool(port_assignment_details or port_channel_details)
+        is_port_operation_requested = bool(
+            port_assignment_details or port_channel_details
+        )
         is_delete_all_operation = state == "deleted" and (ip_address or hostname)
 
         if is_port_operation_requested or is_delete_all_operation:
             self.log(
                 "Validation triggered: Port assignment/Port Channel operation requested "
                 "or 'delete all' operation detected. Validating IP and Hostname.",
-                "DEBUG"
+                "DEBUG",
             )
-            self.validate_ip_and_hostname(ip_address, hostname, device_collection_status_check)
+            self.validate_ip_and_hostname(
+                ip_address, hostname, device_collection_status_check
+            )
 
         if state == "merged":
             # Validate parameters for add/update in port assignments
@@ -5276,6 +5298,10 @@ class SDAHostPortOnboarding(DnacBase):
             )
 
         if port_assignment_details or port_channel_details:
+            self.log(
+                "Port assignment or port channel details provided. Updating network details.",
+                "DEBUG",
+            )
             update_network_details()
 
         if state == "merged":
@@ -5374,8 +5400,22 @@ class SDAHostPortOnboarding(DnacBase):
                 and not port_channel_details
                 and not wireless_ssids_details
             ):
-                if ip_address or hostname:
+                self.log(
+                    "No specific port assignments, port channels, or wireless SSIDs details provided. Proceeding with deletion of all configurations.",
+                    "DEBUG",
+                )
+                if ip_address[0] is not None or hostname is not None:
+                    self.log(
+                        "IP address or hostname provided. Updating network details for deletion operation. ip_address: {0}, hostname: {1}".format(
+                            ip_address, hostname
+                        ),
+                        "DEBUG",
+                    )
                     update_network_details()
+                    self.log(
+                        "Network details updated successfully. Generating parameters for deletion.",
+                        "DEBUG",
+                    )
                     # Handle case where no specific port assignments details are not provided
                     delete_port_assignments_params_list = (
                         self.get_delete_port_assignments_params(
