@@ -855,8 +855,8 @@ EXAMPLES = r"""
         http_username: "testuser"
         http_password: "test"
         http_port: "443"
-        snmp_version: v2 # Based on device snmp version field required
-        snmp_ro_community: Private@123 # Based on device snmp version field required
+        snmp_version: v2  # Based on device snmp version field required
+        snmp_ro_community: Private@123  # Based on device snmp version field required
 - name: Add new Meraki device in Inventory with full
     credentials.Inputs needed for Meraki Device.
   cisco.dnac.inventory_workflow_manager:
