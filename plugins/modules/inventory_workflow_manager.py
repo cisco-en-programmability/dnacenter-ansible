@@ -833,6 +833,30 @@ EXAMPLES = r"""
         password: Lablab@123
         enable_password: Cisco@123
         type: "COMPUTE_DEVICE"
+- name: Add new Compute device in Inventory with minimal configuration
+    credentials.Inputs needed for Compute Device
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: false
+    state: merged
+    config:
+      - ip_address_list:
+          - "204.1.2.2"
+          - "204.1.2.3"
+        compute_device: true
+        type: "COMPUTE_DEVICE"
+        http_username: "testuser"
+        http_password: "test"
+        http_port: "443"
+        snmp_version: v2 # Based on device snmp version field required
+        snmp_ro_community: Private@123 # Based on device snmp version field required
 - name: Add new Meraki device in Inventory with full
     credentials.Inputs needed for Meraki Device.
   cisco.dnac.inventory_workflow_manager:
