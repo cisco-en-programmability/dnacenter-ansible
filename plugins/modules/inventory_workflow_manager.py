@@ -894,6 +894,8 @@ EXAMPLES = r"""
         snmp_timeout: 5
         snmp_username: v3Public
         type: "THIRD_PARTY_DEVICE"
+        username: v3Public
+        password: "Lablab@123"
 - name: Update device details or credentails in Inventory
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{ dnac_host }}"
