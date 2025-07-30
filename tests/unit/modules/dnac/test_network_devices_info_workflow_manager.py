@@ -230,7 +230,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_connected_details
             )
@@ -280,7 +280,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_device_summary_details
             )
@@ -325,7 +325,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_supervisor_details
             )
@@ -364,7 +364,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_module_count_details
             )
@@ -405,7 +405,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_polling_details
             )
@@ -446,7 +446,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_poe_details
             )
@@ -491,7 +491,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_interface_vlan_details
             )
@@ -548,7 +548,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_link_mismatch_details
             )
@@ -598,7 +598,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_linecard_details
             )
@@ -625,7 +625,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_device_details
             )
@@ -728,7 +728,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_stack_details
             )
@@ -811,7 +811,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_config_details
             )
@@ -1692,7 +1692,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_interface_details
             )
@@ -3493,7 +3493,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_range_interface_details
             )
@@ -5293,7 +5293,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario1
             )
@@ -5320,7 +5320,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario2
             )
@@ -5347,7 +5347,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario3
             )
@@ -5374,7 +5374,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario4
             )
@@ -5383,7 +5383,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "'file_mode' must be one of: a, w"
+            "Invalid 'file_mode' 't' in device index 0. Allowed modes: a, w"
         )
 
     def test_network_devices_info_workflow_manager_playbook_negative_scenario5(self):
@@ -5402,7 +5402,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario5
             )
@@ -5429,7 +5429,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario6
             )
@@ -5456,7 +5456,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario7
             )
@@ -5483,7 +5483,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario8
             )
@@ -5494,7 +5494,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
             result.get("msg"),
             "At least one of the following parameters must be specified inside each network device: "
             "management_ip_address, mac_address, hostname, serial_number, role, "
-            "software_type, software_version, site_hierarchy, device_type."
+            "os_type, software_version, site_hierarchy, device_type."
         )
 
     def test_network_devices_info_workflow_manager_playbook_negative_scenario9(self):
@@ -5512,7 +5512,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario9
             )
@@ -5521,7 +5521,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "'file_format' must be one of: json, yaml"
+            "Invalid file_format 'pdf' in device index 0. Allowed formats: ['json', 'yaml']"
         )
 
     def test_network_devices_info_workflow_manager_playbook_negative_scenario11(self):
@@ -5538,7 +5538,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="queried",
-                config_verify=True,
+                
                 dnac_version="2.3.5.3",
                 config=self.playbook_negative_scenario11
             )

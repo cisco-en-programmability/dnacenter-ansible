@@ -192,7 +192,7 @@ class DnacBase():
         # Implement logic to merge the resource configuration
         self.merged = True
         return self
-    
+
     def get_diff_queried(self):
         # Implement logic to query the resource configuration
         self.queried = True

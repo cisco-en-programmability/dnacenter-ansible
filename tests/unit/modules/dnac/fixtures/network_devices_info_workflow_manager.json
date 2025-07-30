@@ -34,7 +34,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -62,7 +62,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -91,7 +91,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -119,7 +119,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -147,7 +147,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -175,7 +175,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -203,7 +203,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -231,7 +231,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -264,7 +264,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -292,7 +292,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -320,7 +320,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -348,7 +348,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/guts",
@@ -376,7 +376,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/slow",
@@ -402,7 +402,7 @@
 
     "playbook_negative_scenario1":[
         {
-            "file_info": {
+            "output_file_info": {
                 "file_format": "json",
                 "file_mode": "a",
                 "file_path": "/Users/karthick/Downloads/slow",
@@ -421,7 +421,7 @@
     ],
     "playbook_negative_scenario2":[
         {
-            "file_info": {
+            "output_file_info": {
                 "file_format": "json",
                 "file_mode": "a",
                 "file_path": "/Users/karthick/Downloads/slow",
@@ -442,7 +442,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/slow",
@@ -465,7 +465,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "t",
                         "file_path": "/Users/karthick/Downloads/slow",
@@ -488,7 +488,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "t",
                         "file_path": "/Users/karthick/Downloads/slow",
@@ -511,7 +511,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/slow",
@@ -544,7 +544,7 @@
                     "family": [
                         "Switches and Hubs"
                     ],
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "json",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/slow",
@@ -564,7 +564,7 @@
         {
             "network_devices": [
                 {
-                    "file_info": {
+                    "output_file_info": {
                         "file_format": "pdf",
                         "file_mode": "a",
                         "file_path": "/Users/karthick/Downloads/slow",
@@ -587,7 +587,7 @@
                 {
                     "network_devices": [
                         {
-                            "file_info": {
+                            "output_file_info": {
                                 "file_format": "json",
                                 "file_mode": "a",
                                 "file_path": "/Users/karthick/Downloads/slow",
@@ -614,7 +614,7 @@
                 {
                     "network_devices": [
                         {
-                            "file_info": {
+                            "output_file_info": {
                                 "file_format": "json",
                                 "file_mode": "a",
                                 "file_path": "/Users/karthick/Downloads/slow",
