@@ -1993,53 +1993,58 @@ class FabricMulticast(DnacBase):
         """
 
         self.log(f"Processing FABRIC RP details for fabric '{fabric_name}'.", "DEBUG")
-
-        # Validate network device IPs
-        network_device_ips = item.get("network_device_ips")
-        if not network_device_ips or not isinstance(network_device_ips, list):
-            self.msg = (
-                f"The parameter 'network_device_ips' must be a non-empty list for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
-            )
-            self.log(self.msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
-
-        if len(network_device_ips) > 2:
-            self.msg = (
-                f"Maximum of two 'network_device_ips' are allowed for fabric '{fabric_name}'."
-            )
-            self.log(self.msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
-
-        # Get device IDs
-        self.log(
-            f"Retrieving device IDs for the L3 VN : '{layer3_virtual_network}' under fabric '{fabric_name}' "
-            f"using network_device_ips: {network_device_ips}",
-            "DEBUG"
-        )
-        network_device_ids = self.get_the_device_ids(fabric_name, network_device_ips)
-
         # Build RP details
         rendezvous_point = {
-            "networkDeviceIds": network_device_ids,
+            "networkDeviceIds": None,
             "ipv4Address": None,
             "ipv6Address": None,
             "rpDeviceLocation": "FABRIC",
         }
+        # Validate network device IPs
+        network_device_ips = item.get("network_device_ips")
+        state = self.params.get("state")
+        if state == "deleted" and not network_device_ips:
+            self.log(f"No 'network_device_ips' provided for deletion for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.", "DEBUG")
+        else:
+            self.log(f"Validating 'network_device_ips' for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}' for state: '{state}'.", "DEBUG")
+            if not network_device_ips or not isinstance(network_device_ips, list):
+                self.msg = (
+                    f"The parameter 'network_device_ips' must be a non-empty list for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'."
+                )
+                self.fail_and_exit(self.msg)
+
+            if len(network_device_ips) > 2:
+                self.msg = (
+                    f"Maximum of two 'network_device_ips' are allowed for fabric '{fabric_name}'."
+                )
+                self.fail_and_exit(self.msg)
+
+            # Get device IDs
+            self.log(
+                f"Retrieving device IDs for the L3 VN : '{layer3_virtual_network}' under fabric '{fabric_name}' "
+                f"using network_device_ips: {network_device_ips}",
+                "DEBUG"
+            )
+            network_device_ids = self.get_the_device_ids(fabric_name, network_device_ips)
+            self.log(
+                f"Retrieved network device IDs: {network_device_ids} for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            rendezvous_point["networkDeviceIds"] = network_device_ids
 
         # Process IPv4 and IPv6 ASM ranges
         ipv4_asm_group_config_exists = bool(item.get("ipv4_asm_ranges") or item.get("is_default_v4_rp"))
         ipv6_asm_group_config_exists = bool(item.get("ipv6_asm_ranges") or item.get("is_default_v6_rp"))
 
-        if not (ipv4_asm_group_config_exists or ipv6_asm_group_config_exists):
-            self.msg = (
-                "None of 'ipv4_asm_ranges', 'is_default_v4_rp', 'ipv6_asm_ranges' or 'is_default_v6_rp' are provided. "
-                f"At least one is required to configure ASM Groups for L3 VN '{layer3_virtual_network}' under fabric: '{fabric_name}'"
-            )
-            self.fail_and_exit(self.msg)
+        if state == "merged":
+            if not (ipv4_asm_group_config_exists or ipv6_asm_group_config_exists):
+                self.msg = (
+                    "None of 'ipv4_asm_ranges', 'is_default_v4_rp', 'ipv6_asm_ranges' or 'is_default_v6_rp' are provided. "
+                    f"At least one is required to configure ASM Groups for L3 VN '{layer3_virtual_network}' under fabric: '{fabric_name}'"
+                )
+                self.fail_and_exit(self.msg)
+        # For 'merged' state, at least one of the ASM group config parameters must be provided.
+        # For 'deleted' state, these parameters are optional and depend on the use case.
 
         # Process IPv4 ASM ranges
         if ipv4_asm_group_config_exists:
@@ -2723,7 +2728,7 @@ class FabricMulticast(DnacBase):
                         .format(updated_asm_config=updated_asm_config), "DEBUG"
                     )
                 if asm_config_in_cc:
-                    self.log(f"Removing the existing asm config: {asm_config_in_cc} from updated_asm_config to update with playbook config.")
+                    self.log(f"Removing the existing asm config: {asm_config_in_cc} from updated_asm_config to update with playbook config.", "DEBUG")
                     updated_asm_config.remove(asm_config_in_cc)
 
                 updated_asm_config.append(item)
@@ -3132,8 +3137,8 @@ class FabricMulticast(DnacBase):
                     )
                     self.log(
                         f"Desired SDA multicast configuration for '{layer3_virtual_network}' under the fabric '{fabric_name} "
-                        f"in Cisco Catalyst Center: {updated_multicast_params}"
-                        "DEBUG",
+                        f"in Cisco Catalyst Center: {updated_multicast_params}",
+                        "DEBUG"
                     )
                     updated_multicast_params.update(
                         {
@@ -3494,138 +3499,502 @@ class FabricMulticast(DnacBase):
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
-    def process_delete_fabric_asm_rp(self, want_asm_confg, updated_asm):
+    def check_and_update_fabric_rp_network_device_ids_needs_update(self, want_asm_config, have_asm_config, updated_asm_config):
         """
-        Delete or update the fabric ASM Rendezvous Point (RP) configuration in Cisco Catalyst Center
-        based on the network device IDs provided in the playbook.
+        Check if the network device IDs in the Fabric RP ASM configuration need to be updated
+        by removing obsolete IDs, or if the entire ASM configuration should be removed.
 
         Parameters:
-            want_asm_confg (dict): Desired ASM RP configuration from playbook input, specifically
-                                for RPs with 'FABRIC' device location.
-            updated_asm (list): Current ASM RP configuration fetched from the Catalyst Center
-                                that may need modification.
+            want_asm_config (dict): Desired ASM RP configuration from the playbook input.
+            have_asm_config (dict): Current ASM RP configuration fetched from the Catalyst Center.
+            updated_asm_config (list): The ASM RP configuration list to modify in place.
 
         Returns:
-            bool: True if the fabric RP config was modified or removed; otherwise, False.
+            (bool, bool):
+                - First bool: True if the networkDeviceIds list was changed (e.g., some IDs removed).
+                - Second bool: True if the entire ASM RP config now needs to be removed.
+
+            Meaning of combinations:
+                - (True, False): networkDeviceIds list was updated (some obsolete IDs removed); config still kept.
+                - (False, True): desired config has no IDs → config should be removed; nothing was changed.
+                - (True, True): IDs were removed → config updated, but after removal nothing remains → entire config should be removed.
+                - (False, False): no changes needed; current and desired config already match.
 
         Description:
-            This method checks if a 'FABRIC' type ASM RP configuration exists in the current state.
-            If it exists, it compares the list of network device IDs with the desired configuration.
-            Based on the comparison, it either updates the RP entry with reduced device IDs or
-            removes the entire 'FABRIC' RP configuration if no common elements are found.
+            Compares current networkDeviceIds against desired IDs:
+            - If desired IDs list is empty → config should be removed → (False, True)
+            - If removing obsolete IDs leads to an empty list → update config and mark it for removal → (True, True)
+            - If some IDs removed, but some remain → update config → (True, False)
+            - If everything matches → do nothing → (False, False)
         """
-        self.log(f"Starting fabric ASM RP removal process from fabric multicast configuration for provided config: {self.pprint(want_asm_confg)}.", "INFO")
+
+        have_nw_device_ids = have_asm_config.get("networkDeviceIds")
+        want_nw_device_ids = set(want_asm_config.get("networkDeviceIds", []))
+
+        self.log(
+            "Checking whether network device IDs need update in the Fabric RP ASM config. "
+            f"Current: {have_nw_device_ids}, Desired: {list(want_nw_device_ids)}",
+            "DEBUG",
+        )
+
+        if not want_nw_device_ids:
+            self.log(
+                "Desired config has no networkDeviceIds → No updates required.",
+                "DEBUG"
+            )
+            return False, True
+
+        remaining_ids = [
+            network_device_id
+            for network_device_id in have_nw_device_ids
+            if network_device_id not in want_nw_device_ids
+        ]
+        removed_ids = [
+            network_device_id
+            for network_device_id in have_nw_device_ids
+            if network_device_id in want_nw_device_ids
+        ]
+        self.log(
+            f"Network device IDs to be removed (present in both current and desired-to-remove): {removed_ids}",
+            "DEBUG"
+        )
+
+        self.log(
+            f"Network device IDs remaining in current config after removing undesired ones: {remaining_ids}",
+            "DEBUG"
+        )
+
+        if not removed_ids:
+            self.log(
+                f"No updates required; Network device IDs in Fabric RP ASM configuration are already up to date.",
+                "DEBUG"
+            )
+            return False, False
+
+        self.log(f"Updating ASM RP config with new device IDs: {remaining_ids}", "INFO")
+        for rp_config in updated_asm_config:
+            if rp_config.get("rpDeviceLocation") == "FABRIC":
+                rp_config.update({"networkDeviceIds": remaining_ids})
+
+        if not remaining_ids:
+            self.log(
+                "No networkDeviceIds remain after filtering → entire Fabric RP ASM config should be removed.",
+                "DEBUG"
+            )
+            return True, True
+
+        self.log(f"Fabric RP ASM config updated with new device IDs: {remaining_ids}", "DEBUG")
+        return True, False
+
+    def check_and_update_fabric_rp_asm_ranges_needs_update(self, ip_version, want_asm_config, have_asm_config, updated_asm_config):
+        """
+        Check if the ASM ranges (IPv4 or IPv6) in the Fabric RP ASM configuration need to be updated
+        by removing obsolete ranges, or if the entire RP ASM config should be removed.
+
+        Parameters:
+            ip_version (str): "ipv4" or "ipv6" indicating which ASM ranges to check.
+            want_asm_config (dict): Desired ASM RP configuration from playbook input.
+            have_asm_config (dict): Current ASM RP configuration fetched from Catalyst Center.
+            updated_asm_config (list): The configuration list to modify in place.
+
+        Returns:
+            (bool, bool):
+                - First bool: True if ASM ranges were updated (e.g., some ranges removed).
+                - Second bool: True if the entire RP ASM config should now be removed.
+
+            Meaning of combinations:
+                - (True, False): ranges were updated; some ranges remain.
+                - (True, True): ranges were updated, but now no ranges remain → config should be removed.
+                - (False, True): desired config has no ranges → config should be removed; nothing was changed.
+                - (False, False): no changes needed; current and desired config already match.
+
+        Description:
+            Compares current ASM ranges with desired ones for the given IP version:
+            - If desired ranges list is empty → config should be removed → (False, True)
+            - If removing obsolete ranges leads to an empty list → update config and mark for removal → (True, True)
+            - If some ranges removed but some remain → update config → (True, False)
+            - If current and desired config already match → do nothing → (False, False)
+        """
+
+        range_key = f"{ip_version}AsmRanges"
+
+        self.log(
+            f"Checking whether {ip_version.upper()} ASM Ranges need update in the Fabric RP ASM config. "
+            f"Current: {have_asm_config.get(range_key)}, Desired: {want_asm_config.get(range_key)}",
+            "DEBUG",
+        )
+
+        have_asm_ranges = have_asm_config.get(range_key) or []
+        want_asm_ranges = set(want_asm_config.get(range_key) or [])
+
+
+        if not want_asm_ranges:
+            self.log(f"No updates required; {ip_version.upper()} ASM ranges in Fabric RP ASM configuration are already up to date.", "DEBUG")
+            return False, False
+
+        if not have_asm_ranges:
+            self.log(f"No updates required; {ip_version.upper()} ASM ranges in Fabric RP ASM configuration are empty", "DEBUG")
+            return False, True
+
+        remaining_ranges = [
+            have_asm_range for have_asm_range in have_asm_ranges if have_asm_range not in want_asm_ranges
+        ]
+        removed_ranges = [
+            have_asm_range for have_asm_range in have_asm_ranges if have_asm_range in want_asm_ranges
+        ]
+
+        self.log(f"{ip_version.upper()} ASM ranges to be removed (present in both current and desired-to-remove): {removed_ranges}", "DEBUG")
+        self.log(f"{ip_version.upper()} ASM ranges that will remain after removal: {remaining_ranges}", "DEBUG")
+
+        if not removed_ranges:
+            self.log(f"No updates required; {ip_version.upper()} ASM ranges in Fabric RP ASM configuration are already up to date.", "DEBUG")
+            return False, False
+
+        self.log(f"Updating ASM RP config with new {ip_version.upper()} ranges: {remaining_ranges}", "INFO")
+        for config in updated_asm_config:
+            if config.get("rpDeviceLocation") == "FABRIC":
+                config.update({range_key: remaining_ranges})
+
+        if not remaining_ranges:
+            self.log(
+                f"All {ip_version.upper()} ASM ranges removed → entire RP ASM config should be removed if both "
+                "ipv4 and ipv6 ASM ranges are removed.",
+                "DEBUG"
+            )
+            return True, True
+
+        self.log(f"Fabric RP ASM config updated with new {ip_version.upper()} ranges: {remaining_ranges}", "DEBUG")
+        return True, False
+
+    def process_delete_fabric_asm_rp(self, want_asm_config, updated_asm_config):
+        """
+        Delete or update the Fabric ASM Rendezvous Point (RP) configuration in Cisco Catalyst Center
+        based on the desired playbook configuration.
+
+        Parameters:
+            want_asm_config (dict): Desired ASM RP configuration from the playbook input,
+                                    specifically for RPs with 'FABRIC' device location.
+            updated_asm_config (list): The ASM RP configuration list fetched from Catalyst Center,
+                                    modified in place if needed.
+
+        Returns:
+            bool: True if the fabric RP config was updated (e.g., ranges or device IDs changed)
+                or removed; False if no changes were made.
+
+        Description:
+            This method first finds the current 'FABRIC' RP configuration, if present.
+            Then:
+            - If the playbook requests updates to IPv4/IPv6 ASM ranges:
+                - Updates the config by removing obsolete ranges.
+                - Removes the entire RP config if both IPv4 and IPv6 ASM ranges become empty.
+            - Else, if the playbook requests updates to networkDeviceIds:
+                - Updates the config by removing obsolete device IDs.
+                - Removes the entire RP config if no device IDs remain.
+            - Else (no updates requested in playbook):
+                - Removes the entire 'FABRIC' RP config.
+
+            If the 'FABRIC' RP config is not present, no action is taken.
+
+            Returns True if the config was modified (updated or removed); otherwise, False.
+        """
+
+        self.log(f"Starting fabric ASM RP removal process from fabric multicast configuration for provided config: {self.pprint(want_asm_config)}.", "INFO")
 
         is_need_update = False
-        want_nw_device_ids = want_asm_confg.get("networkDeviceIds")
-        want_nw_device_ids = set(want_nw_device_ids)
-        self.log(
-            f"The network device IDs of the 'FABRIC' is '{want_nw_device_ids}'.",
-            "DEBUG",
-        )
-        have_nw_device = get_dict_result(
-            updated_asm, "rpDeviceLocation", "FABRIC"
+
+        #  Finding the corresponding have ASM config with device location 'FABRIC'
+        have_asm_config = self.find_dict_by_key_value(
+            updated_asm_config, "rpDeviceLocation", "FABRIC"
         )
         self.log(
-            f"The RP device details: {have_nw_device}",
+            f"The Current (have) RP device details: {self.pprint(have_asm_config)}",
             "DEBUG",
         )
-        if not have_nw_device:
+        if have_asm_config:
+            # Check if updates are needed
+
+            update_requested_in_ipv4_or_ipv6_asm_ranges = (
+                bool(want_asm_config.get("ipv4AsmRanges")) or
+                bool(want_asm_config.get("ipv6AsmRanges"))
+            )
+            update_requested_in_network_device_ids = bool(want_asm_config.get("networkDeviceIds"))
+
+            fabric_rp_removal_required = False
+
+            if update_requested_in_ipv4_or_ipv6_asm_ranges:
+                self.log(
+                    "Checking if the ASM RP config with device location 'FABRIC' requires updates.",
+                    "DEBUG",
+                )
+                # Checking if IPv4 ASM Ranges needs update
+                ipv4_asm_ranges_requires_update, ipv4_ranges_remaining = self.check_and_update_fabric_rp_asm_ranges_needs_update(
+                    "ipv4", want_asm_config, have_asm_config, updated_asm_config
+                )
+
+                # Checking if IPv6 ASM Ranges needs update
+                ipv6_asm_ranges_requires_update, ipv6_ranges_remaining = self.check_and_update_fabric_rp_asm_ranges_needs_update(
+                    "ipv6", want_asm_config, have_asm_config, updated_asm_config
+                )
+
+                is_need_update =  is_need_update or ipv4_asm_ranges_requires_update or ipv6_asm_ranges_requires_update
+                fabric_rp_removal_required = fabric_rp_removal_required or (ipv4_ranges_remaining and ipv6_ranges_remaining)
+                # RP Should be only removed when both ipv4 and ipv6 ASM ranges are empty for Fabric RP
+
+            elif update_requested_in_network_device_ids:
+                self.log(
+                    "Checking if the network device IDs in the ASM RP config with device location 'FABRIC' require updates.",
+                    "DEBUG",)
+                # Checking if network device ID needs update
+                network_device_ids_requires_update, should_remove_entire_fabric_rp = self.check_and_update_fabric_rp_network_device_ids_needs_update(
+                    want_asm_config, have_asm_config, updated_asm_config
+                )
+                is_need_update =  is_need_update or network_device_ids_requires_update
+                fabric_rp_removal_required = fabric_rp_removal_required or should_remove_entire_fabric_rp
+
+            else:
+                self.log(
+                    "No updates requested for ASM RP config with device location 'FABRIC'. "
+                    "Marking the entire Fabric RP ASM config for deletion.",
+                    "DEBUG",
+                )
+                is_need_update = True
+                fabric_rp_removal_required = True
+
+            if fabric_rp_removal_required:
+                self.log(
+                    f"Removing the Fabric RP ASM config: {self.pprint(want_asm_config)}.",
+                    "DEBUG",
+                )
+                updated_asm_config[:] = [value for value in updated_asm_config if value.get("rpDeviceLocation") != "FABRIC"]
+        else:
             self.log(
                 "ASM RP config with device location 'FABRIC' is not present in the Cisco Catalyst Center.",
                 "DEBUG",
             )
-            return False
 
-        have_nw_device_ids = have_nw_device.get(
-            "networkDeviceIds"
-        )
-        common_elem = [
-            multicast_id
-            for multicast_id in have_nw_device_ids
-            if multicast_id not in want_nw_device_ids
-        ]
-
-        self.log(f"Device IDs to retain after comparison: {common_elem}", "DEBUG")
-
-        if common_elem:
-            self.log(f"Updating ASM RP config with new device IDs: {common_elem}", "INFO")
-            for updated_asm_config in updated_asm:
-                if updated_asm_config.get("rpDeviceLocation") == "FABRIC":
-                    updated_asm_config.update({"networkDeviceIds": common_elem})
+        if is_need_update:
+            self.log(
+                "Completed processing delete/update of fabric ASM RP configuration. "
+                f"Updated config: {self.pprint(updated_asm_config)}",
+                "INFO"
+            )
         else:
             self.log(
-                f"Removing the Fabric multicast RP config: {want_asm_confg}.",
-                "DEBUG",
+                "No changes were made to the fabric ASM RP configuration.",
+                "DEBUG"
             )
-            updated_asm[:] = [value for value in updated_asm if value.get("rpDeviceLocation") != "FABRIC"]
-        is_need_update = True
-
-        self.log(
-            "Completed processing delete of fabric ASM RP configuration. "
-            f"Updated config: {self.pprint(updated_asm)}",
-            "INFO"
-        )
 
         return is_need_update
 
-    def process_delete_external_asm_rp(self, want_asm_confg, updated_asm):
+    def check_and_update_external_rp_asm_ranges_needs_update(self, ip_version, want_asm_config, have_asm_config, updated_asm_config, ex_rp_ip_address):
         """
-        Delete external ASM Rendezvous Point (RP) configuration from the fabric multicast settings
-        in Cisco Catalyst Center, based on the IPv4 or IPv6 address provided in the playbook.
+        Check if the external ASM ranges (IPv4 or IPv6) in the ASM RP configuration need to be updated
+        by removing obsolete ranges, or if the entire external RP config should be removed.
 
         Parameters:
-            want_asm_confg (dict): Desired ASM RP configuration from playbook input, containing
-                                'ipv4Address' or 'ipv6Address' as key.
-            updated_asm (list): Current ASM RP configuration fetched from the Catalyst Center
-                                that may need modification.
+            ip_version (str): "ipv4" or "ipv6" indicating which ASM ranges to check.
+            want_asm_config (dict): Desired ASM RP configuration from playbook input.
+            have_asm_config (dict): Current ASM RP configuration fetched from Catalyst Center.
+            updated_asm_config (list): The configuration list to modify in place.
+            ex_rp_ip_address (str): IP address (IPv4 or IPv6) identifying the external RP entry to update.
 
         Returns:
-            bool: True if an external RP config was found and removed; otherwise, False.
+            (bool, bool):
+                - First bool: True if ASM ranges were updated (some ranges removed).
+                - Second bool: True if the entire external RP ASM config should now be removed.
+
+            Meaning of combinations:
+                - (True, False): ranges were updated; some ranges remain.
+                - (True, True): ranges were updated, but now no ranges remain → config should be removed.
+                - (False, True): desired config has no ranges → config should be removed; nothing was changed.
+                - (False, False): no changes needed; current and desired config already match.
 
         Description:
-            This method identifies and removes the external ASM RP configuration (either IPv4 or IPv6)
-            from the current configuration if present. If the given RP address is not found in the
-            Catalyst Center's current configuration, it logs a debug message. The method ensures that
-            only the specific RP entries are deleted from the configuration.
+            Compares current external ASM ranges with desired ones for the given IP version:
+            - If desired ranges list is empty → config should be removed → (False, True)
+            - If removing obsolete ranges leads to an empty list → update config and mark for removal → (True, True)
+            - If some ranges removed but some remain → update config → (True, False)
+            - If current and desired config already match → do nothing → (False, False)
         """
-        self.log(f"Starting external ASM RP removal process from fabric multicast configuration for provided config: {self.pprint(want_asm_confg)}.", "INFO")
+
+        range_key = f"{ip_version}AsmRanges"
+        ip_key = f"{ip_version}Address"
+        have_asm_ranges = have_asm_config.get(range_key) or []
+        want_asm_ranges = set(want_asm_config.get(range_key) or [])
+
+        self.log(
+            f"Checking whether {ip_version.upper()} ASM Ranges need update in the External RP ASM config. "
+            f"Current: {have_asm_ranges}, Desired: {list(want_asm_ranges)}",
+            "DEBUG",
+        )
+
+        if not want_asm_ranges:
+            self.log(f"No updates required; {ip_version.upper()} ASM ranges in External RP ASM configuration are already up to date.", "DEBUG")
+            return False, False
+
+        if not have_asm_ranges:
+            self.log(f"No updates required; {ip_version.upper()} ASM ranges in External RP ASM configuration are empty.", "DEBUG")
+            return False, True
+
+        remaining_ranges = [
+            have_asm_range for have_asm_range in have_asm_ranges if have_asm_range not in want_asm_ranges
+        ]
+        removed_ranges = [
+            asm_range for asm_range in have_asm_ranges if asm_range in want_asm_ranges
+        ]
+
+        self.log(f"{ip_version.upper()} ASM ranges to be removed (present in both current and desired-to-remove): {removed_ranges}", "DEBUG")
+        self.log(f"{ip_version.upper()} ASM ranges that will remain after removal: {remaining_ranges}", "DEBUG")
+
+        if not removed_ranges:
+            self.log(
+                f"No updates required; {ip_version.upper()} ASM ranges in External RP ASM configuration are already up to date.",
+                "DEBUG"
+            )
+            return False, False
+
+        self.log(f"Updating External RP ASM config with new {ip_version.upper()} ASM ranges: {remaining_ranges}", "INFO")
+        for config in updated_asm_config:
+            if config.get(ip_key) == ex_rp_ip_address:
+                config.update({range_key: remaining_ranges})
+
+        if not remaining_ranges:
+            self.log(
+                f"All ASM ranges removed → entire external RP ASM config should be removed for {ip_version.upper()}.",
+                "DEBUG"
+            )
+            return True, True
+
+        self.log(f"External RP ASM config updated with new {ip_version.upper()} ASM ranges: {remaining_ranges}", "DEBUG")
+        return True, False
+
+    def process_delete_external_asm_rp(self, want_asm_config, updated_asm_config):
+        """
+        Process deletion or update of external ASM Rendezvous Point (RP) configuration
+        from the fabric multicast settings in Cisco Catalyst Center, based on the IPv4 or IPv6
+        address and ASM ranges provided in the playbook.
+
+        Parameters:
+            want_asm_config (dict): Desired ASM RP configuration from playbook input,
+                                    containing 'ipv4Address' or 'ipv6Address' and optionally ASM ranges.
+            updated_asm_config (list): Current ASM RP configuration fetched from the Catalyst Center
+                                    that may need modification.
+
+        Returns:
+            bool:
+                True if the external RP config was removed or updated (i.e., any changes were made);
+                False if no changes were needed.
+
+        Description:
+            This method:
+            - Finds the external ASM RP entry matching the provided IPv4 or IPv6 address.
+            - If the playbook provides ASM ranges:
+                • Calls helper to remove obsolete ranges and possibly mark for removal.
+                • Updates config if needed.
+            - If no ASM ranges are provided:
+                • Marks the external RP for deletion and removes it from config.
+            Logs details about each step and returns True if config was modified, False otherwise.
+        """
+        self.log(f"Starting external ASM RP removal process from fabric multicast configuration for provided config: {self.pprint(want_asm_config)}.", "INFO")
 
         is_need_update = False
 
-        ex_rp_ipv4_address = want_asm_confg.get("ipv4Address")
-        ex_rp_ipv6_address = want_asm_confg.get("ipv6Address")
+        ex_rp_ipv4_address = want_asm_config.get("ipv4Address")
+        ex_rp_ipv6_address = want_asm_config.get("ipv6Address")
 
-        # a helper function to process deletion for IPv4 or IPv6
-        def remove_rp_entries(address_type, address_key, address_value):
-            nonlocal is_need_update
-            self.log(f"Attempting to remove ASM RP with {address_type} address: {address_value}", "DEBUG")
+        if ex_rp_ipv4_address:
+            self.log(f"Processing delete/update of ASM config for External RP with IPv4 address: {ex_rp_ipv4_address}", "DEBUG")
+            have_asm_config = self.find_dict_by_key_value(updated_asm_config, "ipv4Address", ex_rp_ipv4_address)
+            if have_asm_config:
+                update_requested_in_ipv4_asm_ranges = bool(want_asm_config.get("ipv4AsmRanges"))
+                external_rp_removal_required = False
+                if update_requested_in_ipv4_asm_ranges:
+                    ipv4_asm_ranges_requires_update, should_remove_entire_external_rp = self.check_and_update_external_rp_asm_ranges_needs_update(
+                        "ipv4", want_asm_config, have_asm_config, updated_asm_config, ex_rp_ipv4_address
+                    )
+                    if ipv4_asm_ranges_requires_update:
+                        self.log(
+                            f"External RP ASM config with IPv4 address '{ex_rp_ipv4_address}' requires updates.",
+                            "INFO",
+                        )
+                    is_need_update =  is_need_update or ipv4_asm_ranges_requires_update
+                    external_rp_removal_required = external_rp_removal_required or should_remove_entire_external_rp
+                else:
+                    self.log(
+                        "No updates requested for ASM RP config with device location 'EXTERNAL'. "
+                        f"Marking the External RP ASM config with IPv4 address: {ex_rp_ipv4_address} for deletion.",
+                        "DEBUG",
+                    )
+                    external_rp_removal_required = True
+                    is_need_update = True
 
-            matching_entries = get_dict_result(updated_asm, address_key, address_value)
-            if matching_entries:
-                for entry in updated_asm[:]:
-                    if entry.get(address_key) == address_value:
-                        self.log(f"Removing ASM RP entry with {address_type}: {entry}", "INFO")
-                        updated_asm.remove(entry)
-                is_need_update = True
+                if external_rp_removal_required:
+                    self.log(
+                        f"Removing the External RP ASM config with IPv4 address: {ex_rp_ipv4_address}.",
+                        "DEBUG",
+                    )
+                    # Remove the ASM RP entry with the specified IPv4 address
+                    for value in updated_asm_config[:]:
+                        if value.get("ipv4Address") == ex_rp_ipv4_address:
+                            self.log(f"Removing ASM RP entry with IPv4: {value}", "INFO")
+                            updated_asm_config.remove(value)
             else:
                 self.log(
-                    f"ASM RP config with {address_type} address '{address_value}' is not present in the Cisco Catalyst Center.",
-                    "DEBUG"
+                    f"External RP ASM config with IPv4 address '{ex_rp_ipv4_address}' is not present in the Cisco Catalyst Center.",
+                    "DEBUG",
                 )
 
-        # Process IPv4 removal
-        if ex_rp_ipv4_address:
-            remove_rp_entries("IPv4", "ipv4Address", ex_rp_ipv4_address)
+        elif ex_rp_ipv6_address:
+            self.log(f"Processing delete/update of ASM config for External RP with IPv6 address: {ex_rp_ipv6_address}", "DEBUG")
+            have_asm_config = self.find_dict_by_key_value(updated_asm_config, "ipv6Address", ex_rp_ipv6_address)
 
-        # Process IPv6 removal
-        if ex_rp_ipv6_address:
-            remove_rp_entries("IPv6", "ipv6Address", ex_rp_ipv6_address)
+            if have_asm_config:
+                ipv6_asm_ranges_requires_update = self.check_and_update_external_rp_asm_ranges_needs_update(
+                    "ipv6", want_asm_config, have_asm_config, updated_asm_config, ex_rp_ipv6_address
+                )
+                update_requested_in_ipv6_asm_ranges = bool(want_asm_config.get("ipv6AsmRanges"))
+
+                external_rp_removal_required = False
+                if update_requested_in_ipv6_asm_ranges:
+                    ipv6_asm_ranges_requires_update, should_remove_entire_external_rp = self.check_and_update_external_rp_asm_ranges_needs_update(
+                        "ipv6", want_asm_config, have_asm_config, updated_asm_config, ex_rp_ipv6_address
+                    )
+                    if ipv6_asm_ranges_requires_update:
+                        self.log(
+                            f"External RP ASM config with IPv6 address '{ex_rp_ipv6_address}' requires updates.",
+                            "INFO",
+                        )
+                    is_need_update =  is_need_update or update_requested_in_ipv6_asm_ranges
+                    external_rp_removal_required = external_rp_removal_required or should_remove_entire_external_rp
+                else:
+                    self.log(
+                        "No updates requested for ASM RP config with device location 'EXTERNAL'. "
+                        f"Marking the External RP ASM config with IPv6 address: {ex_rp_ipv6_address} for deletion.",
+                        "DEBUG",
+                    )
+                    external_rp_removal_required = True
+                    is_need_update = True
+
+                if external_rp_removal_required:
+                    self.log(
+                        f"Removing the External RP ASM config with IPv6 address: {ex_rp_ipv6_address}.",
+                        "DEBUG",
+                    )
+                    # Remove the ASM RP entry with the specified IPv6 address
+                    for value in updated_asm_config[:]:
+                        if value.get("ipv6Address") == ex_rp_ipv6_address:
+                            self.log(f"Removing ASM RP entry with IPv6: {value}", "INFO")
+                            updated_asm_config.remove(value)
+            else:
+                self.log(
+                    f"External RP ASM config with IPv6 address '{ex_rp_ipv6_address}' is not present in the Cisco Catalyst Center.",
+                    "DEBUG",
+                )
 
         if is_need_update:
             self.log(
                 "Completed processing delete of external ASM RP configuration. "
-                f"Updated config: {self.pprint(updated_asm)}",
+                f"Updated config: {self.pprint(updated_asm_config)}",
                 "INFO"
             )
         else:
@@ -3633,6 +4002,7 @@ class FabricMulticast(DnacBase):
                 "No updates were made to the external ASM RP configuration.",
                 "DEBUG",
             )
+
         return is_need_update
 
     def delete_fabric_multicast(self, fabric_multicast):
@@ -3810,20 +4180,20 @@ class FabricMulticast(DnacBase):
                         for item in want_asm:
                             rp_device_location = item.get("rpDeviceLocation")
                             self.log(
-                                f"The 'rp_device_location' is '{rp_device_location}' for the asm config: {item}",
+                                f"The 'rp_device_location' is '{rp_device_location}' for the asm config: {self.pprint(item)}",
                                 "DEBUG",
                             )
                             if rp_device_location == "FABRIC":
                                 self.log(
                                     "The 'rp_device_location' is 'FABRIC'. "
-                                    f"Processing deletion of the fabric RP config: {item} from the multicastRPs.",
+                                    f"Processing deletion of the fabric RP config: {self.pprint(item)} from the multicastRPs.",
                                     "DEBUG",
                                 )
                                 is_need_update = self.process_delete_fabric_asm_rp(item, updated_asm) or is_need_update
                             else:
                                 self.log(
                                     "The 'rp_device_location' is 'EXTERNAL'. "
-                                    f"Processing deletion of the external RP config: {item} from the multicastRPs.",
+                                    f"Processing deletion of the external RP config: {self.pprint(item)} from the multicastRPs.",
                                     "DEBUG",
                                 )
                                 is_need_update = self.process_delete_external_asm_rp(item, updated_asm) or is_need_update
@@ -4143,18 +4513,36 @@ class FabricMulticast(DnacBase):
 
     def verify_ssm_asm_deleted(self, want_ssm, want_asm, fabric_multicast_index, fabric_name):
         """
-        Validating the Cisco Catalyst Center configuration with the playbook details
-        for the state is deleted when the ssm and the asm configuration are provided.
+        Validate that the SSM and ASM configurations provided in the playbook
+        have been deleted or updated correctly in the Cisco Catalyst Center.
 
         Parameters:
-            want_ssm (dict): The Source specific multicast configurations provided in the playbook.
-            want_asm (list of dict): The Any source multicast configurations provided in the playbook.
-            fabric_multicast_index (int): The index which points to the which item in the config.
-            fabric_name (str): The name of the fabric site.
+            want_ssm (dict): Desired Source-Specific Multicast (SSM) configurations from the playbook.
+            want_asm (list of dict): Desired Any-Source Multicast (ASM) configurations from the playbook.
+            fabric_multicast_index (int): Index pointing to the specific fabric multicast config in self.have.
+            fabric_name (str): Name of the fabric site being validated.
+
         Returns:
-            self (object): The current object with updated desired fabric multicast configurations.
+            self: The current object with updated validation status (self.status) and message (self.msg).
+
         Description:
+            - For SSM: checks if any SSM ranges from the playbook are still present in the Catalyst Center config.
+            - If so, validation fails.
+            - For ASM:
+                - For FABRIC RP:
+                    • Uses helper methods to detect if obsolete IPv4/IPv6 ASM ranges or networkDeviceIds remain.
+                    • If so, validation fails.
+                - For EXTERNAL RP (by IPv4 or IPv6 address):
+                    • Uses helper methods to detect if obsolete ASM ranges remain.
+                    • If so, validation fails.
+            If all desired SSM and ASM entries are absent as expected, sets self.status = "success"
+            and self.msg accordingly. Otherwise, fails immediately with detailed log.
         """
+
+        self.log(
+            f"Starting verification of deletion of SSM and ASM configurations for fabric '{fabric_name}'.",
+            "DEBUG"
+        )
 
         have_ssm = self.have.get("fabric_multicast")[fabric_multicast_index].get(
             "multicast_details"
@@ -4163,7 +4551,7 @@ class FabricMulticast(DnacBase):
             have_ssm = have_ssm.get("ipv4SsmRanges")
 
         self.msg = (
-            "The SDA fabric multicast configurations are not applied to the Cisco Catalyst Center"
+            "The SDA fabric multicast configurations are not applied to the Cisco Catalyst Center "
             "for the config at position '{idx}' under the fabric site '{fabric_name}'.".format(
                 idx=fabric_multicast_index + 1, fabric_name=fabric_name
             )
@@ -4180,8 +4568,6 @@ class FabricMulticast(DnacBase):
             ),
             "INFO",
         )
-        if want_ssm:
-            want_ssm = want_ssm.get("ipv4_ssm_ranges")
 
         if not want_ssm:
             self.log(
@@ -4206,9 +4592,7 @@ class FabricMulticast(DnacBase):
                         ),
                         "INFO",
                     )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.fail_and_exit(self.msg)
 
         have_asm = self.have.get("fabric_multicast")[fabric_multicast_index].get(
             "multicast_details"
@@ -4224,91 +4608,180 @@ class FabricMulticast(DnacBase):
                 "DEBUG",
             )
         else:
-            for item in want_asm:
-                rp_device_location = item.get("rp_device_location")
+            updated_asm_config = copy.deepcopy(have_asm)
+            for want_asm_config in want_asm:
+                rp_device_location = want_asm_config.get("rpDeviceLocation")
                 if rp_device_location == "FABRIC":
-                    have_rp_details = get_dict_result(
+                    have_asm_config = self.find_dict_by_key_value(
                         have_asm, "rpDeviceLocation", "FABRIC"
                     )
-                    if not have_rp_details:
+                    if not have_asm_config:
                         self.log(
-                            "RP details not found in Cisco Catalyst Center for 'FABRIC' devices "
-                            "in fabric '{fabric_name}'.".format(
-                                fabric_name=fabric_name
-                            ),
+                            "ASM RP config with device location 'FABRIC' is not present in the Cisco Catalyst Center "
+                            f"in fabric '{fabric_name}'.",
                             "DEBUG",
                         )
                         continue
 
-                    want_nw_device_ips = item.get("network_device_ips")
-                    want_nw_device_ips = set(want_nw_device_ips)
-                    want_nw_device_ids = []
-                    for ip in want_nw_device_ips:
-                        network_device_details = self.get_device_details_from_ip(ip)
+                    update_requested_in_ipv4_or_ipv6_asm_ranges = (
+                        bool(want_asm_config.get("ipv4AsmRanges")) or
+                        bool(want_asm_config.get("ipv6AsmRanges"))
+                    )
+                    update_requested_in_network_device_ids = bool(want_asm_config.get("networkDeviceIds"))
+                    if update_requested_in_ipv4_or_ipv6_asm_ranges:
+                        # Checking if IPv4 ASM Ranges need update
+                        ipv4_ranges_updated, remove_entire_fabric_rp_from_ipv4 = (
+                            self.check_and_update_fabric_rp_asm_ranges_needs_update(
+                                "ipv4", want_asm_config, have_asm_config, updated_asm_config
+                            )
+                        )
+
+                        # Checking if IPv6 ASM Ranges need update
+                        ipv6_ranges_updated, remove_entire_fabric_rp_from_ipv6 = (
+                            self.check_and_update_fabric_rp_asm_ranges_needs_update(
+                                "ipv6", want_asm_config, have_asm_config, updated_asm_config
+                            )
+                        )
+                        any_updates = ipv4_ranges_updated or ipv6_ranges_updated
+                        fabric_rp_removal_required = remove_entire_fabric_rp_from_ipv4 and remove_entire_fabric_rp_from_ipv6
+
+                    elif update_requested_in_network_device_ids:
+                        # Checking if network device IDs need update
+                        network_device_ids_updated, should_remove_entire_fabric_rp = (
+                            self.check_and_update_fabric_rp_network_device_ids_needs_update(
+                                want_asm_config, have_asm_config, updated_asm_config
+                            )
+                        )
+                        any_updates = network_device_ids_updated
+                        fabric_rp_removal_required = should_remove_entire_fabric_rp
+                    else:
+                        # No update requested → mark for removal
                         self.log(
-                            "The device with the IP {ip} is a valid network device IP.".format(
-                                ip=item
-                            ),
+                            "No updates requested for ASM RP config with device location 'FABRIC'. "
+                            "Marking the entire Fabric RP ASM config for deletion.",
                             "DEBUG",
                         )
-                        network_device_id = network_device_details[0].get("id")
-                        want_nw_device_ids.append(network_device_id)
+                        any_updates = True
+                        fabric_rp_removal_required = True
 
-                    have_nw_device_ids = have_rp_details.get("networkDeviceIds")
-                    common_elem = [
-                        id for id in have_nw_device_ids if id not in want_nw_device_ids
-                    ]
-                    if common_elem:
+                    if fabric_rp_removal_required or any_updates:
                         self.log(
-                            "Validation failed: ASM configuration '{item}' for 'FABRIC' devices is still present "
-                            "in Cisco Catalyst Center for fabric '{fabric_name}'. Expected it to be absent.".format(
-                                item=item, fabric_name=fabric_name
-                            ),
+                            f"Validation failed: Current ASM configuration: {self.pprint(have_asm_config)} for FABRIC RP "
+                            f" still needs update in Cisco Catalyst Center for "
+                            f"fabric '{fabric_name}'. Expected it to be updated with desired values removed.",
                             "ERROR",
                         )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
-
+                        self.fail_and_exit(self.msg)
                 else:
-                    ex_rp_ipv4_address = item.get("ex_rp_ipv4_address")
-                    ex_rp_ipv6_address = item.get("ex_rp_ipv6_address")
+                    ex_rp_ipv4_address = want_asm_config.get("ipv4Address")
+                    ex_rp_ipv6_address = want_asm_config.get("ipv6Address")
                     if ex_rp_ipv4_address:
-                        ex_ipv4_details = get_dict_result(
+                        self.log(
+                            f"Validating Delete/Update of ASM configuration for EXTERNAL IPv4 address: {ex_rp_ipv4_address}",
+                            "DEBUG",
+                        )
+                        have_asm_config = self.find_dict_by_key_value(
                             have_asm, "ipv4Address", ex_rp_ipv4_address
                         )
-                        if ex_ipv4_details:
+                        if not have_asm_config:
                             self.log(
-                                "Validation failed: ASM configuration '{item}' for EXTERNAL IPv4 address "
-                                "'{ex_rp_ipv4_address}' is still present in Cisco Catalyst Center for "
-                                "fabric '{fabric_name}'. Expected it to be absent.".format(
-                                    item=item,
-                                    ex_rp_ipv4_address=ex_rp_ipv4_address,
-                                    fabric_name=fabric_name,
-                                ),
+                                f"ASM configuration for EXTERNAL RP with IPv4 address '{ex_rp_ipv4_address}' "
+                                f"is successfully deleted/updated in Cisco Catalyst Center for fabric '{fabric_name}'.",
+                                "DEBUG",
+                            )
+                            continue
+
+                        update_requested_in_ipv4_asm_ranges = bool(want_asm_config.get("ipv4AsmRanges"))
+                        external_rp_removal_required = False
+                        is_need_update = False
+
+                        if update_requested_in_ipv4_asm_ranges:
+                            ipv4_ranges_updated, should_remove_entire_external_rp = (
+                                self.check_and_update_external_rp_asm_ranges_needs_update(
+                                    "ipv4", want_asm_config, have_asm_config, updated_asm_config, ex_rp_ipv4_address
+                                )
+                            )
+                            is_need_update = ipv4_ranges_updated
+                            external_rp_removal_required = should_remove_entire_external_rp
+                        else:
+                            # No update requested → mark for removal
+                            self.log(
+                                "No updates requested for ASM RP config with EXTERNAL IPv4 address. "
+                                "Marking the entire External RP ASM config for deletion.",
+                                "DEBUG",
+                            )
+                            is_need_update = True
+                            external_rp_removal_required = True
+
+                        if is_need_update or external_rp_removal_required:
+                            self.log(
+                                f"Validation failed: ASM configuration: {self.pprint(want_asm_config)} for EXTERNAL RP with IPv4 address "
+                                f"'{ex_rp_ipv4_address}' still needs update in Cisco Catalyst Center for "
+                                f"fabric '{fabric_name}'. Expected it to be updated with desired ipv4 ASM ranges removed.",
                                 "ERROR",
                             )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            ).check_return_status()
-                    else:
-                        ex_ipv6_details = get_dict_result(
+                            self.fail_and_exit(self.msg)
+                        else:
+                            self.log(
+                                f"Validation passed: ASM configuration: {self.pprint(want_asm_config)} for EXTERNAL RP with IPv4 address "
+                                f"'{ex_rp_ipv4_address}' has been successfully updated in Cisco Catalyst Center for "
+                                f"fabric '{fabric_name}'. Desired IPv4 ASM ranges were removed as expected.",
+                                "INFO",
+                            )
+
+                    if ex_rp_ipv6_address:
+                        self.log(
+                            f"Validating Delete/Update of ASM configuration for EXTERNAL IPv6 address: {ex_rp_ipv6_address}",
+                            "DEBUG",
+                        )
+                        have_asm_config = self.find_dict_by_key_value(
                             have_asm, "ipv6Address", ex_rp_ipv6_address
                         )
-                        if ex_ipv6_details:
+                        if not have_asm_config:
                             self.log(
-                                "Validation failed: ASM configuration '{item}' for EXTERNAL IPv6 address "
-                                "'{ex_rp_ipv6_address}' is still present in Cisco Catalyst Center for "
-                                "fabric '{fabric_name}'. Expected it to be absent.".format(
-                                    item=item,
-                                    ex_rp_ipv6_address=ex_rp_ipv6_address,
-                                    fabric_name=fabric_name,
-                                ),
+                                f"ASM configuration for EXTERNAL RP with IPv6 address '{ex_rp_ipv6_address}' "
+                                f"is successfully deleted/updated in Cisco Catalyst Center for fabric '{fabric_name}'.",
+                                "DEBUG",
+                            )
+                            continue
+
+                        update_requested_in_ipv6_asm_ranges = bool(want_asm_config.get("ipv6AsmRanges"))
+                        external_rp_removal_required = False
+                        is_need_update = False
+
+                        if update_requested_in_ipv6_asm_ranges:
+                            ipv6_ranges_updated, should_remove_entire_external_rp = (
+                                self.check_and_update_external_rp_asm_ranges_needs_update(
+                                    "ipv6", want_asm_config, have_asm_config, updated_asm_config, ex_rp_ipv6_address
+                                )
+                            )
+                            is_need_update = ipv6_ranges_updated
+                            external_rp_removal_required = should_remove_entire_external_rp
+                        else:
+                            # No update requested → mark for removal
+                            self.log(
+                                "No updates requested for ASM RP config with EXTERNAL IPv6 address. "
+                                "Marking the entire External RP ASM config for deletion.",
+                                "DEBUG",
+                            )
+                            is_need_update = True
+                            external_rp_removal_required = True
+
+                        if is_need_update or external_rp_removal_required:
+                            self.log(
+                                f"Validation failed: ASM configuration: {self.pprint(want_asm_config)} for EXTERNAL RP with IPv6 address "
+                                f"'{ex_rp_ipv6_address}' still needs update in Cisco Catalyst Center for "
+                                f"fabric '{fabric_name}'. Expected it to be updated with desired ipv6 ASM ranges removed.",
                                 "ERROR",
                             )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            ).check_return_status()
+                            self.fail_and_exit(self.msg)
+                        else:
+                            self.log(
+                                f"Validation passed: ASM configuration: {self.pprint(want_asm_config)} for EXTERNAL RP with IPv6 address "
+                                f"'{ex_rp_ipv6_address}' has been successfully updated in Cisco Catalyst Center for "
+                                f"fabric '{fabric_name}'. Desired IPv6 ASM ranges were removed as expected.",
+                                "INFO",
+                            )
 
         self.msg = "Successfully validated the absence of ssm and asm config in the Cisco Catalyst Center."
         self.status = "success"
@@ -4332,7 +4805,11 @@ class FabricMulticast(DnacBase):
 
         self.get_have(config)
         self.log(
-            "Current State (have): {current_state}".format(current_state=self.have),
+            f"Current State (have): {self.pprint(self.have)}",
+            "INFO",
+        )
+        self.log(
+            f"Desired State (want): {self.pprint(self.want)}",
             "INFO",
         )
         fabric_multicast = config.get("fabric_multicast")
@@ -4354,7 +4831,7 @@ class FabricMulticast(DnacBase):
             fabric_multicast_index += 1
             fabric_name = item.get("fabric_name")
             layer3_virtual_network = item.get("layer3_virtual_network")
-            want_details = config.get("fabric_multicast")[fabric_multicast_index]
+            want_details = self.want.get("fabric_multicast")[fabric_multicast_index].get("multicast_details")
             ssm = None
             asm = None
             self.log(
@@ -4364,8 +4841,8 @@ class FabricMulticast(DnacBase):
                 "INFO",
             )
             if want_details:
-                ssm = want_details.get("ssm")
-                asm = want_details.get("asm")
+                ssm = want_details.get("ipv4SsmRanges")
+                asm = want_details.get("multicastRPs")
 
             if ssm or asm:
                 self.log(
