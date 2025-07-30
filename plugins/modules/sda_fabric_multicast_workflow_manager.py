@@ -594,7 +594,6 @@ from collections import defaultdict
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
-    get_dict_result,
 )
 
 
@@ -3566,7 +3565,7 @@ class FabricMulticast(DnacBase):
 
         if not removed_ids:
             self.log(
-                f"No updates required; Network device IDs in Fabric RP ASM configuration are already up to date.",
+                "No updates required; Network device IDs in Fabric RP ASM configuration are already up to date.",
                 "DEBUG"
             )
             return False, False
@@ -3626,7 +3625,6 @@ class FabricMulticast(DnacBase):
 
         have_asm_ranges = have_asm_config.get(range_key) or []
         want_asm_ranges = set(want_asm_config.get(range_key) or [])
-
 
         if not want_asm_ranges:
             self.log(f"No updates required; {ip_version.upper()} ASM ranges in Fabric RP ASM configuration are already up to date.", "DEBUG")
@@ -3736,7 +3734,7 @@ class FabricMulticast(DnacBase):
                     "ipv6", want_asm_config, have_asm_config, updated_asm_config
                 )
 
-                is_need_update =  is_need_update or ipv4_asm_ranges_requires_update or ipv6_asm_ranges_requires_update
+                is_need_update = is_need_update or ipv4_asm_ranges_requires_update or ipv6_asm_ranges_requires_update
                 fabric_rp_removal_required = fabric_rp_removal_required or (ipv4_ranges_remaining and ipv6_ranges_remaining)
                 # RP Should be only removed when both ipv4 and ipv6 ASM ranges are empty for Fabric RP
 
@@ -3748,7 +3746,7 @@ class FabricMulticast(DnacBase):
                 network_device_ids_requires_update, should_remove_entire_fabric_rp = self.check_and_update_fabric_rp_network_device_ids_needs_update(
                     want_asm_config, have_asm_config, updated_asm_config
                 )
-                is_need_update =  is_need_update or network_device_ids_requires_update
+                is_need_update = is_need_update or network_device_ids_requires_update
                 fabric_rp_removal_required = fabric_rp_removal_required or should_remove_entire_fabric_rp
 
             else:
@@ -3917,7 +3915,7 @@ class FabricMulticast(DnacBase):
                             f"External RP ASM config with IPv4 address '{ex_rp_ipv4_address}' requires updates.",
                             "INFO",
                         )
-                    is_need_update =  is_need_update or ipv4_asm_ranges_requires_update
+                    is_need_update = is_need_update or ipv4_asm_ranges_requires_update
                     external_rp_removal_required = external_rp_removal_required or should_remove_entire_external_rp
                 else:
                     self.log(
@@ -3964,7 +3962,7 @@ class FabricMulticast(DnacBase):
                             f"External RP ASM config with IPv6 address '{ex_rp_ipv6_address}' requires updates.",
                             "INFO",
                         )
-                    is_need_update =  is_need_update or update_requested_in_ipv6_asm_ranges
+                    is_need_update = is_need_update or update_requested_in_ipv6_asm_ranges
                     external_rp_removal_required = external_rp_removal_required or should_remove_entire_external_rp
                 else:
                     self.log(
