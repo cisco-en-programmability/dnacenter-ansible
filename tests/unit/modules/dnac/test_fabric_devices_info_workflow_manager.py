@@ -24,7 +24,7 @@ from ansible_collections.cisco.dnac.plugins.modules import fabric_devices_info_w
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
+class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
 
     module = fabric_devices_info_workflow_manager
 
@@ -55,7 +55,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
     playbook_negative_scenario13 = test_data.get("playbook_negative_scenario13")
 
     def setUp(self):
-        super(TestDnacApplicationPolicyWorkflowManager, self).setUp()
+        super(TestDnacFabricDeviceInfoWorkflowManager, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -67,7 +67,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         self.run_dnac_exec = self.mock_dnac_exec.start()
 
     def tearDown(self):
-        super(TestDnacApplicationPolicyWorkflowManager, self).tearDown()
+        super(TestDnacFabricDeviceInfoWorkflowManager, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
@@ -1005,9 +1005,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario7(self):
         """
-        Test the Fabric Devices Info Workflow Manager with a playbook that has invalid data type for file_info.
+        Test the Fabric Devices Info Workflow Manager with a playbook that has invalid data type for output_file_info.
 
-        This test ensures that the module correctly identifies and handles invalid data type for file_info,
+        This test ensures that the module correctly identifies and handles invalid data type for output_file_info,
         returning an appropriate error message.
         """
 
@@ -1026,7 +1026,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("response"),
-            "'file_path' in file_info must be a string"
+            "'file_path' in output_file_info must be a string. Type found: <class 'list'>"
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario8(self):
@@ -1051,7 +1051,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("response"),
-            "'file_format' in file_info must be a string"
+            "'file_format' in output_file_info must be a string. Type found: <class 'list'>"
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario9(self):
@@ -1076,7 +1076,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("response"),
-            "'file_mode' in file_info must be a string"
+            "'file_mode' in output_file_info must be a string. Type found: <class 'list'>"
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario10(self):
@@ -1131,9 +1131,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario12(self):
         """
-        Test the Fabric Devices Info Workflow Manager with a playbook that has invalid key in file_info.
+        Test the Fabric Devices Info Workflow Manager with a playbook that has invalid key in output_file_info.
 
-        This test ensures that the module correctly identifies and handles an invalid key in file_info,
+        This test ensures that the module correctly identifies and handles an invalid key in output_file_info,
         returning an appropriate error message.
         """
         set_module_args(
@@ -1151,7 +1151,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("response"),
-            "'file' is not a valid key in file_info. Allowed keys are: ['file_format', 'file_mode', 'file_path', 'timestamp']"
+            "'file' is not a valid key in 'output_file_info'. Allowed keys are: ['file_format', 'file_mode', 'file_path', 'timestamp']"
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario13(self):

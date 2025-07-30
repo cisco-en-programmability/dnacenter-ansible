@@ -3,7 +3,7 @@
     {
       "fabric_devices": [
         {
-          "file_info": {
+          "output_file_info": {
             "file_format": "json",
             "file_mode": "a",
             "file_path": "/Users/priyadharshini/Downloads/device_pireeeeya",
@@ -2394,7 +2394,7 @@
     {
         "fabric_devices": [
             {
-                "file_info": {
+                "output_file_info": {
                     "file_format": "json",
                     "file_mode": "a",
                     "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
@@ -2936,7 +2936,7 @@
     {
       "fabric_devices": [
         {
-          "file_info": {
+          "output_file_info": {
             "file_format": "yaml",
             "file_mode": "a",
             "file_path": [
@@ -2962,7 +2962,7 @@
     {
       "fabric_devices": [
         {
-          "file_info": {
+          "output_file_info": {
             "file_format": [
               "yaml"
             ],
@@ -2988,7 +2988,7 @@
     {
       "fabric_devices": [
         {
-          "file_info": {
+          "output_file_info": {
             "file_format": "yaml",
             "file_mode": [
               "a"
@@ -3014,7 +3014,7 @@
     {
       "fabric_devices": [
         {
-          "file_info": {
+          "output_file_info": {
             "file_format": "yaml",
             "file_mode": "b",
             "file_path": "/Users/priyadharshini/Downloads/device_pireeeeya",
@@ -3038,7 +3038,7 @@
     {
       "fabric_devices": [
         {
-          "file_info": {
+          "output_file_info": {
             "file_format": "docx",
             "file_mode": "b",
             "file_path": "/Users/priyadharshini/Downloads/device_pireeeeya",
@@ -3062,7 +3062,7 @@
     {
       "fabric_devices": [
         {
-          "file_info": {
+          "output_file_info": {
             "file": "new",
             "file_format": "yaml",
             "file_mode": "a",
