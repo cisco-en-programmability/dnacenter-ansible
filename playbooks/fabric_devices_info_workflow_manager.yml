@@ -38,7 +38,7 @@
                   - connected_devices_info
                   - device_health_info
                   - device_issues_info
-                file_info:
+                output_file_info:
                   file_path: /Users/priyadharshini/Downloads/fabric_device_info
                   file_format: yaml
                   file_mode: a

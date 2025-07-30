@@ -1,0 +1,10 @@
+{
+    "docs": "https://docs.ansible.com/ansible-core/2.18/dev_guide/testing/sanity/import.html", 
+    "results": [
+        {
+            "message": "The test `ansible-test sanity --test import --python 3.11` [[explain](https://docs.ansible.com/ansible-core/2.18/dev_guide/testing/sanity/import.html)] failed with 1 error:", 
+            "output": "plugins/modules/fabric_devices_info_workflow_manager.py:1128:0: traceback: ModuleNotFoundError: No module named 'yaml'"
+        }
+    ], 
+    "verified": false
+}
