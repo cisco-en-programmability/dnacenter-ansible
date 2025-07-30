@@ -6,6 +6,8 @@
 """Ansible module to perform update Health score KPI's in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
+import epdb
+
 __metaclass__ = type
 __author__ = ["Megha Kandari, Madhan Sankaranarayanan"]
 
@@ -676,6 +678,8 @@ response_download_report_content:
 """
 
 from datetime import datetime
+import time
+import os
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -1034,11 +1038,16 @@ class FlexibleReport(DnacBase):
 
         for report_entry in generate_report:
           #check if the report already exists
-          response = self.dnac._exec(
-              family="reports",
-              function="get_list_of_scheduled_reports",
-          )
-          self.log("Response from get_list_of_scheduled_reports: {0}".format(self.pprint(response)), "DEBUG")
+          try:
+              response = self.dnac._exec(
+                  family="reports",
+                  function="get_list_of_scheduled_reports",
+              )
+              self.log("Response from get_list_of_scheduled_reports: {0}".format(self.pprint(response)), "DEBUG")
+          except Exception as e:
+              self.msg = "An error occurred while checking for existing reports: {0}".format(str(e))
+              self.set_operation_result("failed", False, self.msg, "ERROR")
+              return self
           if not response:
               self.msg = "Failed to retrieve list of scheduled reports."
               self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1059,6 +1068,9 @@ class FlexibleReport(DnacBase):
                   report_entry["exists"] = True
                   self.log(f"Report '{report_name}' exists with ID: {report.get('reportId')}", "DEBUG")
                   break
+              else:
+                  self.log(f"Report '{report_name}' does not exist.", "DEBUG")
+                  report_entry["exists"] = False
 
           view_group_name = report_entry.get("view_group_name")
           if not view_group_name:
@@ -1132,6 +1144,7 @@ class FlexibleReport(DnacBase):
 
         try:
           for report_entry in generate_report:
+              self.log("Processing report entry: {0}".format(self.pprint(report_entry)), "DEBUG")
               if not report_entry.get("name"):
                   self.msg = "The 'name' field is mandatory in the 'generate_report' configuration."
                   self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1149,16 +1162,21 @@ class FlexibleReport(DnacBase):
 
               # Check if the report already exists
               if report_entry.get("exists"):
+                  report_id = report_entry.get("report_id")
+                  self.log("Checking if report '{0}' with ID '{1}' already exists.".format(report_entry.get("name"), report_id), "DEBUG")
                   self.log("Report '{0}' already exists. Skipping creation.".format(report_entry.get("name")), "DEBUG")
                   result = {
                       "response": {
-                          "reportId": report_entry.get("reportId"),
-                          "viewGroupId": report_entry.get("viewGroupId"),
-                          "viewsId": report_entry.get("view", {}).get("viewsId"),
+                          "report_id": report_entry.get("report_id"),
+                          "view_group_id": report_entry.get("view_group_id"),
+                          "views_id": report_entry.get("view", {}).get("views_id"),
                       },
                       "msg": "Report '{0}' already exists.".format(report_entry.get("name")),
                   }
                   self.result["response"].append({"create_report": result})
+                  if any(d.get("type", "").lower() == "download" for d in report_entry.get("deliveries", [])):
+                    self.log("Download requested for report '{0}'. Proceeding to download.".format(report_entry.get("name")), "DEBUG")
+                    self.report_download(report_entry, report_entry.get("report_id"))
                   continue
               self.log("Processing report creation: {0}".format(self.pprint(report_entry)), "DEBUG")
               # Prepare the payload for creating or scheduling a report
@@ -1183,53 +1201,28 @@ class FlexibleReport(DnacBase):
                   family="reports",
                   function="create_or_schedule_a_report",
                   params=report_entry_camel
-                #   {
-                #   "tags": [],
-                #   "deliveries": [
-                #     {
-                #       "type": "DOWNLOAD"
-                #     }
-                #   ],
-                #   "name": "Ansible test version as v1",
-                #   "schedule": {
-                #     "type": "SCHEDULE_NOW",
-                #     "timeZoneId": "Asia/Calcutta"
-                #   },
-                #   "view": {
-                #     "name": "Host Group to Host Group",
-                #     "viewId": "6b4b5c4f-046e-45fc-a9e3-89378fd37556",
-                #     "filters": [ ],
-                #     "format": {
-                #       "name": "CSV",
-                #       "formatType": "CSV"
-                #     },
-                #     "fieldGroups": []
-                #   },
-                #   "viewGroupId": "59c08996-b335-43a6-a6fe-07710f8a48e5",
-                #   "viewGroupVersion": "2.0.0",
-                #   "dataCategory": "Activity"
-                # },
               )
               self.log("Response from create_or_schedule_a_report: {0}".format(self.pprint(response)), "DEBUG")
               if not response:
                   self.msg = "Failed to create or schedule report '{0}'.".format(report_entry.get("name"))
                   self.set_operation_result("failed", False, self.msg, "ERROR")
                   return self
-              result = {
-                  "response": {
-                      "reportId": response.get("reportId"),
-                      "viewGroupId": response.get("viewGroupId"),
-                      "viewsId": response.get("view", {}).get("viewId"),
-                  },
-                  "msg": "Successfully created or scheduled report '{0}'.".format(report_entry.get("name")),
-              }
+              # Update result dictionary for success
+              result["response"].update({
+                  "reportId": response.get("reportId"),
+                  "viewGroupId": response.get("viewGroupId"),
+                  "viewsId": response.get("view", {}).get("viewId"),
+              })
+              result["msg"] = "Successfully created or scheduled report '{0}'.".format(report_entry.get("name"))
+
+              # Append once to final result
               self.result["response"].append({"create_report": result})
               self.log("Successfully created or scheduled report: {0}".format(report_entry.get("name")), "INFO")
               self.status="success"
               self.result["changed"]=True
-              if report_entry.get("download"):
-                  self.report_download(report_entry, response)
-
+              if any(d.get("type", "").lower() == "download" for d in report_entry.get("deliveries", [])):
+                  self.log("Download requested for report '{0}'. Proceeding to download.".format(report_entry.get("name")), "DEBUG")
+                  self.report_download(report_entry, response.get("reportId"))
         except Exception as e:
             self.msg = "An error occurred while creating or scheduling the report: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1258,7 +1251,36 @@ class FlexibleReport(DnacBase):
 
         return self
 
-    def report_download(self, report_entry, response):
+    def get_execution_id_for_report(self, report_id):
+        """
+        Retrieve the execution ID for a given report ID from Cisco Catalyst Center.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            report_id (str): The ID of the report for which to retrieve the execution ID.
+
+        Returns:
+            str: The execution ID associated with the specified report ID, or None if not found.
+        """
+        time.sleep(20)  # Adding a delay to ensure the report is ready for execution
+        self.log("Retrieving execution ID for report ID: {0}".format(report_id), "DEBUG")
+        response = self.dnac._exec(
+            family="reports",
+            function="get_all_execution_details_for_a_given_report",
+            params={"report_id": report_id}
+        )
+        self.log("Response from get_execution_id_for_report: {0}".format(self.pprint(response)), "DEBUG")
+        if not response or not response.get("executions"):
+            self.msg = "No executions found for report ID '{0}'.".format(report_id)
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return None
+
+        # Assuming the first execution is the one we want
+        execution_id = response["executions"][0].get("executionId")
+        self.log("Execution ID for report ID '{0}': {1}".format(report_id, execution_id), "DEBUG")
+        return execution_id
+
+    def report_download(self, report_entry, report_id):
         """
         Download the report content after it has been created or scheduled.
 
@@ -1270,32 +1292,73 @@ class FlexibleReport(DnacBase):
         Returns:
             None: This method updates the 'result' attribute with the downloaded report content.
         """
-        if not report_entry.get("download"):
-            self.log("Download not requested for report '{0}'.".format(report_entry.get("name")), "DEBUG")
-            return
+        # import epdb;
+        # epdb.serve(port=8888)
+        self.log("Downloading report content for report entry: {0}".format(self.pprint(report_entry)), "DEBUG")
 
+        # try:
         file_path = report_entry.get("file_path", "./")
         if not file_path:
             self.msg = "File path is required for downloading the report."
             self.set_operation_result("failed", False, self.msg, "ERROR")
-            return
+            return self
+
+        execution_id = self.get_execution_id_for_report(report_id)
+        if not execution_id:
+            self.msg = "Failed to retrieve execution ID for report '{0}'.".format(report_entry.get("name"))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
         download_response = self.dnac._exec(
             family="reports",
             function="download_report_content",
-            params={"report_id": response.get("reportId")},
+            params={"report_id": report_id,
+                    "execution_id": execution_id
+                  }
         )
-        self.log("Response from download_report_content: {0}".format(self.pprint(download_response)), "DEBUG")
-        
+        # download_response = download_response.data
+        self.log(download_response.data)
+        # self.log("Response from download_report_content: {0}".format(self.pprint(download_response)), "DEBUG")
+
         if not download_response:
             self.msg = "Failed to download report content for '{0}'.".format(report_entry.get("name"))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return
 
-        # Save the downloaded content to a file
-        with open(file_path, 'w') as file:
-            file.write(download_response)
-        
+        # Validate file_path
+        deliveries = report_entry.get("deliveries", [])
+        view = report_entry.get("view", {})
+        file_format = view.get("format", {}).get("format_type")
+        default_format = ".csv"  # Default file format if not specified
+
+        for delivery in deliveries:
+          if delivery.get("type", "").upper() == "DOWNLOAD" and "file_path" in delivery:
+              file_path = delivery["file_path"]
+              break  # Found it, no need to continue
+
+        if not file_path:
+            self.log("No 'file_path' provided. Cannot save the downloaded file.", "WARNING")
+            return
+
+        # Determine file format
+        if not file_format.startswith("."):
+            file_format = "." + file_format  # Ensure it starts with "."
+
+        # Determine file name (download_id or default name)
+        report_name = report_entry.get("name", "report")
+
+        # Construct full path
+        full_path = os.path.join(file_path, f"{report_name}{file_format}")
+
+        # Save the file
+        try:
+            os.makedirs(file_path, exist_ok=True)
+            with open(full_path, "wb") as f:
+                f.write(download_response)
+            self.log(f"File saved successfully at {full_path}", "INFO")
+        except Exception as e:
+            self.log(f"Failed to save file: {e}", "ERROR")
+
         result = {
             "response": download_response,
             "msg": "Successfully downloaded report '{0}' to '{1}'.".format(report_entry.get("name"), file_path),
@@ -1304,6 +1367,9 @@ class FlexibleReport(DnacBase):
         self.log("Successfully downloaded report: {0}".format(report_entry.get("name")), "INFO")
         self.status = "success"
         self.result["changed"] = True
+        # except Exception as e:
+        #     self.msg = "An error occurred while downloading the report: {0}".format(str(e))
+        #     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         return self
 
     def get_diff_deleted(self, config):
@@ -1328,7 +1394,7 @@ class FlexibleReport(DnacBase):
           for report_entry in generate_report:
               report_name = report_entry.get("name")
               self.log("Attempting to delete report: {0}".format(report_name), "DEBUG")
-              if not report_entry["exists"]:
+              if not report_entry.get("exists", False):
                   self.log("Report '{0}' does not exist, skipping deletion.".format(report_name), "DEBUG")
                   result = {
                       "response": {},
@@ -1356,19 +1422,20 @@ class FlexibleReport(DnacBase):
 
               result = {
                       "response": {},
-                      "msg": "Report '{0}' has been successfully deleted.".format(report_entry.get("report_name")),
+                      "msg": "Report '{0}' has been successfully deleted.".format(report_entry.get(report_name)),
                   }
               self.result["response"].append({"delete_report": result})
-              self.log("Successfully deleted report with ID: {0}".format(report_entry.get("report_id")), "INFO")
+              self.msg = "Successfully deleted report with ID: {0}".format(report_entry.get("report_id"))
+              self.log(self.msg, "INFO")
               self.status = "success"
               self.result["changed"] = True
         except Exception as e:
             self.msg = "An error occurred while deleting the report: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+
         return self
 
-    def verify_diff_merged(self):
+    def verify_diff_merged(self, config):
         """ Verify the creation or scheduling of a flexible report.
         This method checks if the specified report has been successfully created or scheduled in Cisco Catalyst Center.
         Returns:
@@ -1383,10 +1450,7 @@ class FlexibleReport(DnacBase):
         for report_entry in generate_report:
             if report_entry["exists"] == True:
                 report_name = report_entry.get("name")
-                result = {
-                    "Validation": "Success",
-                }
-                self.result["response"].append({"create_report": result})
+                self.result["response"][-1]["create_report"]["Validation"] = "Success"
                 self.msg = "Report '{0}' has been successfully created or scheduled.".format(report_name)
             else:
                 self.log("Report '{0}' does not exist in the current state.".format(report_name), "DEBUG")
@@ -1396,7 +1460,7 @@ class FlexibleReport(DnacBase):
 
         return self
 
-    def verify_diff_deleted(self):
+    def verify_diff_deleted(self, config):
         """ Verify the deletion of a flexible report.
         This method checks if the specified report has been successfully deleted from Cisco Catalyst Center.
         Returns:
@@ -1408,18 +1472,17 @@ class FlexibleReport(DnacBase):
             self.msg = "No reports found in the current state after deletion."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
-        for report_entry in generate_report:
-            if report_entry["exists"] == False:
-                report_name = report_entry.get("name")
-                result = {
-                    "response": {},
-                    "Validation": "Success",
-                }
-                self.result["response"].append({"delete_report": result})
-                self.msg = "Report '{0}' has been successfully deleted.".format(report_name)
 
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+        for report_entry in generate_report:
+            # Adding a delay to ensure the report deletion is processed
+            report_name = report_entry.get("name")
+            if not report_entry.get("exists", False):
+                self.result["response"][-1]["delete_report"]["Validation"] = "Success"
+                self.msg = "Report '{0}' has been successfully deleted.".format(report_name)
+            else:
+                self.log("Report '{0}' still exists in the current state.".format(report_name), "DEBUG")
+                self.msg = "Report '{0}' still exists in the current state.".format(report_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return self
 
