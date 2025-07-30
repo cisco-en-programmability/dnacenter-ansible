@@ -11,34 +11,46 @@ __author__ = ("Karthick S N", "Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: network_devices_info_workflow_manager
-short_description: >
-  The Module will let user specify the filters to be used to query the devices, and it will return the information
-  about the devices that match the filters from Cisco Catalyst Center.
+short_description: Gather facts about network devices from Cisco Catalyst Center (facts/info module) using flexible filters.
 
 description:
-  - Queries Cisco Catalyst Center to retrieve information about network devices.
-  - Returns device details found within the specified timeout and retry intervals.
-  - Returns an empty list if no devices are found after exhausting retries.
+  - Gathers detailed facts (information) about network devices managed by Cisco Catalyst Center using flexible user-defined filters.
+  - Supports filtering by management IP, MAC address, hostname, serial number, software type,
+    software version, role, device type, family, and site hierarchy.
+  - Allows selection of specific device information types, such as device details, interfaces,
+    VLANs, line cards, supervisor cards, POE, module count, connected devices, configuration,
+    summary, polling interval, stack, and link mismatch details.
+  - Handles query retries, timeouts, and polling intervals for robust data collection.
+  - Supports output to a file using the C(output_file_info) option. Output can be JSON or YAML,
+    with user-defined file path, file mode (overwrite or append), and optional timestamp.
+  - If C(output_file_info) is provided, results are written to the file; otherwise, results are
+    returned in the Ansible output.
+  - Returns structured results for each requested information type, or an empty list if
+    no devices match the filters after all retries.
+  - This module is tagged as a facts/info module and is safe to use in check mode.
 
 version_added: "6.31.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
+  - Karthick S N (@karthick-s-n)
   - Madhan Sankaranarayanan (@madhansansel)
-  - Karthick S N (@kasn)
 
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
     type: bool
-    default: True
+    default: False
   state:
     description: The desired state of the configuration after module execution.
     type: str
     choices: ["queried"]
     default: queried
   config:
-    description: A list of dictionaries containing network device details.
+    description:
+      - List of dictionaries specifying network device query parameters.
+      - Each dictionary must contain a C(network_devices) list with at least one unique identifier
+        (such as management IP, MAC address, hostname, or serial number) per device.
     type: list
     elements: dict
     required: true
@@ -52,74 +64,74 @@ options:
         suboptions:
             management_ip_address:
                 description:
-                    - List of management IP addresses of the devices.
-                    - Each IP address must be unique to identify the device.
+                    - List of management IP addresses to identify devices.
+                    - Each IP address must be unique.
                 type: list
                 elements: str
             mac_address:
                 description:
-                    - List of MAC addresses of the devices.
-                    - Each MAC address must be unique to identify the device.
+                    - List of MAC addresses to identify devices.
+                    - Each MAC address must be unique.
                 type: list
                 elements: str
             hostname:
                 description:
-                    - List of hostnames of the devices.
-                    - Each hostname must be unique to identify the device.
+                    - List of hostnames to identify devices.
+                    - Each hostname must be unique.
                 type: list
                 elements: str
             serial_number:
                 description:
-                    - List of serial numbers of the devices.
-                    - Each serial number must be unique to identify the device.
+                    - List of serial numbers to identify devices.
+                    - Each serial number must be unique.
                 type: list
                 elements: str
-            software_type:
+            os_type:
                 description:
-                    - List of software types for which the devices have to be retrieved (e.g., IOS-XE).
+                    - List of software types to filter devices (For example, IOS-XE).
                 type: list
                 elements: str
             software_version:
                 description:
-                    - List of software versions for which the devices have to be retrieved.
+                    - List of software versions to filter devices.
                 type: list
                 elements: str
             role:
                 description:
-                    - List containing roles of the devices to retrieve devices matching the specified roles (e.g., ACCESS, CORE).
+                    - List of device roles to filter devices (For example, ACCESS, CORE).
                 type: list
                 elements: str
             device_type:
                 description:
-                    - List specifying device types to retrieve devices matching the specified types (e.g., Cisco Catalyst 9300 Switch).
+                    - List of device types to filter devices (For example, Cisco Catalyst 9300 Switch).
                 type: list
                 elements: str
             family:
                 description:
-                    - List specifying device families to retrieve devices belonging to the specified families (e.g., Switches and Hubs).
+                    - List of device families to filter devices (For example, Switches and Hubs).
                 type: list
                 elements: str
             site_hierarchy:
                 description:
-                    - List specifying site hierarchies to retrieve devices associated with the specified sites.
+                    - List of site hierarchies to filter devices by site.
                 type: list
                 elements: str
             timeout:
                 description:
-                    - Time to wait for the devices to be found (in sec).
-                    - Default value is 60 seconds if not specified.
+                    - Time in seconds to wait for devices to be found.
+                    - Default is 60 seconds.
                 type: int
                 default: 60
             retries:
                 description:
                     - Number of times to retry the query if the devices are not found.
-                    - Default value is 3 retries if not specified.
+                    - Default value is 3 retries.
                 type: int
                 default: 3
             interval:
                 description:
-                    - The time to wait between retries, in seconds.
-                    - Default value is 10 seconds if not specified.
+                    - Time in seconds to wait between retries.
+                    - Default is 10 seconds.
                 type: int
                 default: 10
             requested_info:
@@ -146,23 +158,24 @@ options:
                     - device_polling_interval_info
                     - device_stack_info
                     - device_link_mismatch_info #site_hierarchy is required for this info type
-            file_info:
+            output_file_info:
               description:
-                - Optional settings to control output file generation for fabric device information.
-                - If provided, the content will be saved to the output file. Else, it will be displayed in the terminal.
-                - Use this block to define the file path, format, mode, and timestamp handling.
+                - Controls output file generation for device information.
+                - If provided, results are saved to the specified file; otherwise, results are
+                  returned in the Ansible output.
+                - Use to define file path, format, mode, and timestamp handling.
               type: dict
               suboptions:
                 file_path:
                   description:
-                    - Absolute Path to the output file without extension.
-                    - The file extension (.json or .yaml) is added automatically based on file_format.
+                    - Absolute path to the output file, without extension.
+                    - File extension (.json or .yaml) is added automatically based on C(file_format).
                   type: str
                   required: true
                 file_format:
                   description:
                     - Format of the output file.
-                    - Supported formats are json & yaml.
+                    - Supported formats are json and yaml.
                     - Default is yaml if not specified.
                   type: str
                   choices:
@@ -188,6 +201,9 @@ requirements:
     - dnacentersdk >= 2.9.3
     - python >= 3.9.19
 notes:
+    - This is a facts/info module, it only retrieves information and does not modify any device or configuration.
+    - Writing to a local file is for reporting/archival purposes only and does not affect the state of any managed device.
+    - Safe to use in check mode.
     - SDK Methods used are
         - devices.Devices.get_device_list
         - devices.Devices.get_device_interface_vlans
@@ -224,14 +240,15 @@ notes:
 """
 
 EXAMPLES = r"""
+#1 Example Playbook to gather specific network device information from Cisco Catalyst Center
 ---
-- name: Get Network devices information on Cisco Catalyst Center
+- name: Get Specific Network devices information on Cisco Catalyst Center
   hosts: localhost
   connection: local
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Get Network devices information on Cisco Catalyst Center
+    - name: Gather detailed facts for specific network devices
       cisco.dnac.network_devices_info_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -242,28 +259,26 @@ EXAMPLES = r"""
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        config_verify: false
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: queried
         config:
           - network_devices:
-              - management_ip_address: ["204.1.1.26"] # - list of string
-                mac_address: ["d4:ad:bd:c1:67:00"] # - list of string
-                hostname: ["DC-FR-9300"] # - list of string
-                serial_number: ["FJC2327U0S2"] # - list of string
-                software_type: ["IOS-XE"] # - list of string
-                software_version: ["17.12.4"] # - list of string
-                role: ["ACCESS"] # - list of string
-                device_type: ["Cisco Catalyst 9300 Switch" ]
-                family: ["Switches and Hubs"] # - list of string
-                site_hierarchy: [Global/USA]# - list of string
-                timeout: 60    #default: 60sec
-                retries: 3    #default: 3
-                interval: 10   #default: 10sec
-                output_file_path: /Users/karthick/Downloads/info #Default yaml format
+              - management_ip_address: ["204.1.1.26"]
+                mac_address: ["d4:ad:bd:c1:67:00"]
+                hostname: ["DC-FR-9300"]
+                serial_number: ["FJC2327U0S2"]
+                os_type: ["IOS-XE"]
+                software_version: ["17.12.4"]
+                role: ["ACCESS"]
+                device_type: ["Cisco Catalyst 9300 Switch"]
+                family: ["Switches and Hubs"]
+                site_hierarchy: [Global/USA]
+                timeout: 60
+                retries: 3
+                interval: 10
                 requested_info:
-                  - all
                   - device_info
                   - interface_info
                   - interface_vlan_info
@@ -278,7 +293,52 @@ EXAMPLES = r"""
                   - device_polling_interval_info
                   - device_stack_info
                   - device_link_mismatch_info
-                file_info:
+                output_file_info:
+                  file_path: /Users/karthick/Downloads/info
+                  file_format: json
+                  file_mode: w
+                  timestamp: true
+
+#2 Example Playbook to gather all network device information from Cisco Catalyst Center
+- name: Get All Network devices information on Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Gather detailed facts for all network devices
+      cisco.dnac.network_devices_info_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: false
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: queried
+        config:
+          - network_devices:
+              - management_ip_address: ["204.1.1.26"]
+                mac_address: ["d4:ad:bd:c1:67:00"]
+                hostname: ["DC-FR-9300"]
+                serial_number: ["FJC2327U0S2"]
+                os_type: ["IOS-XE"]
+                software_version: ["17.12.4"]
+                role: ["ACCESS"]
+                device_type: ["Cisco Catalyst 9300 Switch"]
+                family: ["Switches and Hubs"]
+                site_hierarchy: [Global/USA]
+                timeout: 60
+                retries: 3
+                interval: 10
+                requested_info:
+                  - all
+                output_file_info:
                   file_path: /Users/karthick/Downloads/info
                   file_format: json
                   file_mode: w
@@ -289,7 +349,9 @@ RETURN = r"""
 
 #Case 1: Successful Retrieval of Device Info
 response_device_info:
-    description: Details of the response containing device information for Cisco Catalyst 9300 switches.
+    description:
+      - Device information for network devices, including family, type, software version, serial number, and more.
+      - Returned for each device matching the query.
     returned: always
     type: dict
     sample: {
@@ -793,6 +855,8 @@ class NetworkDevicesInfo(DnacBase):
                 - self.validated_config (list): A sanitized, validated version of the playbook configuration,
                                                 if validation succeeds.
     """
+        self.log("Starting playbook configuration validation.", "INFO")
+
         config_spec = {
             'network_devices': {
                 'type': 'list',
@@ -802,7 +866,7 @@ class NetworkDevicesInfo(DnacBase):
                 'hostname': {'type': 'list', 'elements': 'str'},
                 'serial_number': {'type': 'list', 'elements': 'str'},
                 'role': {'type': 'list', 'elements': 'str'},
-                'software_type': {'type': 'list', 'elements': 'str'},
+                'os_type': {'type': 'list', 'elements': 'str'},
                 'software_version': {'type': 'list', 'elements': 'str'},
                 'site_hierarchy': {'type': 'list', 'elements': 'str'},
                 'device_type': {'type': 'list', 'elements': 'str'},
@@ -832,7 +896,7 @@ class NetworkDevicesInfo(DnacBase):
                         "device_link_mismatch_info"
                     ]
                 },
-                "file_info": {
+                "output_file_info": {
                     "type": "dict",
                     "elements": "dict",
                     "file_path": {"type": "str"},
@@ -849,23 +913,17 @@ class NetworkDevicesInfo(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        if not isinstance(self.config, list):
-            self.msg = "Config should be a list"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
         valid_config, invalid_params = validate_list_of_dicts(
             self.config, config_spec
         )
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if not valid_config:
-            self.log("Configuration validation failed: {0}".format(valid_config), "ERROR")
-            return self
+            self.log("Configuration validation failed. No valid config found: {0}".format(valid_config))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.log("Configuration validated successfully: {0}".format(valid_config), "INFO")
         self.validated_config = valid_config
@@ -884,7 +942,7 @@ class NetworkDevicesInfo(DnacBase):
                 - "network_devices" (list of dict): List of network device entries.
                     Each entry must include at least one of:
                         - "management_ip_address", "mac_address", "hostname", "serial_number", "role",
-                        "software_type", or "software_version"
+                        "os_type", or "software_version"
                     And:
                         - "requested_info" (dict): Non-empty dictionary specifying which details to retrieve.
 
@@ -892,6 +950,8 @@ class NetworkDevicesInfo(DnacBase):
             self: The current instance of the class with updated 'want' attribute containing
                 the validated and extracted network device configuration.
         """
+        self.log("Starting desired state preparation with input config: {0}".format(config), "DEBUG")
+
         DEFAULT_REQUESTED_INFO = [
             "device_info", "interface_info", "interface_vlan_info",
             "line_card_info", "supervisor_card_info", "poe_info",
@@ -901,99 +961,101 @@ class NetworkDevicesInfo(DnacBase):
             "device_stack_info", "device_link_mismatch_info"
         ]
 
-        want = {}
-        want["network_devices"] = config.get("network_devices")
-        self.log(config, "DEBUG")
-        required_params = ['network_devices']
+        desired_devices = {}
+        desired_devices["network_devices"] = config.get("network_devices")
+
+        required_device_keys = ['management_ip_address', 'mac_address', 'hostname', 'serial_number',
+                                'role', 'os_type', 'software_version', 'site_hierarchy', 'device_type']
+        valid_requested_info_options = ["all"] + DEFAULT_REQUESTED_INFO
+        allowed_file_info_keys = {"file_path", "file_format", "file_mode", "timestamp"}
+        allowed_file_formats = {"json", "yaml"}
+        allowed_file_modes = {"a", "w"}
 
         if 'network_devices' not in config or not config['network_devices']:
             msg = "Parameter 'network_devices' is mandatory and cannot be empty."
             self.msg = msg
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        else:
-            required_device_keys = ['management_ip_address', 'mac_address', 'hostname', 'serial_number',
-                                    'role', 'software_type', 'software_version', 'site_hierarchy', 'device_type']
-            valid_info_options = ["all"] + DEFAULT_REQUESTED_INFO
+        device_check_passed = True
+        requested_info_check_passed = True
 
-            device_check_passed = True
-            requested_info_check_passed = True
+        for idx, device in enumerate(config['network_devices']):
+            if "all" in device.get("requested_info", []):
+                self.log("Expanding 'all' in requested_info for device index {0}".format(idx), "DEBUG")
+                device["requested_info"] = [
+                    "device_info", "interface_info", "interface_vlan_info",
+                    "line_card_info", "supervisor_card_info", "poe_info",
+                    "module_count_info", "connected_device_info",
+                    "device_interfaces_by_range_info", "device_config_info",
+                    "device_summary_info", "device_polling_interval_info",
+                    "device_stack_info", "device_link_mismatch_info"
+                ]
 
-            for device in config['network_devices']:
-                if "all" in device.get("requested_info", []):
-                    device["requested_info"] = [
-                        "device_info", "interface_info", "interface_vlan_info",
-                        "line_card_info", "supervisor_card_info", "poe_info",
-                        "module_count_info", "connected_device_info",
-                        "device_interfaces_by_range_info", "device_config_info",
-                        "device_summary_info", "device_polling_interval_info",
-                        "device_stack_info", "device_link_mismatch_info"
-                    ]
-            allowed_keys = {"file_path", "file_format", "file_mode", "timestamp"}
+            if 'requested_info' not in device or not device['requested_info'] or device['requested_info'] == ["all"] or "all" in device['requested_info']:
+                self.log("Applying default requested_info for device index {0}".format(idx), "DEBUG")
+                device["requested_info"] = DEFAULT_REQUESTED_INFO.copy()
+            self.log("Device index {0} requested_info: {1}".format(idx, device.get('requested_info')), "DEBUG")
 
-            for device in config['network_devices']:
-                if 'requested_info' not in device or not device['requested_info'] or device['requested_info'] == ["all"] or "all" in device['requested_info']:
-                    device["requested_info"] = DEFAULT_REQUESTED_INFO.copy()
-            self.log(device.get("requested_info"), "DEBUG")
             if ("device_link_mismatch_info" in device.get("requested_info", [])
                     or device.get("requested_info") in ["all"]):
 
                 site_hierarchy = device.get("site_hierarchy")
                 if site_hierarchy is None or site_hierarchy == []:
-                    self.msg = ("For 'device_link_mismatch_info', 'site_hierarchy' must be provided.")
+                    self.msg = "For 'device_link_mismatch_info', 'site_hierarchy' must be provided."
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            for device in config['network_devices']:
-                if not any(device.get(key) for key in required_device_keys):
-                    device_check_passed = False
-                    break
+            if not any(device.get(key) for key in required_device_keys):
+                self.log("Device index {0} missing required identification keys: {1}".format(idx, required_device_keys))
+                device_check_passed = False
+                break
 
-                if 'requested_info' not in device or not isinstance(device['requested_info'], list) or not device['requested_info']:
-                    requested_info_check_passed = False
-                    break
+            if 'requested_info' not in device or not isinstance(device['requested_info'], list) or not device['requested_info']:
+                requested_info_check_passed = False
+                break
 
-                # Validate each entry in requested_info
-                for info in device['requested_info']:
-                    if info not in valid_info_options:
-                        self.msg = "'{}' is not a valid option in 'requested_info'.".format(info)
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            # Validate each entry in requested_info
+            for info in device['requested_info']:
+                if info not in valid_requested_info_options:
+                    self.log("Invalid requested_info '{0}' in device index {1}."
+                             "Valid options: {2}".format(info, idx, valid_requested_info_options))
+                    self.msg = "'{0}' is not a valid option in 'requested_info'.".format(info)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                if "file_info" in device:
-                    file_info = device["file_info"]
-                    if file_info is None:
-                        continue
-                    allowed_formats = {"json", "yaml"}
-                    allowed_modes = {"a", "w"}
+            if "output_file_info" in device:
+                output_file_info = device["output_file_info"]
+                if output_file_info is None:
+                    continue
 
-                    for key in file_info:
-                        if key not in allowed_keys:
-                            self.msg = "'{0}' is not a valid key in 'file_info'. Allowed keys are: {1}".format(
-                                key, sorted(allowed_keys)
-                            )
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                for key in output_file_info:
+                    if key not in allowed_file_info_keys:
+                        self.msg = "Invalid file_info key '{0}' in device index {1}."\
+                            "Allowed keys: {2}".format(key, idx, sorted(allowed_file_info_keys))
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
 
-                        if file_info["file_format"] not in allowed_formats:
-                            self.msg = "'file_format' must be one of: {0}".format(", ".join(sorted(allowed_formats)))
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                    if output_file_info["file_format"] not in allowed_file_formats:
+                        self.msg = "Invalid file_format '{0}' in device index {1}. "\
+                            "Allowed formats: {2}".format(output_file_info.get("file_format"), idx, sorted(allowed_file_formats))
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
 
-                        if file_info["file_mode"] not in allowed_modes:
-                            self.msg = "'file_mode' must be one of: {0}".format(", ".join(sorted(allowed_modes)))
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                    if output_file_info["file_mode"] not in allowed_file_modes:
+                        self.msg = "Invalid 'file_mode' '{0}' in device index {1}. "\
+                            "Allowed modes: {2}".format(output_file_info.get("file_mode"), idx, ", ".join(sorted(allowed_file_modes)))
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
 
-            if not device_check_passed:
-                self.msg = "At least one of the following parameters must be specified inside each network device: {}.".format(", ".join(required_device_keys))
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-            elif not requested_info_check_passed:
-                self.msg = "Parameter 'requested_info' is mandatory and must be a non-empty list inside each network device."
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        if not device_check_passed:
+            self.msg = "At least one of the following parameters must be specified inside each network device: {0}.".format(", ".join(required_device_keys))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        elif not requested_info_check_passed:
+            self.msg = "Parameter 'requested_info' is mandatory and must be a non-empty list inside each network device."
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.want = want
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.want = desired_devices
+        self.log("Completed desired state preparation. Final state: {0}".format(self.want), "INFO")
         return self
 
     def get_diff_queried(self, config):
         """
-        Process and retrieve requested information for network devices from the provided configuration.
+        Processes the device configuration and retrieves requested information for each device.
 
         This method iterates over the network devices listed under the "network_devices" key in the given
         configuration dictionary. For each device entry, it filters out the "requested_info" key, applies
@@ -1019,27 +1081,34 @@ class NetworkDevicesInfo(DnacBase):
         Returns:
             self: The current instance with updated internal state reflecting the operation results.
         """
-        self.log("Starting get_diff_queried with provided config", "INFO")
+        self.log("Starting device info retrieval for all device entries", "INFO")
         network_device_details = config.get("network_devices")
 
-        for config in network_device_details:
+        if not network_device_details:
+            self.msg = "No network_devices found in configuration."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        DEFAULT_REQUESTED_INFO = [
+            "device_info", "interface_info", "interface_vlan_info",
+            "line_card_info", "supervisor_card_info", "poe_info",
+            "module_count_info", "connected_device_info",
+            "device_interfaces_by_range_info", "device_config_info",
+            "device_summary_info", "device_polling_interval_info",
+            "device_stack_info", "device_link_mismatch_info"
+        ]
+
+        for idx, config in enumerate(network_device_details):
+            self.log("Processing device entry {0}: {1}".format(idx, config), "DEBUG")
             filtered_config = {}
             for key, value in config.items():
                 if key != "requested_info":
                     filtered_config[key] = value
-            self.log("Filtered config (excluding requested_info): {}".format(filtered_config))
-
-            DEFAULT_REQUESTED_INFO = [
-                "device_info", "interface_info", "interface_vlan_info",
-                "line_card_info", "supervisor_card_info", "poe_info",
-                "module_count_info", "connected_device_info",
-                "device_interfaces_by_range_info", "device_config_info",
-                "device_summary_info", "device_polling_interval_info",
-                "device_stack_info", "device_link_mismatch_info"
-            ]
+            self.log("Filtered config (excluding requested_info): {0}".format(filtered_config))
 
             requested_info = config.get("requested_info", [])
             if not requested_info or requested_info == ["all"] or "all" in requested_info:
+                self.log("Applying default requested_info for device entry {0}".format(idx), "DEBUG")
                 requested_info = DEFAULT_REQUESTED_INFO.copy()
 
             device_ids = self.get_device_id(filtered_config)
@@ -1051,83 +1120,132 @@ class NetworkDevicesInfo(DnacBase):
             else:
                 device_ips = []
                 for device_id in device_ids:
-                    self.log("Processing device ID: {}".format(device_id), "DEBUG")
+                    self.log("Processing device ID: {0}".format(device_id), "DEBUG")
                     device_ip = self.get_device_ip_from_id(device_id)
                     if device_ip:
                         device_ips.append(device_ip)
                 self.total_response.append("The network devices found: {0}".format(device_ips))
 
             if "device_info" in requested_info:
+                self.log("Checking if 'device_info' is requested.", "DEBUG")
+                self.log("Fetching device_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_device_info(device_ids)
                 self.total_response.append(result)
                 combined_data["device_info"] = result
+
             if "interface_info" in requested_info:
+                self.log("Checking if 'interface_info' is requested.", "DEBUG")
+                self.log("Fetching interface_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_interface_info(device_ids)
                 self.total_response.append(result)
                 combined_data["interface_info"] = result
+
             if "interface_vlan_info" in requested_info:
+                self.log("Checking if 'interface_vlan_info' is requested.", "DEBUG")
+                self.log("Fetching interface_vlan_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_device_interface_vlans(device_ids)
                 self.total_response.append(result)
                 combined_data["interface_vlan_info"] = result
+
             if "line_card_info" in requested_info:
+                self.log("Checking if 'line_card_info' is requested.", "DEBUG")
+                self.log("Fetching line_card_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_linecard_details(device_ids)
                 self.total_response.append(result)
                 combined_data["line_card_info"] = result
+
             if "supervisor_card_info" in requested_info:
+                self.log("Checking if 'supervisor_card_info' is requested.", "DEBUG")
+                self.log("Fetching supervisor_card_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_supervisor_card_detail(device_ids)
                 self.total_response.append(result)
                 combined_data["supervisor_card_info"] = result
+
             if "poe_info" in requested_info:
+                self.log("Checking if 'poe_info' is requested.", "DEBUG")
+                self.log("Fetching poe_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_poe_details(device_ids)
                 self.total_response.append(result)
                 combined_data["poe_info"] = result
+
             if "module_count_info" in requested_info:
+                self.log("Checking if 'module_count_info' is requested.", "DEBUG")
+                self.log("Fetching module_count_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_module_count(device_ids)
                 self.total_response.append(result)
                 combined_data["module_count_info"] = result
+
             if "connected_device_info" in requested_info:
+                self.log("Checking if 'connected_device_info' is requested.", "DEBUG")
+                self.log("Fetching connected_device_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_connected_device_details_from_interfaces(device_ids)
                 self.total_response.append(result)
                 combined_data["connected_device_info"] = result
+
             if "device_interfaces_by_range_info" in requested_info:
+                self.log("Checking if 'device_interfaces_by_range_info' is requested.", "DEBUG")
+                self.log("Fetching device_interfaces_by_range_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_interfaces_by_specified_range(device_ids)
                 self.total_response.append(result)
                 combined_data["device_interfaces_by_range_info"] = result
+
             if "device_config_info" in requested_info:
+                self.log("Checking if 'device_config_info' is requested.", "DEBUG")
+                self.log("Fetching device_config_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_device_config(device_ids)
                 self.total_response.append(result)
                 combined_data["device_config_info"] = result
+
             if "device_summary_info" in requested_info:
+                self.log("Checking if 'device_summary_info' is requested.", "DEBUG")
+                self.log("Fetching device_summary_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_device_summary(device_ids)
                 self.total_response.append(result)
                 combined_data["device_summary_info"] = result
+
             if "device_polling_interval_info" in requested_info:
+                self.log("Checking if 'device_polling_interval_info' is requested.", "DEBUG")
+                self.log("Fetching device_polling_interval_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_polling_interval(device_ids)
                 self.total_response.append(result)
                 combined_data["device_polling_interval_info"] = result
+
             if "device_stack_info" in requested_info:
+                self.log("Checking if 'device_stack_info' is requested.", "DEBUG")
+                self.log("Fetching device_stack_info for device_ips: {0}".format(device_ips), "DEBUG")
                 result = self.get_stack_details(device_ids)
                 self.total_response.append(result)
                 combined_data["device_stack_info"] = result
+
             if "device_link_mismatch_info" in requested_info:
+                self.log("Checking if 'device_link_mismatch_info' is requested.", "DEBUG")
+                self.log("Fetching device_link_mismatch_info for device_ips: {0}".format(device_ips), "DEBUG")
                 site_names = config.get("site_hierarchy", [])
                 site_ids = []
                 for site_name in site_names:
-                    self.log("Fetching site ID for site name: {}".format(site_name), "DEBUG")
+                    self.log("Fetching site ID for site name: {0}".format(site_name), "DEBUG")
                     site_id_list = self.get_site_id(site_name)
                     self.log(site_id_list, "DEBUG")
+
                     if site_id_list and isinstance(site_id_list, tuple):
                         site_ids.extend(site_id_list)
+
                 site_ids = [sid for sid in site_ids if isinstance(sid, str)]
-                self.log("Site hierarchy for link mismatch: {}".format(site_ids), "DEBUG")
+                self.log("Site hierarchy for link mismatch: {0}".format(site_ids), "DEBUG")
                 result = self.get_device_link_mismatch_by_sites(device_ids=device_ids, site_ids=site_ids)
                 self.total_response.append(result)
                 combined_data["device_link_mismatch_info"] = result
-        if network_device_details:
-            file_info = network_device_details[0].get("file_info")
 
-        if file_info:
-            self.write_device_info_to_file({"file_info": file_info})
+            file_info = config.get("file_info")
+            if file_info:
+                self.log("Writing combined_data to file using file_info: {0}".format(file_info), "INFO")
+                self.write_device_info_to_file({"file_info": file_info, "data": combined_data})
+
+        if network_device_details:
+            output_file_info = network_device_details[0].get("output_file_info")
+
+        if output_file_info:
+            self.write_device_info_to_file({"output_file_info": output_file_info})
 
         if self.total_response:
             self.msg = self.total_response
@@ -1139,22 +1257,46 @@ class NetworkDevicesInfo(DnacBase):
         """
         Fetch detailed information for a list of network devices from Cisco Catalyst Center.
 
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
+
+        The retrieved device details include key fields like:
+        family, type, lastUpdateTime, macAddress, softwareVersion, serialNumber, managementIpAddress,
+        hostname, upTime, role, platformId, reachabilityStatus, description, instanceUuid, id
+        and more, providing a comprehensive overview of each device's configuration and status.
+
         Executes API calls for each device ID and aggregates the retrieved data into a structured list.
 
         Parameters:
             device_ids (list): List of device UUIDs whose information needs to be fetched.
 
         Returns:
-            list: A list containing a single dictionary with key "device_info" and a list of device data as value.
-                Returns None if an exception occurs during the API call.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "device_info": [
+                            {
+                                "device_ip": <str>,
+                                "device_details": <list of device details or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an exception occurs during any API call.
         """
 
-        self.log("Fetching device data for: {0}".format(device_ids), "INFO")
+        self.log("Starting device info retrieval for device_ids: {0}".format(device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Device info data retrieval", "WARNING")
+            return [{"device_info": []}]
 
-        all_devices = []
+        device_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching device info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1162,55 +1304,86 @@ class NetworkDevicesInfo(DnacBase):
                     params={'id': device_id}
                 )
                 self.log(
-                    "Received API response from 'get_device_list': {0}".format(
-                        (response)
-                    ),
-                    "DEBUG",
-                )
-                devices = response.get("response", [])
-                if devices:
-                    all_devices.append({
+                    "Received API response from 'get_device_info' for device {0} (IP: {1}): {2}".format(
+                        device_id, device_ip, response), "DEBUG")
+
+                device_response = response.get("response", [])
+                if device_response:
+                    self.log("Device details found for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "INFO")
+                    device_info_list.append({
                         "device_ip": device_ip,
-                        "device_details": [devices]
+                        "device_details": [device_response]
                     })
                 else:
-                    self.log("No device details found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_devices.append({
+                    self.log("No device details found for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "WARNING")
+                    device_info_list.append({
                         "device_ip": device_ip,
                         "device_details": "No device details found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting device list: {0}".format(e)
+                self.msg = "Exception occurred while getting device list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"device_info": all_devices}]
+        result = [{"device_info": device_info_list}]
 
-        self.log("Retrieved {0} device records".format(result), "DEBUG")
+        self.log("Completed device info retrieval. Total devices processed: {0}".format(len(device_info_list)), "INFO")
+        self.log("Device info result: {0}".format(result), "DEBUG")
         return result
 
     def get_device_interface_vlans(self, device_ids):
         """
         Fetch VLAN interface details for a list of devices from Cisco Catalyst Center.
 
-        Queries the VLAN interface configuration for each device ID and aggregates the results.
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
+
+        Retrieves VLAN interface configuration data for each device ID and aggregates the results
+        into a structured format. Each device's VLAN interface details include interface-specific
+        VLAN assignments, configurations, and related network information.
+
+        The retrieved VLAN interface details include key fields such as:
+        - interfaceName (e.g., "GigabitEthernet0/1")
+        - ipAddress (e.g., "192.168.10.25")
+        - mask (e.g., 24)
+        - networkAddress (e.g., "192.168.10.0")
+        - numberOfIPs (e.g., 254)
+        - prefix (e.g., "192.168.10.0/24")
+        - vlanNumber (e.g., 10)
+        - vlanType (e.g., "Data")
 
         Parameters:
             device_ids (list): List of device UUIDs for which VLAN interface data needs to be fetched.
 
         Returns:
-            list: A list containing a single dictionary with key "interface_vlan_info" and the aggregated VLAN data as value.
-                Returns None if an exception occurs during the API call.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "interface_vlan_info": [
+                            {
+                                "device_ip": <str>,
+                                "interface_vlan_details": <list of VLAN interface details or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an exception occurs during any API call.
         """
 
-        self.log("Fetching VLAN interface data for devices: {0}".format(device_ids), "INFO")
+        self.log("Fetching VLAN interface data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for VLAN interface data retrieval", "WARNING")
+            return [{"interface_vlan_info": []}]
 
-        all_vlans = []
+        vlans_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching device interface vlans info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1218,56 +1391,80 @@ class NetworkDevicesInfo(DnacBase):
                     params={'id': device_id}
                 )
                 self.log(
-                    "Received API response from 'get_device_interface_vlans': {0}".format(
-                        (response)
-                    ),
-                    "DEBUG",
-                )
+                    "Received API response from 'get_device_interface_vlans' for device {0} (IP: {1}): {2}".format(
+                        device_id, device_ip, response), "DEBUG")
 
                 vlan_data = response.get("response", [])
                 if vlan_data:
-                    all_vlans.append({
+                    self.log("Found {0} VLAN records for device IP: {1}".format(len(vlan_data), device_ip), "DEBUG")
+                    vlans_info_list.append({
                         "device_ip": device_ip,
                         "interface_vlan_details": [vlan_data]
                     })
                 else:
                     self.log("No VLAN interface data found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_vlans.append({
+                    vlans_info_list.append({
                         "device_ip": device_ip,
                         "interface_vlan_details": "No VLAN interface data found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting VLAN interface data: {0}".format(e)
+                self.msg = "Exception occurred while getting VLAN interface data for device {0} (IP: {1}): {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"interface_vlan_info": all_vlans}]
+        result = [{"interface_vlan_info": vlans_info_list}]
 
-        self.log("Retrieved {0} VLAN records".format(all_vlans), "DEBUG")
+        self.log("Completed Interface Vlan info retrieval. Total devices processed: {0}".format(len(vlans_info_list)), "INFO")
+        self.log("Interface Vlan info result: {0}".format(result), "DEBUG")
         return result
 
     def get_linecard_details(self, device_ids):
         """
         Fetch line card details for a list of devices from Cisco Catalyst Center.
 
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
+
         Queries and aggregates line card information for each provided device ID.
+
+        The retrieved line card details include key fields such as:
+        - serialno (e.g., "SN123456789")
+        - partno (e.g., "PN987654321")
+        - switchno (e.g., "SW-001-A1")
+        - slotno (e.g., "Slot-04")
 
         Parameters:
             device_ids (list): List of device UUIDs for which line card details are to be retrieved.
 
         Returns:
-            list: A list containing a single dictionary with the key "line_card_info" and the collected line card data as its value.
-                Returns None if an exception occurs during the API call.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "line_card_info": [
+                            {
+                                "device_ip": <str>,
+                                "linecard_details": <list of line card details or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an exception occurs during any API call.
         """
 
-        self.log("Fetching line card details for devices: {0}".format(device_ids), "INFO")
+        self.log("Fetching Line card data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Line Card info retrieval", "WARNING")
+            return [{"line_card_info": []}]
 
-        all_linecards = []
+        linecards_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching line card info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1275,55 +1472,82 @@ class NetworkDevicesInfo(DnacBase):
                     params={'device_uuid': device_id}
                 )
                 self.log(
-                    "Received API response from 'get_linecard_details': {0}".format(
-                        (response)
-                    ),
-                    "DEBUG",
-                )
+                    "Received API response from 'get_linecard_details' for device {0} (IP: {1}): {2}".format(
+                        device_id, device_ip, response), "DEBUG")
+
                 linecard_data = response.get("response", [])
                 if linecard_data:
-                    all_linecards.append({
+                    self.log("Found {0} line card records for device IP: {1}".format(len(linecard_data), device_ip), "DEBUG")
+                    linecards_info_list.append({
                         "device_ip": device_ip,
                         "linecard_details": [linecard_data]
                     })
                 else:
                     self.log("No line card details found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_linecards.append({
+                    linecards_info_list.append({
                         "device_ip": device_ip,
                         "linecard_details": "No line card details found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting line card details: {0}".format(e)
+                self.msg = "Exception occurred while getting line card info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"line_card_info": all_linecards}]
+        result = [{"line_card_info": linecards_info_list}]
 
-        self.log("Retrieved {0} line card records".format(all_linecards), "DEBUG")
+        self.log("Completed Line Card info retrieval. Total devices processed: {0}".format(len(linecards_info_list)), "INFO")
+        self.log("Line Card info result: {0}".format(result), "DEBUG")
         return result
 
     def get_stack_details(self, device_ids):
         """
         Fetch stack details for a list of devices from Cisco Catalyst Center.
 
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
+
         Retrieves stack member information for each given device ID and compiles the results.
+
+        The stack member info includes key fields such as:
+        - stackSwitchInfo: list of dicts with fields including hwPriority, macAddress, role, softwareImage,
+        stackMemberNumber, state, switchPriority, serialNumber, platformId, entPhysicalIndex
+        - stackPortInfo: list of dicts with fields including isSynchOk, name, switchPort, neighborPort,
+        nrLinkOkChanges, stackCableLengthInfo, stackPortOperStatusInfo, linkActive, linkOk
+        - svlSwitchInfo: list of dicts with fields including macAddress, role, softwareImage,
+        stackMemberNumber, state, switchPriority, serialNumber, platformId, entPhysicalIndex
 
         Parameters:
             device_ids (list): List of device IDs for which stack details are to be retrieved.
 
         Returns:
-            list: A list containing a single dictionary with the key "device_stack_info" and the collected stack details as its value.
-                Returns None if an exception occurs during the API call.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "device_stack_info": [
+                            {
+                                "device_ip": <str>,
+                                "stack_details": <list of stack member details or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an exception occurs during any API call.
         """
 
-        self.log("Fetching stack details for devices: {0}".format(device_ids), "ERROR")
+        self.log("Fetching stack details for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Stack info retrieval", "WARNING")
+            return [{"device_stack_info": []}]
 
-        all_stack_details = []
+        stack_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching stack info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1331,55 +1555,77 @@ class NetworkDevicesInfo(DnacBase):
                     params={'device_id': device_id}
                 )
                 self.log(
-                    "Received API response from 'get_stack_details_for_device': {0}".format(
-                        (response)
-                    ),
-                    "DEBUG",
-                )
+                    "Received API response from 'get_stack_details' for device {0} (IP: {1}): {2}".format(
+                        device_id, device_ip, response), "DEBUG")
+
                 stack_info = response.get("response", [])
                 if stack_info:
-                    all_stack_details.append({
+                    self.log("Found {0} stack records for device IP: {1}".format(len(stack_info), device_ip), "DEBUG")
+                    stack_info_list.append({
                         "device_ip": device_ip,
                         "stack_details": [stack_info]
                     })
                 else:
                     self.log("No stack details found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_stack_details.append({
+                    stack_info_list.append({
                         "device_ip": device_ip,
                         "stack_details": "No stack details found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting stack details: {0}".format(e)
+                self.msg = "Exception occurred while getting device stack info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"device_stack_info": all_stack_details}]
+        result = [{"device_stack_info": stack_info_list}]
 
-        self.log("Retrieved {0} stack detail records".format(all_stack_details), "DEBUG")
+        self.log("Completed Stack info retrieval. Total devices processed: {0}".format(len(stack_info_list)), "INFO")
+        self.log("Stack info result: {0}".format(result), "DEBUG")
         return result
 
     def get_device_config(self, device_ids):
         """
         Fetch configuration data for a list of devices from Cisco Catalyst Center.
 
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
+
         Retrieves the full configuration details for each specified device ID and aggregates the results.
+
+        The configuration details include the device's running configuration, which may consist of
+        multiple lines of configuration commands.
 
         Parameters:
             device_ids (list): List of device IDs for which configuration details need to be fetched.
 
         Returns:
-            list: A list containing a single dictionary with the key "device_config_info" and the collected configuration data as its value.
-                Returns None if an error occurs during the API call.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "device_config_info": [
+                            {
+                                "device_ip": <str>,
+                                "device_config_details": <list of configuration lines or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an error occurs during any API call.
         """
 
-        self.log("Fetching device configuration for: {0}".format(device_ids), "INFO")
+        self.log("Fetching Device config data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Device Config info retrieval", "WARNING")
+            return [{"device_config_info": []}]
 
-        all_configs = []
+        device_config_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching device config info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1387,55 +1633,77 @@ class NetworkDevicesInfo(DnacBase):
                     params={'network_device_id': device_id}
                 )
                 self.log(
-                    "Received API response from 'get_device_config_by_id': {0}".format(
-                        (response)
-                    ),
-                    "DEBUG",
-                )
-                configs = response.get("response", [])
-                if configs:
-                    all_configs.append({
+                    "Received API response from 'get_device_config' for device {0} (IP: {1}): {2}".format(
+                        device_id, device_ip, response), "DEBUG")
+
+                config_data = response.get("response", [])
+                if config_data:
+                    self.log("Found {0} configuration lines for device IP: {1}".format(len(config_data), device_ip), "DEBUG")
+                    device_config_list.append({
                         "device_ip": device_ip,
-                        "device_config_details": [configs]
+                        "device_config_details": [config_data]
                     })
                 else:
                     self.log("No device config card details found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_configs.append({
+                    device_config_list.append({
                         "device_ip": device_ip,
                         "device_config_details": "No device config details found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting device config: {0}".format(e)
+                self.msg = "Exception occurred while getting device config for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"device_config_info": all_configs}]
+        result = [{"device_config_info": device_config_list}]
 
-        self.log("Retrieved {0} device config records".format(result), "DEBUG")
+        self.log("Completed Device Config info retrieval. Total devices processed: {0}".format(len(device_config_list)), "INFO")
+        self.log("Device Config info result: {0}".format(result), "DEBUG")
         return result
 
     def get_polling_interval(self, device_ids):
         """
         Fetch polling interval information for a list of devices from Cisco Catalyst Center.
 
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
+
         Retrieves the polling interval configuration for each specified device ID and compiles the results.
+
+        The polling interval details include the time intervals at which the device is polled for updates,
+        which can be critical for monitoring and management tasks (e.g., 86400 seconds for daily polling).
 
         Parameters:
             device_ids (list): List of device IDs for which polling interval details need to be retrieved.
 
         Returns:
-            list: A list containing a single dictionary with the key "device_polling_interval_info" and the collected polling interval data.
-                Returns None if an error occurs during the API call.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "device_polling_interval_info": [
+                            {
+                                "device_ip": <str>,
+                                "polling_interval_details": <list of polling interval values or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an error occurs during any API call.
         """
 
-        self.log("Fetching polling interval for devices: {0}".format(device_ids), "INFO")
+        self.log("Fetching polling interval data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Polling Interval info retrieval", "WARNING")
+            return [{"device_polling_interval_info": []}]
 
-        all_polling_intervals = []
+        polling_intervals_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching polling intervals info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1443,55 +1711,79 @@ class NetworkDevicesInfo(DnacBase):
                     params={'id': device_id}
                 )
                 self.log(
-                    "Received API response from 'get_device_polling_interval_by_id': {0}".format(
-                        (response)
-                    ),
-                    "DEBUG",
-                )
+                    "Received API response from 'get_polling_interval' for device {0} (IP: {1}): {2}".format(
+                        device_id, device_ip, response), "DEBUG")
+
                 intervals = response.get("response", [])
                 if intervals:
-                    all_polling_intervals.append({
+                    self.log("Found {0} polling interval records for device IP: {1}".format((intervals), device_ip), "DEBUG")
+                    polling_intervals_info_list.append({
                         "device_ip": device_ip,
                         "polling_interval_details": [intervals]
                     })
                 else:
                     self.log("No polling interval details found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_polling_intervals.append({
+                    polling_intervals_info_list.append({
                         "device_ip": device_ip,
                         "polling_interval_details": "No polling interval details found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting polling interval: {0}".format(e)
+                self.msg = "Exception occurred while getting polling interval info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"device_polling_interval_info": all_polling_intervals}]
+        result = [{"device_polling_interval_info": polling_intervals_info_list}]
 
-        self.log("Retrieved {0} polling interval records".format(result), "DEBUG")
+        self.log("Completed Device Polling Interval info retrieval. Total devices processed: {0}".format(len(polling_intervals_info_list)), "INFO")
+        self.log("Device Polling Interval info result: {0}".format(result), "DEBUG")
         return result
 
     def get_device_summary(self, device_ids):
         """
         Fetch summary information of devices for a list of devices from Cisco Catalyst Center.
 
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
+
         Retrieves key summary details for each device ID provided and aggregates the results.
+
+        The retrieved device summary details include key fields such as:
+        - id (e.g., "e62e6405-13e4-4f1b-ae1c-580a28a96a88")
+        - role (e.g., "ACCESS")
+        - roleSource (e.g., "MANUAL")
 
         Parameters:
             device_ids (list): List of device IDs for which summary information needs to be retrieved.
 
         Returns:
-            list: A list containing a single dictionary with the key "device_summary_info" and the collected summary data.
-                Returns None if an error occurs during the API call.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "device_summary_info": [
+                            {
+                                "device_ip": <str>,
+                                "device_summary_details": <list of summary details or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an error occurs during any API call.
         """
 
-        self.log("Fetching device summary for devices: {0}".format(device_ids), "INFO")
+        self.log("Fetching device summary data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Device Summary info retrieval", "WARNING")
+            return [{"device_summary_info": []}]
 
-        all_summaries = []
+        device_summary_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching device summary info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1499,55 +1791,80 @@ class NetworkDevicesInfo(DnacBase):
                     params={'id': device_id}
                 )
                 self.log(
-                    "Received API response from 'get_device_summary': {0}".format(
-                        (response)
-                    ),
-                    "DEBUG",
-                )
+                    "Received API response from 'get_device_summary' for device {0} (IP: {1}): {2}".format(
+                        device_id, device_ip, response), "DEBUG")
+
                 summary_data = response.get("response", [])
                 self.log("Summary data: {0}".format(summary_data), "DEBUG")
                 if summary_data:
-                    all_summaries.append({
+                    self.log("Found {0} summary records for device IP: {1}".format(len(summary_data), device_ip), "DEBUG")
+                    device_summary_info_list.append({
                         "device_ip": device_ip,
                         "device_summary_details": [summary_data]
                     })
                 else:
                     self.log("No device summary details found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_summaries.append({
+                    device_summary_info_list.append({
                         "device_ip": device_ip,
                         "device_summary_details": "No device summary details found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting device summary: {0}".format(e)
+                self.msg = "Exception occurred while getting device summary list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"device_summary_info": all_summaries}]
-        self.log("Retrieved {0} device summary records".format(all_summaries), "DEBUG")
+        result = [{"device_summary_info": device_summary_info_list}]
+
+        self.log("Completed Device Summary info retrieval. Total devices processed: {0}".format(len(device_summary_info_list)), "INFO")
+        self.log("Device Summary info result: {0}".format(result), "DEBUG")
         return result
 
     def get_supervisor_card_detail(self, device_ids):
         """
         Fetch supervisor card details for a list of devices from Cisco Catalyst Center.
 
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
+
         Retrieves detailed supervisor card information for each provided device ID.
+
+        The retrieved supervisor card details include key fields such as:
+        - serialno (e.g., "SN1234567890")
+        - partno (e.g., "PN9876543210")
+        - switchno (e.g., "SW-01")
+        - slotno (e.g., "3")
 
         Parameters:
             device_ids (list): List of device IDs to query for supervisor card details.
 
         Returns:
-            list: A list containing a dictionary with key "supervisor_card_info" holding the retrieved data.
-                Returns None if an error occurs during data retrieval.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "supervisor_card_info": [
+                            {
+                                "device_ip": <str>,
+                                "supervisor_card_details": <list of supervisor card details or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an error occurs during data retrieval.
         """
 
-        self.log("Fetching supervisor card details for devices: {0}".format(device_ids), "INFO")
+        self.log("Fetching supervisor card data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Supervisor Card info retrieval", "WARNING")
+            return [{"supervisor_card_info": []}]
 
-        all_supervisor_cards = []
+        supervisor_cards_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching supervisor card info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.dnac._exec(
@@ -1556,55 +1873,79 @@ class NetworkDevicesInfo(DnacBase):
                     params={'device_uuid': device_id}
                 )
                 self.log(
-                    "Received API response from 'get_supervisor_card_detail': {0}".format(
-                        (response)
-                    ),
-                    "DEBUG",
-                )
+                    "Received API response from 'get_supervisor_card_details' for device {0} (IP: {1}): {2}".format(
+                        device_id, device_ip, response), "DEBUG")
+
                 supervisor_cards = response.get("response", [])
                 if supervisor_cards:
-                    all_supervisor_cards.append({
+                    self.log("Found {0} supervisor card records for device IP: {1}".format(len(supervisor_cards), device_ip), "DEBUG")
+                    supervisor_cards_info_list.append({
                         "device_ip": device_ip,
                         "supervisor_card_details": [supervisor_cards]
                     })
                 else:
                     self.log("No supervisor card details found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_supervisor_cards.append({
+                    supervisor_cards_info_list.append({
                         "device_ip": device_ip,
                         "supervisor_card_details": "No supervisor card details found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting supervisor card details: {0}".format(e)
+                self.msg = "Exception occurred while getting supervisor card info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"supervisor_card_info": all_supervisor_cards}]
+        result = [{"supervisor_card_info": supervisor_cards_info_list}]
 
-        self.log("Retrieved {0} supervisor card records".format(result), "DEBUG")
+        self.log("Completed Device Supervisor Card info retrieval. Total devices processed: {0}".format(len(supervisor_cards_info_list)), "INFO")
+        self.log("Device Supervisor Card info result: {0}".format(result), "DEBUG")
         return result
 
     def get_poe_details(self, device_ids):
         """
         Fetch Power over Ethernet (PoE) details for specified devices from Cisco Catalyst Center.
 
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
+
         Retrieves PoE information for each device ID provided.
+
+        The retrieved PoE details include key fields such as:
+        - powerAllocated (e.g., "525")
+        - powerConsumed (e.g., "0")
+        - powerRemaining (e.g., "525")
 
         Parameters:
             device_ids (list): List of device IDs to query for PoE details.
 
         Returns:
-            list: A list containing a dictionary with key "poe_info" holding the retrieved PoE data.
-                Returns None if an error occurs during retrieval.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "poe_info": [
+                            {
+                                "device_ip": <str>,
+                                "poe_details": <list of PoE details or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an error occurs during retrieval.
         """
 
-        self.log("Fetching PoE details for devices: {0}".format(device_ids), "INFO")
+        self.log("Fetching PoE data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for PoE info retrieval", "WARNING")
+            return [{"poe_info": []}]
 
-        all_poe_details = []
+        poe_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching poe info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1619,48 +1960,89 @@ class NetworkDevicesInfo(DnacBase):
                 )
                 poe_data = response.get("response", [])
                 if poe_data:
-                    all_poe_details.append({
+                    self.log("Found {0} PoE records for device IP: {1}".format(len(poe_data), device_ip), "DEBUG")
+                    poe_info_list.append({
                         "device_ip": device_ip,
                         "poe_details": [poe_data]
                     })
                 else:
                     self.log("No PoE details found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_poe_details.append({
+                    poe_info_list.append({
                         "device_ip": device_ip,
                         "poe_details": "No PoE details found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting PoE details: {0}".format(e)
+                self.msg = "Exception occurred while getting PoE Info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"poe_info": all_poe_details}]
+        result = [{"poe_info": poe_info_list}]
 
-        self.log("Retrieved {0} PoE detail records".format(result), "DEBUG")
+        self.log("Completed Device PoE info retrieval. Total devices processed: {0}".format(len(poe_info_list)), "INFO")
+        self.log("Device PoE info result: {0}".format(result), "DEBUG")
         return result
 
     def get_interface_info(self, device_ids):
         """
-        Fetch interface information for specified devices from Cisco Catalyst Center.
+        Fetch interface information on interfaces for specified devices from Cisco Catalyst Center.
+
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
 
         Retrieves detailed interface data for each device ID provided.
+
+        The retrieved interface details include key fields such as:
+        - adminStatus (e.g., "UP")
+        - duplex (e.g., "FullDuplex")
+        - ifIndex (e.g., "73")
+        - interfaceType (e.g., "Physical")
+        - macAddress (e.g., "0c:75:bd:42:db:c1")
+        - mtu (e.g., "9100")
+        - nativeVlanId (e.g., "1")
+        - portMode (e.g., "access")
+        - portName (e.g., "AppGigabitEthernet1/0/1")
+        - portType (e.g., "Ethernet Port")
+        - serialNo (e.g., "FJC2335S09F")
+        - speed (e.g., "1000000")
+        - status (e.g., "up")
+        - vlanId (e.g., "1")
+        - voiceVlan (e.g., "")
+        - description (e.g., "")
+        - instanceUuid
+        - instanceTenantId
 
         Parameters:
             device_ids (list): List of device IDs to retrieve interface info for.
 
         Returns:
-            list: A list containing a dictionary with key "interface_info" holding the retrieved interface data.
-                Returns None if an error occurs during retrieval.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "interface_info": [
+                            {
+                                "device_ip": <str>,
+                                "interface_details": <list of interface details or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an error occurs during retrieval.
         """
 
-        self.log("Fetching interface info for devices: {0}".format(device_ids), "INFO")
+        self.log("Fetching interface info for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Interface info retrieval", "WARNING")
+            return [{"interface_info": []}]
 
-        all_interface_info = []
+        interface_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching device interface info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1668,55 +2050,77 @@ class NetworkDevicesInfo(DnacBase):
                     params={'device_id': device_id}
                 )
                 self.log(
-                    "Received API response from 'get_interface_info_by_id': {0}".format(
-                        (response)
-                    ),
-                    "DEBUG",
-                )
+                    "Received API response from 'get_interface_info' for device {0} (IP: {1}): {2}".format(
+                        device_id, device_ip, response), "DEBUG")
+
                 interface_data = response.get("response", [])
                 if interface_data:
-                    all_interface_info.append({
+                    self.log("Found {0} interface records for device IP: {1}".format(len(interface_data), device_ip), "DEBUG")
+                    interface_info_list.append({
                         "device_ip": device_ip,
                         "interface_details": [interface_data]
                     })
                 else:
                     self.log("No interface details found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_interface_info.append({
+                    interface_info_list.append({
                         "device_ip": device_ip,
                         "interface_details": "No interface details found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting interface info: {0}".format(e)
+                self.msg = "Exception occurred while getting device interface info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"interface_info": all_interface_info}]
+        result = [{"interface_info": interface_info_list}]
 
-        self.log("Retrieved {0} interface records".format(result), "DEBUG")
+        self.log("Completed Device Interface info retrieval. Total devices processed: {0}".format(len(interface_info_list)), "INFO")
+        self.log("Device Interface info result: {0}".format(result), "DEBUG")
         return result
 
     def get_module_count(self, device_ids):
         """
         Fetch module count details for specified devices from Cisco Catalyst Center.
 
+        For each device ID, this method calls the 'get_device_list' API and aggregates the results.
+        Each entry in the returned list contains the device's management IP and its details.
+
         Retrieves module count information for each device ID provided.
+
+        The retrieved module count includes the key field:
+            - module_count_info (int): Number of modules in the device (e.g., 3)
 
         Parameters:
             device_ids (list): List of device IDs to retrieve module count data for.
 
         Returns:
-            list: A list containing a dictionary with key "module_count_info" holding the retrieved module count data.
-                Returns None if an error occurs during retrieval.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "module_count_info": [
+                            {
+                                "device_ip": <str>,
+                                "module_count_details": <list of module count details or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an error occurs during retrieval.
         """
 
-        self.log("Fetching module count for devices: {0}".format(device_ids), "INFO")
+        self.log("Fetching module count data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Module Count info retrieval", "WARNING")
+            return [{"module_count_info": []}]
 
-        all_module_counts = []
+        module_counts_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching module count info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -1724,33 +2128,34 @@ class NetworkDevicesInfo(DnacBase):
                     params={'device_id': device_id}
                 )
                 self.log(
-                    "Received API response from 'get_module_count': {0}".format(
-                        (response)
-                    ),
-                    "DEBUG",
-                )
+                    "Received API response from 'get_module_count' for device {0} (IP: {1}): {2}".format(
+                        device_id, device_ip, response), "DEBUG")
+
                 module_count_data = response.get("response", [])
+
                 if module_count_data:
-                    all_module_counts.append({
+                    self.log("Found {0} module count records for device IP: {1}".format(module_count_data, device_ip), "DEBUG")
+                    module_counts_info_list.append({
                         "device_ip": device_ip,
                         "module_count_details": [module_count_data]
                     })
                 else:
                     self.log("No module count details found for device IP: {0}".format(device_ip), "DEBUG")
-                    all_module_counts.append({
+                    module_counts_info_list.append({
                         "device_ip": device_ip,
                         "module_count_details": "No module count details found for {0}".format(device_ip)
                     })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting module count: {0}".format(e)
+                self.msg = "Exception occurred while getting module count info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-        result = [{"module_count_info": all_module_counts}]
+        result = [{"module_count_info": module_counts_info_list}]
 
-        self.log("Retrieved {0} module count records".format(result), "DEBUG")
+        self.log("Completed Device Module Count info retrieval. Total devices processed: {0}".format(len(module_counts_info_list)), "INFO")
+        self.log("Device Module Count info result: {0}".format(result), "DEBUG")
         return result
 
     def get_interface_ids_per_device(self, device_ids):
@@ -1774,7 +2179,7 @@ class NetworkDevicesInfo(DnacBase):
 
         for device_id in device_ids:
             try:
-                self.log("Fetching interfaces for device_id: {}".format(device_id), "DEBUG")
+                self.log("Fetching interfaces for device_id: {0}".format(device_id), "DEBUG")
 
                 response = self.dnac._exec(
                     family="devices",
@@ -1782,13 +2187,11 @@ class NetworkDevicesInfo(DnacBase):
                     params={"device_id": device_id}
                 )
                 self.log(
-                    "Received API response from 'get_interface_info_by_id': {0}".format(
-                        str(response)
-                    ),
-                    "DEBUG",
-                )
+                    "Received API response from 'get_interface_ids_per_device' for device {0}: {1}".format(
+                        device_id, response), "DEBUG")
+
                 interfaces = response.get("response", [])
-                self.log("Found interfaces {} for device_id: {}".format(interfaces, device_id), "DEBUG")
+                self.log("Found interfaces {0} for device_id: {1}".format(interfaces, device_id), "DEBUG")
 
                 interface_ids = set()
                 for interface in interfaces:
@@ -1796,12 +2199,12 @@ class NetworkDevicesInfo(DnacBase):
                     if interface_uuid:
                         interface_ids.add(interface_uuid)
                     else:
-                        self.log("Skipping interface with no instanceUuid for device {}".format(device_id), "WARNING")
+                        self.log("Skipping interface with no instanceUuid for device {0}".format(device_id), "WARNING")
 
                 device_interfaces_map[device_id] = interface_ids
 
             except Exception as e:
-                self.log("Failed to retrieve interfaces for device_id {}: {}".format(device_id, str(e)), "ERROR")
+                self.log("Failed to retrieve interfaces for device_id {0}: {1}".format(device_id, str(e)), "ERROR")
 
         return device_interfaces_map
 
@@ -1812,22 +2215,44 @@ class NetworkDevicesInfo(DnacBase):
         For each device, retrieves interface UUIDs, then fetches connected device details
         for each interface. Aggregates and returns all connected device details grouped by device.
 
+        The retrieved connected device details include key fields such as:
+        - neighborDevice (str): Name of the neighboring device (e.g., "DC-T-9300")
+        - neighborPort (str): Port on the neighboring device (e.g., "TenGigabitEthernet1/1/8")
+        - capabilities (list): List of capabilities supported by the neighbor device
+        (e.g., ["IGMP_CONDITIONAL_FILTERING", "ROUTER", "SWITCH"])
+
         Parameters:
             device_ids (list): List of device UUIDs to query connected device details for.
 
         Returns:
-            list: A list containing dictionaries, each with keys:
-                - 'device_id': The UUID of the device.
-                - 'connected_device_details': A list of connected device detail dictionaries for that device.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "connected_device_info": [
+                            {
+                                "device_ip": <str>,
+                                "connected_device_details": <list of connected device detail dictionaries or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an error occurs during retrieval.
         """
-        self.log("Starting connected device detail fetch", "INFO")
 
-        all_connected_info = []
+        self.log("Fetching connected device data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Connected Device info retrieval", "WARNING")
+            return [{"connected_device_info": []}]
+
+        connected_info_list = []
         device_interfaces_map = self.get_interface_ids_per_device(device_ids)
 
         for device_id, interface_ids in device_interfaces_map.items():
             connected_device_details = []
             device_ip = self.get_device_ip_from_id(device_id)
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching connected device info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
             for interface_uuid in interface_ids:
                 try:
                     connected_response = self.dnac._exec(
@@ -1839,14 +2264,12 @@ class NetworkDevicesInfo(DnacBase):
                         }
                     )
                     self.log(
-                        "Received API response from 'get_connected_device_detail': {0}".format(
-                            (connected_response)
-                        ),
-                        "DEBUG",
-                    )
+                        "Received API response from 'get_connected_device_details_from_interfaces' for device {0} (IP: {1}): {2}".format(
+                            device_id, device_ip, connected_response), "DEBUG")
+
                     detail = connected_response.get("response", {})
                     if detail:
-                        self.log("Connected data for device {} and interface {}: {}".format(
+                        self.log("Connected data for device {0} and interface {1}: {2}".format(
                             device_id, interface_uuid, detail
                         ), "DEBUG")
 
@@ -1856,41 +2279,84 @@ class NetworkDevicesInfo(DnacBase):
                             connected_device_details.append(detail)
 
                 except Exception as e:
-                    self.log("Failed to fetch connected device detail for device_id {} interface_id {}: {}".format(
+                    self.log("Failed to fetch connected device detail for device_id {0} interface_id {1}: {2}".format(
                         device_id, interface_uuid, str(e)
                     ), "ERROR")
 
             if connected_device_details:
-                all_connected_info.append({
+                self.log("Found {0} connected device details for device IP: {1}".format(
+                    len(connected_device_details), device_ip), "DEBUG")
+                connected_info_list.append({
                     "device_ip": device_ip,
                     "connected_device_details": connected_device_details
                 })
             else:
-                self.log("No connected device details found for device ip: {}".format(device_ip), "INFO")
+                self.log("No connected device details found for device ip: {0}".format(device_ip), "INFO")
 
-        result = [{"connected_device_info": all_connected_info}]
-        self.log("Final connected device info: {0}".format(result), "DEBUG")
+        result = [{"connected_device_info": connected_info_list}]
+
+        self.log("Completed Connected Device info retrieval. Total devices processed: {0}".format(len(connected_info_list)), "INFO")
+        self.log("Connected Device info result: {0}".format(result), "DEBUG")
         return result
 
     def get_interfaces_by_specified_range(self, device_ids):
         """
+        Fetch interfaces by specified range details for specified devices from Cisco Catalyst Center.
+
         Retrieves interface details for a list of device UUIDs using the
         'Get Device Interfaces by Specified Range' API with default values.
         The API is called with a default range of start_index = 1 and
         records_to_return = 500 for each device.
+
+        The retrieved interface details include key fields such as:
+        - addresses (list): List of interface IP addresses (usually empty or detailed IPs)
+        - adminStatus (str): Administrative status (e.g., "UP")
+        - duplex (str): Duplex mode (e.g., "FullDuplex")
+        - ifIndex (str): Interface index identifier (e.g., "73")
+        - interfaceType (str): Type of interface (e.g., "Physical")
+        - lastOutgoingPacketTime (int): Timestamp of last outgoing packet (epoch ms)
+        - macAddress (str): MAC address of the interface (e.g., "0c:75:bd:42:db:c1")
+        - mtu (str): Maximum Transmission Unit size (e.g., "9100")
+        - nativeVlanId (str): Native VLAN ID (e.g., "1")
+        - pid (str): Platform ID (e.g., "C9300-48UXM")
+        - portMode (str): Port mode (e.g., "access")
+        - portName (str): Name of the port (e.g., "AppGigabitEthernet1/0/1")
+        - portType (str): Type of port (e.g., "Ethernet Port")
+        - serialNo (str): Serial number of the device (e.g., "FJC2335S09F")
+        - series (str): Device series (e.g., "Cisco Catalyst 9300 Series Switches")
+        - speed (str): Speed in kbps (e.g., "1000000")
+        - status (str): Operational status (e.g., "up")
+        - vlanId (str): VLAN ID assigned (e.g., "1")
+        - voiceVlan (str): Voice VLAN (usually empty)
+        - description (str): Interface description (usually empty)
+        - instanceUuid (str): Interface instance UUID
+        - instanceTenantId (str): Tenant ID for the instance
 
         Parameters:
             device_ids (list): List of device instance UUIDs for which interface
                                details need to be fetched.
 
         Returns:
-            None. The retrieved results are appended to self.total_response under
-            the key 'device_interfaces_by_range_info'.
+            list: A list with a single dictionary:
+                [
+                    {
+                        "connected_device_info": [
+                            {
+                                "device_ip": <str>,
+                                "connected_device_details": <list of connected device detail dictionaries or error string>
+                            },
+                        ]
+                    }
+                ]
+            Returns None if an error occurs during retrieval.
         """
 
-        self.log("Starting interface range fetch", "INFO")
+        self.log("Fetching range interface data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not device_ids:
+            self.log("No device IDs provided for Interface by Range info retrieval", "WARNING")
+            return [{"device_interfaces_by_range_info": []}]
 
-        all_interface_results = []
+        interface_by_range_info_list = []
 
         for device_id in device_ids:
             device_ip = self.get_device_ip_from_id(device_id)
@@ -1899,6 +2365,8 @@ class NetworkDevicesInfo(DnacBase):
             interface_data = []
 
             while True:
+                self.log("Fetching interfaces for device {0} - starting at index {1} (requesting {2} records)".format(
+                    device_id, start_index, records_to_return), "DEBUG")
                 try:
                     response = self.dnac._exec(
                         family="devices",
@@ -1915,17 +2383,19 @@ class NetworkDevicesInfo(DnacBase):
                     )
 
                     if not response or 'response' not in response:
-                        self.log("Empty or invalid response received for device_id: {}".format(device_id), "WARNING")
+                        self.log("Empty or invalid response received for device_id: {0}".format(device_id), "WARNING")
                         break
 
                     data_chunk = response['response']
                     if not data_chunk:
-                        self.log("No more interfaces found for device_id: {}".format(device_id), "DEBUG")
+                        self.log("No more interfaces found for device_id: {0}".format(device_id), "DEBUG")
                         break
 
                     interface_data.extend(data_chunk)
 
                     if len(data_chunk) < records_to_return:
+                        self.log("Reached end of data - received {0} records (less than requested {1})".format(
+                            len(data_chunk), records_to_return), "DEBUG")
                         break
 
                     start_index += records_to_return
@@ -1935,14 +2405,17 @@ class NetworkDevicesInfo(DnacBase):
                              , "ERROR")
                     break
 
-            all_interface_results.append({
+            interface_by_range_info_list.append({
                 "device_ip": device_ip,
                 "interface_info": [interface_data]
             })
-        self.log("No interface info found for device ip: {}".format(device_ip), "INFO")
+        self.log("No interface info found for device ip: {0}".format(device_ip), "INFO")
 
-        result = [{"device_interfaces_by_range_info": all_interface_results}]
-        self.log("Retrieved interface info for range query: {}".format(result), "DEBUG")
+        result = [{"device_interfaces_by_range_info": interface_by_range_info_list}]
+
+        self.log("Completed Device Interface by Range info retrieval. Total devices processed: {0}".format(len(interface_by_range_info_list)), "INFO")
+        self.log("Device Interface by Range info result: {0}".format(result), "DEBUG")
+
         return result
 
     def get_device_link_mismatch_by_sites(self, site_ids, device_ids):
@@ -1952,17 +2425,65 @@ class NetworkDevicesInfo(DnacBase):
         Retrieves mismatch data for both 'vlan' and 'speed-duplex' categories for each site.
         Aggregates all results and returns them in a structured list.
 
+        The retrieved device link mismatch data includes key fields such as:
+        - endPortAllowedVlanIds (str): Allowed VLAN IDs on the end port (e.g., "10,20,30")
+        - endPortNativeVlanId (str): Native VLAN ID on the end port (e.g., "10")
+        - startPortAllowedVlanIds (str): Allowed VLAN IDs on the start port (e.g., "10,20,30")
+        - startPortNativeVlanId (str): Native VLAN ID on the start port (e.g., "10")
+        - linkStatus (str): Current status of the link (e.g., "up")
+        - endDeviceHostName (str): Hostname of the device at the end port (e.g., "switch-nyc-01")
+        - endDeviceId (str): Unique ID of the device at the end port (e.g., "device-1001")
+        - endDeviceIpAddress (str): IP address of the device at the end port (e.g., "192.168.1.10")
+        - endPortAddress (str): Interface address of the end port (e.g., "GigabitEthernet1/0/24")
+        - endPortDuplex (str): Duplex setting of the end port (e.g., "full")
+        - endPortSpeed (str): Speed setting of the end port (e.g., "1000Mbps")
+        - startDeviceHostName (str): Hostname of the device at the start port (e.g., "router-dc-01")
+        - startDeviceId (str): Unique ID of the device at the start port (e.g., "device-2001")
+        - startDeviceIpAddress (str): IP address of the device at the start port (e.g., "192.168.1.1")
+        - startPortAddress (str): Interface address of the start port (e.g., "GigabitEthernet0/1")
+        - startPortDuplex (str): Duplex setting of the start port (e.g., "full")
+        - startPortSpeed (str): Speed setting of the start port (e.g., "1000Mbps")
+        - lastUpdated (str): ISO 8601 timestamp of last update (e.g., "2025-06-26T10:15:00Z")
+        - numUpdates (int): Number of updates recorded (e.g., 15)
+        - avgUpdateFrequency (float): Average frequency of updates (e.g., 4.0)
+        - type (str): Type of link (e.g., "ethernet-link")
+        - instanceUuid (str): Unique instance UUID
+
         Parameters:
             site_ids (list): List of site IDs to fetch device link mismatch information.
 
         Returns:
-            list: A list containing dictionaries for each site with keys 'site_id', 'vlan', and 'speed-duplex'.
-                Returns None if an exception occurs.
+        list: A list containing a single dictionary with structure:
+            [
+                {
+                    "device_link_mismatch_info": [
+                        {
+                            "device_ip": "<device_management_ip>",
+                            "vlan": [
+                                {
+                                    "device_ip": "<device_ip>",
+                                    "link_mismatch_details": <list_of_vlan_mismatch_data_or_error_message>
+                                }
+                            ],
+                            "speed-duplex": [
+                                {
+                                    "device_ip": "<device_ip>",
+                                    "link_mismatch_details": <list_of_speed_duplex_mismatch_data_or_error_message>
+                                }
+                            ]
+                        },
+                    ]
+                }
+            ]
+            Returns None if an exception occurs.
         """
 
-        self.log("Fetching device link mismatch for sites: {0}".format(site_ids), "INFO")
+        self.log("Fetching device link mismatch data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
+        if not site_ids or not device_ids:
+            self.log("No site IDs or device IDs provided for Device Link Mismatch info retrieval", "WARNING")
+            return [{"device_link_mismatch_info": []}]
 
-        all_mismatches = []
+        link_mismatch_info = []
         device_ips = []
         self.log(site_ids)
         for site_id in site_ids:
@@ -1981,6 +2502,9 @@ class NetworkDevicesInfo(DnacBase):
                 }
 
                 for category in ['vlan', 'speed-duplex']:
+                    self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+                    self.log("Fetching device link mismatch info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
+
                     try:
                         response = self.dnac._exec(
                             family="devices",
@@ -2027,65 +2551,80 @@ class NetworkDevicesInfo(DnacBase):
 
                 self.log(site_result["vlan"])
                 self.log(site_result["speed-duplex"])
-                all_mismatches.append(site_result)
+                link_mismatch_info.append(site_result)
 
-        result = [{"device_link_mismatch_info": all_mismatches}]
+        result = [{"device_link_mismatch_info": link_mismatch_info}]
 
-        self.log("Retrieved link mismatch data for: {0}".format(result), "DEBUG")
+        self.log("Completed Device Link Mismatch info retrieval. Total devices processed: {0}".format(len(link_mismatch_info)), "INFO")
+        self.log("Device Link Mismatch info result: {0}".format(result), "DEBUG")
+
         return result
 
     def get_device_id(self, filtered_config):
         """
-        Retrieve unique device instance UUIDs based on the given filtered configuration.
+        Retrieve and aggregate unique device instance UUIDs based on comprehensive filtering criteria.
 
-        This method queries the Cisco Catalyst Center for devices matching criteria specified
-        in the filtered configuration dictionary. It supports lookups by various device attributes
-        such as management IP address, MAC address, hostname, serial number, software type and version,
-        role, device type, family, and site hierarchy names.
+        This method performs intelligent device discovery across Cisco Catalyst Center using multiple
+        filter strategies including device attributes and site hierarchy lookups. It implements robust
+        retry mechanisms, timeout handling, and comprehensive logging to ensure reliable device
+        identification even in large-scale network environments.
 
-        The method performs API calls with retries and timeout handling for each filter value,
-        collects device instance UUIDs from the responses, and aggregates unique device IDs.
-        It also supports site-based device lookups by resolving site IDs and retrieving devices per site.
+        The method supports two primary discovery strategies:
+        1. Attribute-based filtering: Searches devices by specific attributes like IP, MAC, hostname, etc.
+        2. Site-based filtering: Discovers devices associated with specific network sites
 
         Parameters:
-            filtered_config (dict): Dictionary containing device filtering parameters.
-                Keys include:
-                - 'management_ip_address' (list of str)
-                - 'mac_address' (list of str)
-                - 'hostname' (list of str)
-                - 'serial_number' (list of str)
-                - 'software_type' (list of str)
-                - 'software_version' (list of str)
-                - 'role' (list of str)
-                - 'device_type' (list of str)
-                - 'family' (list of str)
-                - 'site_hierarchy' (list of str)
-                - 'timeout' (int): API call timeout in seconds
-                - 'retries' (int): Number of retry attempts
-                - 'interval' (int): Wait interval between retries in seconds
+            device_filter_configuration (dict): Comprehensive filtering configuration containing:
+                Device Attribute Filters:
+                - 'management_ip_address' (list of str): Management IP addresses for device lookup
+                - 'mac_address' (list of str): MAC addresses for device identification
+                - 'hostname' (list of str): Device hostnames for name-based discovery
+                - 'serial_number' (list of str): Serial numbers for hardware-based identification
+                - 'software_type' (list of str): Software types (e.g., 'IOS-XE', 'NX-OS')
+                - 'software_version' (list of str): Specific software versions for filtering
+                - 'role' (list of str): Device roles (e.g., 'ACCESS', 'CORE', 'DISTRIBUTION')
+                - 'device_type' (list of str): Device types (e.g., 'Cisco Catalyst 9300 Switch')
+                - 'family' (list of str): Device families (e.g., 'Switches and Hubs', 'Routers')
+                - 'site_hierarchy' (list of str): Site hierarchy paths for location-based filtering
+
+                Operation Control Parameters:
+                - 'timeout' (int, optional): Maximum time in seconds for device discovery operations.
+                                        Default: 60 seconds
+                - 'retries' (int, optional): Number of retry attempts for failed API calls.
+                                        Default: 3 retries
+                - 'interval' (int, optional): Wait interval in seconds between retry attempts.
+                                            Default: 10 seconds
 
         Returns:
-            list: A list of unique device instance UUIDs (strings) that match the filter criteria.
-                Returns None if an exception occurs during processing.
+            list of str: Unique device instance UUIDs matching the specified filter criteria.
+                        Each UUID represents a distinct network device in Cisco Catalyst Center.
+                        Returns empty list if no devices match the criteria.
+                        Returns None if a critical exception prevents processing.
+
+        Raises:
+            APIError: When Cisco Catalyst Center API returns error responses
+            TimeoutError: When device discovery operations exceed configured timeout
+            ValidationError: When invalid filter configuration is provided
         """
+
         param_keys = [
             'management_ip_address', 'mac_address', 'hostname', 'serial_number',
-            'software_type', 'software_version', 'role', 'device_type', 'family'
+            'os_type', 'software_version', 'role', 'device_type', 'family'
         ]
 
-        param_key_map = {
+        api_parameter_mapping = {
             'management_ip_address': 'managementIpAddress',
             'mac_address': 'macAddress',
             'hostname': 'hostname',
             'serial_number': 'serialNumber',
-            'software_type': 'softwareType',
+            'os_type': 'softwareType',
             'software_version': 'softwareVersion',
             'role': 'role',
             'device_type': 'type',
             'family': 'family',
         }
 
-        all_results = []
+        all_info_results = []
         device_ids = []
 
         timeout = filtered_config.get("timeout", 60)
@@ -2100,13 +2639,13 @@ class NetworkDevicesInfo(DnacBase):
 
             self.log("Processing {0} with values: {1}".format(key, values), "INFO")
             for val in values:
-                params = {param_key_map[key]: val}
+                params = {api_parameter_mapping[key]: val}
                 start_time = time.time()
                 attempt = 0
                 self.log("Calling API with params: {0}".format(params))
 
                 while attempt < retries and (time.time() - start_time) < timeout:
-                    params = {param_key_map[key]: val}
+                    params = {api_parameter_mapping[key]: val}
                     self.log("Attempt {0} - Calling API with params: {1}".format(attempt + 1, params))
 
                     response = self.dnac._exec(
@@ -2115,11 +2654,7 @@ class NetworkDevicesInfo(DnacBase):
                         params=params
                     )
                     self.log(
-                        "Received API response from 'get_device_list': {0}".format(
-                            (response)
-                        ),
-                        "DEBUG",
-                    )
+                        "Received API response for device_id {0}: {1}".format(device_ids, response), "DEBUG",)
 
                     devices = response.get('response', [])
                     if devices:
@@ -2138,7 +2673,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log(msg)
                     self.total_response.append(msg)
 
-                all_results.append(response)
+                all_info_results.append(response)
 
         # Site-based
         site_names = filtered_config.get("site_hierarchy")
@@ -2171,13 +2706,15 @@ class NetworkDevicesInfo(DnacBase):
             - device_id (str): The unique identifier of the device in Cisco Catalyst Center.
         Returns:
             str: The management IP address of the specified device.
-        Raises:
-            Exception: If there is an error while retrieving the response from Cisco Catalyst Center.
+
         Description:
             This method queries Cisco Catalyst Center for the device details based on its unique identifier (ID).
             It uses the 'get_device_list' function in the 'devices' family, extracts the management IP address
             from the response, and returns it. If any error occurs during the process, an exception is raised
             with an appropriate error message logged.
+        Raises:
+            Exception: If there is a critical error during API communication with Cisco Catalyst Center,
+              invalid device UUID format, or authentication/authorization failures.
         """
 
         try:
@@ -2205,37 +2742,55 @@ class NetworkDevicesInfo(DnacBase):
 
     def write_device_info_to_file(self, config):
         """
-            Writes the collected device info to a specified file in JSON or YAML format.
-            Supports appending or overwriting based on file_mode.
+        Write collected network device information to a specified file with comprehensive format support and error handling.
 
-            Args:
-                self (object): Class instance with total_response and logging methods.
-                config (dict): Configuration dictionary containing 'file_info'.
+        This method provides robust file output capabilities for network device data with support for multiple
+        formats (JSON/YAML), file modes (overwrite/append), automatic directory creation, timestamp insertion,
+        and comprehensive error handling with detailed logging for operational traceability.
 
-            Behavior:
-                - Writes to the file path specified in config['file_info']['file_path'].
-                - File format defaults to YAML but can be set to JSON.
-                - File mode defaults to overwrite ('w') but can be append ('a').
-                - If timestamp is True, inserts a 'Downloaded at' timestamp inside the file content.
-                - Creates directories in the file path if they do not exist.
+        Parameters:
+            export_configuration (dict): Configuration dictionary containing file output specifications.
+                Required structure:
+                {
+                    "output_file_info": {
+                        "file_path": str,   # Absolute path without extension (required)
+                        "file_format": str, # "json" or "yaml" (default: "yaml")
+                        "file_mode": str,   # "w" (overwrite) or "a" (append) (default: "w")
+                        "timestamp": bool   # Include download timestamp (default: False)
+                    },
+                    "data": dict            # Optional: specific data to write (uses self.total_response if not provided)
+                }
+
+        Returns:
+            self: The current instance with updated internal state reflecting the file operation results.
+
+        Raises:
+            Exception: Critical errors during file operations, directory creation, or data serialization
+                  are logged but do not raise exceptions to maintain operational continuity.
         """
-        file_info = config.get("file_info", {})
-        self.log("File info received: {0}".format(file_info), "DEBUG")
 
-        file_path = file_info.get("file_path")
-        file_format = file_info.get("file_format", "yaml").lower()
-        file_mode = file_info.get("file_mode", "w").lower()
-        timestamp_flag = file_info.get("timestamp", False)
+        self.log("=== Starting Device Information File Export Operation ===", "INFO")
 
-        if not file_path:
-            self.log("No file_path specified in file_info", "ERROR")
+        output_file_info = config.get("output_file_info", {})
+        self.log("File info received: {0}".format(output_file_info), "DEBUG")
+
+        target_file_path = output_file_info.get("file_path")
+        output_file_format = output_file_info.get("file_format", "yaml").lower().strip()
+        file_write_mode = output_file_info.get("file_mode", "w").lower().strip()
+        include_timestamp_flag = output_file_info.get("timestamp", False)
+
+        self.log("Extracted file parameters - Path: {0}, Format: {1}, Mode: {2}, Timestamp: {3}".format(
+            target_file_path, output_file_format, file_write_mode, include_timestamp_flag), "INFO")
+
+        if not target_file_path:
+            self.log("No file_path specified in output_file_info", "ERROR")
             return self
 
-        if file_mode not in {"w", "a"}:
-            self.log("Invalid file_mode '{0}'. Use 'w' (overwrite) or 'a' (append).".format(file_mode), "ERROR")
+        if file_write_mode not in {"w", "a"}:
+            self.log("Invalid file_mode '{0}'. Use 'w' (overwrite) or 'a' (append).".format(file_write_mode), "ERROR")
             return self
 
-        full_path_with_ext = "{0}.{1}".format(file_path, file_format)
+        full_path_with_ext = "{0}.{1}".format(target_file_path, output_file_format)
 
         try:
             os.makedirs(os.path.dirname(full_path_with_ext), exist_ok=True)
@@ -2249,16 +2804,16 @@ class NetworkDevicesInfo(DnacBase):
             else:
                 new_data = [self.total_response]
 
-            if timestamp_flag:
+            if include_timestamp_flag:
                 timestamp_entry = {"Downloaded at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
                 new_data_with_timestamp = [timestamp_entry] + new_data
             else:
                 new_data_with_timestamp = new_data
 
-            if file_mode == "a" and os.path.exists(full_path_with_ext):
+            if file_write_mode == "a" and os.path.exists(full_path_with_ext):
                 try:
                     with open(full_path_with_ext, "r") as f:
-                        if file_format == "json":
+                        if output_file_format == "json":
                             existing_data = json.load(f)
                         else:
                             existing_data = yaml.safe_load(f)
@@ -2278,7 +2833,7 @@ class NetworkDevicesInfo(DnacBase):
                 data_to_write = new_data_with_timestamp
 
             with open(full_path_with_ext, "w") as f:
-                if file_format == "json":
+                if output_file_format == "json":
                     json.dump(data_to_write, f, indent=2)
                 else:
                     yaml.dump(data_to_write, f, default_flow_style=False)
@@ -2307,7 +2862,7 @@ def main():
                     "dnac_log_append": {"type": 'bool', "default": True},
                     'dnac_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
-                    'config_verify': {'type': 'bool', "default": True},
+                    'config_verify': {'type': 'bool', "default": False},
                     'dnac_api_task_timeout': {'type': 'int', "default": 1200},
                     'dnac_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},

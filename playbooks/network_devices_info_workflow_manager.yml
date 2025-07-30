@@ -1,4 +1,5 @@
-- name: get network devices info on Cisco Catalyst Center
+---
+- name: Get network devices info on Cisco Catalyst Center
   hosts: localhost
   connection: local
   vars_files:
@@ -15,22 +16,22 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        config_verify: false
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: queried
         config:
           - network_devices:
-              - management_ip_address: ["91.1.1.2"]
+              - management_ip_address: ["91.1.1.6"]
                 mac_address: ["cc:70:ed:e1:c3:00"]
                 hostname: ["SJ-Border2-9500.cisco.com"]
                 serial_number: ["FCW2243F199"]
-                software_type: ["IOS-XE"]
+                os_type: ["IOS-XE"]
                 software_version: ["17.15.2"]
                 role: ["BORDER ROUTER"]
                 device_type: ["Cisco Catalyst 9500 Switch"]
                 family: ["Switches and Hubs"]
-                site_hierarchy: ["Global/USA/New York/BLDNYC"]
+                site_hierarchy: ["Global/USA/SAN JOSE/BLD23"]
                 timeout: 10
                 retries: 1
                 interval: 1
@@ -49,8 +50,8 @@
                   - device_polling_interval_info
                   - device_stack_info
                   - device_link_mismatch_info
-                file_info:
-                  file_path: /Users/karthick/Downloads/new
+                output_file_info:
+                  file_path: /Users/karthick/Downloads/testing
                   file_format: json
                   file_mode: a
                   timestamp: true
