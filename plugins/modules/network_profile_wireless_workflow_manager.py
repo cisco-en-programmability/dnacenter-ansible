@@ -160,9 +160,9 @@ options:
         suboptions:
           device_type:
             description: |
-                The type of device for which the feature template is applicable.
-                This can be a specific device model or a general category.
-                Any one of the feature templates device type can be used.
+                The category or name of the feature template to be applied.
+                This defines the functional area of the configuration (For example, AAA, SSID, CleanAir).
+                Only one feature template category can be specified per entry in this list.
                 For example:
                 - AAA_RADIUS_ATTRIBUTES_CONFIGURATION
                 - ADVANCED_SSID_CONFIGURATION
@@ -178,17 +178,18 @@ options:
             required: false
           template_design:
             description: |
-              The design of the template, which may include various parameters
-              and settings specific to the device type.
-              If "Default Advanced SSID Design" is selected, no need to add any other
-              template design.
+              A list of specific design names or IDs to apply within the chosen feature template category.
+              These designs include various parameters and settings.
+              If "Default Advanced SSID Design" is included in this list, it is comprehensive for SSID configuration,
+              and no other template designs are typically needed for that specific SSID feature.
             type: list
             elements: str
             required: true
           applicability_ssids:
             description: |
               A list of SSIDs to which this feature template applies.
-              If "Default Advanced SSID Design" is selected, it will apply to all SSIDs.
+              If "Default Advanced SSID Design" is selected for the 'template_design', this feature template
+              will automatically apply to all SSIDs, regardless of this list's content.
               For example, ["SSID1", "SSID2"].
             type: list
             elements: str
