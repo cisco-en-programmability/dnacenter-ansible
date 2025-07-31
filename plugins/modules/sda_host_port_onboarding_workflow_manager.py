@@ -2184,6 +2184,12 @@ class SDAHostPortOnboarding(DnacBase):
             It logs the response, processes the response to extract the fabric zone ID, and handles any exceptions
             that occur during the API call.
         """
+        self.log(
+            "Retrieving fabric zones information for site: '{0}' with site ID: '{1}'.".format(
+                site_name, site_id
+            ),
+            "DEBUG",
+        )
         try:
             # Call the SDA 'get_fabric_zones' API with the provided site ID
             response = self.dnac._exec(
@@ -2193,8 +2199,8 @@ class SDAHostPortOnboarding(DnacBase):
                 params={"siteId": site_id},
             )
             self.log(
-                "Response received post SDA - 'get_fabric_zones' API call: {0}".format(
-                    str(response)
+                "Response received post SDA - 'get_fabric_zones' API call for site {0}: {1}".format(
+                    site_name, str(response)
                 ),
                 "DEBUG",
             )
@@ -2202,12 +2208,20 @@ class SDAHostPortOnboarding(DnacBase):
             response = response.get("response")
             if not response:
                 self.log(
-                    "No response received from the SDA - 'get_fabric_zones' API call.",
+                    "No response received from the SDA - 'get_fabric_zones' API call for site {0} with ID: {1}.".format(
+                        site_name, site_id
+                    ),
                     "WARNING",
                 )
                 return None
 
             fabric_zone_id = response[0]["id"]
+            self.log(
+                "Successfully retrieved fabric zone id for site {0} : '{1}'.".format(
+                    site_name, fabric_zone_id
+                ),
+                "INFO",
+            )
             return fabric_zone_id
 
         except Exception as e:
