@@ -112,6 +112,8 @@ options:
               within the site. The default is True for
               fabric sites, and this setting is not
               applicable for fabric zones.
+              Setting it to false configures the fabric
+              site to use the LISP/BGP.
             type: bool
           apply_pending_events:
             description: Modifying an IP address pool
