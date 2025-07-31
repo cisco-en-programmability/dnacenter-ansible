@@ -132,6 +132,11 @@ options:
             ensure that the operation is performed within
             the same fabric site.
           - For Example - "Global/USA/San Jose/BLDG23"
+          - If the device is provisioned in a fabric zone,
+            provide the fabric zone's site hierarchy
+            (For Example - "Global/USA/San Jose/BLDG23")
+            as the"fabric_site_name_hierarchy" for operations such
+            as adding ports to an edge device in that zone.
           - If only the "fabric_site_name_hierarchy"
             is provided in the "merged" state, only
             Wireless SSID(s) will be added or updated
@@ -140,15 +145,6 @@ options:
             is provided in the "deleted" state, all
             the Wireless SSID(s) configured for the
             specific fabric site will be deleted.
-          - If the device is provisioned in a fabric zone, when creating or updating
-            the host on the device provisioned in the fabric zone, make sure to enter
-            the site name of the fabric site's name and not the fabric zone's name.
-          - For Example
-            - "Global/USA/San Jose" is a fabric site.
-            - "Global/USA/San Jose/BLDG23" is a fabric zone within the fabric site,
-            and the edge device is provisioned in this fabric zone.
-            - But when performing host onboarding, provide "Global/USA/San Jose" as
-            the fabric_site_name_hierarchy and not the fabric zone.
         type: str
         required: true
       port_assignments:
@@ -2175,6 +2171,53 @@ class SDAHostPortOnboarding(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
+    def get_fabric_zones(self, site_name, site_id):
+        """
+        Retrieve the fabric zone ID for a given site using the SDA 'get_fabric_zones' API call.
+        Args:
+            - site_name (str): The name of the site.
+            - site_id (str): The unique identifier of the site.
+        Returns:
+            str: The fabric zone ID if found, otherwise None.
+        Description:
+            This method calls the SDA 'get_fabric_zones' API to retrieve the fabric zone ID for a specified site.
+            It logs the response, processes the response to extract the fabric zone ID, and handles any exceptions
+            that occur during the API call.
+        """
+        try:
+            # Call the SDA 'get_fabric_zones' API with the provided site ID
+            response = self.dnac._exec(
+                family="sda",
+                function="get_fabric_zones",
+                op_modifies=False,
+                params={"siteId": site_id},
+            )
+            self.log(
+                "Response received post SDA - 'get_fabric_zones' API call: {0}".format(
+                    str(response)
+                ),
+                "DEBUG",
+            )
+
+            response = response.get("response")
+            if not response:
+                self.log(
+                    "No response received from the SDA - 'get_fabric_zones' API call.",
+                    "WARNING",
+                )
+                return None
+
+            fabric_zone_id = response[0]["id"]
+            return fabric_zone_id
+
+        except Exception as e:
+            # Log an error message and fail if an exception occurs
+            self.msg = (
+                "An error occurred while retrieving 'fabric zone ID' for Site: '{0}' using SDA - "
+                "'get_fabric_zones' API call: {1}".format(site_name, str(e))
+            )
+            self.fail_and_exit(self.msg)
+
     def get_network_device_id(self, ip_address, hostname):
         """
         Retrieves the network device ID for a given IP address or hostname.
@@ -2219,7 +2262,7 @@ class SDAHostPortOnboarding(DnacBase):
         """
         # Get siteId of the Site the device is part of
         self.log(
-            "Starting fabric ID retrieval for site: '{}'.".format(
+            "Starting fabric ID retrieval for site: '{0}'.".format(
                 fabric_site_name_hierarchy
             ),
             "INFO",
@@ -2239,16 +2282,25 @@ class SDAHostPortOnboarding(DnacBase):
             self.fail_and_exit(self.msg)
 
         self.log("Retrieving fabric ID for site ID: '{0}'.".format(site_id), "DEBUG")
-        # Get fabricId of the site
+        # Try to get fabricId using get_fabric_sites
         fabric_id = self.get_fabric_sites(fabric_site_name_hierarchy, site_id)
+
         if not fabric_id:
-            self.msg = "Fabric ID not found for Site: {0} with Site ID: {1}".format(
-                fabric_site_name_hierarchy, site_id
+            self.log(
+                "Fabric ID not found using 'get_fabric_sites_id'. Trying 'get_fabric_zones'.",
+                "DEBUG",
             )
+            # Try to get fabricId using get_fabric_zones
+            fabric_id = self.get_fabric_zones(fabric_site_name_hierarchy, site_id)
+
+        if not fabric_id:
+            self.msg = (
+                "Fabric ID not found for fabric_site_name_hierarchy: {0} with Site ID: {1} using both 'get_fabric_sites' and 'get_fabric_zones'."
+            ).format(fabric_site_name_hierarchy, site_id)
             self.fail_and_exit(self.msg)
 
         self.log(
-            "Successfully retrieved fabric ID: '{}' for site: '{}'.".format(
+            "Successfully retrieved fabric ID: '{0}' for fabric_site_name_hierarchy: '{1}'.".format(
                 fabric_id, fabric_site_name_hierarchy
             ),
             "INFO",
