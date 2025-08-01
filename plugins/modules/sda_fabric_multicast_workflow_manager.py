@@ -2208,7 +2208,49 @@ class FabricMulticast(DnacBase):
 
         multicast_rps = []
 
-        default_allowed = (len(any_source_multicast) == 1)
+        default_allowed = False
+        if len(any_source_multicast) == 1:
+            self.log(
+                "Only one any-source multicast configuration provided. "
+                f"Default allowed for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                "DEBUG"
+            )
+            default_allowed = True
+        elif len(any_source_multicast) == 2 and all(item.get("rp_device_location") == "EXTERNAL" for item in any_source_multicast):
+            self.log(
+                "Checking if IPv4 external RP are present in the any-source multicast configurations "
+                f"for for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}",
+                "DEBUG"
+            )
+            external_ipv4_rp = any(item.get("ex_rp_ipv4_address") for item in any_source_multicast)
+            if external_ipv4_rp:
+                self.log(
+                    f"External IPv4 RP found in the any-source multicast configurations for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                    "DEBUG"
+                )
+
+            self.log(
+                "Checking if IPv6 external RP are present in the any-source multicast configurations "
+                f"for for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}",
+                "DEBUG"
+            )
+            external_ipv6_rp = any(item.get("ex_rp_ipv6_address") for item in any_source_multicast)
+
+            if external_ipv6_rp:
+                self.log(
+                    f"External IPv6 RP found in the any-source multicast configurations for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                    "DEBUG"
+                )
+
+            # If both external IPv4 and IPv6 RPs are present, default is allowed
+            if external_ipv4_rp and external_ipv6_rp:
+                self.log(
+                    "Both external IPv4 and IPv6 RPs are present in the any-source multicast configurations. "
+                    f"Default allowed for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
+                    "DEBUG"
+                )
+                default_allowed = True
+
         for item in any_source_multicast:
             rendezvous_point = {}
             rp_device_location = item.get("rp_device_location")
