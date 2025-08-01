@@ -2222,7 +2222,7 @@ class FabricMulticast(DnacBase):
                 f"for for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}",
                 "DEBUG"
             )
-            external_ipv4_rp = any(item.get("ex_rp_ipv4_address") and (item.get("is_default_v4_rp") == True) for item in any_source_multicast)
+            external_ipv4_rp = any(item.get("ex_rp_ipv4_address") and (item.get("is_default_v4_rp") is True) for item in any_source_multicast)
             if external_ipv4_rp:
                 self.log(
                     f"External IPv4 RP found in the any-source multicast configurations for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}'.",
@@ -2234,7 +2234,7 @@ class FabricMulticast(DnacBase):
                 f"for for L3 VN '{layer3_virtual_network}' under fabric '{fabric_name}",
                 "DEBUG"
             )
-            external_ipv6_rp = any(item.get("ex_rp_ipv6_address") and (item.get("is_default_v6_rp") == True) for item in any_source_multicast)
+            external_ipv6_rp = any(item.get("ex_rp_ipv6_address") and (item.get("is_default_v6_rp") is True) for item in any_source_multicast)
 
             if external_ipv6_rp:
                 self.log(
