@@ -3243,9 +3243,12 @@ class FabricMulticast(DnacBase):
                 ),
                 "INFO",
             )
-            self.bulk_update_replication_mode(
-                to_update_replication_mode
-            ).check_return_status()
+            for item in to_update_replication_mode:
+                self.log(
+                    f"Updating replication mode for fabric ID '{item['fabricId']}': {item}",
+                    "DEBUG",
+                )
+                self.bulk_update_replication_mode([item]).check_return_status()
 
         if to_update:
             self.log(
