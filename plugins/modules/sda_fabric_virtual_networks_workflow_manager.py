@@ -1554,7 +1554,7 @@ class VirtualNetwork(DnacBase):
             ),
         }
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3") >= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "Using new payload structure for fabric VLAN creation in Cisco Catalyst Center.",
                 "DEBUG",
@@ -1708,7 +1708,7 @@ class VirtualNetwork(DnacBase):
             )
             return True
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3") >= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "Using new payload structure for fabric VLAN configuration in Cisco Catalyst Center.",
                 "DEBUG",
@@ -1837,7 +1837,7 @@ class VirtualNetwork(DnacBase):
                 "DEBUG",
             )
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3") >= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "Using new payload structure for fabric VLAN update in Cisco Catalyst Center.",
                 "DEBUG",
@@ -3030,7 +3030,7 @@ class VirtualNetwork(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3") >= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "CCC version is 3.1.3 or above, validating additional parameters for Anycast Gateway.",
                 "DEBUG",
@@ -3235,7 +3235,7 @@ class VirtualNetwork(DnacBase):
                     anycast_payload[value] = False
                     self.log("Setting '{0}' to False in payload.".format(key), "DEBUG")
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3") >= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
                 self.log(
                     "CCC version is 3.1.3 or above, checking additional parameters for Anycast Gateway.",
                     "DEBUG",
@@ -3314,7 +3314,7 @@ class VirtualNetwork(DnacBase):
             "group_policy_enforcement_enabled",
         ]
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3") >= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "CCC version is 3.1.3 or above, adding additional parameters for Anycast Gateway update checks.",
                 "DEBUG",
@@ -3523,7 +3523,7 @@ class VirtualNetwork(DnacBase):
                 )
 
         if vn_name != "INFRA_VN" and self.compare_dnac_versions(
-            self.get_ccc_version(), "3.1.3"
+            self.get_ccc_version(), "3.1.3.0"
         ) >= 0:
             self.log(
                 "CCC version is 3.1.3 or above, processing additional parameters for Anycast Gateway.",
