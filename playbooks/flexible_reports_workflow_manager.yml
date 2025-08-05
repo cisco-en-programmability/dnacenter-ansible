@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: no
@@ -20,20 +20,16 @@
           config:
             - generate_report:
               - name: "compliance_report"
-                # category: "Activity"  #NEED TO DISCUSS #not required can be fetched from view_group_name
                 view_group_name: "Compliance"  #"Group Communication Summary"
-                # view_group_version: 2.0.0. #check with pawan #pawan said this should be optional and the default value should be provided
                 deliveries:
                    - type: "DOWNLOAD"
                      file_path: "/Users/mekandar/Desktop"
-                  #  - type: 
-                  #       email_addresses:  # List of recipients for email notifications
-                  #         - user1@example.com
-                  #         - user2@example.com
-                  #       webhook_id: "webhook_id"  # If using webhook, provide the webhook ID
-
+                   - type: 
+                        email_addresses:  # List of recipients for email notifications
+                          - mekandar@cisco.com
                 schedule:
                     type: "SCHEDULE_NOW"
+                    # start_time: "2025-04-19 08:00 AM"
                     # date_time: "2025-04-19 08:00 AM"
                     time_zone: "Asia/Calcutta"
                 view:
@@ -49,14 +45,16 @@
                       #   - name: "ipAddress"
                       #     display_name: "IP Address"
                   format:
-                      format_type: "CSV"
+                      format_type: "PDF"
                   filters: 
                     - name: "Location"
                       display_name: "Location"
                       type: "MULTI_SELECT_TREE"
-                      # value:
-                      #     value: "/cb13cf7d-d592-492a-b0bc-c6b250857bb8/6e7afd94-fdc6-412f-b3d1-cb3ae5e1f7d3/c0dbcff4-f98e-4609-bfcb-f31e5c17ea97/44de8b4c-2a09-412f-90b4-64b6cdbf4a50/20fdc082-6ccb-4101-906d-b6c0477ddf6e/"
-                      #     display_value: "Global/India/Bangalore/Mantri Square/Floor1"
+                      value:
+                        -   value: "Global/India/Bangalore/Mantri Square/Floor1"
+                            # display_value: "Global/India/Bangalore/Mantri Square/Floor1"
+                        -   value: "Global/India"
+                            # display_value: "Global/India"
                 tags: []  
 
 
