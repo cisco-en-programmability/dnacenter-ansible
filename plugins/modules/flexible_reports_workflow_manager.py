@@ -14,15 +14,14 @@ __author__ = ["Megha Kandari, Madhan Sankaranarayanan"]
 DOCUMENTATION = r"""
 ---
 module: flexible_report_workflow_manager
-short_description: Resource module for managing Flexible Reports in Cisco Catalyst Center.
+short_description: Resource module for managing Reports in Cisco Catalyst Center.
 description:
-  - This module manages Flexible Report configurations in Cisco Catalyst Center.
-  - It allows you to create, update, execute, and schedule customized reports across wired and wireless network entities.
-  - Supports configuration of report name, time range, subreports, entity selection, report types (Trend, Summary, Top N, Distribution), filters, attributes, and aggregation options.
-  - Enables scheduling, output format selection (CSV/ZIP), and delivery methods including Email and Webhook.
-  - Requires successful device discovery in Catalyst Center for accurate reporting.
-  - Flexible Reports help monitor network and client health, device behavior, and utilization trends.
-  - The Flexible Report APIs support multiple operations inluding fetching schedules, executing reports, and downloading results.
+  - This module manages Report configurations in Cisco Catalyst Center.
+  - It allows you to create and schedule customized reports across wired and wireless network entities.
+  - Supports configuration of report name, time range, subreports, entity selection, filters, attributes, and aggregation options.
+  - Enables scheduling, output format selection (e.g., CSV/ZIP), and delivery methods including Email and Webhook.
+  - Reports help monitor network and client health, device behavior, and utilization trends.
+  - The Report APIs support multiple operations inluding fetching schedules, executing reports, and downloading results.
   - Applicable from Cisco Catalyst Center version 2.3.3.1 and later.
 version_added: '6.36.0'
 extends_documentation_fragment:
@@ -142,7 +141,7 @@ options:
                 Time zone identifier for the schedule (e.g., "Asia/Calcutta").
               type: str
               required: true
-        delivery:
+        deliveries:
           description: >
             Specifies how the generated report should be delivered.
           type: dict
@@ -402,7 +401,7 @@ EXAMPLES = r"""
               type: "SCHEDULE_LATER" # Options: "SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRING"
               date_time: "2025-04-19 08:00 AM" # Scheduled time for the report execution => This needs to be converted in epoch
               time_zone_id: "Asia/Calcutta" # Time zone ID for scheduling
-            delivery:
+            deliveries:
               type: "DOWNLOAD" # Options: "DOWNLOAD", "NOTIFICATION", "WEBHOOK"
               # If type is WEBHOOK, fetch webhook ID from API using webhook name
               location: "../Desktop/Reports" # Local path to save the report (valid for DOWNLOAD type)
@@ -500,11 +499,11 @@ EXAMPLES = r"""
                 type: "SCHEDULE_LATER" # Options: "SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRING"
                 date_time: "2025-04-19 08:00 AM" # Scheduled time for the report execution => This needs to be converted in epoch
                 time_zone_id: "Asia/Calcutta" # Time zone ID for scheduling
-              delivery:
+              deliveries:
                 type: "DOWNLOAD" # Options: "DOWNLOAD", "NOTIFICATION", "WEBHOOK"
                 # If type is WEBHOOK, fetch webhook ID from API using webhook name
                 location: "../Desktop/Reports" # Local path to save the report (valid for DOWNLOAD type)
-                # Alternative delivery option: NOTIFICATION
+                # Alternative deliveries option: NOTIFICATION
                 # type: "NOTIFICATION"
                 # email_addresses:  # List of recipients for email notifications
                 #   - abc@zzz.com
@@ -735,7 +734,7 @@ class FlexibleReport(DnacBase):
                         "time_zone_id": {"type": "str", "required": False}
                     }
                 },
-                "delivery": {
+                "deliveries": {
                     "type": "dict",
                     "options": {
                         "type": {"type": "str", "required": True},
@@ -836,7 +835,7 @@ class FlexibleReport(DnacBase):
                 return self
 
             # Validate required fields
-            required_fields = ["view_group_name", "view"]
+            required_fields = ["view_group_name", "view", "schedule", "deliveries",]
             for field in required_fields:
                 if field not in entry:
                     self.msg = f"Missing required field '{field}' in 'generate_report' entry."
@@ -858,14 +857,134 @@ class FlexibleReport(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
+            valid_schedule_type = ["SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRING"]
+            schedule_type = entry.get("schedule", {}).get("type")
+            if not schedule_type:
+                self.msg = "Missing required field 'schedule.type' in 'generate_report' entry."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            if schedule_type not in valid_schedule_type:
+                self.msg = f"Invalid schedule type '{schedule_type}'. Must be one of {valid_schedule_type}."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            if schedule_type == "SCHEDULE_LATER":
+                date_time = entry.get("schedule", {}).get("date_time")
+                if not date_time:
+                    self.msg = "Missing required field 'schedule.date_time' for 'SCHEDULE_LATER' in 'generate_report' entry."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                # Validate date_time format
+                try:
+                    time.strptime(date_time, "%Y-%m-%d %I:%M %p")
+                except ValueError:
+                    self.msg = "Invalid date_time format. Expected 'YYYY-MM-DD HH:MM AM/PM'."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+            if schedule_type == "SCHEDULE_RECURRENCE":
+              schedule = entry.get("schedule", {})
+              recurrence = schedule.get("recurrence", {})
+              recurrence_type = recurrence.get("type")
+              time_zone_id = schedule.get("timeZoneId")
+              recurrence_days = recurrence.get("days", [])
+
+              # Validate required fields
+              required_fields = ["timeZoneId", "time", "startDate"]
+              for field in required_fields:
+                  if field not in schedule:
+                      self.msg = f"Missing required schedule field: '{field}'"
+                      self.set_operation_result("failed", False, self.msg, "ERROR")
+                      return self
+
+              # Case 1: Daily Recurrence via WEEKLY pattern with all days
+              if recurrence_type == "WEEKLY":
+                  expected_days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"}
+                  if set(recurrence_days) != expected_days:
+                      self.msg = "Only daily recurrence (WEEKLY with all 7 days) is supported in this module."
+                      self.set_operation_result("failed", False, self.msg, "ERROR")
+                      return self
+
+              # Case 2: Monthly Recurrence
+              elif recurrence_type == "MONTHLY":
+                  if "dayOfMonth" not in recurrence:
+                      self.msg = "Monthly recurrence must include 'dayOfMonth'."
+                      self.set_operation_result("failed", False, self.msg, "ERROR")
+                      return self
+
+              else:
+                  # All other recurrence types are not supported
+                  self.msg = f"Recurrence type '{recurrence_type}' is not supported in this module."
+                  self.set_operation_result("failed", False, self.msg, "ERROR")
+                  return self
+
             # Validate view structure
-            view = entry.get("view", {})
+            view = entry.get("view", {}) 
             if not isinstance(view, dict):
                 self.msg = "'view' must be a dictionary."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-        # self.config = config
+            if filters := view.get("filters", []):
+                if not isinstance(filters, list):
+                    self.msg = "'filters' must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                for filter_entry in filters:
+                    if not isinstance(filter_entry, dict):
+                        self.msg = "Each filter entry must be a dictionary."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                    filter_value = filter_entry.get("value")
+                    if filter_entry.get("name") == "Location" and filter_value:
+
+                      # If value is not a list, assign empty list and skip
+                      if not isinstance(filter_value, list):
+                          if filter_value is None:
+                              filter_entry["value"] = []
+                              filter_entry["display_value"] = []
+                              return self  # Assuming no location to process
+                          else:
+                              self.msg = "value for 'Location' filter must be a list."
+                              self.set_operation_result("failed", False, self.msg, "ERROR")
+                              return self
+
+                      if isinstance(filter_value, list):
+                        updated_values = []
+
+                        for item in filter_value:
+                            if not isinstance(item, dict) or "value" not in item:
+                                self.msg = "Each item in 'Location' filter value must contain 'value'."
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
+                                return self
+
+                            # Use provided display_value or fallback to value
+                            display_value = item.get("display_value", item["value"])
+
+                            # Call get_site to get the final resolved network hierarchy path
+                            site_response = self.get_site(item["value"])
+                            site_response = site_response["response"][0]
+                            self.log("Site response: {0}".format(self.pprint(site_response)), "DEBUG")
+
+                            site_hierarchy_id = site_response.get("siteHierarchyId")
+                            if not site_hierarchy_id:
+                                self.msg = f"Failed to resolve siteHierarchyId for location: {item['value']}"
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
+                                return self
+
+                            # Append both value and display_value in the same item
+                            updated_values.append({
+                                "value": site_hierarchy_id,
+                                "display_value": display_value
+                            })
+
+                        # Assign final list to filter_entry["value"]
+                        filter_entry["value"] = updated_values
+
         return self
 
     def get_want(self, config):
@@ -1296,80 +1415,84 @@ class FlexibleReport(DnacBase):
         # epdb.serve(port=8888)
         self.log("Downloading report content for report entry: {0}".format(self.pprint(report_entry)), "DEBUG")
 
-        # try:
-        file_path = report_entry.get("file_path", "./")
-        if not file_path:
-            self.msg = "File path is required for downloading the report."
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        execution_id = self.get_execution_id_for_report(report_id)
-        if not execution_id:
-            self.msg = "Failed to retrieve execution ID for report '{0}'.".format(report_entry.get("name"))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        download_response = self.dnac._exec(
-            family="reports",
-            function="download_report_content",
-            params={"report_id": report_id,
-                    "execution_id": execution_id
-                  }
-        )
-        # download_response = download_response.data
-        self.log(download_response.data)
-        # self.log("Response from download_report_content: {0}".format(self.pprint(download_response)), "DEBUG")
-
-        if not download_response:
-            self.msg = "Failed to download report content for '{0}'.".format(report_entry.get("name"))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return
-
-        # Validate file_path
-        deliveries = report_entry.get("deliveries", [])
-        view = report_entry.get("view", {})
-        file_format = view.get("format", {}).get("format_type")
-        default_format = ".csv"  # Default file format if not specified
-
-        for delivery in deliveries:
-          if delivery.get("type", "").upper() == "DOWNLOAD" and "file_path" in delivery:
-              file_path = delivery["file_path"]
-              break  # Found it, no need to continue
-
-        if not file_path:
-            self.log("No 'file_path' provided. Cannot save the downloaded file.", "WARNING")
-            return
-
-        # Determine file format
-        if not file_format.startswith("."):
-            file_format = "." + file_format  # Ensure it starts with "."
-
-        # Determine file name (download_id or default name)
-        report_name = report_entry.get("name", "report")
-
-        # Construct full path
-        full_path = os.path.join(file_path, f"{report_name}{file_format}")
-
-        # Save the file
         try:
-            os.makedirs(file_path, exist_ok=True)
-            with open(full_path, "wb") as f:
-                f.write(download_response)
-            self.log(f"File saved successfully at {full_path}", "INFO")
-        except Exception as e:
-            self.log(f"Failed to save file: {e}", "ERROR")
+          file_path = report_entry.get("file_path", "./")
+          if not file_path:
+              self.msg = "File path is required for downloading the report."
+              self.set_operation_result("failed", False, self.msg, "ERROR")
+              return self
 
-        result = {
-            "response": download_response,
-            "msg": "Successfully downloaded report '{0}' to '{1}'.".format(report_entry.get("name"), file_path),
-        }
-        self.result["response"].append({"download_report": result})
-        self.log("Successfully downloaded report: {0}".format(report_entry.get("name")), "INFO")
-        self.status = "success"
-        self.result["changed"] = True
-        # except Exception as e:
-        #     self.msg = "An error occurred while downloading the report: {0}".format(str(e))
-        #     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+          execution_id = self.get_execution_id_for_report(report_id)
+          if not execution_id:
+              self.msg = "Failed to retrieve execution ID for report '{0}'.".format(report_entry.get("name"))
+              self.set_operation_result("failed", False, self.msg, "ERROR")
+              return self
+
+          download_response = self.dnac._exec(
+              family="reports",
+              function="download_report_content",
+              params={"report_id": report_id,
+                      "execution_id": execution_id
+                    }
+          )
+          download_data = download_response.data
+          self.log(download_response.data)
+          self.log(download_data)
+          # self.log("Response from download_report_content: {0}".format(self.pprint(download_response)), "DEBUG")
+
+          if not download_response:
+              self.msg = "Failed to download report content for '{0}'.".format(report_entry.get("name"))
+              self.set_operation_result("failed", False, self.msg, "ERROR")
+              return
+
+          # Validate file_path
+          deliveries = report_entry.get("deliveries", [])
+          view = report_entry.get("view", {})
+          file_format = view.get("format", {}).get("format_type")
+          default_format = ".csv"  # Default file format if not specified
+
+          for delivery in deliveries:
+            if delivery.get("type", "").upper() == "DOWNLOAD" and "file_path" in delivery:
+                file_path = delivery["file_path"]
+                break  # Found it, no need to continue
+
+          if not file_path:
+              self.log("No 'file_path' provided. Cannot save the downloaded file.", "WARNING")
+              return
+
+          # Determine file format
+          if not file_format.startswith("."):
+              file_format = "." + file_format  # Ensure it starts with "."
+
+          # Determine file name (download_id or default name)
+          report_name = report_entry.get("name", "report")
+
+          # Construct full path
+          full_path = os.path.join(file_path, f"{report_name}{file_format}")
+
+          # Save the file
+          try:
+              os.makedirs(file_path, exist_ok=True)
+              with open(full_path, "wb") as f:
+                  f.write(download_data)
+              self.log(f"File saved successfully at {full_path}", "INFO")
+          except Exception as e:
+              self.msg = "Failed to save the downloaded file: {0}".format(str(e))
+              self.log(self.msg, "ERROR")
+              self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+              return self
+
+          result = {
+              "response": download_data,
+              "msg": "Successfully downloaded report '{0}' to '{1}'.".format(report_entry.get("name"), file_path),
+          }
+          self.result["response"].append({"download_report": result})
+          self.log("Successfully downloaded report: {0}".format(report_entry.get("name")), "INFO")
+          self.status = "success"
+          self.result["changed"] = True
+        except Exception as e:
+            self.msg = "An error occurred while downloading the report: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         return self
 
     def get_diff_deleted(self, config):
@@ -1448,8 +1571,19 @@ class FlexibleReport(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
         for report_entry in generate_report:
-            if report_entry["exists"] == True:
+            if report_entry["exists"] == True and report_entry.get("deliveries"):
                 report_name = report_entry.get("name")
+                # Ensure "response" exists and has at least one item
+                if "response" in self.result and self.result["response"]:
+                    last_response = self.result["response"][-1]
+
+                    # Check if "create_report" key exists, if not, create it
+                    if "create_report" not in last_response:
+                        last_response["create_report"] = {}
+
+                    # Now safely assign the validation status
+                    last_response["create_report"]["Validation"] = "Success"
+
                 self.result["response"][-1]["create_report"]["Validation"] = "Success"
                 self.msg = "Report '{0}' has been successfully created or scheduled.".format(report_name)
             else:
@@ -1536,9 +1670,9 @@ def main():
         ccc_report.input_data_validation(config).check_return_status()
         ccc_report.get_want(config).check_return_status()
         ccc_report.get_have(config).check_return_status()
-        ccc_report.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
-            ccc_report.verify_diff_state_apply[state](config).check_return_status()
+        # ccc_report.get_diff_state_apply[state](config).check_return_status()
+        # if config_verify:
+        #     ccc_report.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_report.result)
 
