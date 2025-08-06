@@ -511,6 +511,12 @@ notes:
     ccc_virtual_network.sda.get_reserve_ip_subpool ccc_virtual_network.sda.get_anycast_gateways
     ccc_virtual_network.sda.add_anycast_gateways ccc_virtual_network.sda.update_anycast_gateways
     ccc_virtual_network.sda.delete_anycast_gateway_by_id
+  - New parameters added in the module are
+    wireless_flooding_enable, resource_guard_enable,
+    flooding_address_assignment, flooding_address
+    as part of fabric_vlan and anycast_gateways creation/updation
+    will start supporting from Catalsyt Center
+    with version 3.1.3.0 onwards.
 """
 EXAMPLES = r"""
 ---
