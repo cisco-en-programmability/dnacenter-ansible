@@ -132,6 +132,8 @@ options:
         description: |
           Defines the mode of operation for the Access Point (AP). Possible values include "Local",
           "Monitor", "Sniffer", or "Bridge". For example, "Local".
+          This field is required when updating radio parameters such as `2.4ghz_radio`, `5ghz_radio`,
+          and `6ghz_radio`.
         type: str
         required: false
       location:
@@ -252,6 +254,7 @@ options:
           radio_role_assignment:
             description: Role assignment mode for the 2.4GHz radio interface. Accepts
               "Auto", "Client-serving", or "Monitor". For example, Auto.
+              ap_mode must be set to "Local" when the radio_role_assignment is "client-serving".
             type: str
             required: false
           cable_loss:
@@ -310,6 +313,7 @@ options:
             description: |
               Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
               or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
+              ap_mode must be set to "Local" when the radio_role_assignment is "client-serving".
             type: str
             required: false
           cable_loss:
@@ -367,6 +371,7 @@ options:
           radio_role_assignment:
             description: Role assignment mode for the 6GHz radio interface. Accepts
               "Auto", "Client-serving", or "Monitor".
+              ap_mode must be set to "Local" when the radio_role_assignment is "client-serving".
             type: str
             required: false
           cable_loss:
@@ -427,6 +432,7 @@ options:
               If "radio_role_assignment" is set to "Client-serving" only the power level and channel number can be changed.
               Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
               For example, "Auto".
+              ap_mode must be set to "Local" when the radio_role_assignment is "client-serving".
             type: str
             required: false
           radio_band:
@@ -511,6 +517,7 @@ options:
             description: |
               Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
               If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+              ap_mode must be set to "Local" when the mode is "client-serving".
             type: str
             required: false
           cable_loss:
@@ -818,8 +825,8 @@ options:
                     required: false
                   radio_role_assignment:
                     description: Role assignment mode for the 2.4GHz radio interface.
-                      Accepts "Auto", "Client-serving", or "Monitor". For example,
-                      Auto.
+                      Accepts "Auto", "Client-serving", or "Monitor". For example, Auto.
+                      ap_mode must be set to "Local" when the radio_role_assignment is "client-serving".
                     type: str
                     required: false
                   cable_loss:
@@ -878,6 +885,7 @@ options:
                     description: |
                       Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
                       or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
+                      ap_mode must be set to "Local" when the radio_role_assignment is "client-serving".
                     type: str
                     required: false
                   cable_loss:
@@ -935,6 +943,7 @@ options:
                   radio_role_assignment:
                     description: Role assignment mode for the 6GHz radio interface.
                       Accepts "Auto", "Client-serving", or "Monitor".
+                      ap_mode must be set to "Local" when the radio_role_assignment is "client-serving".
                     type: str
                     required: false
                   cable_loss:
@@ -995,6 +1004,7 @@ options:
                       If "radio_role_assignment" is set to "Client-serving" only the power level and channel number can be changed.
                       Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
                       For example, "Auto".
+                      ap_mode must be set to "Local" when the radio_role_assignment is "client-serving".
                     type: str
                     required: false
                   radio_band:
@@ -1079,6 +1089,7 @@ options:
                     description: |
                       Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
                       If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+                      ap_mode must be set to "Local" when the radio_role_assignment is "client-serving".
                     type: str
                     required: false
                   cable_loss:
