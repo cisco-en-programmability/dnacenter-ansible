@@ -131,35 +131,73 @@ options:
               False.
             type: bool
           wireless_flooding_enable:
-            description: Set to true to enable wireless flooding.
+            description: Controls wireless flooding behavior for
+              the fabric VLAN, which determines how BUM traffic
+              (Broadcast, Unknown unicast, and Multicast) from
+              wireless clients is handled within the fabric network.
+              When enabled, BUM traffic from wireless clients is
+              flooded across the fabric to ensure proper connectivity
+              and service discovery. When disabled, BUM traffic
+              flooding is suppressed, which can improve network
+              efficiency but may impact certain network services
+              that rely on broadcast or multicast communication.
               If there is an associated layer 3 virtual network,
               wireless flooding will default to false and can only
-              be true when fabric-enabled wireless is also true.
-              If there is no associated layer 3 virtual network,
-              wireless flooding will match fabric-enabled wireless.
+              be set to true when fabric-enabled wireless is also
+              enabled. If there is no associated layer 3 virtual
+              network, wireless flooding will match the
+              fabric-enabled wireless setting.
             type: bool
             default: false
-          is_resource_guard_enable:
-            description: Indicates whether resource guard
-              is enabled for the fabric VLAN. If the VLAN
-              is not associated with a layer3 virtual
-              network, this field must be set to false.
+          resource_guard_enable:
+            description: A security feature control for fabric VLANs
+              that enables or disables Resource Guard functionality.
+              Resource Guard is a security mechanism that provides
+              protection against unauthorized access to network resources
+              by implementing additional security controls and access
+              restrictions at the VLAN level within the fabric network.
+              When enabled, it enhances the security posture of the
+              fabric VLAN by enforcing stricter access policies and
+              monitoring capabilities. If the VLAN is not associated
+              with a layer 3 virtual network, this field must be set
+              to false as the security controls require L3VN integration
+              for proper functionality.
             type: bool
+            default: false
           flooding_address_assignment:
-            description: The source of the flooding address for layer 2
-              flooding. "SHARED" means that the layer 2 virtual network
-              will inherit the flooding address from the fabric.
-              "CUSTOM" allows the layer 2 virtual network to use a different
-              flooding address (defaults to "SHARED").
+            description: Controls the source configuration for flooding
+              addresses used in layer 2 flooding within the fabric VLAN.
+              This parameter determines whether the layer 2 virtual network
+              uses a 'SHARED' flooding address from the parent fabric or a
+              'CUSTOM' address specific to this virtual network. Two
+              options are available - "SHARED" means that the layer 2
+              virtual network will inherit the flooding address from
+              the parent fabric configuration, ensuring consistency
+              across the fabric. "CUSTOM" allows the layer 2 virtual
+              network to use a different flooding address for specific
+              use cases or network segmentation requirements. When set
+              to "CUSTOM", you must also provide a valid flooding_address
+              parameter.
             type: str
             choices: ["SHARED", "CUSTOM"]
             default: "SHARED"
           flooding_address:
-            description: The flooding address to use for layer 2 flooding.
-              The IP address must be in the 239.0.0.0/8 range. This
-              property is applicable only when the flooding
-              address source is set to "CUSTOM".
+            description: Specifies a custom multicast IP address for layer 2
+              flooding operations within the fabric VLAN. This parameter defines
+              the multicast address used when the fabric needs to flood traffic
+              to all ports in the VLAN for unknown unicast, broadcast, or
+              multicast frames. The IP address must be in the 239.0.0.0/8
+              multicast range (239.0.0.1 through 239.255.255.255) to ensure
+              proper multicast behavior and compliance with RFC standards.
+              This property is applicable only when the flooding_address_assignment
+              is set to "CUSTOM". If flooding_address_assignment is "SHARED",
+              this parameter will be ignored as the flooding address is inherited
+              from the parent fabric configuration. The address should be unique
+              within your network topology to avoid multicast conflicts and
+              ensure proper traffic isolation between different VLANs or fabric
+              segments.
             type: str
+            required: false
           associated_layer3_virtual_network:
             description: Name of the layer3 virtual
               network associated with the layer2 fabric
@@ -350,26 +388,39 @@ options:
             type: bool
             default: false
           flooding_address_assignment:
-            description: The source of the flooding
-                address for layer 2 flooding. "SHARED"
-                means that the layer 2 virtual network
-                will inherit the flooding address from
-                the fabric. "CUSTOM" allows the layer
-                2 virtual network to use a different
-                flooding address (defaults to "SHARED").
-                It is not applicable to INFRA_VN.
+            description: Controls the source configuration for flooding
+                addresses used in layer 2 flooding within the anycast gateway.
+                This parameter determines whether the virtual network uses
+                a 'SHARED' flooding address from the parent fabric or a
+                'CUSTOM' address specific to this virtual network. Two
+                options are available - "SHARED" means that the layer 2
+                virtual network will inherit the flooding address from
+                the parent fabric configuration, ensuring consistency
+                across the fabric. "CUSTOM" allows the layer 2 virtual
+                network to use a different flooding address for specific
+                use cases or network segmentation requirements. When set
+                to "CUSTOM", you must also provide a valid flooding_address
+                parameter. This field is not applicable to INFRA_VN.
             type: str
             choices: ["SHARED", "CUSTOM"]
             default: "SHARED"
           flooding_address:
-            description: The flooding address to use
-                for layer 2 flooding. The IP address
-                must be in the 239.0.0.0/8 range.
-                This property is applicable only when
-                the flooding address source is set
-                to "CUSTOM". It is not applicable to
-                INFRA_VN.
+            description: Specifies a custom multicast IP address for layer 2
+              flooding operations within the anycast gateway. This parameter defines
+              the multicast address used when the fabric needs to flood traffic
+              to all ports in the VLAN for unknown unicast, broadcast, or
+              multicast frames. The IP address must be in the 239.0.0.0/8
+              multicast range (239.0.0.1 through 239.255.255.255) to ensure
+              proper multicast behavior and compliance with RFC standards.
+              This property is applicable only when the flooding_address_assignment
+              is set to "CUSTOM". If flooding_address_assignment is "SHARED",
+              this parameter will be ignored as the flooding address is inherited
+              from the parent fabric configuration. The address should be unique
+              within your network topology to avoid multicast conflicts and
+              ensure proper traffic isolation between different VLANs or fabric
+              segments. This field is not applicable to INFRA_VN.
             type: str
+            required: false
           fabric_enabled_wireless:
             description: Specifies whether the anycast
               gateway is enabled for wireless in the
@@ -379,23 +430,39 @@ options:
             type: bool
             default: false
           wireless_flooding_enable:
-            description: Set to true to enable wireless
-                flooding. If there is an associated layer
-                3 virtual network, wireless flooding
-                will default to false and can only
-                be true when fabric-enabled wireless
-                is also true. If there is no associated
-                layer 3 virtual network, wireless flooding
-                will match fabric-enabled wireless.
+            description: Controls wireless flooding behavior for
+              the anycast gateway, which determines how BUM traffic
+              (Broadcast, Unknown unicast, and Multicast) from
+              wireless clients is handled within the fabric network.
+              When enabled, BUM traffic from wireless clients is
+              flooded across the fabric to ensure proper connectivity
+              and service discovery. When disabled, BUM traffic
+              flooding is suppressed, which can improve network
+              efficiency but may impact certain network services
+              that rely on broadcast or multicast communication.
+              If there is an associated layer 3 virtual network,
+              wireless flooding will default to false and can only
+              be set to true when fabric-enabled wireless is also
+              enabled. If there is no associated layer 3 virtual
+              network, wireless flooding will match the
+              fabric-enabled wireless setting.
             type: bool
           resource_guard_enable:
-            description: Indicates whether resource
-                guard is enabled for the anycast gateway.
-                If the anycast gateway is not associated
-                with a layer3 virtual network, this
-                field must be set to false. This field
-                is not applicable to INFRA_VN.
+            description: A security feature control for anycast gateways
+              that enables or disables Resource Guard functionality.
+              Resource Guard is a security mechanism that provides
+              protection against unauthorized access to network resources
+              by implementing additional security controls and access
+              restrictions at the VLAN level within the fabric network.
+              When enabled, it enhances the security posture of the
+              anycast gateway by enforcing stricter access policies and
+              monitoring capabilities. If the anycast gateway is not associated
+              with a layer 3 virtual network, this field must be set
+              to false as the security controls require L3VN integration
+              for proper functionality.
+              This field is not applicable to INFRA_VN.
             type: bool
+            default: false
           ip_directed_broadcast:
             description: Indicates whether IP directed
               broadcasts are allowed. By default, it
