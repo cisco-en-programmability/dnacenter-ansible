@@ -35,6 +35,38 @@
             "unzip_backup":false
         }
     ],
+    "playbook_config_device_configs_backup_scenario_5":[
+        {
+            "collection_status_list": [
+                "Managed"
+            ],
+            "config_file_types": [
+                "VLAN",
+                "STARTUPCONFIG",
+                "RUNNINGCONFIG"
+            ],
+            "family_list": [
+                "Switches and Hubs",
+                "Routers",
+                "Wireless Sensor"
+            ],
+            "file_password": "qsaA12!asdasd",
+            "file_path": "backup77751",
+            "ip_address_list": [
+                "204.1.2.3"
+            ],
+            "mac_address_list": [
+                "0c:75:bd:42:db:80",
+                " cc:b6:c8:e2:29:0b",
+                "90:88:55:8e:42:80",
+                "90:88:55:07:59:00"
+            ],
+            "type_list": [
+                "Cisco Catalyst 9300 Switch"
+            ],
+            "unzip_backup": true
+        }
+    ],
     "response_get_devices_list_success":{
         "response":[
             {
@@ -1149,5 +1181,104 @@
             }
         ],
         "version":"1.0"
-    }
+    },
+    "response_get_device":{
+        "response": [
+            {
+            "description": "Cisco IOS Software [Amsterdam], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.2.1, RELEASE SOFTWARE (fc4) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2020 by Cisco Systems, Inc. Compiled Thu 26-Mar-20 03:29 by mcpre netconf enabled",
+            "memorySize": "NA",
+            "family": "Switches and Hubs",
+            "lastUpdateTime": 1748931991757,
+            "macAddress": "0c:75:bd:42:db:80",
+            "deviceSupportLevel": "Supported",
+            "softwareType": "IOS-XE",
+            "softwareVersion": "17.2.1",
+            "serialNumber": "FJC2335S09F",
+            "syncRequestedByApp": "",
+            "collectionInterval": "Global Default",
+            "dnsResolvedManagementAddress": "204.1.2.3",
+            "lastManagedResyncReasons": "Periodic",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "Periodic",
+            "reasonsForPendingSyncRequests": "",
+            "inventoryStatusDetail": "<status><general code=\"SUCCESS\"/></status>",
+            "upTime": "41 days, 1:50:50.03",
+            "lastUpdated": "2025-06-03 06:26:31",
+            "roleSource": "AUTO",
+            "bootDateTime": "2025-04-23 04:36:31",
+            "apManagerInterfaceIp": "",
+            "collectionStatus": "Managed",
+            "hostname": "SJ-BN-9301",
+            "locationName": null,
+            "managementIpAddress": "204.1.2.3",
+            "interfaceCount": "0",
+            "platformId": "C9300-48UXM",
+            "reachabilityFailureReason": "",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9300 Series Switches",
+            "snmpContact": "",
+            "snmpLocation": "",
+            "apEthernetMacAddress": null,
+            "associatedWlcIp": "",
+            "errorCode": null,
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "2025-06-03 06:25:58",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": true,
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 3582697,
+            "vendor": "Cisco",
+            "waasDeviceMode": null,
+            "location": null,
+            "type": "Cisco Catalyst 9300 Switch",
+            "role": "DISTRIBUTION",
+            "instanceUuid": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+            "instanceTenantId": "66e48af26fe687300375675e",
+            "id": "e62e6405-13e4-4f1b-ae1c-580a28a96a88"
+            }
+        ],
+        "version": "1.0"
+        },
+    "response_get_network_device_configuration_1":{
+        "response": [
+            {
+            "id": "5222d01e-ee14-4a44-a5b8-201b15053ab2",
+            "networkDeviceId": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+            "versionId": "4d837603-e609-4f57-8485-f5cf621fbfc6",
+            "fileType": "VLAN",
+            "createdBy": "SCHEDULED",
+            "createdTime": 1747868401106
+            }
+        ],
+        "version": "1.0"
+        },
+    "response_get_network_device_configuration_2":{
+        "response": [
+            {
+            "id": "46ae61e6-3fa4-4832-b67f-981ce5e01f7b",
+            "networkDeviceId": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+            "versionId": "4d837603-e609-4f57-8485-f5cf621fbfc6",
+            "fileType": "STARTUPCONFIG",
+            "createdBy": "SCHEDULED",
+            "createdTime": 1747868401106
+            }
+        ],
+        "version": "1.0"
+        },
+    "response_get_network_device_configuration_3":{
+        "response": [
+            {
+            "id": "9aaaa28d-c8ea-4908-93ee-f53d270b1e3b",
+            "networkDeviceId": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
+            "versionId": "4d837603-e609-4f57-8485-f5cf621fbfc6",
+            "fileType": "RUNNINGCONFIG",
+            "createdBy": "SCHEDULED",
+            "createdTime": 1747868401106
+            }
+        ],
+        "version": "1.0"
+        }
 }
