@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_multicast_workflow_manager module -- Manage SDA fabric mul
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.38.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1502,7 +1502,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.get\_sites, network\_settings.NetworkSettings.get\_reserve\_ip\_subpool, devices.Devices.get\_device\_list, sda.Sda.get\_layer3\_virtual\_networks, sda.Sda.get\_fabric\_sites, sda.Sda.get\_fabric\_zones, sda.Sda.get\_provisioned\_devices, sda.Sda.get\_multicast\_virtual\_networks\_v1, sda.Sda.get\_multicast\_v1, sda.Sda.add\_multicast\_virtual\_networks\_v1, sda.Sda.update\_multicast\_v1, sda.Sda.update\_multicast\_virtual\_networks\_v1, sda.Sda.delete\_multicast\_virtual\_network\_by\_id\_v1, task.Task.get\_tasks\_by\_id, task.Task.get\_task\_details\_by\_id,
+   - SDK Method used are site\_design.SiteDesign.get\_sites, network\_settings.NetworkSettings.get\_reserve\_ip\_subpool, devices.Devices.get\_device\_list, sda.Sda.get\_layer3\_virtual\_networks, sda.Sda.get\_fabric\_sites, sda.Sda.get\_fabric\_zones, sda.Sda.get\_provisioned\_devices, sda.Sda.get\_multicast\_virtual\_networks, sda.Sda.get\_multicast, sda.Sda.add\_multicast\_virtual\_networks, sda.Sda.update\_multicast, sda.Sda.update\_multicast\_virtual\_networks, sda.Sda.delete\_multicast\_virtual\_network\_by\_id, task.Task.get\_tasks\_by\_id, task.Task.get\_task\_details\_by\_id,
    - Paths used are get /dna/intent/api/v1/sites get /dna/intent/api/v1/reserve-ip-subpool get /dna/intent/api/v1/network-device get /dna/intent/api/v1/sda/layer3VirtualNetworks get /dna/intent/api/v1/sda/fabricSites get /dna/intent/api/v1/sda/fabricZones get /dna/intent/api/v1/sda/provisionDevices get /dna/intent/api/v1/sda/multicast/virtualNetworks get /dna/intent/api/v1/sda/multicast post /dna/intent/api/v1/sda/multicast/virtualNetworks put /dna/intent/api/v1/sda/multicast put /dna/intent/api/v1/sda/multicast/virtualNetworks delete /dna/intent/api/v1/sda/multicast/virtualNetworks/${id} get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK

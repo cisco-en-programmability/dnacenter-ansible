@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.37.0
+Collection version 6.38.0
 
 .. contents::
    :local:
@@ -506,7 +506,7 @@ Modules
 * :ref:`interfaces_query module <ansible_collections.cisco.dnac.interfaces_query_module>` -- Resource module for Interfaces Query
 * :ref:`interfaces_query_count module <ansible_collections.cisco.dnac.interfaces_query_count_module>` -- Resource module for Interfaces Query Count
 * :ref:`inventory_intent module <ansible_collections.cisco.dnac.inventory_intent_module>` -- Resource module for Network Device
-* :ref:`inventory_workflow_manager module <ansible_collections.cisco.dnac.inventory_workflow_manager_module>` -- Resource module for Network Device
+* :ref:`inventory_workflow_manager module <ansible_collections.cisco.dnac.inventory_workflow_manager_module>` -- Comprehensive network device inventory management for Cisco Catalyst Center
 * :ref:`iot_fabric_rep_rings module <ansible_collections.cisco.dnac.iot_fabric_rep_rings_module>` -- Resource module for Iot Fabric Rep Rings
 * :ref:`iot_fabric_rep_rings_id module <ansible_collections.cisco.dnac.iot_fabric_rep_rings_id_module>` -- Resource module for Iot Fabric Rep Rings Id
 * :ref:`iot_network_devices_network_device_id_mrp_rings_count_info module <ansible_collections.cisco.dnac.iot_network_devices_network_device_id_mrp_rings_count_info_module>` -- Information module for Iot Network Devices  Network Device Id Mrp Rings Count
@@ -981,7 +981,7 @@ Modules
 * :ref:`site_wise_images_summary_info module <ansible_collections.cisco.dnac.site_wise_images_summary_info_module>` -- Information module for Site Wise Images Summary
 * :ref:`site_wise_product_names_count_info module <ansible_collections.cisco.dnac.site_wise_product_names_count_info_module>` -- Information module for Site Wise Product Names Count
 * :ref:`site_wise_product_names_info module <ansible_collections.cisco.dnac.site_wise_product_names_info_module>` -- Information module for Site Wise Product Names
-* :ref:`site_workflow_manager module <ansible_collections.cisco.dnac.site_workflow_manager_module>` -- Resource module for Site operations
+* :ref:`site_workflow_manager module <ansible_collections.cisco.dnac.site_workflow_manager_module>` -- Manage hierarchical sites in Cisco Catalyst Center
 * :ref:`sites_aaa_settings module <ansible_collections.cisco.dnac.sites_aaa_settings_module>` -- Resource module for Sites Aaa Settings
 * :ref:`sites_aaa_settings_info module <ansible_collections.cisco.dnac.sites_aaa_settings_info_module>` -- Information module for Sites Aaa Settings
 * :ref:`sites_banner_settings module <ansible_collections.cisco.dnac.sites_banner_settings_module>` -- Resource module for Sites Banner Settings

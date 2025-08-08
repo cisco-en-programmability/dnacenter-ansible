@@ -42,7 +42,7 @@ cisco.dnac.device_configs_backup_workflow_manager module -- Device Configs Backu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.38.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -184,6 +184,60 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/config_file_types"></div>
+
+      .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/config_file_types:
+
+      .. rst-class:: ansible-option-title
+
+      **config_file_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/config_file_types" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the list of configuration file types to be downloaded for each device.
+
+      If this parameter is not specified, all available configuration types will be downloaded for the selected devices by default.
+
+      This parameter is available starting from Cisco Catalyst Center version 2.3.7.9 and later.
+
+      For Example - ["VLAN", "STARTUPCONFIG", "RUNNINGCONFIG"]
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"ALL"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"VLAN"`
+      - :ansible-option-choices-entry:`"STARTUPCONFIG"`
+      - :ansible-option-choices-entry:`"RUNNINGCONFIG"`
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`["ALL"]`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/family_list"></div>
 
       .. _ansible_collections.cisco.dnac.device_configs_backup_workflow_manager_module__parameter-config/family_list:
@@ -245,6 +299,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Optional file password for zipping and unzipping the config file.
+
+      If not provided, a secure password will be auto-generated.
 
       Password must meet the following criteria - - Minimum password length is 8 - It should contain atleast one lower case letter, one uppercase letter, - one digit - one special characters from -=\\\\\\\\\\\\\\\\;,./~!@$%^&\*()\_+{}[]|:?"
 
@@ -1265,8 +1321,8 @@ Notes
 -----
 
 .. note::
-   - SDK Methods used are sites.Sites.get\_site Site\_design.Site\_design.get\_sites sites.Sites.get\_membership site\_design.Site\_design.get\_site\_assigned\_network\_devices devices.Devices.get\_device\_list devices.Devices.get\_device\_by\_id configuration\_archive.ConfigurationsArchive.export\_device\_configurations file.Files.download\_a\_file\_by\_fileid
-   - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/membership/${siteId} get /dna/intent/api/v1/network-device post /dna/intent/api/v1/network-device-archive/cleartext get /dna/intent/api/v1/file/${fileId} get /dna/intent/api/v1/networkDevices/assignedToSite get /dna/intent/api/v1/sites get /dna/intent/api/v1/network-device/${id}
+   - SDK Methods used are sites.Sites.get\_site Site\_design.Site\_design.get\_sites sites.Sites.get\_membership site\_design.Site\_design.get\_site\_assigned\_network\_devices devices.Devices.get\_device\_list devices.Devices.get\_device\_by\_id configuration\_archive.ConfigurationsArchive.export\_device\_configurations configuration\_archive.ConfigurationsArchive.download\_unmaskedraw\_device\_configuration\_as\_zip configuration\_archive.ConfigurationsArchive.download\_masked\_device\_configuration configuration\_archive.ConfigurationsArchive.get\_network\_device\_configuration\_file\_details file.Files.download\_a\_file\_by\_fileid
+   - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/membership/${siteId} get /dna/intent/api/v1/network-device post /dna/intent/api/v1/network-device-archive/cleartext get /dna/intent/api/v1/file/${fileId} get /dna/intent/api/v1/networkDevices/assignedToSite get /dna/intent/api/v1/sites get /dna/intent/api/v1/network-device/${id} get /dna/intent/api/v1/network-device get /dna/intent/api/v1/networkDeviceConfigFiles post /dna/intent/api/v1/network-device post dna/intent/api/v1/networkDeviceConfigFiles/${id}/downloadMasked post /dna/intent/api/v1/network-device post dna/intent/api/v1/networkDeviceConfigFiles/${id}/downloadUnMasked
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -1479,6 +1535,29 @@ Examples
             ip_address_list: ["204.1.2.5"]
             file_path: backup
             unzip_backup: false
+    - name: Take backup of device(s) using specified configuration file types
+      cisco.dnac.device_configs_backup_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config:
+          - site_list: ["Global"]
+            family_list: ["Switches and Hubs"]
+            ip_address_list: ["204.1.2.5"]
+            file_path: backup
+            unzip_backup: false
+            config_file_types:
+              - ALL
+              - VLAN
+              - STARTUPCONFIG
+              - RUNNINGCONFIG
 
 
 

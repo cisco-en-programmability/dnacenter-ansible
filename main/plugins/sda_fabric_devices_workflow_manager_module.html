@@ -491,7 +491,7 @@
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_module.html">cisco.dnac.interfaces_query module -- Resource module for Interfaces Query</a></li>
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_count_module.html">cisco.dnac.interfaces_query_count module -- Resource module for Interfaces Query Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_intent_module.html">cisco.dnac.inventory_intent module -- Resource module for Network Device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="inventory_workflow_manager_module.html">cisco.dnac.inventory_workflow_manager module -- Resource module for Network Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="inventory_workflow_manager_module.html">cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_module.html">cisco.dnac.iot_fabric_rep_rings module -- Resource module for Iot Fabric Rep Rings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_id_module.html">cisco.dnac.iot_fabric_rep_rings_id module -- Resource module for Iot Fabric Rep Rings Id</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_network_devices_network_device_id_mrp_rings_count_info_module.html">cisco.dnac.iot_network_devices_network_device_id_mrp_rings_count_info module -- Information module for Iot Network Devices  Network Device Id Mrp Rings Count</a></li>
@@ -966,7 +966,7 @@
 <li class="toctree-l4"><a class="reference internal" href="site_wise_images_summary_info_module.html">cisco.dnac.site_wise_images_summary_info module -- Information module for Site Wise Images Summary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_wise_product_names_count_info_module.html">cisco.dnac.site_wise_product_names_count_info module -- Information module for Site Wise Product Names Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_wise_product_names_info_module.html">cisco.dnac.site_wise_product_names_info module -- Information module for Site Wise Product Names</a></li>
-<li class="toctree-l4"><a class="reference internal" href="site_workflow_manager_module.html">cisco.dnac.site_workflow_manager module -- Resource module for Site operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_workflow_manager_module.html">cisco.dnac.site_workflow_manager module -- Manage hierarchical sites in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sites_aaa_settings_module.html">cisco.dnac.sites_aaa_settings module -- Resource module for Sites Aaa Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sites_aaa_settings_info_module.html">cisco.dnac.sites_aaa_settings_info module -- Information module for Sites Aaa Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sites_banner_settings_module.html">cisco.dnac.sites_banner_settings module -- Resource module for Sites Banner Settings</a></li>
@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.sda_fabric_devices_workflow_manager module -- Manage SDA fabric devices in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-fabric-devices-workflow-manager-module-manage-sda-fabric-devices-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.37.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.38.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1235,25 +1235,26 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <p class="ansible-version-added">New in cisco.dnac 6.21.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id97">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id98">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id99">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id100">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id101">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id102">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id115">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id116">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id117">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id118">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id119">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id120">Return Values</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id97" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id115" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Perform operations on SDA fabric devices, including adding, updating, and deleting fabric devices.</p></li>
 <li><p>Manage L2 handoffs for fabric devices, including adding and deleting configurations.</p></li>
 <li><p>Manage L3 handoffs for fabric devices with IP transit, including adding, updating, and deleting configurations.</p></li>
 <li><p>Manage L3 handoffs for fabric devices with SDA transit, including adding, updating, and deleting configurations.</p></li>
+<li><p>Configure wireless controller settings on fabric devices, including enabling/disabling wireless mode, managing AP location scopes, setting rolling AP upgrade behavior, and optionally reloading the device for cleanup.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id98" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id116" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>dnacentersdk &gt;= 2.9.2</p></li>
@@ -1261,7 +1262,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id99" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id117" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -1618,6 +1619,83 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </ul>
 </div></td>
 </tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-wireless-controller-settings"><strong>wireless_controller_settings</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Dictionary containing wireless controller configurations to be applied to a network switch in a Cisco Catalyst Center SDA fabric. This includes enabling/disabling wireless mode, configuring primary and secondary managed AP locations, setting rolling AP upgrade behavior, and optionally reloading the device after disabling the wireless capabilities on the controller.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/enable"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-wireless-controller-settings-enable"><strong>enable</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/enable" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Boolean flag indicating whether wireless controller mode should be enabled (`true`) or disabled (`false`) on the switch.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/primary_managed_ap_locations"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-wireless-controller-settings-primary-managed-ap-locations"><strong>primary_managed_ap_locations</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/primary_managed_ap_locations" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of strings representing the site hierarchy paths (e.g., &quot;Global/Area/Site&quot;) where the switch is configured as the primary AP controller.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/reload"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-wireless-controller-settings-reload"><strong>reload</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/reload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Boolean flag that triggers a reload of the switch when set to `true` and wireless capabilities are being disabled. The reload ensures cleanup of controller-related configurations.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-wireless-controller-settings-rolling-ap-upgrade"><strong>rolling_ap_upgrade</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Dictionary for configuring rolling AP upgrade settings. These settings define how APs reboot during a firmware upgrade to minimize service disruption.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade/ap_reboot_percentage"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-wireless-controller-settings-rolling-ap-upgrade-ap-reboot-percentage"><strong>ap_reboot_percentage</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade/ap_reboot_percentage" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Integer value specifying the percentage of APs that are allowed to reboot at once during a rolling upgrade. This setting applies only when rolling AP upgrades are enabled.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`5`</span></a></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`15`</span></a></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`25`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade/enable"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-wireless-controller-settings-rolling-ap-upgrade-enable"><strong>enable</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade/enable" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Boolean flag indicating whether rolling AP upgrades should be enabled for the switch. This helps ensure that not all APs reboot simultaneously during upgrades.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/secondary_managed_ap_locations"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-device-config-wireless-controller-settings-secondary-managed-ap-locations"><strong>secondary_managed_ap_locations</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/secondary_managed_ap_locations" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of strings representing the site hierarchy paths (e.g., &quot;Global/Area/Site1&quot;) where the switch is configured as a secondary AP controller.</p>
+</div></td>
+</tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/fabric_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-parameter-config-fabric-devices-fabric-name"><strong>fabric_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/fabric_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
@@ -1637,8 +1715,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Set to True to verify the Cisco Catalyst Center after applying the playbook config.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1647,7 +1725,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id33"><span class="problematic" id="id34">:ansible-option-default:`1200`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1657,8 +1735,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1681,8 +1759,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <p>If the log file exists, - It is overwritten or appended based on the &quot;dnac_log_append&quot; flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1693,8 +1771,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1705,7 +1783,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if dnac_log is True.</p>
 <p>If path is not specified, - When 'dnac_log_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac_log_append' is False, 'dnac.log' is generated; logs are overwritten.</p>
 <p>If path is specified, - When 'dnac_log_append' is True, the file opens in append mode. - When 'dnac_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id65"><span class="problematic" id="id66">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1718,7 +1796,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
 <p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
 <p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id67"><span class="problematic" id="id68">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1733,7 +1811,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-option-default:`&quot;443&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id69"><span class="problematic" id="id70">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1741,7 +1819,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the interval in seconds between successive calls to the API to retrieve task details.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id53"><span class="problematic" id="id54">:ansible-option-default:`2`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id71"><span class="problematic" id="id72">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1751,7 +1829,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The username for authentication at the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id55"><span class="problematic" id="id56">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id73"><span class="problematic" id="id74">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1761,8 +1839,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id77"><span class="problematic" id="id78">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1771,7 +1849,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the version of the Cisco Catalyst Center that the SDK should use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id61"><span class="problematic" id="id62">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id79"><span class="problematic" id="id80">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1781,8 +1859,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>The state of Cisco Catalyst Center after module completion.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id81"><span class="problematic" id="id82">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id83"><span class="problematic" id="id84">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1793,8 +1871,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id85"><span class="problematic" id="id86">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id87"><span class="problematic" id="id88">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1802,12 +1880,18 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id100" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id118" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
-<li><p>SDK Method used are site_design.SiteDesign.get_sites, network_settings.NetworkSettings.get_reserve_ip_subpool, devices.Devices.get_device_list, sda.Sda.get_transit_networks, sda.Sda.get_layer3_virtual_networks, sda.Sda.get_fabric_sites, sda.Sda.get_fabric_zones, sda.Sda.get_provisioned_devices, sda.Sda.get_fabric_devices_layer2_handoffs, sda.Sda.get_fabric_devices_layer3_handoffs_with_sda_transit, sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit, sda.Sda.get_fabric_devices, sda.Sda.add_fabric_devices, sda.Sda.add_control_plane_device, sda.Sda.add_fabric_devices_layer2_handoffs, sda.Sda.add_fabric_devices_layer3_handoffs_with_sda_transit, sda.Sda.add_fabric_devices_layer3_handoffs_with_ip_transit, sda.Sda.update_fabric_devices, sda.Sda.update_fabric_devices_layer3_handoffs_with_sda_transit, sda.Sda.update_fabric_devices_layer3_handoffs_with_ip_transit, sda.Sda.delete_fabric_device_layer2_handoff_by_id, sda.Sda.delete_fabric_device_by_id, sda.Sda.delete_fabric_device_layer3_handoffs_with_sda_transit, sda.Sda.delete_fabric_device_layer3_handoff_with_ip_transit_by_id, task.Task.get_tasks_by_id, task.Task.get_task_details_by_id,</p></li>
-<li><p>Paths used are get /dna/intent/api/v1/sites get /dna/intent/api/v1/reserve-ip-subpool get /dna/intent/api/v1/network-device get /dna/intent/api/v1/sda/transitNetworks get /dna/intent/api/v1/sda/layer3VirtualNetworks get /dna/intent/api/v1/sda/fabricSites get /dna/intent/api/v1/sda/fabricZones get /dna/intent/api/v1/sda/provisionDevices get /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits get /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/business/sda/control-plane-device post /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits put /dna/intent/api/v1/sda/fabricDevices put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits delete /dna/intent/api/v1/sda/fabricDevices/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/${id} get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail</p></li>
+<li><p>Wireless controller settings configured via this module require specific device roles and image states on the switch.</p></li>
+<li><p>A reboot is required to remove wireless configurations from the device after disabling wireless controller capabilities.</p></li>
+<li><p>Ensure the wireless image (e.g., 9800-SW) is installed, committed, and activated on the switch with wired roles enabled prior to configuration.</p></li>
+<li><p>Supported role combinations for enabling wireless controller mode are - - Border + Control Plane + Edge + Wireless Controller (B+CP+E+WC) - Border + Control Plane + Wireless Controller (B+CP+WC) - Edge + Wireless Controller (E+WC)</p></li>
+<li><p>The 9800-SW image is required to enable wireless controller capabilities on the switch. Before using the Embedded Wireless LAN Controller settings, ensure the image has been distributed and activated, and the device has been resynced. The SWIM Workflow Manager module can be used to perform the image distribution and activation.</p></li>
+<li><p>A maximum of two devices can have Embedded Wireless Controller Capabilities in the fabric.</p></li>
+<li><p>SDK Method used are - - site_design.SiteDesign.get_sites - network_settings.NetworkSettings.get_reserve_ip_subpool - devices.Devices.get_device_list - sda.Sda.get_transit_networks - sda.Sda.get_layer3_virtual_networks - sda.Sda.get_fabric_sites - sda.Sda.get_fabric_zones - sda.Sda.get_provisioned_devices - sda.Sda.get_fabric_devices_layer2_handoffs - sda.Sda.get_fabric_devices_layer3_handoffs_with_sda_transit - sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit - sda.Sda.get_fabric_devices - sda.Sda.add_fabric_devices - sda.Sda.add_control_plane_device - sda.Sda.add_fabric_devices_layer2_handoffs - sda.Sda.add_fabric_devices_layer3_handoffs_with_sda_transit - sda.Sda.add_fabric_devices_layer3_handoffs_with_ip_transit - sda.Sda.update_fabric_devices - sda.Sda.update_fabric_devices_layer3_handoffs_with_sda_transit - sda.Sda.update_fabric_devices_layer3_handoffs_with_ip_transit - sda.Sda.delete_fabric_device_layer2_handoff_by_id - sda.Sda.delete_fabric_device_by_id - sda.Sda.delete_fabric_device_layer3_handoffs_with_sda_transit - sda.Sda.delete_fabric_device_layer3_handoff_with_ip_transit_by_id - task.Task.get_tasks_by_id - task.Task.get_task_details_by_id - fabric_wireless.FabricWireless.get_sda_wireless_details_from_switches - wireless.Wireless.get_primary_managed_ap_locations_for_specific_wireless_controller - wireless.Wireless.get_secondary_managed_ap_locations_for_specific_wireless_controller - wireless.Wireless.assign_managed_ap_locations_for_w_l_c - fabric_wireless.Wireless.reload_switch_for_wireless_controller_cleanup - fabric_wireless.Wireless.switch_wireless_setting_and_rolling_ap_upgrade_management</p></li>
+<li><p>Paths used are - GET /dna/intent/api/v1/sites - GET /dna/intent/api/v1/reserve-ip-subpool - GET /dna/intent/api/v1/network-device - GET /dna/intent/api/v1/sda/transitNetworks - GET /dna/intent/api/v1/sda/layer3VirtualNetworks - GET /dna/intent/api/v1/sda/fabricSites - GET /dna/intent/api/v1/sda/fabricZones - GET /dna/intent/api/v1/sda/provisionDevices - GET /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs - GET /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - GET /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits - GET /dna/intent/api/v1/sda/fabricDevices - POST /dna/intent/api/v1/sda/fabricDevices - POST /dna/intent/api/v1/business/sda/control-plane-device - POST /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs - POST /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - POST /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits - PUT /dna/intent/api/v1/sda/fabricDevices - PUT /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - PUT /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits - DELETE /dna/intent/api/v1/sda/fabricDevices/${id} - DELETE /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/${id} - DELETE /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - DELETE /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/${id} - GET /dna/intent/api/v1/tasks/${id} - GET /dna/intent/api/v1/tasks/${id}/detail - GET /dna/intent/api/v1/sda/fabrics/${fabricId}/switchWirelessSetting - GET /dna/intent/api/v1/wirelessControllers/${networkDeviceId}/primaryManagedApLocations - GET /dna/intent/api/v1/wirelessControllers/${networkDeviceId}/secondaryManagedApLocations - GET /dna/intent/api/v1/sites - POST /dna/intent/api/v1/wirelessControllers/${deviceId}/assignManagedApLocations - POST /dna/intent/api/v1/sda/fabrics/${fabricId}/switchWirelessSetting/reload - PUT /dna/intent/api/v1/sda/fabrics/${fabricId}/switchWirelessSetting</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
 <li><p>The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection</p></li>
@@ -1815,7 +1899,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id101" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id119" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create SDA fabric device with device role as</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">CONTROL_PLANE_NODE</span>
@@ -1857,8 +1941,90 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
 <span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">EDGE_NODE</span><span class="p p-Indicator">]</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create SDA fabric device with device role as</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">EDGE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">WIRELESS_CONTROLLER_NODE</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer3_settings</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">local_autonomous_system_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234</span>
+<span class="w">                  </span><span class="nt">is_default_exit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                  </span><span class="nt">import_external_routes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                  </span><span class="nt">border_priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">                  </span><span class="nt">prepend_autonomous_system_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">              </span><span class="nt">wireless_controller_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                </span><span class="nt">primary_managed_ap_locations</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-FRANCISCO/BLD_SF</span>
+<span class="w">                </span><span class="nt">secondary_managed_ap_locations</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-FRANCISCO/BLD_SF1</span>
+<span class="w">                </span><span class="nt">rolling_ap_upgrade</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                  </span><span class="nt">ap_reboot_percentage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable AP rolling upgrade.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">wireless_controller_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">rolling_ap_upgrade</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable wireless capabilities with reload.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">wireless_controller_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">                </span><span class="nt">reload</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE,</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">BORDER_NODE</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2152,7 +2318,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id102" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id120" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v11)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -2167,7 +2333,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id71"><span class="problematic" id="id72">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id89"><span class="problematic" id="id90">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2176,7 +2342,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id73"><span class="problematic" id="id74">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id91"><span class="problematic" id="id92">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2185,7 +2351,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id75"><span class="problematic" id="id76">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id93"><span class="problematic" id="id94">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2194,7 +2360,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id77"><span class="problematic" id="id78">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id95"><span class="problematic" id="id96">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2203,7 +2369,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id79"><span class="problematic" id="id80">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;endTime&quot;: &quot;int&quot;, &quot;id&quot;: &quot;str&quot;, &quot;lastUpdate&quot;: &quot;int&quot;, &quot;resultLocation&quot;: &quot;str&quot;, &quot;startTime&quot;: &quot;int&quot;, &quot;status&quot;: &quot;str&quot;, &quot;version&quot;: &quot;int&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id97"><span class="problematic" id="id98">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;endTime&quot;: &quot;int&quot;, &quot;id&quot;: &quot;str&quot;, &quot;lastUpdate&quot;: &quot;int&quot;, &quot;resultLocation&quot;: &quot;str&quot;, &quot;startTime&quot;: &quot;int&quot;, &quot;status&quot;: &quot;str&quot;, &quot;version&quot;: &quot;int&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2212,7 +2378,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id81"><span class="problematic" id="id82">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id99"><span class="problematic" id="id100">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2221,7 +2387,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id83"><span class="problematic" id="id84">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id101"><span class="problematic" id="id102">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2230,7 +2396,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id85"><span class="problematic" id="id86">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id103"><span class="problematic" id="id104">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2239,7 +2405,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id87"><span class="problematic" id="id88">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id105"><span class="problematic" id="id106">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2248,7 +2414,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id89"><span class="problematic" id="id90">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id107"><span class="problematic" id="id108">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2257,7 +2423,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id91"><span class="problematic" id="id92">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id109"><span class="problematic" id="id110">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2266,7 +2432,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id93"><span class="problematic" id="id94">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id111"><span class="problematic" id="id112">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2275,7 +2441,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id95"><span class="problematic" id="id96">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id113"><span class="problematic" id="id114">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;taskId&quot;: &quot;str&quot;, &quot;url&quot;: &quot;str&quot;}, &quot;version&quot;: &quot;str&quot;}`</span></a></p>
 </div></td>
 </tr>
 </tbody>
@@ -2283,7 +2449,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h3>
 <ul class="simple">
-<li><p>Muthu Rakesh (&#64;MUTHU-RAKESH-27) Madhan Sankaranarayanan (&#64;madhansansel)</p></li>
+<li><p>Muthu Rakesh (&#64;MUTHU-RAKESH-27) Madhan Sankaranarayanan (&#64;madhansansel) Archit Soni (&#64;koderchit)</p></li>
 </ul>
 </section>
 <section id="collection-links">
