@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -24,10 +27,12 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 # Get common arguements specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    memberToTags=dict(type="dict"),
-    memberType=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        memberToTags=dict(type="dict"),
+        memberType=dict(type="str"),
+    )
+)
 
 required_if = []
 required_one_of = []
@@ -39,7 +44,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -65,8 +71,11 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            memberToTags=params["memberToTags"][0] if params.get("memberToTags") and len(
-                params["memberToTags"]) > 0 else None,
+            memberToTags=(
+                params["memberToTags"][0]
+                if params.get("memberToTags") and len(params["memberToTags"]) > 0
+                else None
+            ),
             memberType=params.get("memberType"),
         )
         return new_object
@@ -81,7 +90,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="tag",
-            function='update_tag_membership',
+            function="update_tag_membership",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
