@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices_workflow_manager module -- Manage SDA fabric devic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.38.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -72,6 +72,7 @@ Synopsis
 - Manage L2 handoffs for fabric devices, including adding and deleting configurations.
 - Manage L3 handoffs for fabric devices with IP transit, including adding, updating, and deleting configurations.
 - Manage L3 handoffs for fabric devices with SDA transit, including adding, updating, and deleting configurations.
+- Configure wireless controller settings on fabric devices, including enabling/disabling wireless mode, managing AP location scopes, setting rolling AP upgrade behavior, and optionally reloading the device for cleanup.
 
 
 .. Aliases
@@ -1463,6 +1464,321 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/wireless_controller_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **wireless_controller_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dictionary containing wireless controller configurations to be applied to a network switch in a Cisco Catalyst Center SDA fabric. This includes enabling/disabling wireless mode, configuring primary and secondary managed AP locations, setting rolling AP upgrade behavior, and optionally reloading the device after disabling the wireless capabilities on the controller.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/enable"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/wireless_controller_settings/enable:
+
+      .. rst-class:: ansible-option-title
+
+      **enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/enable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Boolean flag indicating whether wireless controller mode should be enabled (\`true\`) or disabled (\`false\`) on the switch.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/primary_managed_ap_locations"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/wireless_controller_settings/primary_managed_ap_locations:
+
+      .. rst-class:: ansible-option-title
+
+      **primary_managed_ap_locations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/primary_managed_ap_locations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of strings representing the site hierarchy paths (e.g., "Global/Area/Site") where the switch is configured as the primary AP controller.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/reload"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/wireless_controller_settings/reload:
+
+      .. rst-class:: ansible-option-title
+
+      **reload**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/reload" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Boolean flag that triggers a reload of the switch when set to \`true\` and wireless capabilities are being disabled. The reload ensures cleanup of controller-related configurations.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade:
+
+      .. rst-class:: ansible-option-title
+
+      **rolling_ap_upgrade**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dictionary for configuring rolling AP upgrade settings. These settings define how APs reboot during a firmware upgrade to minimize service disruption.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade/ap_reboot_percentage"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade/ap_reboot_percentage:
+
+      .. rst-class:: ansible-option-title
+
+      **ap_reboot_percentage**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade/ap_reboot_percentage" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Integer value specifying the percentage of APs that are allowed to reboot at once during a rolling upgrade. This setting applies only when rolling AP upgrades are enabled.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`5`
+      - :ansible-option-choices-entry:`15`
+      - :ansible-option-choices-entry:`25`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade/enable"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade/enable:
+
+      .. rst-class:: ansible-option-title
+
+      **enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/rolling_ap_upgrade/enable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Boolean flag indicating whether rolling AP upgrades should be enabled for the switch. This helps ensure that not all APs reboot simultaneously during upgrades.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/wireless_controller_settings/secondary_managed_ap_locations"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/wireless_controller_settings/secondary_managed_ap_locations:
+
+      .. rst-class:: ansible-option-title
+
+      **secondary_managed_ap_locations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/wireless_controller_settings/secondary_managed_ap_locations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of strings representing the site hierarchy paths (e.g., "Global/Area/Site1") where the switch is configured as a secondary AP controller.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
 
   * - .. raw:: html
 
@@ -2178,8 +2494,14 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.get\_sites, network\_settings.NetworkSettings.get\_reserve\_ip\_subpool, devices.Devices.get\_device\_list, sda.Sda.get\_transit\_networks, sda.Sda.get\_layer3\_virtual\_networks, sda.Sda.get\_fabric\_sites, sda.Sda.get\_fabric\_zones, sda.Sda.get\_provisioned\_devices, sda.Sda.get\_fabric\_devices\_layer2\_handoffs, sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.get\_fabric\_devices, sda.Sda.add\_fabric\_devices, sda.Sda.add\_control\_plane\_device, sda.Sda.add\_fabric\_devices\_layer2\_handoffs, sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.update\_fabric\_devices, sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit, sda.Sda.delete\_fabric\_device\_layer2\_handoff\_by\_id, sda.Sda.delete\_fabric\_device\_by\_id, sda.Sda.delete\_fabric\_device\_layer3\_handoffs\_with\_sda\_transit, sda.Sda.delete\_fabric\_device\_layer3\_handoff\_with\_ip\_transit\_by\_id, task.Task.get\_tasks\_by\_id, task.Task.get\_task\_details\_by\_id,
-   - Paths used are get /dna/intent/api/v1/sites get /dna/intent/api/v1/reserve-ip-subpool get /dna/intent/api/v1/network-device get /dna/intent/api/v1/sda/transitNetworks get /dna/intent/api/v1/sda/layer3VirtualNetworks get /dna/intent/api/v1/sda/fabricSites get /dna/intent/api/v1/sda/fabricZones get /dna/intent/api/v1/sda/provisionDevices get /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits get /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/business/sda/control-plane-device post /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits put /dna/intent/api/v1/sda/fabricDevices put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits delete /dna/intent/api/v1/sda/fabricDevices/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/${id} get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail
+   - Wireless controller settings configured via this module require specific device roles and image states on the switch.
+   - A reboot is required to remove wireless configurations from the device after disabling wireless controller capabilities.
+   - Ensure the wireless image (e.g., 9800-SW) is installed, committed, and activated on the switch with wired roles enabled prior to configuration.
+   - Supported role combinations for enabling wireless controller mode are - - Border + Control Plane + Edge + Wireless Controller (B+CP+E+WC) - Border + Control Plane + Wireless Controller (B+CP+WC) - Edge + Wireless Controller (E+WC)
+   - The 9800-SW image is required to enable wireless controller capabilities on the switch. Before using the Embedded Wireless LAN Controller settings, ensure the image has been distributed and activated, and the device has been resynced. The SWIM Workflow Manager module can be used to perform the image distribution and activation.
+   - A maximum of two devices can have Embedded Wireless Controller Capabilities in the fabric.
+   - SDK Method used are - - site\_design.SiteDesign.get\_sites - network\_settings.NetworkSettings.get\_reserve\_ip\_subpool - devices.Devices.get\_device\_list - sda.Sda.get\_transit\_networks - sda.Sda.get\_layer3\_virtual\_networks - sda.Sda.get\_fabric\_sites - sda.Sda.get\_fabric\_zones - sda.Sda.get\_provisioned\_devices - sda.Sda.get\_fabric\_devices\_layer2\_handoffs - sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit - sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit - sda.Sda.get\_fabric\_devices - sda.Sda.add\_fabric\_devices - sda.Sda.add\_control\_plane\_device - sda.Sda.add\_fabric\_devices\_layer2\_handoffs - sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit - sda.Sda.add\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit - sda.Sda.update\_fabric\_devices - sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit - sda.Sda.update\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit - sda.Sda.delete\_fabric\_device\_layer2\_handoff\_by\_id - sda.Sda.delete\_fabric\_device\_by\_id - sda.Sda.delete\_fabric\_device\_layer3\_handoffs\_with\_sda\_transit - sda.Sda.delete\_fabric\_device\_layer3\_handoff\_with\_ip\_transit\_by\_id - task.Task.get\_tasks\_by\_id - task.Task.get\_task\_details\_by\_id - fabric\_wireless.FabricWireless.get\_sda\_wireless\_details\_from\_switches - wireless.Wireless.get\_primary\_managed\_ap\_locations\_for\_specific\_wireless\_controller - wireless.Wireless.get\_secondary\_managed\_ap\_locations\_for\_specific\_wireless\_controller - wireless.Wireless.assign\_managed\_ap\_locations\_for\_w\_l\_c - fabric\_wireless.Wireless.reload\_switch\_for\_wireless\_controller\_cleanup - fabric\_wireless.Wireless.switch\_wireless\_setting\_and\_rolling\_ap\_upgrade\_management
+   - Paths used are - GET /dna/intent/api/v1/sites - GET /dna/intent/api/v1/reserve-ip-subpool - GET /dna/intent/api/v1/network-device - GET /dna/intent/api/v1/sda/transitNetworks - GET /dna/intent/api/v1/sda/layer3VirtualNetworks - GET /dna/intent/api/v1/sda/fabricSites - GET /dna/intent/api/v1/sda/fabricZones - GET /dna/intent/api/v1/sda/provisionDevices - GET /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs - GET /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - GET /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits - GET /dna/intent/api/v1/sda/fabricDevices - POST /dna/intent/api/v1/sda/fabricDevices - POST /dna/intent/api/v1/business/sda/control-plane-device - POST /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs - POST /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - POST /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits - PUT /dna/intent/api/v1/sda/fabricDevices - PUT /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - PUT /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits - DELETE /dna/intent/api/v1/sda/fabricDevices/${id} - DELETE /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/${id} - DELETE /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - DELETE /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/${id} - GET /dna/intent/api/v1/tasks/${id} - GET /dna/intent/api/v1/tasks/${id}/detail - GET /dna/intent/api/v1/sda/fabrics/${fabricId}/switchWirelessSetting - GET /dna/intent/api/v1/wirelessControllers/${networkDeviceId}/primaryManagedApLocations - GET /dna/intent/api/v1/wirelessControllers/${networkDeviceId}/secondaryManagedApLocations - GET /dna/intent/api/v1/sites - POST /dna/intent/api/v1/wirelessControllers/${deviceId}/assignManagedApLocations - POST /dna/intent/api/v1/sda/fabrics/${fabricId}/switchWirelessSetting/reload - PUT /dna/intent/api/v1/sda/fabrics/${fabricId}/switchWirelessSetting
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -2236,8 +2558,90 @@ Examples
               device_config:
                 - device_ip: 10.0.0.1
                   device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
-    - name: Create SDA fabric device with device role as
-        CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE
+
+    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE]
+                  borders_settings:
+                    layer3_settings:
+                      local_autonomous_system_number: 1234
+                      is_default_exit: true
+                      import_external_routes: true
+                      border_priority: 1
+                      prepend_autonomous_system_count: 1
+                  wireless_controller_settings:
+                    enable: true
+                    primary_managed_ap_locations:
+                      - Global/USA/SAN-FRANCISCO/BLD_SF
+                    secondary_managed_ap_locations:
+                      - Global/USA/SAN-FRANCISCO/BLD_SF1
+                    rolling_ap_upgrade:
+                      enable: true
+                      ap_reboot_percentage: 25
+
+    - name: Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable AP rolling upgrade.
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  wireless_controller_settings:
+                    rolling_ap_upgrade:
+                      enable: false
+
+    - name: Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable wireless capabilities with reload.
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  wireless_controller_settings:
+                    enable: false
+                    reload: true
+
+
+    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE,
+        BORDER_NODE
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3144,7 +3548,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
+- Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel) Archit Soni (@koderchit)
 
 
 

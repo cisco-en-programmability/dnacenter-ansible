@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cisco.dnac.site_workflow_manager module -- Resource module for Site operations &mdash; DNACenterAnsibleActions  documentation</title>
+  <title>cisco.dnac.site_workflow_manager module -- Manage hierarchical sites in Cisco Catalyst Center &mdash; DNACenterAnsibleActions  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/ansible-basic-sphinx-ext.css" />
@@ -491,7 +491,7 @@
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_module.html">cisco.dnac.interfaces_query module -- Resource module for Interfaces Query</a></li>
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_count_module.html">cisco.dnac.interfaces_query_count module -- Resource module for Interfaces Query Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_intent_module.html">cisco.dnac.inventory_intent module -- Resource module for Network Device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="inventory_workflow_manager_module.html">cisco.dnac.inventory_workflow_manager module -- Resource module for Network Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="inventory_workflow_manager_module.html">cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_module.html">cisco.dnac.iot_fabric_rep_rings module -- Resource module for Iot Fabric Rep Rings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_id_module.html">cisco.dnac.iot_fabric_rep_rings_id module -- Resource module for Iot Fabric Rep Rings Id</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_network_devices_network_device_id_mrp_rings_count_info_module.html">cisco.dnac.iot_network_devices_network_device_id_mrp_rings_count_info module -- Information module for Iot Network Devices  Network Device Id Mrp Rings Count</a></li>
@@ -966,7 +966,7 @@
 <li class="toctree-l4"><a class="reference internal" href="site_wise_images_summary_info_module.html">cisco.dnac.site_wise_images_summary_info module -- Information module for Site Wise Images Summary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_wise_product_names_count_info_module.html">cisco.dnac.site_wise_product_names_count_info module -- Information module for Site Wise Product Names Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_wise_product_names_info_module.html">cisco.dnac.site_wise_product_names_info module -- Information module for Site Wise Product Names</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.site_workflow_manager module -- Resource module for Site operations</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.site_workflow_manager module -- Manage hierarchical sites in Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sites_aaa_settings_module.html">cisco.dnac.sites_aaa_settings module -- Resource module for Sites Aaa Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sites_aaa_settings_info_module.html">cisco.dnac.sites_aaa_settings_info module -- Information module for Sites Aaa Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sites_banner_settings_module.html">cisco.dnac.sites_banner_settings module -- Resource module for Sites Banner Settings</a></li>
@@ -1212,7 +1212,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Cisco.Dnac</a></li>
-      <li class="breadcrumb-item active">cisco.dnac.site_workflow_manager module -- Resource module for Site operations</li>
+      <li class="breadcrumb-item active">cisco.dnac.site_workflow_manager module -- Manage hierarchical sites in Cisco Catalyst Center</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/plugins/site_workflow_manager_module.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -1222,11 +1222,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="ansible-collections-cisco-dnac-site-workflow-manager-module"></span><section id="cisco-dnac-site-workflow-manager-module-resource-module-for-site-operations">
-<h1>cisco.dnac.site_workflow_manager module -- Resource module for Site operations<a class="headerlink" href="#cisco-dnac-site-workflow-manager-module-resource-module-for-site-operations" title="Permalink to this heading"></a></h1>
+  <span class="target" id="ansible-collections-cisco-dnac-site-workflow-manager-module"></span><section id="cisco-dnac-site-workflow-manager-module-manage-hierarchical-sites-in-cisco-catalyst-center">
+<h1>cisco.dnac.site_workflow_manager module -- Manage hierarchical sites in Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-site-workflow-manager-module-manage-hierarchical-sites-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.37.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.38.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1235,26 +1235,29 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-wor
 <p class="ansible-version-added">New in cisco.dnac 6.6.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id57">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id58">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id59">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id60">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id61">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id62">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id75">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id76">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id77">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id78">Notes</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id79">See Also</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id80">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id81">Return Values</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id57" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id75" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>Manage operation create, bulk create, update and delete of the resource Sites.</p></li>
-<li><p>Creates site with area/building/floor with specified hierarchy.</p></li>
-<li><p>Create multiple sites (area, building, or floor) with specified hierarchies in bulk.</p></li>
-<li><p>Updates site with area/building/floor with specified hierarchy.</p></li>
-<li><p>Deletes site with area/building/floor with specified hierarchy.</p></li>
+<li><p>Complete management of sites in Cisco Catalyst Center, including hierarchical structures of areas, buildings, and floors.</p></li>
+<li><p>Creates single or multiple sites with specified hierarchical relationships.</p></li>
+<li><p>Updates existing site configurations, including physical attributes and RF characteristics.</p></li>
+<li><p>Deletes sites and their components when no longer needed.</p></li>
+<li><p>Supports bulk operations for efficiently managing multiple sites simultaneously.</p></li>
+<li><p>Handles floor maps and RF modeling for wireless network planning.</p></li>
+<li><p>Provides verification of site configurations after changes are applied.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-dnac-site-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id58" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-dnac-site-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id76" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>dnacentersdk == 2.4.5</p></li>
@@ -1262,7 +1265,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-wor
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id59" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id77" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -1274,112 +1277,140 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-wor
 <div class="ansibleOptionAnchor" id="parameter-config"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config"><strong>config</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>It represents a list of details for creating/managing/deleting sites, including areas, buildings, and floors.</p>
+<td><div class="ansible-option-cell"><p>List of site configurations to be created, updated, or deleted.</p>
+<p>Each item represents a single site operation.</p>
+<p>Required for all operations as it defines the target sites and their configurations.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site"><strong>site</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Contains details about the site being managed including areas, buildings and floors.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Contains the detailed configuration for the site being managed.</p>
+<p>Only one site component type (area, building, or floor) should be specified in each config entry.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/area"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-area"><strong>area</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site/area" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration details for creating or managing an area within a site.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration specific to an area-type site.</p>
+<p>Areas represent the highest level in the site hierarchy, typically representing geographical regions, campuses, or other logical divisions.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/area/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-area-name"><strong>name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/area/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/area/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the area to be created or managed (e.g., &quot;Area1&quot;).</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the area to create, update, or delete.</p>
+<p>Must be unique within its parent site.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/area/parent_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-area-parent-name"><strong>parent_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/area/parent_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/area/parent_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The full name of the parent under which the area will be created/managed/deleted (e.g., &quot;Global/USA&quot;).</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Full hierarchical path of the parent site.</p>
+<p>Format should be slash-separated notation (For example, &quot;Global/USA&quot;).</p>
+<p>For top-level areas, the parent is typically &quot;Global&quot;.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/building"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-building"><strong>building</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site/building" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration details required for creating or managing a building within a site.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration specific to a building-type site.</p>
+<p>Buildings represent physical structures within an area and contain floors.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/building/address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-building-address"><strong>address</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/building/address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/building/address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Physical address of the building that is to be created or managed.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Physical street address of the building.</p>
+<p>Used for geographical positioning and identification.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/site/building/country"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-building-country"><strong>country</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/building/country" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The country where the building is located.</p>
+<p>Optional parameter for additional geolocation context.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/building/latitude"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-building-latitude"><strong>latitude</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/building/latitude" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/building/latitude" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.</dt><dd><p>Valid values range from -90.0 to +90.0 degrees.</p>
-</dd>
-</dl>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/site/building/longitude"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-building-longitude"><strong>longitude</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/building/longitude" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.</dt><dd><p>Valid values range from -180.0 to +180.0 degrees.</p>
-</dd>
-</dl>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Geographical latitude coordinate of the building.</p>
+<p>Must be between -90.0 and +90.0 degrees.</p>
+<p>For Example, 37.338 for a location in San Jose, California.</p>
+<p>Required for creating buildings, optional when updating.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/site/building/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-building-name"><strong>name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/building/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/site/building/longitude"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-building-longitude"><strong>longitude</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/building/longitude" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the building (e.g., &quot;Building1&quot;).</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Geographical longitude coordinate of the building.</p>
+<p>Must be between -180.0 and +180.0 degrees.</p>
+<p>For Example, -121.832 for a location in San Jose, California.</p>
+<p>Required for creating buildings, optional when updating.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/site/building/parent_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-building-parent-name"><strong>parent_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/building/parent_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/site/building/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-building-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/building/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Hierarchical parent path of the building, indicating its location within the site (e.g., &quot;Global/USA/San Francisco&quot;).</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the building to create, update, or delete.</p>
+<p>Must be unique within its parent area.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/site/building/parent_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-building-parent-name"><strong>parent_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/building/parent_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Full hierarchical path of the parent area.</p>
+<p>Format should be slash-separated (e.g., &quot;Global/USA/California&quot;).</p>
+<p>The parent must exist before creating the building.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor"><strong>floor</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site/floor" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration details required for creating or managing a floor within a site.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration specific to a floor-type site.</p>
+<p>Floors represent levels within a building and can contain network devices and floor plans.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor/floor_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-floor-number"><strong>floor_number</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/floor/floor_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/floor/floor_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Floor number within the building site (e.g., 5). This value can only be specified during the creation of the</dt><dd><p>floor and cannot be modified afterward.
-It is required from version 2.3.7.6 onwards.</p>
+<dt>Numerical identifier for the floor within the building.</dt><dd><ul class="simple">
+<li><p>Required for floor creation from Catalyst Center version 2.3.7.6 onwards.</p></li>
+<li><p>Once set, this value cannot be modified.</p></li>
+<li><p>For example, 1 for first floor, 0 for ground floor, -1 for basement.</p></li>
+</ul>
 </dd>
 </dl>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor/force_upload_floor_image"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-force-upload-floor-image"><strong>force_upload_floor_image</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site/floor/force_upload_floor_image" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>If set to `true`, the floor image will be uploaded during the process.</dt><dd><p>If set to `false`, the floor image upload will be skipped.
-During floor creation, if `upload_floor_image_path` is not provided, the image will not be uploaded.
-During floor update, if `force_upload_floor_image` is set to `False`, the image will not be uploaded, even if the path is provided.
-If `force_upload_floor_image` is &quot;True&quot;, the image will be uploaded regardless of the path provided.</p>
+<dt>Controls whether to upload or update the floor image.</dt><dd><ul class="simple">
+<li><p>When true, the floor image specified in upload_floor_image_path will be uploaded
+or updated, even if the floor already has an image.</p></li>
+<li><p>When false, image upload is skipped during updates.</p></li>
+<li><p>During initial floor creation, if upload_floor_image_path is provided, the image
+will be uploaded regardless of this setting.</p></li>
+<li><p>Set to true to replace an existing floor image during an update operation.</p></li>
+</ul>
 </dd>
 </dl>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1389,139 +1420,156 @@ If `force_upload_floor_image` is &quot;True&quot;, the image will be uploaded re
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor/height"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-height"><strong>height</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/floor/height" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/floor/height" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Height of the floor in feet (e.g., 15.23).</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Height of the floor in the specified units (default is feet).</p>
+<p>Represents the ceiling height, important for RF planning and signal propagation modeling.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor/length"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-length"><strong>length</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/floor/length" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/floor/length" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Length of the floor in feet (e.g., 100.11).</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/site/floor/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-name"><strong>name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/floor/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the floor (e.g., &quot;Floor-1&quot;).</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Length of the floor in the specified units (default is feet).</p>
+<p>Used for defining the floor dimensions for mapping purposes.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/site/floor/parent_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-parent-name"><strong>parent_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/floor/parent_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/site/floor/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/floor/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Hierarchical parent path of the floor, indicating its location within the site (e.g.,</dt><dd><p>&quot;Global/USA/San Francisco/BGL_18&quot;).</p>
-</dd>
-</dl>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the floor to create, update, or delete.</p>
+<p>Must be unique within its parent building.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/site/floor/parent_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-parent-name"><strong>parent_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/floor/parent_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Full hierarchical path of the parent building.</p>
+<p>Format should be slash-separated notation (For example, &quot;Global/USA/California/Building_1&quot;).</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor/rf_model"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-rf-model"><strong>rf_model</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/floor/rf_model" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/floor/rf_model" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
-<dt>The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless</dt><dd><p>network coverage. Select from the following allowed values, which describe different environmental signal propagation
-characteristics.
-Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
-'Outdoor Open Space').
-Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where</p>
-<blockquote>
-<div><p>radio signals may experience attenuation due to walls and obstacles.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,</dt><dd><p>which may have moderate signal attenuation.</p>
-</dd>
-<dt>Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums,</dt><dd><p>where signal propagation may differ due to the height of the ceiling.</p>
-</dd>
-<dt>Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed</dt><dd><p>and may follow different patterns compared to indoor environments.</p>
+<dt>RF (Radio Frequency) model type for the floor, essential for wireless network planning.</dt><dd><p>Select one of the following options based on your environment:</p>
+<ul class="simple">
+<li><p>&quot;Cubes And Walled Offices&quot;: For indoor areas with cubicles or walled offices, where
+signal propagation is affected by walls and partitions.</p></li>
+<li><p>&quot;Drywall Office Only&quot;: For environments with drywall partitions (typically office spaces),
+which have moderate signal attenuation.</p></li>
+<li><p>&quot;Indoor High Ceiling&quot;: For spaces with high ceilings (e.g., auditoriums, warehouses),
+where vertical propagation patterns differ significantly.</p></li>
+<li><p>&quot;Outdoor Open Space&quot;: For outdoor areas with minimal obstruction, suitable for
+outdoor deployments or open campuses.</p></li>
+</ul>
+<p>The chosen RF model affects how the system calculates wireless coverage and capacity.</p>
 </dd>
 </dl>
-</dd>
-</dl>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`&quot;Cubes And Walled Offices&quot;`</span></a></p></li>
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`&quot;Drywall Office Only&quot;`</span></a></p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`&quot;Indoor High Ceiling&quot;`</span></a></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;Outdoor Open Space&quot;`</span></a></p></li>
+</ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor/units_of_measure"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-units-of-measure"><strong>units_of_measure</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site/floor/units_of_measure" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Specifies the unit of measurement for floor dimensions, such as 'feet' or 'meters'.</dt><dd><p>This field was introduced in version 2.3.7.6 onwards.
-default: feet</p>
+<dt>Unit of measurement for floor dimensions (height, length, and width).</dt><dd><ul class="simple">
+<li><p>Available from Catalyst Center version 2.3.7.6 onwards.</p></li>
+<li><p>Default is 'feet' if not specified.</p></li>
+</ul>
 </dd>
 </dl>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/site/floor/upload_floor_image_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-upload-floor-image-path"><strong>upload_floor_image_path</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/floor/upload_floor_image_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>File path for the floor image to be uploaded (e.g., &quot;/path/to/floor_image.png&quot;).</dt><dd><p>Ensure the image is in a supported format such as JPG, PNG, or PDF.
-&quot;upload_floor_image_path&quot; parameter not supported for 2.3.5.3 Catalyst Center and only applicable from
-2.3.7.6 Catalyst version onwards</p>
-</dd>
-</dl>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry-default:`&quot;feet&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;meters&quot;`</span></a></p></li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/site/floor/upload_floor_image_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-upload-floor-image-path"><strong>upload_floor_image_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/floor/upload_floor_image_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Local file path to an image that will be uploaded as the floor plan.</p>
+<p>Supported formats include JPG, PNG, and PDF.</p>
+<p>Feature available from Catalyst Center version 2.3.7.6 onwards.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor/width"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-width"><strong>width</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site/floor/width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site/floor/width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">float</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Width of the floor in feet (e.g., 100.22).</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Width of the floor in the specified units (default is feet).</p>
+<p>Used for defining the floor dimensions for mapping purposes.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/site_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-type"><strong>site_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/site_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/site_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type of site to create/update/delete (eg area, building, floor).</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Set to true to verify the Cisco Catalyst Center config after applying the playbook config.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the type of site component to manage.</p>
+<p>Must be one of &quot;area&quot;, &quot;building&quot;, or &quot;floor&quot;.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`&quot;area&quot;`</span></a></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`&quot;building&quot;`</span></a></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`&quot;floor&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Controls whether to verify site configurations after applying changes.</p>
+<p>When set to true, the module will confirm that site creation, updates, or deletion operations have been successfully completed in Cisco Catalyst Center.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id9"><span class="problematic" id="id10">:ansible-option-default:`1200`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1533,34 +1581,34 @@ default: feet</p>
 <p>If the log file exists, - It is overwritten or appended based on the &quot;dnac_log_append&quot; flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if dnac_log is True.</p>
 <p>If path is not specified, - When 'dnac_log_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac_log_append' is False, 'dnac.log' is generated; logs are overwritten.</p>
 <p>If path is specified, - When 'dnac_log_append' is True, the file opens in append mode. - When 'dnac_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id41"><span class="problematic" id="id42">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1570,83 +1618,85 @@ default: feet</p>
 <p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
 <p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
 <p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id43"><span class="problematic" id="id44">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`&quot;443&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id45"><span class="problematic" id="id46">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the interval in seconds between successive calls to the API to retrieve task details.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`2`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
 <div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
 <p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The username for authentication at the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the version of the Cisco Catalyst Center that the SDK should use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id37"><span class="problematic" id="id38">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-state"><strong>state</strong></p>
-<a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The state of Catalyst Center after module completion.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
-</ul>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id55"><span class="problematic" id="id56">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-state"><strong>state</strong></p>
+<a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Defines the intended state of the sites after module execution.</p>
+<p><code class="docutils literal notranslate"><span class="pre">merged</span></code> will create new sites or update existing ones.</p>
+<p><code class="docutils literal notranslate"><span class="pre">deleted</span></code> will remove the specified sites from Cisco Catalyst Center.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1654,20 +1704,49 @@ default: feet</p>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id60" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id78" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
-<li><p>SDK Method used are sites.Sites.create_site, sites.Sites.update_site, sites.Sites.delete_site site.Sites.create_sites site.Sites.update_a_floor site.Sites.update_a_building site.Sites.update_an_area site.Sites.delete_a_floor site.Sites.delete_a_building site.Sites.delete_an_area site.Sites.get_site_assigned_network_devices</p></li>
-<li><p>Paths used are POST /dna/intent/api/v1/site, PUT dna/intent/api/v1/site/{siteId}, DELETE dna/intent/api/v1/site/{siteId} DELETE/dna/intent/api/v2/buildings/{id} DELETE/dna/intent/api/v1/areas/{id} DELETE/dna/intent/api/v2/floors/{id} PUT/dna/intent/api/v2/floors/{id} PUT/dna/intent/api/v1/areas/{id} PUT/dna/intent/api/v2/buildings/{id} GET/dna/intent/api/v1/sites POST/dna/intent/api/v1/sites/bulk GET/dna/intent/api/v1/networkDevices/assignedToSite</p></li>
+<li><p>Floor number and units_of_measure require Catalyst Center version 2.3.7.6 or later.</p></li>
+<li><p>Floor image upload is available from version 2.3.7.6 onwards.</p></li>
+<li><p>Module requires dnacentersdk 2.4.5 or later.</p></li>
+<li><p>Primary SDK Methods - sites.Sites.create_site, sites.Sites.update_site, sites.Sites.delete_site - site.Sites.create_sites, site.Sites.update_a_floor, site.Sites.update_a_building - site.Sites.update_an_area, site.Sites.delete_a_floor, site.Sites.delete_a_building - site.Sites.delete_an_area, site.Sites.get_site_assigned_network_devices</p></li>
+<li><p>API Endpoints - POST /dna/intent/api/v1/site, PUT dna/intent/api/v1/site/{siteId} - DELETE dna/intent/api/v1/site/{siteId} DELETE/dna/intent/api/v2/buildings/{id} - DELETE/dna/intent/api/v1/areas/{id} DELETE/dna/intent/api/v2/floors/{id} PUT/dna/intent/api/v2/floors/{id} - PUT/dna/intent/api/v1/areas/{id} PUT/dna/intent/api/v2/buildings/{id} GET/dna/intent/api/v1/sites - POST/dna/intent/api/v1/sites/bulk GET/dna/intent/api/v1/networkDevices/assignedToSite</p></li>
+<li><p>Sites must be created in order - areas first, then buildings, then floors.</p></li>
+<li><p>Deleting a parent site will automatically delete all child sites.</p></li>
+<li><p>RF models significantly impact wireless planning and should be selected based on the actual physical environment.</p></li>
+<li><p>Floor dimensions (height, length, width) and RF models can be updated after creation, but floor_number cannot be modified once set.</p></li>
+<li><p>Floor images, once uploaded, remain associated with the floor until explicitly replaced using force_upload_floor_image to true.</p></li>
+<li><p>Large floor plan images may take time to upload; ensure the connection to Catalyst Center remains stable during upload.</p></li>
+<li><p>Latitude must be between -90.0 and +90.0 degrees, with positive values representing north of the equator.</p></li>
+<li><p>Longitude must be between -180.0 and +180.0 degrees, with positive values representing east of the prime meridian.</p></li>
+<li><p>Use precise coordinates for buildings to ensure accurate positioning on maps and integration with location services.</p></li>
+<li><p>Use unique names for sites to avoid confusion in complex hierarchies.</p></li>
+<li><p>For bulk operations, limit the number of sites to avoid timeout issues.</p></li>
+<li><p>Floor image uploads for multiple floors may impact performance; consider spreading large uploads across multiple tasks.</p></li>
+<li><p>Site operations on a large scale (many floors or buildings) may take considerable time to complete.</p></li>
+<li><p>Site names are case-sensitive in Catalyst Center; ensure consistent casing in your playbooks.</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
 <li><p>The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection</p></li>
 </ul>
 </div>
 </section>
+<section id="see-also">
+<h2><a class="toc-backref" href="#id79" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Permalink to this heading"></a></h2>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/">Cisco Catalyst Center API Documentation</a></dt><dd><p>Complete API reference for device management.</p>
+</dd>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!sites">Site Management API</a></dt><dd><p>Specific documentation for site operations in Catalyst Center version.</p>
+</dd>
+</dl>
+</div>
+</section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id61" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id80" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a new area site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1686,6 +1765,7 @@ default: feet</p>
 <span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Test</span>
 <span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India</span>
 <span class="w">        </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">area</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a new building site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1707,6 +1787,7 @@ default: feet</p>
 <span class="w">            </span><span class="nt">latitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24.12</span>
 <span class="w">            </span><span class="nt">longitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">23.45</span>
 <span class="w">        </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">building</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a Floor site under the building</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1730,6 +1811,7 @@ default: feet</p>
 <span class="w">            </span><span class="nt">rf_model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cubes And Walled Offices</span>
 <span class="w">            </span><span class="nt">floor_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
 <span class="w">        </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating the Floor details under the building</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1751,6 +1833,7 @@ default: feet</p>
 <span class="w">            </span><span class="nt">width</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">35.54</span>
 <span class="w">            </span><span class="nt">height</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30.12</span>
 <span class="w">        </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting any site you need site name and parent name</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1769,6 +1852,7 @@ default: feet</p>
 <span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Floor_1</span>
 <span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India/Building_1</span>
 <span class="w">        </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
+
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create bulk sites and upload floor map</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1827,7 +1911,7 @@ default: feet</p>
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id62" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id81" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v11)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -1840,45 +1924,50 @@ default: feet</p>
 <div class="ansibleOptionAnchor" id="return-response_1"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-return-response-1"><strong>response_1</strong></p>
 <a class="ansibleOptionLink" href="#return-response_1" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary with API execution details as returned by the Cisco Catalyst Center Python SDK</p>
-<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;siteId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n    },\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
+<td><div class="ansible-option-cell"><p>Detailed API execution results when a site is successfully created, updated, or deleted.</p>
+<p>Contains execution IDs, timestamps, status, and site identifiers.</p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> when a site operation succeeds</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id65"><span class="problematic" id="id66">:ansible-rv-sample-value:`{&quot;msg&quot;: &quot;Site Global/USA/California/San Jose/Building\_1 successfully created&quot;, &quot;response&quot;: {&quot;bapiExecutionId&quot;: &quot;2f259f38-a005-4f44-9feb-a168312b503c&quot;, &quot;bapiKey&quot;: &quot;12345&quot;, &quot;bapiName&quot;: &quot;Sites&quot;, &quot;endTime&quot;: &quot;2025-07-25 14:32:45&quot;, &quot;endTimeEpoch&quot;: 1658756565000, &quot;runtimeInstanceId&quot;: &quot;cisco-catc-01&quot;, &quot;siteId&quot;: &quot;9d963198-8ea0-4b1b-afe7-04401c9fd345&quot;, &quot;startTime&quot;: &quot;2025-07-25 14:32:30&quot;, &quot;startTimeEpoch&quot;: 1658756550000, &quot;status&quot;: &quot;SUCCESS&quot;, &quot;timeDuration&quot;: 15}}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-response_2"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-return-response-2"><strong>response_2</strong></p>
 <a class="ansibleOptionLink" href="#return-response_2" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary with existing site details.</p>
-<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n  {\\n    \\&quot;site\\&quot;: {},\\n    \\&quot;siteId\\&quot;: String,\\n    \\&quot;type\\&quot;: String\\n  },\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
+<td><div class="ansible-option-cell"><p>Information about sites that already exist and do not require an update.</p>
+<p>Useful for idempotency checks and verification that sites are in the desired state.</p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> when a site exists but doesn't need updating</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id67"><span class="problematic" id="id68">:ansible-rv-sample-value:`{&quot;msg&quot;: &quot;Site Global/USA/California already exists with the requested configuration&quot;, &quot;response&quot;: {&quot;site&quot;: {&quot;area&quot;: {&quot;name&quot;: &quot;California&quot;, &quot;parentName&quot;: &quot;Global/USA&quot;}}, &quot;siteId&quot;: &quot;9d963198-8ea0-4b1b-afe7-04401c9fd345&quot;, &quot;type&quot;: &quot;area&quot;}}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-response_3"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-return-response-3"><strong>response_3</strong></p>
 <a class="ansibleOptionLink" href="#return-response_3" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary with API execution details as returned by the Cisco Catalyst Center Python SDK</p>
-<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiError\\&quot;: String,\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n    },\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
+<td><div class="ansible-option-cell"><p>Error details when site creation, update, or deletion operations fail.</p>
+<p>Contains error messages, execution IDs, and timestamps to assist with troubleshooting.</p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> when a site operation fails</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id69"><span class="problematic" id="id70">:ansible-rv-sample-value:`{&quot;msg&quot;: &quot;Failed to create site: Parent site does not exist&quot;, &quot;response&quot;: {&quot;bapiError&quot;: &quot;Parent site Global/NonExistentArea does not exist&quot;, &quot;bapiExecutionId&quot;: &quot;3e8721a9-b56f-43c2-8d01-5d7b318f7e22&quot;, &quot;bapiKey&quot;: &quot;12345&quot;, &quot;bapiName&quot;: &quot;Sites&quot;, &quot;endTime&quot;: &quot;2025-07-25 14:33:15&quot;, &quot;endTimeEpoch&quot;: 1658756595000, &quot;runtimeInstanceId&quot;: &quot;cisco-catc-01&quot;, &quot;startTime&quot;: &quot;2025-07-25 14:33:00&quot;, &quot;startTimeEpoch&quot;: 1658756580000, &quot;status&quot;: &quot;FAILURE&quot;, &quot;timeDuration&quot;: 15}}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-response_4"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-return-response-4"><strong>response_4</strong></p>
 <a class="ansibleOptionLink" href="#return-response_4" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A list with the response returned by the Cisco Catalyst Center Python</p>
-<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id53"><span class="problematic" id="id54">:ansible-rv-sample-value:`[&quot;{\\n   \\&quot;response\\&quot;: []&quot;, &quot;\\n   \\&quot;msg\\&quot;: String\\n}\\n&quot;]`</span></a></p>
+<td><div class="ansible-option-cell"><p>Empty response returned when attempting to delete a site that doesn't exist.</p>
+<p>Helps identify when deletion operations target non-existent sites.</p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> when trying to delete a site that doesn't exist</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id71"><span class="problematic" id="id72">:ansible-rv-sample-value:`[&quot;{\\n   \\&quot;response\\&quot;: []&quot;, &quot;\\n   \\&quot;msg\\&quot;: \\&quot;Site Global/USA/California/NonExistentBuilding not found for deletion\\&quot;\\n}\\n&quot;]`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-response_5"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-return-response-5"><strong>response_5</strong></p>
 <a class="ansibleOptionLink" href="#return-response_5" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary with API task details as returned by the Cisco Catalyst Center Python SDK</p>
-<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id55"><span class="problematic" id="id56">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;response\\&quot;: {\\n        \\&quot;startTime\\&quot;: 1725427091204,\\n        \\&quot;version\\&quot;: 1725427091204,\\n        \\&quot;progress\\&quot;: \\&quot;{\\\\\\&quot;TOTAL\\\\\\&quot;:0,\\\\\\&quot;VALIDATION\_FAILURE\_COUNT\\\\\\&quot;:0,\\\\\\&quot;VALIDATION\_SUCCESS\_COUNT\\\\\\&quot;:0,\\\\\\n        \\&quot;VALIDATION\_PENDING\_COUNT\\\\\\&quot;:0,\\\\\\&quot;CRAETION\_SUCCESS\_COUNT\\\\\\&quot;:0,\\\\\\&quot;message\\\\\\&quot;:\\\\\\n        \\&quot;Group import is in progress.Count will be updated shortly.\\\\\\&quot;}\\&quot;,\\n        \\&quot;serviceType\\&quot;: \\&quot;Grouping Service\\&quot;,\\n        \\&quot;operationIdList\\&quot;: [\\n        \\&quot;3e7f1f73-b6f8-4ac6-b925-22e372e72510\\&quot;\\n        ],\\n        \\&quot;isError\\&quot;: False,\\n        \\&quot;instanceTenantId\\&quot;: \\&quot;6663114d388b29001399e46a\\&quot;,\\n        \\&quot;id\\&quot;: \\&quot;0191bb78-0704-767c-94c6-95a6e5a511d1\\&quot;\\n    },\\n    \\&quot;version\\&quot;: \\&quot;1.0\\&quot;\\n}\\n&quot;`</span></a></p>
+<td><div class="ansible-option-cell"><p>Task status information for bulk site creation operations.</p>
+<p>Includes progress indicators, operation IDs, and status details.</p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> when bulk site creation is performed</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id73"><span class="problematic" id="id74">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;response\\&quot;: {\\n        \\&quot;startTime\\&quot;: 1725427091204,\\n        \\&quot;version\\&quot;: 1725427091204,\\n        \\&quot;progress\\&quot;: \\&quot;{\\\\\\&quot;TOTAL\\\\\\&quot;:3,\\\\\\&quot;VALIDATION\_FAILURE\_COUNT\\\\\\&quot;:0,\\\\\\&quot;VALIDATION\_SUCCESS\_COUNT\\\\\\&quot;:3,\\\\\\n        \\&quot;VALIDATION\_PENDING\_COUNT\\\\\\&quot;:0,\\\\\\&quot;CRAETION\_SUCCESS\_COUNT\\\\\\&quot;:3,\\\\\\&quot;message\\\\\\&quot;:\\\\\\n        \\&quot;Group import completed successfully.\\\\\\&quot;}\\&quot;,\\n        \\&quot;serviceType\\&quot;: \\&quot;Grouping Service\\&quot;,\\n        \\&quot;operationIdList\\&quot;: [\\n        \\&quot;3e7f1f73-b6f8-4ac6-b925-22e372e72510\\&quot;\\n        ],\\n        \\&quot;isError\\&quot;: false,\\n        \\&quot;instanceTenantId\\&quot;: \\&quot;6663114d388b29001399e46a\\&quot;,\\n        \\&quot;id\\&quot;: \\&quot;0191bb78-0704-767c-94c6-95a6e5a511d1\\&quot;\\n    },\\n    \\&quot;version\\&quot;: \\&quot;1.0\\&quot;,\\n    \\&quot;msg\\&quot;: \\&quot;Successfully created 3 sites in bulk operation\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>
@@ -1886,7 +1975,11 @@ default: feet</p>
 <section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h3>
 <ul class="simple">
-<li><p>Madhan Sankaranarayanan (&#64;madhansansel) Rishita Chowdhary (&#64;rishitachowdhary) Abhishek Maheshwari (&#64;abhishekmaheshwari) Megha Kandari (&#64;kandarimegha) Sonali Deepthi Kesali (&#64;skesali)</p></li>
+<li><p>Madhan Sankaranarayanan (&#64;madhansansel)</p></li>
+<li><p>Rishita Chowdhary (&#64;rishitachowdhary)</p></li>
+<li><p>Abhishek Maheshwari (&#64;abhishekmaheshwari)</p></li>
+<li><p>Megha Kandari (&#64;kandarimegha)</p></li>
+<li><p>Sonali Deepthi Kesali (&#64;skesali)</p></li>
 </ul>
 </section>
 <section id="collection-links">

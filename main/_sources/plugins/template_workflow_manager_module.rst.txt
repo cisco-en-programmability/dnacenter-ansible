@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.38.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 6.6.0
+New in cisco.dnac 6.33.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.8.6
 - python \>= 3.9
 
 
@@ -8140,6 +8140,148 @@ Parameters
 
 
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/projects:
+
+      .. rst-class:: ansible-option-title
+
+      **projects**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Create, update, or delete projects with associated details such as name,
+          and description.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects/description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/projects/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief description of the project.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects/name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/projects/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the project. This is used to identify the project for creation,
+          update, or deletion.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects/new_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/projects/new_name:
+
+      .. rst-class:: ansible-option-title
+
+      **new_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects/new_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specify a new name for the project when updating an existing project.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
 
   * - .. raw:: html
 
@@ -8168,7 +8310,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If set to True, verifies the Cisco Catalyst Center configuration after applying the playbook.
+      If set to True, verifies the Cisco Catalyst Center
+          configuration after applying the playbook.
+          
 
 
       .. rst-class:: ansible-option-line
@@ -8830,17 +8974,17 @@ Examples
     ---
     - name: Create a new template.
       cisco.dnac.template_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           - configuration_templates:
               author: string
@@ -8864,19 +9008,20 @@ Examples
                   name: string
               template_content: string
               version: string
+
     - name: Update a template.
       cisco.dnac.template_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           - configuration_templates:
               author: string
@@ -8900,38 +9045,39 @@ Examples
                 - id: string
                   name: string
               template_content: string
-              version: string
+
     - name: Export the projects.
       cisco.dnac.template_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           export:
             project:
               - string
               - string
+
     - name: Export the templates.
       cisco.dnac.template_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           export:
             template:
@@ -8939,19 +9085,20 @@ Examples
                 template_name: string
               - project_name: string
                 template_name: string
+
     - name: Import the Projects.
       cisco.dnac.template_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           import:
             project:
@@ -8959,25 +9106,27 @@ Examples
               payload:
                 - name: string
                 - name: string
+
     - name: Import the Templates.
       cisco.dnac.template_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           import:
             template:
               do_version: false
               project_name: string
               template_file: string
+
     - name: Creating a JINJA-based template to configure
         access VLAN and interfaces on Catalyst 9300
       cisco.dnac.template_workflow_manager:
@@ -9020,6 +9169,7 @@ Examples
                 description {{ interface_description }}
                 {% endraw %}
               version: "1.0"
+
     - name: Creating a VELOCITY-based Fusion Router template
         for Catalyst 3850 switches
       cisco.dnac.template_workflow_manager:
@@ -9067,20 +9217,21 @@ Examples
                 ipv6 address $interfaceIPV6
                 ipv6 enable
                 ipv6 tcp adjust-mss 1400
+
     - name: Deploy the given template to the devices based
         on site specific details and other filtering mode
       cisco.dnac.template_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           deploy_template:
             project_name: "Sample_Project"
@@ -9094,20 +9245,21 @@ Examples
             site_provisioning_details:
               - site_name: "Global/Bangalore/Building14/Floor1"
                 device_family: "Switches and Hubs"
+
     - name: Deploy the given template to the devices based
         on device specific details
       cisco.dnac.template_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           deploy_template:
             project_name: "Sample_Project"
@@ -9120,6 +9272,7 @@ Examples
                 param_value: "testvlan31"
             device_details:
               device_ips: ["10.1.2.1", "10.2.3.4"]
+
     - name: Deploy template to the devices using resource
         parameters and copying config
       cisco.dnac.template_workflow_manager:
@@ -9150,20 +9303,21 @@ Examples
             device_details:
               device_ips: ["10.1.2.1", "10.2.3.4"]
             copy_config: true
+
     - name: Delete the given project or template from the
         Cisco Catalyst Center
       cisco.dnac.template_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: deleted
         config_verify: true
+        state: deleted
         config:
           configuration_templates:
             project_name: "Sample_Project"
@@ -9172,6 +9326,60 @@ Examples
             software_type: "IOS-XE"
             device_types:
               - product_family: "Switches and Hubs"
+
+    - name: Create a New Project
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          - projects:
+              - name: Wireless_Controller
+                description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
+
+    - name: Update project name and details.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          - projects:
+              - name: Wireless_Controller
+                new_name: Wireless_Template_Management
+                description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
+
+    - name: Delete project based on the name.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: deleted
+        config:
+          - projects:
+              - name: Wireless_Template_Management
 
 
 
@@ -9420,6 +9628,141 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         </div>
 
 
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_6"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_6:
+
+      .. rst-class:: ansible-option-title
+
+      **response_6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_6" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a project is created successfully
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "project Wireless\_Controller created succesfully", "response": "project Wireless\_Controller created succesfully", "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_7"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_7:
+
+      .. rst-class:: ansible-option-title
+
+      **response_7**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_7" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Provides details of the response when a project is successfully updated using the Cisco Catalyst Center Python SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Project 'Wireless\_Template\_Management' updated successfully.\\",\\n    \\"response\\": Project 'Wireless\_Template\_Management' updated successfully.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_8"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_8:
+
+      .. rst-class:: ansible-option-title
+
+      **response_8**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_8" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a project is Deleted successfully.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Project(s) are deleted and verified successfully. ['Wireless\_Template\_Management']", "response": [{"name": "Wireless\_Template\_Management"}], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
 
 ..  Status (Presently only deprecated)
 
@@ -9429,7 +9772,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Akash Bhaskaran (@akabhask) Muthu Rakesh (@MUTHU-RAKESH-27) Abhishek Maheshwari (@abmahesh) Archit Soni (@koderchit)
+- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Akash Bhaskaran (@akabhask) Muthu Rakesh (@MUTHU-RAKESH-27) Abhishek Maheshwari (@abmahesh) Archit Soni (@koderchit) A Mohamed Rafeek (@mabdulk2)
 
 
 

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.inventory_workflow_manager module -- Resource module for Network Device
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.37.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.38.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,12 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Network Device.
-- Adds the device with given credential.
-- Deletes the network device for the given Id.
-- Sync the devices provided as input.
+- Add, update, delete, and synchronize network devices in Cisco Catalyst Center inventory
+- Provision wired devices and manage device configurations across multiple sites
+- Schedule and manage device maintenance windows with flexible recurrence options
+- Handle device credentials, roles, and user-defined fields
+- Export device details and credentials with encrypted file support
+- Perform bulk operations on network devices with comprehensive error handling
 
 
 .. Aliases
@@ -135,7 +137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of devices with credentails to perform Add/Update/Delete/Resync operation
+      List of device configurations for inventory operations
 
 
       .. raw:: html
@@ -159,7 +161,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -168,6 +170,8 @@ Parameters
     - .. raw:: html
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Create and assign Global User Defined Fields.
 
       This operation will take dictionary as a parameter and in this we give details to create/update/delete/assign multiple UDF to a device.
 
@@ -203,7 +207,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Info about the global user defined field. Also used while updating interface details.
+      UDF description and metadata. Info about the global user defined field. Also used while updating interface details.
 
 
       .. raw:: html
@@ -227,7 +231,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -237,7 +241,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Global UDF name (required for create/delete/assign).
+
       Name of Global User Defined Field. Required for creating/deleting UDF and then assigning it to device.
+
+      Must be unique across Catalyst Center.
 
 
       .. raw:: html
@@ -270,6 +278,8 @@ Parameters
     - .. raw:: html
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Value to assign to the UDF.
 
       Value to assign to tag with or without the same user defined field name.
 
@@ -305,6 +315,12 @@ Parameters
     - .. raw:: html
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Remove device configuration during deletion.
+
+      \ :literal:`false`\  - Remove from inventory only (default).
+
+      \ :literal:`true`\  - Remove device and clear configuration.
 
       Required if need to delete the Provisioned device by clearing current configuration.
 
@@ -348,7 +364,19 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      CLI transport protocol for device communication.
+
       The essential prerequisite for adding Network devices is the specification of the transport protocol (either ssh or telnet) used by the device.
+
+      Required for NETWORK\_DEVICE types.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ssh"`
+      - :ansible-option-choices-entry:`"telnet"`
 
 
       .. raw:: html
@@ -424,7 +452,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Set this to 'True' to update device credentials and other device details. When this parameter is 'True', ensure that the devices are present in Cisco Catalyst Center; only then can update operations be performed on the respective devices. If the parameter is 'True' and any device is not present, the module will attempt to add it.  If required parameters are missing during this addition, the module will fail and stop execution, preventing update operations for devices that are already present.
+      Set this to 'True' to update device credentials and other device details.
+
+      When this parameter is 'True', ensure that the devices are present in Cisco Catalyst Center; only then can update operations be performed on the respective devices.
+
+      If the parameter is 'True' and any device is not present, the module will attempt to add it. If required parameters are missing during this addition, the module will fail and stop execution, preventing update operations for devices that are already present.
 
 
       .. rst-class:: ansible-option-line
@@ -465,6 +497,8 @@ Parameters
     - .. raw:: html
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Trigger device inventory synchronization.
 
       Make this as true needed for the resyncing of device.
 
@@ -508,7 +542,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Schedule device maintenance windows.
+
       Defines the maintenance schedule for a list of devices, specifying the time frame and recurrence details for scheduled maintenance tasks or deleting them.
+
+      Supports one-time and recurring maintenance.
+
+      Requires Catalyst Center \>= 2.3.7.9.
 
 
       .. raw:: html
@@ -542,6 +582,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Maintenance purpose and details.
+
       A brief description of the maintenance schedule, specifying its purpose or any relevant details.
 
 
@@ -566,7 +608,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -576,8 +618,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of network device IPs. This field is applicable only during the creation or deletion of schedules. For updates, this field is read-only, and devices cannot be added or removed.
-          
+      List of network device IPs.
+
+      This field is applicable only during the creation or deletion of schedules. For updates, this field is read-only, and devices cannot be added or removed.
 
 
       .. raw:: html
@@ -601,7 +644,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -611,8 +654,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The scheduled end time of the maintenance window. For one-time schedules, this must be later than the current time. The expected format is "YYYY-MM-DD HH:MM:SS" (for example, "2025-04-05 10:30:00").
-          
+      Maintenance window end time.
+
+      The scheduled end time of the maintenance window. For one-time schedules, this must be later than the current time.
+
+      Format - "YYYY-MM-DD HH:MM:SS" (e.g., "2025-04-05 12:00:00").
+
+      Must be after start\_time.
 
 
       .. raw:: html
@@ -646,8 +694,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The timestamp indicating when the recurring maintenance schedule should end. It must be greater than both the maintenance end date/time and the current time. The format should be a recognizable timestamp (For example, "YYYY-MM-DD HH:MM:SS" like "2025-04-05 10:30:00").
-          
+      End time for recurring maintenance.
+
+      The timestamp indicating when the recurring maintenance schedule should end. It must be greater than both the maintenance end date/time and the current time.
+
+      Format - "YYYY-MM-DD HH:MM:SS".
 
 
       .. raw:: html
@@ -681,8 +732,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Days between recurring maintenance windows.
+
       Interval for recurrence in days. The interval must be longer than the duration of the maintenance schedules and must be within the range 1 to 365 (inclusive).
-          
 
 
       .. raw:: html
@@ -706,7 +758,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -716,8 +768,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The scheduled start time of the maintenance window. For one-time schedules, this must be later than the current time. The expected format is "YYYY-MM-DD HH:MM:SS" (for example, "2025-04-05 10:00:00").
-          
+      Maintenance window start time.
+
+      The scheduled start time of the maintenance window. For one-time schedules, this must be later than the current time.
+
+      Format - "YYYY-MM-DD HH:MM:SS" (e.g., "2025-04-05 10:00:00").
+
+      Must be future time for new schedules.
 
 
       .. raw:: html
@@ -741,7 +798,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -751,8 +808,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Timezone for maintenance schedule.
+
       Time zone in which the maintenance schedule is defined (for example, "Africa/Nairobi", "America/New\_York", "Asia/Kolkata", "Europe/London", "Australia/Sydney", etc.).
-          
+
+      See Catalyst Center documentation for complete list.
 
 
       .. rst-class:: ansible-option-line
@@ -1110,7 +1170,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Password required for enabling configurations on the device.
+      Privileged EXEC mode password.
+
+      Required for enabling configurations on the device.
 
 
       .. raw:: html
@@ -1144,7 +1206,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the limit for updating device details or exporting device details/credentials to a file. The default limit is set to 500 devices. This limit is applied when exporting device details/credentials and editing device details. The maximum number of device details/credentials that can be exported in a single API call is 800.
+      Maximum devices per export batch.
+
+      Specifies the limit for updating device details or exporting device details/credentials to a file. The default limit is set to 500 devices.
+
+      This limit is applied when exporting device details/credentials and editing device details.
+
+      The maximum number of device details/credentials that can be exported in a single API call is 800.
+
+      Controls memory usage for large inventories.
 
 
       .. rst-class:: ansible-option-line
@@ -1182,6 +1252,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Export device information to encrypted CSV.
+
       This operation take dictionary as parameter and export the device details as well as device credentials details in a csv file.
 
 
@@ -1206,7 +1278,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -1216,7 +1288,21 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      enum(CREDENTIALDETAILS, DEVICEDETAILS) 0 to export Device Credential Details Or 1 to export Device Details. CREDENTIALDETAILS - Used for exporting device credentials details like snpm credntials, device crdentails etc. DEVICEDETAILS - Used for exporting device specific details like device hostname, serial number, type, family etc.
+      Export data type.
+
+      \ :literal:`0/CREDENTIALDETAILS`\  - 0 to export Device Credential Details. Used for exporting device credentials details like snmp credentials, device credentials etc.
+
+      \ :literal:`1/DEVICEDETAILS`\  - 1 to export Device Details. Used for exporting device specific details like device hostname, serial number, type, family etc.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"0"`
+      - :ansible-option-choices-entry:`"1"`
+      - :ansible-option-choices-entry:`"CREDENTIALDETAILS"`
+      - :ansible-option-choices-entry:`"DEVICEDETAILS"`
 
 
       .. raw:: html
@@ -1250,7 +1336,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of device parameters that needs to be exported to file.(For example, ["componentName", "SerialNumber", "Last Sync Status"])
+      Specific device attributes to export.
+
+      List of device parameters that needs to be exported to file. (For example, ["componentName", "SerialNumber", "Last Sync Status"])
 
 
       .. raw:: html
@@ -1274,7 +1362,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -1284,7 +1372,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      CSV file encryption password.
+
       Specifies the password for the encryption of file while exporting the device credentails into the file.
+
+      Must meet complexity requirements (8+ chars, mixed case, numbers, symbols).
 
 
       .. raw:: html
@@ -1317,6 +1409,8 @@ Parameters
     - .. raw:: html
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Filter devices by site location.
 
       Indicates the exact location where the wired device will be provisioned. This is a string value that should represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL\_18/floor\_pnp").
 
@@ -1387,6 +1481,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Use high-priority thread for synchronization.
+
       If forcesync is true then device sync would run in high priority thread if available, else the sync will fail.
 
 
@@ -1429,7 +1525,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of hostnames representing devices. Operations such as updating, deleting, resyncing, or rebooting can be performed as alternatives to using IP addresses.
+      Alternative device identification using hostnames.
+
+      Can be used instead of IP addresses for operations.
 
 
       .. raw:: html
@@ -1463,7 +1561,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      HTTP password required for adding compute, Meraki, and Firepower Management Devices.
+      HTTP authentication password.
+
+      Required for COMPUTE\_DEVICE, MERAKI\_DASHBOARD, and FIREPOWER\_MANAGEMENT\_SYSTEM.
 
 
       .. raw:: html
@@ -1497,7 +1597,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      HTTP port number required for adding compute and Firepower Management Devices.
+      HTTP service port.
+
+      Required for COMPUTE\_DEVICE and FIREPOWER\_MANAGEMENT\_SYSTEM.
+
+      Common values are 80 (HTTP) or 443 (HTTPS).
 
 
       .. raw:: html
@@ -1573,7 +1677,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      HTTP username required for adding compute and Firepower Management Devices.
+      HTTP authentication username.
+
+      Required for COMPUTE\_DEVICE and FIREPOWER\_MANAGEMENT\_SYSTEM.
 
 
       .. raw:: html
@@ -1607,7 +1713,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of the IP addresses for the devices. It is required for tasks such as adding, updating, deleting, or resyncing devices, with Meraki devices being the exception.
+      List of device management IP addresses.
+
+      Primary method for device identification.
+
+      Required for most device operations (except Meraki).
 
 
       .. raw:: html
@@ -1641,7 +1751,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of MAC addresses representing devices. Operations such as updating, deleting, resyncing, or rebooting can be performed as alternatives to using IP addresses.
+      Alternative device identification using MAC addresses.
+
+      Helpful for network discovery scenarios.
 
 
       .. raw:: html
@@ -1675,7 +1787,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the port number for connecting to devices using the Netconf protocol. Netconf (Network Configuration Protocol) is used for managing network devices. Ensure that the provided port number corresponds to the Netconf service port configured on your network devices. NETCONF with user privilege 15 is mandatory for enabling Wireless Services on Wireless capable devices such as Catalyst 9000 series Switches and C9800 Series Wireless Controllers. The NETCONF credentials are required to connect to C9800 Series Wireless Controllers as the majority of data collection is done using NETCONF for these Devices.
+      Specifies the port number for connecting to devices using the Netconf protocol. Netconf (Network Configuration Protocol) is used for managing network devices.
+
+      Ensure that the provided port number corresponds to the Netconf service port configured on your network devices.
+
+      NETCONF with user privilege 15 is mandatory for enabling Wireless Services on Wireless capable devices such as Catalyst 9000 series Switches and C9800 Series Wireless Controllers.
+
+      The NETCONF credentials are required to connect to C9800 Series Wireless Controllers as the majority of data collection is done using NETCONF for these Devices.
+
+      Standard NETCONF port is 830.
 
 
       .. raw:: html
@@ -1709,7 +1829,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Password for accessing the device and for file encryption during device export. Required for adding Network Device. Also needed for file encryption while exporting device in a csv file.
+      Device access password and file encryption key.
+
+      Required for NETWORK\_DEVICE additions.
+
+      Also used for CSV export file encryption.
 
 
       .. raw:: html
@@ -1743,6 +1867,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Provision wired devices to network sites.
+
       This parameter takes a list of dictionaries. Each dictionary provides the IP address of a wired device and the name of the site where the device will be provisioned.
 
 
@@ -1767,7 +1893,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
 
@@ -1780,7 +1906,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      IP address of device to provision.
+
       Specifies the IP address of the wired device. This is a string value that should be in the format of standard IPv4 or IPv6 addresses.
+
+      Device must exist in inventory.
 
 
       .. raw:: html
@@ -1817,7 +1947,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Determines the total number of retry attempts for checking if the device has reached a managed state during the provisioning process. If unspecified, the default value is set to 200 retries.
+      Retry attempts for managed state verification.
+
+      Determines the total number of retry attempts for checking if the device has reached a managed state during the provisioning process.
+
+      If unspecified, the default value is set to 200 retries.
+
+      Higher values provide more reliability.
 
 
       .. rst-class:: ansible-option-line
@@ -1858,7 +1994,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sets the interval, in seconds, at which the system will recheck the device status throughout the provisioning process. If unspecified, the system will check the device status every 2 seconds by default.
+      Seconds between managed state checks.
+
+      Sets the interval, in seconds, at which the system will recheck the device status throughout the provisioning process.
+
+      If unspecified, the system will check the device status every 2 seconds by default.
+
+      Balance between responsiveness and system load.
 
 
       .. rst-class:: ansible-option-line
@@ -1886,7 +2028,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -1896,7 +2038,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Target site for device provisioning.
+
       Indicates the exact location where the wired device will be provisioned. This is a string value that should represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL\_18/floor\_pnp").
+
+      Must use complete hierarchical path.
 
 
       .. raw:: html
@@ -1931,7 +2077,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Trigger device reboot (Access Points only).
+
       Make this as true needed for the Rebooting of Access Points.
+
+      Only applicable to Unified AP devices.
 
 
       .. rst-class:: ansible-option-line
@@ -1973,7 +2123,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the maximum number of devices to be resynced in the inventory. Ensure this count does not exceed 200, as attempting to resync more than 200 devices may cause the 'sync\_devices\_using\_forcesync' API to enter an infinite loop.
+      Maximum devices per resync batch.
+
+      Specifies the maximum number of devices to be resynced in the inventory.
+
+      Ensure this count does not exceed 200, as attempting to resync more than 200 devices may cause the 'sync\_devices\_using\_forcesync' API to enter an infinite loop.
 
 
       .. rst-class:: ansible-option-line
@@ -2011,7 +2165,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sets the maximum timeout for the device resync process in the inventory, in seconds. The default is 600 seconds, which helps prevent infinite loops.
+      Maximum resync wait time in seconds.
+
+      Sets the maximum timeout for the device resync process in the inventory, in seconds.
+
+      The default is 600 seconds, which helps prevent infinite loops.
 
 
       .. rst-class:: ansible-option-line
@@ -2049,7 +2207,28 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role of device which can be ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN. ALL - This role typically represents all devices within the network, regardless of their specific roles or functions. UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center. This could happen if the platform is unable to determine the device's role based on available information. ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network. These devices are often located at the edge of the network and provide connectivity to end-user devices. BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as gateways between different networks, such as connecting an enterprise network to the internet or connecting multiple branch offices. DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic from access switches and route it toward the core of the network or toward other distribution switches. CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes of traffic and provide connectivity between different parts of network, such as connecting distribution switches or providing interconnection between different network segments.
+      Network device role assignment.
+
+      \ :literal:`ACCESS`\  - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network. These devices are often located at the edge of the network and provide connectivity to end-user devices.
+
+      \ :literal:`DISTRIBUTION`\  - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic from access switches and route it toward the core of the network or toward other distribution switches.
+
+      \ :literal:`CORE`\  - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes of traffic and provide connectivity between different parts of network, such as connecting distribution switches or providing interconnection between different network segments.
+
+      \ :literal:`BORDER\_ROUTER`\  - These are devices that connect different network domains or segments together. They often serve as gateways between different networks, such as connecting an enterprise network to the internet or connecting multiple branch offices.
+
+      \ :literal:`UNKNOWN`\  - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalyst Center. This could happen if the platform is unable to determine the device's role based on available information.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ACCESS"`
+      - :ansible-option-choices-entry:`"DISTRIBUTION"`
+      - :ansible-option-choices-entry:`"CORE"`
+      - :ansible-option-choices-entry:`"BORDER\_ROUTER"`
+      - :ansible-option-choices-entry:`"UNKNOWN"`
 
 
       .. raw:: html
@@ -2083,7 +2262,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of serial numbers representing devices. Operations such as updating, deleting, resyncing, or rebooting can be performed as alternatives to using IP addresses.
+      Alternative device identification using serial numbers.
+
+      Useful for devices before IP assignment.
 
 
       .. raw:: html
@@ -2117,7 +2298,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMP authentication passphrase required for adding network, compute, and third-party devices.
+      SNMPv3 authentication passphrase.
+
+      Required for AUTHNOPRIV and AUTHPRIV modes.
 
 
       .. raw:: html
@@ -2151,12 +2334,16 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMP authentication protocol. SHA (Secure Hash Algorithm) - cryptographic hash function commonly used for data integrity verification and authentication purposes.
+      SNMPv3 authentication algorithm. SHA (Secure Hash Algorithm) - cryptographic hash function commonly used for data integrity verification and authentication purposes.
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"SHA"`
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"SHA"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"MD5"`
+
 
       .. raw:: html
 
@@ -2189,7 +2376,22 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device's snmp Mode refer to different SNMP (Simple Network Management Protocol) versions and their corresponding security levels. NOAUTHNOPRIV - This mode provides no authentication or encryption for SNMP messages. It means that devices communicating using SNMPv1 do not require any authentication (username/password) or encryption (data confidentiality). This makes it the least secure option. AUTHNOPRIV - This mode provides authentication but no encryption for SNMP messages. Authentication involves validating the source of the SNMP messages using a community string (similar to a password). However, the data transmitted between devices is not encrypted, so it's susceptible to eavesdropping. AUTHPRIV - This mode provides both authentication and encryption for SNMP messages. It offers the highest level of security among the three options. Authentication ensures that the source of the messages is genuine, and encryption ensures that the data exchanged between devices is confidential and cannot be intercepted by unauthorized parties.
+      Device's snmp Mode refer to different SNMP (Simple Network Management Protocol) versions and their corresponding security levels.
+
+      \ :literal:`NOAUTHNOPRIV`\  - This mode provides no authentication or encryption for SNMP messages. It means that devices communicating using SNMPv1 do not require any authentication (username/password) or encryption (data confidentiality). This makes it the least secure option.
+
+      \ :literal:`AUTHNOPRIV`\  - This mode provides authentication but no encryption for SNMP messages. Authentication involves validating the source of the SNMP messages using a community string (similar to a password). However, the data transmitted between devices is not encrypted, so it's susceptible to eavesdropping.
+
+      \ :literal:`AUTHPRIV`\  - This mode provides both authentication and encryption for SNMP messages. It offers the highest level of security among the three options. Authentication ensures that the source of the messages is genuine, and encryption ensures that the data exchanged between devices is confidential and cannot be intercepted by unauthorized parties.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"NOAUTHNOPRIV"`
+      - :ansible-option-choices-entry:`"AUTHNOPRIV"`
+      - :ansible-option-choices-entry:`"AUTHPRIV"`
 
 
       .. raw:: html
@@ -2223,7 +2425,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMP private passphrase required for adding network, compute, and third-party devices.
+      SNMPv3 privacy/encryption passphrase.
+
+      Required for AUTHPRIV mode.
 
 
       .. raw:: html
@@ -2257,7 +2461,23 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMP private protocol required for adding network, compute, and third-party devices.
+      SNMPv3 encryption algorithm.
+
+      AES variants provide different key lengths.
+
+      Required for adding network, compute, and third-party devices.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"AES128"`
+      - :ansible-option-choices-entry:`"AES192"`
+      - :ansible-option-choices-entry:`"AES256"`
+      - :ansible-option-choices-entry:`"CISCOAES128"`
+      - :ansible-option-choices-entry:`"CISCOAES192"`
+      - :ansible-option-choices-entry:`"CISCOAES256"`
 
 
       .. raw:: html
@@ -2291,7 +2511,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMP retry count.
+      Number of SNMP request retries before timeout.
 
 
       .. rst-class:: ansible-option-line
@@ -2329,7 +2549,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMP Read-Only community required for adding V2C devices.
+      SNMPv2c read-only community string.
+
+      Required for SNMPv2c devices.
 
 
       .. raw:: html
@@ -2363,7 +2585,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMP Read-Write community required for adding V2C devices.
+      SNMPv2c read-write community string.
+
+      Required for configuration changes via SNMP.
 
 
       .. raw:: html
@@ -2397,7 +2621,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMP timeout duration.
+      SNMP request timeout in seconds.
 
 
       .. rst-class:: ansible-option-line
@@ -2435,7 +2659,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMP username required for adding network, compute, and third-party devices.
+      SNMPv3 username for authentication.
+
+      Required for SNMPv3 with authentication.
 
 
       .. raw:: html
@@ -2469,7 +2695,19 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      It is a standard protocol used for managing and monitoring network devices. v2 - In this communication between the SNMP manager (such as Cisco Catalyst) and the managed devices (such as routers, switches, or access points) is based on community strings.Community strings serve as form of authentication and they are transmitted in clear text, providing no encryption. v3 - It is the most secure version of SNMP, providing authentication, integrity, and encryption features. It allows for the use of usernames, authentication passwords, and encryption keys, providing stronger security compared to v2.
+      It is a standard protocol used for managing and monitoring network devices.
+
+      \ :literal:`v2`\  - In this communication between the SNMP manager (such as Cisco Catalyst) and the managed devices (such as routers, switches, or access points) is based on community strings. Community strings serve as a form of authentication and they are transmitted in clear text, providing no encryption.
+
+      \ :literal:`v3`\  - It is the most secure version of SNMP, providing authentication, integrity, and encryption features. It allows for the use of usernames, authentication passwords, and encryption keys, providing stronger security compared to v2.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"v2"`
+      - :ansible-option-choices-entry:`"v3"`
 
 
       .. raw:: html
@@ -2503,12 +2741,29 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Select Device's type from NETWORK\_DEVICE, COMPUTE\_DEVICE, MERAKI\_DASHBOARD, THIRD\_PARTY\_DEVICE, FIREPOWER\_MANAGEMENT\_SYSTEM. NETWORK\_DEVICE - This refers to traditional networking equipment such as routers, switches, access points, and firewalls. These devices are responsible for routing, switching, and providing connectivity within the network. COMPUTE\_DEVICE - These are computing resources such as servers, virtual machines, or containers that are part of the network infrastructure. Cisco Catalyst Center can integrate with compute devices to provide visibility and management capabilities, ensuring that the network and compute resources work together seamlessly to support applications and services. MERAKI\_DASHBOARD - It is cloud-based platform used to manage Meraki networking devices, including wireless access points, switches, security appliances, and cameras. THIRD\_PARTY\_DEVICE - This category encompasses devices from vendors other than Cisco or Meraki. Cisco Catalyst Center is designed to support integration with third-party devices through open standards and APIs. This allows organizations to manage heterogeneous network environments efficiently using Cisco Catalyst Center's centralized management and automation capabilities. FIREPOWER\_MANAGEMENT\_SYSTEM - It is a centralized management console used to manage Cisco's Firepower Next-Generation Firewall (NGFW) devices. It provides features such as policy management, threat detection, and advanced security analytics.
+      Device type classification for inventory management.
+
+      \ :literal:`NETWORK\_DEVICE`\  - This refers to traditional networking equipment such as routers, switches, access points, and firewalls. These devices are responsible for routing, switching, and providing connectivity within the network.
+
+      \ :literal:`COMPUTE\_DEVICE`\  - These are computing resources such as servers, virtual machines, or containers that are part of the network infrastructure. Cisco Catalyst Center can integrate with compute devices to provide visibility and management capabilities, ensuring that the network and compute resources work together seamlessly to support applications and services.
+
+      \ :literal:`MERAKI\_DASHBOARD`\  - It is a cloud-based platform used to manage Meraki networking devices, including wireless access points, switches, security appliances, and cameras.
+
+      \ :literal:`THIRD\_PARTY\_DEVICE`\  - This category encompasses devices from vendors other than Cisco or Meraki. Cisco Catalyst Center is designed to support integration with third-party devices through open standards and APIs. This allows organizations to manage heterogeneous network environments efficiently using Cisco Catalyst Center's centralized management and automation capabilities.
+
+      \ :literal:`FIREPOWER\_MANAGEMENT\_SYSTEM`\  - It is a centralized management console used to manage Cisco's Firepower Next-Generation Firewall (NGFW) devices. It provides features such as policy management, threat detection, and advanced security analytics.
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"NETWORK\_DEVICE"`
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"NETWORK\_DEVICE"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"COMPUTE\_DEVICE"`
+      - :ansible-option-choices-entry:`"MERAKI\_DASHBOARD"`
+      - :ansible-option-choices-entry:`"THIRD\_PARTY\_DEVICE"`
+      - :ansible-option-choices-entry:`"FIREPOWER\_MANAGEMENT\_SYSTEM"`
+
 
       .. raw:: html
 
@@ -2540,6 +2795,8 @@ Parameters
     - .. raw:: html
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Update physical interface configurations.
 
       This operation will take dictionary as a parameter and in this we give details to update interface details of device.
 
@@ -2575,7 +2832,17 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Administrative interface state.
+
       Status of Interface of a device, it can be (UP/DOWN).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"UP"`
+      - :ansible-option-choices-entry:`"DOWN"`
 
 
       .. raw:: html
@@ -2609,7 +2876,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Clear interface MAC address table.
+
       Set this to true if you need to clear the MAC address table for a specific device's interface. It's a boolean type, with a default value of False.
+
+      Only supported on ACCESS role devices.
 
 
       .. rst-class:: ansible-option-line
@@ -2651,12 +2922,20 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Preview/Deploy [Preview means the configuration is not pushed to the device. Deploy makes the configuration pushed to the device]
+      Configuration deployment mode.
+
+      \ :literal:`Preview`\  - Preview/Deploy [Preview means the configuration is not pushed to the device.
+
+      \ :literal:`Deploy`\  - Deploy makes the configuration pushed to the device].
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"Deploy"`
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Preview"`
+      - :ansible-option-choices-entry-default:`"Deploy"` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -2689,7 +2968,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the description of the interface of the device.
+      Interface description text. Specifies the description of the interface of the device.
 
 
       .. raw:: html
@@ -2713,7 +2992,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -2722,6 +3001,8 @@ Parameters
     - .. raw:: html
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of interface names to update.
 
       Specify the list of interface names to update the details of the device interface. (For example, GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2)
 
@@ -2757,7 +3038,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Access VLAN ID assignment.
+
       Unique Id number assigned to a VLAN within a network used only while updating interface details.
+
+      Must be valid VLAN number (1-4094).
 
 
       .. raw:: html
@@ -2791,7 +3076,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
+      Voice VLAN ID for IP phone traffic.
+
       Identifier used to distinguish a specific VLAN that is dedicated to voice traffic used only while updating interface details.
+
+      Separate VLAN for voice traffic optimization.
 
 
       .. raw:: html
@@ -2826,7 +3115,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of updated management IP addresses for network devices.
+      Update device management IP addresses.
 
 
       .. raw:: html
@@ -2850,7 +3139,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -2884,7 +3173,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -2929,7 +3218,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Username for accessing the device. Required for Adding Network Device.
+      Device access username.
+
+      Required for NETWORK\_DEVICE additions.
 
 
       .. raw:: html
@@ -2964,7 +3255,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+      Enable verification of Cisco Catalyst Center configuration after applying playbook changes
+
+      When enabled, the module will validate that changes were applied correctly
 
 
       .. rst-class:: ansible-option-line
@@ -3538,7 +3831,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The state of Cisco Catalyst Center after module completion.
+      Desired state of the device inventory after module execution
+
+      \ :literal:`merged`\  - Add new devices or update existing device configurations
+
+      \ :literal:`deleted`\  - Remove devices from inventory (use clean\_config for configuration cleanup)
 
 
       .. rst-class:: ansible-option-line
@@ -3605,17 +3902,39 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.add\_device, devices.Devices.delete\_device\_by\_id, devices.Devices.sync\_devices,
-   - Paths used are post /dna/intent/api/v1/network-device, delete /dna/intent/api/v1/network-device/{id}, put /dna/intent/api/v1/network-device, - Removed 'managementIpAddress' options in v4.3.0.
-   - Renamed argument 'ip\_address' to 'ip\_address\_list' option in v6.12.0.
-   - Removed 'serial\_number', 'device\_added', 'role\_source', options in v6.12.0.
-   - Added 'add\_user\_defined\_field', 'update\_interface\_details', 'export\_device\_list' options in v6.13.1.
-   - Removed 'provision\_wireless\_device', 'reprovision\_wired\_device' options in v6.13.1.
-   - Added the parameter 'admin\_status' options in v6.13.1.
-   - Removed 'device\_updated' options in v6.13.1.
-   - The maintenance scheduling feature for network devices was introduced in version 2.3.7.9. To use this functionality, ensure the Catalyst Center is upgraded to at least version 2.3.7.9.
-   - It is recommended to specify the complete time zone when scheduling maintenance for network devices. For a list of supported time zones, please refer to the relevant documentation detailing all available options.
-   - By default, when deleting network devices, the 'clean\_config' flag is set to False, which retains the device configuration. To delete a device along with its configuration, the 'clean\_config' flag must be explicitly set to True.
+   - Minimum Catalyst Center version 2.3.5.3 required for inventory workflow features.
+   - Device maintenance scheduling requires Catalyst Center \>= 2.3.7.9.
+   - Enhanced provisioning features available in Catalyst Center \>= 2.3.5.3.
+   - Primary SDK Methods - devices.Devices.add\_device, devices.Devices.delete\_device\_by\_id, devices.Devices.sync\_devices.
+   - REST Endpoints - POST /dna/intent/api/v1/network-device, DELETE /dna/intent/api/v1/network-device/{id}, PUT /dna/intent/api/v1/network-device.
+   - Parameter 'ip\_address' renamed to 'ip\_address\_list' in v6.12.0.
+   - Removed 'managementIpAddress' options in v4.3.0.
+   - Removed parameters in v6.12.0 'serial\_number', 'device\_added', 'role\_source'.
+   - Added in v6.13.1 - 'add\_user\_defined\_field', 'update\_interface\_details', 'export\_device\_list', 'admin\_status'.
+   - Removed in v6.13.1 - 'provision\_wireless\_device', 'reprovision\_wired\_device', 'device\_updated'.
+   - Use strong passwords for device access and file encryption (8+ characters, mixed case, numbers, symbols).
+   - Enable SNMP v3 with AUTHPRIV mode for secure device monitoring.
+   - Regularly rotate device credentials and update in Catalyst Center.
+   - Use HTTPS (http\_secure=true) for web-based device management.
+   - Maximum 200 devices per resync operation to prevent API timeouts.
+   - Export operations limited to 800 devices per API call.
+   - Maintenance scheduling supports up to 365-day recurrence intervals.
+   - Use appropriate batch sizes for large-scale operations.
+   - NETWORK\_DEVICE - Requires username, password, and transport protocol.
+   - COMPUTE\_DEVICE - Requires http\_username, http\_password, and http\_port.
+   - MERAKI\_DASHBOARD -  Requires only http\_password (API key).
+   - FIREPOWER\_MANAGEMENT\_SYSTEM - Requires http\_username, http\_password, http\_port.
+   - THIRD\_PARTY\_DEVICE - Requires SNMP configuration for monitoring.
+   - Device deletion with clean\_config=false retains device configuration. To delete a device along with its configuration, the 'clean\_config' flag must be explicitly set to True.
+   - Interface updates only supported on user-facing/access ports.
+   - MAC address table clearing restricted to ACCESS role devices.
+   - Timezone specification recommended for maintenance scheduling accuracy. For a list of supported time zones, please refer to the relevant documentation detailing all available options.
+   - Verify device reachability before bulk operations.
+   - Monitor task status for long-running operations.
+   - Check device management state before provisioning.
+   - Validate site hierarchy before device-to-site assignments.
+   - Ensure proper SNMP/NETCONF connectivity for device management.
+   - Review Catalyst Center logs for detailed error information.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -3627,12 +3946,16 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Devices AddDevice2 <https://developer.cisco.com/docs/dna-center/#!add-device>`_
-       Complete reference of the AddDevice2 API.
+   `Cisco Catalyst Center API Documentation <https://developer.cisco.com/docs/dna-center/>`_
+       Complete API reference for device management.
+   `Device Management API <https://developer.cisco.com/docs/dna-center/#!add-device>`_
+       Specific documentation for device operations.
    `Cisco Catalyst Center documentation for Devices DeleteDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id>`_
        Complete reference of the DeleteDeviceById API.
    `Cisco Catalyst Center documentation for Devices SyncDevices2 <https://developer.cisco.com/docs/dna-center/#!sync-devices>`_
        Complete reference of the SyncDevices2 API.
+   `Site Design and Hierarchy <https://developer.cisco.com/docs/dna-center/#!sites>`_
+       Site management for device provisioning.
 
 .. Examples
 
@@ -4180,7 +4503,10 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel) Syed Khadeer Ahmed (@syed-khadeerahmed) Ajith andrew j (ajithandrewj)
+- Abhishek Maheshwari (@abmahesh)
+- Madhan Sankaranarayanan (@madhansansel)
+- Syed Khadeer Ahmed (@syed-khadeerahmed)
+- Ajith Andrew J (@ajithandrewj)
 
 
 
