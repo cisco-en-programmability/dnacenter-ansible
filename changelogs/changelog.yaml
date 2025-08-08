@@ -1688,3 +1688,21 @@ releases:
         - Added attribute 'ignore_duration' in assurance_issue_workflow_manager module
         - Added attribute 'new_name' in tags_workflow_manager module
         - Added attributes 'commit' and 'version' in template_workflow_manager module
+
+  6.38.0:
+    release_date: "2025-08-07"
+    changes:
+      release_summary: Changes in workflow manager module
+      minor_changes:
+        - Changes in device_configs_backup_workflow_manager module
+        - Documentation changes in inventory_workflow_manager module
+        - Changes in network_settings_workflow_manager module
+        - Changes in sda_fabric_devices_workflow_manager module
+        - Changes in sda_fabric_multicast_workflow_manager module
+        - Changes in site_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in dnac.py module
+        - Added attribute 'config_file_types' in device_configs_backup_workflow_manager module
+        - Added attribute 'device_controllability_details' in network_settings_workflow_manager module
+        - Added attribute 'wireless_controller_settings' in sda_fabric_devices_workflow_manager module
+        - Added attribute 'projects' in template_workflow_manager module
