@@ -478,7 +478,7 @@ requirements:
   - python >= 3.9
 notes:
   - SDK Method used are
-    discovery.Discovery.get_all_global_credentials_v2,
+    discovery.Discovery.get_all_global_credentials,
     discovery.Discovery.start_discovery,
     task.Task.get_task_by_id,
     discovery.Discovery.get_discoveries_by_range,
@@ -936,7 +936,7 @@ class Discovery(DnacBase):
         are passed as input.
 
         Parameters:
-            - response: The response collected from the get_all_global_credentials_v2 API
+            - response: The response collected from the get_all_global_credentials API
 
         Returns:
             - global_credentials_all  : The dictionary containing list of IDs of various types of
@@ -1160,7 +1160,7 @@ class Discovery(DnacBase):
     def get_ccc_global_credentials_v2_info(self):
         """
         Retrieve the global credentials information (version 2).
-        It applies the 'get_all_global_credentials_v2' function and extracts
+        It applies the 'get_all_global_credentials' function and extracts
         the IDs of the credentials. If no credentials are found, the
         function fails with a message.
 
@@ -1173,7 +1173,7 @@ class Discovery(DnacBase):
 
         response = self.dnac_apply["exec"](
             family="discovery",
-            function="get_all_global_credentials_v2",
+            function="get_all_global_credentials",
             params=self.validated_config[0].get("headers"),
             op_modifies=True,
         )

@@ -32,7 +32,7 @@ options:
       <>.
     type: str
 requirements:
-  - dnacentersdk >= 2.4.9
+  - dnacentersdk >= 2.10.1
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Configuration
@@ -42,7 +42,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!download-unmaskedraw-device-configuration-as-zip
 notes:
   - SDK Method used are
-    configuration_archive.ConfigurationArchive.download_unmaskedraw_device_configuration_as_z_ip,
+    configuration_archive.ConfigurationArchive.download_unmaskedraw_device_configuration_as_zip,
   - Paths used are
     post /dna/intent/api/v1/networkDeviceConfigFiles/{id}/downloadUnmasked,
 """

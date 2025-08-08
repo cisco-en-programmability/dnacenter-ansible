@@ -49,7 +49,11 @@ options:
     required: true
     suboptions:
       global_credential_details:
-        description: Manages global device credentials
+        description:
+          - Manages global-level device credentials (create, update, or delete).
+          - This is only for credential lifecycle operations (e.g., storing CLI, SNMP, HTTP credentials centrally).
+          - To assign credentials to a site, use the C(assign_credentials_to_site) parameter.
+          - To apply (sync) assigned credentials to devices under a site, use the C(apply_credentials_to_site) parameter.
         type: dict
         suboptions:
           cli_credential:
@@ -465,10 +469,10 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/sync-network-devices-credential
 notes:
   - SDK Method used are
-    discovery.Discovery.create_global_credentials_v2,
-    discovery.Discovery.delete_global_credential_v2,
+    discovery.Discovery.create_global_credentials,
+    discovery.Discovery.delete_global_credential,
     discovery.Discovery.update_global_credentials_v2,
-    network_settings.NetworkSettings.assign_device_credential_to_site_v2,
+    network_settings.NetworkSettings.assign_device_credential_to_site,
     network_settings.NetworkSettings.get_device_credential_settings_for_a_site,
     network_settings.NetworkSettings.update_device_credential_settings_for_a_site,
     network_settings.NetworkSettings.sync_network_devices_credential,
@@ -1099,7 +1103,7 @@ class DeviceCredential(DnacBase):
         try:
             global_credentials = self.dnac._exec(
                 family="discovery",
-                function="get_all_global_credentials_v2",
+                function="get_all_global_credentials",
             )
             global_credentials = global_credentials.get("response")
             self.log(
@@ -2990,12 +2994,12 @@ class DeviceCredential(DnacBase):
         )
         response = self.dnac._exec(
             family="discovery",
-            function="create_global_credentials_v2",
+            function="create_global_credentials",
             op_modifies=True,
             params=credential_params,
         )
         self.log(
-            "Received API response from 'create_global_credentials_v2': {0}".format(
+            "Received API response from 'create_global_credentials': {0}".format(
                 response
             ),
             "DEBUG",
@@ -3006,11 +3010,11 @@ class DeviceCredential(DnacBase):
         ):
             validation_string = "global credential addition performed"
             self.check_task_response_status(
-                response, validation_string, "create_global_credentials_v2"
+                response, validation_string, "create_global_credentials"
             ).check_return_status()
         else:
             self.check_tasks_response_status(
-                response, "create_global_credentials_v2"
+                response, "create_global_credentials"
             ).check_return_status()
 
         self.log("Global credential created successfully", "INFO")
@@ -3400,19 +3404,19 @@ class DeviceCredential(DnacBase):
                 final_response.append(copy.deepcopy(credential_params_template))
                 response = self.dnac._exec(
                     family="network_settings",
-                    function="assign_device_credential_to_site_v2",
+                    function="assign_device_credential_to_site",
                     op_modifies=True,
                     params=credential_params_template,
                 )
                 self.log(
-                    "Received API response for 'assign_device_credential_to_site_v2': {0}".format(
+                    "Received API response for 'assign_device_credential_to_site': {0}".format(
                         response
                     ),
                     "DEBUG",
                 )
                 validation_string = "desired common settings operation successful"
                 self.check_task_response_status(
-                    response, validation_string, "assign_device_credential_to_site_v2"
+                    response, validation_string, "assign_device_credential_to_site"
                 ).check_return_status()
             else:
                 credential_params = copy.deepcopy(
@@ -3876,12 +3880,12 @@ class DeviceCredential(DnacBase):
                 changed_status = True
                 response = self.dnac._exec(
                     family="discovery",
-                    function="delete_global_credential_v2",
+                    function="delete_global_credential",
                     op_modifies=True,
                     params={"id": _id},
                 )
                 self.log(
-                    "Received API response for 'delete_global_credential_v2': {0}".format(
+                    "Received API response for 'delete_global_credential': {0}".format(
                         response
                     ),
                     "DEBUG",
