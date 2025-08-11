@@ -207,7 +207,7 @@ notes:
 
 EXAMPLES = r"""
 
-#case 1: Retrieves all information for devices that are part of the fabric, from cisco catalyst center.
+# Case 1: Retrieves all information for devices that are part of the fabric, from cisco catalyst center.
 
 - name: Get Fabric devices info from Cisco Catalyst Center
   hosts: localhost
@@ -246,7 +246,7 @@ EXAMPLES = r"""
                   file_mode: a
                   timestamp: true
 
-#case 2: Retrieves specific information for devices that are part of the fabric, from cisco catalyst center.
+# Case 2: Retrieves specific information for devices that are part of the fabric, from cisco catalyst center.
 
 - name: Get Fabric devices info from Cisco Catalyst Center
   hosts: localhost
@@ -292,7 +292,7 @@ EXAMPLES = r"""
                   file_mode: a
                   timestamp: true
 
-#case 3: Retrieves all information for devices that are part of the fabric, from cisco catalyst center.
+# Case 3: Retrieves all information for devices that are part of the fabric, from cisco catalyst center.
 
 - name: Get Fabric devices info from Cisco Catalyst Center
   hosts: localhost
