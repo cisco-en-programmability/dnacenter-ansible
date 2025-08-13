@@ -512,6 +512,14 @@ class Provision(DnacBase):
         super().__init__(module)
         self.device_type = None
         self.device_deleted = []
+        self.already_provisioned_wired_device = []
+        self.already_provisioned_wireless_device = []
+        self.provisioned_wired_device = []
+        self.provisioned_wireless_device = []
+        self.re_provision_wired_device = []
+        self.re_provision_wireless_device = []
+        self.enable_application_telemetry = []
+        self.disable_application_telemetry = []
 
     def validate_input(self, state=None):
         """
@@ -1875,6 +1883,7 @@ class Provision(DnacBase):
                     params={"payload": payload}
                 )
                 self.log("Received API response for enable: {0}".format(response), "DEBUG")
+                self.enable_application_telemetry.append(ip)
                 self.check_tasks_response_status(response, api_function)
 
                 if self.status not in ["failed", "exited"]:
@@ -1903,6 +1912,7 @@ class Provision(DnacBase):
                     params={"payload": payload}
                 )
                 self.log("Received API response for Disable: {0}".format(response), "DEBUG")
+                self.disable_application_telemetry.append(ip)
                 self.check_tasks_response_status(response, api_function)
 
                 if self.status not in ["failed", "exited"]:
@@ -2181,6 +2191,7 @@ class Provision(DnacBase):
                 )
             )
             success_msg.append(re_prov_success_msg)
+            self.re_provision_wired_device.append(reprovision_needed)
 
         if provision_params:
             for i in range(0, len(provision_params), 100):
@@ -2651,6 +2662,7 @@ class Provision(DnacBase):
                     self.msg = "Wired Device '{0}' re-provisioning completed successfully.".format(
                         device_ips
                     )
+
                     self.set_operation_result("success", True, self.msg, "INFO")
 
                 if self.status in ["failed", "exited"]:
@@ -2713,6 +2725,9 @@ class Provision(DnacBase):
                         success_msg = "Provisioning of the device '{0}' completed successfully.".format(
                             self.device_ip
                         )
+                        self.provisioned_wired_device.append(
+                            self.validated_config["management_ip_address"]
+                        )
                         self.log(success_msg, "INFO")
                         self.result["changed"] = True
                         self.result["msg"] = success_msg
@@ -2752,6 +2767,9 @@ class Provision(DnacBase):
 
                     if self.status not in ["failed", "exited"]:
                         success_msg = "Provisioning of the device(s) '{0}' completed successfully.".format(
+                            device_ips
+                        )
+                        self.provisioned_wired_device.append(
                             device_ips
                         )
                         self.set_operation_result("success", True, self.msg, "INFO")
@@ -2895,6 +2913,9 @@ class Provision(DnacBase):
                 self.get_execution_status_wireless(execution_id=execution_id)
                 self.result["changed"] = True
                 self.result["msg"] = "Wireless device provisioned successfully"
+                self.provisioned_wireless_device.append(
+                    self.validated_config["management_ip_address"]
+                )
                 self.result["diff"] = self.validated_config
                 self.result["response"] = execution_id
                 self.log(self.result["msg"], "INFO")
@@ -3107,6 +3128,9 @@ class Provision(DnacBase):
                                 self.device_ip
                             ),
                             "INFO",
+                        )
+                        self.provisioned_wireless_device.append(
+                            self.validated_config["management_ip_address"]
                         )
                         self.result["changed"] = True
                         self.result["msg"] = (
@@ -3507,17 +3531,89 @@ class Provision(DnacBase):
 
         return self
 
-    def update_all_messages(self):
+    def update_device_provisioning_messages(self):
         """
-        Update messages related to device deletions in the module.
-        If devices have been deleted, sets a success message listing them.
+        Aggregates and logs status messages related to device provisioning activities.
+        Returns:
+            self: The instance of the class with updated `msg` and `result`.
         """
-        if self.device_deleted:
-            self.msg = "Devices deleted successfully: {0}".format(
-                ", ".join(self.device_deleted)
+        self.result = self.result if hasattr(self, 'result') else {}
+        self.result["changed"] = False
+        result_msg_list_changed = []
+        result_msg_list_not_changed = []
+
+        if self.provisioned_wired_device:
+            msg = "Wired device(s) '{0}' provisioned successfully.".format(
+                "', '".join(map(str, self.provisioned_wired_device))
             )
-            self.set_operation_result("success", True, self.msg, "Info")
-            return self
+            result_msg_list_changed.append(msg)
+
+        if self.provisioned_wireless_device:
+            msg = "Wireless device(s) '{0}' provisioned successfully.".format(
+                "', '".join(self.provisioned_wireless_device)
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.already_provisioned_wired_device:
+            msg = "Wired device(s) '{0}' already provisioned.".format(
+                "', '".join(self.already_provisioned_wired_device)
+            )
+            result_msg_list_not_changed.append(msg)
+
+        if self.already_provisioned_wireless_device:
+            msg = "Wireless device(s) '{0}' already provisioned.".format(
+                "', '".join(self.already_provisioned_wireless_device)
+            )
+            result_msg_list_not_changed.append(msg)
+
+        if self.re_provision_wired_device:
+            msg = "Wired device(s) '{0}' re-provisioned successfully.".format(
+                "', '".join(map(str, self.re_provision_wired_device))
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.re_provision_wireless_device:
+            msg = "Wireless device(s) '{0}' re-provisioned successfully.".format(
+                "', '".join(self.re_provision_wireless_device)
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.device_deleted:
+            msg = "Device(s) '{0}' deleted successfully.".format(
+                "', '".join(self.device_deleted)
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.enable_application_telemetry:
+            msg = "Application telemetry enabled successfully for {0}".format(
+                "', '".join(self.enable_application_telemetry)
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.disable_application_telemetry:
+            msg = "Application telemetry disabled successfully for {0}".format(
+                "', '".join(self.disable_application_telemetry)
+            )
+            result_msg_list_changed.append(msg)
+
+        # Combine messages and set result flags
+        if result_msg_list_not_changed and result_msg_list_changed:
+            self.result["changed"] = True
+            self.msg = "{0} {1}".format(
+                " ".join(result_msg_list_not_changed), " ".join(result_msg_list_changed)
+            )
+        elif result_msg_list_not_changed:
+            self.msg = " ".join(result_msg_list_not_changed)
+        elif result_msg_list_changed:
+            self.result["changed"] = True
+            self.msg = " ".join(result_msg_list_changed)
+        else:
+            self.msg = "No device provisioning actions were performed."
+
+        self.result["msg"] = self.msg
+        self.result["response"] = self.msg
+
+        return self
 
 
 def main():
@@ -3679,13 +3775,7 @@ def main():
                 )
                 ccc_provision.verify_diff_state_apply[state]().check_return_status()
 
-    ccc_provision.update_all_messages()
-
-    if not provision_performed:
-        ccc_provision.msg = "No provisioning operation was performed."
-        ccc_provision.set_operation_result(
-            "success", False, ccc_provision.msg, "INFO"
-        )
+    ccc_provision.update_device_provisioning_messages().check_return_status()
 
     module.exit_json(**ccc_provision.result)
 
