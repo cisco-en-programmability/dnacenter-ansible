@@ -129,21 +129,21 @@ options:
         type: int
         required: false
       ap_mode:
-    description: |
-      Defines the operational mode of the Access Point (AP), which determines its primary function.
-      - C(Local): The default mode where the AP serves wireless clients by tunneling
-      all client traffic to the controller. Radio parameters (For example, C(2.4ghz_radio),
-      C(5ghz_radio)) can only be modified when the AP is in this mode.
-      - C(Monitor): The AP does not serve clients but actively monitors the RF environment
-      for rogue devices, interference, and supports features like Radio Resource Management (RRM)
-      and Intrusion Detection System (IDS).
-      - C(Sniffer): The AP is dedicated to capturing all 802.11 packets on a specific channel
-      and forwarding them to a remote machine for analysis with tools like Wireshark.
-      - C(Bridge): The AP acts as a dedicated point-to-point or point-to-multipoint bridge to
-      connect different network segments wirelessly. Clients cannot connect to the AP in this mode.
-      Note: Changing the AP mode may cause the AP to reboot. Not all AP models support all modes.
-    type: str
-    required: false
+        description: |
+          Defines the operational mode of the Access Point (AP), which determines its primary function.
+          - C(Local): The default mode where the AP serves wireless clients by tunneling
+          all client traffic to the controller. Radio parameters (For example, C(2.4ghz_radio),
+          C(5ghz_radio)) can only be modified when the AP is in this mode.
+          - C(Monitor): The AP does not serve clients but actively monitors the RF environment
+          for rogue devices, interference, and supports features like Radio Resource Management (RRM)
+          and Intrusion Detection System (IDS).
+          - C(Sniffer): The AP is dedicated to capturing all 802.11 packets on a specific channel
+          and forwarding them to a remote machine for analysis with tools like Wireshark.
+          - C(Bridge): The AP acts as a dedicated point-to-point or point-to-multipoint bridge to
+          connect different network segments wirelessly. Clients cannot connect to the AP in this mode.
+          Note: Changing the AP mode may cause the AP to reboot. Not all AP models support all modes.
+        type: str
+        required: false
       location:
         description: Location name of the AP. Provide this data if a change is required.
           For example, "Bangalore".
