@@ -1736,7 +1736,7 @@ class Tags(DnacBase):
                 self.fail_and_exit(self.msg)
 
         description = tag.get("description")
-        if description is "":
+        if description == "":
             description = None
 
         force_delete = tag.get("force_delete", False)
