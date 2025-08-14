@@ -1,41 +1,43 @@
-- hosts: dnac_servers
+---
+- name: Configure reports on Cisco Catalyst Center
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
-      - name: Create/Schedule a report configuration.
-        cisco.dnac.reports_workflow_manager:
-          dnac_host: "{{ dnac_host }}"
-          dnac_port: "{{ dnac_port }}"
-          dnac_username: "{{ dnac_username }}"
-          dnac_password: "{{ dnac_password }}"
-          dnac_verify: "{{ dnac_verify }}"
-          dnac_version: "{{dnac_version}}"
-          dnac_debug: "{{ dnac_debug }}"
-          dnac_log_level: DEBUG
-          dnac_log: True
-          state: merged
-          config_verify: true
-          config:
-            - generate_report:
-                - name: "compliance_report"
-                  view_group_name: "Compliance"
-                  deliveries:
-                    - type: "DOWNLOAD"
-                      file_path: "/Users/mekandar/Desktop"
-                  schedule:
-                    type: "SCHEDULE_NOW"
-                    time_zone: "Asia/Calcutta"
-                  view:
-                    view_name: "Network Device Compliance"
-                    field_groups:
-                      - name: "inventoryAllData"
-                        display_name: "All Data"
-                    format:
-                      format_type: "CSV"
-                    filters:
-                      - name: "Location"
-                        display_name: "Location"
-                        type: "MULTI_SELECT_TREE"
-                  tags: []
+    - name: Create/Schedule a report configuration.
+      cisco.dnac.reports_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: merged
+        config_verify: true
+        config:
+          - generate_report:
+              - name: "compliance_report"
+                view_group_name: "Compliance"
+                deliveries:
+                  - type: "DOWNLOAD"
+                    file_path: "/Users/mekandar/Desktop"
+                schedule:
+                  type: "SCHEDULE_NOW"
+                  time_zone: "Asia/Calcutta"
+                view:
+                  view_name: "Network Device Compliance"
+                  field_groups:
+                    - name: "inventoryAllData"
+                      display_name: "All Data"
+                  format:
+                    format_type: "CSV"
+                  filters:
+                    - name: "Location"
+                      display_name: "Location"
+                      type: "MULTI_SELECT_TREE"
+                tags: []
