@@ -361,7 +361,7 @@ options:
               the health threshold. Accepts "true" or
               "false".
             type: bool
-            required: true
+            required: false
           priority:
             description: >
               Specifies the priority level of the issue.
@@ -391,7 +391,7 @@ options:
               Must not exceed 0 dBm, meaning it should
               be a negative value.
             type: int
-            required: true
+            required: false
       assurance_issue:
         description: >
           Allow to resolve, ignore, or execute commands
@@ -1106,8 +1106,8 @@ class AssuranceSettings(DnacBase):
                 "issue_enabled": {"type": "bool"},
                 "device_type": {"type": "str", "required": True},
                 "priority": {"type": "str", "choices": ["P1", "P2", "P3", "P4"]},
-                "synchronize_to_health_threshold": {"type": "bool"},
-                "threshold_value": {"type": int},
+                "synchronize_to_health_threshold": {"type": "bool", "required": False},
+                "threshold_value": {"type": int, "required": False},
             },
             "assurance_issue": {
                 "type": "list",

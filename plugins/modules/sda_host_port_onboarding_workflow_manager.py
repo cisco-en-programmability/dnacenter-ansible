@@ -131,7 +131,12 @@ options:
             port assignments, and wireless SSIDs simultaneously,
             ensure that the operation is performed within
             the same fabric site.
-          - Example - "Global/USA/San Jose/BLDG23"
+          - For Example - "Global/USA/San Jose/BLDG23"
+          - If the device is provisioned in a fabric zone,
+            provide the fabric zone's site hierarchy
+            (For Example - "Global/USA/San Jose/BLDG23")
+            as the"fabric_site_name_hierarchy" for operations such
+            as adding ports to an edge device in that zone.
           - If only the "fabric_site_name_hierarchy"
             is provided in the "merged" state, only
             Wireless SSID(s) will be added or updated
@@ -411,7 +416,6 @@ options:
           - The default value is true.
         type: bool
         default: true
-
 requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
@@ -955,16 +959,16 @@ class SDAHostPortOnboarding(DnacBase):
                         "required": False,
                         "options": {
                             "ssid_name": {"type": "str"},
-                            "security_group_name": {"type": "str"}
-                        }
-                    }
-                }
+                            "security_group_name": {"type": "str"},
+                        },
+                    },
+                },
             },
             "device_collection_status_check": {
                 "type": "bool",
                 "required": False,
-                "default": True
-            }
+                "default": True,
+            },
         }
 
         # Validate params
@@ -983,7 +987,9 @@ class SDAHostPortOnboarding(DnacBase):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def validate_device_exists_and_reachable(self, ip_address, hostname, device_collection_status_check):
+    def validate_device_exists_and_reachable(
+        self, ip_address, hostname, device_collection_status_check
+    ):
         """
         Validates whether a device is present in the Catalyst Center, is reachable, and has an acceptable collection status.
         Args:
@@ -1050,26 +1056,32 @@ class SDAHostPortOnboarding(DnacBase):
                 "Skipping collection status check for device '{0}' as 'device_collection_status_check' is set to False.".format(
                     device_identifier
                 ),
-                "INFO"
+                "INFO",
             )
             return True
 
         # Check collection status
         if collection_status in ["In Progress", "Managed"]:
             self.log(
-                "Device '{0}' has an acceptable collection status: '{1}'.".format(device_identifier, collection_status),
-                "INFO"
+                "Device '{0}' has an acceptable collection status: '{1}'.".format(
+                    device_identifier, collection_status
+                ),
+                "INFO",
             )
             return True
 
         # Unacceptable collection status
         self.msg = (
             "Device '{0}' does not have an acceptable collection status. "
-            "Current collection status: '{1}'.".format(device_identifier, collection_status)
+            "Current collection status: '{1}'.".format(
+                device_identifier, collection_status
+            )
         )
         return False
 
-    def validate_ip_and_hostname(self, ip_address, hostname, device_collection_status_check):
+    def validate_ip_and_hostname(
+        self, ip_address, hostname, device_collection_status_check
+    ):
         """
         Validates the provided IP address and hostname.
         Args:
@@ -1105,7 +1117,9 @@ class SDAHostPortOnboarding(DnacBase):
             self.fail_and_exit(self.msg)
 
         # Check if device exists and is reachable in Catalyst Center
-        if not self.validate_device_exists_and_reachable(ip_address, hostname, device_collection_status_check):
+        if not self.validate_device_exists_and_reachable(
+            ip_address, hostname, device_collection_status_check
+        ):
             self.fail_and_exit(self.msg)
 
         self.log("Validation successful: Provided IP address or hostname are valid")
@@ -1861,16 +1875,20 @@ class SDAHostPortOnboarding(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
-        is_port_operation_requested = bool(port_assignment_details or port_channel_details)
+        is_port_operation_requested = bool(
+            port_assignment_details or port_channel_details
+        )
         is_delete_all_operation = state == "deleted" and (ip_address or hostname)
 
         if is_port_operation_requested or is_delete_all_operation:
             self.log(
                 "Validation triggered: Port assignment/Port Channel operation requested "
                 "or 'delete all' operation detected. Validating IP and Hostname.",
-                "DEBUG"
+                "DEBUG",
             )
-            self.validate_ip_and_hostname(ip_address, hostname, device_collection_status_check)
+            self.validate_ip_and_hostname(
+                ip_address, hostname, device_collection_status_check
+            )
 
         if state == "merged":
             # Validate parameters for add/update in port assignments
@@ -2153,6 +2171,67 @@ class SDAHostPortOnboarding(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
+    def get_fabric_zones(self, site_name, site_id):
+        """
+        Retrieve the fabric zone ID for a given site using the SDA 'get_fabric_zones' API call.
+        Args:
+            - site_name (str): The name of the site.
+            - site_id (str): The unique identifier of the site.
+        Returns:
+            str: The fabric zone ID if found, otherwise None.
+        Description:
+            This method calls the SDA 'get_fabric_zones' API to retrieve the fabric zone ID for a specified site.
+            It logs the response, processes the response to extract the fabric zone ID, and handles any exceptions
+            that occur during the API call.
+        """
+        self.log(
+            "Retrieving fabric zones information for site: '{0}' with site ID: '{1}'.".format(
+                site_name, site_id
+            ),
+            "DEBUG",
+        )
+        try:
+            # Call the SDA 'get_fabric_zones' API with the provided site ID
+            response = self.dnac._exec(
+                family="sda",
+                function="get_fabric_zones",
+                op_modifies=False,
+                params={"siteId": site_id},
+            )
+            self.log(
+                "Response received post SDA - 'get_fabric_zones' API call for site {0}: {1}".format(
+                    site_name, str(response)
+                ),
+                "DEBUG",
+            )
+
+            response = response.get("response")
+            if not response:
+                self.log(
+                    "No response received from the SDA - 'get_fabric_zones' API call for site {0} with ID: {1}.".format(
+                        site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return None
+
+            fabric_zone_id = response[0]["id"]
+            self.log(
+                "Successfully retrieved fabric zone id for site {0} : '{1}'.".format(
+                    site_name, fabric_zone_id
+                ),
+                "INFO",
+            )
+            return fabric_zone_id
+
+        except Exception as e:
+            # Log an error message and fail if an exception occurs
+            self.msg = (
+                "An error occurred while retrieving 'fabric zone ID' for Site: '{0}' using SDA - "
+                "'get_fabric_zones' API call: {1}".format(site_name, str(e))
+            )
+            self.fail_and_exit(self.msg)
+
     def get_network_device_id(self, ip_address, hostname):
         """
         Retrieves the network device ID for a given IP address or hostname.
@@ -2197,7 +2276,7 @@ class SDAHostPortOnboarding(DnacBase):
         """
         # Get siteId of the Site the device is part of
         self.log(
-            "Starting fabric ID retrieval for site: '{}'.".format(
+            "Starting fabric ID retrieval for site: '{0}'.".format(
                 fabric_site_name_hierarchy
             ),
             "INFO",
@@ -2217,16 +2296,25 @@ class SDAHostPortOnboarding(DnacBase):
             self.fail_and_exit(self.msg)
 
         self.log("Retrieving fabric ID for site ID: '{0}'.".format(site_id), "DEBUG")
-        # Get fabricId of the site
+        # Try to get fabricId using get_fabric_sites
         fabric_id = self.get_fabric_sites(fabric_site_name_hierarchy, site_id)
+
         if not fabric_id:
-            self.msg = "Fabric ID not found for Site: {0} with Site ID: {1}".format(
-                fabric_site_name_hierarchy, site_id
+            self.log(
+                "Fabric ID not found using 'get_fabric_sites_id'. Trying 'get_fabric_zones'.",
+                "DEBUG",
             )
+            # Try to get fabricId using get_fabric_zones
+            fabric_id = self.get_fabric_zones(fabric_site_name_hierarchy, site_id)
+
+        if not fabric_id:
+            self.msg = (
+                "Fabric ID not found for fabric_site_name_hierarchy: {0} with Site ID: {1} using both 'get_fabric_sites' and 'get_fabric_zones'."
+            ).format(fabric_site_name_hierarchy, site_id)
             self.fail_and_exit(self.msg)
 
         self.log(
-            "Successfully retrieved fabric ID: '{}' for site: '{}'.".format(
+            "Successfully retrieved fabric ID: '{0}' for fabric_site_name_hierarchy: '{1}'.".format(
                 fabric_id, fabric_site_name_hierarchy
             ),
             "INFO",
@@ -5276,6 +5364,10 @@ class SDAHostPortOnboarding(DnacBase):
             )
 
         if port_assignment_details or port_channel_details:
+            self.log(
+                "Port assignment or port channel details provided. Updating network details.",
+                "DEBUG",
+            )
             update_network_details()
 
         if state == "merged":
@@ -5374,8 +5466,22 @@ class SDAHostPortOnboarding(DnacBase):
                 and not port_channel_details
                 and not wireless_ssids_details
             ):
-                if ip_address or hostname:
+                self.log(
+                    "No specific port assignments, port channels, or wireless SSIDs details provided. Proceeding with deletion of all configurations.",
+                    "DEBUG",
+                )
+                if ip_address[0] is not None or hostname is not None:
+                    self.log(
+                        "IP address or hostname provided. Updating network details for deletion operation. ip_address: {0}, hostname: {1}".format(
+                            ip_address, hostname
+                        ),
+                        "DEBUG",
+                    )
                     update_network_details()
+                    self.log(
+                        "Network details updated successfully. Generating parameters for deletion.",
+                        "DEBUG",
+                    )
                     # Handle case where no specific port assignments details are not provided
                     delete_port_assignments_params_list = (
                         self.get_delete_port_assignments_params(
