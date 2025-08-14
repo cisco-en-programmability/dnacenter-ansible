@@ -666,7 +666,8 @@ class FlexibleReport(DnacBase):
                 timestamp = datetime.now().strftime("%b %d %Y %I:%M %p")  # e.g., Jul 20 2025 08:26 PM
                 entry["name"] = f"{entry['data_category']} - {entry['view']['view_name']} - {timestamp}"
 
-            if deliveries := entry.get("deliveries", {}):
+            deliveries = entry.get("deliveries", {})
+            if deliveries:
                 self.validate_deliveries(deliveries)
 
             # Pass default values for optional fields
@@ -782,7 +783,8 @@ class FlexibleReport(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            if filters := view.get("filters", []):
+            filters = view.get("filters", [])
+            if filters:
                 if not isinstance(filters, list):
                     self.msg = "'filters' must be a list."
                     self.set_operation_result("failed", False, self.msg, "ERROR")
