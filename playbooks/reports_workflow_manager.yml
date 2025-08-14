@@ -39,19 +39,3 @@
                         display_name: "Location"
                         type: "MULTI_SELECT_TREE"
                   tags: []
-
-      - name: Delete a report from Catalyst Center
-        cisco.dnac.reports_workflow_manager:
-          dnac_host: "{{ dnac_host }}"
-          dnac_port: "{{ dnac_port }}"
-          dnac_username: "{{ dnac_username }}"
-          dnac_password: "{{ dnac_password }}"
-          dnac_verify: "{{ dnac_verify }}"
-          dnac_version: "{{dnac_version}}"
-          dnac_debug: "{{ dnac_debug }}"
-          dnac_log: True
-          state: merged
-          config_verify: True
-          config:
-          - generate_report:
-              name: "Report Name" # The name of the report
