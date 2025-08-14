@@ -364,7 +364,7 @@ EXAMPLES = r'''
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     dnac_log_level: DEBUG
-    dnac_log: True
+    dnac_log: true
     state: merged
     config_verify: true
     config:
@@ -399,8 +399,8 @@ EXAMPLES = r'''
     dnac_verify: "{{ dnac_verify }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    state: merged
+    dnac_log: true
+    state: deleted
     config_verify: true
     config:
       - generate_report:
