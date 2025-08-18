@@ -88,29 +88,61 @@ options:
                 elements: str
             os_type:
                 description:
-                    - List of software types to filter devices (For example, IOS-XE).
+                    - List of software types to filter devices.
                 type: list
                 elements: str
+                choices:
+                  - IOS-XE
+                  - IOS
+                  - IOS-XR
+                  - NX-OS
+                  - ASA
+                  - FTD
+                  - IOS-XE SD-WAN # Additional examples available depending on specific requirements.
             software_version:
                 description:
-                    - List of software versions to filter devices.
+                    - List of software versions to filter devices(e.g., 17.12.4).
                 type: list
                 elements: str
             role:
                 description:
-                    - List of device roles to filter devices (For example, ACCESS, CORE).
+                    - List of device roles to filter devices.
                 type: list
                 elements: str
+                choices:
+                  - ACCESS
+                  - DISTRIBUTION
+                  - CORE
+                  - WAN
+                  - WLC
+                  - DATA_CENTER # Additional examples available depending on specific requirements.
             device_type:
                 description:
                     - List of device types to filter devices (For example, Cisco Catalyst 9300 Switch).
                 type: list
                 elements: str
+                choices:
+                  - Cisco Catalyst 9300 Switch
+                  - Cisco Catalyst 9400 Switch
+                  - Cisco Catalyst 9500 Switch
+                  - Cisco Catalyst C9500-48Y4C Switch
+                  - Cisco 3800E Unified Access Point
+                  - Cisco Catalyst 9130AXI Unified Access Point
+                  - Cisco Catalyst 9800-L-C Wireless Controller
+                  - Cisco Catalyst 9115AXI Unified Access Point
+                  - Cisco Catalyst Wireless 9164I Unified Access Point
+                  - Cisco Wireless 9176D1 Access Point # Additional examples available depending on specific requirements.
             family:
                 description:
-                    - List of device families to filter devices (For example, Switches and Hubs).
+                    - List of device families to filter devices.
                 type: list
                 elements: str
+                choices:
+                  - Switches and Hubs
+                  - Routers
+                  - Wireless Controller
+                  - Unified AP
+                  - Sensors
             site_hierarchy:
                 description:
                     - List of site hierarchies to filter devices by site.
@@ -144,20 +176,21 @@ options:
                 elements: str
                 default: ['all']
                 choices:
-                    - all
-                    - device_info
-                    - interface_info
-                    - interface_vlan_info
-                    - line_card_info
-                    - supervisor_card_info
-                    - poe_info
-                    - module_count_info
-                    - connected_device_info
-                    - device_config_info
-                    - device_summary_info
-                    - device_polling_interval_info
-                    - device_stack_info
-                    - device_link_mismatch_info #site_hierarchy is required for this info type
+                    - all # Retrieves all available information of all choices below
+                    - device_interfaces_by_range_info #Retrieves interface details by specified range
+                    - device_info #Retrieves basic device details of hostname, model, serial number, OS version
+                    - interface_info #Retrieves interface details such as status, speed, duplex, and MAC address
+                    - interface_vlan_info #Retrieves VLAN information for each interface
+                    - line_card_info #Retrieves line card details for modular devices
+                    - supervisor_card_info #Retrieves supervisor card details for modular devices
+                    - poe_info #Retrieves Power over Ethernet (PoE) information for interfaces
+                    - module_count_info #Retrieves the count of installed modules
+                    - connected_device_info #Retrieves information about devices connected to the specified device
+                    - device_config_info #Retrieves the running configuration of the specified device
+                    - device_summary_info #Retrieves a summary of the specified device's information
+                    - device_polling_interval_info #Retrieves the polling interval configuration for the specified device
+                    - device_stack_info #Retrieves stack information for stackable devices
+                    - device_link_mismatch_info #Retrieves details of link mismatches speed/duplex/VLAN issues
             output_file_info:
               description:
                 - Controls output file generation for device information.
