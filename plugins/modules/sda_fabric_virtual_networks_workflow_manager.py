@@ -668,7 +668,7 @@ EXAMPLES = r"""
             traffic_type: "VOICE"
             fabric_enabled_wireless: true
             resource_guard_enable: true
-            flooding_address_assignment: SHARED # Inherit flooding address from the fabric
+            flooding_address_assignment: SHARED# Inherit flooding address from the fabric
 
 - name: Update Layer 2 Fabric VLAN for SDA in Cisco
     Catalyst Center.
@@ -847,7 +847,7 @@ EXAMPLES = r"""
             is_critical_pool: false
             auto_generate_vlan_name: true
 
-- name:  Create Anycast gateway in SDA fabric with new parameters
+- name: Create Anycast gateway in SDA fabric with new parameters
     (wireless flooding, resource guard, custom flooding address)
     in Cisco Catalyst Center
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
