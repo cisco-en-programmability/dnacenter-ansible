@@ -5539,6 +5539,394 @@ class Inventory(DnacBase):
 
         return self
 
+    def parse_for_add_network_device_params(self, device_params):
+        """
+        Parse the network device parameters from the provided dictionary.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_params (dict): A dictionary containing device parameters.
+
+        Returns:
+            dict: A dictionary containing parsed network device parameters.
+
+        Description:
+            This function extracts and formats the network device parameters from the provided dictionary.
+            It ensures that all required fields are present and correctly formatted for further processing.
+        """
+        self.log("Parsing network device parameters for: {0}".format(
+            self.pprint(device_params)), "INFO")
+
+        if not device_params["snmpVersion"]:
+            device_params["snmpVersion"] = "v3"
+
+        if device_params["snmpVersion"] == "v2":
+            params_to_remove = [
+                "snmpAuthPassphrase",
+                "snmpAuthProtocol",
+                "snmpMode",
+                "snmpPrivPassphrase",
+                "snmpPrivProtocol",
+                "snmpUserName",
+            ]
+            for param in params_to_remove:
+                device_params.pop(param, None)
+
+            if not device_params["snmpROCommunity"]:
+                self.status = "failed"
+                self.msg = "Required parameter 'snmpROCommunity' for adding device with snmmp version v2 is not present"
+                self.result["response"] = self.msg
+                self.log(self.msg, "ERROR")
+                return self
+        else:
+            if not device_params["snmpMode"]:
+                device_params["snmpMode"] = "AUTHPRIV"
+
+            if not device_params["cliTransport"]:
+                device_params["cliTransport"] = "ssh"
+
+            if not device_params["snmpPrivProtocol"]:
+                device_params["snmpPrivProtocol"] = "AES128"
+
+            if device_params["snmpPrivProtocol"] == "AES192":
+                device_params["snmpPrivProtocol"] = "CISCOAES192"
+            elif device_params["snmpPrivProtocol"] == "AES256":
+                device_params["snmpPrivProtocol"] = "CISCOAES256"
+
+            if device_params["snmpMode"] == "NOAUTHNOPRIV":
+                device_params.pop("snmpAuthPassphrase", None)
+                device_params.pop("snmpPrivPassphrase", None)
+                device_params.pop("snmpPrivProtocol", None)
+                device_params.pop("snmpAuthProtocol", None)
+            elif device_params["snmpMode"] == "AUTHNOPRIV":
+                device_params.pop("snmpPrivPassphrase", None)
+                device_params.pop("snmpPrivProtocol", None)
+
+    def parse_for_add_compute_device_params(self, device_params):
+        """
+        Filter unnecessary params for compute device parameters from the provided dictionary.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_params (dict): A dictionary containing device parameters.
+
+        Returns:
+            dict: A dictionary containing parsed compute device parameters.
+
+        Description:
+            This function extracts and formats the compute device parameters from the provided dictionary.
+            It ensures that all required fields are present and correctly formatted for further processing.
+        """
+        self.log("Parsing compute device parameters for: {0}".format(
+            self.pprint(device_params)), "INFO")
+
+        params_to_remove = [
+            "snmpAuthPassphrase",
+            "snmpAuthProtocol",
+            "snmpMode",
+            "snmpPrivPassphrase",
+            "snmpPrivProtocol",
+            "snmpROCommunity",
+            "snmpRwCommunity",
+            "snmpRetry",
+            "snmpTimeout",
+            "snmpUserName",
+            "snmpVersion",
+            "netconfPort"
+        ]
+        for param in params_to_remove:
+            device_params.pop(param, None)
+
+    def add_inventory_device(self, device_params, devices_to_add):
+        """
+        Add a new network device to the inventory in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_params (dict): A dictionary containing the parameters for the new device.
+            devices_to_add (list): A list of devices to be added.
+
+        Returns:
+            object: An instance of the class with updated results and status.
+        """
+        self.log("Adding device to inventory: {0}".format(str(device_params)), "INFO")
+
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function="add_device",
+                op_modifies=True,
+                params=device_params,
+            )
+            self.log(
+                "Received API response from 'add_device': {0}".format(
+                    str(response)
+                ),
+                "DEBUG",
+            )
+
+            if response and isinstance(response, dict):
+                task_id = response.get("response").get("taskId")
+
+                while True:
+                    execution_details = self.get_task_details(task_id)
+
+                    if "/task/" in execution_details.get("progress"):
+                        self.status = "success"
+                        self.result["response"] = execution_details
+
+                        if len(devices_to_add) > 0:
+                            self.device_list.append(devices_to_add)
+                            self.result["changed"] = True
+                            self.msg = "Device(s) '{0}' added to Cisco Catalyst Center".format(
+                                str(devices_to_add)
+                            )
+                            self.log(self.msg, "INFO")
+                            self.result["msg"] = self.msg
+                            self.result["response"] = self.msg
+                            break
+                        self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(
+                            str(self.config[0].get("ip_address_list"))
+                        )
+                        self.log(self.msg, "INFO")
+                        self.result["msg"] = self.msg
+                        break
+                    elif execution_details.get("isError"):
+                        self.status = "failed"
+                        failure_reason = execution_details.get("failureReason")
+                        if failure_reason:
+                            self.msg = "Device addition for the device(s) '{0}' get failed because of {1}.".format(
+                                device_to_add_in_ccc, failure_reason
+                            )
+                        else:
+                            self.msg = "Device addition get failed for the device(s): '{0}'.".format(
+                                device_to_add_in_ccc
+                            )
+                        self.log(self.msg, "ERROR")
+                        self.result["response"] = self.msg
+                        break
+
+        except Exception as e:
+            error_message = (
+                "Error while adding device in Cisco Catalyst Center: {0}".format(
+                    str(e)
+                )
+            )
+            self.log(error_message, "ERROR")
+            raise Exception(error_message)
+
+    def parse_for_update_network_device_params(self, playbook_params, device_data, device_ip):
+        """
+        Parse the network device parameters for updating an existing device in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            playbook_params (dict): A dictionary containing playbook parameters.
+            device_data (dict): A dictionary containing device data.
+            device_ip (str): The IP address of the device to be updated.
+
+        Returns:
+            dict: A dictionary containing parsed network device parameters for update.
+
+        Description:
+            This function extracts and formats the network device parameters from the provided dictionary
+            for updating an existing device in Cisco Catalyst Center.
+        """
+        self.log("Parsing network device parameters for update: {0}".format(
+            self.pprint(playbook_params)), "INFO")
+
+        if device_data["snmpv3_privacy_password"] == " ":
+            device_data["snmpv3_privacy_password"] = None
+        if device_data["snmpv3_auth_password"] == " ":
+            device_data["snmpv3_auth_password"] = None
+
+        if not playbook_params["snmpMode"]:
+            if device_data["snmpv3_privacy_password"]:
+                playbook_params["snmpMode"] = "AUTHPRIV"
+            elif device_data["snmpv3_auth_password"]:
+                playbook_params["snmpMode"] = "AUTHNOPRIV"
+            else:
+                playbook_params["snmpMode"] = "NOAUTHNOPRIV"
+
+        if not playbook_params["cliTransport"]:
+            if device_data["protocol"] == "ssh2":
+                playbook_params["cliTransport"] = "ssh"
+            else:
+                playbook_params["cliTransport"] = device_data["protocol"]
+        if not playbook_params["snmpPrivProtocol"]:
+            playbook_params["snmpPrivProtocol"] = device_data[
+                "snmpv3_privacy_type"
+            ]
+
+        csv_data_dict = {
+            "username": device_data["cli_username"],
+            "password": device_data["cli_password"],
+            "enable_password": device_data["cli_enable_password"],
+            "netconf_port": device_data["netconf_port"],
+        }
+
+        if device_data["snmp_version"] == "3":
+            csv_data_dict["snmp_username"] = device_data["snmpv3_user_name"]
+            if device_data["snmpv3_privacy_password"]:
+                csv_data_dict["snmp_auth_passphrase"] = device_data[
+                    "snmpv3_auth_password"
+                ]
+                csv_data_dict["snmp_priv_passphrase"] = device_data[
+                    "snmpv3_privacy_password"
+                ]
+            elif device_data["snmpv3_auth_password"]:
+                csv_data_dict["snmp_auth_passphrase"] = device_data[
+                    "snmpv3_auth_password"
+                ]
+        else:
+            csv_data_dict["snmp_username"] = None
+
+        device_username = device_data.get("cli_username")
+        device_password = device_data.get("cli_password")
+        cli_enable_password = device_data.get("cli_enable_password")
+        device_netconf_port = device_data.get("netconf_port")
+        device_snmp_username = device_data.get("snmpv3_user_name")
+
+        playbook_username = playbook_params.get("userName")
+        playbook_password = playbook_params.get("password")
+        playbook_enable_password = playbook_params.get("enablePassword")
+        playbook_netconf_port = playbook_params.get("netconfPort")
+        playbook_snmp_username = playbook_params.get("snmpUserName")
+
+        if (
+            (
+                playbook_username is not None
+                or playbook_password is not None
+                or playbook_enable_password is not None
+                or playbook_netconf_port is not None
+                or playbook_snmp_username is not None
+            )
+            and (
+                device_username == playbook_username
+                or playbook_username is None
+            )
+            and (
+                device_password == playbook_password
+                or playbook_password is None
+            )
+            and (
+                cli_enable_password == playbook_enable_password
+                or playbook_enable_password is None
+            )
+            and (
+                device_netconf_port == playbook_netconf_port
+                or playbook_netconf_port is None
+            )
+            and (
+                device_snmp_username == playbook_snmp_username
+                or playbook_snmp_username is None
+            )
+        ):
+            self.log(
+                "Credentials for device {0} do not require an update.".format(
+                    device_ip
+                ),
+                "DEBUG",
+            )
+            self.cred_updated_not_required.append(device_ip)
+            continue
+
+        device_key_mapping = {
+            "username": "userName",
+            "password": "password",
+            "enable_password": "enablePassword",
+            "snmp_username": "snmpUserName",
+            "netconf_port": "netconfPort",
+        }
+        device_update_key_list = [
+            "username",
+            "password",
+            "enable_password",
+            "snmp_username",
+            "netconf_port",
+        ]
+
+        for key in device_update_key_list:
+            mapped_key = device_key_mapping[key]
+
+            if playbook_params[mapped_key] is None:
+                playbook_params[mapped_key] = csv_data_dict[key]
+
+        if playbook_params["snmpMode"] == "AUTHPRIV":
+            if not playbook_params["snmpAuthPassphrase"]:
+                playbook_params["snmpAuthPassphrase"] = csv_data_dict[
+                    "snmp_auth_passphrase"
+                ]
+            if not playbook_params["snmpPrivPassphrase"]:
+                playbook_params["snmpPrivPassphrase"] = csv_data_dict[
+                    "snmp_priv_passphrase"
+                ]
+        elif playbook_params["snmpMode"] == "AUTHNOPRIV":
+            if not playbook_params["snmpAuthPassphrase"]:
+                playbook_params["snmpAuthPassphrase"] = csv_data_dict[
+                    "snmp_auth_passphrase"
+                ]
+
+        if playbook_params["snmpPrivProtocol"] == "AES192":
+            playbook_params["snmpPrivProtocol"] = "CISCOAES192"
+        elif playbook_params["snmpPrivProtocol"] == "AES256":
+            playbook_params["snmpPrivProtocol"] = "CISCOAES256"
+
+        if playbook_params["snmpMode"] == "NOAUTHNOPRIV":
+            playbook_params.pop("snmpAuthPassphrase", None)
+            playbook_params.pop("snmpPrivPassphrase", None)
+            playbook_params.pop("snmpPrivProtocol", None)
+            playbook_params.pop("snmpAuthProtocol", None)
+        elif playbook_params["snmpMode"] == "AUTHNOPRIV":
+            playbook_params.pop("snmpPrivPassphrase", None)
+            playbook_params.pop("snmpPrivProtocol", None)
+
+        if playbook_params["netconfPort"] == " ":
+            playbook_params["netconfPort"] = None
+
+        if playbook_params["enablePassword"] == " ":
+            playbook_params["enablePassword"] = None
+
+        if (
+            playbook_params["netconfPort"]
+            and playbook_params["cliTransport"] == "telnet"
+        ):
+            self.log(
+                """Updating the device cli transport from ssh to telnet with netconf port '{0}' so make
+                    netconf port as None to perform the device update task""".format(
+                    playbook_params["netconfPort"]
+                ),
+                "DEBUG",
+            )
+            playbook_params["netconfPort"] = None
+
+        if not playbook_params["snmpVersion"]:
+            if device_data["snmp_version"] == "3":
+                playbook_params["snmpVersion"] = "v3"
+            else:
+                playbook_params["snmpVersion"] = "v2"
+
+        if playbook_params["snmpVersion"] == "v2":
+            params_to_remove = [
+                "snmpAuthPassphrase",
+                "snmpAuthProtocol",
+                "snmpMode",
+                "snmpPrivPassphrase",
+                "snmpPrivProtocol",
+                "snmpUserName",
+            ]
+            for param in params_to_remove:
+                playbook_params.pop(param, None)
+
+            if not playbook_params["snmpROCommunity"]:
+                playbook_params["snmpROCommunity"] = device_data.get(
+                    "snmp_community", None
+                )
+            if not playbook_params["snmpRwCommunity"]:
+                playbook_params["snmpRwCommunity"] = device_data.get(
+                    "snmp_write_community", None
+                )
+
     def get_diff_merged(self, config):
         """
         Merge and process differences between existing devices and desired device configuration in Cisco Catalyst Center.
@@ -5694,120 +6082,18 @@ class Inventory(DnacBase):
             input_params = self.want.get("device_params")
             device_params = input_params.copy()
 
-            if not device_params["snmpVersion"]:
-                device_params["snmpVersion"] = "v3"
+            if device_type == "NETWORK_DEVICE":
+                self.parse_for_add_network_device_params(device_params)
+            elif device_type == "COMPUTE_DEVICE":
+                self.parse_for_add_compute_device_params(device_params)
+
             device_params["ipAddress"] = config["ip_address_list"]
-
-            if device_params["snmpVersion"] == "v2":
-                params_to_remove = [
-                    "snmpAuthPassphrase",
-                    "snmpAuthProtocol",
-                    "snmpMode",
-                    "snmpPrivPassphrase",
-                    "snmpPrivProtocol",
-                    "snmpUserName",
-                ]
-                for param in params_to_remove:
-                    device_params.pop(param, None)
-
-                if not device_params["snmpROCommunity"]:
-                    self.status = "failed"
-                    self.msg = "Required parameter 'snmpROCommunity' for adding device with snmmp version v2 is not present"
-                    self.result["response"] = self.msg
-                    self.log(self.msg, "ERROR")
-                    return self
-            else:
-                if not device_params["snmpMode"]:
-                    device_params["snmpMode"] = "AUTHPRIV"
-
-                if not device_params["cliTransport"]:
-                    device_params["cliTransport"] = "ssh"
-
-                if not device_params["snmpPrivProtocol"]:
-                    device_params["snmpPrivProtocol"] = "AES128"
-
-                if device_params["snmpPrivProtocol"] == "AES192":
-                    device_params["snmpPrivProtocol"] = "CISCOAES192"
-                elif device_params["snmpPrivProtocol"] == "AES256":
-                    device_params["snmpPrivProtocol"] = "CISCOAES256"
-
-                if device_params["snmpMode"] == "NOAUTHNOPRIV":
-                    device_params.pop("snmpAuthPassphrase", None)
-                    device_params.pop("snmpPrivPassphrase", None)
-                    device_params.pop("snmpPrivProtocol", None)
-                    device_params.pop("snmpAuthProtocol", None)
-                elif device_params["snmpMode"] == "AUTHNOPRIV":
-                    device_params.pop("snmpPrivPassphrase", None)
-                    device_params.pop("snmpPrivProtocol", None)
-
             device_to_add_in_ccc = device_params["ipAddress"]
 
             if not self.config[0].get("device_resync"):
                 self.mandatory_parameter(device_to_add_in_ccc).check_return_status()
 
-            try:
-                response = self.dnac._exec(
-                    family="devices",
-                    function="add_device",
-                    op_modifies=True,
-                    params=device_params,
-                )
-                self.log(
-                    "Received API response from 'add_device': {0}".format(
-                        str(response)
-                    ),
-                    "DEBUG",
-                )
-
-                if response and isinstance(response, dict):
-                    task_id = response.get("response").get("taskId")
-
-                    while True:
-                        execution_details = self.get_task_details(task_id)
-
-                        if "/task/" in execution_details.get("progress"):
-                            self.status = "success"
-                            self.result["response"] = execution_details
-
-                            if len(devices_to_add) > 0:
-                                self.device_list.append(devices_to_add)
-                                self.result["changed"] = True
-                                self.msg = "Device(s) '{0}' added to Cisco Catalyst Center".format(
-                                    str(devices_to_add)
-                                )
-                                self.log(self.msg, "INFO")
-                                self.result["msg"] = self.msg
-                                self.result["response"] = self.msg
-                                break
-                            self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(
-                                str(self.config[0].get("ip_address_list"))
-                            )
-                            self.log(self.msg, "INFO")
-                            self.result["msg"] = self.msg
-                            break
-                        elif execution_details.get("isError"):
-                            self.status = "failed"
-                            failure_reason = execution_details.get("failureReason")
-                            if failure_reason:
-                                self.msg = "Device addition for the device(s) '{0}' get failed because of {1}.".format(
-                                    device_to_add_in_ccc, failure_reason
-                                )
-                            else:
-                                self.msg = "Device addition get failed for the device(s): '{0}'.".format(
-                                    device_to_add_in_ccc
-                                )
-                            self.log(self.msg, "ERROR")
-                            self.result["response"] = self.msg
-                            break
-
-            except Exception as e:
-                error_message = (
-                    "Error while adding device in Cisco Catalyst Center: {0}".format(
-                        str(e)
-                    )
-                )
-                self.log(error_message, "ERROR")
-                raise Exception(error_message)
+            self.add_inventory_device(device_params, devices_to_add, device_to_add_in_ccc)
 
         # Update the role of devices having the role source as Manual
         if config.get("role"):
@@ -5953,197 +6239,11 @@ class Inventory(DnacBase):
                 playbook_params = self.want.get("device_params").copy()
                 playbook_params["ipAddress"] = [device_ip]
                 device_data = device_details[device_ip]
-                if device_data["snmpv3_privacy_password"] == " ":
-                    device_data["snmpv3_privacy_password"] = None
-                if device_data["snmpv3_auth_password"] == " ":
-                    device_data["snmpv3_auth_password"] = None
 
-                if not playbook_params["snmpMode"]:
-                    if device_data["snmpv3_privacy_password"]:
-                        playbook_params["snmpMode"] = "AUTHPRIV"
-                    elif device_data["snmpv3_auth_password"]:
-                        playbook_params["snmpMode"] = "AUTHNOPRIV"
-                    else:
-                        playbook_params["snmpMode"] = "NOAUTHNOPRIV"
-
-                if not playbook_params["cliTransport"]:
-                    if device_data["protocol"] == "ssh2":
-                        playbook_params["cliTransport"] = "ssh"
-                    else:
-                        playbook_params["cliTransport"] = device_data["protocol"]
-                if not playbook_params["snmpPrivProtocol"]:
-                    playbook_params["snmpPrivProtocol"] = device_data[
-                        "snmpv3_privacy_type"
-                    ]
-
-                csv_data_dict = {
-                    "username": device_data["cli_username"],
-                    "password": device_data["cli_password"],
-                    "enable_password": device_data["cli_enable_password"],
-                    "netconf_port": device_data["netconf_port"],
-                }
-
-                if device_data["snmp_version"] == "3":
-                    csv_data_dict["snmp_username"] = device_data["snmpv3_user_name"]
-                    if device_data["snmpv3_privacy_password"]:
-                        csv_data_dict["snmp_auth_passphrase"] = device_data[
-                            "snmpv3_auth_password"
-                        ]
-                        csv_data_dict["snmp_priv_passphrase"] = device_data[
-                            "snmpv3_privacy_password"
-                        ]
-                    elif device_data["snmpv3_auth_password"]:
-                        csv_data_dict["snmp_auth_passphrase"] = device_data[
-                            "snmpv3_auth_password"
-                        ]
-                else:
-                    csv_data_dict["snmp_username"] = None
-
-                device_username = device_data.get("cli_username")
-                device_password = device_data.get("cli_password")
-                cli_enable_password = device_data.get("cli_enable_password")
-                device_netconf_port = device_data.get("netconf_port")
-                device_snmp_username = device_data.get("snmpv3_user_name")
-
-                playbook_username = playbook_params.get("userName")
-                playbook_password = playbook_params.get("password")
-                playbook_enable_password = playbook_params.get("enablePassword")
-                playbook_netconf_port = playbook_params.get("netconfPort")
-                playbook_snmp_username = playbook_params.get("snmpUserName")
-
-                if (
-                    (
-                        playbook_username is not None
-                        or playbook_password is not None
-                        or playbook_enable_password is not None
-                        or playbook_netconf_port is not None
-                        or playbook_snmp_username is not None
+                if device_type == "NETWORK_DEVICE":
+                    self.parse_for_update_network_device_params(
+                        playbook_params, device_data, device_ip
                     )
-                    and (
-                        device_username == playbook_username
-                        or playbook_username is None
-                    )
-                    and (
-                        device_password == playbook_password
-                        or playbook_password is None
-                    )
-                    and (
-                        cli_enable_password == playbook_enable_password
-                        or playbook_enable_password is None
-                    )
-                    and (
-                        device_netconf_port == playbook_netconf_port
-                        or playbook_netconf_port is None
-                    )
-                    and (
-                        device_snmp_username == playbook_snmp_username
-                        or playbook_snmp_username is None
-                    )
-                ):
-                    self.log(
-                        "Credentials for device {0} do not require an update.".format(
-                            device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    self.cred_updated_not_required.append(device_ip)
-                    continue
-
-                device_key_mapping = {
-                    "username": "userName",
-                    "password": "password",
-                    "enable_password": "enablePassword",
-                    "snmp_username": "snmpUserName",
-                    "netconf_port": "netconfPort",
-                }
-                device_update_key_list = [
-                    "username",
-                    "password",
-                    "enable_password",
-                    "snmp_username",
-                    "netconf_port",
-                ]
-
-                for key in device_update_key_list:
-                    mapped_key = device_key_mapping[key]
-
-                    if playbook_params[mapped_key] is None:
-                        playbook_params[mapped_key] = csv_data_dict[key]
-
-                if playbook_params["snmpMode"] == "AUTHPRIV":
-                    if not playbook_params["snmpAuthPassphrase"]:
-                        playbook_params["snmpAuthPassphrase"] = csv_data_dict[
-                            "snmp_auth_passphrase"
-                        ]
-                    if not playbook_params["snmpPrivPassphrase"]:
-                        playbook_params["snmpPrivPassphrase"] = csv_data_dict[
-                            "snmp_priv_passphrase"
-                        ]
-                elif playbook_params["snmpMode"] == "AUTHNOPRIV":
-                    if not playbook_params["snmpAuthPassphrase"]:
-                        playbook_params["snmpAuthPassphrase"] = csv_data_dict[
-                            "snmp_auth_passphrase"
-                        ]
-
-                if playbook_params["snmpPrivProtocol"] == "AES192":
-                    playbook_params["snmpPrivProtocol"] = "CISCOAES192"
-                elif playbook_params["snmpPrivProtocol"] == "AES256":
-                    playbook_params["snmpPrivProtocol"] = "CISCOAES256"
-
-                if playbook_params["snmpMode"] == "NOAUTHNOPRIV":
-                    playbook_params.pop("snmpAuthPassphrase", None)
-                    playbook_params.pop("snmpPrivPassphrase", None)
-                    playbook_params.pop("snmpPrivProtocol", None)
-                    playbook_params.pop("snmpAuthProtocol", None)
-                elif playbook_params["snmpMode"] == "AUTHNOPRIV":
-                    playbook_params.pop("snmpPrivPassphrase", None)
-                    playbook_params.pop("snmpPrivProtocol", None)
-
-                if playbook_params["netconfPort"] == " ":
-                    playbook_params["netconfPort"] = None
-
-                if playbook_params["enablePassword"] == " ":
-                    playbook_params["enablePassword"] = None
-
-                if (
-                    playbook_params["netconfPort"]
-                    and playbook_params["cliTransport"] == "telnet"
-                ):
-                    self.log(
-                        """Updating the device cli transport from ssh to telnet with netconf port '{0}' so make
-                            netconf port as None to perform the device update task""".format(
-                            playbook_params["netconfPort"]
-                        ),
-                        "DEBUG",
-                    )
-                    playbook_params["netconfPort"] = None
-
-                if not playbook_params["snmpVersion"]:
-                    if device_data["snmp_version"] == "3":
-                        playbook_params["snmpVersion"] = "v3"
-                    else:
-                        playbook_params["snmpVersion"] = "v2"
-
-                if playbook_params["snmpVersion"] == "v2":
-                    params_to_remove = [
-                        "snmpAuthPassphrase",
-                        "snmpAuthProtocol",
-                        "snmpMode",
-                        "snmpPrivPassphrase",
-                        "snmpPrivProtocol",
-                        "snmpUserName",
-                    ]
-                    for param in params_to_remove:
-                        playbook_params.pop(param, None)
-
-                    if not playbook_params["snmpROCommunity"]:
-                        playbook_params["snmpROCommunity"] = device_data.get(
-                            "snmp_community", None
-                        )
-                    if not playbook_params["snmpRwCommunity"]:
-                        playbook_params["snmpRwCommunity"] = device_data.get(
-                            "snmp_write_community", None
-                        )
 
                 if not playbook_params["httpUserName"]:
                     playbook_params["httpUserName"] = device_data.get(
