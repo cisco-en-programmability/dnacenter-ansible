@@ -130,8 +130,18 @@ options:
         required: false
       ap_mode:
         description: |
-          Defines the mode of operation for the Access Point (AP). Possible values include "Local",
-          "Monitor", "Sniffer", or "Bridge". For example, "Local".
+          Defines the operational mode of the Access Point (AP), which determines its primary function.
+          - C(Local): The default mode where the AP serves wireless clients by tunneling
+          all client traffic to the controller. Radio parameters (For example, C(2.4ghz_radio),
+          C(5ghz_radio)) can only be modified when the AP is in this mode.
+          - C(Monitor): The AP does not serve clients but actively monitors the RF environment
+          for rogue devices, interference, and supports features like Radio Resource Management (RRM)
+          and Intrusion Detection System (IDS).
+          - C(Sniffer): The AP is dedicated to capturing all 802.11 packets on a specific channel
+          and forwarding them to a remote machine for analysis with tools like Wireshark.
+          - C(Bridge): The AP acts as a dedicated point-to-point or point-to-multipoint bridge to
+          connect different network segments wirelessly. Clients cannot connect to the AP in this mode.
+          Note: Changing the AP mode may cause the AP to reboot. Not all AP models support all modes.
         type: str
         required: false
       location:
@@ -250,8 +260,13 @@ options:
             type: int
             required: false
           radio_role_assignment:
-            description: Role assignment mode for the 2.4GHz radio interface. Accepts
-              "Auto", "Client-serving", or "Monitor". For example, Auto.
+            description: |
+              Defines the operational role for the 2.4GHz radio interface.
+              - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+              - C(Client-serving): The radio is dedicated to serving wireless clients.
+              - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+              Note: This parameter, along with all other radio settings, can only be modified when
+              the access point's C(ap_mode) is set to C(Local).
             type: str
             required: false
           cable_loss:
@@ -308,8 +323,12 @@ options:
             required: false
           radio_role_assignment:
             description: |
-              Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-              or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
+              Defines the operational role for the 5GHz radio interface.
+              - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+              - C(Client-serving): The radio is dedicated to serving wireless clients.
+              - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+              Note: This parameter, along with all other radio settings, can only be modified when
+              the access point's C(ap_mode) is set to C(Local).
             type: str
             required: false
           cable_loss:
@@ -332,6 +351,12 @@ options:
             description: Custom channel number configured for the 5GHz radio interface.
               For example, 36.
             type: int
+            required: false
+          channel_width:
+            description: |
+              Width of the channel configured for the XOR radio interface. Accepts values
+              "20 MHz", "40 MHz", "80 MHz" or "160 MHz". For example, 20 MHz.
+            type: str
             required: false
           power_assignment_mode:
             description: Mode of power assignment for the 5GHz radio interface. Accepts
@@ -365,8 +390,13 @@ options:
             type: int
             required: false
           radio_role_assignment:
-            description: Role assignment mode for the 6GHz radio interface. Accepts
-              "Auto", "Client-serving", or "Monitor".
+            description: |
+              Defines the operational role for the 6GHz radio interface.
+              - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+              - C(Client-serving): The radio is dedicated to serving wireless clients.
+              - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+              Note: This parameter, along with all other radio settings, can only be modified when
+              the access point's C(ap_mode) is set to C(Local).
             type: str
             required: false
           cable_loss:
@@ -389,6 +419,12 @@ options:
             description: Custom channel number configured for the 6GHz radio interface.
               For example, 6.
             type: int
+            required: false
+          channel_width:
+            description: |
+              Width of the channel configured for the XOR radio interface. Accepts values
+              "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
+            type: str
             required: false
           power_assignment_mode:
             description: Mode of power assignment for the 6GHz radio interface. Accepts
@@ -423,7 +459,12 @@ options:
             required: false
           radio_role_assignment:
             description: |
-              Role assignment mode for the XOR radio interface. Accepts "Auto", "Client-serving", or "Monitor"
+              Defines the operational role for the xor radio interface.
+              - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+              - C(Client-serving): The radio is dedicated to serving wireless clients.
+              - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+              Note: This parameter, along with all other radio settings, can only be modified when
+              the access point's C(ap_mode) is set to C(Local).
               If "radio_role_assignment" is set to "Client-serving" only the power level and channel number can be changed.
               Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
               For example, "Auto".
@@ -509,8 +550,12 @@ options:
             required: false
           radio_role_assignment:
             description: |
-              Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-              If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+              Defines the operational role for the TRI radio interface.
+              - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+              - C(Client-serving): The radio is dedicated to serving wireless clients.
+              - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+              Note: This parameter, along with all other radio settings, can only be modified when
+              the access point's C(ap_mode) is set to C(Local).
             type: str
             required: false
           cable_loss:
@@ -817,9 +862,13 @@ options:
                     type: int
                     required: false
                   radio_role_assignment:
-                    description: Role assignment mode for the 2.4GHz radio interface.
-                      Accepts "Auto", "Client-serving", or "Monitor". For example,
-                      Auto.
+                    description: |
+                      Defines the operational role for the 2.4GHz radio interface.
+                      - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+                      - C(Client-serving): The radio is dedicated to serving wireless clients.
+                      - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+                      Note: This parameter, along with all other radio settings, can only be modified when
+                      the access point's C(ap_mode) is set to C(Local).
                     type: str
                     required: false
                   cable_loss:
@@ -876,8 +925,13 @@ options:
                     required: false
                   radio_role_assignment:
                     description: |
-                      Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-                      or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
+                      Defines the operational role for the 5GHz radio interface.
+                      - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+                      - C(Client-serving): The radio is dedicated to serving wireless clients.
+                      - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+                      Note: This parameter, along with all other radio settings, can only be modified when
+                      the access point's C(ap_mode) is set to C(Local).
+                      This field is not required for xor series access point slot 1.
                     type: str
                     required: false
                   cable_loss:
@@ -933,8 +987,13 @@ options:
                     type: int
                     required: false
                   radio_role_assignment:
-                    description: Role assignment mode for the 6GHz radio interface.
-                      Accepts "Auto", "Client-serving", or "Monitor".
+                    description: |
+                      Defines the operational role for the 6GHz radio interface.
+                      - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+                      - C(Client-serving): The radio is dedicated to serving wireless clients.
+                      - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+                      Note: This parameter, along with all other radio settings, can only be modified when
+                      the access point's C(ap_mode) is set to C(Local).
                     type: str
                     required: false
                   cable_loss:
@@ -991,7 +1050,12 @@ options:
                     required: false
                   radio_role_assignment:
                     description: |
-                      Role assignment mode for the XOR radio interface. Accepts "Auto", "Client-serving", or "Monitor"
+                      Defines the operational role for the xor radio interface.
+                      - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+                      - C(Client-serving): The radio is dedicated to serving wireless clients.
+                      - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+                      Note: This parameter, along with all other radio settings, can only be modified when
+                      the access point's C(ap_mode) is set to C(Local).
                       If "radio_role_assignment" is set to "Client-serving" only the power level and channel number can be changed.
                       Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
                       For example, "Auto".
@@ -1077,8 +1141,12 @@ options:
                     required: false
                   radio_role_assignment:
                     description: |
-                      Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                      If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+                      Defines the operational role for the TRI radio interface.
+                      - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+                      - C(Client-serving): The radio is dedicated to serving wireless clients.
+                      - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+                      Note: This parameter, along with all other radio settings, can only be modified when
+                      the access point's C(ap_mode) is set to C(Local).
                     type: str
                     required: false
                   cable_loss:

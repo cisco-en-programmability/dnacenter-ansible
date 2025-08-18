@@ -24,3 +24,4 @@ test.yml
 test.yaml
 sanity_fixes.py
 .yamlfmt
+.github/copilot-instructions.md
