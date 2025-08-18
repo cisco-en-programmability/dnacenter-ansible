@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.assurance_issue_workflow_manager module -- Resource module for managing assurance global profile settings and issue resolution in Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-assurance-issue-workflow-manager-module-resource-module-for-managing-assurance-global-profile-settings-and-issue-resolution-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.38.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.39.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1457,7 +1457,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/synchronize_to_health_threshold"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-synchronize-to-health-threshold"><strong>synchronize_to_health_threshold</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/synchronize_to_health_threshold" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/synchronize_to_health_threshold" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A boolean value indicating whether the system issue should be synchronized to the health threshold. Accepts &quot;true&quot; or &quot;false&quot;.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1469,7 +1469,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/threshold_value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-threshold-value"><strong>threshold_value</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/threshold_value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/threshold_value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The threshold value that triggers the issue. This is usually specified as a percentage or a numerical value depending on the nature of the issue. For example, for the issue &quot;Wireless client exhibiting sticky behavior,&quot; the threshold could be a maximum RSSI value (e.g., -70 dBm). Similarly, for a &quot;WLC Memory High Utilization&quot;, a threshold like 90% can be used. - **Percentage-based thresholds**: Must not exceed 100%. - **dBm (decibel-milliwatts) thresholds**: Must not exceed 0 dBm, meaning it should be a negative value.</p>
 </div></td>

@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-inventory-workflow-manager-module-comprehensive-network-device-inventory-management-for-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.38.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.39.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventory-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2608,7 +2608,33 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventor
 <span class="w">        </span><span class="nt">snmp_username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v3Public</span>
 <span class="w">        </span><span class="nt">compute_device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cisco</span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lablab@123</span>
+<span class="w">        </span><span class="nt">enable_password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cisco@123</span>
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;COMPUTE_DEVICE&quot;</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add new Compute device in Inventory with minimal configuration</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">credentials.Inputs needed for Compute Device</span>
+<span class="w">  </span><span class="nt">cisco.dnac.inventory_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address_list</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;204.1.2.2&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;204.1.2.3&quot;</span>
+<span class="w">        </span><span class="nt">compute_device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;COMPUTE_DEVICE&quot;</span>
+<span class="w">        </span><span class="nt">http_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;testuser&quot;</span>
+<span class="w">        </span><span class="nt">http_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test&quot;</span>
+<span class="w">        </span><span class="nt">http_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;443&quot;</span>
+<span class="w">        </span><span class="nt">snmp_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2</span><span class="w">  </span><span class="c1"># Based on device snmp version field required</span>
+<span class="w">        </span><span class="nt">snmp_ro_community</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Private@123</span><span class="w">  </span><span class="c1"># Based on device snmp version field required</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add new Meraki device in Inventory with full</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">credentials.Inputs needed for Meraki Device.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.inventory_workflow_manager</span><span class="p">:</span>
@@ -2672,6 +2698,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventor
 <span class="w">        </span><span class="nt">snmp_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 <span class="w">        </span><span class="nt">snmp_username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v3Public</span>
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;THIRD_PARTY_DEVICE&quot;</span>
+<span class="w">        </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v3Public</span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Lablab@123&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update device details or credentails in Inventory</span>
 <span class="w">  </span><span class="nt">cisco.dnac.inventory_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
