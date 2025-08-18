@@ -42,7 +42,7 @@ cisco.dnac.provision_workflow_manager module -- Resource module for provision re
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.38.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.39.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -71,6 +71,7 @@ Synopsis
 - Manage operations related to wired and wireless provisioning
 - API to re-provision provisioned devices
 - API to un-provision provisioned devices
+- Un-provisioning refers to removing a device from the inventory list
 
 
 .. Aliases
@@ -780,6 +781,8 @@ Parameters
       Set to 'false' to carry out site assignment only.
 
       Set to 'true' to proceed with provisioning to a site.
+
+      only applicable for wired devices.
 
 
       .. rst-class:: ansible-option-line

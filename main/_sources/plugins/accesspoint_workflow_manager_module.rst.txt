@@ -42,7 +42,7 @@ cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center a
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.38.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.39.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -517,7 +517,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the 2.4GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor". For example, Auto.
+      Defines the operational role for the 2.4GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
 
 
       .. raw:: html
@@ -804,6 +810,42 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/channel_width"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/channel_width:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_width**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/channel_width" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Width of the channel configured for the XOR radio interface. Accepts values
+          "20 MHz", "40 MHz", "80 MHz" or "160 MHz". For example, 20 MHz.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/power_assignment_mode"></div>
 
       .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/5ghz_radio/power_assignment_mode:
@@ -896,8 +938,12 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-          or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
+      Defines the operational role for the 5GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
           
 
 
@@ -1185,6 +1231,42 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/channel_width"></div>
+
+      .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/channel_width:
+
+      .. rst-class:: ansible-option-title
+
+      **channel_width**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/channel_width" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Width of the channel configured for the XOR radio interface. Accepts values
+          "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/power_assignment_mode"></div>
 
       .. _ansible_collections.cisco.dnac.accesspoint_workflow_manager_module__parameter-config/6ghz_radio/power_assignment_mode:
@@ -1277,7 +1359,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the 6GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+      Defines the operational role for the 6GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
 
 
       .. raw:: html
@@ -1382,8 +1470,18 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Defines the mode of operation for the Access Point (AP). Possible values include "Local",
-          "Monitor", "Sniffer", or "Bridge". For example, "Local".
+      Defines the operational mode of the Access Point (AP), which determines its primary function.
+          - \ :literal:`Local`\ : The default mode where the AP serves wireless clients by tunneling
+          all client traffic to the controller. Radio parameters (For example, \ :literal:`2.4ghz\_radio`\ ,
+          \ :literal:`5ghz\_radio`\ ) can only be modified when the AP is in this mode.
+          - \ :literal:`Monitor`\ : The AP does not serve clients but actively monitors the RF environment
+          for rogue devices, interference, and supports features like Radio Resource Management (RRM)
+          and Intrusion Detection System (IDS).
+          - \ :literal:`Sniffer`\ : The AP is dedicated to capturing all 802.11 packets on a specific channel
+          and forwarding them to a remote machine for analysis with tools like Wireshark.
+          - \ :literal:`Bridge`\ : The AP acts as a dedicated point-to-point or point-to-multipoint bridge to
+          connect different network segments wirelessly. Clients cannot connect to the AP in this mode.
+          Note: Changing the AP mode may cause the AP to reboot. Not all AP models support all modes.
           
 
 
@@ -2093,7 +2191,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the 2.4GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor". For example, Auto.
+      Defines the operational role for the 2.4GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
 
 
       .. raw:: html
@@ -2472,8 +2576,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-          or "Monitor". For example, "Auto". This field is not required for xor series access point slot 1
+      Defines the operational role for the 5GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          This field is not required for xor series access point slot 1.
           
 
 
@@ -2853,7 +2962,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the 6GHz radio interface. Accepts "Auto", "Client-serving", or "Monitor".
+      Defines the operational role for the 6GHz radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
+          
 
 
       .. raw:: html
@@ -3979,8 +4094,12 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-          If radio\_role\_assignment is "client-serving", then only power-level and channel-level can be changed.
+      Defines the operational role for the TRI radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
           
 
 
@@ -4448,7 +4567,12 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the XOR radio interface. Accepts "Auto", "Client-serving", or "Monitor"
+      Defines the operational role for the xor radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
           If "radio\_role\_assignment" is set to "Client-serving" only the power level and channel number can be changed.
           Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
           For example, "Auto".
@@ -6100,8 +6224,12 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-          If radio\_role\_assignment is "client-serving", then only power-level and channel-level can be changed.
+      Defines the operational role for the TRI radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
           
 
 
@@ -6569,7 +6697,12 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role assignment mode for the XOR radio interface. Accepts "Auto", "Client-serving", or "Monitor"
+      Defines the operational role for the xor radio interface.
+          - \ :literal:`Auto`\ : The controller automatically manages the radio's role. This is the default behavior.
+          - \ :literal:`Client-serving`\ : The radio is dedicated to serving wireless clients.
+          - \ :literal:`Monitor`\ : The radio is dedicated to monitoring the RF environment and does not serve clients.
+          Note: This parameter, along with all other radio settings, can only be modified when
+          the access point's \ :literal:`ap\_mode`\  is set to \ :literal:`Local`\ .
           If "radio\_role\_assignment" is set to "Client-serving" only the power level and channel number can be changed.
           Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
           For example, "Auto".

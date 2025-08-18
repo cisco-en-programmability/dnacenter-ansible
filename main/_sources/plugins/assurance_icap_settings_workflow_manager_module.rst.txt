@@ -42,7 +42,7 @@ cisco.dnac.assurance_icap_settings_workflow_manager module -- Configure and mana
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.38.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.39.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -319,7 +319,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The end date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'.
+      The end date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'. (24-hour format, for example, '2025-07-21 18:07:49' for 6:07:49 PM).
 
 
       .. raw:: html
@@ -387,7 +387,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The start date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'.
+      The start date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'. (24-hour format, for example, '2025-07-21 17:42:58' for 5:42:58 PM).
 
 
       .. raw:: html
@@ -1466,7 +1466,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.AssuranceSettings.get\_device\_deployment\_status, sensors.AssuranceSettings.creates\_an\_icap\_configuration\_intent\_for\_preview\_approve, sensors.AssuranceSettings.discards\_the\_icap\_configuration\_intent\_by\_activity\_id sensors.AssuranceSettings.deploys\_the\_i\_cap\_configuration\_intent\_by\_activity\_id\_v1 sensors.AssuranceSettings.lists\_i\_cap\_packet\_capture\_files\_matching\_specified\_criteria sensors.AssuranceSettings.downloads\_a\_specific\_i\_cap\_packet\_capture\_file
+   - SDK Method used are sensors.AssuranceSettings.get\_device\_deployment\_status, sensors.AssuranceSettings.creates\_an\_icap\_configuration\_intent\_for\_preview\_approve, sensors.AssuranceSettings.discards\_the\_icap\_configuration\_intent\_by\_activity\_id sensors.AssuranceSettings.deploys\_the\_i\_cap\_configuration\_intent\_by\_activity\_id sensors.AssuranceSettings.lists\_i\_cap\_packet\_capture\_files\_matching\_specified\_criteria sensors.AssuranceSettings.downloads\_a\_specific\_i\_cap\_packet\_capture\_file
    - Paths used are GET /dna/intent/api/v1/icapSettings/deviceDeployments POST /dna/intent/api/icapSettings/configurationModels DELETE /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId} POST /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/deploy GET /dna/data/api/v1/icap/captureFiles GET /dna/data/api/v1/icap/captureFiles/${id}/download
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK

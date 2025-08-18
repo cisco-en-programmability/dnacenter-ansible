@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.accesspoint_workflow_manager module -- Manage Cisco Catalyst Center access points<a class="headerlink" href="#cisco-dnac-accesspoint-workflow-manager-module-manage-cisco-catalyst-center-access-points" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.38.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.39.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1361,7 +1361,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/2.4ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-2-4ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/2.4ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 2.4GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;. For example, Auto.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational role for the 2.4GHz radio interface.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: The controller automatically manages the radio's role. This is the default behavior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Client-serving</span></code>: The radio is dedicated to serving wireless clients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The radio is dedicated to monitoring the RF environment and does not serve clients.</p></li>
+</ul>
+<p>Note: This parameter, along with all other radio settings, can only be modified when
+the access point's <code class="docutils literal notranslate"><span class="pre">ap_mode</span></code> is set to <code class="docutils literal notranslate"><span class="pre">Local</span></code>.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1427,51 +1436,67 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/channel_width"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-channel-width"><strong>channel_width</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Width of the channel configured for the XOR radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot; or &quot;160 MHz&quot;. For example, 20 MHz.</p>
+</dd>
+</dl>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/power_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-power-assignment-mode"><strong>power_assignment_mode</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/power_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of power assignment for the 5GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;. For example, &quot;Custom&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/power_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-power-level"><strong>power_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/power_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom power level configured for the 5GHz radio interface. For example, 3.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/5ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-5ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/5ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the 5GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;,</dt><dd><p>or &quot;Monitor&quot;. For example, &quot;Auto&quot;. This field is not required for xor series access point slot 1</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational role for the 5GHz radio interface.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: The controller automatically manages the radio's role. This is the default behavior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Client-serving</span></code>: The radio is dedicated to serving wireless clients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The radio is dedicated to monitoring the RF environment and does not serve clients.</p></li>
+</ul>
+<p>Note: This parameter, along with all other radio settings, can only be modified when
+the access point's <code class="docutils literal notranslate"><span class="pre">ap_mode</span></code> is set to <code class="docutils literal notranslate"><span class="pre">Local</span></code>.</p>
 </dd>
 </dl>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio"><strong>6ghz_radio</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration options for the 6GHz radio interface.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/admin_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-admin-status"><strong>admin_status</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/admin_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Administrative status for the 6GHz radio interface. For example, &quot;Enabled&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/antenna_cable_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-antenna-cable-name"><strong>antenna_cable_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/antenna_cable_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna cable used for the 6GHz radio interface. For example, &quot;other&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/antenna_gain"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-antenna-gain"><strong>antenna_gain</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/antenna_gain" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1481,14 +1506,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 </dl>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/antenna_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-antenna-name"><strong>antenna_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/antenna_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name or type of antenna used for the 6GHz radio interface. For example, &quot;other&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/cable_loss"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-cable-loss"><strong>cable_loss</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/cable_loss" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
@@ -1498,18 +1523,28 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 </dl>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/channel_assignment_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-channel-assignment-mode"><strong>channel_assignment_mode</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/channel_assignment_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Mode of channel assignment for the 6GHz radio interface. Accepts &quot;Global&quot; or &quot;Custom&quot;. For example, &quot;Custom&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/channel_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-channel-number"><strong>channel_number</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/channel_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Custom channel number configured for the 6GHz radio interface. For example, 6.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/channel_width"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-channel-width"><strong>channel_width</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Width of the channel configured for the XOR radio interface. Accepts values</dt><dd><p>&quot;20 MHz&quot;, &quot;40 MHz&quot;, &quot;80 MHz&quot;, &quot;160 MHz&quot; or &quot;320 MHz&quot;. For example, 20 MHz.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1530,7 +1565,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/6ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-6ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/6ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 6GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational role for the 6GHz radio interface.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: The controller automatically manages the radio's role. This is the default behavior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Client-serving</span></code>: The radio is dedicated to serving wireless clients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The radio is dedicated to monitoring the RF environment and does not serve clients.</p></li>
+</ul>
+<p>Note: This parameter, along with all other radio settings, can only be modified when
+the access point's <code class="docutils literal notranslate"><span class="pre">ap_mode</span></code> is set to <code class="docutils literal notranslate"><span class="pre">Local</span></code>.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1554,8 +1598,20 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-accesspo
 <div class="ansibleOptionAnchor" id="parameter-config/ap_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-ap-mode"><strong>ap_mode</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/ap_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Defines the mode of operation for the Access Point (AP). Possible values include &quot;Local&quot;,</dt><dd><p>&quot;Monitor&quot;, &quot;Sniffer&quot;, or &quot;Bridge&quot;. For example, &quot;Local&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational mode of the Access Point (AP), which determines its primary function.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Local</span></code>: The default mode where the AP serves wireless clients by tunneling</p></li>
+</ul>
+<p>all client traffic to the controller. Radio parameters (For example, <code class="docutils literal notranslate"><span class="pre">2.4ghz_radio</span></code>,
+<code class="docutils literal notranslate"><span class="pre">5ghz_radio</span></code>) can only be modified when the AP is in this mode.
+- <code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The AP does not serve clients but actively monitors the RF environment
+for rogue devices, interference, and supports features like Radio Resource Management (RRM)
+and Intrusion Detection System (IDS).
+- <code class="docutils literal notranslate"><span class="pre">Sniffer</span></code>: The AP is dedicated to capturing all 802.11 packets on a specific channel
+and forwarding them to a remote machine for analysis with tools like Wireshark.
+- <code class="docutils literal notranslate"><span class="pre">Bridge</span></code>: The AP acts as a dedicated point-to-point or point-to-multipoint bridge to
+connect different network segments wirelessly. Clients cannot connect to the AP in this mode.
+Note: Changing the AP mode may cause the AP to reboot. Not all AP models support all modes.</p>
 </dd>
 </dl>
 </div></td>
@@ -1731,7 +1787,16 @@ At least one of these parameters must be specified to identify the APs for updat
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change-2-4ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/2.4ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 2.4GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;. For example, Auto.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational role for the 2.4GHz radio interface.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: The controller automatically manages the radio's role. This is the default behavior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Client-serving</span></code>: The radio is dedicated to serving wireless clients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The radio is dedicated to monitoring the RF environment and does not serve clients.</p></li>
+</ul>
+<p>Note: This parameter, along with all other radio settings, can only be modified when
+the access point's <code class="docutils literal notranslate"><span class="pre">ap_mode</span></code> is set to <code class="docutils literal notranslate"><span class="pre">Local</span></code>.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1814,8 +1879,15 @@ At least one of these parameters must be specified to identify the APs for updat
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change-5ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/5ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the 5GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;,</dt><dd><p>or &quot;Monitor&quot;. For example, &quot;Auto&quot;. This field is not required for xor series access point slot 1</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational role for the 5GHz radio interface.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: The controller automatically manages the radio's role. This is the default behavior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Client-serving</span></code>: The radio is dedicated to serving wireless clients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The radio is dedicated to monitoring the RF environment and does not serve clients.</p></li>
+</ul>
+<p>Note: This parameter, along with all other radio settings, can only be modified when
+the access point's <code class="docutils literal notranslate"><span class="pre">ap_mode</span></code> is set to <code class="docutils literal notranslate"><span class="pre">Local</span></code>.
+This field is not required for xor series access point slot 1.</p>
 </dd>
 </dl>
 </div></td>
@@ -1900,7 +1972,16 @@ At least one of these parameters must be specified to identify the APs for updat
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change-6ghz-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/6ghz_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Role assignment mode for the 6GHz radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational role for the 6GHz radio interface.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: The controller automatically manages the radio's role. This is the default behavior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Client-serving</span></code>: The radio is dedicated to serving wireless clients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The radio is dedicated to monitoring the RF environment and does not serve clients.</p></li>
+</ul>
+<p>Note: This parameter, along with all other radio settings, can only be modified when
+the access point's <code class="docutils literal notranslate"><span class="pre">ap_mode</span></code> is set to <code class="docutils literal notranslate"><span class="pre">Local</span></code>.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2172,8 +2253,14 @@ to &quot;Inherit from site / Clear&quot;.</p>
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change-tri-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/tri_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the TRI radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</dt><dd><p>If radio_role_assignment is &quot;client-serving&quot;, then only power-level and channel-level can be changed.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational role for the TRI radio interface.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: The controller automatically manages the radio's role. This is the default behavior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Client-serving</span></code>: The radio is dedicated to serving wireless clients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The radio is dedicated to monitoring the RF environment and does not serve clients.</p></li>
+</ul>
+<p>Note: This parameter, along with all other radio settings, can only be modified when
+the access point's <code class="docutils literal notranslate"><span class="pre">ap_mode</span></code> is set to <code class="docutils literal notranslate"><span class="pre">Local</span></code>.</p>
 </dd>
 </dl>
 </div></td>
@@ -2298,8 +2385,15 @@ to &quot;Inherit from site / Clear&quot;.</p>
 <div class="ansibleOptionAnchor" id="parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-bulk-update-aps-common-fields-to-change-xor-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/bulk_update_aps/common_fields_to_change/xor_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the XOR radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;</dt><dd><p>If &quot;radio_role_assignment&quot; is set to &quot;Client-serving&quot; only the power level and channel number can be changed.
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational role for the xor radio interface.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: The controller automatically manages the radio's role. This is the default behavior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Client-serving</span></code>: The radio is dedicated to serving wireless clients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The radio is dedicated to monitoring the RF environment and does not serve clients.</p></li>
+</ul>
+<p>Note: This parameter, along with all other radio settings, can only be modified when
+the access point's <code class="docutils literal notranslate"><span class="pre">ap_mode</span></code> is set to <code class="docutils literal notranslate"><span class="pre">Local</span></code>.
+If &quot;radio_role_assignment&quot; is set to &quot;Client-serving&quot; only the power level and channel number can be changed.
 Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
 For example, &quot;Auto&quot;.</p>
 </dd>
@@ -2716,8 +2810,14 @@ to &quot;Inherit from site / Clear&quot;.</p>
 <div class="ansibleOptionAnchor" id="parameter-config/tri_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-tri-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tri_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the TRI radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;.</dt><dd><p>If radio_role_assignment is &quot;client-serving&quot;, then only power-level and channel-level can be changed.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational role for the TRI radio interface.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: The controller automatically manages the radio's role. This is the default behavior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Client-serving</span></code>: The radio is dedicated to serving wireless clients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The radio is dedicated to monitoring the RF environment and does not serve clients.</p></li>
+</ul>
+<p>Note: This parameter, along with all other radio settings, can only be modified when
+the access point's <code class="docutils literal notranslate"><span class="pre">ap_mode</span></code> is set to <code class="docutils literal notranslate"><span class="pre">Local</span></code>.</p>
 </dd>
 </dl>
 </div></td>
@@ -2842,8 +2942,15 @@ to &quot;Inherit from site / Clear&quot;.</p>
 <div class="ansibleOptionAnchor" id="parameter-config/xor_radio/radio_role_assignment"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-accesspoint-workflow-manager-module-parameter-config-xor-radio-radio-role-assignment"><strong>radio_role_assignment</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/xor_radio/radio_role_assignment" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Role assignment mode for the XOR radio interface. Accepts &quot;Auto&quot;, &quot;Client-serving&quot;, or &quot;Monitor&quot;</dt><dd><p>If &quot;radio_role_assignment&quot; is set to &quot;Client-serving&quot; only the power level and channel number can be changed.
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
+<dt>Defines the operational role for the xor radio interface.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: The controller automatically manages the radio's role. This is the default behavior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Client-serving</span></code>: The radio is dedicated to serving wireless clients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Monitor</span></code>: The radio is dedicated to monitoring the RF environment and does not serve clients.</p></li>
+</ul>
+<p>Note: This parameter, along with all other radio settings, can only be modified when
+the access point's <code class="docutils literal notranslate"><span class="pre">ap_mode</span></code> is set to <code class="docutils literal notranslate"><span class="pre">Local</span></code>.
+If &quot;radio_role_assignment&quot; is set to &quot;Client-serving&quot; only the power level and channel number can be changed.
 Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
 For example, &quot;Auto&quot;.</p>
 </dd>

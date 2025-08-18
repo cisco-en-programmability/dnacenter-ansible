@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.38.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.39.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -372,40 +372,6 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/description"></div>
-
-      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Provides a description of the template.
 
 
       .. raw:: html
@@ -876,6 +842,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_description:
+
+      .. rst-class:: ansible-option-title
+
+      **template_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a description of the template.
 
 
       .. raw:: html
@@ -8990,7 +8990,7 @@ Examples
               author: string
               composite: true
               custom_params_order: true
-              description: string
+              template_description: string
               device_types:
                 - product_family: string
                   product_series: string
@@ -9027,7 +9027,7 @@ Examples
               author: string
               composite: true
               custom_params_order: true
-              description: string
+              template_description: string
               device_types:
                 - product_family: string
                   product_series: string
@@ -9146,7 +9146,7 @@ Examples
               author: Test_User
               composite: false
               custom_params_order: true
-              description: Template to configure access
+              template_description: Template to configure access
                 VLAN and access interfaces
               device_types:
                 - product_family: Switches and Hubs
@@ -9187,7 +9187,7 @@ Examples
         config:
           - configuration_templates:
               template_name: "Fusion Router Config"
-              description: "VELOCITY template to configure
+              template_description: "VELOCITY template to configure
                 L3 handoff and loopback on Catalyst 3850"
               project_name: "Network Configuration Templates"
               tags: []

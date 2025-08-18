@@ -1226,7 +1226,7 @@
 <h1>cisco.dnac.assurance_icap_settings_workflow_manager module -- Configure and manage ICAP (Intelligent Capture) settings in Cisco Catalyst Center for network assurance.<a class="headerlink" href="#cisco-dnac-assurance-icap-settings-workflow-manager-module-configure-and-manage-icap-intelligent-capture-settings-in-cisco-catalyst-center-for-network-assurance" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.38.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.39.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-assurance-icap-settings-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1318,7 +1318,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/end_time"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-end-time"><strong>end_time</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/end_time" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The end date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The end date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'. (24-hour format, for example, '2025-07-21 18:07:49' for 6:07:49 PM).</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1332,7 +1332,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/start_time"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-start-time"><strong>start_time</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/start_time" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The start date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The start date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'. (24-hour format, for example, '2025-07-21 17:42:58' for 5:42:58 PM).</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1605,7 +1605,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
-<li><p>SDK Method used are sensors.AssuranceSettings.get_device_deployment_status, sensors.AssuranceSettings.creates_an_icap_configuration_intent_for_preview_approve, sensors.AssuranceSettings.discards_the_icap_configuration_intent_by_activity_id sensors.AssuranceSettings.deploys_the_i_cap_configuration_intent_by_activity_id_v1 sensors.AssuranceSettings.lists_i_cap_packet_capture_files_matching_specified_criteria sensors.AssuranceSettings.downloads_a_specific_i_cap_packet_capture_file</p></li>
+<li><p>SDK Method used are sensors.AssuranceSettings.get_device_deployment_status, sensors.AssuranceSettings.creates_an_icap_configuration_intent_for_preview_approve, sensors.AssuranceSettings.discards_the_icap_configuration_intent_by_activity_id sensors.AssuranceSettings.deploys_the_i_cap_configuration_intent_by_activity_id sensors.AssuranceSettings.lists_i_cap_packet_capture_files_matching_specified_criteria sensors.AssuranceSettings.downloads_a_specific_i_cap_packet_capture_file</p></li>
 <li><p>Paths used are GET /dna/intent/api/v1/icapSettings/deviceDeployments POST /dna/intent/api/icapSettings/configurationModels DELETE /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId} POST /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/deploy GET /dna/data/api/v1/icap/captureFiles GET /dna/data/api/v1/icap/captureFiles/${id}/download</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>

@@ -42,7 +42,7 @@ cisco.dnac.sda_host_port_onboarding_workflow_manager module -- Manage host port 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.38.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.39.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -229,7 +229,9 @@ Parameters
 
       When creating or updating port channels, port assignments, and wireless SSIDs simultaneously, ensure that the operation is performed within the same fabric site.
 
-      Example - "Global/USA/San Jose/BLDG23"
+      For Example - "Global/USA/San Jose/BLDG23"
+
+      If the device is provisioned in a fabric zone, provide the fabric zone's site hierarchy (For Example - "Global/USA/San Jose/BLDG23") as the"fabric\_site\_name\_hierarchy" for operations such as adding ports to an edge device in that zone.
 
       If only the "fabric\_site\_name\_hierarchy" is provided in the "merged" state, only Wireless SSID(s) will be added or updated for the specified fabric site.
 
