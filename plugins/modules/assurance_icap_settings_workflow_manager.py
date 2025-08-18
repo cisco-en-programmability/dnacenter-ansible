@@ -105,8 +105,7 @@ options:
               (AP) for the capture.
             type: str
           slots:
-            description: List of slots numbers for the
-              capture session.
+            description: A list of radio slot numbers on the specified Access Point to include in the capture session (eg. C([0, 1])).
             type: list
             elements: int
           ota_band:
@@ -222,18 +221,21 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_icap_settings:
+            # Example 1: Standard ONBOARDING capture for a client on a specific WLC
               - capture_type: ONBOARDING
                 preview_description: "ICAP onboarding
                   capture"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  # required field
                 wlc_name: NY-IAC-EWLC.cisco.local  # required field
+            # Example 2: Full packet capture for troubleshooting
               - capture_type: FULL
                 preview_description: "Full ICAP capture
                   for troubleshooting"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  # required field
                 wlc_name: NY-IAC-EWLC.cisco.local  # required field
+            # Example 3: Over-the-Air (OTA) capture for a specific AP radio slot
               - capture_type: OTA
                 preview_description: "OTA ICAP capture
                   for troubleshooting"
@@ -245,6 +247,21 @@ EXAMPLES = r"""
                 ota_band: 5
                 ota_channel: 36
                 ota_channel_width: 40
+            # Example 4: RF statistics capture for a specific AP & WLC
+              - capture_type: RFSTATS
+                preview_description: "RF statistics capture for troubleshooting"
+                client_mac: 04:42:1A:4C:97:F6  #required field
+                ap_name: AP1416.9D2A.1D0C #required field
+                wlc_name: SJ-EWLC-1.cisco.local #required field
+                slots: [0]
+            # Example 5: Anomaly capture for a specific client
+              - capture_type: ANOMALY
+                preview_description: "Anomaly capture for troubleshooting"
+                client_mac: 04:42:1A:4C:97:F6  #required field
+                ap_name: AP1416.9D2A.1D0C #required field
+                wlc_name: SJ-EWLC-1.cisco.local #required field
+                slots: [0]
+
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
@@ -1458,7 +1475,7 @@ class Icap(DnacBase):
     def valid_client_mac(self, client_mac, wlc_name):
         """
         Validates whether a given client MAC address is present on a specified
-        Wireless LAN Controller (WLC) in Cisco DNA Center.
+        Wireless LAN Controller (WLC) in Cisco Catalyst Center.
 
         This method queries the clients API to confirm if the specified MAC address
         is currently connected to or registered on the target WLC.
@@ -1501,8 +1518,7 @@ class Icap(DnacBase):
 
     def get_ap_id_by_name(self, ap_name):
         """
-        Retrieves the device ID of an Access Point (AP) using the
-        'Get Device list' API in Cisco DNA Center.
+        Retrieves the device ID of an Access Point (AP) by its hostname in 'Get Device list' API in Cisco Catalyst Center.
 
         Args:
             ap_name (str): Hostname of the Access Point.
@@ -1514,7 +1530,7 @@ class Icap(DnacBase):
         """
 
         try:
-            self.log("Searching for AP '{0}' in device list".format(ap_name), "DEBUG")
+            self.log("Attempting to retrieve device ID for AP with hostname: '{0}'".format(ap_name), "DEBUG")
 
             params = {
                 "hostname": ap_name
@@ -1552,20 +1568,20 @@ class Icap(DnacBase):
     def is_ap_assigned_to_site(self, ap_id, ap_name):
         """
         Checks whether a given Access Point (AP) is assigned to a site using
-        the 'Get site assigned network device' API in Cisco DNA Center.
+        the 'Get site assigned network device' API in Cisco Catalyst Center.
 
         Args:
             ap_id (str): Device ID of the Access Point.
             ap_name (str): Hostname of the Access Point.
 
         Returns:
-            tuple:
+            bool:
                 - (True, site_info) if the AP is assigned to a site.
                 - (False, message) if the AP is not assigned to any site or an error occurs.
         """
 
         try:
-            self.log("Checking site assignment for AP '{0}' (ID: {1})".format(ap_name, ap_id), "DEBUG")
+            self.log("Verifying site assignment for AP '{0}' (ID: {1}).".format(ap_name, ap_id), "DEBUG")
 
             response = self.dnac._exec(
                 family="site_design",
