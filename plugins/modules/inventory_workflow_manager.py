@@ -5637,7 +5637,7 @@ class Inventory(DnacBase):
         for param in params_to_remove:
             device_params.pop(param, None)
 
-    def add_inventory_device(self, device_params, devices_to_add):
+    def add_inventory_device(self, device_params, devices_to_add, device_to_add_in_ccc):
         """
         Add a new network device to the inventory in Cisco Catalyst Center.
 
@@ -5829,7 +5829,7 @@ class Inventory(DnacBase):
                 "DEBUG",
             )
             self.cred_updated_not_required.append(device_ip)
-            continue
+            return
 
         device_key_mapping = {
             "username": "userName",
