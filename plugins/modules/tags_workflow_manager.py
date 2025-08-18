@@ -1735,7 +1735,10 @@ class Tags(DnacBase):
                 )
                 self.fail_and_exit(self.msg)
 
-        description = tag.get("description", "")
+        description = tag.get("description")
+        if description == "":
+            description = None
+
         force_delete = tag.get("force_delete", False)
         device_rules = self.validate_device_rules(tag)
         port_rules = self.validate_port_rules(tag)
@@ -2560,6 +2563,14 @@ class Tags(DnacBase):
                 return None
 
             tag_info = response[0]
+            self.log(
+                "Retrieved tag details for tag name: '{0}': {1}".format(
+                    tag_name, self.pprint(tag_info)
+                ),
+                "DEBUG",
+            )
+            if tag_info.get("description") == "":
+                tag_info["description"] = None
 
             return tag_info
 

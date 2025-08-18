@@ -196,6 +196,67 @@
 
  "download_response": {
   "data": "1MOyoQIA... (truncated base64)"
-  }
-  
+  },
+
+  "existing_icap_configuration": {
+  "response": [],
+  "version": "1.0"
+},
+
+ "get_icap_configuration_status_per_network_device":
+ {
+  "response": [
+    {
+      "networkDeviceId": "85fbb916-393d-415e-886a-7f6f006084c2",
+      "status": "Not Started"
+    }
+  ],
+  "version": "1.0"
+},
+
+"generate_device_cli_of_icap_config":
+{ "response": 
+{
+  "taskId": "01982e98-07f8-7599-b105-70c9801036f1",
+  "url": "/api/v1/task/01982e98-07f8-7599-b105-70c9801036f1"
 }
+},
+
+"generate_cli_task":
+{
+  "response": {
+    "startTime": 1753128372222,
+    "data": "workflow_id=0;cfs_id=0;rollback_status=not_supported;rollback_taskid=0;failure_task=NA;processcfs_complete=false",
+    "progress": "Preview generation initiated for activityId '95cf033a-c2dc-40d0-b7ea-04f16f4c78c5' and deviceId '85fbb916-393d-415e-886a-7f6f006084c2'",
+    "version": 1753128372222,
+    "serviceType": "NCSP",
+    "isError": false,
+    "instanceTenantId": "685bfd9ccba1fd0014637216",
+    "id": "01982e98-07f8-7599-b105-70c9801036f1"
+  },
+  "version": "1.0"
+},
+
+"retrieves_the_devices_clis_of_the_icap":
+{
+  "response": {
+    "deviceCli": [
+      {
+        "networkDeviceId": "85fbb916-393d-415e-886a-7f6f006084c2",
+        "status": "In Progress",
+        "previewItems": []
+      }
+    ]
+  }
+},
+
+"icap_discarded": {
+    "response": {
+      "taskId": "f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9",
+      "url": "/dna/intent/api/v1/tasks/f613e4b6-71ec-4bc1-9f9d-eb8e27993cf9"
+    },
+    "version": "1.0"
+  }
+
+}
+
