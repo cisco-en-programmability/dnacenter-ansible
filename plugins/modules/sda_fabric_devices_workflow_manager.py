@@ -5216,9 +5216,13 @@ class FabricDevices(DnacBase):
             "primary_managed_ap_locations"
         )
         if primary_managed_ap_locations is None:
-            have_primary_managed_ap_locations = have_wireless_controller_settings.get(
-                "primary_managed_ap_locations"
-            )
+            if have_wireless_controller_settings:
+                have_primary_managed_ap_locations = have_wireless_controller_settings.get(
+                    "primary_managed_ap_locations"
+                )
+            else:
+                have_primary_managed_ap_locations = None
+
             if not have_primary_managed_ap_locations:
                 self.log(
                     "No 'primary_managed_ap_locations' found in both playbook and existing catalyst center config. Setting to empty list.",
@@ -5242,9 +5246,13 @@ class FabricDevices(DnacBase):
             "secondary_managed_ap_locations"
         )
         if secondary_managed_ap_locations is None:
-            have_secondary_managed_ap_locations = have_wireless_controller_settings.get(
-                "secondary_managed_ap_locations"
-            )
+            if have_wireless_controller_settings:
+                have_secondary_managed_ap_locations = have_wireless_controller_settings.get(
+                    "secondary_managed_ap_locations"
+                )
+            else:
+                have_secondary_managed_ap_locations = None
+
             if not have_secondary_managed_ap_locations:
                 secondary_managed_ap_locations = []
                 self.log(
@@ -5266,9 +5274,13 @@ class FabricDevices(DnacBase):
         # ROLLING AP UPGRADE
         rolling_ap_upgrade = want_wireless_controller_settings.get("rolling_ap_upgrade")
         if rolling_ap_upgrade is None:
-            have_rolling_ap_upgrade = have_wireless_controller_settings.get(
-                "rolling_ap_upgrade"
-            )
+            if have_wireless_controller_settings:
+                have_rolling_ap_upgrade = have_wireless_controller_settings.get(
+                    "rolling_ap_upgrade"
+                )
+            else:
+                have_rolling_ap_upgrade = None
+
             if have_rolling_ap_upgrade is None:
                 rolling_ap_upgrade = {"enable": True, "ap_reboot_percentage": 25}
                 self.log(

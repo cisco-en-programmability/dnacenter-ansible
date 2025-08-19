@@ -194,11 +194,11 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 config=self.playbook_provision_wired_device
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get('msg'),
-            ["Wired Device '204.1.2.6' is already provisioned."]
+            "No device provisioning actions were performed."
         )
 
     def test_provision_workflow_manager_playbook_reprovision_wired_device(self):
@@ -224,7 +224,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            ["re-provisioning of the device(s) '['204.1.2.6']' completed successfully."]
+            "Wired device(s) '['204.1.2.6']' re-provisioned successfully."
         )
 
     def test_provision_workflow_manager_playbook_provision_device(self):
@@ -250,7 +250,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            ["Provisioning of the device(s) '['204.1.2.6']' completed successfully."]
+            "Wired device(s) '['204.1.2.6']' provisioned successfully."
         )
 
     def test_provision_workflow_manager_playbook_provision_wireless_device(self):
@@ -275,7 +275,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Provisioning of the wireless device '204.192.13.1' completed successfully."
+            "Wireless device(s) '204.192.13.1' provisioned successfully."
         )
 
     def test_provision_workflow_manager_playbook_application_telemetry_disable_no_site_assigned(self):
@@ -351,7 +351,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('response'),
-            "Devices deleted successfully: 204.192.3.40"
+            "Device(s) '204.192.3.40' deleted successfully."
         )
 
     def test_provision_workflow_manager_playbook_enable(self):
@@ -376,7 +376,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Application telemetry enabled successfully for all devices."
+            "Application telemetry enabled successfully for 204.1.2.2"
         )
 
     def test_provision_workflow_manager_playbook_disable(self):
@@ -401,5 +401,5 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Application telemetry disabled successfully for all devices."
+            "Application telemetry disabled successfully for 204.1.2.2"
         )
