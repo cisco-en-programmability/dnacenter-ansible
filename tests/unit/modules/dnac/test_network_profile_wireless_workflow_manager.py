@@ -129,7 +129,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                dnac_version="2.3.7.9",
+                dnac_version="3.1.3.0",
                 config_verify=True,
                 config=self.profile_creation_config
             )
@@ -156,7 +156,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                dnac_version="2.3.7.9",
+                dnac_version="3.1.3.0",
                 config_verify=True,
                 config=self.profile_creation_config_feature_template
             )
@@ -167,4 +167,31 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
         self.assertIn(
             "Unable to create wireless profile",
             result.get('msg')
+        )
+
+    def test_network_profile_workflow_manager_profile_creation_feature_template_fail(self):
+        """
+        Test case for wireless profile workfollow manager provision and update device.
+
+        This test case checks the behavior of the wireless profile workflow when creation
+        in the specified Cisco Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="2.3.7.9",
+                config_verify=True,
+                config=self.profile_creation_config_feature_template
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.maxDiff = None
+        self.assertIn(
+            "Invalid parameters in playbook config:",
+            result.get('response')
         )

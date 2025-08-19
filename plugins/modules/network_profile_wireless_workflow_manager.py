@@ -153,7 +153,7 @@ options:
         required: false
       feature_templates:
         description: |
-          List of feature templates assigned to the profile.
+          List of feature templates to be assigned or removed to/from the wireless network profile.
         type: list
         elements: dict
         required: false
@@ -163,7 +163,7 @@ options:
                 The category or name of the feature template to be applied.
                 This defines the functional area of the configuration (For example, AAA, SSID, CleanAir).
                 Only one feature template category can be specified per entry in this list.
-                For example:
+                For support values:
                 - AAA_RADIUS_ATTRIBUTES_CONFIGURATION
                 - ADVANCED_SSID_CONFIGURATION
                 - CLEANAIR_CONFIGURATION
@@ -907,6 +907,15 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             )
             return
 
+        if feature_templates \
+           and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") < 0:
+            errormsg.append(
+                "The specified version '{0}' does not support for feature template."
+                "Supported version(s) start from '3.1.3.0' onwards.".format(
+                    self.get_ccc_version())
+            )
+            return
+
         for feature_template in feature_templates:
             device_type = feature_template.get("device_type")
             if device_type:
@@ -1244,7 +1253,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.get_additional_interface_info(additional_interfaces, profile_info)
 
         feature_templates = config.get("feature_templates")
-        if feature_templates:
+        if feature_templates \
+           and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") > 0:
             self.log("Fetching feature template information.", "DEBUG")
             self.get_feature_template_info(feature_templates, profile_info)
 
@@ -1746,7 +1756,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                 "WARNING",
                             )
 
-                if feature_templates:
+                if feature_templates \
+                   and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") > 0:
                     for each_template in feature_templates:
                         if each_template.get("design_id") and not self.value_exists(
                            have_feature_templates, "id", each_template.get("design_id")):
@@ -2084,7 +2095,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                         interface.get("interface_name")
                                     )
 
-                    elif key == "feature_templates" and isinstance(value, list):
+                    elif key == "feature_templates" and isinstance(value, list) \
+                         and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") > 0:
                         payload_data["featureTemplates"] = []
                         feature_templates = wireless_data[key]
                         if feature_templates:
@@ -2480,6 +2492,10 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             ),
             "DEBUG",
         )
+
+        if feature_templates \
+           and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") < 0:
+            del config["feature_templates"]
 
         for profile in self.have["wireless_profile_list"]:
             if profile.get("name") == config.get("profile_name"):
