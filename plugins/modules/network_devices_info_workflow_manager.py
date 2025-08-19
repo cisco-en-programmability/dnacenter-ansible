@@ -98,7 +98,7 @@ options:
                   - NX-OS
                   - ASA
                   - FTD
-                  - IOS-XE SD-WAN # Additional examples available depending on specific requirements.
+                  - IOS-XE SD-WAN # Additional options may be found in the API documentation.
             software_version:
                 description:
                     - List of software versions to filter devices(e.g., 17.12.4).
@@ -115,7 +115,7 @@ options:
                   - CORE
                   - WAN
                   - WLC
-                  - DATA_CENTER # Additional examples available depending on specific requirements.
+                  - DATA_CENTER # Additional options may be found in the API documentation.
             device_type:
                 description:
                     - List of device types to filter devices (For example, Cisco Catalyst 9300 Switch).
@@ -131,7 +131,7 @@ options:
                   - Cisco Catalyst 9800-L-C Wireless Controller
                   - Cisco Catalyst 9115AXI Unified Access Point
                   - Cisco Catalyst Wireless 9164I Unified Access Point
-                  - Cisco Wireless 9176D1 Access Point # Additional examples available depending on specific requirements.
+                  - Cisco Wireless 9176D1 Access Point # Additional options may be found in the API documentation.
             family:
                 description:
                     - List of device families to filter devices.
@@ -142,7 +142,7 @@ options:
                   - Routers
                   - Wireless Controller
                   - Unified AP
-                  - Sensors
+                  - Sensors # Additional options may be found in the API documentation.
             site_hierarchy:
                 description:
                     - List of site hierarchies to filter devices by site.
