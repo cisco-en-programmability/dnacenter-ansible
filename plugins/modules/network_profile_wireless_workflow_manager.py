@@ -2096,7 +2096,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                     )
 
                     elif key == "feature_templates" and isinstance(value, list) \
-                    and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") > 0:
+                        and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") > 0:
                         payload_data["featureTemplates"] = []
                         feature_templates = wireless_data[key]
                         if feature_templates:
