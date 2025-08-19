@@ -619,16 +619,16 @@ notes:
     network_settings.NetworkSettings.reserve_ip_subpool,
     network_settings.NetworkSettings.update_reserve_ip_subpool,
     network_settings.NetworkSettings.update_network_v2,
-    network_settings.NetworkSettings.retrieves_global_ip_address_pools_v1
-    network_settings.NetworkSettings.retrieves_ip_address_subpools_v1
-    network_settings.NetworkSettings.create_a_global_ip_address_pool
-    network_settings.NetworkSettings.reservecreate_ip_address_subpools_v1
-    network_settings.NetworkSettings.delete_a_global_ip_address_pool_v1
-    network_settings.NetworkSettings.release_an_ip_address_subpool_v1
-    network_settings.NetworkSettings.updates_a_global_ip_address_pool_v1
-    network_settings.NetworkSettings.updates_an_ip_address_subpool_v1
-    network_settings.NetworkSettings.get_device_controllability_settings_v1
-    network_settings.NetworkSettings.update_device_controllability_settings_v1
+    network_settings.NetworkSettings.retrieves_global_ip_address_pools,
+    network_settings.NetworkSettings.retrieves_ip_address_subpools,
+    network_settings.NetworkSettings.create_a_global_ip_address_pool,
+    network_settings.NetworkSettings.reserve_create_ip_address_subpools,
+    network_settings.NetworkSettings.delete_a_global_ip_address_pool,
+    network_settings.NetworkSettings.release_an_ip_address_subpool,
+    network_settings.NetworkSettings.updates_a_global_ip_address_pool,
+    network_settings.NetworkSettings.updates_an_ip_address_subpool,
+    network_settings.NetworkSettings.get_device_controllability_settings,
+    network_settings.NetworkSettings.update_device_controllability_settings
 
   - Paths used are
     post /dna/intent/api/v1/global-pool,
@@ -2340,7 +2340,7 @@ class NetworkSettings(DnacBase):
                 else:
                     response = self.dnac._exec(
                         family="network_settings",
-                        function="retrieves_ip_address_subpools_v1",
+                        function="retrieves_ip_address_subpools",
                         op_modifies=True,
                         params={
                             "id": site_id,
@@ -2425,7 +2425,7 @@ class NetworkSettings(DnacBase):
                 else:
                     response = self.dnac._exec(
                         family="network_settings",
-                        function="retrieves_global_ip_address_pools_v1",
+                        function="retrieves_global_ip_address_pools",
                         params={"offset": offset,
                                 "limit": 500}
                     )
@@ -2761,7 +2761,7 @@ class NetworkSettings(DnacBase):
             # Call the Catalyst Center API using family/function
             response = self.dnac._exec(
                 family="site_design",
-                function="get_device_controllability_settings_v1",
+                function="get_device_controllability_settings",
             )
             response = response.get("response")
 
@@ -3046,7 +3046,7 @@ class NetworkSettings(DnacBase):
                 else:
                     response = self.dnac._exec(
                         family="network_settings",
-                        function="retrieves_global_ip_address_pools_v1",
+                        function="retrieves_global_ip_address_pools",
                         params={"offset": offset}
                     )
             except Exception as msg:
@@ -5127,12 +5127,12 @@ class NetworkSettings(DnacBase):
                     try:
                         response = self.dnac._exec(
                             family="network_settings",
-                            function="updates_a_global_ip_address_pool_v1",
+                            function="updates_a_global_ip_address_pool",
                             op_modifies=True,
                             params=param,
                         )
                         self.log("Received API response: {0}".format(response), "DEBUG")
-                        self.check_tasks_response_status(response, "updates_a_global_ip_address_pool_v1").check_return_status()
+                        self.check_tasks_response_status(response, "updates_a_global_ip_address_pool").check_return_status()
                         self.log("Successfully updated global pool successfully.", "INFO")
                     except Exception as msg:
                         self.msg = (
@@ -5351,7 +5351,7 @@ class NetworkSettings(DnacBase):
                 try:
                     response = self.dnac._exec(
                         family="network_settings",
-                        function="reservecreate_ip_address_subpools_v1",
+                        function="reservecreate_ip_address_subpools",
                         op_modifies=True,
                         params=reserve_params,
                     )
@@ -5365,7 +5365,7 @@ class NetworkSettings(DnacBase):
                     self.status = "failed"
                     return self
 
-                self.check_tasks_response_status(response, "reservecreate_ip_address_subpools_v1").check_return_status()
+                self.check_tasks_response_status(response, "reservecreate_ip_address_subpools").check_return_status()
                 self.log("Successfully created IP subpool reservation '{0}'.".format(name), "INFO")
                 result_reserve_pool.get("response") \
                     .update({name: self.want.get("wantReserve")[reserve_pool_index]})
@@ -5393,7 +5393,7 @@ class NetworkSettings(DnacBase):
             try:
                 response = self.dnac._exec(
                     family="network_settings",
-                    function="updates_an_ip_address_subpool_v1",
+                    function="updates_an_ip_address_subpool",
                     op_modifies=True,
                     params=reserve_params,
                 )
@@ -5407,7 +5407,7 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            self.check_tasks_response_status(response, "updates_an_ip_address_subpool_v1").check_return_status()
+            self.check_tasks_response_status(response, "updates_an_ip_address_subpool").check_return_status()
             self.log("Reserved ip subpool '{0}' updated successfully.".format(name), "INFO")
             result_reserve_pool.get("response") \
                 .update({name: reserve_params})
@@ -6083,12 +6083,12 @@ class NetworkSettings(DnacBase):
         try:
             response = self.dnac._exec(
                 family="site_design",
-                function='update_device_controllability_settings_v1',
+                function='update_device_controllability_settings',
                 op_modifies=True,
                 params=payload,
             )
-            self.log("Received API response of 'update_device_controllability_settings_v1': {0}".format(response), "DEBUG")
-            self.check_tasks_response_status(response, "update_device_controllability_settings_v1").check_return_status()
+            self.log("Received API response of 'update_device_controllability_settings': {0}".format(response), "DEBUG")
+            self.check_tasks_response_status(response, "update_device_controllability_settings").check_return_status()
 
             # Update the 'msg' field
             self.log("Device Controllability settings updated successfully.", "INFO")
@@ -6278,7 +6278,7 @@ class NetworkSettings(DnacBase):
                                  .format(pool_name, pool_id), "INFO")
                         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                             execution_details = self.delete_ip_pool(pool_name, pool_id,
-                                                                    "release_an_ip_address_subpool_v1",
+                                                                    "release_an_ip_address_subpool",
                                                                     "Reserve")
                         else:
                             execution_details = self.delete_ip_pool(pool_name, pool_id,
@@ -6333,7 +6333,7 @@ class NetworkSettings(DnacBase):
                 self.log("Reserved pool '{0}' ID: {1}".format(pool_name, pool_id), "DEBUG")
                 if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                     execution_details = self.delete_ip_pool(pool_name, pool_id,
-                                                            "release_an_ip_address_subpool_v1",
+                                                            "release_an_ip_address_subpool",
                                                             "Reserve"
                                                             )
                 else:
@@ -6385,7 +6385,7 @@ class NetworkSettings(DnacBase):
                     pool_id = each_item.get("id")
                     if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                         execution_details = self.delete_ip_pool(pool_name, pool_id,
-                                                                "delete_a_global_ip_address_pool_v1",
+                                                                "delete_a_global_ip_address_pool",
                                                                 "Global")
                     else:
                         execution_details = self.delete_ip_pool(pool_name, pool_id,
@@ -6435,7 +6435,7 @@ class NetworkSettings(DnacBase):
                 id = item.get("id")
                 if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                     execution_details = self.delete_ip_pool(pool_name, id,
-                                                            "delete_a_global_ip_address_pool_v1",
+                                                            "delete_a_global_ip_address_pool",
                                                             "Global")
                 else:
                     execution_details = self.delete_ip_pool(pool_name, id,

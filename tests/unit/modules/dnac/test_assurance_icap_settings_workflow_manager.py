@@ -53,8 +53,13 @@ class TestDnacAssuranceSettings(TestDnacModule):
         if "creation" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list_for_creation"),
+                self.test_data.get("existing_icap_configuration"),
                 self.test_data.get("icap_creation"),
                 self.test_data.get("get_task_by_id"),
+                self.test_data.get("get_icap_configuration_status_per_network_device"),
+                self.test_data.get("generate_device_cli_of_icap_config"),
+                self.test_data.get("generate_cli_task"),
+                self.test_data.get("retrieves_the_devices_clis_of_the_icap"),
                 self.test_data.get("icap_deplyed"),
                 self.test_data.get("using_task_id"),
                 self.test_data.get("deployment_status"),
@@ -69,8 +74,13 @@ class TestDnacAssuranceSettings(TestDnacModule):
         if "discard_exception" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list_for_creation"),
+                self.test_data.get("existing_icap_configuration"),
                 self.test_data.get("icap_creation"),
                 self.test_data.get("get_task_by_id"),
+                self.test_data.get("get_icap_configuration_status_per_network_device"),
+                self.test_data.get("icap_discarded"),
+                self.test_data.get("using_task_id"),
+                self.test_data.get("icap_discarded"),
             ]
 
         if "download" in self._testMethodName:
