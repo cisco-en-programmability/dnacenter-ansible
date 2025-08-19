@@ -221,45 +221,45 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_icap_settings:
-            # Example 1: Standard ONBOARDING capture for a client on a specific WLC
+              # Example 1: Standard ONBOARDING capture for a client on a specific WLC
               - capture_type: ONBOARDING
                 preview_description: "ICAP onboarding
                   capture"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  # required field
                 wlc_name: NY-IAC-EWLC.cisco.local  # required field
-            # Example 2: Full packet capture for troubleshooting
+              # Example 2: Full packet capture for troubleshooting
               - capture_type: FULL
                 preview_description: "Full ICAP capture
                   for troubleshooting"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  # required field
                 wlc_name: NY-IAC-EWLC.cisco.local  # required field
-            # Example 3: Over-the-Air (OTA) capture for a specific AP radio slot
+              # Example 3: Over-the-Air (OTA) capture for a specific AP radio slot
               - capture_type: OTA
                 preview_description: "OTA ICAP capture
                   for troubleshooting"
                 duration_in_mins: 30
-                client_mac: 04:42:1A:4C:97:F6  #required field
-                ap_name: AP1416.9D2A.1D0C #required field
-                wlc_name: SJ-EWLC-1.cisco.local #required field
+                client_mac: 04:42:1A:4C:97:F6   # required field
+                ap_name: AP1416.9D2A.1D0C  # required field
+                wlc_name: SJ-EWLC-1.cisco.local  # required field
                 slots: [0]
                 ota_band: 5
                 ota_channel: 36
                 ota_channel_width: 40
-            # Example 4: RF statistics capture for a specific AP & WLC
+              # Example 4: RF statistics capture for a specific AP & WLC
               - capture_type: RFSTATS
                 preview_description: "RF statistics capture for troubleshooting"
-                client_mac: 04:42:1A:4C:97:F6  #required field
-                ap_name: AP1416.9D2A.1D0C #required field
-                wlc_name: SJ-EWLC-1.cisco.local #required field
+                client_mac: 04:42:1A:4C:97:F6  # required field
+                ap_name: AP1416.9D2A.1D0C  # required field
+                wlc_name: SJ-EWLC-1.cisco.local  # required field
                 slots: [0]
-            # Example 5: Anomaly capture for a specific client
+              # Example 5: Anomaly capture for a specific client
               - capture_type: ANOMALY
                 preview_description: "Anomaly capture for troubleshooting"
-                client_mac: 04:42:1A:4C:97:F6  #required field
-                ap_name: AP1416.9D2A.1D0C #required field
-                wlc_name: SJ-EWLC-1.cisco.local #required field
+                client_mac: 04:42:1A:4C:97:F6  # required field
+                ap_name: AP1416.9D2A.1D0C  # required field
+                wlc_name: SJ-EWLC-1.cisco.local  # required field
                 slots: [0]
 
 - hosts: dnac_servers
