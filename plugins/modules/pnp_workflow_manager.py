@@ -981,16 +981,17 @@ class PnP(DnacBase):
             self.result['diff'] = self.validated_config
             self.result['changed'] = True
 
-            authorize_status, serial_number_list = self.bulk_authorize_devices(add_devices)
-            if authorize_status:
-                self.result['msg'] += " {0} device(s) authorized successfully".format(
-                    len(serial_number_list))
-                self.log(self.result['msg'], "INFO")
-            else:
-                msg = " Unable to authorize the device(s): {0}".format(
-                    serial_number_list)
-                self.log(msg, "INFO")
-            return self
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") > 0:
+                authorize_status, serial_number_list = self.bulk_authorize_devices(add_devices)
+                if authorize_status:
+                    self.result['msg'] += " {0} device(s) authorized successfully".format(
+                        len(serial_number_list))
+                    self.log(self.result['msg'], "INFO")
+                else:
+                    msg = " Unable to authorize the device(s): {0}".format(
+                        serial_number_list)
+                    self.log(msg, "INFO")
+                return self
 
         except Exception as e:
             msg = "Unable execute the function 'import_devices_in_bulk' for the payload: '{0}'. ".format(
@@ -1039,8 +1040,7 @@ class PnP(DnacBase):
                     continue
 
                 device_response = self.get_device_list_pnp(serial_number)
-                if device_response and isinstance(device_response, dict) \
-                   and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") > 0:
+                if device_response and isinstance(device_response, dict):
                     device_info = device_response.get("deviceInfo", {})
                     if device_info.get("state") == "Pending Authorization":
                         authorize_response = self.authorize_device(device_response.get("id"))
