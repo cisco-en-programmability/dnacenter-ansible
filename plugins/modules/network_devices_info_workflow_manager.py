@@ -1354,7 +1354,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No device details found for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "WARNING")
                     device_info_list.append({
                         "device_ip": device_ip,
-                        "device_details": "No device details found for {0}".format(device_ip)
+                        "device_details": []
                     })
 
             except Exception as e:
@@ -1441,7 +1441,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No VLAN interface data found for device IP: {0}".format(device_ip), "DEBUG")
                     vlans_info_list.append({
                         "device_ip": device_ip,
-                        "interface_vlan_details": "No VLAN interface data found for {0}".format(device_ip)
+                        "interface_vlan_details": []
                     })
 
             except Exception as e:
@@ -1522,7 +1522,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No line card details found for device IP: {0}".format(device_ip), "DEBUG")
                     linecards_info_list.append({
                         "device_ip": device_ip,
-                        "linecard_details": "No line card details found for {0}".format(device_ip)
+                        "linecard_details": []
                     })
 
             except Exception as e:
@@ -1605,7 +1605,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No stack details found for device IP: {0}".format(device_ip), "DEBUG")
                     stack_info_list.append({
                         "device_ip": device_ip,
-                        "stack_details": "No stack details found for {0}".format(device_ip)
+                        "stack_details": []
                     })
 
             except Exception as e:
@@ -1683,7 +1683,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No device config card details found for device IP: {0}".format(device_ip), "DEBUG")
                     device_config_list.append({
                         "device_ip": device_ip,
-                        "device_config_details": "No device config details found for {0}".format(device_ip)
+                        "device_config_details": []
                     })
 
             except Exception as e:
@@ -1761,7 +1761,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No polling interval details found for device IP: {0}".format(device_ip), "DEBUG")
                     polling_intervals_info_list.append({
                         "device_ip": device_ip,
-                        "polling_interval_details": "No polling interval details found for {0}".format(device_ip)
+                        "polling_interval_details": []
                     })
 
             except Exception as e:
@@ -1842,7 +1842,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No device summary details found for device IP: {0}".format(device_ip), "DEBUG")
                     device_summary_info_list.append({
                         "device_ip": device_ip,
-                        "device_summary_details": "No device summary details found for {0}".format(device_ip)
+                        "device_summary_details": []
                     })
 
             except Exception as e:
@@ -1923,7 +1923,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No supervisor card details found for device IP: {0}".format(device_ip), "DEBUG")
                     supervisor_cards_info_list.append({
                         "device_ip": device_ip,
-                        "supervisor_card_details": "No supervisor card details found for {0}".format(device_ip)
+                        "supervisor_card_details": []
                     })
 
             except Exception as e:
@@ -2005,7 +2005,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No PoE details found for device IP: {0}".format(device_ip), "DEBUG")
                     poe_info_list.append({
                         "device_ip": device_ip,
-                        "poe_details": "No PoE details found for {0}".format(device_ip)
+                        "poe_details": []
                     })
 
             except Exception as e:
@@ -2100,7 +2100,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No interface details found for device IP: {0}".format(device_ip), "DEBUG")
                     interface_info_list.append({
                         "device_ip": device_ip,
-                        "interface_details": "No interface details found for {0}".format(device_ip)
+                        "interface_details": []
                     })
 
             except Exception as e:
@@ -2179,7 +2179,7 @@ class NetworkDevicesInfo(DnacBase):
                     self.log("No module count details found for device IP: {0}".format(device_ip), "DEBUG")
                     module_counts_info_list.append({
                         "device_ip": device_ip,
-                        "module_count_details": "No module count details found for {0}".format(device_ip)
+                        "module_count_details": []
                     })
 
             except Exception as e:
@@ -2572,7 +2572,7 @@ class NetworkDevicesInfo(DnacBase):
                             self.log("No link mismatch found for device IP: {0}".format(device_ip), "DEBUG")
                             site_result[category].append({
                                 "device_ip": device_ip,
-                                "link_mismatch_details": "No link mismatches found"
+                                "link_mismatch_details": []
                             })
 
                         if category == 'vlan':
