@@ -273,7 +273,7 @@ notes:
 """
 
 EXAMPLES = r"""
-#1 Example Playbook to gather specific network device information from Cisco Catalyst Center
+# 1 Example Playbook to gather specific network device information from Cisco Catalyst Center
 ---
 - name: Get Specific Network devices information on Cisco Catalyst Center
   hosts: localhost
@@ -332,7 +332,7 @@ EXAMPLES = r"""
                   file_mode: w
                   timestamp: true
 
-#2 Example Playbook to gather all network device information from Cisco Catalyst Center
+# 2 Example Playbook to gather all network device information from Cisco Catalyst Center
 - name: Get All Network devices information on Cisco Catalyst Center
   hosts: localhost
   connection: local
@@ -849,7 +849,10 @@ from ansible.module_utils.basic import AnsibleModule
 import json
 import time
 import os
-import yaml
+try:
+    import yaml
+except ImportError:
+    yaml = None
 from datetime import datetime
 
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
