@@ -341,7 +341,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                         "supervisor_card_info": [
                             {
                                 "device_ip": "204.192.4.2",
-                                "supervisor_card_details": "No supervisor card details found for 204.192.4.2"
+                                "supervisor_card_details": []
                             }
                         ]
                     }
@@ -567,13 +567,13 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                                 "speed-duplex": [
                                     {
                                         "device_ip": "204.1.2.1",
-                                        "link_mismatch_details": "No link mismatches found"
+                                        "link_mismatch_details": []
                                     }
                                 ],
                                 "vlan": [
                                     {
                                         "device_ip": "204.1.2.1",
-                                        "link_mismatch_details": "No link mismatches found"
+                                        "link_mismatch_details": []
                                     }
                                 ]
                             }
@@ -5466,7 +5466,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("msg"),
             '''Invalid parameters in playbook: ["'network_devices': '{'requested_info': ['poe_info']}' is invalid.'''
-            '''Reason: expected type: 'list'. Provided type: 'dict'. "]'''
+            ''' Reason: expected type: 'list'. Provided type: 'dict'. "]'''
         )
 
     def test_network_devices_info_workflow_manager_playbook_negative_scenario8(self):
