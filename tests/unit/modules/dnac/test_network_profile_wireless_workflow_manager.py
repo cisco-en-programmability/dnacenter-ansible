@@ -115,6 +115,17 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
                 self.test_data.get("get80211be_profiles")
             ]
 
+        if "profile_creation_fail_feature_template" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_network_profile_sites"),
+                self.test_data.get("get_Sites"),
+                self.test_data.get("no_response_received"),
+                self.test_data.get("get_sites2"),
+                self.test_data.get("get_enterprise_ssid"),
+                self.test_data.get("get_feature_template_summary"),
+                self.test_data.get("get_feature_template_summary1")
+            ]
+
     def test_network_profile_workflow_manager_profile_creation_fail(self):
         """
         Test case for wireless profile workfollow manager provision and update device.
@@ -169,7 +180,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
             result.get('msg')
         )
 
-    def test_network_profile_workflow_manager_profile_creation_feature_template_fail(self):
+    def test_network_profile_workflow_manager_profile_creation_fail_feature_template(self):
         """
         Test case for wireless profile workfollow manager provision and update device.
 
