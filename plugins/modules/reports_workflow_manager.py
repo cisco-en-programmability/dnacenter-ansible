@@ -1115,72 +1115,89 @@ class FlexibleReport(DnacBase):
             self: The current instance of the class with updated 'have' attributes.
         """
         self.log("Retrieving 'have' attributes from configuration: {0}".format(self.pprint(config)), "DEBUG")
-        # view_groups_details = self.get_all_view_groups(config)
-        # view_details = self.get_view_details()
         generate_report = config.get("generate_report", [])
 
         for report_entry in generate_report:
-            # check if the report already exists
+            # if self.state != "deleted":
+            view_group_name = report_entry.get("view_group_name")
+            if not view_group_name:
+                self.log(f"view_group_name '{view_group_name}' not found in view_groups_details", "WARNING")
+                self.msg = "Mandatory parameter 'view_group_name' '{0}' not found in view_groups_details.".format(view_group_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return self
+
+            view_group_id, data_category = self.get_all_view_groups(view_group_name)
+            if view_group_id:
+                report_entry["view_group_id"] = view_group_id
+                report_entry["data_category"] = data_category
+                self.log(f"Found view group ID '{view_group_id}' for view_group_name '{view_group_name}'", "DEBUG")
+                view_name = report_entry["view"]["view_name"]
+                view_id = self.get_views_for_a_given_view_group(view_group_id, view_name)
+                if not view_id:
+                    self.msg = "No views found for view group ID '{0}'.".format(view_group_id)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    return self
+                report_entry["view"]["view_id"] = view_id
+                self.log(f"Mapped view_group_name '{view_group_name}' to view_group'_id '{view_group_id}'", "DEBUG")
+
             try:
                 response = self.dnac._exec(
                     family="reports",
                     function="get_list_of_scheduled_reports",
+                    params={
+                        "viewGroupId": view_group_id,
+                        "viewId": view_id
+                    }
                 )
                 self.log("Response from get_list_of_scheduled_reports: {0}".format(self.pprint(response)), "DEBUG")
             except Exception as e:
-                self.msg = "An error occurred while checking for existing reports: {0}".format(str(e))
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-            if not response:
+                error_str = str(e)
+                if "status_code: 404" in error_str or "\"status\":404" in error_str:
+                    # Treat 404 as valid "not found"
+                    self.msg = f"Report not found: {error_str}"
+                    self.log(self.msg, "WARNING")
+                    report_entry["exists"] = False
+                    # Don't fail here, just return self
+                    return self
+                else:
+                    self.msg = "An error occurred while checking for existing reports: {0}".format(str(e))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+            if not response and report_entry["exists"] is False:
                 self.msg = "Failed to retrieve list of scheduled reports."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
-            get_list_of_scheduled_reports = response
+
             report_name = report_entry.get("name")
             if not report_name:
                 self.msg = "The 'name' field is mandatory in the 'generate_report' configuration."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
+            # check if the report already exists
+            get_list_of_scheduled_reports = response or []
+            report_found = False
+
             for report in get_list_of_scheduled_reports:
                 if report.get("name") == report_name:
                     self.log(f"Report '{report_name}' already exists.", "DEBUG")
                     report_entry["report_id"] = report.get("reportId")
                     report_entry["view_group_id"] = report.get("viewGroupId")
-                    report_entry["view"]["views_id"] = report.get("view", {}).get("viewsId")
+                    report_entry["view"]["view_id"] = report.get("view", {}).get("viewId")
                     report_entry["exists"] = True
+                    report_found = True
+                    self.log(report_entry, "DEBUG")
                     self.log(f"Report '{report_name}' exists with ID: {report.get('reportId')}", "DEBUG")
                     break
-                else:
-                    self.log(f"Report '{report_name}' does not exist.", "DEBUG")
-                    report_entry["exists"] = False
 
-            if self.state != "deleted":
-                view_group_name = report_entry.get("view_group_name")
-                if not view_group_name:
-                    self.log(f"view_group_name '{view_group_name}' not found in view_groups_details", "WARNING")
-                    self.msg = "Mandatory parameter 'view_group_name' '{0}' not found in view_groups_details.".format(view_group_name)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                    return self
-
-                view_group_id, data_category = self.get_all_view_groups(view_group_name)
-                if view_group_id:
-                    report_entry["view_group_id"] = view_group_id
-                    report_entry["data_category"] = data_category
-                    self.log(f"Found view group ID '{view_group_id}' for view_group_name '{view_group_name}'", "DEBUG")
-                    view_name = report_entry["view"]["view_name"]
-                    view_id = self.get_views_for_a_given_view_group(view_group_id, view_name)
-                    if not view_id:
-                        self.msg = "No views found for view group ID '{0}'.".format(view_group_id)
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                        return self
-                    report_entry["view"]["views_id"] = view_id
-                    self.log(f"Mapped view_group_name '{view_group_name}' to view_group'_id '{view_group_id}'", "DEBUG")
+            if not report_found:
+                self.log(f"Report '{report_name}' does not exist.", "DEBUG")
+                report_entry["exists"] = False
 
         if self.state != "deleted":
             for report_entry in generate_report:
                 view_group_id = report_entry.get("view_group_id")
-                view_id = report_entry.get("view", {}).get("views_id")
+                view_id = report_entry.get("view", {}).get("view_id")
                 self.fetch_view_details(view_group_id, view_id)
 
         have = {"generate_report": config.get("generate_report", [])}
@@ -1239,8 +1256,8 @@ class FlexibleReport(DnacBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-                if not report_entry.get("view", {}).get("views_id"):
-                    self.msg = "The 'views_id' field is mandatory in the 'view' configuration."
+                if not report_entry.get("view", {}).get("view_id"):
+                    self.msg = "The 'view_id' field is mandatory in the 'view' configuration."
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
@@ -1253,7 +1270,7 @@ class FlexibleReport(DnacBase):
                         "response": {
                             "report_id": report_entry.get("report_id"),
                             "view_group_id": report_entry.get("view_group_id"),
-                            "views_id": report_entry.get("view", {}).get("views_id"),
+                            "view_id": report_entry.get("view", {}).get("view_id"),
                         },
                         "msg": "Report '{0}' already exists.".format(report_entry.get("name")),
                     }
@@ -1403,9 +1420,9 @@ class FlexibleReport(DnacBase):
                         }
             )
             download_data = download_response.data
-            self.log("Response from download_report_content: {0}".format(self.pprint(download_response)), "DEBUG")
+            self.log("Response from download_report_content: {0}".format(download_data), "DEBUG")
 
-            if not download_response:
+            if not download_data:
                 self.msg = "Failed to download report content for '{0}'.".format(report_entry.get("name"))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return
