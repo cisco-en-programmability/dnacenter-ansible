@@ -27,6 +27,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
     playbook_config_create = test_data.get("playbook_config_create")
     playbook_config_missing_schedule_type = test_data.get("playbook_config_missing_schedule_type")
     playbook_config_schedule_later = test_data.get("playbook_config_schedule_later")
+    playbook_config_schedule_recurrance = test_data.get("playbook_config_schedule_recurrance")
 
     def setUp(self):
         super(TestDnacreportsWorkflow, self).setUp()
@@ -96,6 +97,19 @@ class TestDnacreportsWorkflow(TestDnacModule):
             ]
 
         if "schedule_later" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("create_get_all_view_groups"),
+                self.test_data.get("create_get_views_for_a_given_view_group"),
+                self.test_data.get("create_get_list_of_scheduled_reports"),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
+                self.test_data.get("create_n_schedule_reports"),
+                self.test_data.get("create_get_all_view_groups"),
+                self.test_data.get("create_get_views_for_a_given_view_group"),
+                self.test_data.get("delete_get_list_of_scheduled_reports"),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
+            ]
+
+        if "RECURRENCE_monthly" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
@@ -262,7 +276,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
                 state="merged",
                 dnac_version="3.1.3.0",
                 config_verify=True,
-                config=self.playbook_config_schedule_later
+                config=self.playbook_config_schedule_recurrance
             )
         )
         result = self.execute_module(changed=True, failed=False)
