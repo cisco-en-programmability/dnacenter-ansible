@@ -136,8 +136,13 @@
             ],
             "schedule": {
                 "time_zone": "Asia/Calcutta",
-                "type": "SCHEDULE_LATER",
-                "date_time": "2025-08-12 12:40 PM"
+                "type": "SCHEDULE_RECURRENCE",
+                "date_time": "2025-08-12 12:40 PM",
+                "recurrence": {
+                    "type": "MONTHLY",
+                    "day_of_month": 12,
+                    "last_day_of_month": false
+                }
             },
             "view": {
                 "view_name": "Network Device Compliance",
