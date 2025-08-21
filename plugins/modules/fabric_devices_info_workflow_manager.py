@@ -2006,7 +2006,7 @@ class FabricDevicesInfo(DnacBase):
                     function="get_fabric_sites",
                     params={'offset': offset, 'limit': limit}
                 )
-                self.log("Received API response from 'get_fabric_sites': {0}".format(response), "error")
+                self.log("Received API response from 'get_fabric_sites': {0}".format(response), "DEBUG")
 
                 if not response:
                     self.msg = "No response received from get_fabric_sites"
