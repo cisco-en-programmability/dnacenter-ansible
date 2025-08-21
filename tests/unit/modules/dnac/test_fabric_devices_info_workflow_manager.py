@@ -106,64 +106,88 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         elif "playbook_with_fabric_info" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_details"),
-                self.test_data.get("get_fabric_sites2"),
-                self.test_data.get("get_fabric_sites3"),
+                self.test_data.get("get_fabric_sites4"),
+                self.test_data.get("get_fabric_sites5"),
                 self.test_data.get("get_fabric_devices5"),
                 self.test_data.get("get_fabric_devices6"),
                 self.test_data.get("get_fabric_devices7"),
                 self.test_data.get("get_fabric_devices8"),
                 self.test_data.get("get_fabric_devices9"),
-                self.test_data.get("get_fabric_sites4"),
                 self.test_data.get("get_fabric_devices10"),
                 self.test_data.get("get_fabric_devices11"),
                 self.test_data.get("get_fabric_devices12"),
                 self.test_data.get("get_fabric_devices13"),
                 self.test_data.get("get_fabric_devices14"),
+                self.test_data.get("get_fabric_devices15"),
+                self.test_data.get("get_fabric_devices16"),
+                self.test_data.get("get_fabric_sites6"),
+                self.test_data.get("get_fabric_devices17"),
+                self.test_data.get("get_fabric_devices18"),
+                self.test_data.get("get_fabric_devices19"),
+                self.test_data.get("get_fabric_devices20"),
+                self.test_data.get("get_fabric_devices21"),
+                self.test_data.get("get_fabric_devices22"),
             ]
 
         elif "playbook_handoff_info" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_details1"),
-                self.test_data.get("get_fabric_sites5"),
-                self.test_data.get("get_fabric_sites6"),
-                self.test_data.get("get_fabric_devices15"),
-                self.test_data.get("get_fabric_devices16"),
-                self.test_data.get("get_fabric_devices17"),
-                self.test_data.get("get_fabric_devices18"),
-                self.test_data.get("get_fabric_devices19"),
                 self.test_data.get("get_fabric_sites7"),
-                self.test_data.get("get_fabric_devices_layer3_handoffs_with_sda_transit_v1"),
                 self.test_data.get("get_fabric_sites8"),
-                self.test_data.get("get_fabric_devices_layer3_handoffs_with_ip_transit_v1"),
-                self.test_data.get("get_fabric_sites10"),
-                self.test_data.get("get_fabric_devices_layer2_handoffs_v1"),
+                self.test_data.get("get_fabric_devices23"),
+                self.test_data.get("get_fabric_devices24"),
+                self.test_data.get("get_fabric_devices25"),
+                self.test_data.get("get_fabric_devices26"),
+                self.test_data.get("get_fabric_devices27"),
+                self.test_data.get("get_fabric_devices28"),
+                self.test_data.get("get_fabric_devices29"),
+                self.test_data.get("get_fabric_devices30"),
+                self.test_data.get("get_fabric_devices31"),
+                self.test_data.get("get_fabric_devices32"),
+                self.test_data.get("get_fabric_devices33"),
+                self.test_data.get("get_fabric_devices34"),
+                self.test_data.get("get_fabric_devices_layer3_handoffs_with_sda_transit"),
+                self.test_data.get("get_fabric_devices_layer3_handoffs_with_ip_transit"),
+                self.test_data.get("get_fabric_devices_layer2_handoffs"),
             ]
 
         elif "playbook_health_info" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_sites"),
-                self.test_data.get("get_site_assigned_network_devices"),
-                self.test_data.get("get_device_list"),
-                self.test_data.get("get_fabric_sites11"),
-                self.test_data.get("get_fabric_sites12"),
-                self.test_data.get("get_fabric_devices_20"),
-                self.test_data.get("get_fabric_devices_21"),
-                self.test_data.get("get_fabric_devices_22"),
-                self.test_data.get("get_fabric_devices_23"),
-                self.test_data.get("get_fabric_devices_24"),
-                self.test_data.get("devices_v1"),
+                self.test_data.get("get_device_details3"),
+                self.test_data.get("get_fabric_sites13"),
+                self.test_data.get("get_fabric_sites14"),
+                self.test_data.get("get_fabric_devices59"),
+                self.test_data.get("get_fabric_devices60"),
+                self.test_data.get("get_fabric_devices61"),
+                self.test_data.get("get_fabric_devices62"),
+                self.test_data.get("get_fabric_devices63"),
+                self.test_data.get("get_fabric_devices64"),
+                self.test_data.get("get_fabric_devices65"),
+                self.test_data.get("get_fabric_devices66"),
+                self.test_data.get("get_fabric_devices67"),
+                self.test_data.get("get_fabric_devices68"),
+                self.test_data.get("get_fabric_devices69"),
+                self.test_data.get("get_fabric_devices70"),
+                self.test_data.get("health_info"),
             ]
 
         elif "playbook_connected_device_info" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_details2"),
-                self.test_data.get("get_fabric_sites13"),
-                self.test_data.get("get_fabric_sites14"),
-                self.test_data.get("get_fabric_devices_25"),
-                self.test_data.get("get_fabric_devices_26"),
-                self.test_data.get("get_fabric_devices_27"),
-                self.test_data.get("get_fabric_devices_28"),
-                self.test_data.get("get_fabric_devices_29"),
+                self.test_data.get("get_fabric_sites11"),
+                self.test_data.get("get_fabric_sites12"),
+                self.test_data.get("get_fabric_devices47"),
+                self.test_data.get("get_fabric_devices48"),
+                self.test_data.get("get_fabric_devices49"),
+                self.test_data.get("get_fabric_devices50"),
+                self.test_data.get("get_fabric_devices51"),
+                self.test_data.get("get_fabric_devices52"),
+                self.test_data.get("get_fabric_devices53"),
+                self.test_data.get("get_fabric_devices54"),
+                self.test_data.get("get_fabric_devices55"),
+                self.test_data.get("get_fabric_devices56"),
+                self.test_data.get("get_fabric_devices57"),
+                self.test_data.get("get_fabric_devices58"),
                 self.test_data.get("get_interface_info_by_id"),
                 self.test_data.get("connected_info_1"),
                 self.test_data.get("connected_info_2"),
@@ -176,32 +200,46 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
             ]
         elif "playbook_issues_info" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_device_details3"),
+                self.test_data.get("get_sites1"),
+                self.test_data.get("get_sites3"),
+                self.test_data.get("get_device_list4"),
                 self.test_data.get("get_fabric_sites15"),
                 self.test_data.get("get_fabric_sites16"),
-                self.test_data.get("get_fabric_devices_30"),
-                self.test_data.get("get_fabric_devices_31"),
-                self.test_data.get("get_fabric_devices_32"),
-                self.test_data.get("get_fabric_devices_33"),
-                self.test_data.get("get_fabric_devices_34"),
+                self.test_data.get("get_fabric_devices71"),
+                self.test_data.get("get_fabric_devices72"),
+                self.test_data.get("get_fabric_devices73"),
+                self.test_data.get("get_fabric_devices74"),
+                self.test_data.get("get_fabric_devices75"),
+                self.test_data.get("get_fabric_devices76"),
+                self.test_data.get("get_fabric_devices77"),
+                self.test_data.get("get_fabric_devices78"),
+                self.test_data.get("get_fabric_devices79"),
+                self.test_data.get("get_fabric_devices80"),
+                self.test_data.get("get_fabric_devices81"),
+                self.test_data.get("get_fabric_devices82"),
                 self.test_data.get("issues"),
             ]
 
         elif "playbook_onboarding_info_details" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list5"),
-                self.test_data.get("get_fabric_sites19"),
-                self.test_data.get("get_fabric_sites20"),
-                self.test_data.get("get_fabric_devices_40"),
-                self.test_data.get("get_fabric_devices_41"),
-                self.test_data.get("get_fabric_devices_42"),
-                self.test_data.get("get_fabric_devices_43"),
-                self.test_data.get("get_fabric_devices_44"),
-                self.test_data.get("get_fabric_sites21"),
-                self.test_data.get("get_port_assignments_v1"),
-                self.test_data.get("get_device_type"),
-                self.test_data.get("get_ssid_details"),
-                self.test_data.get("provision_status1"),
+                self.test_data.get("get_fabric_sites9"),
+                self.test_data.get("get_fabric_sites10"),
+                self.test_data.get("get_fabric_devices35"),
+                self.test_data.get("get_fabric_devices36"),
+                self.test_data.get("get_fabric_devices37"),
+                self.test_data.get("get_fabric_devices38"),
+                self.test_data.get("get_fabric_devices39"),
+                self.test_data.get("get_fabric_devices40"),
+                self.test_data.get("get_fabric_devices41"),
+                self.test_data.get("get_fabric_devices42"),
+                self.test_data.get("get_fabric_devices43"),
+                self.test_data.get("get_fabric_devices44"),
+                self.test_data.get("get_fabric_devices45"),
+                self.test_data.get("get_fabric_devices46"),
+                self.test_data.get("get_port_assignments"),
+                self.test_data.get("get_network_device_by_ip"),
+                self.test_data.get("get_provision_status"),
             ]
 
         elif "playbook_negative_scenario1" in self._testMethodName:
@@ -377,33 +415,20 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             [
-                "The fabric devices filtered from the network devices are: ['91.1.1.2']",
+                "The fabric devices filtered from the network devices are: ['204.192.5.2']",
                 [
                     {
-                        'fabric_info': [
+                        "fabric_info": [
                             {
-                                'device_ip': '91.1.1.2',
-                                'fabric_details': [
+                                "device_ip": "204.192.5.2",
+                                "fabric_details": [
                                     {
-                                        'id': 'a82b50c5-58e6-4491-ad7e-d149589593f3',
-                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
-                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
-                                        'deviceRoles': [
-                                            'BORDER_NODE',
-                                            'CONTROL_PLANE_NODE'
+                                        "deviceRoles": [
+                                            "WIRELESS_CONTROLLER_NODE"
                                         ],
-                                        'borderDeviceSettings': {
-                                            'borderTypes': [
-                                                'LAYER_3'
-                                            ],
-                                            'layer3Settings': {
-                                                'localAutonomousSystemNumber': '6100',
-                                                'importExternalRoutes': True,
-                                                'borderPriority': 6,
-                                                'prependAutonomousSystemCount': 7,
-                                                'isDefaultExit': True
-                                            }
-                                        }
+                                        "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                                        "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
+                                        "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745"
                                     }
                                 ]
                             }
@@ -436,30 +461,295 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 "The fabric devices filtered from the network devices are: ['91.1.1.2']",
                 [
                     {
-                        "fabric_devices_layer3_handoffs_sda_info": [
+                        'fabric_devices_layer3_handoffs_sda_info': [
                             {
-                                "device_ip": "91.1.1.2",
-                                "handoff_info": "No handoff info found"
+                                'device_ip': '91.1.1.2',
+                                'handoff_info': [
+                                    {
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': '02f92f56-e9c8-4534-b7f1-e06635061de9',
+                                        'connectedToInternet': True,
+                                        'isMulticastOverTransitEnabled': False
+                                    }
+                                ]
                             }
                         ]
                     }
                 ],
                 [
                     {
-                        "fabric_devices_layer3_handoffs_ip_info": [
+                        'fabric_devices_layer3_handoffs_ip_info': [
                             {
-                                "device_ip": "91.1.1.2",
-                                "handoff_info": "No handoff info found"
+                                'device_ip': '91.1.1.2',
+                                'handoff_info': [
+                                    {
+                                        'id': 'f10250af-bd72-4175-ad9b-ea2831e74a15',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'DEFAULT_VN',
+                                        'vlanId': 3000,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.69/30',
+                                        'remoteIpAddress': '204.1.16.70/30',
+                                        'localIpv6Address': '2004:1:16::1:0:45/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:46/126'
+                                    },
+                                    {
+                                        'id': '3cd81271-4621-40fd-aac7-8b8499127c0c',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'Fabric_VN',
+                                        'vlanId': 3001,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.73/30',
+                                        'remoteIpAddress': '204.1.16.74/30',
+                                        'localIpv6Address': '2004:1:16::1:0:49/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:4a/126'
+                                    },
+                                    {
+                                        'id': 'cdad28e7-8df2-432d-8550-666a9fcfc21c',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'INFRA_VN',
+                                        'vlanId': 3002,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.77/30',
+                                        'remoteIpAddress': '204.1.16.78/30',
+                                        'localIpv6Address': '2004:1:16::1:0:4d/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:4e/126'
+                                    },
+                                    {
+                                        'id': '8711bdb5-7a92-4ab0-a7d7-b4053e1db84c',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'IntraSubnet_VN',
+                                        'vlanId': 3003,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.81/30',
+                                        'remoteIpAddress': '204.1.16.82/30',
+                                        'localIpv6Address': '2004:1:16::1:0:51/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:52/126'
+                                    },
+                                    {
+                                        'id': '66b48881-e72f-44cc-aedb-6819af25bd27',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'SGT_Port_test',
+                                        'vlanId': 3004,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.85/30',
+                                        'remoteIpAddress': '204.1.16.86/30',
+                                        'localIpv6Address': '2004:1:16::1:0:55/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:56/126'
+                                    },
+                                    {
+                                        'id': '6dd7d005-74aa-4762-a59e-1c280a975425',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'VN1',
+                                        'vlanId': 3005,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.89/30',
+                                        'remoteIpAddress': '204.1.16.90/30',
+                                        'localIpv6Address': '2004:1:16::1:0:59/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:5a/126'
+                                    },
+                                    {
+                                        'id': 'a13167ae-d900-4048-92a6-0d41bd1bd531',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'VN2',
+                                        'vlanId': 3006,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.93/30',
+                                        'remoteIpAddress': '204.1.16.94/30',
+                                        'localIpv6Address': '2004:1:16::1:0:5d/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:5e/126'
+                                    },
+                                    {
+                                        'id': '932cd9d7-9067-4224-ab1d-922a7cd79b5b',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'VN3',
+                                        'vlanId': 3007,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.97/30',
+                                        'remoteIpAddress': '204.1.16.98/30',
+                                        'localIpv6Address': '2004:1:16::1:0:61/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:62/126'
+                                    },
+                                    {
+                                        'id': '9c09c4a8-5a7f-4b06-ac28-4d895293cfe7',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'VN4',
+                                        'vlanId': 3008,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.101/30',
+                                        'remoteIpAddress': '204.1.16.102/30',
+                                        'localIpv6Address': '2004:1:16::1:0:65/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:66/126'
+                                    },
+                                    {
+                                        'id': 'df69abf3-266a-4678-84d2-ca8d9340b4c2',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'VN5',
+                                        'vlanId': 3009,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.105/30',
+                                        'remoteIpAddress': '204.1.16.106/30',
+                                        'localIpv6Address': '2004:1:16::1:0:69/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:6a/126'
+                                    },
+                                    {
+                                        'id': 'd95e8a82-7a71-4f4a-a31a-85385c1e1ef8',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'VN6',
+                                        'vlanId': 3010,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.109/30',
+                                        'remoteIpAddress': '204.1.16.110/30',
+                                        'localIpv6Address': '2004:1:16::1:0:6d/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:6e/126'
+                                    },
+                                    {
+                                        'id': '27171568-3f08-4f13-8991-a8904bc7e2a6',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'VN7',
+                                        'vlanId': 3011,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.113/30',
+                                        'remoteIpAddress': '204.1.16.114/30',
+                                        'localIpv6Address': '2004:1:16::1:0:71/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:72/126'
+                                    },
+                                    {
+                                        'id': 'bb704a7d-8988-4d8c-80e5-4c02bb9ab042',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'WiredVNFB1',
+                                        'vlanId': 3012,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.117/30',
+                                        'remoteIpAddress': '204.1.16.118/30',
+                                        'localIpv6Address': '2004:1:16::1:0:75/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:76/126'
+                                    },
+                                    {
+                                        'id': '8d814e72-25af-490d-8f69-dec10af9e790',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'WiredVNFBLayer2',
+                                        'vlanId': 3013,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.121/30',
+                                        'remoteIpAddress': '204.1.16.122/30',
+                                        'localIpv6Address': '2004:1:16::1:0:79/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:7a/126'
+                                    },
+                                    {
+                                        'id': 'b01aa3a2-61c8-4179-a568-6dcdbafe993f',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'WiredVNStatic',
+                                        'vlanId': 3014,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.125/30',
+                                        'remoteIpAddress': '204.1.16.126/30',
+                                        'localIpv6Address': '2004:1:16::1:0:7d/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:7e/126'
+                                    },
+                                    {
+                                        'id': 'a4f61e60-b75c-4bcd-b7c4-e3bd68ec324d',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'WirelessVNFB',
+                                        'vlanId': 3015,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.129/30',
+                                        'remoteIpAddress': '204.1.16.130/30',
+                                        'localIpv6Address': '2004:1:16::1:0:81/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:82/126'
+                                    },
+                                    {
+                                        'id': '43761af5-509f-4d07-9d2c-8b09f6ba2114',
+                                        'fabricId': '6ea62e10-cc4b-4f67-8251-d0939fdd4ad8',
+                                        'networkDeviceId': '36680b59-39b2-446b-8ceb-5a1e157b5799',
+                                        'transitNetworkId': 'bbf16d41-031b-4061-b9b6-ae75768ae196',
+                                        'interfaceName': 'TenGigabitEthernet1/0/2',
+                                        'externalConnectivityIpPoolName': 'BorderHandOff_sub',
+                                        'virtualNetworkName': 'WirelessVNFGuest',
+                                        'vlanId': 3016,
+                                        'tcpMssAdjustment': 0,
+                                        'localIpAddress': '204.1.16.133/30',
+                                        'remoteIpAddress': '204.1.16.134/30',
+                                        'localIpv6Address': '2004:1:16::1:0:85/126',
+                                        'remoteIpv6Address': '2004:1:16::1:0:86/126'
+                                    }
+                                ]
                             }
                         ]
                     }
                 ],
                 [
                     {
-                        "fabric_devices_layer2_handoffs_info": [
+                        'fabric_devices_layer2_handoffs_info': [
                             {
-                                "device_ip": "91.1.1.2",
-                                "handoff_info": "No handoff info found"
+                                'device_ip': '91.1.1.2',
+                                'handoff_info': [
+                                ]
                             }
                         ]
                     }
@@ -487,45 +777,41 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             [
-                "The fabric devices filtered from the network devices are: ['204.1.2.129']",
+                "The fabric devices filtered from the network devices are: ['204.192.5.2']",
                 [
                     {
                         "device_health_info": [
                             {
-                                "device_ip": "204.1.2.129",
+                                "device_ip": "204.192.5.2",
                                 "health_details": {
                                     "airQualityHealth": {},
-                                    "apCount": 2,
-                                    "avgTemperature": 3700.0,
+                                    "avgTemperature": 3511.1111111111113,
                                     "band": {},
                                     "clientCount": {},
-                                    "cpuHealth": 10,
-                                    "cpuUlitilization": 2.25,
-                                    "cpuUtilization": 2.25,
-                                    "deviceFamily": "SWITCHES_AND_HUBS",
-                                    "deviceType": "Cisco Catalyst 9300 Switch",
+                                    "cpuHealth": -1,
+                                    "deviceFamily": "WIRELESS_CONTROLLER",
+                                    "deviceType": "Cisco Catalyst 9800-40 Wireless Controller",
                                     "freeMemoryBufferHealth": -1,
                                     "freeTimerScore": -1,
-                                    "interDeviceLinkAvailFabric": 10,
+                                    "interDeviceLinkAvailFabric": -1,
                                     "interDeviceLinkAvailHealth": 100,
-                                    "interfaceLinkErrHealth": 10,
+                                    "interfaceLinkErrHealth": -1,
                                     "interferenceHealth": {},
-                                    "ipAddress": "204.1.2.129",
-                                    "issueCount": 1,
-                                    "location": "Global/USA/New York/BLDNYC",
-                                    "macAddress": "74:86:0B:0C:2F:00",
-                                    "maxTemperature": 4800.0,
-                                    "memoryUtilization": 65,
-                                    "memoryUtilizationHealth": 10.0,
-                                    "model": "Cisco Catalyst 9300 Switch",
-                                    "name": "NY-Fiab-9300.cisco.com",
+                                    "ipAddress": "204.192.5.2",
+                                    "issueCount": 2,
+                                    "location": "Global/USA/SAN JOSE/BLD23",
+                                    "macAddress": "4C:E1:75:02:2B:0B",
+                                    "maxTemperature": 5300.0,
+                                    "memoryUtilizationHealth": -1.0,
+                                    "model": "Cisco Catalyst 9800-40 Wireless Controller",
+                                    "name": "TB17-eWLC-SJ.cisco.com",
                                     "noiseHealth": {},
-                                    "osVersion": "17.17.1prd6",
-                                    "overallHealth": 10,
+                                    "osVersion": "17.15.2b",
+                                    "overallHealth": -1,
                                     "packetPoolHealth": -1,
                                     "reachabilityHealth": "REACHABLE",
                                     "utilizationHealth": {},
-                                    "uuid": "e714d470-de0e-43a0-9469-099ddcf8467a",
+                                    "uuid": "1841ff80-886b-47fa-9053-85000e4af745",
                                     "wanLinkUtilization": -1.0,
                                     "wqePoolsHealth": -1
                                 }
@@ -577,7 +863,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                         ]
                     }
                 ]
-            ]
+            ],
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_issues_info(self):
@@ -597,50 +883,40 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
             )
         )
         result = self.execute_module(changed=False, failed=False)
+        print(result)
         self.assertEqual(
             result.get("response"),
             [
-                "The fabric devices filtered from the network devices are: ['204.192.5.2']",
+                "The fabric devices filtered from the network devices are: ['204.1.2.129']",
                 [
                     {
                         'device_issues_info': [
                             {
-                                'device_ip': '204.192.5.2',
+                                'device_ip': '204.1.2.129',
                                 'issue_details': [
                                     {
-                                        'issueId': '72090898-80f0-4eaa-8249-821faff48efd',
-                                        'name': 'Excessive time lag between Cisco Catalyst Center and device TB17-eWLC-SJ.cisco.com',
+                                        'issueId': '291b9e86-30e5-4c45-8978-d98c92957707',
+                                        'name': (
+                                            'Cisco TrustSec environment data is not complete on Fabric EDGE:BORDER:WLC:MAP-SERVER '
+                                            'node NY-Fiab-9300.cisco.com in Fabric site Global/USA/New York'
+                                        ),
                                         'siteId': '',
-                                        'deviceId': '1841ff80-886b-47fa-9053-85000e4af745',
+                                        'deviceId': 'e714d470-de0e-43a0-9469-099ddcf8467a',
                                         'deviceRole': '',
                                         'aiDriven': 'No',
                                         'clientMac': None,
-                                        'issue_occurence_count': 495,
+                                        'issue_occurence_count': 228,
                                         'status': 'active',
-                                        'priority': 'P3',
-                                        'category': 'Device',
-                                        'last_occurence_time': 1752072623000
-                                    },
-                                    {
-                                        'issueId': 'f29a9599-1bd3-442d-b775-06522244b52d',
-                                        'name': 'Cisco Catalyst Center is not receiving data from TB17-eWLC-SJ.cisco.com Wireless Controller',
-                                        'siteId': '',
-                                        'deviceId': '1841ff80-886b-47fa-9053-85000e4af745',
-                                        'deviceRole': '',
-                                        'aiDriven': 'No',
-                                        'clientMac': None,
-                                        'issue_occurence_count': 1,
-                                        'status': 'active',
-                                        'priority': 'P3',
-                                        'category': 'Availability',
-                                        'last_occurence_time': 1752014700000
+                                        'priority': 'P1',
+                                        'category': 'Connected',
+                                        'last_occurence_time': 1755758565019
                                     }
                                 ]
                             }
                         ]
                     }
                 ]
-            ]
+            ],
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_onboarding_info_details(self):
@@ -663,188 +939,37 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             [
-                "The fabric devices filtered from the network devices are: ['204.192.5.2']",
+                "The fabric devices filtered from the network devices are: ['91.1.1.2']",
                 [
                     {
-                        'device_onboarding_info': [
+                        "device_onboarding_info": [
                             {
-                                'device_ip': '204.192.5.2',
-                                'port_details': 'No port assignment details found'
+                                "device_ip": "91.1.1.2",
+                                "port_details": []
                             }
                         ]
                     }
                 ],
                 [
                     {
-                        'ssid_info': [
+                        "ssid_info": [
                             {
-                                'device_ip': '204.192.5.2',
-                                'ssid_details': [
-                                    {
-                                        'wlanId': 28,
-                                        'wlanProfileName': 'ARUBA_SSID_profile',
-                                        'l2Security': 'open',
-                                        'l3Security': 'web_auth',
-                                        'ssidName': 'ARUBA_SSIDtb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 1,
-                                        'wlanProfileName': 'CiscoSensorProvisioning',
-                                        'l2Security': 'wpa2_enterprise',
-                                        'l3Security': 'open',
-                                        'ssidName': 'CiscoSensorProvisioning',
-                                        'radioPolicy': '2.4GHz + 5GHz + 6GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 26,
-                                        'wlanProfileName': 'GUEST2_profile',
-                                        'l2Security': 'open',
-                                        'l3Security': 'open',
-                                        'ssidName': 'GUEST2tb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 18,
-                                        'wlanProfileName': 'Guest_passthrough_int_profile',
-                                        'l2Security': 'open',
-                                        'l3Security': 'web_auth',
-                                        'ssidName': 'Guest_passthrough_inttb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 20,
-                                        'wlanProfileName': 'GUEST_profile',
-                                        'l2Security': 'open',
-                                        'l3Security': 'open',
-                                        'ssidName': 'GUESTtb17',
-                                        'radioPolicy': '2.4GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 22,
-                                        'wlanProfileName': 'Guest_webauthinternal_profile',
-                                        'l2Security': 'wpa2_enterprise',
-                                        'l3Security': 'web_auth',
-                                        'ssidName': 'Guest_webauthinternaltb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 19,
-                                        'wlanProfileName': 'Guest_webpassthrough_profile',
-                                        'l2Security': 'open',
-                                        'l3Security': 'web_auth',
-                                        'ssidName': 'Guest_webpassthroughtb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 23,
-                                        'wlanProfileName': 'OPEN_profile',
-                                        'l2Security': 'open',
-                                        'l3Security': 'open',
-                                        'ssidName': 'OPENtb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 21,
-                                        'wlanProfileName': 'posture_profile',
-                                        'l2Security': 'wpa2_enterprise',
-                                        'l3Security': 'open',
-                                        'ssidName': 'posturetb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 17,
-                                        'wlanProfileName': 'Radius_ssid_profile',
-                                        'l2Security': 'wpa2_enterprise',
-                                        'l3Security': 'open',
-                                        'ssidName': 'Radius_ssidtb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 29,
-                                        'wlanProfileName': 'Random_mac_profile',
-                                        'l2Security': 'wpa2_enterprise',
-                                        'l3Security': 'open',
-                                        'ssidName': 'Random_mactb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 27,
-                                        'wlanProfileName': 'Single5KBand_profile',
-                                        'l2Security': 'wpa2_personal',
-                                        'l3Security': 'open',
-                                        'ssidName': 'Single5KBandtb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 30,
-                                        'wlanProfileName': 'SSIDDot1XIndia_profile',
-                                        'l2Security': 'wpa2_enterprise',
-                                        'l3Security': 'open',
-                                        'ssidName': 'SSIDDot1XIndiatb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 25,
-                                        'wlanProfileName': 'SSIDDUAL BAND_profile',
-                                        'l2Security': 'wpa2_enterprise',
-                                        'l3Security': 'open',
-                                        'ssidName': 'SSIDDUAL BANDtb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': True,
-                                        'managed': True
-                                    },
-                                    {
-                                        'wlanId': 24,
-                                        'wlanProfileName': 'SSIDScheduler_profile',
-                                        'l2Security': 'wpa2_enterprise',
-                                        'l3Security': 'open',
-                                        'ssidName': 'SSIDSchedulertb17',
-                                        'radioPolicy': '2.4GHz + 5GHz',
-                                        'adminStatus': False,
-                                        'managed': True
-                                    }
-                                ]
+                                "device_ip": "91.1.1.2",
+                                "ssid_details": "The device is not wireless; therefore, SSID information retrieval is not applicable."
                             }
                         ]
                     }
                 ],
                 [
                     {
-                        'provision_status_info': [
+                        "provision_status_info": [
                             {
-                                'device_ip': '204.192.5.2',
-                                'provision_status': {
-                                    'deviceManagementIpAddress': '204.192.5.2',
-                                    'siteNameHierarchy': 'Global/USA/SAN JOSE/BLD23',
-                                    'status': 'success',
-                                    'description': 'Wired Provisioned device detail retrieved successfully.'
+                                "device_ip": "91.1.1.2",
+                                "provision_status": {
+                                    "description": "Wired Provisioned device detail retrieved successfully.",
+                                    "deviceManagementIpAddress": "91.1.1.2",
+                                    "siteNameHierarchy": "Global/USA/SAN JOSE/BLD23",
+                                    "status": "success"
                                 }
                             }
                         ]
@@ -975,7 +1100,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("response"),
-            "Invalid parameters in playbook: ['onboarding_info : is not a valid list']"
+            '''Invalid parameters in playbook: ["'requested_info': 'onboarding_info' is invalid. Reason: expected type: 'list'. Provided type: 'str'. "]'''
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario6(self):
@@ -1026,7 +1151,8 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("response"),
-            "'file_path' in output_file_info must be a string. Type found: <class 'list'>"
+            '''Invalid parameters in playbook: ["'file_path': '['/Users/priyadharshini/Downloads/device_pireeeeya']' is invalid. '''
+            '''Reason: '['/Users/priyadharshini/Downloads/device_pireeeeya']' is not a string and conversion is not allowed. "]'''
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario8(self):
@@ -1051,7 +1177,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("response"),
-            "'file_format' in output_file_info must be a string. Type found: <class 'list'>"
+            '''Invalid parameters in playbook: ["'file_format': '['yaml']' is invalid. Reason: '['yaml']' is not a string and conversion is not allowed. "]'''
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario9(self):
@@ -1076,7 +1202,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("response"),
-            "'file_mode' in output_file_info must be a string. Type found: <class 'list'>"
+            '''Invalid parameters in playbook: ["'file_mode': '['a']' is invalid. Reason: '['a']' is not a string and conversion is not allowed. "]'''
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario10(self):
