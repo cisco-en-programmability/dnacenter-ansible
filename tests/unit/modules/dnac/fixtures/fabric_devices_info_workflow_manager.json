@@ -313,2531 +313,6 @@
     "version": "1.0"
   },
 
-  "playbook_with_fabric_info": [
-    {
-      "fabric_devices": [
-        {
-          "ip_address": [
-            "91.1.1.2"
-          ],
-          "requested_info": [
-            "fabric_info"
-          ]
-        }
-      ]
-    }
-  ],
-  "get_device_details": {
-    "response": [
-      {
-        "type": "Cisco Catalyst 9500 Switch",
-        "interfaceCount": "0",
-        "lastUpdated": "2025-07-09 05:34:28",
-        "bootDateTime": "2025-05-28 09:52:28",
-        "apManagerInterfaceIp": "",
-        "collectionStatus": "Managed",
-        "family": "Switches and Hubs",
-        "hostname": "SJ-Border2-9500.cisco.com",
-        "lastUpdateTime": 1752039268180,
-        "locationName": null,
-        "managementIpAddress": "91.1.1.2",
-        "platformId": "C9500-16X",
-        "reachabilityFailureReason": "",
-        "reachabilityStatus": "Reachable",
-        "series": "Cisco Catalyst 9500 Series Switches",
-        "snmpContact": "",
-        "snmpLocation": "",
-        "apEthernetMacAddress": null,
-        "associatedWlcIp": "",
-        "errorCode": null,
-        "errorDescription": null,
-        "lastDeviceResyncStartTime": "2025-07-09 05:33:20",
-        "lineCardCount": "0",
-        "lineCardId": "",
-        "managedAtleastOnce": true,
-        "memorySize": "NA",
-        "tagCount": "0",
-        "tunnelUdpPort": null,
-        "uptimeSeconds": 3615293,
-        "vendor": "Cisco",
-        "waasDeviceMode": null,
-        "macAddress": "cc:70:ed:e1:c3:00",
-        "deviceSupportLevel": "Supported",
-        "softwareType": "IOS-XE",
-        "softwareVersion": "17.15.2",
-        "serialNumber": "FCW2243F199",
-        "collectionInterval": "Global Default",
-        "dnsResolvedManagementAddress": "91.1.1.2",
-        "lastManagedResyncReasons": "Periodic",
-        "managementState": "Managed",
-        "pendingSyncRequestsCount": "0",
-        "reasonsForDeviceResync": "Periodic",
-        "reasonsForPendingSyncRequests": "",
-        "syncRequestedByApp": "",
-        "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
-        "upTime": "41 days, 19:42:15.88",
-        "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.15.2, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Wed 27-Nov-24 23:19 by mcpre netconf enabled",
-        "roleSource": "MANUAL",
-        "location": null,
-        "role": "BORDER ROUTER",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "instanceUuid": "36680b59-39b2-446b-8ceb-5a1e157b5799",
-        "id": "36680b59-39b2-446b-8ceb-5a1e157b5799"
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites2": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites3": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices5": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices6": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices7": {
-    "response": [
-      {
-        "id": "a82b50c5-58e6-4491-ad7e-d149589593f3",
-        "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
-        "deviceRoles": [
-          "BORDER_NODE",
-          "CONTROL_PLANE_NODE"
-        ],
-        "borderDeviceSettings": {
-          "borderTypes": [
-            "LAYER_3"
-          ],
-          "layer3Settings": {
-            "localAutonomousSystemNumber": "6100",
-            "importExternalRoutes": true,
-            "borderPriority": 6,
-            "prependAutonomousSystemCount": 7,
-            "isDefaultExit": true
-          }
-        }
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices8": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices9": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites4": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices10": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices11": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices12": {
-    "response": [
-      {
-        "id": "a82b50c5-58e6-4491-ad7e-d149589593f3",
-        "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
-        "deviceRoles": [
-          "BORDER_NODE",
-          "CONTROL_PLANE_NODE"
-        ],
-        "borderDeviceSettings": {
-          "borderTypes": [
-            "LAYER_3"
-          ],
-          "layer3Settings": {
-            "localAutonomousSystemNumber": "6100",
-            "importExternalRoutes": true,
-            "borderPriority": 6,
-            "prependAutonomousSystemCount": 7,
-            "isDefaultExit": true
-          }
-        }
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices13": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices14": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-
-  "playbook_handoff_info": [
-    {
-      "fabric_devices": [
-        {
-          "ip_address": [
-            "91.1.1.2"
-          ],
-          "requested_info": [
-            "handoff_info"
-          ]
-        }
-      ]
-    }
-  ],
-  "get_device_details1": {
-    "response": [
-      {
-        "type": "Cisco Catalyst 9500 Switch",
-        "interfaceCount": "0",
-        "lastUpdated": "2025-07-09 07:04:27",
-        "bootDateTime": "2025-05-28 09:52:27",
-        "apManagerInterfaceIp": "",
-        "collectionStatus": "Managed",
-        "family": "Switches and Hubs",
-        "hostname": "SJ-Border2-9500.cisco.com",
-        "lastUpdateTime": 1752044667885,
-        "locationName": null,
-        "managementIpAddress": "91.1.1.2",
-        "platformId": "C9500-16X",
-        "reachabilityFailureReason": "",
-        "reachabilityStatus": "Reachable",
-        "series": "Cisco Catalyst 9500 Series Switches",
-        "snmpContact": "",
-        "snmpLocation": "",
-        "apEthernetMacAddress": null,
-        "associatedWlcIp": "",
-        "errorCode": null,
-        "errorDescription": null,
-        "lastDeviceResyncStartTime": "2025-07-09 07:03:20",
-        "lineCardCount": "0",
-        "lineCardId": "",
-        "managedAtleastOnce": true,
-        "memorySize": "NA",
-        "tagCount": "0",
-        "tunnelUdpPort": null,
-        "uptimeSeconds": 3619092,
-        "vendor": "Cisco",
-        "waasDeviceMode": null,
-        "macAddress": "cc:70:ed:e1:c3:00",
-        "deviceSupportLevel": "Supported",
-        "softwareType": "IOS-XE",
-        "softwareVersion": "17.15.2",
-        "serialNumber": "FCW2243F199",
-        "collectionInterval": "Global Default",
-        "dnsResolvedManagementAddress": "91.1.1.2",
-        "lastManagedResyncReasons": "Periodic",
-        "managementState": "Managed",
-        "pendingSyncRequestsCount": "0",
-        "reasonsForDeviceResync": "Periodic",
-        "reasonsForPendingSyncRequests": "",
-        "syncRequestedByApp": "",
-        "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
-        "upTime": "41 days, 21:12:15.89",
-        "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.15.2, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Wed 27-Nov-24 23:19 by mcpre netconf enabled",
-        "roleSource": "MANUAL",
-        "location": null,
-        "role": "BORDER ROUTER",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "instanceUuid": "36680b59-39b2-446b-8ceb-5a1e157b5799",
-        "id": "36680b59-39b2-446b-8ceb-5a1e157b5799"
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites5": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites6": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices15": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices16": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices17": {
-    "response": [
-      {
-        "id": "a82b50c5-58e6-4491-ad7e-d149589593f3",
-        "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
-        "deviceRoles": [
-          "BORDER_NODE",
-          "CONTROL_PLANE_NODE"
-        ],
-        "borderDeviceSettings": {
-          "borderTypes": [
-            "LAYER_3"
-          ],
-          "layer3Settings": {
-            "localAutonomousSystemNumber": "6100",
-            "importExternalRoutes": true,
-            "borderPriority": 6,
-            "prependAutonomousSystemCount": 7,
-            "isDefaultExit": true
-          }
-        }
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices18": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices19": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites7": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_layer3_handoffs_with_sda_transit_v1": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites8": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_layer3_handoffs_with_ip_transit_v1": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites10": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_layer2_handoffs_v1": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-
-  "playbook_health_info": [
-    {
-      "fabric_devices": [
-        {
-          "requested_info": [
-            "device_health_info"
-          ],
-          "site_hierarchy": [
-            "Global/USA/New York/BLDNYC"
-          ]
-        }
-      ]
-    }
-  ],
-  "get_sites": {
-    "response": [
-      {
-        "id": "aa233c2b-0acb-40d6-a432-721d7b2460f2",
-        "siteHierarchyId": "cb13cf7d-d592-492a-b0bc-c6b250857bb8/3407f2cc-c22c-4d87-b525-c911fd2e1eaa/b155ef94-fc21-4336-a6a3-d14a171e59bb/aa233c2b-0acb-40d6-a432-721d7b2460f2",
-        "parentId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "name": "BLDNYC",
-        "nameHierarchy": "Global/USA/New York/BLDNYC",
-        "type": "building",
-        "latitude": 37.41634,
-        "longitude": -121.92086,
-        "address": "McCarthy Blvd, San Jose, California 95131, United States",
-        "country": "United States"
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_site_assigned_network_devices": {
-    "response": [
-      {
-        "deviceId": "e714d470-de0e-43a0-9469-099ddcf8467a",
-        "siteId": "aa233c2b-0acb-40d6-a432-721d7b2460f2",
-        "siteNameHierarchy": "Global/USA/New York/BLDNYC",
-        "siteType": "building"
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_device_list": {
-    "response": [
-      {
-        "type": "Cisco Catalyst 9300 Switch",
-        "interfaceCount": "0",
-        "lastUpdated": "2025-07-09 08:35:00",
-        "bootDateTime": "2025-05-20 07:10:00",
-        "apManagerInterfaceIp": "",
-        "collectionStatus": "Managed",
-        "family": "Switches and Hubs",
-        "hostname": "NY-Fiab-9300.cisco.com",
-        "lastUpdateTime": 1752050100916,
-        "locationName": null,
-        "managementIpAddress": "204.1.2.129",
-        "platformId": "C9300-48U",
-        "reachabilityFailureReason": "",
-        "reachabilityStatus": "Reachable",
-        "series": "Cisco Catalyst 9300 Series Switches",
-        "snmpContact": "",
-        "snmpLocation": "",
-        "apEthernetMacAddress": null,
-        "associatedWlcIp": "",
-        "errorCode": null,
-        "errorDescription": null,
-        "lastDeviceResyncStartTime": "2025-07-09 08:33:13",
-        "lineCardCount": "0",
-        "lineCardId": "",
-        "managedAtleastOnce": false,
-        "memorySize": "NA",
-        "tagCount": "0",
-        "tunnelUdpPort": null,
-        "uptimeSeconds": 4328160,
-        "vendor": "Cisco",
-        "waasDeviceMode": null,
-        "macAddress": "74:86:0b:0c:2f:00",
-        "deviceSupportLevel": "Supported",
-        "softwareType": "IOS-XE",
-        "softwareVersion": "17.17.1prd6",
-        "serialNumber": "FCW2132L08U",
-        "collectionInterval": "Global Default",
-        "dnsResolvedManagementAddress": "204.1.2.129",
-        "lastManagedResyncReasons": "Periodic",
-        "managementState": "Managed",
-        "pendingSyncRequestsCount": "0",
-        "reasonsForDeviceResync": "Periodic",
-        "reasonsForPendingSyncRequests": "",
-        "syncRequestedByApp": "",
-        "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
-        "upTime": "50 days, 1:25:16.29",
-        "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.17.1prd6, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Wed 05-Feb-25 05:37 by mcpre Wireless Feature Enabled netconf enabled",
-        "roleSource": "MANUAL",
-        "location": null,
-        "role": "ACCESS",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "instanceUuid": "e714d470-de0e-43a0-9469-099ddcf8467a",
-        "id": "e714d470-de0e-43a0-9469-099ddcf8467a"
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites11": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites12": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_20": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_21": {
-    "response": [
-      {
-        "id": "bd89e7ff-e9f0-48d0-bd82-b61d0d7c0ab9",
-        "fabricId": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "networkDeviceId": "e714d470-de0e-43a0-9469-099ddcf8467a",
-        "deviceRoles": [
-          "BORDER_NODE",
-          "CONTROL_PLANE_NODE",
-          "WIRELESS_CONTROLLER_NODE",
-          "EDGE_NODE"
-        ],
-        "borderDeviceSettings": {
-          "borderTypes": [
-            "LAYER_3"
-          ],
-          "layer3Settings": {
-            "localAutonomousSystemNumber": "6100",
-            "importExternalRoutes": true,
-            "borderPriority": 6,
-            "prependAutonomousSystemCount": 7,
-            "isDefaultExit": true
-          }
-        }
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_22": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_23": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_24": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "devices_v1": {
-    "version": "1.0",
-    "totalCount": 10,
-    "response": [
-      {
-        "overallHealth": -2,
-        "utilizationHealth": {
-          
-        },
-        "airQualityHealth": {
-          
-        },
-        "issueCount": 0,
-        "uuid": "65cc7ebf-23e8-4742-af27-071b8fee9cc0",
-        "cpuUlitilization": -1.0,
-        "noiseHealth": {
-          
-        },
-        "osVersion": "17.15.2.206",
-        "memoryUtilization": -1,
-        "model": "Cisco Catalyst 9115AXI Unified Access Point",
-        "band": {
-          
-        },
-        "clientCount": {
-          
-        },
-        "deviceType": "Cisco Catalyst 9115AXI Unified Access Point",
-        "cpuUtilization": -1.0,
-        "ipAddress": "204.1.208.159",
-        "cpuHealth": -1,
-        "deviceFamily": "UNIFIED_AP",
-        "macAddress": "2C:4F:52:BE:33:40",
-        "name": "APD478.9B49.22D0",
-        "interfaceLinkErrHealth": -1,
-        "interDeviceLinkAvailHealth": 0,
-        "interferenceHealth": {
-          
-        },
-        "location": "Global/USA/SAN JOSE/BLD23/FLOOR1_LEVEL1",
-        "reachabilityHealth": "DOWN",
-        "memoryUtilizationHealth": -1.0
-      },
-      {
-        "maxTemperature": 5500.0,
-        "overallHealth": -1,
-        "utilizationHealth": {
-          
-        },
-        "airQualityHealth": {
-          
-        },
-        "issueCount": 2,
-        "uuid": "1841ff80-886b-47fa-9053-85000e4af745",
-        "wqePoolsHealth": -1,
-        "noiseHealth": {
-          
-        },
-        "osVersion": "17.15.2b",
-        "model": "Cisco Catalyst 9800-40 Wireless Controller",
-        "band": {
-          
-        },
-        "clientCount": {
-          
-        },
-        "deviceType": "Cisco Catalyst 9800-40 Wireless Controller",
-        "ipAddress": "204.192.5.2",
-        "cpuHealth": -1,
-        "freeTimerScore": -1,
-        "deviceFamily": "WIRELESS_CONTROLLER",
-        "interDeviceLinkAvailFabric": -1,
-        "wanLinkUtilization": -1.0,
-        "packetPoolHealth": -1,
-        "macAddress": "4C:E1:75:02:2B:0B",
-        "freeMemoryBufferHealth": -1,
-        "name": "TB17-eWLC-SJ.cisco.com",
-        "interfaceLinkErrHealth": -1,
-        "interDeviceLinkAvailHealth": 100,
-        "interferenceHealth": {
-          
-        },
-        "location": "Global/USA/SAN JOSE/BLD23",
-        "reachabilityHealth": "REACHABLE",
-        "avgTemperature": 3611.1111111111113,
-        "memoryUtilizationHealth": -1.0
-      },
-      {
-        "overallHealth": 4,
-        "utilizationHealth": {
-          "radio3": 1.0,
-          "radio1": 36.0,
-          "radio2": -1.0,
-          "radio0": 99.0
-        },
-        "airQualityHealth": {
-          "radio3": 100.0,
-          "radio1": 100.0,
-          "radio2": -1.0,
-          "radio0": 99.0
-        },
-        "issueCount": 1,
-        "uuid": "680b521d-c39f-497a-99d9-bcae097b1157",
-        "cpuUlitilization": 0.0,
-        "noiseHealth": {
-          "radio3": -94.0,
-          "radio1": -90.0,
-          "radio2": -1.0,
-          "radio0": -73.0
-        },
-        "osVersion": "17.17.0.68",
-        "memoryUtilization": 49,
-        "model": "Cisco Catalyst 9136I Unified Access Point",
-        "band": {
-          "radio3": "6",
-          "radio1": "5",
-          "radio2": "5",
-          "radio0": "24"
-        },
-        "clientCount": {
-          "radio3": 0.0,
-          "radio1": 0.0,
-          "radio2": -1.0,
-          "radio0": 0.0
-        },
-        "deviceType": "Cisco Catalyst 9136I Unified Access Point",
-        "cpuUtilization": 0.0,
-        "ipAddress": "204.1.212.153",
-        "cpuHealth": 10,
-        "deviceFamily": "UNIFIED_AP",
-        "macAddress": "68:7D:B4:5F:38:00",
-        "name": "AP687D.B45C.1A18",
-        "interfaceLinkErrHealth": 10,
-        "interDeviceLinkAvailHealth": 100,
-        "interferenceHealth": {
-          "radio3": 1.0,
-          "radio1": 27.0,
-          "radio2": -1.0,
-          "radio0": 67.0
-        },
-        "location": "Global/USA/New York/BLDNYC/FLOOR1",
-        "reachabilityHealth": "UP",
-        "memoryUtilizationHealth": 10.0
-      },
-      {
-        "overallHealth": 6,
-        "utilizationHealth": {
-          "radio1": 24.0,
-          "radio0": 96.0
-        },
-        "airQualityHealth": {
-          "radio1": -1.0,
-          "radio0": -1.0
-        },
-        "issueCount": 1,
-        "uuid": "84242363-5777-45bc-ad9e-96a83b966bc1",
-        "cpuUlitilization": 4.0,
-        "noiseHealth": {
-          "radio1": -90.0,
-          "radio0": -78.0
-        },
-        "osVersion": "17.17.0.68",
-        "memoryUtilization": 56,
-        "model": "Cisco Catalyst 9117AXI Unified Access Point",
-        "band": {
-          "radio1": "5",
-          "radio0": "24"
-        },
-        "clientCount": {
-          "radio1": 0.0,
-          "radio0": 0.0
-        },
-        "deviceType": "Cisco Catalyst 9117AXI Unified Access Point",
-        "cpuUtilization": 4.0,
-        "ipAddress": "204.1.212.152",
-        "cpuHealth": 10,
-        "deviceFamily": "UNIFIED_AP",
-        "macAddress": "0C:D0:F8:94:C8:80",
-        "name": "AP0CD0.F894.0C44",
-        "interfaceLinkErrHealth": 10,
-        "interDeviceLinkAvailHealth": 100,
-        "interferenceHealth": {
-          "radio1": 16.0,
-          "radio0": 94.0
-        },
-        "location": "Global/USA/New York/BLDNYC/FLOOR1",
-        "reachabilityHealth": "UP",
-        "memoryUtilizationHealth": 10.0
-      },
-      {
-        "maxTemperature": 5700.0,
-        "overallHealth": 7,
-        "utilizationHealth": {
-          
-        },
-        "airQualityHealth": {
-          
-        },
-        "issueCount": 2,
-        "uuid": "99c8e9bf-8146-4dae-9449-8ce2d6405191",
-        "wqePoolsHealth": -1,
-        "cpuUlitilization": 4.5,
-        "noiseHealth": {
-          
-        },
-        "osVersion": "17.16.1",
-        "memoryUtilization": 53,
-        "model": "Cisco Catalyst 9300 Switch",
-        "band": {
-          
-        },
-        "clientCount": {
-          
-        },
-        "deviceType": "Cisco Catalyst 9300 Switch",
-        "cpuUtilization": 4.5,
-        "ipAddress": "204.1.1.37",
-        "cpuHealth": 10,
-        "freeTimerScore": -1,
-        "deviceFamily": "SWITCHES_AND_HUBS",
-        "interDeviceLinkAvailFabric": 10,
-        "wanLinkUtilization": -1.0,
-        "packetPoolHealth": -1,
-        "macAddress": "0C:75:BD:8F:A3:80",
-        "freeMemoryBufferHealth": -1,
-        "name": "TB17-Transit.cisco.com",
-        "interfaceLinkErrHealth": 10,
-        "interDeviceLinkAvailHealth": 100,
-        "interferenceHealth": {
-          
-        },
-        "location": "Global/USA/SAN JOSE/BLD23",
-        "reachabilityHealth": "REACHABLE",
-        "avgTemperature": 4200.0,
-        "memoryUtilizationHealth": 10.0
-      },
-      {
-        "maxTemperature": 4600.0,
-        "overallHealth": 10,
-        "utilizationHealth": {
-          
-        },
-        "airQualityHealth": {
-          
-        },
-        "issueCount": 2,
-        "uuid": "889ba797-51b8-4f3e-9db7-6fb392f92c96",
-        "wqePoolsHealth": -1,
-        "cpuUlitilization": 1.0,
-        "noiseHealth": {
-          
-        },
-        "osVersion": "17.15.2",
-        "memoryUtilization": 36,
-        "model": "Cisco Catalyst 9500 Switch",
-        "band": {
-          
-        },
-        "clientCount": {
-          
-        },
-        "deviceType": "Cisco Catalyst 9500 Switch",
-        "cpuUtilization": 1.0,
-        "ipAddress": "91.1.1.6",
-        "cpuHealth": 10,
-        "freeTimerScore": -1,
-        "deviceFamily": "SWITCHES_AND_HUBS",
-        "interDeviceLinkAvailFabric": 10,
-        "wanLinkUtilization": -1.0,
-        "packetPoolHealth": -1,
-        "macAddress": "D0:EC:35:92:5E:80",
-        "freeMemoryBufferHealth": -1,
-        "name": "SJ-Border1-9500.cisco.com",
-        "interfaceLinkErrHealth": 10,
-        "interDeviceLinkAvailHealth": 100,
-        "interferenceHealth": {
-          
-        },
-        "location": "Global/USA/SAN JOSE/BLD20",
-        "reachabilityHealth": "REACHABLE",
-        "avgTemperature": 3266.6666666666665,
-        "memoryUtilizationHealth": 10.0
-      },
-      {
-        "maxTemperature": 5700.0,
-        "overallHealth": 10,
-        "utilizationHealth": {
-          
-        },
-        "airQualityHealth": {
-          
-        },
-        "issueCount": 1,
-        "uuid": "ecb048c3-6c24-4bfe-8466-60cd0b40441a",
-        "wqePoolsHealth": -1,
-        "cpuUlitilization": 2.0,
-        "noiseHealth": {
-          
-        },
-        "osVersion": "17.16.1",
-        "memoryUtilization": 53,
-        "model": "Cisco Catalyst 9300 Switch",
-        "band": {
-          
-        },
-        "clientCount": {
-          
-        },
-        "deviceType": "Cisco Catalyst 9300 Switch",
-        "cpuUtilization": 2.0,
-        "ipAddress": "204.1.1.35",
-        "cpuHealth": 10,
-        "freeTimerScore": -1,
-        "deviceFamily": "SWITCHES_AND_HUBS",
-        "interDeviceLinkAvailFabric": 10,
-        "wanLinkUtilization": -1.0,
-        "packetPoolHealth": -1,
-        "macAddress": "00:C1:B1:12:B1:00",
-        "freeMemoryBufferHealth": -1,
-        "name": "SJ-Edge1-9300.cisco.com",
-        "interfaceLinkErrHealth": 10,
-        "interDeviceLinkAvailHealth": 100,
-        "interferenceHealth": {
-          
-        },
-        "location": "Global/USA/SAN JOSE/BLD20",
-        "reachabilityHealth": "REACHABLE",
-        "avgTemperature": 4066.6666666666665,
-        "memoryUtilizationHealth": 10.0
-      },
-      {
-        "maxTemperature": 4800.0,
-        "overallHealth": 10,
-        "utilizationHealth": {
-          
-        },
-        "airQualityHealth": {
-          
-        },
-        "issueCount": 1,
-        "uuid": "e714d470-de0e-43a0-9469-099ddcf8467a",
-        "wqePoolsHealth": -1,
-        "cpuUlitilization": 2.25,
-        "noiseHealth": {
-          
-        },
-        "osVersion": "17.17.1prd6",
-        "memoryUtilization": 65,
-        "model": "Cisco Catalyst 9300 Switch",
-        "band": {
-          
-        },
-        "clientCount": {
-          
-        },
-        "apCount": 2,
-        "deviceType": "Cisco Catalyst 9300 Switch",
-        "cpuUtilization": 2.25,
-        "ipAddress": "204.1.2.129",
-        "cpuHealth": 10,
-        "freeTimerScore": -1,
-        "deviceFamily": "SWITCHES_AND_HUBS",
-        "interDeviceLinkAvailFabric": 10,
-        "wanLinkUtilization": -1.0,
-        "packetPoolHealth": -1,
-        "macAddress": "74:86:0B:0C:2F:00",
-        "freeMemoryBufferHealth": -1,
-        "name": "NY-Fiab-9300.cisco.com",
-        "interfaceLinkErrHealth": 10,
-        "interDeviceLinkAvailHealth": 100,
-        "interferenceHealth": {
-          
-        },
-        "location": "Global/USA/New York/BLDNYC",
-        "reachabilityHealth": "REACHABLE",
-        "avgTemperature": 3700.0,
-        "memoryUtilizationHealth": 10.0
-      },
-      {
-        "maxTemperature": 6600.0,
-        "overallHealth": 10,
-        "utilizationHealth": {
-          
-        },
-        "airQualityHealth": {
-          
-        },
-        "issueCount": 1,
-        "uuid": "7247491b-6f45-42e7-a8f4-a51142b2e3ea",
-        "wqePoolsHealth": -1,
-        "cpuUlitilization": 4.375,
-        "noiseHealth": {
-          
-        },
-        "osVersion": "17.16.1",
-        "memoryUtilization": 54,
-        "model": "Cisco Catalyst 9300 Switch",
-        "band": {
-          
-        },
-        "clientCount": {
-          
-        },
-        "deviceType": "Cisco Catalyst 9300 Switch",
-        "cpuUtilization": 4.375,
-        "ipAddress": "204.1.1.36",
-        "cpuHealth": 10,
-        "freeTimerScore": -1,
-        "deviceFamily": "SWITCHES_AND_HUBS",
-        "interDeviceLinkAvailFabric": 10,
-        "wanLinkUtilization": -1.0,
-        "packetPoolHealth": -1,
-        "macAddress": "0C:75:BD:ED:08:80",
-        "freeMemoryBufferHealth": -1,
-        "name": "SJ-Edge2-9300.cisco.com",
-        "interfaceLinkErrHealth": 10,
-        "interDeviceLinkAvailHealth": 100,
-        "interferenceHealth": {
-          
-        },
-        "location": "Global/USA/SAN JOSE/BLD23",
-        "reachabilityHealth": "REACHABLE",
-        "avgTemperature": 4600.0,
-        "memoryUtilizationHealth": 10.0
-      },
-      {
-        "maxTemperature": 5600.0,
-        "overallHealth": 10,
-        "utilizationHealth": {
-          
-        },
-        "airQualityHealth": {
-          
-        },
-        "issueCount": 1,
-        "uuid": "36680b59-39b2-446b-8ceb-5a1e157b5799",
-        "wqePoolsHealth": -1,
-        "cpuUlitilization": 1.0,
-        "noiseHealth": {
-          
-        },
-        "osVersion": "17.15.2",
-        "memoryUtilization": 36,
-        "model": "Cisco Catalyst 9500 Switch",
-        "band": {
-          
-        },
-        "clientCount": {
-          
-        },
-        "deviceType": "Cisco Catalyst 9500 Switch",
-        "cpuUtilization": 1.0,
-        "ipAddress": "91.1.1.2",
-        "cpuHealth": 10,
-        "freeTimerScore": -1,
-        "deviceFamily": "SWITCHES_AND_HUBS",
-        "interDeviceLinkAvailFabric": 10,
-        "wanLinkUtilization": -1.0,
-        "packetPoolHealth": -1,
-        "macAddress": "CC:70:ED:E1:C3:00",
-        "freeMemoryBufferHealth": -1,
-        "name": "SJ-Border2-9500.cisco.com",
-        "interfaceLinkErrHealth": 10,
-        "interDeviceLinkAvailHealth": 100,
-        "interferenceHealth": {
-          
-        },
-        "location": "Global/USA/SAN JOSE/BLD23",
-        "reachabilityHealth": "REACHABLE",
-        "avgTemperature": 3566.6666666666665,
-        "memoryUtilizationHealth": 10.0
-      }
-    ]
-  },
-
-  "playbook_connected_device_info": [
-    {
-      "fabric_devices": [
-        {
-          "ip_address": [
-            "204.192.5.2"
-          ],
-          "requested_info": [
-            "connected_devices_info"
-          ]
-        }
-      ]
-    }
-  ],
-  "get_device_details2": {
-    "response": [
-      {
-        "errorDescription": null,
-        "lastDeviceResyncStartTime": "2025-07-09 10:03:20",
-        "lineCardCount": "0",
-        "lineCardId": "",
-        "managedAtleastOnce": true,
-        "memorySize": "NA",
-        "tagCount": "0",
-        "tunnelUdpPort": null,
-        "uptimeSeconds": 1345141,
-        "vendor": "Cisco",
-        "waasDeviceMode": null,
-        "lastUpdateTime": 1752055431838,
-        "macAddress": "4c:e1:75:02:2b:0b",
-        "softwareType": "IOS-XE",
-        "softwareVersion": "17.15.2b",
-        "deviceSupportLevel": "Supported",
-        "serialNumber": "TTM234301CM",
-        "collectionInterval": "Global Default",
-        "dnsResolvedManagementAddress": "204.192.5.2",
-        "lastManagedResyncReasons": "Periodic",
-        "managementState": "Managed",
-        "pendingSyncRequestsCount": "0",
-        "reasonsForDeviceResync": "Periodic",
-        "reasonsForPendingSyncRequests": "",
-        "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
-        "syncRequestedByApp": "",
-        "upTime": "15 days, 13:19:30.10",
-        "roleSource": "AUTO",
-        "bootDateTime": "2025-06-23 20:44:51",
-        "apManagerInterfaceIp": "",
-        "collectionStatus": "Managed",
-        "family": "Wireless Controller",
-        "hostname": "TB17-eWLC-SJ.cisco.com",
-        "locationName": null,
-        "managementIpAddress": "204.192.5.2",
-        "platformId": "C9800-40-K9",
-        "reachabilityFailureReason": "",
-        "reachabilityStatus": "Reachable",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "snmpContact": "",
-        "snmpLocation": "",
-        "interfaceCount": "0",
-        "lastUpdated": "2025-07-09 10:03:51",
-        "associatedWlcIp": "",
-        "apEthernetMacAddress": null,
-        "errorCode": null,
-        "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.2b, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Feb-25 07:14 by mcpre netconf enabled",
-        "type": "Cisco Catalyst 9800-40 Wireless Controller",
-        "location": null,
-        "role": "ACCESS",
-        "instanceUuid": "1841ff80-886b-47fa-9053-85000e4af745",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "id": "1841ff80-886b-47fa-9053-85000e4af745"
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites13": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites14": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_25": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_26": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_27": {
-    "response": [
-      {
-        "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
-        "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "deviceRoles": [
-          "WIRELESS_CONTROLLER_NODE"
-        ]
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_28": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_29": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_interface_info_by_id": {
-    "response": [
-      {
-        "addresses": [
-          
-        ],
-        "adminStatus": "DOWN",
-        "className": null,
-        "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "duplex": "AutoNegotiate",
-        "ifIndex": "5",
-        "interfaceType": "Physical",
-        "ipv4Address": null,
-        "ipv4Mask": null,
-        "isisSupport": "false",
-        "lastIncomingPacketTime": 1750710597000,
-        "lastOutgoingPacketTime": 1750710597000,
-        "lastUpdated": null,
-        "macAddress": "4c:e1:75:02:2b:01",
-        "mappedPhysicalInterfaceId": null,
-        "mappedPhysicalInterfaceName": null,
-        "mediaType": null,
-        "mtu": "1500",
-        "nativeVlanId": "",
-        "ospfSupport": "false",
-        "pid": "C9800-40-K9",
-        "portMode": "routed",
-        "portName": "GigabitEthernet0",
-        "portType": "Ethernet Port",
-        "serialNo": "TTM234301CM",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "speed": "1000000",
-        "status": "down",
-        "vlanId": "0",
-        "voiceVlan": "",
-        "description": "",
-        "name": null,
-        "instanceUuid": "cafcb15f-53aa-4436-9a30-59d6f052999a",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "id": "cafcb15f-53aa-4436-9a30-59d6f052999a"
-      },
-      {
-        "addresses": [
-          
-        ],
-        "adminStatus": "UP",
-        "className": null,
-        "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "duplex": "FullDuplex",
-        "ifIndex": "1",
-        "interfaceType": "Physical",
-        "ipv4Address": null,
-        "ipv4Mask": null,
-        "isisSupport": "false",
-        "lastIncomingPacketTime": 1750710597000,
-        "lastOutgoingPacketTime": 1750710597000,
-        "lastUpdated": null,
-        "macAddress": "4c:e1:75:02:2b:0c",
-        "mappedPhysicalInterfaceId": null,
-        "mappedPhysicalInterfaceName": null,
-        "mediaType": null,
-        "mtu": "1500",
-        "nativeVlanId": "1",
-        "ospfSupport": "false",
-        "pid": "C9800-40-K9",
-        "portMode": "dynamic_auto",
-        "portName": "TenGigabitEthernet0/0/0",
-        "portType": "Ethernet Port",
-        "serialNo": "TTM234301CM",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "speed": "1000000",
-        "status": "down",
-        "vlanId": "1",
-        "voiceVlan": "",
-        "description": "",
-        "name": null,
-        "instanceUuid": "376ef864-5697-454d-b962-01bcd08a3f7b",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "id": "376ef864-5697-454d-b962-01bcd08a3f7b"
-      },
-      {
-        "addresses": [
-          
-        ],
-        "adminStatus": "UP",
-        "className": null,
-        "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "duplex": "FullDuplex",
-        "ifIndex": "2",
-        "interfaceType": "Physical",
-        "ipv4Address": null,
-        "ipv4Mask": null,
-        "isisSupport": "false",
-        "lastIncomingPacketTime": 1752054710000,
-        "lastOutgoingPacketTime": 1752054690000,
-        "lastUpdated": null,
-        "macAddress": "4c:e1:75:02:2b:0d",
-        "mappedPhysicalInterfaceId": null,
-        "mappedPhysicalInterfaceName": null,
-        "mediaType": null,
-        "mtu": "1500",
-        "nativeVlanId": "1",
-        "ospfSupport": "false",
-        "pid": "C9800-40-K9",
-        "portMode": "trunk",
-        "portName": "TenGigabitEthernet0/0/1",
-        "portType": "Ethernet Port",
-        "serialNo": "TTM234301CM",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "speed": "1000000",
-        "status": "up",
-        "vlanId": "1",
-        "voiceVlan": "",
-        "description": "",
-        "name": null,
-        "instanceUuid": "aa2fec4c-43ad-41f8-bac6-4caa2a1bf833",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "id": "aa2fec4c-43ad-41f8-bac6-4caa2a1bf833"
-      },
-      {
-        "addresses": [
-          
-        ],
-        "adminStatus": "UP",
-        "className": null,
-        "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "duplex": "FullDuplex",
-        "ifIndex": "3",
-        "interfaceType": "Physical",
-        "ipv4Address": null,
-        "ipv4Mask": null,
-        "isisSupport": "false",
-        "lastIncomingPacketTime": 1750710597000,
-        "lastOutgoingPacketTime": 1750710597000,
-        "lastUpdated": null,
-        "macAddress": "4c:e1:75:02:2b:0e",
-        "mappedPhysicalInterfaceId": null,
-        "mappedPhysicalInterfaceName": null,
-        "mediaType": null,
-        "mtu": "1500",
-        "nativeVlanId": "1",
-        "ospfSupport": "false",
-        "pid": "C9800-40-K9",
-        "portMode": "dynamic_auto",
-        "portName": "TenGigabitEthernet0/0/2",
-        "portType": "Ethernet Port",
-        "serialNo": "TTM234301CM",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "speed": "10000000",
-        "status": "down",
-        "vlanId": "1",
-        "voiceVlan": "",
-        "description": "",
-        "name": null,
-        "instanceUuid": "79f82f4b-3db5-4d90-9bc3-7f97f949f474",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "id": "79f82f4b-3db5-4d90-9bc3-7f97f949f474"
-      },
-      {
-        "addresses": [
-          
-        ],
-        "adminStatus": "UP",
-        "className": null,
-        "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "duplex": "FullDuplex",
-        "ifIndex": "4",
-        "interfaceType": "Physical",
-        "ipv4Address": null,
-        "ipv4Mask": null,
-        "isisSupport": "false",
-        "lastIncomingPacketTime": 1750710597000,
-        "lastOutgoingPacketTime": 1750710597000,
-        "lastUpdated": null,
-        "macAddress": "4c:e1:75:02:2b:0f",
-        "mappedPhysicalInterfaceId": null,
-        "mappedPhysicalInterfaceName": null,
-        "mediaType": null,
-        "mtu": "1500",
-        "nativeVlanId": "1",
-        "ospfSupport": "false",
-        "pid": "C9800-40-K9",
-        "portMode": "dynamic_auto",
-        "portName": "TenGigabitEthernet0/0/3",
-        "portType": "Ethernet Port",
-        "serialNo": "TTM234301CM",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "speed": "10000000",
-        "status": "down",
-        "vlanId": "1",
-        "voiceVlan": "",
-        "description": "",
-        "name": null,
-        "instanceUuid": "488387c7-6584-4f2f-808c-821b3b9ca887",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "id": "488387c7-6584-4f2f-808c-821b3b9ca887"
-      },
-      {
-        "addresses": [
-          
-        ],
-        "adminStatus": "UP",
-        "className": null,
-        "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "duplex": "AutoNegotiate",
-        "ifIndex": "8",
-        "interfaceType": "Virtual",
-        "ipv4Address": null,
-        "ipv4Mask": null,
-        "isisSupport": "false",
-        "lastIncomingPacketTime": 1750710597000,
-        "lastOutgoingPacketTime": 1750710597000,
-        "lastUpdated": null,
-        "macAddress": "4c:e1:75:02:2b:0b",
-        "mappedPhysicalInterfaceId": null,
-        "mappedPhysicalInterfaceName": null,
-        "mediaType": null,
-        "mtu": "1500",
-        "nativeVlanId": "",
-        "ospfSupport": "false",
-        "pid": "C9800-40-K9",
-        "portMode": "routed",
-        "portName": "Vlan1",
-        "portType": "Ethernet SVI",
-        "serialNo": "TTM234301CM",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "speed": "1000000",
-        "status": "down",
-        "vlanId": "1",
-        "voiceVlan": "",
-        "description": "",
-        "name": null,
-        "instanceUuid": "c7fe88c6-6a22-480d-a54b-53282dfc9f5b",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "id": "c7fe88c6-6a22-480d-a54b-53282dfc9f5b"
-      },
-      {
-        "addresses": [
-          {
-            "address": {
-              "ipAddress": {
-                "address": "204.192.5.2"
-              },
-              "ipMask": {
-                "address": "255.255.255.0"
-              },
-              "isInverseMask": false
-            },
-            "type": "IPV4_PRIMARY"
-          }
-        ],
-        "adminStatus": "UP",
-        "className": null,
-        "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "duplex": "AutoNegotiate",
-        "ifIndex": "9",
-        "interfaceType": "Virtual",
-        "ipv4Address": "204.192.5.2",
-        "ipv4Mask": "255.255.255.0",
-        "isisSupport": "false",
-        "lastIncomingPacketTime": 1752054719000,
-        "lastOutgoingPacketTime": 1752054719000,
-        "lastUpdated": null,
-        "macAddress": "4c:e1:75:02:2b:0b",
-        "mappedPhysicalInterfaceId": null,
-        "mappedPhysicalInterfaceName": null,
-        "mediaType": null,
-        "mtu": "1500",
-        "nativeVlanId": "",
-        "ospfSupport": "false",
-        "pid": "C9800-40-K9",
-        "portMode": "routed",
-        "portName": "Vlan203",
-        "portType": "Ethernet SVI",
-        "serialNo": "TTM234301CM",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "speed": "1000000",
-        "status": "up",
-        "vlanId": "203",
-        "voiceVlan": "",
-        "description": "wireless-management-interface",
-        "name": null,
-        "instanceUuid": "e5a79e7e-64fb-43b7-ba58-3a2fb0c70c2f",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "id": "e5a79e7e-64fb-43b7-ba58-3a2fb0c70c2f"
-      },
-      {
-        "addresses": [
-          
-        ],
-        "adminStatus": "UP",
-        "className": null,
-        "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "duplex": "",
-        "ifIndex": "6",
-        "interfaceType": "Virtual",
-        "ipv4Address": null,
-        "ipv4Mask": null,
-        "isisSupport": "false",
-        "lastIncomingPacketTime": 1750710597000,
-        "lastOutgoingPacketTime": 1750710597000,
-        "lastUpdated": null,
-        "macAddress": "",
-        "mappedPhysicalInterfaceId": null,
-        "mappedPhysicalInterfaceName": null,
-        "mediaType": null,
-        "mtu": "1500",
-        "nativeVlanId": "",
-        "ospfSupport": "false",
-        "pid": "C9800-40-K9",
-        "portMode": "routed",
-        "portName": "VoIP-Null0",
-        "portType": "OTHER",
-        "serialNo": "TTM234301CM",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "speed": "10000000",
-        "status": "up",
-        "vlanId": "0",
-        "voiceVlan": "",
-        "description": "",
-        "name": null,
-        "instanceUuid": "6d5d3737-e26b-4393-afa1-aaa2144454db",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "id": "6d5d3737-e26b-4393-afa1-aaa2144454db"
-      }
-    ],
-    "version": "1.0"
-  },
-  "connected_info_1": {
-    "response": {
-      "neighborDevice": "TB17-Fusion.cisco.com",
-      "neighborPort": "GigabitEthernet1/0/21",
-      "capabilities": [
-        "IGMP_CONDITIONAL_FILTERING",
-        "ROUTER",
-        "SWITCH"
-      ]
-    },
-    "version": "1.0"
-  },
-  "connected_info_2": {
-    "response": {
-      
-    },
-    "version": "1.0"
-  },
-  "connected_info_3": {
-    "response": {
-      
-    },
-    "version": "1.0"
-  },
-  "connected_info_4": {
-    "response": {
-      
-    },
-    "version": "1.0"
-  },
-  "connected_info_5": {
-    "response": {
-      
-    },
-    "version": "1.0"
-  },
-  "connected_info_6": {
-    "response": {
-      
-    },
-    "version": "1.0"
-  },
-  "connected_info_7": {
-    "response": {
-      
-    },
-    "version": "1.0"
-  },
-  "connected_info_8": {
-    "response": {
-      
-    },
-    "version": "1.0"
-  },
-
-  "playbook_issues_info": [
-    {
-      "fabric_devices": [
-        {
-          "ip_address": [
-            "204.192.5.2"
-          ],
-          "requested_info": [
-            "device_issues_info"
-          ]
-        }
-      ]
-    }
-  ],
-  "get_device_details3": {
-    "response": [
-      {
-        "memorySize": "NA",
-        "family": "Wireless Controller",
-        "lastUpdateTime": 1752072649410,
-        "macAddress": "4c:e1:75:02:2b:0b",
-        "roleSource": "AUTO",
-        "deviceSupportLevel": "Supported",
-        "softwareType": "IOS-XE",
-        "softwareVersion": "17.15.2b",
-        "serialNumber": "TTM234301CM",
-        "syncRequestedByApp": "",
-        "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
-        "collectionInterval": "Global Default",
-        "dnsResolvedManagementAddress": "204.192.5.2",
-        "lastManagedResyncReasons": "Periodic",
-        "managementState": "Managed",
-        "pendingSyncRequestsCount": "0",
-        "reasonsForDeviceResync": "Periodic",
-        "reasonsForPendingSyncRequests": "",
-        "upTime": "15 days, 18:06:13.42",
-        "interfaceCount": "0",
-        "bootDateTime": "2025-06-23 20:44:49",
-        "managementIpAddress": "204.192.5.2",
-        "platformId": "C9800-40-K9",
-        "reachabilityFailureReason": "",
-        "reachabilityStatus": "Reachable",
-        "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-        "snmpContact": "",
-        "snmpLocation": "",
-        "apManagerInterfaceIp": "",
-        "collectionStatus": "Managed",
-        "hostname": "TB17-eWLC-SJ.cisco.com",
-        "locationName": null,
-        "lastUpdated": "2025-07-09 14:50:49",
-        "associatedWlcIp": "",
-        "apEthernetMacAddress": null,
-        "errorCode": null,
-        "errorDescription": null,
-        "lastDeviceResyncStartTime": "2025-07-09 14:49:02",
-        "lineCardCount": "0",
-        "lineCardId": "",
-        "managedAtleastOnce": true,
-        "tagCount": "0",
-        "tunnelUdpPort": null,
-        "uptimeSeconds": 1364410,
-        "vendor": "Cisco",
-        "waasDeviceMode": null,
-        "type": "Cisco Catalyst 9800-40 Wireless Controller",
-        "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.2b, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Feb-25 07:14 by mcpre netconf enabled",
-        "location": null,
-        "role": "ACCESS",
-        "instanceTenantId": "67c18e2a74fcf4001370a56e",
-        "instanceUuid": "1841ff80-886b-47fa-9053-85000e4af745",
-        "id": "1841ff80-886b-47fa-9053-85000e4af745"
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites15": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites16": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_30": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_31": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_32": {
-    "response": [
-      {
-        "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
-        "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "deviceRoles": [
-          "WIRELESS_CONTROLLER_NODE"
-        ]
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_33": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_34": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "issues": {
-    "response": [
-      {
-        "issueId": "72090898-80f0-4eaa-8249-821faff48efd",
-        "name": "Excessive time lag between Cisco Catalyst Center and device TB17-eWLC-SJ.cisco.com",
-        "siteId": "",
-        "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "deviceRole": "",
-        "aiDriven": "No",
-        "clientMac": null,
-        "issue_occurence_count": 495,
-        "status": "active",
-        "priority": "P3",
-        "category": "Device",
-        "last_occurence_time": 1752072623000
-      },
-      {
-        "issueId": "f29a9599-1bd3-442d-b775-06522244b52d",
-        "name": "Cisco Catalyst Center is not receiving data from TB17-eWLC-SJ.cisco.com Wireless Controller",
-        "siteId": "",
-        "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "deviceRole": "",
-        "aiDriven": "No",
-        "clientMac": null,
-        "issue_occurence_count": 1,
-        "status": "active",
-        "priority": "P3",
-        "category": "Availability",
-        "last_occurence_time": 1752014700000
-      }
-    ],
-    "totalCount": "496",
-    "version": "1.0"
-  },
-
-  "playbook_onboarding_info_details":  [
-    {
-        "fabric_devices": [
-            {
-                "output_file_info": {
-                    "file_format": "json",
-                    "file_mode": "a",
-                    "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
-                    "timestamp": true
-                },
-                "ip_address": [
-                    "204.192.5.2"
-                ],
-                "requested_info": [
-                    "onboarding_info"
-                ]
-            }
-        ]
-    }
-],
-  "get_device_list5": {
-  "response": [
-    {
-      "memorySize": "NA",
-      "family": "Wireless Controller",
-      "lastUpdateTime": 1753152585448,
-      "macAddress": "4c:e1:75:02:2b:0b",
-      "roleSource": "AUTO",
-      "deviceSupportLevel": "Supported",
-      "softwareType": "IOS-XE",
-      "softwareVersion": "17.15.2b",
-      "serialNumber": "TTM234301CM",
-      "syncRequestedByApp": "",
-      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
-      "collectionInterval": "Global Default",
-      "dnsResolvedManagementAddress": "204.192.5.2",
-      "lastManagedResyncReasons": "Periodic",
-      "managementState": "Managed",
-      "pendingSyncRequestsCount": "0",
-      "reasonsForDeviceResync": "Periodic",
-      "reasonsForPendingSyncRequests": "",
-      "upTime": "6 days, 3:50:54.67",
-      "interfaceCount": "0",
-      "bootDateTime": "2025-07-15 22:59:45",
-      "managementIpAddress": "204.192.5.2",
-      "platformId": "C9800-40-K9",
-      "reachabilityFailureReason": "",
-      "reachabilityStatus": "Reachable",
-      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-      "snmpContact": "",
-      "snmpLocation": "",
-      "apManagerInterfaceIp": "",
-      "collectionStatus": "Managed",
-      "hostname": "TB17-eWLC-SJ.cisco.com",
-      "locationName": null,
-      "lastUpdated": "2025-07-22 02:49:45",
-      "associatedWlcIp": "",
-      "apEthernetMacAddress": null,
-      "errorCode": null,
-      "errorDescription": null,
-      "lastDeviceResyncStartTime": "2025-07-22 02:49:12",
-      "lineCardCount": "0",
-      "lineCardId": "",
-      "managedAtleastOnce": true,
-      "tagCount": "0",
-      "tunnelUdpPort": null,
-      "uptimeSeconds": 534949,
-      "vendor": "Cisco",
-      "waasDeviceMode": null,
-      "type": "Cisco Catalyst 9800-40 Wireless Controller",
-      "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.2b, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Feb-25 07:14 by mcpre netconf enabled",
-      "location": null,
-      "role": "ACCESS",
-      "instanceTenantId": "67c18e2a74fcf4001370a56e",
-      "instanceUuid": "1841ff80-886b-47fa-9053-85000e4af745",
-      "id": "1841ff80-886b-47fa-9053-85000e4af745"
-    }
-  ],
-  "version": "1.0"
-},
-  "get_fabric_sites19": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites20": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_40": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_41": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_42": {
-    "response": [
-      {
-        "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
-        "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745",
-        "deviceRoles": [
-          "WIRELESS_CONTROLLER_NODE"
-        ]
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_43": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_devices_44": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_fabric_sites21": {
-    "response": [
-      {
-        "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
-        "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
-        "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
-        "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
-        "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      },
-      {
-        "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
-        "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
-        "authenticationProfileName": "No Authentication",
-        "isPubSubEnabled": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "get_port_assignments_v1": {
-    "response": [
-      
-    ],
-    "version": "1.0"
-  },
-  "get_device_type": {
-    "response": {
-      "type": "Cisco Catalyst 9800-40 Wireless Controller",
-      "memorySize": "NA",
-      "family": "Wireless Controller",
-      "lastUpdateTime": 1753152585448,
-      "macAddress": "4c:e1:75:02:2b:0b",
-      "softwareType": "IOS-XE",
-      "softwareVersion": "17.15.2b",
-      "deviceSupportLevel": "Supported",
-      "serialNumber": "TTM234301CM",
-      "lastUpdated": "2025-07-22 02:49:45",
-      "collectionInterval": "Global Default",
-      "dnsResolvedManagementAddress": "204.192.5.2",
-      "lastManagedResyncReasons": "Periodic",
-      "managementState": "Managed",
-      "pendingSyncRequestsCount": "0",
-      "reasonsForDeviceResync": "Periodic",
-      "reasonsForPendingSyncRequests": "",
-      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
-      "syncRequestedByApp": "",
-      "upTime": "6 days, 3:50:54.67",
-      "managementIpAddress": "204.192.5.2",
-      "platformId": "C9800-40-K9",
-      "reachabilityFailureReason": "",
-      "reachabilityStatus": "Reachable",
-      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
-      "snmpContact": "",
-      "snmpLocation": "",
-      "interfaceCount": "0",
-      "roleSource": "AUTO",
-      "bootDateTime": "2025-07-15 22:59:45",
-      "apManagerInterfaceIp": "",
-      "collectionStatus": "Managed",
-      "hostname": "TB17-eWLC-SJ.cisco.com",
-      "locationName": null,
-      "associatedWlcIp": "",
-      "apEthernetMacAddress": null,
-      "errorCode": null,
-      "errorDescription": null,
-      "lastDeviceResyncStartTime": "2025-07-22 02:49:12",
-      "lineCardCount": "0",
-      "lineCardId": "",
-      "managedAtleastOnce": true,
-      "tagCount": "0",
-      "tunnelUdpPort": null,
-      "uptimeSeconds": 534953,
-      "vendor": "Cisco",
-      "waasDeviceMode": null,
-      "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.2b, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Feb-25 07:14 by mcpre netconf enabled",
-      "location": null,
-      "role": "ACCESS",
-      "instanceUuid": "1841ff80-886b-47fa-9053-85000e4af745",
-      "instanceTenantId": "67c18e2a74fcf4001370a56e",
-      "id": "1841ff80-886b-47fa-9053-85000e4af745"
-    },
-    "version": "1.0"
-  },
-  "get_ssid_details": {
-    "response": [
-      {
-        "wlanId": 28,
-        "wlanProfileName": "ARUBA_SSID_profile",
-        "l2Security": "open",
-        "l3Security": "web_auth",
-        "ssidName": "ARUBA_SSIDtb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 1,
-        "wlanProfileName": "CiscoSensorProvisioning",
-        "l2Security": "wpa2_enterprise",
-        "l3Security": "open",
-        "ssidName": "CiscoSensorProvisioning",
-        "radioPolicy": "2.4GHz + 5GHz + 6GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 26,
-        "wlanProfileName": "GUEST2_profile",
-        "l2Security": "open",
-        "l3Security": "open",
-        "ssidName": "GUEST2tb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 18,
-        "wlanProfileName": "Guest_passthrough_int_profile",
-        "l2Security": "open",
-        "l3Security": "web_auth",
-        "ssidName": "Guest_passthrough_inttb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 20,
-        "wlanProfileName": "GUEST_profile",
-        "l2Security": "open",
-        "l3Security": "open",
-        "ssidName": "GUESTtb17",
-        "radioPolicy": "2.4GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 22,
-        "wlanProfileName": "Guest_webauthinternal_profile",
-        "l2Security": "wpa2_enterprise",
-        "l3Security": "web_auth",
-        "ssidName": "Guest_webauthinternaltb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 19,
-        "wlanProfileName": "Guest_webpassthrough_profile",
-        "l2Security": "open",
-        "l3Security": "web_auth",
-        "ssidName": "Guest_webpassthroughtb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 23,
-        "wlanProfileName": "OPEN_profile",
-        "l2Security": "open",
-        "l3Security": "open",
-        "ssidName": "OPENtb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 21,
-        "wlanProfileName": "posture_profile",
-        "l2Security": "wpa2_enterprise",
-        "l3Security": "open",
-        "ssidName": "posturetb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 17,
-        "wlanProfileName": "Radius_ssid_profile",
-        "l2Security": "wpa2_enterprise",
-        "l3Security": "open",
-        "ssidName": "Radius_ssidtb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 29,
-        "wlanProfileName": "Random_mac_profile",
-        "l2Security": "wpa2_enterprise",
-        "l3Security": "open",
-        "ssidName": "Random_mactb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 27,
-        "wlanProfileName": "Single5KBand_profile",
-        "l2Security": "wpa2_personal",
-        "l3Security": "open",
-        "ssidName": "Single5KBandtb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 30,
-        "wlanProfileName": "SSIDDot1XIndia_profile",
-        "l2Security": "wpa2_enterprise",
-        "l3Security": "open",
-        "ssidName": "SSIDDot1XIndiatb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 25,
-        "wlanProfileName": "SSIDDUAL BAND_profile",
-        "l2Security": "wpa2_enterprise",
-        "l3Security": "open",
-        "ssidName": "SSIDDUAL BANDtb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": true,
-        "managed": true
-      },
-      {
-        "wlanId": 24,
-        "wlanProfileName": "SSIDScheduler_profile",
-        "l2Security": "wpa2_enterprise",
-        "l3Security": "open",
-        "ssidName": "SSIDSchedulertb17",
-        "radioPolicy": "2.4GHz + 5GHz",
-        "adminStatus": false,
-        "managed": true
-      }
-    ],
-    "version": "1.0"
-  },
-  "provision_status1": {
-    "deviceManagementIpAddress": "204.192.5.2",
-    "siteNameHierarchy": "Global/USA/SAN JOSE/BLD23",
-    "status": "success",
-    "description": "Wired Provisioned device detail retrieved successfully."
-  },
-
   "playbook_negative_scenario1": [
     {
       "ip_address": [
@@ -3096,5 +571,2995 @@
         }
       ]
     }
+  ],
+
+"playbook_with_fabric_info": [
+  {
+    "fabric_devices": [
+      {
+        "interval": 10,
+        "ip_address": [
+          "204.192.5.2"
+        ],
+        "output_file_info": {
+          "file_format": "yaml",
+          "file_mode": "a",
+          "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
+          "timestamp": true
+        },
+        "requested_info": [
+          "fabric_info"
+        ],
+        "retries": 2,
+        "timeout": 30
+      }
+    ]
+  }
+],
+"get_device_details": {
+  "response": [
+    {
+      "memorySize": "NA",
+      "family": "Wireless Controller",
+      "type": "Cisco Catalyst 9800-40 Wireless Controller",
+      "lastUpdateTime": 1755683930611,
+      "macAddress": "4c:e1:75:02:2b:0b",
+      "lastUpdated": "2025-08-20 09:58:50",
+      "roleSource": "AUTO",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.15.2b",
+      "deviceSupportLevel": "Supported",
+      "serialNumber": "TTM234301CM",
+      "syncRequestedByApp": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "204.192.5.2",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "upTime": "35 days, 10:59:57.84",
+      "interfaceCount": "0",
+      "bootDateTime": "2025-07-15 22:59:50",
+      "managementIpAddress": "204.192.5.2",
+      "platformId": "C9800-40-K9",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "hostname": "TB17-eWLC-SJ.cisco.com",
+      "locationName": null,
+      "associatedWlcIp": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-08-20 09:58:17",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 3070696,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "location": null,
+      "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.2b, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Feb-25 07:14 by mcpre netconf enabled",
+      "role": "ACCESS",
+      "instanceUuid": "1841ff80-886b-47fa-9053-85000e4af745",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "1841ff80-886b-47fa-9053-85000e4af745"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites4": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites5": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices5": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices6": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices7": {
+  "response": [
+    {
+      "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "deviceRoles": [
+        "WIRELESS_CONTROLLER_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices8": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices9": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices10": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices11": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices12": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices13": {
+  "response": [
+    {
+      "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "deviceRoles": [
+        "WIRELESS_CONTROLLER_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices14": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices15": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices16": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites6": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices17": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices18": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices19": {
+  "response": [
+    {
+      "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "deviceRoles": [
+        "WIRELESS_CONTROLLER_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices20": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices21": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices22": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+
+"playbook_handoff_info": [
+  {
+    "fabric_devices": [
+      {
+        "interval": 10,
+        "ip_address": [
+          "91.1.1.2"
+        ],
+        "output_file_info": {
+          "file_format": "yaml",
+          "file_mode": "a",
+          "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
+          "timestamp": true
+        },
+        "requested_info": [
+          "handoff_info"
+        ],
+        "retries": 2,
+        "timeout": 30
+      }
+    ]
+  }
+],
+"get_device_details1": {
+  "response": [
+    {
+      "memorySize": "NA",
+      "family": "Switches and Hubs",
+      "lastUpdateTime": 1755687714186,
+      "macAddress": "cc:70:ed:e1:c3:00",
+      "upTime": "84 days, 1:09:33.35",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.15.2",
+      "serialNumber": "FCW2243F199",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "roleSource": "MANUAL",
+      "interfaceCount": "0",
+      "lastUpdated": "2025-08-20 11:01:54",
+      "bootDateTime": "2025-05-28 09:52:54",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "hostname": "SJ-Border2-9500.cisco.com",
+      "locationName": null,
+      "managementIpAddress": "91.1.1.2",
+      "platformId": "C9500-16X",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9500 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "associatedWlcIp": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-08-20 11:01:02",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 7268394,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9500 Switch",
+      "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.15.2, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Wed 27-Nov-24 23:19 by mcpre netconf enabled",
+      "location": null,
+      "role": "BORDER ROUTER",
+      "syncRequestedByApp": "",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "91.1.1.2",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "instanceUuid": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "36680b59-39b2-446b-8ceb-5a1e157b5799"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites7": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites8": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices23": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices24": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices25": {
+  "response": [
+    {
+      "id": "a82b50c5-58e6-4491-ad7e-d149589593f3",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "deviceRoles": [
+        "BORDER_NODE",
+        "CONTROL_PLANE_NODE"
+      ],
+      "borderDeviceSettings": {
+        "borderTypes": [
+          "LAYER_3"
+        ],
+        "layer3Settings": {
+          "localAutonomousSystemNumber": "6100",
+          "importExternalRoutes": true,
+          "borderPriority": 6,
+          "prependAutonomousSystemCount": 7,
+          "isDefaultExit": true
+        }
+      }
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices26": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices27": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices28": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices29": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices30": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices31": {
+  "response": [
+    {
+      "id": "a82b50c5-58e6-4491-ad7e-d149589593f3",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "deviceRoles": [
+        "BORDER_NODE",
+        "CONTROL_PLANE_NODE"
+      ],
+      "borderDeviceSettings": {
+        "borderTypes": [
+          "LAYER_3"
+        ],
+        "layer3Settings": {
+          "localAutonomousSystemNumber": "6100",
+          "importExternalRoutes": true,
+          "borderPriority": 6,
+          "prependAutonomousSystemCount": 7,
+          "isDefaultExit": true
+        }
+      }
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices32": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices33": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices34": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices_layer3_handoffs_with_sda_transit": {
+  "response": [
+    {
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "02f92f56-e9c8-4534-b7f1-e06635061de9",
+      "connectedToInternet": true,
+      "isMulticastOverTransitEnabled": false
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices_layer3_handoffs_with_ip_transit": {
+  "response": [
+    {
+      "id": "f10250af-bd72-4175-ad9b-ea2831e74a15",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "DEFAULT_VN",
+      "vlanId": 3000,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.69/30",
+      "remoteIpAddress": "204.1.16.70/30",
+      "localIpv6Address": "2004:1:16::1:0:45/126",
+      "remoteIpv6Address": "2004:1:16::1:0:46/126"
+    },
+    {
+      "id": "3cd81271-4621-40fd-aac7-8b8499127c0c",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "Fabric_VN",
+      "vlanId": 3001,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.73/30",
+      "remoteIpAddress": "204.1.16.74/30",
+      "localIpv6Address": "2004:1:16::1:0:49/126",
+      "remoteIpv6Address": "2004:1:16::1:0:4a/126"
+    },
+    {
+      "id": "cdad28e7-8df2-432d-8550-666a9fcfc21c",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "INFRA_VN",
+      "vlanId": 3002,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.77/30",
+      "remoteIpAddress": "204.1.16.78/30",
+      "localIpv6Address": "2004:1:16::1:0:4d/126",
+      "remoteIpv6Address": "2004:1:16::1:0:4e/126"
+    },
+    {
+      "id": "8711bdb5-7a92-4ab0-a7d7-b4053e1db84c",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "IntraSubnet_VN",
+      "vlanId": 3003,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.81/30",
+      "remoteIpAddress": "204.1.16.82/30",
+      "localIpv6Address": "2004:1:16::1:0:51/126",
+      "remoteIpv6Address": "2004:1:16::1:0:52/126"
+    },
+    {
+      "id": "66b48881-e72f-44cc-aedb-6819af25bd27",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "SGT_Port_test",
+      "vlanId": 3004,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.85/30",
+      "remoteIpAddress": "204.1.16.86/30",
+      "localIpv6Address": "2004:1:16::1:0:55/126",
+      "remoteIpv6Address": "2004:1:16::1:0:56/126"
+    },
+    {
+      "id": "6dd7d005-74aa-4762-a59e-1c280a975425",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "VN1",
+      "vlanId": 3005,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.89/30",
+      "remoteIpAddress": "204.1.16.90/30",
+      "localIpv6Address": "2004:1:16::1:0:59/126",
+      "remoteIpv6Address": "2004:1:16::1:0:5a/126"
+    },
+    {
+      "id": "a13167ae-d900-4048-92a6-0d41bd1bd531",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "VN2",
+      "vlanId": 3006,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.93/30",
+      "remoteIpAddress": "204.1.16.94/30",
+      "localIpv6Address": "2004:1:16::1:0:5d/126",
+      "remoteIpv6Address": "2004:1:16::1:0:5e/126"
+    },
+    {
+      "id": "932cd9d7-9067-4224-ab1d-922a7cd79b5b",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "VN3",
+      "vlanId": 3007,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.97/30",
+      "remoteIpAddress": "204.1.16.98/30",
+      "localIpv6Address": "2004:1:16::1:0:61/126",
+      "remoteIpv6Address": "2004:1:16::1:0:62/126"
+    },
+    {
+      "id": "9c09c4a8-5a7f-4b06-ac28-4d895293cfe7",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "VN4",
+      "vlanId": 3008,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.101/30",
+      "remoteIpAddress": "204.1.16.102/30",
+      "localIpv6Address": "2004:1:16::1:0:65/126",
+      "remoteIpv6Address": "2004:1:16::1:0:66/126"
+    },
+    {
+      "id": "df69abf3-266a-4678-84d2-ca8d9340b4c2",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "VN5",
+      "vlanId": 3009,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.105/30",
+      "remoteIpAddress": "204.1.16.106/30",
+      "localIpv6Address": "2004:1:16::1:0:69/126",
+      "remoteIpv6Address": "2004:1:16::1:0:6a/126"
+    },
+    {
+      "id": "d95e8a82-7a71-4f4a-a31a-85385c1e1ef8",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "VN6",
+      "vlanId": 3010,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.109/30",
+      "remoteIpAddress": "204.1.16.110/30",
+      "localIpv6Address": "2004:1:16::1:0:6d/126",
+      "remoteIpv6Address": "2004:1:16::1:0:6e/126"
+    },
+    {
+      "id": "27171568-3f08-4f13-8991-a8904bc7e2a6",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "VN7",
+      "vlanId": 3011,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.113/30",
+      "remoteIpAddress": "204.1.16.114/30",
+      "localIpv6Address": "2004:1:16::1:0:71/126",
+      "remoteIpv6Address": "2004:1:16::1:0:72/126"
+    },
+    {
+      "id": "bb704a7d-8988-4d8c-80e5-4c02bb9ab042",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "WiredVNFB1",
+      "vlanId": 3012,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.117/30",
+      "remoteIpAddress": "204.1.16.118/30",
+      "localIpv6Address": "2004:1:16::1:0:75/126",
+      "remoteIpv6Address": "2004:1:16::1:0:76/126"
+    },
+    {
+      "id": "8d814e72-25af-490d-8f69-dec10af9e790",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "WiredVNFBLayer2",
+      "vlanId": 3013,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.121/30",
+      "remoteIpAddress": "204.1.16.122/30",
+      "localIpv6Address": "2004:1:16::1:0:79/126",
+      "remoteIpv6Address": "2004:1:16::1:0:7a/126"
+    },
+    {
+      "id": "b01aa3a2-61c8-4179-a568-6dcdbafe993f",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "WiredVNStatic",
+      "vlanId": 3014,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.125/30",
+      "remoteIpAddress": "204.1.16.126/30",
+      "localIpv6Address": "2004:1:16::1:0:7d/126",
+      "remoteIpv6Address": "2004:1:16::1:0:7e/126"
+    },
+    {
+      "id": "a4f61e60-b75c-4bcd-b7c4-e3bd68ec324d",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "WirelessVNFB",
+      "vlanId": 3015,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.129/30",
+      "remoteIpAddress": "204.1.16.130/30",
+      "localIpv6Address": "2004:1:16::1:0:81/126",
+      "remoteIpv6Address": "2004:1:16::1:0:82/126"
+    },
+    {
+      "id": "43761af5-509f-4d07-9d2c-8b09f6ba2114",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+      "interfaceName": "TenGigabitEthernet1/0/2",
+      "externalConnectivityIpPoolName": "BorderHandOff_sub",
+      "virtualNetworkName": "WirelessVNFGuest",
+      "vlanId": 3016,
+      "tcpMssAdjustment": 0,
+      "localIpAddress": "204.1.16.133/30",
+      "remoteIpAddress": "204.1.16.134/30",
+      "localIpv6Address": "2004:1:16::1:0:85/126",
+      "remoteIpv6Address": "2004:1:16::1:0:86/126"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices_layer2_handoffs": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+
+"playbook_onboarding_info_details": [
+  {
+      "fabric_devices": [
+          {
+              "interval": 10,
+              "ip_address": [
+                  "91.1.1.2"
+              ],
+              "output_file_info": {
+                  "file_format": "yaml",
+                  "file_mode": "a",
+                  "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
+                  "timestamp": true
+              },
+              "requested_info": [
+                  "onboarding_info"
+              ],
+              "retries": 2,
+              "timeout": 30
+          }
+      ]
+  }
+],
+"get_device_list5": {
+  "response": [
+    {
+      "memorySize": "NA",
+      "family": "Switches and Hubs",
+      "type": "Cisco Catalyst 9500 Switch",
+      "lastUpdateTime": 1755687714186,
+      "macAddress": "cc:70:ed:e1:c3:00",
+      "lastUpdated": "2025-08-20 11:01:54",
+      "roleSource": "MANUAL",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.15.2",
+      "deviceSupportLevel": "Supported",
+      "serialNumber": "FCW2243F199",
+      "syncRequestedByApp": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "91.1.1.2",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "upTime": "84 days, 1:09:33.35",
+      "interfaceCount": "0",
+      "bootDateTime": "2025-05-28 09:52:54",
+      "managementIpAddress": "91.1.1.2",
+      "platformId": "C9500-16X",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9500 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "hostname": "SJ-Border2-9500.cisco.com",
+      "locationName": null,
+      "associatedWlcIp": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-08-20 11:01:02",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 7269519,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "location": null,
+      "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.15.2, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Wed 27-Nov-24 23:19 by mcpre netconf enabled",
+      "role": "BORDER ROUTER",
+      "instanceUuid": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "36680b59-39b2-446b-8ceb-5a1e157b5799"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites9": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites10": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices35": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices36": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices37": {
+  "response": [
+    {
+      "id": "a82b50c5-58e6-4491-ad7e-d149589593f3",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "deviceRoles": [
+        "BORDER_NODE",
+        "CONTROL_PLANE_NODE"
+      ],
+      "borderDeviceSettings": {
+        "borderTypes": [
+          "LAYER_3"
+        ],
+        "layer3Settings": {
+          "localAutonomousSystemNumber": "6100",
+          "importExternalRoutes": true,
+          "borderPriority": 6,
+          "prependAutonomousSystemCount": 7,
+          "isDefaultExit": true
+        }
+      }
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices38": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices39": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices40": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices41": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices42": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices43": {
+  "response": [
+    {
+      "id": "a82b50c5-58e6-4491-ad7e-d149589593f3",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "deviceRoles": [
+        "BORDER_NODE",
+        "CONTROL_PLANE_NODE"
+      ],
+      "borderDeviceSettings": {
+        "borderTypes": [
+          "LAYER_3"
+        ],
+        "layer3Settings": {
+          "localAutonomousSystemNumber": "6100",
+          "importExternalRoutes": true,
+          "borderPriority": 6,
+          "prependAutonomousSystemCount": 7,
+          "isDefaultExit": true
+        }
+      }
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices44": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices45": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices46": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_port_assignments": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_provision_status": {
+  "deviceManagementIpAddress": "91.1.1.2",
+  "siteNameHierarchy": "Global/USA/SAN JOSE/BLD23",
+  "status": "success",
+  "description": "Wired Provisioned device detail retrieved successfully."
+},
+"get_network_device_by_ip": {
+  "response": {
+    "memorySize": "NA",
+    "family": "Switches and Hubs",
+    "type": "Cisco Catalyst 9500 Switch",
+    "lastUpdateTime": 1755687714186,
+    "macAddress": "cc:70:ed:e1:c3:00",
+    "lastUpdated": "2025-08-20 11:01:54",
+    "roleSource": "MANUAL",
+    "softwareType": "IOS-XE",
+    "softwareVersion": "17.15.2",
+    "deviceSupportLevel": "Supported",
+    "serialNumber": "FCW2243F199",
+    "syncRequestedByApp": "",
+    "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+    "collectionInterval": "Global Default",
+    "dnsResolvedManagementAddress": "91.1.1.2",
+    "lastManagedResyncReasons": "Periodic",
+    "managementState": "Managed",
+    "pendingSyncRequestsCount": "0",
+    "reasonsForDeviceResync": "Periodic",
+    "reasonsForPendingSyncRequests": "",
+    "upTime": "84 days, 1:09:33.35",
+    "interfaceCount": "0",
+    "bootDateTime": "2025-05-28 09:52:54",
+    "managementIpAddress": "91.1.1.2",
+    "platformId": "C9500-16X",
+    "reachabilityFailureReason": "",
+    "reachabilityStatus": "Reachable",
+    "series": "Cisco Catalyst 9500 Series Switches",
+    "snmpContact": "",
+    "snmpLocation": "",
+    "apManagerInterfaceIp": "",
+    "collectionStatus": "Managed",
+    "hostname": "SJ-Border2-9500.cisco.com",
+    "locationName": null,
+    "associatedWlcIp": "",
+    "apEthernetMacAddress": null,
+    "errorCode": null,
+    "errorDescription": null,
+    "lastDeviceResyncStartTime": "2025-08-20 11:01:02",
+    "lineCardCount": "0",
+    "lineCardId": "",
+    "managedAtleastOnce": true,
+    "tagCount": "0",
+    "tunnelUdpPort": null,
+    "uptimeSeconds": 7269524,
+    "vendor": "Cisco",
+    "waasDeviceMode": null,
+    "location": null,
+    "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.15.2, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Wed 27-Nov-24 23:19 by mcpre netconf enabled",
+    "role": "BORDER ROUTER",
+    "instanceUuid": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+    "instanceTenantId": "67c18e2a74fcf4001370a56e",
+    "id": "36680b59-39b2-446b-8ceb-5a1e157b5799"
+  },
+  "version": "1.0"
+},
+
+"playbook_connected_device_info": [
+  {
+      "fabric_devices": [
+          {
+              "interval": 10,
+              "ip_address": [
+                  "204.192.5.2"
+              ],
+              "output_file_info": {
+                  "file_format": "yaml",
+                  "file_mode": "a",
+                  "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
+                  "timestamp": true
+              },
+              "requested_info": [
+                  "connected_devices_info"
+              ],
+              "retries": 2,
+              "timeout": 30
+          }
+      ]
+  }
+],
+"get_device_details2": {
+  "response": [
+    {
+      "memorySize": "NA",
+      "family": "Wireless Controller",
+      "type": "Cisco Catalyst 9800-40 Wireless Controller",
+      "lastUpdateTime": 1755727128850,
+      "macAddress": "4c:e1:75:02:2b:0b",
+      "lastUpdated": "2025-08-20 21:58:48",
+      "roleSource": "AUTO",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.15.2b",
+      "deviceSupportLevel": "Supported",
+      "serialNumber": "TTM234301CM",
+      "syncRequestedByApp": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "204.192.5.2",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "upTime": "35 days, 22:59:57.78",
+      "interfaceCount": "0",
+      "bootDateTime": "2025-07-15 22:59:48",
+      "managementIpAddress": "204.192.5.2",
+      "platformId": "C9800-40-K9",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "hostname": "TB17-eWLC-SJ.cisco.com",
+      "locationName": null,
+      "associatedWlcIp": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-08-20 21:58:17",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 3127563,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "location": null,
+      "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.2b, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Feb-25 07:14 by mcpre netconf enabled",
+      "role": "ACCESS",
+      "instanceUuid": "1841ff80-886b-47fa-9053-85000e4af745",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "1841ff80-886b-47fa-9053-85000e4af745"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites11": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites12": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices47": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices48": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices49": {
+  "response": [
+    {
+      "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "deviceRoles": [
+        "WIRELESS_CONTROLLER_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices50": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices51": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices52": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices53": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices54": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices55": {
+  "response": [
+    {
+      "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "deviceRoles": [
+        "WIRELESS_CONTROLLER_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices56": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices57": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices58": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_interface_info_by_id": {
+  "response": [
+    {
+      "addresses": [
+        
+      ],
+      "adminStatus": "DOWN",
+      "className": null,
+      "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "duplex": "AutoNegotiate",
+      "ifIndex": "5",
+      "interfaceType": "Physical",
+      "ipv4Address": null,
+      "ipv4Mask": null,
+      "isisSupport": "false",
+      "lastIncomingPacketTime": 1752619422000,
+      "lastOutgoingPacketTime": 1752619422000,
+      "lastUpdated": null,
+      "macAddress": "4c:e1:75:02:2b:01",
+      "mappedPhysicalInterfaceId": null,
+      "mappedPhysicalInterfaceName": null,
+      "mediaType": null,
+      "mtu": "1500",
+      "nativeVlanId": "",
+      "ospfSupport": "false",
+      "pid": "C9800-40-K9",
+      "portMode": "routed",
+      "portName": "GigabitEthernet0",
+      "portType": "Ethernet Port",
+      "serialNo": "TTM234301CM",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "speed": "1000000",
+      "status": "down",
+      "vlanId": "0",
+      "voiceVlan": "",
+      "description": "",
+      "name": null,
+      "instanceUuid": "cafcb15f-53aa-4436-9a30-59d6f052999a",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "cafcb15f-53aa-4436-9a30-59d6f052999a"
+    },
+    {
+      "addresses": [
+        
+      ],
+      "adminStatus": "UP",
+      "className": null,
+      "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "duplex": "FullDuplex",
+      "ifIndex": "1",
+      "interfaceType": "Physical",
+      "ipv4Address": null,
+      "ipv4Mask": null,
+      "isisSupport": "false",
+      "lastIncomingPacketTime": 1752619422000,
+      "lastOutgoingPacketTime": 1752619422000,
+      "lastUpdated": null,
+      "macAddress": "4c:e1:75:02:2b:0c",
+      "mappedPhysicalInterfaceId": null,
+      "mappedPhysicalInterfaceName": null,
+      "mediaType": null,
+      "mtu": "1500",
+      "nativeVlanId": "1",
+      "ospfSupport": "false",
+      "pid": "C9800-40-K9",
+      "portMode": "dynamic_auto",
+      "portName": "TenGigabitEthernet0/0/0",
+      "portType": "Ethernet Port",
+      "serialNo": "TTM234301CM",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "speed": "1000000",
+      "status": "down",
+      "vlanId": "1",
+      "voiceVlan": "",
+      "description": "",
+      "name": null,
+      "instanceUuid": "376ef864-5697-454d-b962-01bcd08a3f7b",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "376ef864-5697-454d-b962-01bcd08a3f7b"
+    },
+    {
+      "addresses": [
+        
+      ],
+      "adminStatus": "UP",
+      "className": null,
+      "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "duplex": "FullDuplex",
+      "ifIndex": "2",
+      "interfaceType": "Physical",
+      "ipv4Address": null,
+      "ipv4Mask": null,
+      "isisSupport": "false",
+      "lastIncomingPacketTime": 1755726365000,
+      "lastOutgoingPacketTime": 1755726378000,
+      "lastUpdated": null,
+      "macAddress": "4c:e1:75:02:2b:0d",
+      "mappedPhysicalInterfaceId": null,
+      "mappedPhysicalInterfaceName": null,
+      "mediaType": null,
+      "mtu": "1500",
+      "nativeVlanId": "1",
+      "ospfSupport": "false",
+      "pid": "C9800-40-K9",
+      "portMode": "trunk",
+      "portName": "TenGigabitEthernet0/0/1",
+      "portType": "Ethernet Port",
+      "serialNo": "TTM234301CM",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "speed": "1000000",
+      "status": "up",
+      "vlanId": "1",
+      "voiceVlan": "",
+      "description": "",
+      "name": null,
+      "instanceUuid": "aa2fec4c-43ad-41f8-bac6-4caa2a1bf833",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "aa2fec4c-43ad-41f8-bac6-4caa2a1bf833"
+    },
+    {
+      "addresses": [
+        
+      ],
+      "adminStatus": "UP",
+      "className": null,
+      "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "duplex": "FullDuplex",
+      "ifIndex": "3",
+      "interfaceType": "Physical",
+      "ipv4Address": null,
+      "ipv4Mask": null,
+      "isisSupport": "false",
+      "lastIncomingPacketTime": 1752619422000,
+      "lastOutgoingPacketTime": 1752619422000,
+      "lastUpdated": null,
+      "macAddress": "4c:e1:75:02:2b:0e",
+      "mappedPhysicalInterfaceId": null,
+      "mappedPhysicalInterfaceName": null,
+      "mediaType": null,
+      "mtu": "1500",
+      "nativeVlanId": "1",
+      "ospfSupport": "false",
+      "pid": "C9800-40-K9",
+      "portMode": "dynamic_auto",
+      "portName": "TenGigabitEthernet0/0/2",
+      "portType": "Ethernet Port",
+      "serialNo": "TTM234301CM",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "speed": "10000000",
+      "status": "down",
+      "vlanId": "1",
+      "voiceVlan": "",
+      "description": "",
+      "name": null,
+      "instanceUuid": "79f82f4b-3db5-4d90-9bc3-7f97f949f474",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "79f82f4b-3db5-4d90-9bc3-7f97f949f474"
+    },
+    {
+      "addresses": [
+        
+      ],
+      "adminStatus": "UP",
+      "className": null,
+      "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "duplex": "FullDuplex",
+      "ifIndex": "4",
+      "interfaceType": "Physical",
+      "ipv4Address": null,
+      "ipv4Mask": null,
+      "isisSupport": "false",
+      "lastIncomingPacketTime": 1752619422000,
+      "lastOutgoingPacketTime": 1752619422000,
+      "lastUpdated": null,
+      "macAddress": "4c:e1:75:02:2b:0f",
+      "mappedPhysicalInterfaceId": null,
+      "mappedPhysicalInterfaceName": null,
+      "mediaType": null,
+      "mtu": "1500",
+      "nativeVlanId": "1",
+      "ospfSupport": "false",
+      "pid": "C9800-40-K9",
+      "portMode": "dynamic_auto",
+      "portName": "TenGigabitEthernet0/0/3",
+      "portType": "Ethernet Port",
+      "serialNo": "TTM234301CM",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "speed": "10000000",
+      "status": "down",
+      "vlanId": "1",
+      "voiceVlan": "",
+      "description": "",
+      "name": null,
+      "instanceUuid": "488387c7-6584-4f2f-808c-821b3b9ca887",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "488387c7-6584-4f2f-808c-821b3b9ca887"
+    },
+    {
+      "addresses": [
+        
+      ],
+      "adminStatus": "UP",
+      "className": null,
+      "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "duplex": "AutoNegotiate",
+      "ifIndex": "8",
+      "interfaceType": "Virtual",
+      "ipv4Address": null,
+      "ipv4Mask": null,
+      "isisSupport": "false",
+      "lastIncomingPacketTime": 1752619422000,
+      "lastOutgoingPacketTime": 1752619422000,
+      "lastUpdated": null,
+      "macAddress": "4c:e1:75:02:2b:0b",
+      "mappedPhysicalInterfaceId": null,
+      "mappedPhysicalInterfaceName": null,
+      "mediaType": null,
+      "mtu": "1500",
+      "nativeVlanId": "",
+      "ospfSupport": "false",
+      "pid": "C9800-40-K9",
+      "portMode": "routed",
+      "portName": "Vlan1",
+      "portType": "Ethernet SVI",
+      "serialNo": "TTM234301CM",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "speed": "1000000",
+      "status": "down",
+      "vlanId": "1",
+      "voiceVlan": "",
+      "description": "",
+      "name": null,
+      "instanceUuid": "c7fe88c6-6a22-480d-a54b-53282dfc9f5b",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "c7fe88c6-6a22-480d-a54b-53282dfc9f5b"
+    },
+    {
+      "addresses": [
+        {
+          "address": {
+            "ipAddress": {
+              "address": "204.192.5.2"
+            },
+            "ipMask": {
+              "address": "255.255.255.0"
+            },
+            "isInverseMask": false
+          },
+          "type": "IPV4_PRIMARY"
+        }
+      ],
+      "adminStatus": "UP",
+      "className": null,
+      "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "duplex": "AutoNegotiate",
+      "ifIndex": "9",
+      "interfaceType": "Virtual",
+      "ipv4Address": "204.192.5.2",
+      "ipv4Mask": "255.255.255.0",
+      "isisSupport": "false",
+      "lastIncomingPacketTime": 1755726379000,
+      "lastOutgoingPacketTime": 1755726379000,
+      "lastUpdated": null,
+      "macAddress": "4c:e1:75:02:2b:0b",
+      "mappedPhysicalInterfaceId": null,
+      "mappedPhysicalInterfaceName": null,
+      "mediaType": null,
+      "mtu": "1500",
+      "nativeVlanId": "",
+      "ospfSupport": "false",
+      "pid": "C9800-40-K9",
+      "portMode": "routed",
+      "portName": "Vlan203",
+      "portType": "Ethernet SVI",
+      "serialNo": "TTM234301CM",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "speed": "1000000",
+      "status": "up",
+      "vlanId": "203",
+      "voiceVlan": "",
+      "description": "wireless-management-interface",
+      "name": null,
+      "instanceUuid": "e5a79e7e-64fb-43b7-ba58-3a2fb0c70c2f",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "e5a79e7e-64fb-43b7-ba58-3a2fb0c70c2f"
+    },
+    {
+      "addresses": [
+        
+      ],
+      "adminStatus": "UP",
+      "className": null,
+      "deviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "duplex": "",
+      "ifIndex": "6",
+      "interfaceType": "Virtual",
+      "ipv4Address": null,
+      "ipv4Mask": null,
+      "isisSupport": "false",
+      "lastIncomingPacketTime": 1752619422000,
+      "lastOutgoingPacketTime": 1752619422000,
+      "lastUpdated": null,
+      "macAddress": "",
+      "mappedPhysicalInterfaceId": null,
+      "mappedPhysicalInterfaceName": null,
+      "mediaType": null,
+      "mtu": "1500",
+      "nativeVlanId": "",
+      "ospfSupport": "false",
+      "pid": "C9800-40-K9",
+      "portMode": "routed",
+      "portName": "VoIP-Null0",
+      "portType": "OTHER",
+      "serialNo": "TTM234301CM",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "speed": "10000000",
+      "status": "up",
+      "vlanId": "0",
+      "voiceVlan": "",
+      "description": "",
+      "name": null,
+      "instanceUuid": "6d5d3737-e26b-4393-afa1-aaa2144454db",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "6d5d3737-e26b-4393-afa1-aaa2144454db"
+    }
+  ],
+  "version": "1.0"
+},
+"connected_info_1": {
+  "response": {
+    
+  },
+  "version": "1.0"
+},
+"connected_info_2": {
+  "response": {
+    
+  },
+  "version": "1.0"
+},
+"connected_info_3": {
+  "response": {
+    
+  },
+  "version": "1.0"
+},
+"connected_info_4": {
+  "response": {
+    
+  },
+  "version": "1.0"
+},
+"connected_info_5": {
+  "response": {
+    "neighborDevice": "TB17-Fusion.cisco.com",
+    "neighborPort": "GigabitEthernet1/0/21",
+    "capabilities": [
+      "IGMP_CONDITIONAL_FILTERING",
+      "ROUTER",
+      "SWITCH"
+    ]
+  },
+  "version": "1.0"
+},
+"connected_info_6": {
+  "response": {
+    
+  },
+  "version": "1.0"
+},
+"connected_info_7": {
+  "response": {
+    
+  },
+  "version": "1.0"
+},
+"connected_info_8": {
+  "response": {
+    
+  },
+  "version": "1.0"
+},
+
+"playbook_health_info": [
+  {
+    "fabric_devices": [
+      {
+        "interval": 10,
+        "ip_address": [
+          "204.192.5.2"
+        ],
+        "output_file_info": {
+          "file_format": "yaml",
+          "file_mode": "a",
+          "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
+          "timestamp": true
+        },
+        "requested_info": [
+          "device_health_info"
+        ],
+        "retries": 2,
+        "timeout": 30
+      }
+    ]
+  }
+],
+"get_device_details3": {
+  "response": [
+    {
+      "memorySize": "NA",
+      "family": "Wireless Controller",
+      "lastUpdateTime": 1755748700314,
+      "macAddress": "4c:e1:75:02:2b:0b",
+      "upTime": "36 days, 4:59:06.08",
+      "deviceSupportLevel": "Supported",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.15.2b",
+      "serialNumber": "TTM234301CM",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "roleSource": "AUTO",
+      "interfaceCount": "0",
+      "lastUpdated": "2025-08-21 03:58:20",
+      "bootDateTime": "2025-07-15 22:59:20",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "hostname": "TB17-eWLC-SJ.cisco.com",
+      "locationName": null,
+      "managementIpAddress": "204.192.5.2",
+      "platformId": "C9800-40-K9",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9800 Series Wireless Controllers",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "associatedWlcIp": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-08-21 03:57:05",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": true,
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 3137265,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "type": "Cisco Catalyst 9800-40 Wireless Controller",
+      "description": "Cisco IOS Software [IOSXE], C9800 Software (C9800_IOSXE-K9), Version 17.15.2b, RELEASE SOFTWARE (fc2) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Feb-25 07:14 by mcpre netconf enabled",
+      "location": null,
+      "role": "ACCESS",
+      "syncRequestedByApp": "",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "204.192.5.2",
+      "lastManagedResyncReasons": "Config Change Event",
+      "managementState": "Managed",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Config Change Event",
+      "reasonsForPendingSyncRequests": "",
+      "instanceUuid": "1841ff80-886b-47fa-9053-85000e4af745",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "1841ff80-886b-47fa-9053-85000e4af745"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites13": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites14": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices59": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices60": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices61": {
+  "response": [
+    {
+      "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "deviceRoles": [
+        "WIRELESS_CONTROLLER_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices62": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices63": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices64": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices65": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices66": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices67": {
+  "response": [
+    {
+      "id": "e36cb88e-1a21-44a5-861f-693d9dc19e7b",
+      "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "networkDeviceId": "1841ff80-886b-47fa-9053-85000e4af745",
+      "deviceRoles": [
+        "WIRELESS_CONTROLLER_NODE"
+      ]
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices68": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices69": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices70": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"health_info": {
+  "version": "1.0",
+  "totalCount": 11,
+  "response": [
+    {
+      "overallHealth": -2,
+      "utilizationHealth": {
+        
+      },
+      "airQualityHealth": {
+        
+      },
+      "issueCount": 0,
+      "uuid": "65cc7ebf-23e8-4742-af27-071b8fee9cc0",
+      "cpuUlitilization": -1.0,
+      "noiseHealth": {
+        
+      },
+      "osVersion": "17.15.2.206",
+      "memoryUtilization": -1,
+      "model": "Cisco Catalyst 9115AXI Unified Access Point",
+      "band": {
+        
+      },
+      "clientCount": {
+        
+      },
+      "deviceType": "Cisco Catalyst 9115AXI Unified Access Point",
+      "cpuUtilization": -1.0,
+      "ipAddress": "204.1.208.159",
+      "cpuHealth": -1,
+      "deviceFamily": "UNIFIED_AP",
+      "macAddress": "2C:4F:52:BE:33:40",
+      "name": "APD478.9B49.22D0",
+      "interfaceLinkErrHealth": -1,
+      "interDeviceLinkAvailHealth": 0,
+      "interferenceHealth": {
+        
+      },
+      "location": "Global/USA/SAN JOSE/BLD23/FLOOR1_LEVEL1",
+      "reachabilityHealth": "DOWN",
+      "memoryUtilizationHealth": -1.0
+    },
+    {
+      "maxTemperature": 4800.0,
+      "overallHealth": -1,
+      "utilizationHealth": {
+        
+      },
+      "airQualityHealth": {
+        
+      },
+      "issueCount": 2,
+      "uuid": "ae50a24c-5c42-4dcd-a83d-0f800f23a200",
+      "wqePoolsHealth": -1,
+      "noiseHealth": {
+        
+      },
+      "osVersion": "17.16.1",
+      "model": "Cisco Catalyst 9800-80 Wireless Controller",
+      "band": {
+        
+      },
+      "clientCount": {
+        
+      },
+      "deviceType": "Cisco Catalyst 9800-80 Wireless Controller",
+      "ipAddress": "204.192.4.2",
+      "cpuHealth": -1,
+      "freeTimerScore": -1,
+      "deviceFamily": "WIRELESS_CONTROLLER",
+      "interDeviceLinkAvailFabric": -1,
+      "wanLinkUtilization": -1.0,
+      "packetPoolHealth": -1,
+      "macAddress": "10:B3:D5:A5:6C:8B",
+      "freeMemoryBufferHealth": -1,
+      "name": "TB17-eWLC-NY.cisco.com",
+      "interfaceLinkErrHealth": -1,
+      "interDeviceLinkAvailHealth": 100,
+      "interferenceHealth": {
+        
+      },
+      "location": "Global/USA/SAN JOSE/BLD20",
+      "reachabilityHealth": "REACHABLE",
+      "avgTemperature": 2764.285714285714,
+      "memoryUtilizationHealth": -1.0
+    },
+    {
+      "maxTemperature": 5300.0,
+      "overallHealth": -1,
+      "utilizationHealth": {
+        
+      },
+      "airQualityHealth": {
+        
+      },
+      "issueCount": 2,
+      "uuid": "1841ff80-886b-47fa-9053-85000e4af745",
+      "wqePoolsHealth": -1,
+      "noiseHealth": {
+        
+      },
+      "osVersion": "17.15.2b",
+      "model": "Cisco Catalyst 9800-40 Wireless Controller",
+      "band": {
+        
+      },
+      "clientCount": {
+        
+      },
+      "deviceType": "Cisco Catalyst 9800-40 Wireless Controller",
+      "ipAddress": "204.192.5.2",
+      "cpuHealth": -1,
+      "freeTimerScore": -1,
+      "deviceFamily": "WIRELESS_CONTROLLER",
+      "interDeviceLinkAvailFabric": -1,
+      "wanLinkUtilization": -1.0,
+      "packetPoolHealth": -1,
+      "macAddress": "4C:E1:75:02:2B:0B",
+      "freeMemoryBufferHealth": -1,
+      "name": "TB17-eWLC-SJ.cisco.com",
+      "interfaceLinkErrHealth": -1,
+      "interDeviceLinkAvailHealth": 100,
+      "interferenceHealth": {
+        
+      },
+      "location": "Global/USA/SAN JOSE/BLD23",
+      "reachabilityHealth": "REACHABLE",
+      "avgTemperature": 3511.1111111111113,
+      "memoryUtilizationHealth": -1.0
+    },
+    {
+      "overallHealth": 1,
+      "utilizationHealth": {
+        "radio1": 37.0,
+        "radio0": 95.0
+      },
+      "airQualityHealth": {
+        "radio1": -1.0,
+        "radio0": -1.0
+      },
+      "issueCount": 1,
+      "uuid": "84242363-5777-45bc-ad9e-96a83b966bc1",
+      "cpuUlitilization": 4.0,
+      "noiseHealth": {
+        "radio1": -90.0,
+        "radio0": -82.0
+      },
+      "osVersion": "17.17.0.68",
+      "memoryUtilization": 56,
+      "model": "Cisco Catalyst 9117AXI Unified Access Point",
+      "band": {
+        "radio1": "5",
+        "radio0": "24"
+      },
+      "clientCount": {
+        "radio1": 0.0,
+        "radio0": 0.0
+      },
+      "deviceType": "Cisco Catalyst 9117AXI Unified Access Point",
+      "cpuUtilization": 4.0,
+      "ipAddress": "204.1.212.152",
+      "cpuHealth": 10,
+      "deviceFamily": "UNIFIED_AP",
+      "macAddress": "0C:D0:F8:94:C8:80",
+      "name": "AP0CD0.F894.0C44",
+      "interfaceLinkErrHealth": 10,
+      "interDeviceLinkAvailHealth": 100,
+      "interferenceHealth": {
+        "radio1": 29.0,
+        "radio0": 92.0
+      },
+      "location": "Global/USA/New York/BLDNYC/FLOOR1",
+      "reachabilityHealth": "UP",
+      "memoryUtilizationHealth": 10.0
+    },
+    {
+      "maxTemperature": 4800.0,
+      "overallHealth": 1,
+      "utilizationHealth": {
+        
+      },
+      "airQualityHealth": {
+        
+      },
+      "issueCount": 1,
+      "uuid": "e714d470-de0e-43a0-9469-099ddcf8467a",
+      "wqePoolsHealth": -1,
+      "cpuUlitilization": 2.125,
+      "noiseHealth": {
+        
+      },
+      "osVersion": "17.17.1prd6",
+      "memoryUtilization": 65,
+      "model": "Cisco Catalyst 9300 Switch",
+      "band": {
+        
+      },
+      "clientCount": {
+        
+      },
+      "apCount": 2,
+      "deviceType": "Cisco Catalyst 9300 Switch",
+      "cpuUtilization": 2.125,
+      "ipAddress": "204.1.2.129",
+      "cpuHealth": 10,
+      "freeTimerScore": -1,
+      "deviceFamily": "SWITCHES_AND_HUBS",
+      "interDeviceLinkAvailFabric": 10,
+      "wanLinkUtilization": -1.0,
+      "packetPoolHealth": -1,
+      "macAddress": "74:86:0B:0C:2F:00",
+      "freeMemoryBufferHealth": -1,
+      "name": "NY-Fiab-9300.cisco.com",
+      "interfaceLinkErrHealth": 10,
+      "interDeviceLinkAvailHealth": 100,
+      "interferenceHealth": {
+        
+      },
+      "location": "Global/USA/New York/BLDNYC",
+      "reachabilityHealth": "REACHABLE",
+      "avgTemperature": 3700.0,
+      "memoryUtilizationHealth": 10.0
+    },
+    {
+      "overallHealth": 7,
+      "utilizationHealth": {
+        "radio3": 1.0,
+        "radio1": 25.0,
+        "radio2": -1.0,
+        "radio0": 98.0
+      },
+      "airQualityHealth": {
+        "radio3": 100.0,
+        "radio1": 100.0,
+        "radio2": -1.0,
+        "radio0": 100.0
+      },
+      "issueCount": 0,
+      "uuid": "680b521d-c39f-497a-99d9-bcae097b1157",
+      "cpuUlitilization": 2.0,
+      "noiseHealth": {
+        "radio3": -94.0,
+        "radio1": -92.0,
+        "radio2": -1.0,
+        "radio0": -61.0
+      },
+      "osVersion": "17.17.0.68",
+      "memoryUtilization": 49,
+      "model": "Cisco Catalyst 9136I Unified Access Point",
+      "band": {
+        "radio3": "6",
+        "radio1": "5",
+        "radio2": "5",
+        "radio0": "24"
+      },
+      "clientCount": {
+        "radio3": 0.0,
+        "radio1": 0.0,
+        "radio2": -1.0,
+        "radio0": 0.0
+      },
+      "deviceType": "Cisco Catalyst 9136I Unified Access Point",
+      "cpuUtilization": 2.0,
+      "ipAddress": "204.1.212.153",
+      "cpuHealth": 10,
+      "deviceFamily": "UNIFIED_AP",
+      "macAddress": "68:7D:B4:5F:38:00",
+      "name": "AP687D.B45C.1A18",
+      "interfaceLinkErrHealth": 10,
+      "interDeviceLinkAvailHealth": 100,
+      "interferenceHealth": {
+        "radio3": 1.0,
+        "radio1": 13.0,
+        "radio2": -1.0,
+        "radio0": 65.0
+      },
+      "location": "Global/USA/New York/BLDNYC/FLOOR1",
+      "reachabilityHealth": "UP",
+      "memoryUtilizationHealth": 10.0
+    },
+    {
+      "maxTemperature": 4600.0,
+      "overallHealth": 10,
+      "utilizationHealth": {
+        
+      },
+      "airQualityHealth": {
+        
+      },
+      "issueCount": 1,
+      "uuid": "889ba797-51b8-4f3e-9db7-6fb392f92c96",
+      "wqePoolsHealth": -1,
+      "cpuUlitilization": 1.0,
+      "noiseHealth": {
+        
+      },
+      "osVersion": "17.15.2",
+      "memoryUtilization": 36,
+      "model": "Cisco Catalyst 9500 Switch",
+      "band": {
+        
+      },
+      "clientCount": {
+        
+      },
+      "deviceType": "Cisco Catalyst 9500 Switch",
+      "cpuUtilization": 1.0,
+      "ipAddress": "91.1.1.6",
+      "cpuHealth": 10,
+      "freeTimerScore": -1,
+      "deviceFamily": "SWITCHES_AND_HUBS",
+      "interDeviceLinkAvailFabric": 10,
+      "wanLinkUtilization": -1.0,
+      "packetPoolHealth": -1,
+      "macAddress": "D0:EC:35:92:5E:80",
+      "freeMemoryBufferHealth": -1,
+      "name": "SJ-Border1-9500.cisco.com",
+      "interfaceLinkErrHealth": 10,
+      "interDeviceLinkAvailHealth": 100,
+      "interferenceHealth": {
+        
+      },
+      "location": "Global/USA/SAN JOSE/BLD20",
+      "reachabilityHealth": "REACHABLE",
+      "avgTemperature": 3266.6666666666665,
+      "memoryUtilizationHealth": 10.0
+    },
+    {
+      "maxTemperature": 5700.0,
+      "overallHealth": 10,
+      "utilizationHealth": {
+        
+      },
+      "airQualityHealth": {
+        
+      },
+      "issueCount": 0,
+      "uuid": "ecb048c3-6c24-4bfe-8466-60cd0b40441a",
+      "wqePoolsHealth": -1,
+      "cpuUlitilization": 2.0,
+      "noiseHealth": {
+        
+      },
+      "osVersion": "17.16.1",
+      "memoryUtilization": 51,
+      "model": "Cisco Catalyst 9300 Switch",
+      "band": {
+        
+      },
+      "clientCount": {
+        
+      },
+      "deviceType": "Cisco Catalyst 9300 Switch",
+      "cpuUtilization": 2.0,
+      "ipAddress": "204.1.1.35",
+      "cpuHealth": 10,
+      "freeTimerScore": -1,
+      "deviceFamily": "SWITCHES_AND_HUBS",
+      "interDeviceLinkAvailFabric": 10,
+      "wanLinkUtilization": -1.0,
+      "packetPoolHealth": -1,
+      "macAddress": "00:C1:B1:12:B1:00",
+      "freeMemoryBufferHealth": -1,
+      "name": "SJ-Edge1-9300",
+      "interfaceLinkErrHealth": 10,
+      "interDeviceLinkAvailHealth": 100,
+      "interferenceHealth": {
+        
+      },
+      "location": "Global/USA/SAN JOSE/BLD20",
+      "reachabilityHealth": "REACHABLE",
+      "avgTemperature": 4066.6666666666665,
+      "memoryUtilizationHealth": 10.0
+    },
+    {
+      "maxTemperature": 6600.0,
+      "overallHealth": 10,
+      "utilizationHealth": {
+        
+      },
+      "airQualityHealth": {
+        
+      },
+      "issueCount": 0,
+      "uuid": "7247491b-6f45-42e7-a8f4-a51142b2e3ea",
+      "wqePoolsHealth": -1,
+      "cpuUlitilization": 4.25,
+      "noiseHealth": {
+        
+      },
+      "osVersion": "17.16.1",
+      "memoryUtilization": 54,
+      "model": "Cisco Catalyst 9300 Switch",
+      "band": {
+        
+      },
+      "clientCount": {
+        
+      },
+      "deviceType": "Cisco Catalyst 9300 Switch",
+      "cpuUtilization": 4.25,
+      "ipAddress": "204.1.1.36",
+      "cpuHealth": 10,
+      "freeTimerScore": -1,
+      "deviceFamily": "SWITCHES_AND_HUBS",
+      "interDeviceLinkAvailFabric": 10,
+      "wanLinkUtilization": -1.0,
+      "packetPoolHealth": -1,
+      "macAddress": "0C:75:BD:ED:08:80",
+      "freeMemoryBufferHealth": -1,
+      "name": "SJ-Edge2-9300.cisco.com",
+      "interfaceLinkErrHealth": 10,
+      "interDeviceLinkAvailHealth": 100,
+      "interferenceHealth": {
+        
+      },
+      "location": "Global/USA/SAN JOSE/BLD23",
+      "reachabilityHealth": "REACHABLE",
+      "avgTemperature": 4533.333333333333,
+      "memoryUtilizationHealth": 10.0
+    },
+    {
+      "maxTemperature": 5600.0,
+      "overallHealth": 10,
+      "utilizationHealth": {
+        
+      },
+      "airQualityHealth": {
+        
+      },
+      "issueCount": 0,
+      "uuid": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+      "wqePoolsHealth": -1,
+      "cpuUlitilization": 1.0,
+      "noiseHealth": {
+        
+      },
+      "osVersion": "17.15.2",
+      "memoryUtilization": 36,
+      "model": "Cisco Catalyst 9500 Switch",
+      "band": {
+        
+      },
+      "clientCount": {
+        
+      },
+      "deviceType": "Cisco Catalyst 9500 Switch",
+      "cpuUtilization": 1.0,
+      "ipAddress": "91.1.1.2",
+      "cpuHealth": 10,
+      "freeTimerScore": -1,
+      "deviceFamily": "SWITCHES_AND_HUBS",
+      "interDeviceLinkAvailFabric": 10,
+      "wanLinkUtilization": -1.0,
+      "packetPoolHealth": -1,
+      "macAddress": "CC:70:ED:E1:C3:00",
+      "freeMemoryBufferHealth": -1,
+      "name": "SJ-Border2-9500.cisco.com",
+      "interfaceLinkErrHealth": 10,
+      "interDeviceLinkAvailHealth": 100,
+      "interferenceHealth": {
+        
+      },
+      "location": "Global/USA/SAN JOSE/BLD23",
+      "reachabilityHealth": "REACHABLE",
+      "avgTemperature": 3566.6666666666665,
+      "memoryUtilizationHealth": 10.0
+    },
+    {
+      "maxTemperature": 5700.0,
+      "overallHealth": 10,
+      "utilizationHealth": {
+        
+      },
+      "airQualityHealth": {
+        
+      },
+      "issueCount": 0,
+      "uuid": "99c8e9bf-8146-4dae-9449-8ce2d6405191",
+      "wqePoolsHealth": -1,
+      "cpuUlitilization": 4.25,
+      "noiseHealth": {
+        
+      },
+      "osVersion": "17.16.1",
+      "memoryUtilization": 53,
+      "model": "Cisco Catalyst 9300 Switch",
+      "band": {
+        
+      },
+      "clientCount": {
+        
+      },
+      "deviceType": "Cisco Catalyst 9300 Switch",
+      "cpuUtilization": 4.25,
+      "ipAddress": "204.1.1.37",
+      "cpuHealth": 10,
+      "freeTimerScore": -1,
+      "deviceFamily": "SWITCHES_AND_HUBS",
+      "interDeviceLinkAvailFabric": 10,
+      "wanLinkUtilization": -1.0,
+      "packetPoolHealth": -1,
+      "macAddress": "0C:75:BD:8F:A3:80",
+      "freeMemoryBufferHealth": -1,
+      "name": "TB17-Transit.cisco.com",
+      "interfaceLinkErrHealth": 10,
+      "interDeviceLinkAvailHealth": 100,
+      "interferenceHealth": {
+        
+      },
+      "location": "Global/USA/SAN JOSE/BLD23",
+      "reachabilityHealth": "REACHABLE",
+      "avgTemperature": 4200.0,
+      "memoryUtilizationHealth": 10.0
+    }
   ]
+},
+
+"playbook_issues_info": [
+  {
+      "fabric_devices": [
+          {
+              "interval": 10,
+              "output_file_info": {
+                  "file_format": "yaml",
+                  "file_mode": "a",
+                  "file_path": "/Users/priyadharshini/Downloads/fabric_device_info",
+                  "timestamp": true
+              },
+              "requested_info": [
+                  "device_issues_info"
+              ],
+              "retries": 2,
+              "site_hierarchy": [
+                  "Global/USA/New York/BLDNYC"
+              ],
+              "timeout": 30
+          }
+      ]
+  }
+],
+"get_sites1": {
+  "response": [
+    {
+      "id": "aa233c2b-0acb-40d6-a432-721d7b2460f2",
+      "siteHierarchyId": "cb13cf7d-d592-492a-b0bc-c6b250857bb8/3407f2cc-c22c-4d87-b525-c911fd2e1eaa/b155ef94-fc21-4336-a6a3-d14a171e59bb/aa233c2b-0acb-40d6-a432-721d7b2460f2",
+      "parentId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "name": "BLDNYC",
+      "nameHierarchy": "Global/USA/New York/BLDNYC",
+      "type": "building",
+      "latitude": 37.416341,
+      "longitude": -121.92086,
+      "address": "McCarthy Blvd, San Jose, California 95131, United States",
+      "country": "United States"
+    }
+  ],
+  "version": "1.0"
+},
+"get_sites2": {
+  "response": [
+    {
+      "id": "aa233c2b-0acb-40d6-a432-721d7b2460f2",
+      "siteHierarchyId": "cb13cf7d-d592-492a-b0bc-c6b250857bb8/3407f2cc-c22c-4d87-b525-c911fd2e1eaa/b155ef94-fc21-4336-a6a3-d14a171e59bb/aa233c2b-0acb-40d6-a432-721d7b2460f2",
+      "parentId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "name": "BLDNYC",
+      "nameHierarchy": "Global/USA/New York/BLDNYC",
+      "type": "building",
+      "latitude": 37.416341,
+      "longitude": -121.92086,
+      "address": "McCarthy Blvd, San Jose, California 95131, United States",
+      "country": "United States"
+    }
+  ]
+},
+"get_sites3": {
+  "response": [
+    {
+      "deviceId": "e714d470-de0e-43a0-9469-099ddcf8467a",
+      "siteId": "aa233c2b-0acb-40d6-a432-721d7b2460f2",
+      "siteNameHierarchy": "Global/USA/New York/BLDNYC",
+      "siteType": "building"
+    }
+  ],
+  "version": "1.0"
+},
+"get_device_list4": {
+  "response": [
+    {
+      "memorySize": "NA",
+      "family": "Switches and Hubs",
+      "type": "Cisco Catalyst 9300 Switch",
+      "lastUpdateTime": 1755752546792,
+      "macAddress": "74:86:0b:0c:2f:00",
+      "lastUpdated": "2025-08-21 05:02:26",
+      "roleSource": "MANUAL",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.17.1prd6",
+      "deviceSupportLevel": "Supported",
+      "serialNumber": "FCW2132L08U",
+      "syncRequestedByApp": "",
+      "inventoryStatusDetail": "<status><general code=SUCCESS/></status>",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "204.1.2.129",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "upTime": "92 days, 21:52:43.46",
+      "interfaceCount": "0",
+      "bootDateTime": "2025-05-20 07:10:26",
+      "managementIpAddress": "204.1.2.129",
+      "platformId": "C9300-48U",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "apManagerInterfaceIp": "",
+      "collectionStatus": "Managed",
+      "hostname": "NY-Fiab-9300.cisco.com",
+      "locationName": null,
+      "associatedWlcIp": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2025-08-21 05:00:57",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": false,
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 8034329,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "location": null,
+      "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.17.1prd6, RELEASE SOFTWARE (fc1) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Wed 05-Feb-25 05:37 by mcpre Wireless Feature Enabled netconf enabled",
+      "role": "ACCESS",
+      "instanceUuid": "e714d470-de0e-43a0-9469-099ddcf8467a",
+      "instanceTenantId": "67c18e2a74fcf4001370a56e",
+      "id": "e714d470-de0e-43a0-9469-099ddcf8467a"
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites15": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_sites16": {
+  "response": [
+    {
+      "id": "5b815a6c-fc7a-4b30-aca0-53ba222b61dc",
+      "siteId": "000b7763-eb0c-4f4d-b7f1-a445943ac397",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "siteId": "b155ef94-fc21-4336-a6a3-d14a171e59bb",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+      "siteId": "579ac474-299b-42d1-9ed8-a7d3ccb8a5cd",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "9b938b2c-28a3-47a8-a5ee-97957f7d2370",
+      "siteId": "8ea37d8e-3956-4218-baad-2f72ac364ce4",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": false
+    },
+    {
+      "id": "c34429a4-0f83-4b4d-8e61-c90591c3ab32",
+      "siteId": "c0dbcff4-f98e-4609-bfcb-f31e5c17ea97",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    },
+    {
+      "id": "e10440c7-216e-4b61-9143-192e6c0c25a0",
+      "siteId": "455d19c5-24d7-4f29-9336-73f30882f7bf",
+      "authenticationProfileName": "No Authentication",
+      "isPubSubEnabled": true
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices71": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices72": {
+  "response": [
+    {
+      "id": "bd89e7ff-e9f0-48d0-bd82-b61d0d7c0ab9",
+      "fabricId": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "networkDeviceId": "e714d470-de0e-43a0-9469-099ddcf8467a",
+      "deviceRoles": [
+        "BORDER_NODE",
+        "CONTROL_PLANE_NODE",
+        "WIRELESS_CONTROLLER_NODE",
+        "EDGE_NODE"
+      ],
+      "borderDeviceSettings": {
+        "borderTypes": [
+          "LAYER_3"
+        ],
+        "layer3Settings": {
+          "localAutonomousSystemNumber": "6100",
+          "importExternalRoutes": true,
+          "borderPriority": 6,
+          "prependAutonomousSystemCount": 7,
+          "isDefaultExit": true
+        }
+      }
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices73": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices74": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices75": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices76": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices77": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices78": {
+  "response": [
+    {
+      "id": "bd89e7ff-e9f0-48d0-bd82-b61d0d7c0ab9",
+      "fabricId": "60d515c7-fcdf-4096-8822-f7a0e0c8c7d7",
+      "networkDeviceId": "e714d470-de0e-43a0-9469-099ddcf8467a",
+      "deviceRoles": [
+        "BORDER_NODE",
+        "CONTROL_PLANE_NODE",
+        "WIRELESS_CONTROLLER_NODE",
+        "EDGE_NODE"
+      ],
+      "borderDeviceSettings": {
+        "borderTypes": [
+          "LAYER_3"
+        ],
+        "layer3Settings": {
+          "localAutonomousSystemNumber": "6100",
+          "importExternalRoutes": true,
+          "borderPriority": 6,
+          "prependAutonomousSystemCount": 7,
+          "isDefaultExit": true
+        }
+      }
+    }
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices79": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices80": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices81": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"get_fabric_devices82": {
+  "response": [
+    
+  ],
+  "version": "1.0"
+},
+"issues": {
+  "response": [
+    {
+      "issueId": "291b9e86-30e5-4c45-8978-d98c92957707",
+      "name": "Cisco TrustSec environment data is not complete on Fabric EDGE:BORDER:WLC:MAP-SERVER node NY-Fiab-9300.cisco.com in Fabric site Global/USA/New York",
+      "siteId": "",
+      "deviceId": "e714d470-de0e-43a0-9469-099ddcf8467a",
+      "deviceRole": "",
+      "aiDriven": "No",
+      "clientMac": null,
+      "issue_occurence_count": 228,
+      "status": "active",
+      "priority": "P1",
+      "category": "Connected",
+      "last_occurence_time": 1755758565019
+    }
+  ],
+  "totalCount": "228",
+  "version": "1.0"
+}
 }

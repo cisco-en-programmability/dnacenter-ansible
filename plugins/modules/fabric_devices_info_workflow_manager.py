@@ -85,6 +85,14 @@ options:
               - If fabric, retrieves the corresponding fabric information.
             type: list
             elements: str
+            choices:
+              - ACCESS
+              - DISTRIBUTION
+              - CORE
+              - WAN
+              - WLC
+              - DATA_CENTER
+              # Additional options may be found in the API documentation.
           device_type:
             description:
               - List of types of the devices to check if they are part of the fabric.
@@ -92,6 +100,18 @@ options:
               - If fabric, retrieves the corresponding fabric information.
             type: list
             elements: str
+            choices:
+              - Cisco Catalyst 9300 Switch
+              - Cisco Catalyst 9400 Switch
+              - Cisco Catalyst 9500 Switch
+              - Cisco Catalyst C9500-48Y4C Switch
+              - Cisco 3800E Unified Access Point
+              - Cisco Catalyst 9130AXI Unified Access Point
+              - Cisco Catalyst 9800-L-C Wireless Controller
+              - Cisco Catalyst 9115AXI Unified Access Point
+              - Cisco Catalyst Wireless 9164I Unified Access Point
+              - Cisco Wireless 9176D1 Access Point
+              # Additional options may be found in the API documentation.
           site_hierarchy:
             description:
               - List of site hierarchies to retrieve devices associated with the specified sites.
@@ -125,13 +145,13 @@ options:
             elements: str
             default: [all]
             choices:
-              - all
-              - fabric_info
-              - handoff_info
-              - onboarding_info
-              - connected_devices_info
-              - device_health_info
-              - device_issues_info
+              - all  # Retrieve all available information categories for each device.
+              - fabric_info  # Retrieve details including fabric ID, device roles.
+              - handoff_info  # Retrieve handoff info for only fabric devices with Border Node and Control Plane Node roles, not supported on Edge Nodes.
+              - onboarding_info  # Retrieve device onboarding details like provision state, SSID, and port information.
+              - connected_devices_info  # Retrieve directly connected neighbor devices details.
+              - device_health_info  # Retrieve the device's overall health, including CPU and memory usage.
+              - device_issues_info  # Retrieve any issues detected on the device.
           output_file_info:
             description:
               - Optional settings to control output file generation for fabric device information.
@@ -207,7 +227,7 @@ notes:
 
 EXAMPLES = r"""
 
-# Case 1: Retrieves all information for devices that are part of the fabric, from cisco catalyst center.
+# case 1: Retrieves all information for devices that are part of the fabric, from cisco catalyst center.
 
 - name: Get Fabric devices info from Cisco Catalyst Center
   hosts: localhost
@@ -246,7 +266,7 @@ EXAMPLES = r"""
                   file_mode: a
                   timestamp: true
 
-# Case 2: Retrieves specific information for devices that are part of the fabric, from cisco catalyst center.
+# case 2: Retrieves specific information for devices that are part of the fabric, from cisco catalyst center.
 
 - name: Get Fabric devices info from Cisco Catalyst Center
   hosts: localhost
@@ -292,7 +312,7 @@ EXAMPLES = r"""
                   file_mode: a
                   timestamp: true
 
-# Case 3: Retrieves all information for devices that are part of the fabric, from cisco catalyst center.
+# case 3: Retrieves all information for devices that are part of the fabric, from cisco catalyst center.
 
 - name: Get Fabric devices info from Cisco Catalyst Center
   hosts: localhost
@@ -396,21 +416,19 @@ response_fabric_devices_layer3_handoffs_sda_info:
 
     "sample": {
       "response": [
-        "The fabric devices filtered from the network devices are: ['204.1.2.2']",
+        "The fabric devices filtered from the network devices are: ['91.1.1.2']",
         [
           {
             "fabric_devices_layer3_handoffs_sda_info": [
               {
-                "device_ip": "204.1.2.2",
+                "device_ip": "91.1.1.2",
                 "handoff_info": [
                   {
-                    "networkDeviceId": "string",
-                    "fabricId": "string",
-                    "transitNetworkId": "string",
-                    "affinityIdPrime": "integer",
-                    "affinityIdDecider": "integer",
-                    "connectedToInternet": "boolean",
-                    "isMulticastOverTransitEnabled": "boolean"
+                    "connectedToInternet": true,
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "isMulticastOverTransitEnabled": false,
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "transitNetworkId": "02f92f56-e9c8-4534-b7f1-e06635061de9"
                   }
                 ]
               }
@@ -421,22 +439,262 @@ response_fabric_devices_layer3_handoffs_sda_info:
           {
             "fabric_devices_layer3_handoffs_ip_info": [
               {
-                "device_ip": "204.1.2.2",
+                "device_ip": "91.1.1.2",
                 "handoff_info": [
                   {
-                    "id": "string",
-                    "networkDeviceId": "string",
-                    "fabricId": "string",
-                    "transitNetworkId": "string",
-                    "interfaceName": "string",
-                    "externalConnectivityIpPoolName": "string",
-                    "virtualNetworkName": "string",
-                    "vlanId": "integer",
-                    "tcpMssAdjustment": "integer",
-                    "localIpAddress": "string",
-                    "remoteIpAddress": "string",
-                    "localIpv6Address": "string",
-                    "remoteIpv6Address": "string"
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "f10250af-bd72-4175-ad9b-ea2831e74a15",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.69/30",
+                    "localIpv6Address": "2004:1:16::1:0:45/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.70/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:46/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "DEFAULT_VN",
+                    "vlanId": 3000
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "3cd81271-4621-40fd-aac7-8b8499127c0c",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.73/30",
+                    "localIpv6Address": "2004:1:16::1:0:49/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.74/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:4a/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "Fabric_VN",
+                    "vlanId": 3001
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "cdad28e7-8df2-432d-8550-666a9fcfc21c",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.77/30",
+                    "localIpv6Address": "2004:1:16::1:0:4d/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.78/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:4e/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "INFRA_VN",
+                    "vlanId": 3002
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "8711bdb5-7a92-4ab0-a7d7-b4053e1db84c",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.81/30",
+                    "localIpv6Address": "2004:1:16::1:0:51/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.82/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:52/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "IntraSubnet_VN",
+                    "vlanId": 3003
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "66b48881-e72f-44cc-aedb-6819af25bd27",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.85/30",
+                    "localIpv6Address": "2004:1:16::1:0:55/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.86/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:56/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "SGT_Port_test",
+                    "vlanId": 3004
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "6dd7d005-74aa-4762-a59e-1c280a975425",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.89/30",
+                    "localIpv6Address": "2004:1:16::1:0:59/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.90/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:5a/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "VN1",
+                    "vlanId": 3005
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "a13167ae-d900-4048-92a6-0d41bd1bd531",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.93/30",
+                    "localIpv6Address": "2004:1:16::1:0:5d/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.94/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:5e/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "VN2",
+                    "vlanId": 3006
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "932cd9d7-9067-4224-ab1d-922a7cd79b5b",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.97/30",
+                    "localIpv6Address": "2004:1:16::1:0:61/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.98/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:62/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "VN3",
+                    "vlanId": 3007
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "9c09c4a8-5a7f-4b06-ac28-4d895293cfe7",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.101/30",
+                    "localIpv6Address": "2004:1:16::1:0:65/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.102/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:66/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "VN4",
+                    "vlanId": 3008
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "df69abf3-266a-4678-84d2-ca8d9340b4c2",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.105/30",
+                    "localIpv6Address": "2004:1:16::1:0:69/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.106/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:6a/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "VN5",
+                    "vlanId": 3009
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "d95e8a82-7a71-4f4a-a31a-85385c1e1ef8",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.109/30",
+                    "localIpv6Address": "2004:1:16::1:0:6d/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.110/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:6e/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "VN6",
+                    "vlanId": 3010
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "27171568-3f08-4f13-8991-a8904bc7e2a6",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.113/30",
+                    "localIpv6Address": "2004:1:16::1:0:71/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.114/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:72/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "VN7",
+                    "vlanId": 3011
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "bb704a7d-8988-4d8c-80e5-4c02bb9ab042",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.117/30",
+                    "localIpv6Address": "2004:1:16::1:0:75/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.118/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:76/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "WiredVNFB1",
+                    "vlanId": 3012
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "8d814e72-25af-490d-8f69-dec10af9e790",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.121/30",
+                    "localIpv6Address": "2004:1:16::1:0:79/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.122/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:7a/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "WiredVNFBLayer2",
+                    "vlanId": 3013
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "b01aa3a2-61c8-4179-a568-6dcdbafe993f",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.125/30",
+                    "localIpv6Address": "2004:1:16::1:0:7d/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.126/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:7e/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "WiredVNStatic",
+                    "vlanId": 3014
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "a4f61e60-b75c-4bcd-b7c4-e3bd68ec324d",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.129/30",
+                    "localIpv6Address": "2004:1:16::1:0:81/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.130/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:82/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "WirelessVNFB",
+                    "vlanId": 3015
+                  },
+                  {
+                    "externalConnectivityIpPoolName": "BorderHandOff_sub",
+                    "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8",
+                    "id": "43761af5-509f-4d07-9d2c-8b09f6ba2114",
+                    "interfaceName": "TenGigabitEthernet1/0/2",
+                    "localIpAddress": "204.1.16.133/30",
+                    "localIpv6Address": "2004:1:16::1:0:85/126",
+                    "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799",
+                    "remoteIpAddress": "204.1.16.134/30",
+                    "remoteIpv6Address": "2004:1:16::1:0:86/126",
+                    "tcpMssAdjustment": 0,
+                    "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196",
+                    "virtualNetworkName": "WirelessVNFGuest",
+                    "vlanId": 3016
                   }
                 ]
               }
@@ -447,24 +705,15 @@ response_fabric_devices_layer3_handoffs_sda_info:
           {
             "fabric_devices_layer2_handoffs_info": [
               {
-                "device_ip": "204.1.2.2",
-                "handoff_info": [
-                  {
-                    "id": "string",
-                    "networkDeviceId": "string",
-                    "fabricId": "string",
-                    "interfaceName": "string",
-                    "internalVlanId": "integer",
-                    "externalVlanId": "integer"
-                  }
-                ]
+                "device_ip": "91.1.1.2",
+                "handoff_info": []
               }
             ]
           }
         ]
       ],
       "status": "success"
-    }
+      }
 
 # Case 3: Successfully retrieved issues for devices that are part of the fabric, from cisco catalyst center
 
@@ -521,8 +770,6 @@ response_device_issues_info:
     ],
     "status": "success"
   }
-
-
 
 # Case 4: Successfully retrieved health info for devices that are part of the fabric, from cisco catalyst center
 
@@ -688,7 +935,7 @@ response_onboarding_info:
           "device_onboarding_info": [
             {
               "device_ip": "204.192.5.2",
-              "port_details": "No port assignment details found"
+              "port_details": []
             }
           ]
         }
@@ -1006,7 +1253,7 @@ response_all_info:
           "fabric_devices_layer3_handoffs_sda_info": [
             {
               "device_ip": "204.1.2.2",
-              "handoff_info": "No handoff info found"
+              "handoff_info": []
             }
           ]
         }
@@ -1016,7 +1263,7 @@ response_all_info:
           "fabric_devices_layer3_handoffs_ip_info": [
             {
               "device_ip": "204.1.2.2",
-              "handoff_info": "No handoff info found"
+              "handoff_info": []
             }
           ]
         }
@@ -1026,7 +1273,7 @@ response_all_info:
           "fabric_devices_layer2_handoffs_info": [
             {
               "device_ip": "204.1.2.2",
-              "handoff_info": "No handoff info found"
+              "handoff_info": []
             }
           ]
         }
@@ -1122,10 +1369,14 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
 )
 from ansible.module_utils.basic import AnsibleModule
+
+try:
+    import yaml
+except ImportError:
+    yaml = None
 import time
 import os
 import json
-import yaml
 from datetime import datetime
 
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
@@ -1321,7 +1572,7 @@ class FabricDevicesInfo(DnacBase):
             Upon successful validation, the fabric device data is stored in the instance's 'want'
             attribute for use in subsequent processing.
         """
-        self.log("Starting desired state preparation with input config: {}".format(config), "DEBUG")
+        self.log("Starting desired state preparation with input config: {0}".format(config), "DEBUG")
 
         want = {}
         want["fabric_devices"] = config.get("fabric_devices")
@@ -1445,12 +1696,12 @@ class FabricDevicesInfo(DnacBase):
 
             self.log("""
             Requested:
-            fabric_info:            {}
-            handoff_info:           {}
-            onboarding_info:        {}
-            connected_devices_info: {}
-            device_health_info:     {}
-            device_issues_info:     {}
+            fabric_info:            {0}
+            handoff_info:           {1}
+            onboarding_info:        {2}
+            connected_devices_info: {3}
+            device_health_info:     {4}
+            device_issues_info:     {5}
             """.format(
                 fabric_info,
                 handoff_info,
@@ -1463,6 +1714,7 @@ class FabricDevicesInfo(DnacBase):
             ip_uuid_map = self.get_device_id(filtered_config)
             fabric_site_ids = self.get_fabric_site_id()
             fabric_devices = self.filter_fabric_device(ip_uuid_map, filtered_config)
+            fabric_ip_map = self.fabric_id_ip_map(fabric_site_ids, ip_uuid_map, fabric_devices)
 
             if not ip_uuid_map:
                 self.log("No matching network devices were found for the given filter criteria.")
@@ -1504,22 +1756,22 @@ class FabricDevicesInfo(DnacBase):
             if handoff_info:
                 self.log("Checking if 'handoff_info' is requested.", "DEBUG")
                 self.log("Fetching handoff_info for devices: {0}".format(fabric_devices), "DEBUG")
-                handoff_layer3_sda_result = self.get_handoff_layer3_sda_info(ip_uuid_map, fabric_devices)
+                handoff_layer3_sda_result = self.get_handoff_layer3_sda_info(ip_uuid_map, fabric_ip_map)
                 self.total_response.append(handoff_layer3_sda_result)
                 combined_fabric_data["handoff_layer3_sda_info"] = handoff_layer3_sda_result
 
-                handoff_layer3_ip_result = self.get_handoff_layer3_ip_info(ip_uuid_map, fabric_devices)
+                handoff_layer3_ip_result = self.get_handoff_layer3_ip_info(ip_uuid_map, fabric_ip_map)
                 self.total_response.append(handoff_layer3_ip_result)
                 combined_fabric_data["handoff_layer3_ip_info"] = handoff_layer3_ip_result
 
-                handoff_layer2_result = self.get_handoff_layer2_info(ip_uuid_map, fabric_devices)
+                handoff_layer2_result = self.get_handoff_layer2_info(ip_uuid_map, fabric_ip_map)
                 self.total_response.append(handoff_layer2_result)
                 combined_fabric_data["handoff_layer2_info"] = handoff_layer2_result
 
             if onboarding_info:
                 self.log("Checking if 'onboarding_info' is requested.", "DEBUG")
                 self.log("Fetching onboarding_info for devices: {0}".format(fabric_devices), "DEBUG")
-                onboarding_info_result = self.get_onboarding_info(ip_uuid_map, fabric_devices)
+                onboarding_info_result = self.get_onboarding_info(ip_uuid_map, fabric_ip_map)
                 self.total_response.append(onboarding_info_result)
                 combined_fabric_data["onboarding_info"] = onboarding_info_result
 
@@ -1542,7 +1794,7 @@ class FabricDevicesInfo(DnacBase):
             output_file_info = config["fabric_devices"][0].get("output_file_info")
 
         if output_file_info:
-            self.log("Writing combined_data to file using file_info: {}".format(output_file_info), "INFO")
+            self.log("Writing combined_data to file using file_info: {0}".format(output_file_info), "INFO")
             self.write_device_info_to_file({"output_file_info": output_file_info})
 
         if self.total_response:
@@ -1865,6 +2117,58 @@ class FabricDevicesInfo(DnacBase):
         self.log("Filtered fabric devices: {0}".format(unique_result_ip), "INFO")
         return unique_result_ip
 
+    def fabric_id_ip_map(self, fabric_site_ids, ip_uuid_map, fabric_devices):
+        """
+        Retrieves the fabric ID for a list of fabric devices.
+
+        Args:
+            self (object): The class instance interacting with Catalyst Center.
+            fabric_devices (list): List of IP addresses identified as fabric devices.
+
+        Returns:
+            list: A list of fabric IDs corresponding to the provided fabric devices.
+        """
+
+        self.log("Starting to get fabric IDs for fabric devices: {0}".format(fabric_devices), "DEBUG")
+        fabric_ip_map = {}
+
+        for fabric_id in fabric_site_ids:
+            for ip_address, device_uuid in ip_uuid_map.items():
+                if ip_address in fabric_devices:
+                    try:
+                        response = self.dnac._exec(
+                            family="sda",
+                            function="get_fabric_devices",
+                            params={"fabric_id": fabric_id, "network_device_id": device_uuid}
+                        )
+                        self.log(
+                            "Received API response from 'get_fabric_devices': {0}".format(response),
+                            "DEBUG"
+                        )
+
+                        fabric_data = response.get("response", [])
+                        if fabric_data:
+                            fabric_id_value = fabric_data[0].get("fabricId")
+                            if fabric_id_value:
+                                fabric_ip_map[ip_address] = fabric_id_value
+                                self.log(
+                                    "{0} → {1}".format(ip_address, fabric_id_value),
+                                    "INFO"
+                                )
+                        else:
+                            self.log(
+                                "No response data for IP {0}".format(ip_address),
+                                "WARNING"
+                            )
+
+                    except Exception as e:
+                        self.log(
+                            "Error processing IP {0}: {1}".format(ip_address, e),
+                            "ERROR"
+                        )
+
+        return fabric_ip_map
+
     def get_fabric_info(self, ip_uuid_map, fabric_devices):
         """
         Retrieves detailed fabric information for the given list of fabric devices from Cisco Catalyst Center.
@@ -2008,7 +2312,7 @@ class FabricDevicesInfo(DnacBase):
                         self.log("No issue data found for device IP: {0}".format(ip_address), "DEBUG")
                         issue_info_list.append({
                             "device_ip": ip_address,
-                            "issue_details": "No issues found"
+                            "issue_details": []
                         })
                         continue
 
@@ -2105,7 +2409,7 @@ class FabricDevicesInfo(DnacBase):
                 self.log("No health info found for device: {0}".format(device_ip), "DEBUG")
                 health_info_list.append({
                     "device_ip": device_ip,
-                    "health_details": "No health info found"
+                    "health_details": {}
                 })
 
         except Exception as api_err:
@@ -2120,7 +2424,7 @@ class FabricDevicesInfo(DnacBase):
 
         return result
 
-    def get_handoff_layer3_sda_info(self, ip_uuid_map, fabric_devices):
+    def get_handoff_layer3_sda_info(self, ip_uuid_map, fabric_ip_map):
         """
         Retrieves Layer 3 SDA handoff information for the given fabric devices from Cisco Catalyst Center.
 
@@ -2155,19 +2459,14 @@ class FabricDevicesInfo(DnacBase):
             - Aggregates and returns all results in a consistent, structured format.
         """
 
-        self.log("Fetching Layer 3 SDA handoff details for fabric devices {0} devices: {1}".format(len(ip_uuid_map), fabric_devices), "INFO")
+        self.log("Fetching Layer 3 SDA handoff details for fabric devices", "INFO")
 
-        if not fabric_devices:
-            self.log("No fabric device IDs provided for Handoff layer 3 sda info retrieval", "WARNING")
-            return [{"fabric_devices_layer3_handoffs_sda_info": []}]
-
-        fabric_site_ids = self.get_fabric_site_id()
         all_handoff_layer3_sda_list = []
         seen_ips = set()
 
-        for fabric_id in fabric_site_ids:
-            for ip_address, device_uuid in ip_uuid_map.items():
-                if ip_address in fabric_devices and ip_address not in seen_ips:
+        for ip_address, device_uuid in ip_uuid_map.items():
+            for device_ip, fabric_id in fabric_ip_map.items():
+                if ip_address == device_ip and ip_address not in seen_ips:
                     seen_ips.add(ip_address)
                     try:
                         response = self.dnac._exec(
@@ -2176,6 +2475,7 @@ class FabricDevicesInfo(DnacBase):
                             params={"fabric_id": fabric_id, "network_device_id": device_uuid}
                         )
                         layer3_sda_handoff_data = response.get("response", [])
+                        self.log(layer3_sda_handoff_data)
                         self.log(
                             "Received API response for 'get_fabric_devices_layer3_handoffs_with_sda_transit' for IP {0}: {1}".format(
                                 ip_address, response
@@ -2183,7 +2483,7 @@ class FabricDevicesInfo(DnacBase):
                             "DEBUG"
                         )
                         if layer3_sda_handoff_data:
-                            self.log("layer3_sda_handoff_data details found for device_ip: {1}".format(ip_address), "INFO")
+                            self.log("layer3_sda_handoff_data details found for device_ip: {0}".format(ip_address), "INFO")
                             all_handoff_layer3_sda_list.append({
                                 "device_ip": ip_address,
                                 "handoff_info": layer3_sda_handoff_data
@@ -2193,7 +2493,7 @@ class FabricDevicesInfo(DnacBase):
                             self.log("No Layer 3 SDA handoff data found for device IP: {0}".format(ip_address), "DEBUG")
                             all_handoff_layer3_sda_list.append({
                                 "device_ip": ip_address,
-                                "handoff_info": "No handoff info found"
+                                "handoff_info": []
                             })
 
                     except Exception as api_err:
@@ -2208,7 +2508,7 @@ class FabricDevicesInfo(DnacBase):
 
         return result
 
-    def get_handoff_layer3_ip_info(self, ip_uuid_map, fabric_devices):
+    def get_handoff_layer3_ip_info(self, ip_uuid_map, fabric_ip_map):
         """
         Retrieves Layer 3 IP handoff information for the given fabric devices from Cisco Catalyst Center.
 
@@ -2225,7 +2525,7 @@ class FabricDevicesInfo(DnacBase):
             - Iterates through fabric-enabled site IDs and their corresponding devices.
             - Calls Catalyst Center SDA API to fetch Layer 3 IP handoff details per device.
             - If data is available, it is added under that device's IP.
-            - If not, a string stating "No handoff info found" is returned for that device.
+            - If not, a string stating [] is returned for that device.
             - Aggregates and returns all results in a consistent structured format.
 
         Returns:
@@ -2243,19 +2543,14 @@ class FabricDevicesInfo(DnacBase):
             Returns None if an error occurs during retrieval.
         """
 
-        self.log("Fetching Layer 3 IP handoff details for fabric devices: {0}".format(fabric_devices), "INFO")
+        self.log("Fetching Layer 3 IP handoff details for fabric devices", "INFO")
 
-        if not fabric_devices:
-            self.log("No fabric device IDs provided for Handoff layer 3 ip info retrieval", "WARNING")
-            return [{"fabric_devices_layer3_handoffs_ip_info": []}]
-
-        fabric_site_ids = self.get_fabric_site_id()
         all_handoff_layer3_ip_info_list = []
         seen_ips = set()
 
-        for fabric_id in fabric_site_ids:
-            for ip_address, device_uuid in ip_uuid_map.items():
-                if ip_address in fabric_devices and ip_address not in seen_ips:
+        for ip_address, device_uuid in ip_uuid_map.items():
+            for device_ip, fabric_id in fabric_ip_map.items():
+                if ip_address == device_ip and ip_address not in seen_ips:
                     seen_ips.add(ip_address)
                     try:
                         response = self.dnac._exec(
@@ -2281,7 +2576,7 @@ class FabricDevicesInfo(DnacBase):
                             self.log("No Layer 3 IP handoff data found for device IP: {0}".format(ip_address), "DEBUG")
                             all_handoff_layer3_ip_info_list.append({
                                 "device_ip": ip_address,
-                                "handoff_info": "No handoff info found"
+                                "handoff_info": []
                             })
                     except Exception as api_err:
                         self.msg = "Exception occurred while getting L3 IP hand-off info for device {0}: {1}".format(ip_address, api_err)
@@ -2295,7 +2590,7 @@ class FabricDevicesInfo(DnacBase):
 
         return result
 
-    def get_handoff_layer2_info(self, ip_uuid_map, fabric_devices):
+    def get_handoff_layer2_info(self, ip_uuid_map, fabric_ip_map):
         """
         Retrieves Layer 2 handoff information for the given fabric devices from Cisco Catalyst Center.
 
@@ -2312,7 +2607,7 @@ class FabricDevicesInfo(DnacBase):
             - Iterates over each fabric site ID and its devices.
             - Calls the API to fetch Layer 2 handoff data for devices.
             - If handoff data is found, it is structured and returned per device.
-            - If no data is found, a string stating "No handoff info found" is added.
+            - If no data is found, a string stating [] is added.
             - The results are aggregated and returned in a standardized format.
 
         Returns:
@@ -2330,19 +2625,14 @@ class FabricDevicesInfo(DnacBase):
             Returns None if an error occurs during retrieval.
         """
 
-        self.log("Fetching Layer 2 handoff details for fabric devices: {0}".format(fabric_devices), "INFO")
+        self.log("Fetching Layer 2 handoff details for fabric devices", "INFO")
 
-        if not fabric_devices:
-            self.log("No fabric device IDs provided for Handoff layer 2 info retrieval", "WARNING")
-            return [{"fabric_devices_layer2_handoffs_info": []}]
-
-        fabric_site_ids = self.get_fabric_site_id()
         all_handoff_layer2_info_list = []
         seen_ips = set()
 
-        for fabric_id in fabric_site_ids:
-            for ip_address, device_uuid in ip_uuid_map.items():
-                if ip_address in fabric_devices and ip_address not in seen_ips:
+        for ip_address, device_uuid in ip_uuid_map.items():
+            for device_ip, fabric_id in fabric_ip_map.items():
+                if ip_address == device_ip and ip_address not in seen_ips:
                     seen_ips.add(ip_address)
                     try:
                         response = self.dnac._exec(
@@ -2368,7 +2658,7 @@ class FabricDevicesInfo(DnacBase):
                             self.log("No Layer 2 handoff data found for device IP: {0}".format(ip_address), "DEBUG")
                             all_handoff_layer2_info_list.append({
                                 "device_ip": ip_address,
-                                "handoff_info": "No handoff info found"
+                                "handoff_info": []
                             })
 
                     except Exception as api_err:
@@ -2580,7 +2870,7 @@ class FabricDevicesInfo(DnacBase):
 
             return None
 
-    def get_onboarding_info(self, ip_uuid_map, fabric_devices):
+    def get_onboarding_info(self, ip_uuid_map, fabric_ip_map):
         """
         Fetch onboarding details for devices associated with fabric-enabled sites from Cisco Catalyst Center.
 
@@ -2615,52 +2905,44 @@ class FabricDevicesInfo(DnacBase):
                 ]
             Returns None if an error occurs during retrieval.
         """
-        self.log("Fetching onboarding records for fabric devices: {0}".format(fabric_devices), "INFO")
+        self.log("Fetching onboarding records for fabric devices", "INFO")
 
-        if not fabric_devices:
-            self.log("No fabric device IDs provided for onboarding device information retrieval", "WARNING")
-            return [{"device_onboarding_info": []}]
-
-        fabric_site_ids = self.get_fabric_site_id()
         all_onboarding_info_list = []
 
-        self.log("Fabric site IDs retrieved: {0}".format(fabric_site_ids))
-
-        for fabric_id in fabric_site_ids:
+        for device_ip, fabric_id in fabric_ip_map.items():
             for ip_address, device_uuid in ip_uuid_map.items():
-                if ip_address in fabric_devices:
-                    try:
-                        response = self.dnac._exec(
-                            family="sda",
-                            function="get_port_assignments",
-                            params={"fabric_id": fabric_id, "network_device_id": device_uuid}
-                        )
-                        onboarding_data = response.get("response", [])
-                        self.log(
-                            "Received API response from 'get_port_assignments' for device {0}: {1}".format(
-                                ip_address, response
-                            ),
-                            "DEBUG"
-                        )
-                        if onboarding_data:
-                            self.log("Onboarding data found for device IP: {0}".format(ip_address), "INFO")
-                            all_onboarding_info_list.append({
-                                "device_ip": ip_address,
-                                "port_details": onboarding_data
-                            })
+                try:
+                    response = self.dnac._exec(
+                        family="sda",
+                        function="get_port_assignments",
+                        params={"fabric_id": fabric_id, "network_device_id": device_uuid}
+                    )
+                    onboarding_data = response.get("response", [])
+                    self.log(
+                        "Received API response from 'get_port_assignments' for device {0}: {1}".format(
+                            ip_address, response
+                        ),
+                        "DEBUG"
+                    )
+                    if onboarding_data:
+                        self.log("Onboarding data found for device IP: {0}".format(ip_address), "INFO")
+                        all_onboarding_info_list.append({
+                            "device_ip": ip_address,
+                            "port_details": onboarding_data
+                        })
 
-                        else:
-                            self.log("No onboarding data found for device IP: {0}".format(ip_address), "DEBUG")
-                            all_onboarding_info_list.append({
-                                "device_ip": ip_address,
-                                "port_details": "No port assignment details found"
-                            })
-                            continue
+                    else:
+                        self.log("No onboarding data found for device IP: {0}".format(ip_address), "DEBUG")
+                        all_onboarding_info_list.append({
+                            "device_ip": ip_address,
+                            "port_details": []
+                        })
+                        continue
 
-                    except Exception as api_err:
-                        self.msg = "Exception occurred while getting port assignment details for device {0}: {1}".format(ip_address, api_err)
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return None
+                except Exception as api_err:
+                    self.msg = "Exception occurred while getting port assignment details for device {0}: {1}".format(ip_address, api_err)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return None
 
             result = [{"device_onboarding_info": all_onboarding_info_list}]
 
@@ -2735,7 +3017,7 @@ class FabricDevicesInfo(DnacBase):
                         self.log("No provisioning status found for device IP: {0}".format(ip_address), "DEBUG")
                         all_provision_status_info_list.append({
                             "device_ip": ip_address,
-                            "provision_status": "No provisioning info found"
+                            "provision_status": {}
                         })
 
                 except Exception as api_err:
