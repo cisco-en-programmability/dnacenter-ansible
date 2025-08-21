@@ -31,8 +31,8 @@ extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 
 author:
-  - Madhan Sankaranarayanan (@madhansansel)
   - Priyadharshini B (@pbalaku2)
+  - Madhan Sankaranarayanan (@madhansansel)
 
 options:
   config_verify:
