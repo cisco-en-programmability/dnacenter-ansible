@@ -336,6 +336,9 @@ EXAMPLES = r"""
         rolling_ap_upgrade:
           enable_rolling_ap_upgrade: false
           ap_reboot_percentage: 5
+        ap_authorization_list_name: "AP-Auth-List"
+        authorize_mesh_and_non_mesh_aps: true
+
 - name: Provision a wired device to a site
   cisco.dnac.provision_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -617,6 +620,8 @@ class Provision(DnacBase):
             },
             "skip_ap_provision": {"type": "bool", "required": False},
             "rolling_ap_upgrade": {"type": "dict", "required": False},
+            "ap_authorization_list_name": {"type": "str", "required": False},
+            "authorize_mesh_and_non_mesh_aps": {"type": "bool", "required": False, "default": False},
             "provisioning": {"type": "bool", "required": False, "default": True},
             "force_provisioning": {"type": "bool", "required": False, "default": False},
             "clean_config": {"type": "bool", "required": False, "default": False},
@@ -1462,6 +1467,11 @@ class Provision(DnacBase):
         if self.validated_config.get("rolling_ap_upgrade"):
             rolling_ap_upgrade = self.validated_config["rolling_ap_upgrade"]
             wireless_params[0]["rolling_ap_upgrade"] = rolling_ap_upgrade
+        if self.validated_config.get("ap_authorization_list_name"):
+            wireless_params[0]["ap_authorization_list_name"] = self.validated_config.get("ap_authorization_list_name")
+        if self.validated_config.get("authorize_mesh_and_non_mesh_aps") is not None:
+            wireless_params[0]["authorize_mesh_and_non_mesh_aps"] = self.validated_config.get("authorize_mesh_and_non_mesh_aps")
+
 
         response = self.dnac_apply["exec"](
             family="devices",
@@ -3226,43 +3236,49 @@ class Provision(DnacBase):
                         )
                 payload["rollingApUpgrade"] = rolling_ap_upgrade
 
+            if "ap_authorization_list_name" in prov_params:
+                payload["apAuthorizationListName"] = prov_params.get("ap_authorization_list_name")
+
+            if "authorize_mesh_and_non_mesh_aps" in prov_params:
+                payload["authorizeMeshAndNonMeshAPs"] = prov_params.get("authorize_mesh_and_non_mesh_aps")
+
             if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
                 self.log("Catalyst Center version >= 3.1.3.0 — processing 'feature_template'", "INFO")
                 self.log(prov_params, "DEBUG")
+                if "feature_template" in prov_params:
+                    ft = prov_params.get("feature_template", [])[0]
+                    self.log("Feature template data: {0}".format(ft), "DEBUG")
+                    wlan_profile = ft["additional_identifiers"]["wlan_profile_name"]
+                    site_hierarchy = ft["additional_identifiers"]["site_name_hierarchy"]
+                    excluded = ft.get("excluded_attributes", [])
 
-                ft = prov_params.get("feature_template", [])[0]  # ✅ Correct extraction
-                self.log("Feature template data: {0}".format(ft), "DEBUG")
-                # attribute_name = ft.get("attributes", [{}])[0].get("name")
-                # attribute_value = ft["attributes"][0]["value"]
-                wlan_profile = ft["additional_identifiers"]["wlan_profile_name"]
-                site_hierarchy = ft["additional_identifiers"]["site_name_hierarchy"]
-                excluded = ft.get("excluded_attributes", [])
+                    feature_template_id = self.resolve_template_id(ft["design_name"])
+                    site_exists, site_id = self.get_site_id(site_hierarchy)
+                    self.log(site_id, "DEBUG")
+                    site_uuid = site_id
 
-                feature_template_id = self.resolve_template_id(ft["design_name"])
-                site_exists, site_id = self.get_site_id(site_hierarchy)
-                self.log(site_id, "DEBUG")
-                site_uuid = site_id
-
-                new_entry = {
-                    "featureTemplateId": feature_template_id,
-                    "attributes": {
-                    },
-                    "additionalIdentifiers": {
-                        "wlanProfileName": wlan_profile,
-                        "siteUuid": site_uuid
-                    },
-                    "excludedAttributes": excluded
-                }
-
-                if "featureTemplatesOverridenAttributes" not in payload:
-                    payload["featureTemplatesOverridenAttributes"] = {
-                        "editFeatureTemplates": []
+                    new_entry = {
+                        "featureTemplateId": feature_template_id,
+                        "attributes": {
+                        },
+                        "additionalIdentifiers": {
+                            "wlanProfileName": wlan_profile,
+                            "siteUuid": site_uuid
+                        },
+                        "excludedAttributes": excluded
                     }
 
-                payload["featureTemplatesOverridenAttributes"]["editFeatureTemplates"].append(new_entry)
+                    if "featureTemplatesOverridenAttributes" not in payload:
+                        payload["featureTemplatesOverridenAttributes"] = {
+                            "editFeatureTemplates": []
+                        }
+
+                    payload["featureTemplatesOverridenAttributes"]["editFeatureTemplates"].append(new_entry)
             else:
                 self.log("Catalyst Center version < 3.1.3.0 — skipping 'feature_template'", "INFO")
+
             import json
+
             self.log(
                 "Final constructed payload:\n{0}".format(json.dumps(payload, indent=2)),
                 "INFO",
@@ -3270,8 +3286,8 @@ class Provision(DnacBase):
 
             try:
                 response = self.dnac_apply["exec"](
-                    family="wireless",
-                    function="wireless_controller_provision",
+                    # family="wireless",
+                    # function="wireless_controller_provision",
                     op_modifies=True,
                     params=payload,
                 )
