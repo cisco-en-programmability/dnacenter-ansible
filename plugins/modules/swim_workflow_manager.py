@@ -34,6 +34,7 @@ description:
   - Provides an API to distribute a software image to
     a device. The software image must be imported into
     Catalyst Center before it can be distributed.
+  - Provides an API to delete software images from Catalyst Center.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -62,9 +63,8 @@ options:
     suboptions:
       image_name:
         description:
-          - Details of image to be deleted.
-          - This parameter is mandatory to delete
-          - Works only in state 'deleted'.
+          - A list of image names to be deleted.
+          - This parameter is mandatory and exclusively used when the state is 'deleted'.
           - Applicable for v3.1.3.0 and later.
         type: list
         elements: str
@@ -555,15 +555,17 @@ options:
               schedule (optional).
             type: bool
           compatible_features:
-            description: List of compatible feature key-value pairs.
+            description:
+              - List of compatible feature key-value pairs.
+              - Applicable for v3.1.3.0 and later.
             type: list
             elements: dict
             suboptions:
               key:
-                description: Feature name. (e.g., "ISSU", "Rommon update"), applicable for v3.1.3.0 and later.
+                description: Feature name. (e.g., "ISSU", "Rommon update")
                 type: str
               value:
-                description: Feature status (e.g., Enable or Disable), applicable for v3.1.3.0 and later.
+                description: Feature status (e.g., Enable or Disable)
                 type: str
 
 requirements:
@@ -1086,33 +1088,48 @@ class Swim(DnacBase):
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             name (str): The name of the software image to search for.
         Returns:
-            str: The unique image ID (UUID) corresponding to the given image name. or NONE if not found
-        Raises:
-            AnsibleFailJson: If the image is not found in the response.
+            str or None: The unique image ID (UUID) if a single matching image is found, otherwise None.
         Description:
             This function sends a request to Cisco Catalyst Center to retrieve details about a software image based on its name.
             It extracts and returns the image ID if a single matching image is found. If no image or multiple
             images are found with the same name, it raises an exception.
         """
 
-        image_response = self.dnac._exec(
-            family="software_image_management_swim",
-            function='get_software_image_details',
-            op_modifies=True,
-            params={"image_name": name},
-        )
-        self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
-        image_list = image_response.get("response")
+        self.log("Attempting to find image ID for image with name: '{0}'".format(name), "DEBUG")
+        try:
+            image_response = self.dnac._exec(
+                family="software_image_management_swim",
+                function="get_software_image_details",
+                op_modifies=True,
+                params={"image_name": name},
+            )
 
-        if (len(image_list) == 1):
-            image_id = image_list[0].get("imageUuid")
-            self.log("SWIM image '{0}' has the ID: {1}".format(name, image_id), "INFO")
-        else:
-            self.msg = "SWIM image '{0}' could not be found".format(name)
-            self.log(self.msg, "ERROR")
+            self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
+
+            image_list = image_response.get("response", []) if isinstance(image_response, dict) else []
+
+            if len(image_list) == 1:
+                image_id = image_list[0].get("imageUuid")
+                if image_id:
+                    self.log("Successfully found SWIM image '{0}' with ID: {1}".format(name, image_id), "INFO")
+                    return image_id
+                else:
+                    self.log("Image found but missing imageUuid field for '{0}'".format(name), "WARNING")
+                    return None
+
+            if len(image_list) == 0:
+                self.log("No SWIM image found with name '{0}'".format(name), "INFO")
+                return None
+
+            self.log(
+                "Multiple SWIM images ({0}) found with name '{1}' - unable to uniquely identify".format(len(image_list), name),
+                "WARNING",
+            )
             return None
 
-        return image_id
+        except Exception as e:
+            self.log("An exception occurred while retrieving image ID for '{0}': {1}".format(name, str(e)), "ERROR")
+            return None
 
     def get_cco_image_id(self, cco_image_name):
         """
@@ -1413,6 +1430,7 @@ class Swim(DnacBase):
             site_type = self.get_sites_type(site_name)
             site_info = {}
 
+            self.log("Starting site hierarchy processing for: '{0}' (Type: {1})".format(site_name, site_type), "INFO")
             if site_type == "building":
                 self.log(
                     "Processing site as a building: {site_name}".format(site_name=site_name),
@@ -1421,13 +1439,21 @@ class Swim(DnacBase):
 
                 site_info = {}
 
-                self.log("Fetching parent site: {0}".format(site_name), "DEBUG")
+                self.log("Fetching parent site data for building: {0}".format(site_name), "DEBUG")
                 parent_site_data = self.get_site(site_name)
 
                 if parent_site_data.get("response"):
+                    self.log(
+                        "Parent site data found for building: '{0}'. Processing {1} items.".format(
+                            site_name,
+                            len(parent_site_data.get('response') or [])
+                        ),
+                        "DEBUG"
+                    )
                     for item in parent_site_data["response"]:
                         if "nameHierarchy" in item and "id" in item:
                             site_info[item["nameHierarchy"]] = item["id"]
+                            self.log("Added parent site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
                         else:
                             self.log(
                                 "Missing 'nameHierarchy' or 'id' in parent site item: {0}".format(str(item)),
@@ -1436,15 +1462,23 @@ class Swim(DnacBase):
                     self.log("Parent site data: {0}".format(str(parent_site_data)), "DEBUG")
                 else:
                     self.log("No data found for parent site: {0}".format(site_name), "WARNING")
-
+                self.log("Current site_info after parent processing: {0}".format(site_info), "DEBUG")
                 wildcard_site_name = site_name + "/.*"
-                self.log("Trying to fetch child sites with wildcard: {0}".format(wildcard_site_name), "DEBUG")
+                self.log("Attempting to fetch child sites for building with wildcard: {0}".format(wildcard_site_name), "DEBUG")
                 child_site_data = self.get_site(wildcard_site_name)
 
                 if child_site_data and child_site_data.get("response"):
+                    self.log(
+                        "Child site data found for building: '{0}'. Processing {1} items.".format(
+                            wildcard_site_name,
+                            len(child_site_data.get('response') or [])
+                        ),
+                        "DEBUG"
+                    )
                     for item in child_site_data["response"]:
                         if "nameHierarchy" in item and "id" in item:
                             site_info[item["nameHierarchy"]] = item["id"]
+                            self.log("Added child site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
                         else:
                             self.log(
                                 "Missing 'nameHierarchy' or 'id' in child site item: {0}".format(str(item)),
@@ -1456,8 +1490,6 @@ class Swim(DnacBase):
                     self.log("No child site data found under: {0}".format(wildcard_site_name), "DEBUG")
                     site_names = site_name
 
-                self.log(site_info, "DEBUG")
-
             elif site_type == "area":
                 self.log(
                     "Processing site as an area: {site_name}".format(site_name=site_name),
@@ -1465,16 +1497,15 @@ class Swim(DnacBase):
                 )
 
                 wildcard_site_name = site_name + "/.*"
-                self.log("Trying to fetch child sites for area using: {0}".format(wildcard_site_name), "DEBUG")
+                self.log("Attempting to fetch child sites for area using wildcard:: {0}".format(wildcard_site_name), "DEBUG")
                 child_site_data = self.get_site(wildcard_site_name)
                 self.log("Child site data: {0}".format(str(child_site_data)), "DEBUG")
 
                 if child_site_data and child_site_data.get("response"):
-                    self.log("Child sites found for area: {0}".format(str(child_site_data)), "DEBUG")
+                    self.log("Child sites found for area: '{0}'. Setting site_names to wildcard.".format(wildcard_site_name), "DEBUG")
                     site_names = wildcard_site_name
-
                 else:
-                    self.log("No child sites found or child_site_data is None. Using direct site name: {0}".format(site_name), "DEBUG")
+                    self.log("No child sites found under area: '{0}'. Using original site name: '{1}'.".format(wildcard_site_name, site_name), "DEBUG")
                     site_names = site_name
 
             elif site_type == "floor":
@@ -1782,20 +1813,25 @@ class Swim(DnacBase):
             device families, distribution devices, and activation devices based on user-provided data in the 'want' dictionary.
             It validates and retrieves the necessary information from Cisco Catalyst Center to support later actions.
         """
+        self.log("Retrieving and storing software image and device details from Cisco Catalyst Center", "DEBUG")
 
         if self.want.get("image_name"):
+            self.log("Processing bulk image names for ID resolution", "DEBUG")
             have = {}
             names = self.want.get("image_name")
-
             image_id_map = {}
 
             for name in names:
                 image_id = self.get_image_id(name)
-                image_id_map[name] = image_id
-                self.log("Image ID for '{0}' is: {1}".format(name, image_id), "DEBUG")
+                if image_id:
+                    image_id_map[name] = image_id
+                    self.log("Successfully resolved image ID for '{0}': {1}".format(name, image_id), "DEBUG")
+                else:
+                    self.log("Failed to resolve image ID for '{0}'".format(name), "WARNING")
 
             have["image_ids"] = image_id_map
             self.have.update(have)
+            self.log("Processed {0} image names for bulk operations".format(len(image_id_map)), "INFO")
 
         if self.want.get("tagging_details"):
             have = {}
@@ -3655,7 +3691,7 @@ class Swim(DnacBase):
                             self.log(failed_msg, "ERROR")
                             break
 
-            # NEW FLOW (for DNAC >= 2.3.7.9)
+            # NEW FLOW (for Catalyst Center >= 2.3.7.9)
             else:
                 self.log("Using new SWIM API for image activation (after 2.3.7.9)", "INFO")
 
@@ -3946,11 +3982,12 @@ class Swim(DnacBase):
         self.log("Starting synchronization of software images from Cisco CCO.", "INFO")
 
         sync_cco = self.want.get("sync_cco")
-        self.log(sync_cco)
+        self.log("CCO synchronization configuration: {0}".format(sync_cco), "DEBUG")
 
         if not sync_cco:
             self.log("No CCO synchronization details found. Skipping synchronization.", "INFO")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return None
         try:
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -3975,12 +4012,7 @@ class Swim(DnacBase):
         except Exception as e:
             self.msg = ("Error occurred during CCO image synchronization: {}".format(e), "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-            # self.result["response"] = self.msg
-            # self.result["msg"] = self.msg
-            # self.log(self.msg, "WARNING")
-            # self.result["response"] = self.msg
-            # self.result["changed"] = False
-            # return self
+            return self
 
     def verify_diff_imported(self, import_type):
         """
@@ -4331,19 +4363,25 @@ class Swim(DnacBase):
                 - Summarize the results into success and failure messages.
                 - Set final operation result status (`success` or `failed`) based on outcomes.
         """
+        self.log("Initiating software image deletion process from Cisco Catalyst Center", "DEBUG")
         image_names = config.get("image_name", [])
         self.log("Image names to be deleted: {0}".format(image_names), "INFO")
+
         if not image_names:
             self.msg = "No image names provided for deletion."
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         results = []
+        success_deletions = []
+        failed_deletions = []
 
         for image_name in image_names:
+            self.log("Processing deletion request for image: '{0}'".format(image_name), "DEBUG")
             image_id = self.get_image_id(image_name)
 
             if not image_id:
                 msg = "Image '{0}' does not exist in Cisco Catalyst Center.".format(image_name)
+                failed_deletions.append(image_name)
                 results.append({"image": image_name, "status": "failed", "message": msg})
                 continue
 
@@ -4355,59 +4393,143 @@ class Swim(DnacBase):
                     op_modifies=True,
                     params={"id": image_id}
                 )
+
                 self.check_tasks_response_status(response, "delete_image_v1")
                 self.log("Received API response from 'delete_image_v1': {0}".format(str(response)), "DEBUG")
 
                 if self.status not in ["failed", "exited"]:
                     msg = "Image '{0}' deleted successfully.".format(image_name)
+                    success_deletions.append(image_name)
                     results.append({"image": image_name, "status": "success", "message": msg})
                 else:
                     msg = "Image '{0}' failed to delete: {1}".format(image_name, self.msg)
+                    failed_deletions.append(image_name)
                     results.append({"image": image_name, "status": "failed", "message": msg})
 
             except Exception as e:
                 msg = "Image '{0}' failed to delete due to exception: {1}".format(image_name, str(e))
+                failed_deletions.append(image_name)
                 results.append({"image": image_name, "status": "failed", "message": msg})
 
         # Summarize results
-        success_msgs = []
-        failure_msgs = []
+        self.log("Image deletion process completed - generating final status report", "DEBUG")
 
-        for res in results:
-            log_level = "INFO" if res["status"] == "success" else "ERROR"
-            self.set_operation_result(res["status"], res["status"] == "success", res["message"], log_level)
+        success_count = len(success_deletions)
+        failed_count = len(failed_deletions)
+        total_count = len(image_names)
 
-            if res["status"] == "success":
-                success_msgs.append("Image {0} deleted successfully.".format(res["image"]))
-            else:
-                failure_msgs.append("Image {0} failed to delete.".format(res["image"]))
+        self.log("Deletion summary: {0} successful, {1} failed out of {2} total images".format(
+            success_count, failed_count, total_count), "INFO")
 
-        # Final decision
-        if success_msgs:
-            full_msg = " ".join(success_msgs + failure_msgs)
-            self.msg = full_msg
+        # Build final status message
+        status_parts = []
+
+        if success_deletions:
+            success_list = "', '".join(success_deletions)
+            status_parts.append("Successfully deleted image(s): '{0}'".format(success_list))
+
+        if failed_deletions:
+            failed_list = "', '".join(failed_deletions)
+            status_parts.append("Failed to delete image(s): '{0}'".format(failed_list))
+
+        final_message = ". ".join(status_parts) + "."
+
+        # Determine final operation status
+        if success_deletions and not failed_deletions:
+            # All deletions successful
+            self.msg = final_message
+            self.log("All image deletion operations completed successfully", "INFO")
             self.set_operation_result("success", True, self.msg, "INFO")
             return self
-        else:
-            full_msg = " ".join(failure_msgs)
-            self.msg = full_msg
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        if success_deletions and failed_deletions:
+            # Partial success
+            self.msg = final_message
+            self.log("Image deletion completed with partial success", "WARNING")
+            self.set_operation_result("success", True, self.msg, "WARNING")
+            return self
+
+        # All deletions failed
+        self.msg = final_message
+        self.log("All image deletion operations failed", "ERROR")
+        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        return self
 
     def verify_diff_deleted(self, config):
+        """
+        Verify the successful deletion of software images from Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            config (dict): A dictionary containing the configuration with image names to verify deletion.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function verifies that software images have been successfully deleted from Cisco Catalyst Center
+            by checking their existence status. It processes multiple images and provides comprehensive verification
+            results, logging the status of each image and providing a final summary of the verification process.
+        """
+        self.log("Initiating verification process for deleted software images from Cisco Catalyst Center", "DEBUG")
 
         image_names = config.get("image_name", [])
-        self.log("Image names to be deleted: {0}".format(image_names), "INFO")
+        self.log("Processing deletion verification for {0} image(s): {1}".format(len(image_names), image_names), "INFO")
+
+        verified_deleted = []
+        still_existing = []
 
         for image_name in image_names:
-            image_id = self.get_image_id_v1(image_name)
+            self.log("Verifying deletion status for image: '{0}'".format(image_name), "DEBUG")
+
+            image_id = self.get_image_id(image_name)
 
             if not image_id:
-                self.msg = "Image '{0}' does not exist in Cisco Catalyst Center. hence deletion has been verified".format(image_name)
-                self.log(self.msg, "INFO")
+                self.log("Verification successful: Image '{0}' no longer exists in Cisco Catalyst Center".format(image_name), "INFO")
+                verified_deleted.append(image_name)
             else:
-                self.msg = "Image '{0}' still exists in Cisco Catalyst Center. Deletion has not been verified.".format(image_name)
-                self.log(self.msg, "ERROR")
+                self.log("Verification failed: Image '{0}' still exists in Cisco Catalyst Center with ID '{1}'".format(image_name, image_id), "ERROR")
+                still_existing.append(image_name)
 
+        # Generate comprehensive verification summary
+        self.log("Deletion verification process completed - generating final status report", "DEBUG")
+
+        verified_count = len(verified_deleted)
+        existing_count = len(still_existing)
+        total_count = len(image_names)
+
+        self.log("Verification summary: {0} confirmed deleted, {1} still existing out of {2} total images".format(
+            verified_count, existing_count, total_count), "INFO")
+
+        # Build final status message
+        status_parts = []
+
+        if verified_deleted:
+            verified_list = "', '".join(verified_deleted)
+            status_parts.append("Successfully verified deletion of image(s): '{0}'".format(verified_list))
+
+        if still_existing:
+            existing_list = "', '".join(still_existing)
+            status_parts.append("Image(s) still exist and deletion not verified: '{0}'".format(existing_list))
+
+        final_message = ". ".join(status_parts) + "."
+
+        # Determine final verification status
+        if verified_deleted and not still_existing:
+            # All deletions verified successfully
+            self.msg = final_message
+            self.log("All image deletion operations have been successfully verified", "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO")
+            return self
+
+        if verified_deleted and still_existing:
+            # Partial verification success
+            self.msg = final_message
+            self.log("Image deletion verification completed with partial success", "WARNING")
+            self.set_operation_result("success", True, self.msg, "WARNING")
+            return self
+
+        # All verifications failed (all images still exist)
+        self.msg = final_message
+        self.log("All image deletion verification attempts failed - no images were successfully deleted", "ERROR")
+        self.set_operation_result("failed", False, self.msg, "ERROR")
         return self
 
     def update_swim_profile_messages(self):
