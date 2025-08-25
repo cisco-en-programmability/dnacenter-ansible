@@ -1027,17 +1027,6 @@ class AssuranceSettings(DnacBase):
         self.cmd_executed, self.cmd_not_executed, self.issue_processed = [], [], []
         self.no_issues = []
         self.keymap = dict(
-            source_ip="sourceIP",
-            dest_ip="destIP",
-            control_path="controlPath",
-            dest_port="destPort",
-            source_port="sourcePort",
-            periodic_refresh="periodicRefresh",
-            Interface="INTERFACE-STATS",
-            QoS="QOS-STATS",
-            Device="DEVICE-STATS",
-            Performance="PERFORMANCE-STATS",
-            ACL_Trace="ACL-TRACE",
             issue_name="name",
             start_datetime="start_time",
             end_datetime="end_time",
@@ -1828,7 +1817,7 @@ class AssuranceSettings(DnacBase):
             This function extracts assurance-related settings from the playbook configuration, including:
             - User-defined issue settings
             - System issue settings
-            - Issue resolution settings
+            - Issue resolution
             - Ignored issues
             - Execution of suggested commands
 
@@ -1856,12 +1845,19 @@ class AssuranceSettings(DnacBase):
             "assurance_system_issue_settings": config.get(
                 "assurance_system_issue_settings"
             ),
-            "assurance_issue_resolution": config.get("assurance_issue_resolution"),
-            "assurance_ignore_issue": config.get("assurance_ignore_issue"),
-            "assurance_execute_suggested_commands": config.get(
-                "assurance_execute_suggested_commands"
-            ),
+            "ignore_issue": [],
+            "issue_resolution": [],
+            "suggested_commands": [],
         }
+
+        if config.get("assurance_issue"):
+            for issue in config.get("assurance_issue", []):
+                if issue.get("issue_process_type") == "ignore":
+                    want["ignore_issue"].append(issue)
+                elif issue.get("issue_process_type") == "resolution":
+                    want["issue_resolution"].append(issue)
+                elif issue.get("issue_process_type") == "command_execution":
+                    want["suggested_commands"].append(issue)
 
         severity_mapping = {
             "Emergency": 0,
@@ -1936,7 +1932,7 @@ class AssuranceSettings(DnacBase):
         self.input_data_validation(config).check_return_status()
 
         self.want = want
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
 
         return self
 
@@ -1982,10 +1978,6 @@ class AssuranceSettings(DnacBase):
             self.get_have_assurance_system_issue(
                 assurance_system_issue_details
             ).check_return_status()
-
-        self.have["assurance_issue_resolution"] = config.get(
-            "assurance_issue_resolution"
-        )
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the system"
@@ -3420,12 +3412,11 @@ class AssuranceSettings(DnacBase):
             self.status = "failed"
             response = {}
 
-            for each_issue in assurance_issue:
-                issue_ids = self.get_issue_ids_for_names(each_issue)
-                if issue_ids and len(issue_ids) > 0:
-                    issue_type = each_issue.get("issue_process_type")
-
-                    if issue_type == "resolution":
+            issue_resolution = self.want.get("issue_resolution")
+            if issue_resolution:
+                for each_issue in issue_resolution:
+                    issue_ids = self.get_issue_ids_for_names(each_issue)
+                    if issue_ids:
                         response = self.resolve_issue(issue_ids)
 
                         if response and isinstance(response, dict):
@@ -3446,7 +3437,11 @@ class AssuranceSettings(DnacBase):
                                 "INFO",
                             )
 
-                    elif issue_type == "ignore":
+            ignore_issue = self.want.get("ignore_issue")
+            if ignore_issue:
+                for each_issue in ignore_issue:
+                    issue_ids = self.get_issue_ids_for_names(each_issue)
+                    if issue_ids:
                         response = None
                         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.10") < 0:
                             response = self.ignore_issue(issue_ids)
@@ -3472,7 +3467,11 @@ class AssuranceSettings(DnacBase):
                                 "INFO",
                             )
 
-                    elif issue_type == "command_execution":
+            suggested_commands = self.want.get("suggested_commands")
+            if suggested_commands:
+                for each_issue in suggested_commands:
+                    issue_ids = self.get_issue_ids_for_names(each_issue)
+                    if issue_ids:
                         response = self.execute_commands(issue_ids[0])
 
                         if response:
