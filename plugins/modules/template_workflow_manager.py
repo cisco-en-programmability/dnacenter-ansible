@@ -114,6 +114,7 @@ options:
                   can be applied to.
                 type: list
                 elements: dict
+                required: true
                 suboptions:
                   product_family:
                     description: Denotes the family
@@ -132,6 +133,7 @@ options:
                       - Voice and Telephony
                       - Wireless Controller
                     type: str
+                    required: true
                   product_series:
                     description: Specifies the series
                       classification of the device.
@@ -166,6 +168,13 @@ options:
                 description: Narrative that elaborates
                   on the purpose and scope of the project.
                 type: str
+              profiles:
+                description: List of profile names
+                  representing profiles associated with
+                  the Configuration Template during creation.
+                type: list
+                elements: str
+                required: false
               tags:
                 description: A list of dictionaries
                   representing tags associated with
@@ -1416,6 +1425,8 @@ EXAMPLES = r"""
           template_name: string
           project_name: string
           project_description: string
+          profiles:
+            - string
           software_type: string
           software_version: string
           tags:
@@ -1454,6 +1465,8 @@ EXAMPLES = r"""
           new_template_name: string
           project_name: string
           project_description: string
+          profiles:
+            - string
           software_type: string
           software_version: string
           tags:
@@ -1918,9 +1931,11 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     dnac_compare_equality,
     validate_str
 )
+from ansible_collections.cisco.dnac.plugins.module_utils.network_profiles import (
+    NetworkProfileFunctions,
+)
 
-
-class Template(DnacBase):
+class Template(NetworkProfileFunctions):
     """Class containing member attributes for template_workflow_manager module"""
 
     def __init__(self, module):
@@ -1986,6 +2001,7 @@ class Template(DnacBase):
                 "name": {"type": "str"},
                 "project_name": {"type": "str"},
                 "project_description": {"type": "str"},
+                "profiles": {"type": "list", "elements": "str"},
                 "software_type": {"type": "str"},
                 "software_version": {"type": "str"},
                 "template_content": {"type": "str"},
@@ -3027,6 +3043,165 @@ class Template(DnacBase):
         self.status = "success"
         return self
 
+    def get_profile_details(self, device_type, input_profiles, template_name):
+        """
+        Get profile id for the given profile names from Cisco Catalyst Center
+
+        Parameters:
+            device_type (str) - The type of device for which to retrieve profile details.
+            profiles (list) - List of profile names to retrieve details for.
+            template_name (str) - The name of the template for which to retrieve profile details.
+
+        Returns:
+            self - The current object with profile id and profile name
+            for template creation and update.
+        """
+        self.log(
+            "Collecting profile related information for the device: {0}, profiles: {1}".format(
+                device_type, profiles
+            ),
+            "INFO",
+        )
+
+        self.have["profile"], self.have["profile_list"] = [], []
+        offset = 1
+        limit = 500
+
+        resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+        resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
+        while resync_retry_count > 0:
+            profiles = None
+
+            if device_type == "Switches and Hubs":
+                profiles = self.get_network_profile("Switching", offset, limit)
+            elif device_type == "Wireless Controller":
+                profiles = self.get_network_profile("Wireless", offset, limit)
+            elif device_type == "Routers":
+                profiles = self.get_network_profile("Routing", offset, limit)
+            elif device_type == "Security and VPN":
+                profiles = self.get_network_profile("Firewall", offset, limit)
+            else:
+                profiles = self.get_network_profile("Assurance", offset, limit)
+
+            if not profiles:
+                self.log(
+                    "No data received from API (Offset={0}). Exiting pagination.".format(
+                        offset
+                    ),
+                    "DEBUG",
+                )
+                break
+
+            self.log(
+                "Received {0} profile(s) from API (Offset={1}).".format(
+                    len(profiles), offset
+                ),
+                "DEBUG",
+            )
+            self.have["profile_list"].extend(profiles)
+
+            if len(profiles) < limit:
+                self.log(
+                    "Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(
+                        limit
+                    ),
+                    "DEBUG",
+                )
+                break
+
+            offset += limit  # Increment offset for pagination
+            self.log(
+                "Incrementing offset to {0} for next API request.".format(offset),
+                "DEBUG",
+            )
+
+            self.log(
+                "Pauses execution for {0} seconds.".format(resync_retry_interval),
+                "INFO",
+            )
+            time.sleep(resync_retry_interval)
+            resync_retry_count = resync_retry_count - resync_retry_interval
+
+        if self.have["profile_list"]:
+            self.log(
+                "Total {0} profile(s) retrieved: {1}.".format(
+                    len(self.have["profile_list"]),
+                    self.pprint(self.have["profile_list"]),
+                ),
+                "DEBUG",
+            )
+        else:
+            self.log("No existing profile(s) found.", "WARNING")
+
+        self.have["current_profile"] = []
+        for each_profile in input_profiles:
+            profile_info = {"profile_name": each_profile}
+
+            if not self.value_exists(
+                self.have["profile_list"], "name", each_profile
+            ):
+                self.msg = "Given profile '{0}' does not exist in the Catalyst Center.".format(
+                    each_profile
+                )
+                self.log(self.msg, "DEBUG")
+                self.status = "failed"
+                return self
+
+            index_no = next(
+                (
+                    indexno
+                    for indexno, data in enumerate(self.have["profile_list"])
+                    if data.get("name") == each_profile
+                ),
+                -1,
+            )
+            profile_id = self.have["profile_list"][index_no]["id"]
+            profile_info["profile_id"] = profile_id
+
+            self.log(
+                "Getting templates for the profile: {0}".format(
+                    profile_info["profile_name"]
+                ),
+                "INFO",
+            )
+            template_detail = self.get_templates_for_profile(profile_id)
+            if not template_detail:
+                self.log(
+                    "No templates found for the profile: {0}".format(
+                        profile_info["profile_name"]
+                    ),
+                    "INFO",
+                )
+                profile_info["profile_status"] = "Not Assigned"
+                profile_info["template_name"] = template_name
+                self.have["current_profile"].append(profile_info)
+                continue
+
+            if not self.value_exists(template_detail, "name", template_name):
+                self.log(
+                    "Profile not assigned to the given template: {0}".format(
+                        profile_info["profile_name"]
+                    ),
+                    "INFO",
+                )
+                profile_info["profile_status"] = "Not Assigned"
+                profile_info["template_name"] = template_name
+                self.have["current_profile"].append(profile_info)
+                continue
+
+            self.log(
+                    "Profile already assigned to template: {0}".format(
+                        profile_info["profile_name"]
+                    ),
+                    "INFO",
+                )
+            profile_info["profile_status"] = "already assigned"
+            profile_info["template_name"] = template_name
+            self.have["current_profile"].append(profile_info)
+            continue
+
+        return self
+
     def get_have(self, config):
         """
         Get the current project and template details from Cisco Catalyst Center.
@@ -3047,6 +3222,22 @@ class Template(DnacBase):
             template_available = self.get_have_project(config)
             if template_available:
                 self.get_have_template(config, template_available)
+
+            if (
+                configuration_templates.get("profiles")
+                and configuration_templates.get("template_name")
+                and configuration_templates.get("device_type")
+            ):
+                device_type = configuration_templates.get("device_type")
+                if device_type:
+                    for each_type in device_type:
+                        each_family = each_type.get("product_family")
+                        self.get_profile_details(each_family,
+                                                 configuration_templates.get("profiles"),
+                                                 configuration_templates.get("template_name"))
+
+                self.have["current_profile"] = self.deduplicate_list_of_dict(
+                    self.have["current_profile"])
 
         project_config = config.get("projects", [])
         if project_config and isinstance(project_config, list):
@@ -4101,6 +4292,31 @@ class Template(DnacBase):
             self.log("Attempting to commit template '{0}' with ID '{1}'.".format(name, template_id), "INFO")
             self.commit_the_template(template_id, name).check_return_status()
             self.log("Template '{0}' committed successfully in the Cisco Catalyst Center.".format(name), "INFO")
+
+            profile_assigned_response = []
+            for each_profile in self.have.get("current_profile", []):
+                if (each_profile["template_name"] == name
+                    and each_profile.get("profile_status") == "Not Assigned"):
+                    self.log("Assigning profile '{0}' to template '{1}'.".format(
+                        each_profile["profile_name"], name), "INFO")
+
+                    template_status = self.attach_networkprofile_cli_template(
+                        each_profile["profile_name"], each_profile["profile_id"], name, template_id)
+
+                    if template_status.get("progress"):
+                        msg = "Profile '{0}' successfully attached to the template '{1}'.".format(
+                            each_profile["profile_name"], name
+                        )
+                        self.log(msg, "INFO")
+                        profile_assigned_response.append(msg)
+                    else:
+                        self.log("Failed to attach profile '{0}' to the template '{1}'.".format(
+                            each_profile["profile_name"], name), "ERROR")
+
+            if profile_assigned_response:
+                self.result["response"][1].get("profile").get("response").update(
+                    {"profileAssigned": profile_assigned_response}
+                )
 
         return self
 

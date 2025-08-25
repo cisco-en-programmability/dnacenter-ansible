@@ -799,3 +799,37 @@ class NetworkProfileFunctions(DnacBase):
                     seen.add(value)
 
         return list(duplicates)
+
+    def deduplicate_list_of_dict(self, list_of_dicts):
+        """
+        Removes duplicate dictionaries from a list.
+
+        Args:
+            list_of_dicts (list): A list of dictionaries to deduplicate.
+
+        Returns:
+            list: A list of unique dictionaries (duplicates removed).
+
+        Description:
+            Iterates through a list of dictionaries and removes duplicates based on their content.
+        """
+
+        self.log(
+            "Starting deduplication for list: {0}".format(self.pprint(list_of_dicts)),
+            "DEBUG",
+        )
+
+        seen = set()
+        unique_dicts = []
+        for d in list_of_dicts:
+            # Convert dictionary to a tuple of sorted items (temporary hashable representation)
+            identifier = tuple(sorted(d.items()))
+
+            if identifier not in seen:
+                seen.add(identifier)
+                # Append the original dict (not modified)
+                unique_dicts.append(d)
+
+        self.log("Deduplicated list: {0}".format(self.pprint(unique_dicts)), "DEBUG")
+
+        return unique_dicts
