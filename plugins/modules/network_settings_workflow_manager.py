@@ -3305,9 +3305,7 @@ class NetworkSettings(DnacBase):
                 })
                 for key in ["dhcpServers", "dnsServers", "gatewayIpAddress"]:
                     if address_space.get(key) is None and have_ippool.get("addressSpace").get(key) is not None:
-                        address_space[key] = have_ippool[key]
-                    else:
-                        address_space.pop(key)
+                        address_space[key] = have_ippool.get("addressSpace").get(key)
 
             want_ippool.append(pool_values)
             self.log(f"Processed pool values: {pool_values}", "DEBUG")
@@ -5100,6 +5098,15 @@ class NetworkSettings(DnacBase):
                 prev_name = item.get("prev_name")
                 self.log(f"Checking if global pool '{name}' (or previous name '{prev_name}') requires an update.", "DEBUG")
                 for pool_value in self.have.get("globalPool", []):
+                    if not pool_value.get("exists"):
+                        self.log(
+                            "Skipping global pool '{0}' as it does not exist".format(
+                                pool_name
+                            ),
+                            "DEBUG",
+                        )
+                        continue
+
                     pool_exists = pool_value.get("exists")
                     pool_name = pool_value.get("details", {}).get("name")
                     self.log(f"Evaluating existing global pool: {pool_name}, exists: {pool_exists}", "DEBUG")
