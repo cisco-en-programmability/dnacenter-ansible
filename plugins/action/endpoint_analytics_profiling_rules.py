@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,24 +32,26 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    ruleId=dict(type="str"),
-    ruleName=dict(type="str"),
-    ruleType=dict(type="str"),
-    ruleVersion=dict(type="int"),
-    rulePriority=dict(type="int"),
-    sourcePriority=dict(type="int"),
-    isDeleted=dict(type="bool"),
-    lastModifiedBy=dict(type="str"),
-    lastModifiedOn=dict(type="int"),
-    pluginId=dict(type="str"),
-    clusterId=dict(type="str"),
-    rejected=dict(type="bool"),
-    result=dict(type="dict"),
-    conditionGroups=dict(type="dict"),
-    usedAttributes=dict(type="list"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        ruleId=dict(type="str"),
+        ruleName=dict(type="str"),
+        ruleType=dict(type="str"),
+        ruleVersion=dict(type="int"),
+        rulePriority=dict(type="int"),
+        sourcePriority=dict(type="int"),
+        isDeleted=dict(type="bool"),
+        lastModifiedBy=dict(type="str"),
+        lastModifiedOn=dict(type="int"),
+        pluginId=dict(type="str"),
+        clusterId=dict(type="str"),
+        rejected=dict(type="bool"),
+        result=dict(type="dict"),
+        conditionGroups=dict(type="dict"),
+        usedAttributes=dict(type="list"),
+    )
+)
 
 required_if = [
     ("state", "present", ["ruleId"], True),
@@ -81,68 +86,61 @@ class EndpointAnalyticsProfilingRules(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['rule_type'] = self.new_object.get('ruleType') or \
-            self.new_object.get('rule_type')
-        new_object_params['include_deleted'] = self.new_object.get(
-            'includeDeleted') or self.new_object.get('include_deleted')
-        new_object_params['limit'] = self.new_object.get('limit')
-        new_object_params['offset'] = self.new_object.get('offset')
-        new_object_params['sort_by'] = self.new_object.get('sortBy') or \
-            self.new_object.get('sort_by')
-        new_object_params['order'] = self.new_object.get('order')
+        new_object_params["rule_type"] = self.new_object.get(
+            "ruleType"
+        ) or self.new_object.get("rule_type")
+        new_object_params["include_deleted"] = self.new_object.get(
+            "includeDeleted"
+        ) or self.new_object.get("include_deleted")
+        new_object_params["limit"] = self.new_object.get("limit")
+        new_object_params["offset"] = self.new_object.get("offset")
+        new_object_params["sort_by"] = self.new_object.get(
+            "sortBy"
+        ) or self.new_object.get("sort_by")
+        new_object_params["order"] = self.new_object.get("order")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['ruleId'] = self.new_object.get('ruleId')
-        new_object_params['ruleName'] = self.new_object.get('ruleName')
-        new_object_params['ruleType'] = self.new_object.get('ruleType')
-        new_object_params['ruleVersion'] = self.new_object.get('ruleVersion')
-        new_object_params['rulePriority'] = self.new_object.get('rulePriority')
-        new_object_params['sourcePriority'] = self.new_object.get(
-            'sourcePriority')
-        new_object_params['isDeleted'] = self.new_object.get('isDeleted')
-        new_object_params['lastModifiedBy'] = self.new_object.get(
-            'lastModifiedBy')
-        new_object_params['lastModifiedOn'] = self.new_object.get(
-            'lastModifiedOn')
-        new_object_params['pluginId'] = self.new_object.get('pluginId')
-        new_object_params['clusterId'] = self.new_object.get('clusterId')
-        new_object_params['rejected'] = self.new_object.get('rejected')
-        new_object_params['result'] = self.new_object.get('result')
-        new_object_params['conditionGroups'] = self.new_object.get(
-            'conditionGroups')
-        new_object_params['usedAttributes'] = self.new_object.get(
-            'usedAttributes')
+        new_object_params["ruleId"] = self.new_object.get("ruleId")
+        new_object_params["ruleName"] = self.new_object.get("ruleName")
+        new_object_params["ruleType"] = self.new_object.get("ruleType")
+        new_object_params["ruleVersion"] = self.new_object.get("ruleVersion")
+        new_object_params["rulePriority"] = self.new_object.get("rulePriority")
+        new_object_params["sourcePriority"] = self.new_object.get("sourcePriority")
+        new_object_params["isDeleted"] = self.new_object.get("isDeleted")
+        new_object_params["lastModifiedBy"] = self.new_object.get("lastModifiedBy")
+        new_object_params["lastModifiedOn"] = self.new_object.get("lastModifiedOn")
+        new_object_params["pluginId"] = self.new_object.get("pluginId")
+        new_object_params["clusterId"] = self.new_object.get("clusterId")
+        new_object_params["rejected"] = self.new_object.get("rejected")
+        new_object_params["result"] = self.new_object.get("result")
+        new_object_params["conditionGroups"] = self.new_object.get("conditionGroups")
+        new_object_params["usedAttributes"] = self.new_object.get("usedAttributes")
         return new_object_params
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['rule_id'] = self.new_object.get('rule_id')
+        new_object_params["rule_id"] = self.new_object.get("rule_id")
         return new_object_params
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params['ruleId'] = self.new_object.get('ruleId')
-        new_object_params['ruleName'] = self.new_object.get('ruleName')
-        new_object_params['ruleType'] = self.new_object.get('ruleType')
-        new_object_params['ruleVersion'] = self.new_object.get('ruleVersion')
-        new_object_params['rulePriority'] = self.new_object.get('rulePriority')
-        new_object_params['sourcePriority'] = self.new_object.get(
-            'sourcePriority')
-        new_object_params['isDeleted'] = self.new_object.get('isDeleted')
-        new_object_params['lastModifiedBy'] = self.new_object.get(
-            'lastModifiedBy')
-        new_object_params['lastModifiedOn'] = self.new_object.get(
-            'lastModifiedOn')
-        new_object_params['pluginId'] = self.new_object.get('pluginId')
-        new_object_params['clusterId'] = self.new_object.get('clusterId')
-        new_object_params['rejected'] = self.new_object.get('rejected')
-        new_object_params['result'] = self.new_object.get('result')
-        new_object_params['conditionGroups'] = self.new_object.get(
-            'conditionGroups')
-        new_object_params['usedAttributes'] = self.new_object.get(
-            'usedAttributes')
+        new_object_params["ruleId"] = self.new_object.get("ruleId")
+        new_object_params["ruleName"] = self.new_object.get("ruleName")
+        new_object_params["ruleType"] = self.new_object.get("ruleType")
+        new_object_params["ruleVersion"] = self.new_object.get("ruleVersion")
+        new_object_params["rulePriority"] = self.new_object.get("rulePriority")
+        new_object_params["sourcePriority"] = self.new_object.get("sourcePriority")
+        new_object_params["isDeleted"] = self.new_object.get("isDeleted")
+        new_object_params["lastModifiedBy"] = self.new_object.get("lastModifiedBy")
+        new_object_params["lastModifiedOn"] = self.new_object.get("lastModifiedOn")
+        new_object_params["pluginId"] = self.new_object.get("pluginId")
+        new_object_params["clusterId"] = self.new_object.get("clusterId")
+        new_object_params["rejected"] = self.new_object.get("rejected")
+        new_object_params["result"] = self.new_object.get("result")
+        new_object_params["conditionGroups"] = self.new_object.get("conditionGroups")
+        new_object_params["usedAttributes"] = self.new_object.get("usedAttributes")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -155,9 +153,9 @@ class EndpointAnalyticsProfilingRules(object):
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
-                if 'profilingRules' in items:
-                    items = items.get('profilingRules')
-            result = get_dict_result(items, 'name', name)
+                if "profilingRules" in items:
+                    items = items.get("profilingRules")
+            result = get_dict_result(items, "name", name)
         except Exception:
             result = None
         return result
@@ -168,12 +166,12 @@ class EndpointAnalyticsProfilingRules(object):
             items = self.dnac.exec(
                 family="ai_endpoint_analytics",
                 function="get_details_of_a_single_profiling_rule",
-                params={"rule_id": id}
+                params={"rule_id": id},
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'ruleId', id)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "ruleId", id)
         except Exception:
             result = None
         return result
@@ -196,7 +194,8 @@ class EndpointAnalyticsProfilingRules(object):
             _id = _id or prev_obj.get("ruleId")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(rule_id=_id))
@@ -228,9 +227,12 @@ class EndpointAnalyticsProfilingRules(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def create(self):
         result = self.dnac.exec(
@@ -287,7 +289,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

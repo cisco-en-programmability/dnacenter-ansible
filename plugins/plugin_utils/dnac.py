@@ -4,7 +4,7 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 try:
@@ -74,9 +74,13 @@ def dnac_compare_equality(current_value, requested_value):
     if current_value is None:
         return True
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
-        all_dict_params = list(current_value.keys()) + \
-            list(requested_value.keys())
-        return not any((not fn_comp_key(param, current_value, requested_value) for param in all_dict_params))
+        all_dict_params = list(current_value.keys()) + list(requested_value.keys())
+        return not any(
+            (
+                not fn_comp_key(param, current_value, requested_value)
+                for param in all_dict_params
+            )
+        )
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
     else:
@@ -97,9 +101,13 @@ def dnac_compare_equality2(current_value, requested_value, is_query_param=False)
     if current_value is None:
         return False
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
-        all_dict_params = list(current_value.keys()) + \
-            list(requested_value.keys())
-        return not any((not fn_comp_key2(param, current_value, requested_value) for param in all_dict_params))
+        all_dict_params = list(current_value.keys()) + list(requested_value.keys())
+        return not any(
+            (
+                not fn_comp_key2(param, current_value, requested_value)
+                for param in all_dict_params
+            )
+        )
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
     else:
@@ -121,7 +129,9 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
                 result = None
         else:
             for item in result:
-                if isinstance(item, dict) and (item.get(key) is None or item.get(key) == value):
+                if isinstance(item, dict) and (
+                    item.get(key) is None or item.get(key) == value
+                ):
                     result = item
                     return result
             result = None
@@ -134,22 +144,38 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def dnac_argument_spec():
     argument_spec = dict(
-        dnac_host=dict(type="str", fallback=(
-            env_fallback, ['DNAC_HOST']), required=True),
-        dnac_port=dict(type="int", fallback=(
-            env_fallback, ['DNAC_PORT']), required=False, default=443),
-        dnac_username=dict(type="str", fallback=(
-            env_fallback, ['DNAC_USERNAME']), default="admin", aliases=["user"]),
-        dnac_password=dict(type="str", fallback=(
-            env_fallback, ['DNAC_PASSWORD']), no_log=True),
-        dnac_verify=dict(type="bool", fallback=(
-            env_fallback, ['DNAC_VERIFY']), default=True),
-        dnac_version=dict(type="str", fallback=(
-            env_fallback, ['DNAC_VERSION']), default="2.3.7.6"),
-        dnac_debug=dict(type="bool", fallback=(
-            env_fallback, ['DNAC_DEBUG']), default=False),
-        validate_response_schema=dict(type="bool", fallback=(
-            env_fallback, ['VALIDATE_RESPONSE_SCHEMA']), default=True),
+        dnac_host=dict(
+            type="str", fallback=(env_fallback, ["DNAC_HOST"]), required=True
+        ),
+        dnac_port=dict(
+            type="int",
+            fallback=(env_fallback, ["DNAC_PORT"]),
+            required=False,
+            default=443,
+        ),
+        dnac_username=dict(
+            type="str",
+            fallback=(env_fallback, ["DNAC_USERNAME"]),
+            default="admin",
+            aliases=["user"],
+        ),
+        dnac_password=dict(
+            type="str", fallback=(env_fallback, ["DNAC_PASSWORD"]), no_log=True
+        ),
+        dnac_verify=dict(
+            type="bool", fallback=(env_fallback, ["DNAC_VERIFY"]), default=True
+        ),
+        dnac_version=dict(
+            type="str", fallback=(env_fallback, ["DNAC_VERSION"]), default="2.3.7.6"
+        ),
+        dnac_debug=dict(
+            type="bool", fallback=(env_fallback, ["DNAC_DEBUG"]), default=False
+        ),
+        validate_response_schema=dict(
+            type="bool",
+            fallback=(env_fallback, ["VALIDATE_RESPONSE_SCHEMA"]),
+            default=True,
+        ),
     )
     return argument_spec
 
@@ -170,11 +196,11 @@ class DNACSDK(object):
                 debug=params.get("dnac_debug"),
             )
             if params.get("dnac_debug") and LOGGING_IN_STANDARD:
-                logging.getLogger('dnacentersdk').addHandler(
-                    logging.StreamHandler())
+                logging.getLogger("dnacentersdk").addHandler(logging.StreamHandler())
         else:
             self.fail_json(
-                msg="DNA Center Python SDK is not installed. Execute 'pip install dnacentersdk'")
+                msg="DNA Center Python SDK is not installed. Execute 'pip install dnacentersdk'"
+            )
 
     def changed(self):
         self.result["changed"] = True
@@ -198,7 +224,9 @@ class DNACSDK(object):
         self.result["result"] = "Object already present"
 
     def object_present_and_different(self):
-        self.result["result"] = "Object already present, but it has different values to the requested"
+        self.result["result"] = (
+            "Object already present, but it has different values to the requested"
+        )
 
     def object_modify_result(self, changed=None, result=None):
         if result is not None:
@@ -221,16 +249,17 @@ class DNACSDK(object):
 
         try:
             if params:
-                file_paths_params = kwargs.get('file_paths', [])
+                file_paths_params = kwargs.get("file_paths", [])
                 # This substitution is for the import file operation
                 if file_paths_params and isinstance(file_paths_params, list):
                     multipart_fields = {}
-                    for (key, value) in file_paths_params:
-                        if isinstance(params.get(key), str) and self.is_file(params[key]):
+                    for key, value in file_paths_params:
+                        if isinstance(params.get(key), str) and self.is_file(
+                            params[key]
+                        ):
                             file_name = self.extract_file_name(params[key])
                             file_path = params[key]
-                            multipart_fields[value] = (
-                                file_name, open(file_path, 'rb'))
+                            multipart_fields[value] = (file_name, open(file_path, "rb"))
 
                     params.setdefault("multipart_fields", multipart_fields)
                     params.setdefault("multipart_monitor_callback", None)
@@ -240,11 +269,13 @@ class DNACSDK(object):
 
                 response = func(**params)
 
-                self.result.update({
-                    'status': ANSIBLE_SUCCESS_STATUS,
-                    'failed': False,
-                    'msg': None,
-                })
+                self.result.update(
+                    {
+                        "status": ANSIBLE_SUCCESS_STATUS,
+                        "failed": False,
+                        "msg": None,
+                    }
+                )
             else:
                 response = func()
         except exceptions.dnacentersdkException as e:
@@ -253,18 +284,20 @@ class DNACSDK(object):
                     "An error occured when executing operation."
                     " The error was: {error}"
                 ).format(error=to_native(e)),
-                status=e.status_code
+                status=e.status_code,
             )
             response = None
         return response
 
     def fail_json(self, msg, **kwargs):
-        self.result.update({
-            'failed': True,
-            'changed': False,
-            'status': kwargs.get('status'),
-            'msg': msg,
-        })
+        self.result.update(
+            {
+                "failed": True,
+                "changed": False,
+                "status": kwargs.get("status"),
+                "msg": msg,
+            }
+        )
         return self.result
 
     def exit_json(self):

@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -29,31 +32,33 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    state=dict(type="str", default="present", choices=["present", "absent"]),
-    name=dict(type="str"),
-    type=dict(type="str"),
-    ipv6AddressSpace=dict(type="bool"),
-    ipv4GlobalPool=dict(type="str"),
-    ipv4Prefix=dict(type="bool"),
-    ipv4PrefixLength=dict(type="int"),
-    ipv4Subnet=dict(type="str"),
-    ipv4GateWay=dict(type="str"),
-    ipv4DhcpServers=dict(type="list"),
-    ipv4DnsServers=dict(type="list"),
-    ipv6GlobalPool=dict(type="str"),
-    ipv6Prefix=dict(type="bool"),
-    ipv6PrefixLength=dict(type="int"),
-    ipv6Subnet=dict(type="str"),
-    ipv6GateWay=dict(type="str"),
-    ipv6DhcpServers=dict(type="list"),
-    ipv6DnsServers=dict(type="list"),
-    ipv4TotalHost=dict(type="int"),
-    ipv6TotalHost=dict(type="int"),
-    slaacSupport=dict(type="bool"),
-    siteId=dict(type="str"),
-    id=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        state=dict(type="str", default="present", choices=["present", "absent"]),
+        name=dict(type="str"),
+        type=dict(type="str"),
+        ipv6AddressSpace=dict(type="bool"),
+        ipv4GlobalPool=dict(type="str"),
+        ipv4Prefix=dict(type="bool"),
+        ipv4PrefixLength=dict(type="int"),
+        ipv4Subnet=dict(type="str"),
+        ipv4GateWay=dict(type="str"),
+        ipv4DhcpServers=dict(type="list"),
+        ipv4DnsServers=dict(type="list"),
+        ipv6GlobalPool=dict(type="str"),
+        ipv6Prefix=dict(type="bool"),
+        ipv6PrefixLength=dict(type="int"),
+        ipv6Subnet=dict(type="str"),
+        ipv6GateWay=dict(type="str"),
+        ipv6DhcpServers=dict(type="list"),
+        ipv6DnsServers=dict(type="list"),
+        ipv4TotalHost=dict(type="int"),
+        ipv6TotalHost=dict(type="int"),
+        slaacSupport=dict(type="bool"),
+        siteId=dict(type="str"),
+        id=dict(type="str"),
+    )
+)
 
 required_if = [
     ("state", "present", ["id", "name", "siteId"], True),
@@ -94,87 +99,72 @@ class ReserveIpSubpool(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['site_id'] = self.new_object.get('siteId') or \
-            self.new_object.get('site_id')
-        new_object_params['offset'] = self.new_object.get('offset')
-        new_object_params['limit'] = self.new_object.get('limit')
-        new_object_params['ignore_inherited_groups'] = self.new_object.get(
-            'ignoreInheritedGroups') or self.new_object.get('ignore_inherited_groups')
-        new_object_params['pool_usage'] = self.new_object.get('poolUsage') or \
-            self.new_object.get('pool_usage')
-        new_object_params['group_name'] = self.new_object.get('groupName') or \
-            self.new_object.get('group_name')
+        new_object_params["site_id"] = self.new_object.get(
+            "siteId"
+        ) or self.new_object.get("site_id")
+        new_object_params["offset"] = self.new_object.get("offset")
+        new_object_params["limit"] = self.new_object.get("limit")
+        new_object_params["ignore_inherited_groups"] = self.new_object.get(
+            "ignoreInheritedGroups"
+        ) or self.new_object.get("ignore_inherited_groups")
+        new_object_params["pool_usage"] = self.new_object.get(
+            "poolUsage"
+        ) or self.new_object.get("pool_usage")
+        new_object_params["group_name"] = self.new_object.get(
+            "groupName"
+        ) or self.new_object.get("group_name")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['name'] = self.new_object.get('name')
-        new_object_params['type'] = self.new_object.get('type')
-        new_object_params['ipv6AddressSpace'] = self.new_object.get(
-            'ipv6AddressSpace')
-        new_object_params['ipv4GlobalPool'] = self.new_object.get(
-            'ipv4GlobalPool')
-        new_object_params['ipv4Prefix'] = self.new_object.get('ipv4Prefix')
-        new_object_params['ipv4PrefixLength'] = self.new_object.get(
-            'ipv4PrefixLength')
-        new_object_params['ipv4Subnet'] = self.new_object.get('ipv4Subnet')
-        new_object_params['ipv4GateWay'] = self.new_object.get('ipv4GateWay')
-        new_object_params['ipv4DhcpServers'] = self.new_object.get(
-            'ipv4DhcpServers')
-        new_object_params['ipv4DnsServers'] = self.new_object.get(
-            'ipv4DnsServers')
-        new_object_params['ipv6GlobalPool'] = self.new_object.get(
-            'ipv6GlobalPool')
-        new_object_params['ipv6Prefix'] = self.new_object.get('ipv6Prefix')
-        new_object_params['ipv6PrefixLength'] = self.new_object.get(
-            'ipv6PrefixLength')
-        new_object_params['ipv6Subnet'] = self.new_object.get('ipv6Subnet')
-        new_object_params['ipv6GateWay'] = self.new_object.get('ipv6GateWay')
-        new_object_params['ipv6DhcpServers'] = self.new_object.get(
-            'ipv6DhcpServers')
-        new_object_params['ipv6DnsServers'] = self.new_object.get(
-            'ipv6DnsServers')
-        new_object_params['ipv4TotalHost'] = self.new_object.get(
-            'ipv4TotalHost')
-        new_object_params['ipv6TotalHost'] = self.new_object.get(
-            'ipv6TotalHost')
-        new_object_params['slaacSupport'] = self.new_object.get('slaacSupport')
-        new_object_params['siteId'] = self.new_object.get('siteId')
-        new_object_params['site_id'] = self.new_object.get('site_id')
+        new_object_params["name"] = self.new_object.get("name")
+        new_object_params["type"] = self.new_object.get("type")
+        new_object_params["ipv6AddressSpace"] = self.new_object.get("ipv6AddressSpace")
+        new_object_params["ipv4GlobalPool"] = self.new_object.get("ipv4GlobalPool")
+        new_object_params["ipv4Prefix"] = self.new_object.get("ipv4Prefix")
+        new_object_params["ipv4PrefixLength"] = self.new_object.get("ipv4PrefixLength")
+        new_object_params["ipv4Subnet"] = self.new_object.get("ipv4Subnet")
+        new_object_params["ipv4GateWay"] = self.new_object.get("ipv4GateWay")
+        new_object_params["ipv4DhcpServers"] = self.new_object.get("ipv4DhcpServers")
+        new_object_params["ipv4DnsServers"] = self.new_object.get("ipv4DnsServers")
+        new_object_params["ipv6GlobalPool"] = self.new_object.get("ipv6GlobalPool")
+        new_object_params["ipv6Prefix"] = self.new_object.get("ipv6Prefix")
+        new_object_params["ipv6PrefixLength"] = self.new_object.get("ipv6PrefixLength")
+        new_object_params["ipv6Subnet"] = self.new_object.get("ipv6Subnet")
+        new_object_params["ipv6GateWay"] = self.new_object.get("ipv6GateWay")
+        new_object_params["ipv6DhcpServers"] = self.new_object.get("ipv6DhcpServers")
+        new_object_params["ipv6DnsServers"] = self.new_object.get("ipv6DnsServers")
+        new_object_params["ipv4TotalHost"] = self.new_object.get("ipv4TotalHost")
+        new_object_params["ipv6TotalHost"] = self.new_object.get("ipv6TotalHost")
+        new_object_params["slaacSupport"] = self.new_object.get("slaacSupport")
+        new_object_params["siteId"] = self.new_object.get("siteId")
+        new_object_params["site_id"] = self.new_object.get("site_id")
         return new_object_params
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['id'] = self.new_object.get('id')
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params['name'] = self.new_object.get('name')
-        new_object_params['ipv6AddressSpace'] = self.new_object.get(
-            'ipv6AddressSpace')
-        new_object_params['ipv4DhcpServers'] = self.new_object.get(
-            'ipv4DhcpServers')
-        new_object_params['ipv4DnsServers'] = self.new_object.get(
-            'ipv4DnsServers')
-        new_object_params['ipv6GlobalPool'] = self.new_object.get(
-            'ipv6GlobalPool')
-        new_object_params['ipv6Prefix'] = self.new_object.get('ipv6Prefix')
-        new_object_params['ipv6PrefixLength'] = self.new_object.get(
-            'ipv6PrefixLength')
-        new_object_params['ipv6Subnet'] = self.new_object.get('ipv6Subnet')
-        new_object_params['ipv6TotalHost'] = self.new_object.get(
-            'ipv6TotalHost')
-        new_object_params['ipv6GateWay'] = self.new_object.get('ipv6GateWay')
-        new_object_params['ipv6DhcpServers'] = self.new_object.get(
-            'ipv6DhcpServers')
-        new_object_params['ipv6DnsServers'] = self.new_object.get(
-            'ipv6DnsServers')
-        new_object_params['slaacSupport'] = self.new_object.get('slaacSupport')
-        new_object_params['ipv4GateWay'] = self.new_object.get('ipv4GateWay')
-        new_object_params['siteId'] = self.new_object.get('siteId')
-        new_object_params['id'] = self.new_object.get('id')
-        new_object_params['site_id'] = self.new_object.get('site_id')
+        new_object_params["name"] = self.new_object.get("name")
+        new_object_params["ipv6AddressSpace"] = self.new_object.get("ipv6AddressSpace")
+        new_object_params["ipv4DhcpServers"] = self.new_object.get("ipv4DhcpServers")
+        new_object_params["ipv4DnsServers"] = self.new_object.get("ipv4DnsServers")
+        new_object_params["ipv6GlobalPool"] = self.new_object.get("ipv6GlobalPool")
+        new_object_params["ipv6Prefix"] = self.new_object.get("ipv6Prefix")
+        new_object_params["ipv6PrefixLength"] = self.new_object.get("ipv6PrefixLength")
+        new_object_params["ipv6Subnet"] = self.new_object.get("ipv6Subnet")
+        new_object_params["ipv6TotalHost"] = self.new_object.get("ipv6TotalHost")
+        new_object_params["ipv6GateWay"] = self.new_object.get("ipv6GateWay")
+        new_object_params["ipv6DhcpServers"] = self.new_object.get("ipv6DhcpServers")
+        new_object_params["ipv6DnsServers"] = self.new_object.get("ipv6DnsServers")
+        new_object_params["slaacSupport"] = self.new_object.get("slaacSupport")
+        new_object_params["ipv4GateWay"] = self.new_object.get("ipv4GateWay")
+        new_object_params["siteId"] = self.new_object.get("siteId")
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["site_id"] = self.new_object.get("site_id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -187,9 +177,9 @@ class ReserveIpSubpool(object):
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "name", name)
         except Exception:
             result = None
         return result
@@ -204,9 +194,9 @@ class ReserveIpSubpool(object):
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'id', id)
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
         except Exception:
             result = None
         return result
@@ -229,7 +219,8 @@ class ReserveIpSubpool(object):
             _id = _id or prev_obj.get("siteId")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(site_id=_id))
@@ -265,9 +256,12 @@ class ReserveIpSubpool(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
+            for (dnac_param, ansible_param) in obj_params
+        )
 
     def create(self):
         result = self.dnac.exec(
@@ -324,7 +318,8 @@ class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
             raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

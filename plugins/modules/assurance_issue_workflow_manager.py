@@ -361,7 +361,7 @@ options:
               the health threshold. Accepts "true" or
               "false".
             type: bool
-            required: true
+            required: false
           priority:
             description: >
               Specifies the priority level of the issue.
@@ -391,7 +391,7 @@ options:
               Must not exceed 0 dBm, meaning it should
               be a negative value.
             type: int
-            required: true
+            required: false
       assurance_issue:
         description: >
           Allow to resolve, ignore, or execute commands
@@ -420,6 +420,19 @@ options:
               Executes commands to address the issue.
             type: str
             required: true
+          ignore_duration:
+            description: >
+                Specifies how long to ignore the issue. The value is a string with a numeric
+                value followed by a time unit suffix. Supported units:
+                - 'h' for hours (e.g., '1h' for 1 hour, '24h' for 24 hours).
+                - 'd' for days (e.g., '3d' for 3 days, '30d' for 30 days).
+                The range is from '1h' to '30d'. The default value is '24h'.
+                This parameter is available from Cisco Catalyst Center version 2.3.7.10 onwards.
+                Example valid values: '1h', '3d', '24h'.
+                Example invalid values: '24', '3days', 'h3', '0h', '31d', '2.5h'.
+            type: str
+            required: false
+            default: 24h
           start_datetime:
             description: >
               A filter to select issues that started
@@ -807,6 +820,7 @@ EXAMPLES = r"""
               - issue_name: Fabric BGP session status
                   is down with Peer Device  # required field
                 issue_process_type: ignore  # required field
+                ignore_duration: 4h
                 start_datetime: "2024-12-11 16:00:00"  # optional field
                 end_datetime: "2024-12-11 18:30:00"  # optional field
                 site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
@@ -1011,18 +1025,8 @@ class AssuranceSettings(DnacBase):
         self.success_list_resolved, self.failed_list_resolved = [], []
         self.success_list_ignored, self.failed_list_ignored = [], []
         self.cmd_executed, self.cmd_not_executed, self.issue_processed = [], [], []
+        self.no_issues = []
         self.keymap = dict(
-            source_ip="sourceIP",
-            dest_ip="destIP",
-            control_path="controlPath",
-            dest_port="destPort",
-            source_port="sourcePort",
-            periodic_refresh="periodicRefresh",
-            Interface="INTERFACE-STATS",
-            QoS="QOS-STATS",
-            Device="DEVICE-STATS",
-            Performance="PERFORMANCE-STATS",
-            ACL_Trace="ACL-TRACE",
             issue_name="name",
             start_datetime="start_time",
             end_datetime="end_time",
@@ -1091,8 +1095,8 @@ class AssuranceSettings(DnacBase):
                 "issue_enabled": {"type": "bool"},
                 "device_type": {"type": "str", "required": True},
                 "priority": {"type": "str", "choices": ["P1", "P2", "P3", "P4"]},
-                "synchronize_to_health_threshold": {"type": "bool"},
-                "threshold_value": {"type": int},
+                "synchronize_to_health_threshold": {"type": "bool", "required": False},
+                "threshold_value": {"type": int, "required": False},
             },
             "assurance_issue": {
                 "type": "list",
@@ -1103,6 +1107,7 @@ class AssuranceSettings(DnacBase):
                     "choices": ["resolution", "ignore", "command_execution"],
                     "required": True,
                 },
+                "ignore_duration": {"type": "str", "required": False},
                 "start_datetime": {"type": "str", "required": False},
                 "end_datetime": {"type": "str", "required": False},
                 "site_hierarchy": {"type": "str", "required": False},
@@ -1195,6 +1200,14 @@ class AssuranceSettings(DnacBase):
                     errormsg.append(
                         "issue_process_type: issue process type is missing in playbook."
                     )
+
+                ignore_duration = each_issue.get("ignore_duration")
+                if ignore_duration:
+                    if not self.validate_ignore_duration(ignore_duration):
+                        errormsg.append(
+                            "ignore_duration: Invalid Ignore Duration '{0}' in playbook. "
+                            "valid duration: '1h' to '30d'.".format(
+                                ignore_duration))
 
                 site_hierarchy = each_issue.get("site_hierarchy")
                 if site_hierarchy:
@@ -1569,6 +1582,62 @@ class AssuranceSettings(DnacBase):
         self.log(self.msg, "INFO")
         return self
 
+    def validate_ignore_duration(self, duration: str) -> bool:
+        """
+        Validates that the ignore duration ends with 'h' or 'd'
+        and is preceded by an integer between 1 and 720.
+
+        Parameters:
+            duration (str): String containing the duration, with a numeric value
+                            followed by 'h' (hours) or 'd' (days).
+                            Examples of valid inputs: '1h', '24d', '720h'.
+
+        Returns:
+            bool: True if the duration is valid, False otherwise.
+
+        Examples:
+            Valid inputs:
+                - '1h', '24d', '720h'
+            Invalid inputs:
+                - '0h' (out of range)
+                - '31d' (out of range)
+                - '720' (missing unit)
+                - '1x' (invalid unit)
+                - 720 (not a string)
+        """
+        self.log("Validation the ignore duration: {0}.".format(
+            duration
+        ))
+
+        if not isinstance(duration, str) or len(duration) < 2:
+            self.log("Ignore duration '{0}' is invalid: Must be a string and at least 2 characters long.".format(
+                duration), "ERROR")
+            return False
+
+        unit = duration[-1]
+        number_part = duration[:-1]
+
+        if unit not in ('h', 'd'):
+            self.log("Ignore duration '{0}' is invalid: Unit must be 'h' (hours) or 'd' (days).".format(
+                duration), "ERROR")
+            return False
+
+        if not number_part.isdigit():
+            self.log("Ignore duration '{0}' is invalid: Must start with a numeric value.".format(
+                duration), "ERROR")
+            return False
+
+        number = int(number_part)
+        if (unit == 'd' and 1 <= number <= 30) or (
+           unit == 'h' and 1 <= number <= 720):
+            self.log("Ignore duration '{0}' is valid.".format(
+                duration), "INFO")
+            return True
+
+        self.log("Ignore duration '{0}' is invalid: Value out of range.".format(
+            duration), "ERROR")
+        return False
+
     def validate_start_end_datetime(self, start_time, end_time, errormsg):
         """
         Validate the start and end Date time param from the input playbook
@@ -1748,7 +1817,7 @@ class AssuranceSettings(DnacBase):
             This function extracts assurance-related settings from the playbook configuration, including:
             - User-defined issue settings
             - System issue settings
-            - Issue resolution settings
+            - Issue resolution
             - Ignored issues
             - Execution of suggested commands
 
@@ -1776,12 +1845,19 @@ class AssuranceSettings(DnacBase):
             "assurance_system_issue_settings": config.get(
                 "assurance_system_issue_settings"
             ),
-            "assurance_issue_resolution": config.get("assurance_issue_resolution"),
-            "assurance_ignore_issue": config.get("assurance_ignore_issue"),
-            "assurance_execute_suggested_commands": config.get(
-                "assurance_execute_suggested_commands"
-            ),
+            "ignore_issue": [],
+            "issue_resolution": [],
+            "suggested_commands": [],
         }
+
+        if config.get("assurance_issue"):
+            for issue in config.get("assurance_issue", []):
+                if issue.get("issue_process_type") == "ignore":
+                    want["ignore_issue"].append(issue)
+                elif issue.get("issue_process_type") == "resolution":
+                    want["issue_resolution"].append(issue)
+                elif issue.get("issue_process_type") == "command_execution":
+                    want["suggested_commands"].append(issue)
 
         severity_mapping = {
             "Emergency": 0,
@@ -1856,7 +1932,7 @@ class AssuranceSettings(DnacBase):
         self.input_data_validation(config).check_return_status()
 
         self.want = want
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
 
         return self
 
@@ -1902,10 +1978,6 @@ class AssuranceSettings(DnacBase):
             self.get_have_assurance_system_issue(
                 assurance_system_issue_details
             ).check_return_status()
-
-        self.have["assurance_issue_resolution"] = config.get(
-            "assurance_issue_resolution"
-        )
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the system"
@@ -2380,6 +2452,8 @@ class AssuranceSettings(DnacBase):
                     str(payload_data)
                 )
                 self.log(self.msg, "INFO")
+                self.changed = False
+                self.status = "success"
 
         except Exception as e:
             self.msg = "An error occurred during get issue ids : {0}".format(str(e))
@@ -2394,8 +2468,12 @@ class AssuranceSettings(DnacBase):
             self.log("Successfully retrieved issue IDs", "INFO")
             return issue_ids
 
-        self.msg = "No data received for the issue: {0}".format(config_data)
+        self.no_issues.append(config_data)
+        self.msg = "No issues found to resolve or ignore. All issues are already cleared: {0}".format(
+            config_data)
         self.log(self.msg, "ERROR")
+        self.changed = False
+        self.status = "success"
         return []
 
     def resolve_issue(self, issue_ids):
@@ -2445,7 +2523,7 @@ class AssuranceSettings(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-    def ignore_issue(self, issue_ids):
+    def ignore_issue(self, issue_ids, duration=None):
         """
         Ignore the issue based on the input issues name.
 
@@ -2465,12 +2543,23 @@ class AssuranceSettings(DnacBase):
             "Ignore issue with parameters: {0}".format(self.pprint(issue_ids)), "INFO"
         )
 
+        ignore_payload = dict(issueIds=issue_ids)
+        if duration:
+            unit = duration[-1]
+            number_part = duration[:-1]
+            payload_input = int(number_part)
+            ignore_payload["ignoreHours"] = payload_input
+
+            if unit == 'd':
+                payload_input = payload_input * 24
+                ignore_payload["ignoreHours"] = payload_input
+
         try:
             response = self.dnac._exec(
                 family="issues",
                 function="ignore_the_given_list_of_issues",
                 op_modifies=True,
-                params=dict(issueIds=issue_ids),
+                params=ignore_payload,
             )
             self.log(
                 "Response from ignore issue API response: {0}".format(response), "DEBUG"
@@ -3323,12 +3412,11 @@ class AssuranceSettings(DnacBase):
             self.status = "failed"
             response = {}
 
-            for each_issue in assurance_issue:
-                issue_ids = self.get_issue_ids_for_names(each_issue)
-                if issue_ids and len(issue_ids) > 0:
-                    issue_type = each_issue.get("issue_process_type")
-
-                    if issue_type == "resolution":
+            issue_resolution = self.want.get("issue_resolution")
+            if issue_resolution:
+                for each_issue in issue_resolution:
+                    issue_ids = self.get_issue_ids_for_names(each_issue)
+                    if issue_ids:
                         response = self.resolve_issue(issue_ids)
 
                         if response and isinstance(response, dict):
@@ -3349,8 +3437,17 @@ class AssuranceSettings(DnacBase):
                                 "INFO",
                             )
 
-                    elif issue_type == "ignore":
-                        response = self.ignore_issue(issue_ids)
+            ignore_issue = self.want.get("ignore_issue")
+            if ignore_issue:
+                for each_issue in ignore_issue:
+                    issue_ids = self.get_issue_ids_for_names(each_issue)
+                    if issue_ids:
+                        response = None
+                        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.10") < 0:
+                            response = self.ignore_issue(issue_ids)
+                        else:
+                            ignore_duration = each_issue.get("ignore_duration")
+                            response = self.ignore_issue(issue_ids, ignore_duration)
 
                         if response and isinstance(response, dict):
                             self.success_list_ignored.append(each_issue)
@@ -3370,7 +3467,11 @@ class AssuranceSettings(DnacBase):
                                 "INFO",
                             )
 
-                    elif issue_type == "command_execution":
+            suggested_commands = self.want.get("suggested_commands")
+            if suggested_commands:
+                for each_issue in suggested_commands:
+                    issue_ids = self.get_issue_ids_for_names(each_issue)
+                    if issue_ids:
                         response = self.execute_commands(issue_ids[0])
 
                         if response:
@@ -3836,6 +3937,12 @@ class AssuranceSettings(DnacBase):
                     self.log(self.msg, "INFO")
 
                 responses["command_executed"] = response
+
+            if self.no_issues:
+                self.msg += "No issues found to resolve or ignore. All issues are already cleared: {0}".format(
+                    self.no_issues)
+                self.changed = False
+                self.status = "success"
 
             self.set_operation_result(
                 self.status, self.changed, self.msg, "INFO", responses
