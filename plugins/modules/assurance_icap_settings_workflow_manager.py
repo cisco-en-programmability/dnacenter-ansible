@@ -1516,55 +1516,6 @@ class Icap(DnacBase):
             self.log("Exception while checking client MAC '{0}': {1}".format(client_mac, str(e)), "ERROR")
             return False
 
-    def get_ap_id_by_name(self, ap_name):
-        """
-        Retrieves the device ID of an Access Point (AP) by its hostname in 'Get Device list' API in Cisco Catalyst Center.
-
-        Args:
-            ap_name (str): Hostname of the Access Point.
-
-        Returns:
-            tuple:
-                - (True, ap_id) if the AP is found.
-                - (False, error_message) if the AP is not found or an error occurs.
-        """
-
-        try:
-            self.log("Attempting to retrieve device ID for AP with hostname: '{0}'".format(ap_name), "DEBUG")
-
-            params = {
-                "hostname": ap_name
-            }
-
-            response = self.dnac._exec(
-                family="devices",
-                function="get_device_list",
-                params=params
-            )
-            self.log("Received API response for device list: {0}".format(response), "DEBUG")
-
-            if not response or not response.get("response"):
-                msg = "AP '{0}' not found in device list".format(ap_name)
-                self.log(msg, "WARNING")
-                return False, msg
-
-            devices = response["response"]
-            for device in devices:
-                if device.get("hostname") == ap_name:
-                    ap_id = device.get("id")
-                    if ap_id:
-                        self.log("Found AP '{0}' with ID '{1}'".format(ap_name, ap_id), "DEBUG")
-                        return True, ap_id
-
-            msg = "AP '{0}' not found in device list".format(ap_name)
-            self.log(msg, "WARNING")
-            return False, msg
-
-        except Exception as e:
-            msg = "Exception while retrieving AP ID for '{0}': {1}".format(ap_name, str(e))
-            self.log(msg, "ERROR")
-            return False, msg
-
     def is_ap_assigned_to_site(self, ap_id, ap_name):
         """
         Checks whether a given Access Point (AP) is assigned to a site using
