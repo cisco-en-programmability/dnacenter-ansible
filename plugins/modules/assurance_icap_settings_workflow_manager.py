@@ -105,7 +105,7 @@ options:
               (AP) for the capture.
             type: str
           slots:
-            description: A list of radio slot numbers on the specified Access Point to include in the capture session (eg. C([0, 1])).
+            description: A list of radio slot numbers on the specified Access Point to include in the capture session. For example, C([0, 1])).
             type: list
             elements: int
           ota_band:
