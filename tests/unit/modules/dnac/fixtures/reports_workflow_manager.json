@@ -169,6 +169,52 @@
 } 
 ],
 
+"playbook_config_schedule_recurrance_weekly":[
+    {
+    "generate_report": [
+        {
+            "name": "compliance_report_test1",
+            "view_group_name": "Compliance",
+            "deliveries": [
+                {
+                    "type": "DOWNLOAD",
+                    "file_path": "/Users/mekandar/Desktop"
+                }
+            ],
+            "schedule": {
+                "time_zone": "Asia/Calcutta",
+                "type": "SCHEDULE_RECURRENCE",
+                "date_time": "2025-08-12 12:40 PM",
+                "recurrence": {
+                    "type": "WEEKLY",
+                    "days": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+                }
+            },
+            "view": {
+                "view_name": "Network Device Compliance",
+                "field_groups": [
+                    {
+                        "name": "inventoryAllData",
+                        "display_name": "All Data"
+                    }
+                ],
+                "format": {
+                    "format_type": "CSV"
+                },
+                "filters": [
+                    {
+                        "name": "Location",
+                        "display_name": "Location",
+                        "type": "MULTI_SELECT_TREE"
+                    }
+                ]
+            },
+            "tags": []
+        }
+    ]
+} 
+],
+
   "create_get_all_view_groups": [
     {
         "viewGroupId": "8e14930c-f229-4cd0-b8e5-3a588efc6be5",
