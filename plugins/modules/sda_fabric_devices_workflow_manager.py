@@ -3459,7 +3459,7 @@ class FabricDevices(DnacBase):
         ]
         for device_role in device_roles:
             if device_role not in valid_device_roles_list:
-                self.msg = f"The value '{device_role}' in 'device_roles' for the IP '{device_ip}' should be in the list '{", ".join(valid_device_roles_list)}'."
+                self.msg = f"The value '{device_role}' in 'device_roles' for the IP '{device_ip}' should be in the list '{', '.join(valid_device_roles_list)}'."
                 self.fail_and_exit(self.msg)
 
         return
