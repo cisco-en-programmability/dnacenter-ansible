@@ -3432,6 +3432,38 @@ class FabricDevices(DnacBase):
         self.log("The 'local_autonomous_system_number' is successfully validated.")
         return
 
+    def validate_device_roles(self, device_roles, device_ip):
+        """
+        Validate the device roles against the list of valid roles.
+
+        Parameters:
+            device_roles (list): The list of device roles to validate.
+            device_ip (str): The IP address of the device.
+
+        Returns:
+            None
+
+        Description:
+            Validate the device roles against the list of valid roles.
+            If any device_role is not correct, The workflow will fail with an error.
+        """
+        if not device_roles:
+            self.msg = f"The 'device_roles' list cannot be empty for the IP '{device_ip}'."
+            self.fail_and_exit(self.msg)
+
+        valid_device_roles_list = [
+            "CONTROL_PLANE_NODE",
+            "EDGE_NODE",
+            "BORDER_NODE",
+            "WIRELESS_CONTROLLER_NODE",
+        ]
+        for device_role in device_roles:
+            if device_role not in valid_device_roles_list:
+                self.msg = f"The value '{device_role}' in 'device_roles' for the IP '{device_ip}' should be in the list '{", ".join(valid_device_roles_list)}'."
+                self.fail_and_exit(self.msg)
+
+        return
+
     def get_device_params(self, fabric_id, network_id, device_details, config_index):
         """
         Get the SDA fabric devices detail along with the border
@@ -3464,6 +3496,7 @@ class FabricDevices(DnacBase):
         device_info = {
             "networkDeviceId": network_id,
             "fabricId": fabric_id,
+            "embedded_wireless_controller_capabilities": False
         }
 
         # If the user didnot provide the mandatory information and if it can be
@@ -3522,56 +3555,44 @@ class FabricDevices(DnacBase):
             self.log(self.msg, "ERROR")
             self.status = "failed"
             self.check_return_status()
-
-        if not have_device_exists:
-            if not device_roles:
-                self.msg = (
-                    "The parameter 'device_roles is mandatory under 'device_config' "
-                    "for the device with IP '{ip}'.".format(ip=device_ip)
-                )
-                self.status = "failed"
-                return self.check_return_status()
-
-            if "WIRELESS_CONTROLLER_NODE" in device_roles:
-                device_roles.remove("WIRELESS_CONTROLLER_NODE")
-                # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
-
+        if device_roles == ["WIRELESS_CONTROLLER_NODE"]:
+            self.log("Device is a Wireless Controller.", "DEBUG")
+            device_info["embedded_wireless_controller_capabilities"] = False
         else:
-            device_roles_list = [
-                "CONTROL_PLANE_NODE",
-                "EDGE_NODE",
-                "BORDER_NODE",
-                "WIRELESS_CONTROLLER_NODE",
-            ]
-            if device_roles is not None:
-                for item in device_roles:
-                    if item not in device_roles_list:
-                        self.msg = "The value '{item}' in 'device_roles' for the IP '{ip}' should be in the list '{roles_list}'.".format(
-                            item=item, ip=device_ip, roles_list=device_roles_list
+            self.log("Device is a switch with Embedded Wireless Controller capabilities.", "DEBUG")
+            device_info["embedded_wireless_controller_capabilities"] = True
+            if not have_device_exists:
+                if not device_roles:
+                    self.msg = (
+                        "The parameter 'device_roles is mandatory under 'device_config' "
+                        "for the device with IP '{ip}'.".format(ip=device_ip)
+                    )
+                    self.fail_and_exit(self.msg)
+
+                self.validate_device_roles(device_roles, device_ip)
+
+                if "WIRELESS_CONTROLLER_NODE" in device_roles:
+                    device_roles.remove("WIRELESS_CONTROLLER_NODE")
+                    # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
+            else:
+                if device_roles is None:
+                    device_roles = have_device_details.get("deviceRoles")
+                else:
+                    self.validate_device_roles(device_roles, device_ip)
+                    have_wireless_controller_node = (
+                        "WIRELESS_CONTROLLER_NODE" in have_device_details.get("deviceRoles")
+                    )
+                    want_wireless_controller_node = "WIRELESS_CONTROLLER_NODE" in device_roles
+
+                    if want_wireless_controller_node and not have_wireless_controller_node:
+                        device_roles.remove("WIRELESS_CONTROLLER_NODE")
+                        # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
+
+                    if sorted(device_roles) != sorted(have_device_details.get("deviceRoles")):
+                        self.msg = "The parameter 'device_roles' cannot be updated in the device with IP '{ip}'.".format(
+                            ip=device_ip
                         )
-                        self.status = "failed"
-                        return self.check_return_status()
-
-            have_wireless_controller_node = (
-                "WIRELESS_CONTROLLER_NODE" in have_device_details.get("deviceRoles")
-            )
-            want_wireless_controller_node = "WIRELESS_CONTROLLER_NODE" in device_roles
-
-            if want_wireless_controller_node and not have_wireless_controller_node:
-                device_roles.remove("WIRELESS_CONTROLLER_NODE")
-                # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
-
-            if device_roles and sorted(device_roles) != sorted(
-                have_device_details.get("deviceRoles")
-            ):
-                self.msg = "The parameter 'device_roles' cannot be updated in the device with IP '{ip}'.".format(
-                    ip=device_ip
-                )
-                self.status = "failed"
-                return self.check_return_status()
-
-            if not device_roles:
-                device_roles = have_device_details.get("deviceRoles")
+                        self.fail_and_exit(self.msg)
 
         device_info.update({"deviceRoles": device_roles})
         self.log(
@@ -6310,9 +6331,20 @@ class FabricDevices(DnacBase):
 
         for device_config_index, item in enumerate(device_config):
             self.log(f"Processing device at index {device_config_index}.", "DEBUG")
+
+            # Retrieve desired device details to check if embedded wireless controller capabilities are present
+            want_device_details = self.want.get("fabric_devices")[device_config_index].get("device_details")
+
+            if not want_device_details.get("embedded_wireless_controller_capabilities"):
+                self.log(
+                    f"Skipping Device at index {device_config_index} as it does not have embedded wireless controller capabilities.",
+                    "DEBUG",
+                )
+                continue
+
             if item.get("wireless_controller_settings") is None:
                 self.log(
-                    f"Skipping device at index {device_config_index} as it has no wireless controller settings.",
+                    f"Skipping device at index {device_config_index} as it has no wireless controller settings to configure.",
                     "DEBUG",
                 )
                 continue
