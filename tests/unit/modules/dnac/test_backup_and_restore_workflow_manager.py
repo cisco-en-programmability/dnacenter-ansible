@@ -203,7 +203,11 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_create_schedule_backup(self):
         """
+        Test case for creating a scheduled backup in Cisco Catalyst Center.
+        Verifies that the workflow manager correctly creates and schedules
+        a backup when the specified configuration is applied.
         """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -225,6 +229,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_nfs_config_alreadyexists(self):
         """
+        Test case for handling an already existing NFS configuration in Cisco Catalyst Center.
+        Verifies that the workflow manager does not reconfigure NFS and correctly
+        returns a message indicating that the configuration already exists.
         """
         set_module_args(
             dict(
@@ -247,6 +254,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_nfs_config_delete(self):
         """
+        Test case for deleting an existing NFS configuration in Cisco Catalyst Center.
+        Verifies that the workflow manager correctly removes the specified configuration
+        and returns the expected success message upon deletion.
         """
         set_module_args(
             dict(
@@ -269,6 +279,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_create_nfs_config(self):
         """
+        Test case for creating an NFS configuration in Cisco Catalyst Center.
+        Verifies that the workflow manager successfully creates the NFS configuration
+        when the specified parameters are applied.
         """
         set_module_args(
             dict(
@@ -291,6 +304,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_backup_configuration_exception_dataretention_period(self):
         """
+        Test case for handling invalid data retention period in backup configuration.
+        Verifies that the workflow manager raises an error when the retention period
+        exceeds the allowed maximum.
         """
         set_module_args(
             dict(
@@ -313,6 +329,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario1(self):
         """
+        Negative test case for missing required fields in backup schedule.
+        Verifies that the workflow manager raises an error when 'name' and 'scope'
+        are not provided.
         """
         set_module_args(
             dict(
@@ -335,6 +354,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario2(self):
         """
+        Negative test case for unsupported Cisco Catalyst Center version.
+        Verifies that the workflow manager raises an error when the version does not
+        support the Backup and Restore feature.
         """
         set_module_args(
             dict(
@@ -357,6 +379,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario3(self):
         """
+        Negative test case for restoring a non-existent backup.
+        Verifies that the workflow manager raises an error when the specified backup
+        name does not exist in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -379,6 +404,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario4(self):
         """
+        Negative test case for missing fields in NFS configuration.
+        Verifies that the workflow manager raises an error when 'server_ip' or
+        'source_path' is not specified.
         """
         set_module_args(
             dict(
@@ -401,6 +429,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario6(self):
         """
+        Negative test case for missing fields in restore configuration.
+        Verifies that the workflow manager raises an error when 'name' or
+        'encryption_passphrase' is not specified for restore.
         """
         set_module_args(
             dict(
@@ -423,6 +454,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario8(self):
         """
+        Negative test case for deleting a backup schedule without specifying 'name'.
+        Verifies that the workflow manager raises an error when 'name' is missing
+        in the delete request.
         """
         set_module_args(
             dict(
@@ -445,6 +479,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario9(self):
         """
+        Negative test case for deleting an NFS configuration without required fields.
+        Verifies that the workflow manager raises an error when 'server_ip' or
+        'source_path' is missing in the delete request.
         """
         set_module_args(
             dict(
@@ -467,6 +504,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario10(self):
         """
+        Negative test case for invalid backup name format.
+        Verifies that the workflow manager raises an error when the backup name does
+        not meet the required naming rules.
         """
         set_module_args(
             dict(
@@ -489,7 +529,12 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario12(self):
         """
+        Negative test case for missing configuration in playbook.
+        Verifies that the workflow manager raises an error when none of
+        'backup_configuration', 'nfs_configuration', 'backup_schedule',
+        or 'restore_details' is provided.
         """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -511,6 +556,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario13(self):
         """
+        Negative test case for invalid parameter type in backup configuration.
+        Verifies that the workflow manager raises an error when a dict is provided
+        instead of the expected list.
         """
         set_module_args(
             dict(
@@ -529,11 +577,21 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            '''Invalid parameters in playbook: ["\'backup_configuration\': \'{\'data_retention_period\': 53, \'encryption_passphrase\': \'Karthick@zigzag333\', \'nfs_details\': {\'nfs_port\': 2049, \'nfs_port_mapper\': 111, \'nfs_version\': \'nfs4\', \'server_ip\': \'172.27.17.90\', \'source_path\': \'/home/nfsshare/backups/TB19\'}, \'server_type\': \'NFS\'}\' is invalid. Reason: expected type: \'list\'. Provided type: \'dict\'. "]'''        
+            "Invalid parameters in playbook: "
+            "[\"'backup_configuration': '{'data_retention_period': 53, "
+            "'encryption_passphrase': 'Karthick@zigzag333', "
+            "'nfs_details': {'nfs_port': 2049, 'nfs_port_mapper': 111, "
+            "'nfs_version': 'nfs4', 'server_ip': '172.27.17.90', "
+            "'source_path': '/home/nfsshare/backups/TB19'}, "
+            "'server_type': 'NFS'}' is invalid. Reason: expected type: "
+            "'list'. Provided type: 'dict'. \"]"
         )
-    
+
     def test_backup_and_restore_workflow_manager_playbook_update_backup_config(self):
         """
+        Test case for updating backup configuration in Cisco Catalyst Center.
+        Verifies that the workflow manager correctly updates the configuration
+        when the specified parameters are applied.
         """
         set_module_args(
             dict(
@@ -557,6 +615,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_backup_config_alreadyexists1(self):
         """
+        Test case for handling already existing backup configuration.
+        Verifies that the workflow manager detects existing configurations and
+        avoids reconfiguring them unnecessarily.
         """
         set_module_args(
             dict(
@@ -577,9 +638,12 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             result.get("response"),
             "Backup Configuration(s) '/home/nfsshare/backups/TB17' already exist in Cisco Catalyst Center."
         )
-    
+
     def test_backup_and_restore_workflow_manager_playbook_backup_config_password_exception(self):
         """
+        Negative test case for backup configuration update failure due to password issue.
+        Verifies that the workflow manager raises an error when updating backup
+        configuration fails because of an invalid or missing encryption passphrase.
         """
         set_module_args(
             dict(
@@ -599,9 +663,12 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             result.get("response"),
             "An error occurred while updating backup configuration: "
         )
-    
+
     def test_backup_and_restore_workflow_manager_playbook_mountpath_notfound(self):
         """
+        Negative test case for NFS mount path retrieval failure.
+        Verifies that the workflow manager raises an error when the NFS node is unhealthy
+        and the mount path cannot be retrieved.
         """
         set_module_args(
             dict(
@@ -621,9 +688,12 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             result.get("response"),
             "Mount path not retrievable as NFS node is unhealthy for server IP '172.27.17.90', source path '/home/nfsshare/backups/TB22'."
         )
-    
+
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario14(self):
         """
+        Negative test case for missing restore parameters.
+        Verifies that the workflow manager raises an error when both 'name' and
+        'encryption_passphrase' are not specified for restore.
         """
         set_module_args(
             dict(
@@ -646,6 +716,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_restore_exception(self):
         """
+        Negative test case for restore operation failure.
+        Verifies that the workflow manager raises an error when restoring a backup
+        fails unexpectedly.
         """
         set_module_args(
             dict(
@@ -668,6 +741,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_nfs_delete(self):
         """
+        Test case for deleting an NFS configuration in Cisco Catalyst Center.
+        Verifies that the workflow manager successfully deletes the NFS configuration
+        when the specified parameters are applied.
         """
         set_module_args(
             dict(
@@ -690,6 +766,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_backup_schedule_alreadydeleted1(self):
         """
+        Test case for handling already deleted backup schedule.
+        Verifies that the workflow manager correctly identifies that a backup schedule
+        is not present and confirms deletion.
         """
         set_module_args(
             dict(
@@ -712,6 +791,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_delete_backup_schedule(self):
         """
+        Test case for deleting a backup schedule in Cisco Catalyst Center.
+        Verifies that the workflow manager successfully deletes the backup schedule
+        when the specified configuration is applied.
         """
         set_module_args(
             dict(
@@ -734,6 +816,9 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
 
     def test_backup_and_restore_workflow_manager_playbook_backup_schedule_alreadyexists(self):
         """
+        Test case for handling already existing backup schedule.
+        Verifies that the workflow manager correctly identifies the presence of an
+        existing backup schedule and confirms that no changes are needed.
         """
         set_module_args(
             dict(
@@ -751,8 +836,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "The requested backup schedule with name 'BACKUP24_07' and scope 'CISCO_DNA_DATA_WITHOUT_ASSURANCE' is present in the Cisco Catalyst Center and its creation has been verified."
+            "The requested backup schedule with name 'BACKUP24_07' and "
+            "scope 'CISCO_DNA_DATA_WITHOUT_ASSURANCE' is present in the "
+            "Cisco Catalyst Center and its creation has been verified."
         )
-
-
-    
