@@ -1,5 +1,4 @@
 ---
-# Playbook 1 – Configure backup
 - name: Configure backup and Schedule it on Cisco Catalyst Center
   hosts: localhost
   vars_files:
@@ -23,91 +22,25 @@
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          # - backup_configuration:
-          #     - server_type: NFS
-          #       nfs_details:
-          #         server_ip: 172.27.17.90
-          #         source_path: /home/nfsshare/backups/TB22
-          #         nfs_port: 2049
-          #         nfs_version: nfs4
-          #         nfs_port_mapper: 111
-          #       data_retention_period: 10
-          #       encryption_passphrase: Karthick@zigzag333
-          - nfs_configuration: 
+          - backup_configuration:
+              - server_type: NFS
+                nfs_details:
+                  server_ip: 172.27.17.90
+                  source_path: /home/nfsshare/backups/TB22
+                  nfs_port: 2049
+                  nfs_version: nfs4
+                  nfs_port_mapper: 111
+                data_retention_period: 10
+                encryption_passphrase: Karthick@zigzag333
+          - nfs_configuration:
               - server_ip: 172.27.17.90
                 source_path: /home/nfsshare/backups/TB18
                 nfs_port: 2049
                 nfs_version: nfs4
                 nfs_port_mapper: 111
-              # - server_ip: 172.27.17.90
-              #   source_path: /home/nfsshare/backups/TB22
-              #   nfs_port: 2049
-              #   nfs_version: nfs4
-              #   nfs_port_mapper: 111
-              # - server_ip: 172.27.17.90
-              #   source_path: /home/nfsshare/backups/TB18
-              #   nfs_port: 2049
-              #   nfs_version: nfs4
-              #   nfs_port_mapper: 111
-          # - backup_schedule:
-          #     - name: BACKUP24_07
-          #       scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
-          # - restore_details:
-          #     - name: BACKUP24_07
-          #       encryption_passphrase: Karthick@
-
-# Playbook 2 – Delete NFS configuration
-
-# - name: Delete NFS configuration from the Cisco Catalyst Center
-#   hosts: localhost
-#   vars_files:
-#     - "credentials.yml"
-#   connection: local
-#   gather_facts: false
-#   tasks:
-#     - name: Delete NFS configuration
-#       cisco.dnac.backup_and_restore_workflow_manager:
-#         dnac_host: "{{ dnac_host }}"
-#         dnac_username: "{{ dnac_username }}"
-#         dnac_password: "{{ dnac_password }}"
-#         dnac_verify: "{{ dnac_verify }}"
-#         dnac_port: "{{ dnac_port }}"
-#         dnac_version: "{{ dnac_version }}"
-#         dnac_debug: "{{ dnac_debug }}"
-#         dnac_log: true
-#         dnac_log_level: DEBUG
-#         config_verify: true
-#         dnac_api_task_timeout: 1000
-#         dnac_task_poll_interval: 1
-#         state: deleted
-#         config:
-#           - nfs_configuration:
-#               - server_ip: str
-
-# # Playbook 3 – Delete backup
-
-# - name: Delete backup from the Cisco Catalyst Center
-#   hosts: localhost
-#   vars_files:
-#     - "credentials.yml"
-#   connection: local
-#   gather_facts: false
-#   tasks:
-#     - name: Delete backup
-#       cisco.dnac.backup_and_restore_workflow_manager:
-#         dnac_host: "{{ dnac_host }}"
-#         dnac_username: "{{ dnac_username }}"
-#         dnac_password: "{{ dnac_password }}"
-#         dnac_verify: "{{ dnac_verify }}"
-#         dnac_port: "{{ dnac_port }}"
-#         dnac_version: "{{ dnac_version }}"
-#         dnac_debug: "{{ dnac_debug }}"
-#         dnac_log: true
-#         dnac_log_level: DEBUG
-#         config_verify: true
-#         dnac_api_task_timeout: 1000
-#         dnac_task_poll_interval: 1
-#         state: deleted
-#         config:
-          # - backup_details:
-          #     - name: str
+          - backup_schedule:
+              - name: BACKUP24_07
+                scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
+          - restore_details:
+              - name: BACKUP24_07
+                encryption_passphrase: Karthick@

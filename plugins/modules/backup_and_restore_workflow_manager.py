@@ -6,25 +6,29 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ( "Madhan Sankaranarayanan")
+__author__ = ("Priyadharshini B", "Karthick S N", "Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
 module: backup_and_restore_workflow_manager
 
 short_description: >
-  Ansible module to automate backup, restore, NFS configuration, and backup cleanup on Cisco Catalyst Center.
+  Configures NFS Server and backup, schedules and restores it in Cisco Catalyst Center
 
 description:
-  - Automates configuration and management of NFS servers for backup storage in Cisco Catalyst Center.
-  - Supports scheduling and on-demand creation of system backups.
-  - Enables restoration from previously created backups, including encrypted backups.
+  - Automates configuration and management of NFS servers and backup in Cisco Catalyst Center.
+  - Delete NFS configuration from Cisco Catalyst Center.
+  - Create/delete backup schedules in Cisco Catalyst Center.
+  - Enables restoration from previously created backups.
   - Provides cleanup of old backups based on defined retention policies.
-  - Allows deletion of NFS configurations and specific backups as part of lifecycle management.
+
 version_added: "6.31.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
+
 author:
+  - Priyadharshini B (@pbalaku2)
+  - Karthick S N (@kasn)
   - Madhan Sankaranarayanan (@madhansansel)
 
 options:
@@ -43,7 +47,7 @@ options:
     default: merged
   config:
     description:
-      - List of configuration dictionaries for NFS setup, backup scheduling, or restoration.
+      - List of configuration for NFS, backup, backup scheduling and restoration.
     type: list
     elements: dict
     required: true
@@ -63,30 +67,35 @@ options:
             type: str
             required: true
           nfs_port:
-            description: Port used to access NFS services (default 2049).
+            description: Port used to access NFS services.
             type: int
+            default: 2049
           nfs_version:
-            description: NFS protocol version. Defaults to nfs4.
+            description: NFS protocol version.
             type: str
+            default: nfs4
             choices: ["nfs3", "nfs4"]
           nfs_port_mapper:
-            description: Port for the NFS port mapper service (default 111).
+            description: Port for the NFS port mapper service.
             type: int
+            default: 111
       backup_configuration:
         description:
-          - Backup target, type, and retention settings.
+          - Backup target, type, encryption and retention settings.
         type: list
         elements: dict
         suboptions:
           server_type:
             description:
-              - Type of storages are NFS or PHYSICAL_DISK.
+              - Type of storages.
+              - Only NFS is supported in v3.1.3.0
             type: str
             required: true
             choices: ["NFS", "PHYSICAL_DISK"]
           nfs_details:
             description:
               - Connection details for NFS backup targets.
+              - Used to retrieve the mount path to store backups.
             type: dict
             suboptions:
               server_ip:
@@ -94,7 +103,7 @@ options:
                 type: str
                 required: true
               source_path:
-                description: Directory path on the NFS server.
+                description: Directory path of the NFS server.
                 type: str
                 required: true
               nfs_port:
@@ -133,21 +142,6 @@ options:
             description: Defines backup scope (with or without assurance data).
             type: str
             choices: ["CISCO_DNA_DATA_WITH_ASSURANCE", "CISCO_DNA_DATA_WITHOUT_ASSURANCE"]
-          # schedule_details:
-          #   description: Details of the backup schedule.
-          #   type: dict
-          #   suboptions:
-          #     schedule_type:
-          #       description: Type of schedule (e.g., now, recurring).
-          #       type: list
-          #       elements: str
-          #     time:
-          #       description: Backup time (HH:MM format).
-          #       type: str
-          #     days:
-          #       description: Days of the week to run backups.
-          #       type: list
-          #       elements: str
       restore_details:
         description:
           - Parameters for restoring from a backup.
@@ -161,7 +155,6 @@ options:
           encryption_passphrase:
             description: Passphrase for decrypting the backup during restore.
             type: str
-
 
 requirements:
 - dnacentersdk >= 2.9.3
@@ -200,9 +193,9 @@ notes:
 """
 
 EXAMPLES = r"""
----
-#Playbook 1 – Configure NFS server 
----
+
+# Playbook 1 – Configure NFS server
+
 - name: Configure NFS server in Cisco Catalyst Center
   hosts: localhost
   vars_files:
@@ -230,10 +223,10 @@ EXAMPLES = r"""
               - server_ip: 172.27.17.90
                 source_path: /home/nfsshare/backups/TB18
                 nfs_port: 2049
-                nfs_version: nfs4  #default nfs4
-                nfs_port_mapper: 111  #default 111
-               
-#Playbook 2 – Configure backup
+                nfs_version: nfs4
+                nfs_port_mapper: 111
+
+# Playbook 2 – Configure backup
 
 - name: Configure backup on Cisco Catalyst Center
   hosts: localhost
@@ -259,17 +252,17 @@ EXAMPLES = r"""
         state: merged
         config:
           - backup_configuration:
-              - server_type: NFS  #[NFS/PHYSICAL DISK]
-                nfs_details:  
+              - server_type: NFS
+                nfs_details:
                   server_ip: 172.27.17.90
                   source_path: /home/nfsshare/backups/TB20
                   nfs_port: 2049
-                  nfs_version: nfs4  #default nfs4
-                  nfs_port_mapper: 111  #default 111
-                data_retention_period: 56' #[3 to 60]
-                encryption_passphrase: Karthick@zigzag333
+                  nfs_version: nfs4
+                  nfs_port_mapper: 111
+                data_retention_period: 56
+                encryption_passphrase: Test@zigzag333
 
-#Playbook 3 – Create backup
+# Playbook 3 – Create backup
 
 - name: Create backup on Cisco Catalyst Center
   hosts: localhost
@@ -298,7 +291,7 @@ EXAMPLES = r"""
               - name: BACKUP24_07
                 scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
 
-#Playbook 4 – Restore backup
+# Playbook 4 – Restore backup
 
 - name: Restore backup on Cisco Catalyst Center
   hosts: localhost
@@ -325,9 +318,9 @@ EXAMPLES = r"""
         config:
           - restore_details:
               - name: newsample
-                encryption_passphrase: asbfhhjw@12233
+                encryption_passphrase: Test@zigzag333
 
-#Playbook 5 – Delete NFS configuration
+# Playbook 5 – Delete NFS configuration
 
 - name: Delete NFS configuration from the Cisco Catalyst Center
   hosts: localhost
@@ -352,10 +345,10 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - nfs_configuration:
-              - server_ip: str
+          - server_ip: 172.27.17.90
+            source_path: /home/nfsshare/backups/TB18
 
-#Playbook 6 – Delete backup
+# Playbook 6 – Delete backup
 
 - name: Delete backup from the Cisco Catalyst Center
   hosts: localhost
@@ -380,15 +373,83 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - backup_details:
-              - name: str
+          - backup_schedule:
+              - name: BACKUP24_07
 """
 
 RETURN = r"""
 
+# Case 1: Successful creation of NFS configuration
+
+response_create_nfs_config:
+
+    description:
+      - Successful creation of NFS configuration.
+    returned: always
+    type: list
+
+    "sample": {
+      "msg": "NFS Configuration(s) '/home/nfsshare/backups/TB22' created successfully in Cisco Catalyst Center.",
+      "status": "success"
+    }
+
+# Case 2: Successful Configuration of backup
+
+response_configuration_of_backup:
+
+    description:
+      - Successful configuration of backup.
+    returned: always
+    type: list
+
+    "sample": {
+      "msg": "Backup Configuration(s) '/home/nfsshare/backups/TB18' updated successfully in Cisco Catalyst Center.",
+      "status": "success"
+    }
+
+# Case 3: Successful Scheduling of backup
+
+response_create_backup_schedule:
+
+    description:
+      - Successful creation of backup schedule.
+    returned: always
+    type: list
+
+    "sample": {
+      "msg": "Backup Schedule(s) 'BACKUP24_07' created/scheduled successfully in Cisco Catalyst Center.",
+      "status": "success"
+    }
+
+# Case 4: Successful deletion of configured NFS server
+
+response_delete_nfs_configuration:
+
+    description:
+      - Successful deletion of configured NFS server.
+    returned: always
+    type: list
+
+    "sample": {
+      "msg": "NFS Configuration(s) '/home/nfsshare/backups/TB19' deleted successfully from Cisco Catalyst Center.",
+      "status": "success"
+    }
+
+# Case 5: Successful deletion of Scheduled backup
+
+response_delete_backup_schedule:
+
+    description:
+      - Successful deletion of Scheduled backup.
+    returned: always
+    type: list
+
+    "sample": {
+      "msg": "Backup Schedule(s) 'BACKUP24_07' deleted successfully from Cisco Catalyst Center.",
+      "status": "success"
+    }
+
 """
-
-
 
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -398,7 +459,6 @@ from ansible.module_utils.basic import AnsibleModule
 import time
 import json
 import re
-from datetime import datetime
 
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
     validate_list_of_dicts,)
@@ -474,20 +534,20 @@ class BackupRestore(DnacBase):
 
         config_spec = {
             "nfs_configuration": {
-            "type": "list",
-            "elements": "dict",
-            "server_ip": {"type": "str"},
-            "source_path": {"type": "str"},
-            "nfs_port": {"type": "int"},
-            "nfs_version": {
-                "type": "str",
-                "allowed_values": ["nfs3", "nfs4"],
-                "default": "nfs4"
-            },
-            "nfs_port_mapper": {
-                "type": "int",
-                "default": 111
-            }
+                "type": "list",
+                "elements": "dict",
+                "server_ip": {"type": "str"},
+                "source_path": {"type": "str"},
+                "nfs_port": {"type": "int"},
+                "nfs_version": {
+                    "type": "str",
+                    "allowed_values": ["nfs3", "nfs4"],
+                    "default": "nfs4"
+                },
+                "nfs_port_mapper": {
+                    "type": "int",
+                    "default": 111
+                }
             },
             "backup_configuration": {
                 "type": "list",
@@ -541,7 +601,7 @@ class BackupRestore(DnacBase):
 
         self.log("Configuration validated successfully: {0}".format(valid_config), "INFO")
         return self
-    
+
     def get_want(self, config):
         """
         Extract the desired state ('want') from the backup and restore playbook block.
@@ -582,17 +642,15 @@ class BackupRestore(DnacBase):
             )
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        
         want["backup_configuration"] = backup_config
         want["backup_schedule"] = backup_schedule
         want["restore_details"] = restore_details
         want["nfs_configuration"] = nfs_config
 
-
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         return self
-    
+
     def get_nfs_configuration_details(self):
         """
             Retrieve and match NFS configuration from Cisco Catalyst Center based on user input.
@@ -716,7 +774,7 @@ class BackupRestore(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return backup_configuration_exists, current_backup_configuration, matched_config
- 
+
     def get_backup(self):
         """
             Retrieve and match backup schedule from Cisco Catalyst Center based on user input.
@@ -822,7 +880,6 @@ class BackupRestore(DnacBase):
         self.log("Retrieving current state (have) from Catalyst Center...", "INFO")
         have = {}
 
-        # Fetch all current NFS configurations, regardless of what's in 'want'
         current_nfs_configs = self.get_nfs_configuration_details()
         have["current_nfs_configurations"] = current_nfs_configs
         self.log("All current NFS configurations: {0}".format(have["current_nfs_configurations"]), "DEBUG")
@@ -871,7 +928,7 @@ class BackupRestore(DnacBase):
                 This method processes the configuration details provided in the playbook for Catalyst Center backup and restore workflows.
                 It checks for the presence of specific configuration options—such as NFS configuration, backup configuration, backup schedule,
                 and restore details—and triggers corresponding diff methods for each section:
-                
+
                 - 'get_diff_nfs_configuration()': Validates and computes the difference between current and desired NFS settings.
                 - 'get_diff_backup_configuration()': Handles comparison for backup configuration profiles.
                 - 'get_diff_backup_schedule()': Evaluates the defined backup schedule settings.
@@ -893,7 +950,7 @@ class BackupRestore(DnacBase):
         if config.get("backup_configuration"):
             self.log("Processing backup configuration details...", "INFO")
             self.get_diff_backup_configuration()
-        
+
         if config.get("backup_schedule"):
             self.log("Processing backup schedule details...", "INFO")
             self.get_diff_backup_schedule()
@@ -950,7 +1007,7 @@ class BackupRestore(DnacBase):
             Description:
                 This method checks the desired NFS configuration provided in the playbook and compares it with the existing
                 (current) state ('self.have'). For each NFS configuration entry:
-                
+
                 - It ensures that both 'server_ip' and 'source_path' are provided.
                 - If no matching configuration exists in the current state, it initiates the creation of the new NFS configuration.
                 - If the configuration already exists, it logs an informational message and sets the operation result accordingly.
@@ -959,6 +1016,7 @@ class BackupRestore(DnacBase):
                 an appropriate error message is set and the operation is marked as failed.
         """
         self.log("Processing NFS configuration details for diff...", "INFO")
+
         current_nfs_configs = self.have.get("current_nfs_configurations", [])
 
         for nfs_config_details in self.want.get("nfs_configuration", []):
@@ -1023,6 +1081,7 @@ class BackupRestore(DnacBase):
                 The method sets the operation result and logs all relevant details for debugging and auditability.
         """
         self.log("Processing backup configuration details...", "INFO")
+
         backup_configuration = self.have
 
         for backup_config_details in self.want.get("backup_configuration", []):
@@ -1169,6 +1228,7 @@ class BackupRestore(DnacBase):
                     - If the schedule already exists, no changes are made, and an informational success message is logged.
         """
         self.log("Processing backup schedule details...", "INFO")
+
         backup_schedule = self.have
 
         for schedule_details in self.want.get("backup_schedule", []):
@@ -1224,6 +1284,7 @@ class BackupRestore(DnacBase):
                 - If both fields are present, it logs the action and initiates the restore operation.
         """
         self.log("Processing restore details...", "INFO")
+
         restore_details = self.want.get("restore_details", [])
 
         for restore_detail in restore_details:
@@ -1294,7 +1355,7 @@ class BackupRestore(DnacBase):
             self.log("NFS mount path not found for {0}:{1}, attempting to create/verify NFS configuration.".format(server_ip, source_path), "INFO")
             try:
                 self.create_nfs_configuration(nfs_details)
-               
+
                 current_nfs_configs_after_create = self.get_nfs_configuration_details()
                 matched_config_after_create = None
                 for config in current_nfs_configs_after_create:
@@ -1384,13 +1445,14 @@ class BackupRestore(DnacBase):
                 - Logs API responses and updates the operation result accordingly.
         """
         self.log("Creating NFS configuration: {0}".format(nfs_config_details), "INFO")
+
         mandatory_fields = ["server_ip", "source_path"]
 
         for field in mandatory_fields:
             if field not in nfs_config_details:
                 self.msg = "Mandatory field '{0}' is missing in NFS configuration.".format(field)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-        
+
         payload = {
             "server": nfs_config_details["server_ip"],
             "sourcePath": nfs_config_details["source_path"],
@@ -1428,7 +1490,13 @@ class BackupRestore(DnacBase):
             self.created_nfs_config.append(nfs_config_details["source_path"])
 
             if response is None:
-                self.msg = "NFS configuration created successfully for server {0} with source_path {1}".format(nfs_config_details["server_ip"], nfs_config_details["source_path"])
+                self.msg = (
+                    "NFS configuration created successfully for server {0} "
+                    "with source_path {1}".format(
+                        nfs_config_details["server_ip"],
+                        nfs_config_details["source_path"]
+                    )
+                )
                 self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
@@ -1460,6 +1528,7 @@ class BackupRestore(DnacBase):
                 - Based on task status, sets the operation result to success, failure, or warning.
         """
         self.log("Creating backup schedule: {0}".format(schedule_details), "INFO")
+
         name_pattern = r"^[A-Za-z][A-Za-z0-9@#_\-]*$"
 
         name = schedule_details.get("name")
@@ -1724,9 +1793,10 @@ class BackupRestore(DnacBase):
                     break
 
             if not nfs_to_delete:
-                self.msg = "NFS configuration with server_ip '{0}' and source_path '{1}' does not exist in the Cisco Catalyst Center or has already been deleted.".format(
-                    server_ip, source_path
-                )
+                self.msg = (
+                    "NFS configuration with server_ip '{0}' and source_path '{1}' "
+                    "does not exist in the Cisco Catalyst Center or has already been deleted."
+                ).format(server_ip, source_path)
                 self.set_operation_result("success", False, self.msg, "INFO")
                 self.deleted_nfs_config.append(source_path)
                 continue
@@ -1927,7 +1997,7 @@ class BackupRestore(DnacBase):
                 self.log(self.msg, "WARNING")
 
         return self
-    
+
     def verify_diff_deleted(self):
         """
             Verifies the successful deletion of NFS configuration and backup schedule
@@ -1992,12 +2062,19 @@ class BackupRestore(DnacBase):
                 )
 
         return self
-    
+
     def update_messages(self):
+        """
+            Consolidates and logs messages for applications, application policies,
+            and queuing profiles. Ensures no duplicates and builds a clean response.
+
+            Returns:
+                self (object): The updated instance with populated result and msg.
+        """
         self.result["changed"] = False
         result_msg_list = []
         no_update_list = []
-        # === NFS CONFIGURATIONS ===
+
         if self.created_nfs_config:
             msg = "NFS Configuration(s) '{0}' created successfully in Cisco Catalyst Center.".format(
                 "', '".join(self.created_nfs_config)
@@ -2016,7 +2093,6 @@ class BackupRestore(DnacBase):
             )
             result_msg_list.append(msg)
 
-        # === BACKUP CONFIGURATIONS ===
         if self.created_backup_config:
             msg = "Backup Configuration(s) '{0}' created successfully in Cisco Catalyst Center.".format(
                 "', '".join(self.created_backup_config)
@@ -2035,7 +2111,6 @@ class BackupRestore(DnacBase):
             )
             result_msg_list.append(msg)
 
-        # === BACKUP SCHEDULES ===
         if self.scheduled_backup:
             msg = "Backup Schedule(s) '{0}' created/scheduled successfully in Cisco Catalyst Center.".format(
                 "', '".join(self.scheduled_backup)
@@ -2048,13 +2123,11 @@ class BackupRestore(DnacBase):
             )
             result_msg_list.append(msg)
 
-        # === RESTORED BACKUPS ===
         if self.restored_backup:
             msg = "Backup(s) '{0}' restored successfully in Cisco Catalyst Center.".format(
                 "', '".join(self.restored_backup)
             )
             result_msg_list.append(msg)
-
 
         if result_msg_list and no_update_list:
             self.result["changed"] = True
@@ -2072,6 +2145,7 @@ class BackupRestore(DnacBase):
         self.result["msg"] = self.msg
 
         return self
+
 
 def main():
     """ main entry point for module execution """
@@ -2134,4 +2208,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
