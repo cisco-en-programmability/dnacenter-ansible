@@ -1,0 +1,40 @@
+---
+create_nfs_configuration:
+  - nfs_configuration:
+      - server_ip: 172.27.17.90
+        source_path: /home/nfsshare/backups/TB18
+        nfs_port: 2049
+        nfs_version: nfs4
+        nfs_port_mapper: 111
+      - server_ip: 172.27.17.90
+        source_path: /home/nfsshare/backups/TB19
+        nfs_port: 2049
+        nfs_version: nfs4
+        nfs_port_mapper: 111
+
+create_backup_schedule:
+  - backup_schedule:
+      - name: BACKUP25_07
+        scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
+
+update_backup_configuration:
+  - backup_configuration:
+      - server_type: NFS
+        nfs_details:
+          server_ip: 172.27.17.90
+          source_path: /home/nfsshare/backups/TB17
+          nfs_port: 2049
+          nfs_version: nfs4
+          nfs_port_mapper: 111
+        data_retention_period: 12
+        encryption_passphrase: Karthick@zigzag333
+
+delete_backup_schedule:
+  - backup_schedule:
+      - name: BACKUP25_07
+
+delete_nfs_configuration:
+  - nfs_configuration:
+      - server_ip: 172.27.17.90
+        source_path: /home/nfsshare/backups/TB19
+
