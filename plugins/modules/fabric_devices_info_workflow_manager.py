@@ -12,19 +12,21 @@ DOCUMENTATION = r"""
 ---
 module: fabric_devices_info_workflow_manager
 short_description: >
-  This module filters and retrieves fabric device details from Cisco Catalyst Center based on the input device list.
+  Gather facts about network devices from Cisco Catalyst Center (facts/info module) using flexible filters.
 
 description:
-  - Accepts a list of network devices with attributes like IP, hostname, serial number,
-    site hierarchy, device type, device role.
-  - Filters fabric devices from the list of network devices.
-  - Retrieves detailed fabric-specific information for the matched devices from Cisco Catalyst Center.
+  - Gathers detailed facts (information) about fabric devices managed by Cisco Catalyst Center using flexible user-defined filters.
+  - Supports filtering by management IP, hostname, serial number, device role, device type and site hierarchy.
+  - Allows selection of specific fabric device information types, such as fabric related information,
+    layer2/3 handoff details, device onboarding details, connected devices, device health and issues.
   - Handles retries, timeouts, and polling intervals for robust data collection.
-  - Supports output to a file using the C(file_info) option. Output can be JSON or YAML,
+  - Supports output to a file using the C(output_file_info) option. Output can be JSON or YAML,
     with user-defined file path, file mode (overwrite or append), and optional timestamp.
-  - If C(file_info) is provided, results are written to the file; otherwise, results are
+  - If C(output_file_info) is provided, results are written to the file; otherwise, results are
     returned in the Ansible output.
-  - This module is tagged as a facts/info module and is safe to use in check mode
+  - Returns structured results for each requested information type, or an empty list if
+    no devices match the filters after all retries.
+  - This module is tagged as a facts/info module and is safe to use in check mode.
 
 version_added: "6.32.0"
 extends_documentation_fragment:
@@ -45,7 +47,7 @@ options:
     choices: ["merged"]
     default: merged
   config:
-    description: List of dictionaries containing filters to retrieve the fabric device details.
+    description: List of dictionaries specifying fabric device query parameters.
     type: list
     elements: dict
     required: true
@@ -60,29 +62,29 @@ options:
         suboptions:
           ip_address:
             description:
-              - List of IP addresses of the devices to check if they are part of the fabric.
-              - If fabric, retrieves the corresponding fabric information.
+              - List of management IP addresses to identify devices.
+              - If fabric device, retrieves the corresponding fabric information.
               - Each IP address must be unique.
             type: list
             elements: str
           hostname:
             description:
-              - List of hostnames of the devices to check if they are part of the fabric.
-              - If fabric, retrieves the corresponding fabric information.
+              - List of hostnames to identify devices.
+              - If fabric device, retrieves the corresponding fabric information.
               - Each hostname must be unique.
             type: list
             elements: str
           serial_number:
             description:
-              - List of serial numbers of the devices to check if they are part of the fabric.
-              - If fabric, retrieves the corresponding fabric information.
+              - List of serial numbers to identify devices.
+              - If fabric device, retrieves the corresponding fabric information.
               - Each serial number must be unique.
             type: list
             elements: str
           device_role:
             description:
-              - List of roles of the devices to check if they are part of the fabric (For example, ACCESS, CORE).
-              - If fabric, retrieves the corresponding fabric information.
+              - List of device roles to filter devices (For example, ACCESS, CORE).
+              - If fabric device, retrieves the corresponding fabric information.
             type: list
             elements: str
             choices:
@@ -95,9 +97,8 @@ options:
               # Additional options may be found in the API documentation.
           device_type:
             description:
-              - List of types of the devices to check if they are part of the fabric.
-                (For example, Cisco Catalyst 9300 Switch", "Cisco Catalyst 9130AXE Unified Access Point).
-              - If fabric, retrieves the corresponding fabric information.
+              - List of device types to filter devices (For example, Cisco Catalyst 9300 Switch).
+              - If fabric device, retrieves the corresponding fabric information.
             type: list
             elements: str
             choices:
@@ -114,8 +115,8 @@ options:
               # Additional options may be found in the API documentation.
           site_hierarchy:
             description:
-              - List of site hierarchies to retrieve devices associated with the specified sites.
-              - If the device is part of the fabric, retrieves the corresponding fabric information.
+              - List of site hierarchies to filter devices by site.
+              - If fabric device, retrieves the corresponding fabric information.
               - If more than 1000 fabric devices are present, both site and role are specified in the input,
                 the workflow will filter and return only the devices matching the specified role within the given site.
               - If less than 1000 fabric devices are present and both site and role are specified,
@@ -125,22 +126,27 @@ options:
           timeout:
             description:
               - Time in seconds to wait for devices to be found.
+              - Default is 60 seconds.
             type: int
             default: 60
           retries:
             description:
               - Number of retry attempts in case of failures.
+              - Default value is 3 retries.
             type: int
             default: 3
           interval:
             description:
               - Time in seconds to wait between retries.
+              - Default is 10 seconds.
             type: int
             default: 10
           requested_info:
             description:
-              - Select which information categories to gather for each matched fabric device.
-              - Use all to retrieve every available category, or specify a subset.
+              - List of fabric device information types to retrieve.
+              - If set to ['all'], it retrieves all available information.
+              - If specific info types are listed, only those will be retrieved.
+              - If this parameter is omitted or empty, all information will be retrieved by default.
             type: list
             elements: str
             default: [all]
@@ -154,21 +160,23 @@ options:
               - device_issues_info  # Retrieve any issues detected on the device.
           output_file_info:
             description:
-              - Optional settings to control output file generation for fabric device information.
-              - If provided, the content will be saved to the output file. Else, it will be displayed in the terminal.
-              - Use this block to define the file path, format, mode, and timestamp handling.
+              - Controls output file generation for device information.
+              - If provided, results are saved to the specified file; otherwise, results are
+                returned in the Ansible output.
+              - Use to define file path, format, mode, and timestamp handling.
             type: dict
             suboptions:
               file_path:
                 description:
                   - Absolute path to the output file, without extension.
-                  - The file extension (.json or .yaml) is added automatically based on C(file_format).
+                  - File extension (.json or .yaml) is added automatically based on C(file_format).
                 type: str
                 required: true
               file_format:
                 description:
-                  - Format to save the output data.
+                  - Format for the output data.
                   - Supported formats are json and yaml.
+                  - Default is yaml if not specified.
                 type: str
                 default: yaml
                 choices:
@@ -197,6 +205,7 @@ requirements:
 notes:
 - This is a facts/info module, it only retrieves information and does not modify any device or configuration.
 - Writing to a local file is for reporting/archival purposes only and does not affect the state of any managed device.
+- Safe to use in check mode.
 
 - SDK Methods used are
   - devices.Devices.get_device_list
@@ -227,9 +236,9 @@ notes:
 
 EXAMPLES = r"""
 
-# case 1: Retrieves all information for devices that are part of the fabric, from cisco catalyst center.
+# Case 1: Retrieves all information for devices that are part of the fabric, from Cisco Catalyst Center.
 
-- name: Get Fabric devices info from Cisco Catalyst Center
+- name: Get Fabric device information from Cisco Catalyst Center
   hosts: localhost
   connection: local
   vars_files:
@@ -266,9 +275,9 @@ EXAMPLES = r"""
                   file_mode: a
                   timestamp: true
 
-# case 2: Retrieves specific information for devices that are part of the fabric, from cisco catalyst center.
+# Case 2: Retrieves specific information for devices that are part of the fabric, from Cisco Catalyst Center.
 
-- name: Get Fabric devices info from Cisco Catalyst Center
+- name: Get Fabric device information from Cisco Catalyst Center
   hosts: localhost
   connection: local
   vars_files:
@@ -312,9 +321,9 @@ EXAMPLES = r"""
                   file_mode: a
                   timestamp: true
 
-# case 3: Retrieves all information for devices that are part of the fabric, from cisco catalyst center.
+# Case 3: Retrieves all information for devices that are part of the fabric, from Cisco Catalyst Center.
 
-- name: Get Fabric devices info from Cisco Catalyst Center
+- name: Get Fabric device information from Cisco Catalyst Center
   hosts: localhost
   connection: local
   vars_files:
@@ -355,7 +364,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 
-# Case 1: Successfully retrieved fabric information for devices that are part of the fabric, from cisco catalyst center
+# Case 1: Successfully retrieved fabric information for devices that are part of the fabric, from Cisco Catalyst Center
 
 response_fabric_info:
 
@@ -404,7 +413,7 @@ response_fabric_info:
       "status": "success"
     }
 
-# Case 2: Successfully retrieved handoff info for devices that are part of the fabric, from cisco catalyst center
+# Case 2: Successfully retrieved handoff info for devices that are part of the fabric, from Cisco Catalyst Center
 
 response_fabric_devices_layer3_handoffs_sda_info:
 
@@ -715,7 +724,7 @@ response_fabric_devices_layer3_handoffs_sda_info:
       "status": "success"
       }
 
-# Case 3: Successfully retrieved issues for devices that are part of the fabric, from cisco catalyst center
+# Case 3: Successfully retrieved issues for devices that are part of the fabric, from Cisco Catalyst Center
 
 response_device_issues_info:
 
@@ -771,7 +780,7 @@ response_device_issues_info:
     "status": "success"
   }
 
-# Case 4: Successfully retrieved health info for devices that are part of the fabric, from cisco catalyst center
+# Case 4: Successfully retrieved health info for devices that are part of the fabric, from Cisco Catalyst Center
 
 response_device_health_info:
   description:
@@ -833,7 +842,7 @@ response_device_health_info:
     "status": "success"
   }
 
-# Case 5: Successfully retrieved connected device info for devices that are part of the fabric, from cisco catalyst center
+# Case 5: Successfully retrieved connected device info for devices that are part of the fabric, from Cisco Catalyst Center
 
 response_connected_device_info:
 
@@ -918,7 +927,7 @@ response_connected_device_info:
     "status": "success"
     }
 
-# Case 6: Successfully retrieved onboarding info for devices that are part of the fabric, from cisco catalyst center
+# Case 6: Successfully retrieved onboarding info for devices that are part of the fabric, from Cisco Catalyst Center
 
 response_onboarding_info:
 
@@ -1120,7 +1129,7 @@ response_onboarding_info:
     "status": "success"
     }
 
-# Case 7: Successfully retrieved all info for devices that are part of the fabric, from cisco catalyst center
+# Case 7: Successfully retrieved all info for devices that are part of the fabric, from Cisco Catalyst Center
 
 response_all_info:
 
@@ -1455,8 +1464,8 @@ class FabricDevicesInfo(DnacBase):
         }
         if not self.config:
             self.msg = "Configuration is not available in the playbook for validation"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
         self.log("Validating config against config_spec schema.", "DEBUG")
         valid_config, invalid_params = validate_list_of_dicts(
             self.config, config_spec)
@@ -1477,8 +1486,7 @@ class FabricDevicesInfo(DnacBase):
         for config in self.config:
             if "fabric_devices" not in config:
                 self.msg = "'fabric_devices' key is missing in the config block"
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             fabric_devices = config.get("fabric_devices", [])
 
@@ -1486,30 +1494,26 @@ class FabricDevicesInfo(DnacBase):
                 for ip in device.get("ip_address", []):
                     if ip in dup_ips:
                         self.msg = "Duplicate ip_address found: {0}".format(ip)
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     dup_ips.add(ip)
 
                 for hostname in device.get("hostname", []):
                     if hostname in dup_hostnames:
                         self.msg = "Duplicate hostname found: {0}".format(hostname)
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     dup_hostnames.add(hostname)
 
                 for serial in device.get("serial_number", []):
                     if serial in dup_serials:
                         self.msg = "Duplicate serial_number found: {0}".format(serial)
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     dup_serials.add(serial)
 
                 for numeric in ("timeout", "retries", "interval"):
                     if numeric in device and device[numeric] not in (None, ""):
                         if not isinstance(device[numeric], int) or device[numeric] < 0:
                             self.msg = "'{0}' must be a non-negative integer".format(numeric)
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 output_file_info = device.get("output_file_info")
 
@@ -1525,7 +1529,6 @@ class FabricDevicesInfo(DnacBase):
                     if "file_format" in output_file_info and not isinstance(output_file_info["file_format"], str):
                         self.msg = "'file_format' in output_file_info must be a string. Type found: {0}".format(type(output_file_info["file_format"]))
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                        return self
 
                     if "file_mode" in output_file_info and not isinstance(output_file_info["file_mode"], str):
                         self.msg = "'file_mode' in output_file_info must be a string. Type found: {0}".format(type(output_file_info["file_mode"]))
@@ -1599,8 +1602,10 @@ class FabricDevicesInfo(DnacBase):
         allowed_file_formats = {"json", "yaml"}
         allowed_file_modes = {"a", "w"}
 
-        for device in config["fabric_devices"]:
+        for idx, device in enumerate(config["fabric_devices"]):
+            self.log("Processing device entry {0}: {1}".format(idx + 1, device), "DEBUG")
             if not any(device.get(key) for key in required_device_keys):
+                self.log("Device index {0} missing required identification keys: {1}".format(idx + 1, required_device_keys))
                 self.msg = (
                     "Each fabric device must contain at least one of: {0}."
                     .format(", ".join(required_device_keys))
@@ -1608,9 +1613,14 @@ class FabricDevicesInfo(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if "requested_info" in device and device["requested_info"] is not None:
+                self.log("Applying requested_info for device index {0}".format(idx + 1), "DEBUG")
                 return_value = device["requested_info"]
                 for value_name in return_value:
                     if value_name not in allowed_return_values:
+                        self.log(
+                            "Invalid requested_info '{0}' in device index {1}."
+                            "Valid options: {2}".format(value_name, idx, allowed_return_values), "ERROR"
+                        )
                         self.msg = (
                             "'{0}' is not a valid return value. Allowed values are: {1}"
                             .format(value_name, sorted(allowed_return_values))
@@ -1638,7 +1648,7 @@ class FabricDevicesInfo(DnacBase):
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.want = want
-        self.log("Desired State (want): {0}".format(self.want), "INFO")
+        self.log("Completed desired state preparation. Final state: {0}".format(self.want), "INFO")
         return self
 
     def get_diff_merged(self, config):
@@ -1771,7 +1781,7 @@ class FabricDevicesInfo(DnacBase):
             if onboarding_info:
                 self.log("Checking if 'onboarding_info' is requested.", "DEBUG")
                 self.log("Fetching onboarding_info for devices: {0}".format(fabric_devices), "DEBUG")
-                onboarding_info_result = self.get_onboarding_info(ip_uuid_map, fabric_ip_map)
+                onboarding_info_result = self.get_onboarding_info(ip_uuid_map, fabric_ip_map, fabric_devices)
                 self.total_response.append(onboarding_info_result)
                 combined_fabric_data["onboarding_info"] = onboarding_info_result
 
@@ -1794,7 +1804,7 @@ class FabricDevicesInfo(DnacBase):
             output_file_info = config["fabric_devices"][0].get("output_file_info")
 
         if output_file_info:
-            self.log("Writing combined_data to file using file_info: {0}".format(output_file_info), "INFO")
+            self.log("Writing combined_data to file using output_file_info: {0}".format(output_file_info), "INFO")
             self.write_device_info_to_file({"output_file_info": output_file_info})
 
         if self.total_response:
@@ -1805,7 +1815,7 @@ class FabricDevicesInfo(DnacBase):
 
     def get_device_id(self, filtered_config):
         """
-        Retrieves device UUIDs from Cisco Catalyst Center based on filtered configuration parameters.
+        Fetch device UUIDs from Cisco Catalyst Center based on filtered configuration parameters.
 
         Description:
             This method processes multiple identifying fields from the provided configuration:
@@ -1932,7 +1942,7 @@ class FabricDevicesInfo(DnacBase):
 
     def get_device_ip_from_id(self, device_id):
         """
-        Retrieve the management IP address of a device from Cisco Catalyst Center using its ID.
+        Fetch management IP address of a device from Cisco Catalyst Center using its ID.
 
         Description:
             This method queries Cisco Catalyst Center for the device details based on its unique identifier (ID).
@@ -1979,7 +1989,7 @@ class FabricDevicesInfo(DnacBase):
 
     def get_fabric_site_id(self):
         """
-        Retrieves a mapping of device IP addresses to UUIDs from Cisco Catalyst Center.
+        Fetch a mapping of device IP addresses to UUIDs from Cisco Catalyst Center.
 
         Description:
             Queries Catalyst Center using available identifiers (IP, hostname, serial, etc.) and site hierarchy,
@@ -2032,7 +2042,7 @@ class FabricDevicesInfo(DnacBase):
 
     def filter_fabric_device(self, ip_uuid_map, filtered_config):
         """
-        Identifies fabric devices from a given IP-to-UUID map by querying Cisco Catalyst Center.
+        Filter fabric devices from a given IP-to-UUID map by querying Cisco Catalyst Center.
 
         Description:
             For each device UUID, this method queries Catalyst Center's SDA fabric API to check
@@ -2119,7 +2129,7 @@ class FabricDevicesInfo(DnacBase):
 
     def fabric_id_ip_map(self, fabric_site_ids, ip_uuid_map, fabric_devices):
         """
-        Retrieves the fabric ID for a list of fabric devices.
+        Fetch fabric ID for a list of fabric devices.
 
         Args:
             self (object): The class instance interacting with Catalyst Center.
@@ -2171,7 +2181,7 @@ class FabricDevicesInfo(DnacBase):
 
     def get_fabric_info(self, ip_uuid_map, fabric_devices):
         """
-        Retrieves detailed fabric information for the given list of fabric devices from Cisco Catalyst Center.
+        Fetch detailed fabric information for a list of fabric devices from Cisco Catalyst Center.
 
         Description:
             This method iterates through each fabric site ID and checks which of the provided
@@ -2197,7 +2207,6 @@ class FabricDevicesInfo(DnacBase):
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
         """
         self.log("Fetching fabric info for {0} devices: {1}".format(len(ip_uuid_map), fabric_devices), "INFO")
 
@@ -2209,8 +2218,13 @@ class FabricDevicesInfo(DnacBase):
         fabric_info_list = []
 
         for fabric_id in fabric_site_ids:
-            for ip_address, device_uuid in ip_uuid_map.items():
+            for index, (ip_address, device_uuid) in enumerate(ip_uuid_map.items()):
                 if ip_address in fabric_devices:
+                    self.log(
+                        "Processing fabric info for device {0}/{1}: "
+                        "ID = {2} (IP: {3})".format(index + 1, len(ip_uuid_map), device_uuid, ip_address),
+                        "DEBUG"
+                    )
                     try:
                         response = self.dnac._exec(
                             family="sda",
@@ -2234,8 +2248,11 @@ class FabricDevicesInfo(DnacBase):
 
                     except Exception as api_err:
                         self.msg = "Exception occurred while getting fabric info for device {0}: {1}".format(ip_address, api_err)
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return None
+                        fabric_info_list.append({
+                            "device_ip": ip_address,
+                            "fabric_details": "Error: {0}".format(api_err)
+                        })
+                        continue
 
         result = [{"fabric_info": fabric_info_list}]
 
@@ -2246,7 +2263,7 @@ class FabricDevicesInfo(DnacBase):
 
     def get_device_issues_info(self, ip_uuid_map, fabric_devices):
         """
-        Retrieves current issue or alert information for fabric devices from Cisco Catalyst Center.
+        Fetch current issue or alert information for fabric devices from Cisco Catalyst Center.
 
         Args:
             self (object): The class instance interacting with Catalyst Center.
@@ -2275,7 +2292,6 @@ class FabricDevicesInfo(DnacBase):
                         ]
                     }
                 ]
-            Returns None if an exception occurs during any API call.
         """
         self.log("Fetching issue related information for fabric devices: {0}".format(fabric_devices), "INFO")
 
@@ -2285,8 +2301,9 @@ class FabricDevicesInfo(DnacBase):
 
         issue_info_list = []
 
-        for ip_address, device_uuid in ip_uuid_map.items():
+        for index, (ip_address, device_uuid) in enumerate(ip_uuid_map.items()):
             if ip_address in fabric_devices:
+                self.log("Processing issues info for device {0}/{1}: ID = {2} (IP: {3})".format(index + 1, len(ip_uuid_map), device_uuid, ip_address), "DEBUG")
                 try:
                     response = self.dnac._exec(
                         family="issues",
@@ -2318,8 +2335,11 @@ class FabricDevicesInfo(DnacBase):
 
                 except Exception as api_err:
                     self.msg = "Exception occurred while getting device issues for device {0}: {1}".format(ip_address, api_err)
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return None
+                    issue_info_list.append({
+                        "device_ip": ip_address,
+                        "issue_details": "Error: {0}".format(api_err)
+                    })
+                    continue
 
         result = [{"device_issues_info": issue_info_list}]
 
@@ -2426,7 +2446,7 @@ class FabricDevicesInfo(DnacBase):
 
     def get_handoff_layer3_sda_info(self, ip_uuid_map, fabric_ip_map):
         """
-        Retrieves Layer 3 SDA handoff information for the given fabric devices from Cisco Catalyst Center.
+        Fetch Layer 3 SDA handoff information for the given fabric devices from Cisco Catalyst Center.
 
         For each fabric device:
         - Fetches Layer 3 handoff information with SDA transit using the SDA API.
@@ -2437,6 +2457,12 @@ class FabricDevicesInfo(DnacBase):
             ip_uuid_map (dict): Mapping of device IP addresses to instance UUIDs.
             fabric_devices (list): List of IP addresses identified as fabric devices.
 
+        Description:
+            - Iterates through fabric-enabled site IDs and retrieves associated device UUIDs.
+            - For each device, makes an API call to fetch Layer 3 SDA handoff information.
+            - If data is available, adds it under the respective device IP.
+            - If no data is found, a message is logged and a default string is added.
+            - Aggregates and returns all results in a consistent, structured format.
         Returns:
             list: A list with a single dictionary:
                 [
@@ -2449,14 +2475,6 @@ class FabricDevicesInfo(DnacBase):
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
-
-        Description:
-            - Iterates through fabric-enabled site IDs and retrieves associated device UUIDs.
-            - For each device, makes an API call to fetch Layer 3 SDA handoff information.
-            - If data is available, adds it under the respective device IP.
-            - If no data is found, a message is logged and a default string is added.
-            - Aggregates and returns all results in a consistent, structured format.
         """
 
         self.log("Fetching Layer 3 SDA handoff details for fabric devices", "INFO")
@@ -2464,9 +2482,14 @@ class FabricDevicesInfo(DnacBase):
         all_handoff_layer3_sda_list = []
         seen_ips = set()
 
-        for ip_address, device_uuid in ip_uuid_map.items():
+        for index, (ip_address, device_uuid) in enumerate(ip_uuid_map.items()):
             for device_ip, fabric_id in fabric_ip_map.items():
                 if ip_address == device_ip and ip_address not in seen_ips:
+                    self.log(
+                        "Processing layer3 sda handoff info for device {0}/{1}: "
+                        "ID = {2} (IP: {3})".format(index + 1, len(ip_uuid_map), device_uuid, ip_address),
+                        "DEBUG"
+                    )
                     seen_ips.add(ip_address)
                     try:
                         response = self.dnac._exec(
@@ -2475,7 +2498,6 @@ class FabricDevicesInfo(DnacBase):
                             params={"fabric_id": fabric_id, "network_device_id": device_uuid}
                         )
                         layer3_sda_handoff_data = response.get("response", [])
-                        self.log(layer3_sda_handoff_data)
                         self.log(
                             "Received API response for 'get_fabric_devices_layer3_handoffs_with_sda_transit' for IP {0}: {1}".format(
                                 ip_address, response
@@ -2498,8 +2520,11 @@ class FabricDevicesInfo(DnacBase):
 
                     except Exception as api_err:
                         self.msg = "Exception occurred while getting L3 SDA hand-off info for device {0}: {1}".format(ip_address, api_err)
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return None
+                        all_handoff_layer3_sda_list.append({
+                            "device_ip": ip_address,
+                            "handoff_info": "Error: {0}".format(api_err)
+                        })
+                        continue
 
         result = [{"fabric_devices_layer3_handoffs_sda_info": all_handoff_layer3_sda_list}]
 
@@ -2510,7 +2535,7 @@ class FabricDevicesInfo(DnacBase):
 
     def get_handoff_layer3_ip_info(self, ip_uuid_map, fabric_ip_map):
         """
-        Retrieves Layer 3 IP handoff information for the given fabric devices from Cisco Catalyst Center.
+        Fetch Layer 3 IP handoff information for the given fabric devices from Cisco Catalyst Center.
 
         For each fabric device:
         - Fetches Layer 3 handoff information with IP transit using the SDA API.
@@ -2540,7 +2565,6 @@ class FabricDevicesInfo(DnacBase):
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
         """
 
         self.log("Fetching Layer 3 IP handoff details for fabric devices", "INFO")
@@ -2548,9 +2572,14 @@ class FabricDevicesInfo(DnacBase):
         all_handoff_layer3_ip_info_list = []
         seen_ips = set()
 
-        for ip_address, device_uuid in ip_uuid_map.items():
+        for index, (ip_address, device_uuid) in enumerate(ip_uuid_map.items()):
             for device_ip, fabric_id in fabric_ip_map.items():
                 if ip_address == device_ip and ip_address not in seen_ips:
+                    self.log(
+                        "Processing layer3 ip handoff info for device {0}/{1}: "
+                        "ID = {2} (IP: {3})".format(index + 1, len(ip_uuid_map), device_uuid, ip_address),
+                        "DEBUG"
+                    )
                     seen_ips.add(ip_address)
                     try:
                         response = self.dnac._exec(
@@ -2580,8 +2609,11 @@ class FabricDevicesInfo(DnacBase):
                             })
                     except Exception as api_err:
                         self.msg = "Exception occurred while getting L3 IP hand-off info for device {0}: {1}".format(ip_address, api_err)
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return None
+                        all_handoff_layer3_ip_info_list.append({
+                            "device_ip": ip_address,
+                            "handoff_info": "Error: {0}".format(api_err)
+                        })
+                        continue
 
         result = [{"fabric_devices_layer3_handoffs_ip_info": all_handoff_layer3_ip_info_list}]
 
@@ -2592,7 +2624,7 @@ class FabricDevicesInfo(DnacBase):
 
     def get_handoff_layer2_info(self, ip_uuid_map, fabric_ip_map):
         """
-        Retrieves Layer 2 handoff information for the given fabric devices from Cisco Catalyst Center.
+        Fetch Layer 2 handoff information for the given fabric devices from Cisco Catalyst Center.
 
         For each fabric device:
         - Fetches Layer 2 handoff information using the Catalyst Center SDA API.
@@ -2622,7 +2654,6 @@ class FabricDevicesInfo(DnacBase):
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
         """
 
         self.log("Fetching Layer 2 handoff details for fabric devices", "INFO")
@@ -2630,9 +2661,14 @@ class FabricDevicesInfo(DnacBase):
         all_handoff_layer2_info_list = []
         seen_ips = set()
 
-        for ip_address, device_uuid in ip_uuid_map.items():
+        for index, (ip_address, device_uuid) in enumerate(ip_uuid_map.items()):
             for device_ip, fabric_id in fabric_ip_map.items():
                 if ip_address == device_ip and ip_address not in seen_ips:
+                    self.log(
+                        "Processing layer2 handoff info for device {0}/{1}: "
+                        "ID = {2} (IP: {3})".format(index + 1, len(ip_uuid_map), device_uuid, ip_address),
+                        "DEBUG"
+                    )
                     seen_ips.add(ip_address)
                     try:
                         response = self.dnac._exec(
@@ -2663,8 +2699,11 @@ class FabricDevicesInfo(DnacBase):
 
                     except Exception as api_err:
                         self.msg = "Exception occurred while getting L2 hand-off info for device {0}: {1}".format(ip_address, api_err)
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return None
+                        all_handoff_layer2_info_list.append({
+                            "device_ip": ip_address,
+                            "handoff_info": "Error: {0}".format(api_err)
+                        })
+                        continue
 
         result = [{"fabric_devices_layer2_handoffs_info": all_handoff_layer2_info_list}]
 
@@ -2700,8 +2739,9 @@ class FabricDevicesInfo(DnacBase):
 
         device_interfaces_map = {}
 
-        for ip_address, device_id in ip_uuid_map.items():
+        for index, (ip_address, device_id) in enumerate(ip_uuid_map.items()):
             if ip_address in fabric_devices:
+                self.log("Processing interface info for device {0}/{1}: ID = {2} (IP: {3})".format(index + 1, len(ip_uuid_map), device_id, ip_address), "DEBUG")
                 try:
                     self.log("Fetching interfaces for device: {0}".format(ip_address), "DEBUG")
 
@@ -2730,7 +2770,7 @@ class FabricDevicesInfo(DnacBase):
 
     def get_connected_device_details_from_interfaces(self, ip_uuid_map, fabric_devices):
         """
-        Retrieve connected device details for each interface of fabric devices.
+        Fetch connected device details for each interface of fabric devices.
 
         This method fetches and aggregates data about devices connected to the interfaces
         of each fabric device. It leverages the device IP-to-UUID mapping to call the appropriate
@@ -2740,17 +2780,24 @@ class FabricDevicesInfo(DnacBase):
             ip_uuid_map (dict): A dictionary mapping device IP addresses to their unique UUIDs.
             fabric_devices (list): List of IP addresses representing fabric-enabled network devices.
 
-        Returns:
-            list: A structured list containing dictionaries, each with:
-                - 'device_ip': The IP address of the fabric device.
-                - 'connected_device_details': A list of connected device information, or a message
-                                              indicating no data was found for that device.
-
         Description:
             For each fabric device in the input list:
             - Retrieves the UUID using the provided IP-to-UUID mapping.
             - Queries Catalyst Center for connected device information on all interfaces.
             - Organizes and returns the results in a consistent format per device.
+
+        Returns:
+            list: A list with a single dictionary:
+                [
+                    {
+                        "connected_device_info": [
+                            {
+                                "device_ip": <str>,
+                                "connected_device_details": <list of connected device detail dictionaries or error string>
+                            },
+                        ]
+                    }
+                ]
         """
 
         self.log("Fetching connected device information for fabric devices: {0}".format(fabric_devices), "INFO")
@@ -2762,7 +2809,8 @@ class FabricDevicesInfo(DnacBase):
         all_connected_info_list = []
         device_interfaces_map = self.get_interface_ids_per_device(ip_uuid_map, fabric_devices)
 
-        for ip_address, interface_ids in device_interfaces_map.items():
+        for index, (ip_address, interface_ids) in enumerate(device_interfaces_map.items()):
+            self.log("Processing connected device info for device {0}/{1}: (IP: {2})".format(index + 1, len(ip_uuid_map), ip_address), "DEBUG")
             device_id = ip_uuid_map[ip_address]
             connected_device_details = []
 
@@ -2785,15 +2833,21 @@ class FabricDevicesInfo(DnacBase):
                             connected_device_details.extend(connected_data)
                         else:
                             connected_device_details.append(connected_data)
+
+                    if connected_device_details:
+                        self.log("Connected device details found for device IP: {0}".format(ip_address), "INFO")
+                        all_connected_info_list.append({
+                            "device_ip": ip_address,
+                            "connected_device_details": connected_device_details
+                        })
+
                 except Exception as e:
                     self.log("Failed to fetch connected device info for {0}: due to {2}".format(ip_address, str(e)), "ERROR")
-
-            if connected_device_details:
-                self.log("Connected device details found for device IP: {0}".format(ip_address), "INFO")
-                all_connected_info_list.append({
-                    "device_ip": ip_address,
-                    "connected_device_details": connected_device_details
-                })
+                    all_connected_info_list.append({
+                        "device_ip": ip_address,
+                        "connected_device_details": "Error: {0}".format(e)
+                    })
+                    continue
 
         result = [{"connected_device_info": all_connected_info_list}]
 
@@ -2870,7 +2924,7 @@ class FabricDevicesInfo(DnacBase):
 
             return None
 
-    def get_onboarding_info(self, ip_uuid_map, fabric_ip_map):
+    def get_onboarding_info(self, ip_uuid_map, fabric_ip_map, fabric_devices):
         """
         Fetch onboarding details for devices associated with fabric-enabled sites from Cisco Catalyst Center.
 
@@ -2903,46 +2957,54 @@ class FabricDevicesInfo(DnacBase):
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
         """
         self.log("Fetching onboarding records for fabric devices", "INFO")
 
         all_onboarding_info_list = []
 
         for device_ip, fabric_id in fabric_ip_map.items():
-            for ip_address, device_uuid in ip_uuid_map.items():
-                try:
-                    response = self.dnac._exec(
-                        family="sda",
-                        function="get_port_assignments",
-                        params={"fabric_id": fabric_id, "network_device_id": device_uuid}
-                    )
-                    onboarding_data = response.get("response", [])
+            for index, (ip_address, device_uuid) in enumerate(ip_uuid_map.items()):
+                if ip_address in fabric_devices:
                     self.log(
-                        "Received API response from 'get_port_assignments' for device {0}: {1}".format(
-                            ip_address, response
-                        ),
+                        "Processing onboarding device detail for device {0}/{1}: "
+                        "ID = {2} (IP: {3})".format(index + 1, len(ip_uuid_map), device_uuid, ip_address),
                         "DEBUG"
                     )
-                    if onboarding_data:
-                        self.log("Onboarding data found for device IP: {0}".format(ip_address), "INFO")
-                        all_onboarding_info_list.append({
-                            "device_ip": ip_address,
-                            "port_details": onboarding_data
-                        })
+                    try:
+                        response = self.dnac._exec(
+                            family="sda",
+                            function="get_port_assignments",
+                            params={"fabric_id": fabric_id, "network_device_id": device_uuid}
+                        )
+                        onboarding_data = response.get("response", [])
+                        self.log(
+                            "Received API response from 'get_port_assignments' for device {0}: {1}".format(
+                                ip_address, response
+                            ),
+                            "DEBUG"
+                        )
+                        if onboarding_data:
+                            self.log("Onboarding data found for device IP: {0}".format(ip_address), "INFO")
+                            all_onboarding_info_list.append({
+                                "device_ip": ip_address,
+                                "port_details": onboarding_data
+                            })
 
-                    else:
-                        self.log("No onboarding data found for device IP: {0}".format(ip_address), "DEBUG")
+                        else:
+                            self.log("No onboarding data found for device IP: {0}".format(ip_address), "DEBUG")
+                            all_onboarding_info_list.append({
+                                "device_ip": ip_address,
+                                "port_details": []
+                            })
+                            continue
+
+                    except Exception as api_err:
+                        self.msg = "Exception occurred while getting port assignment details for device {0}: {1}".format(ip_address, api_err)
                         all_onboarding_info_list.append({
-                            "device_ip": ip_address,
-                            "port_details": []
+                            "device_ip": device_ip,
+                            "port_details": "Error: {0}".format(api_err)
                         })
                         continue
-
-                except Exception as api_err:
-                    self.msg = "Exception occurred while getting port assignment details for device {0}: {1}".format(ip_address, api_err)
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return None
 
             result = [{"device_onboarding_info": all_onboarding_info_list}]
 
@@ -2983,7 +3045,6 @@ class FabricDevicesInfo(DnacBase):
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
         """
 
         self.log("Fetching provision status for devices: {0}".format(fabric_devices), "INFO")
@@ -2994,8 +3055,13 @@ class FabricDevicesInfo(DnacBase):
 
         all_provision_status_info_list = []
 
-        for ip_address, device_id in ip_uuid_map.items():
+        for index, (ip_address, device_id) in enumerate(ip_uuid_map.items()):
             if ip_address in fabric_devices:
+                self.log(
+                    "Processing provision status info for device {0}/{1}: "
+                    "ID = {2} (IP: {3})".format(index + 1, len(ip_uuid_map), device_id, ip_address),
+                    "DEBUG"
+                )
                 try:
                     self.log("Fetching provision status for device: {0}".format(ip_address), "DEBUG")
                     self.log(ip_address)
@@ -3022,8 +3088,11 @@ class FabricDevicesInfo(DnacBase):
 
                 except Exception as api_err:
                     self.msg = "Exception occurred while fetching provisioning status: {0}".format(api_err)
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return None
+                    all_provision_status_info_list.append({
+                        "device_ip": ip_address,
+                        "interface_details": "Error: {0}".format(api_err)
+                    })
+                    continue
 
         result = [{"provision_status_info": all_provision_status_info_list}]
         self.log("Aggregated provision status info: {0}".format(result), "DEBUG")
@@ -3072,8 +3141,9 @@ class FabricDevicesInfo(DnacBase):
 
         all_ssid_info_list = []
 
-        for ip_address, device_id in ip_uuid_map.items():
+        for index, (ip_address, device_id) in enumerate(ip_uuid_map.items()):
             if ip_address in fabric_devices:
+                self.log("Processing ssid info for device {0}/{1}: ID = {2} (IP: {3})".format(index + 1, len(ip_uuid_map), device_id, ip_address), "DEBUG")
                 device_type = self.get_dev_type(ip_address)
                 self.log("Device {0} is identified as '{1}'".format(ip_address, device_type), "DEBUG")
 
@@ -3106,8 +3176,11 @@ class FabricDevicesInfo(DnacBase):
                     self.msg = "Exception occurred while getting SSID details for device {0}: {1}".format(
                         ip_address, api_err
                     )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return None
+                    all_ssid_info_list.append({
+                        "device_ip": ip_address,
+                        "ssid_details": "Error: {0}".format(api_err)
+                    })
+                    continue
 
         result = [{"ssid_info": all_ssid_info_list}]
 
