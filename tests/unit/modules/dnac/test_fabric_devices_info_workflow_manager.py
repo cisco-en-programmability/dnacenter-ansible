@@ -839,26 +839,69 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
             )
         )
         result = self.execute_module(changed=False, failed=False)
+        print(result)
         self.assertEqual(
             result.get("response"),
             [
                 "The fabric devices filtered from the network devices are: ['204.192.5.2']",
                 [
                     {
-                        "connected_device_info": [
+                        'connected_device_info': [
                             {
-                                "connected_device_details": [
+                                'device_ip': '204.192.5.2',
+                                'connected_device_details': [
                                     {
-                                        "capabilities": [
-                                            "IGMP_CONDITIONAL_FILTERING",
-                                            "ROUTER",
-                                            "SWITCH"
-                                        ],
-                                        "neighborDevice": "TB17-Fusion.cisco.com",
-                                        "neighborPort": "GigabitEthernet1/0/21"
+                                        'neighborDevice': 'TB17-Fusion.cisco.com',
+                                        'neighborPort': 'GigabitEthernet1/0/21',
+                                        'capabilities': [
+                                            'IGMP_CONDITIONAL_FILTERING',
+                                            'ROUTER',
+                                            'SWITCH'
+                                        ]
                                     }
-                                ],
-                                "device_ip": "204.192.5.2"
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.5.2',
+                                'connected_device_details': [
+                                    {
+                                        'neighborDevice': 'TB17-Fusion.cisco.com',
+                                        'neighborPort': 'GigabitEthernet1/0/21',
+                                        'capabilities': [
+                                            'IGMP_CONDITIONAL_FILTERING',
+                                            'ROUTER',
+                                            'SWITCH'
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.5.2',
+                                'connected_device_details': [
+                                    {
+                                        'neighborDevice': 'TB17-Fusion.cisco.com',
+                                        'neighborPort': 'GigabitEthernet1/0/21',
+                                        'capabilities': [
+                                            'IGMP_CONDITIONAL_FILTERING',
+                                            'ROUTER',
+                                            'SWITCH'
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.5.2',
+                                'connected_device_details': [
+                                    {
+                                        'neighborDevice': 'TB17-Fusion.cisco.com',
+                                        'neighborPort': 'GigabitEthernet1/0/21',
+                                        'capabilities': [
+                                            'IGMP_CONDITIONAL_FILTERING',
+                                            'ROUTER',
+                                            'SWITCH'
+                                        ]
+                                    }
+                                ]
                             }
                         ]
                     }

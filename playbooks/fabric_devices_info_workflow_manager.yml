@@ -40,6 +40,6 @@
                   - device_issues_info
                 output_file_info:
                   file_path: /Users/priyadharshini/Downloads/fabric_device_info
-                  file_format: yaml
-                  file_mode: a
+                  file_format: json
+                  file_mode: w
                   timestamp: true
