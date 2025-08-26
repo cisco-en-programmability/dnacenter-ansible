@@ -200,6 +200,17 @@ options:
               - Must be either 5, 15 or 25 representing
                 the proportion of APs to reboot at once.
             type: int
+      ap_authorization_list_name:
+        description: |
+          - The name of the Access Point (AP) authorization
+            list to be used during WLC provisioning.
+          type: str
+      authorize_mesh_and_non_mesh_aps:
+        description: |
+          - A flag that indicates whether to authorize
+            both mesh and non-mesh Access Points (APs)
+            during the WLC provisioning process.
+          type: bool
       feature_template:
         description: |
           - A list of feature templates to be applied
@@ -1471,7 +1482,6 @@ class Provision(DnacBase):
             wireless_params[0]["ap_authorization_list_name"] = self.validated_config.get("ap_authorization_list_name")
         if self.validated_config.get("authorize_mesh_and_non_mesh_aps") is not None:
             wireless_params[0]["authorize_mesh_and_non_mesh_aps"] = self.validated_config.get("authorize_mesh_and_non_mesh_aps")
-
 
         response = self.dnac_apply["exec"](
             family="devices",
@@ -3286,8 +3296,8 @@ class Provision(DnacBase):
 
             try:
                 response = self.dnac_apply["exec"](
-                    # family="wireless",
-                    # function="wireless_controller_provision",
+                    family="wireless",
+                    function="wireless_controller_provision",
                     op_modifies=True,
                     params=payload,
                 )
