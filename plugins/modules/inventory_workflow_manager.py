@@ -5602,6 +5602,8 @@ class Inventory(DnacBase):
                 device_params.pop("snmpPrivPassphrase", None)
                 device_params.pop("snmpPrivProtocol", None)
 
+            return device_params
+
     def parse_for_add_compute_device_params(self, device_params):
         """
         Filter unnecessary params for compute device parameters from the provided dictionary.
@@ -5637,6 +5639,8 @@ class Inventory(DnacBase):
         for param in params_to_remove:
             device_params.pop(param, None)
 
+        return device_params
+
     def add_inventory_device(self, device_params, devices_to_add, device_to_add_in_ccc):
         """
         Add a new network device to the inventory in Cisco Catalyst Center.
@@ -5665,47 +5669,64 @@ class Inventory(DnacBase):
                 "DEBUG",
             )
 
-            if response and isinstance(response, dict):
-                task_id = response.get("response").get("taskId")
+            if not response or not isinstance(response, dict):
+                self.status = "failed"
+                self.msg = "Failed to add device(s) '{0}' to Cisco Catalyst Center".format(
+                    str(self.config[0].get("ip_address_list"))
+                )
+                self.log(self.msg, "ERROR")
+                self.result["response"] = self.msg
+                return self
 
-                while True:
-                    execution_details = self.get_task_details(task_id)
+            task_id = response.get("response").get("taskId")
+            if not task_id:
+                self.status = "failed"
+                self.msg = "Failed to retrieve task ID for device(s) '{0}'".format(
+                    str(self.config[0].get("ip_address_list"))
+                )
+                self.log(self.msg, "ERROR")
+                self.result["response"] = self.msg
+                return self
 
-                    if "/task/" in execution_details.get("progress"):
-                        self.status = "success"
-                        self.result["response"] = execution_details
+            while True:
+                execution_details = self.get_task_details(task_id)
 
-                        if len(devices_to_add) > 0:
-                            self.device_list.append(devices_to_add)
-                            self.result["changed"] = True
-                            self.msg = "Device(s) '{0}' added to Cisco Catalyst Center".format(
-                                str(devices_to_add)
-                            )
-                            self.log(self.msg, "INFO")
-                            self.result["msg"] = self.msg
-                            self.result["response"] = self.msg
-                            break
-                        self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(
-                            str(self.config[0].get("ip_address_list"))
+                if "/task/" in execution_details.get("progress"):
+                    self.status = "success"
+                    self.result["response"] = execution_details
+
+                    if len(devices_to_add) > 0:
+                        self.device_list.append(devices_to_add)
+                        self.result["changed"] = True
+                        self.msg = "Device(s) '{0}' added to Cisco Catalyst Center".format(
+                            str(devices_to_add)
                         )
                         self.log(self.msg, "INFO")
                         self.result["msg"] = self.msg
-                        break
-                    elif execution_details.get("isError"):
-                        self.status = "failed"
-                        failure_reason = execution_details.get("failureReason")
-                        if failure_reason:
-                            self.msg = "Device addition for the device(s) '{0}' get failed because of {1}.".format(
-                                device_to_add_in_ccc, failure_reason
-                            )
-                        else:
-                            self.msg = "Device addition get failed for the device(s): '{0}'.".format(
-                                device_to_add_in_ccc
-                            )
-                        self.log(self.msg, "ERROR")
                         self.result["response"] = self.msg
                         break
+                    self.msg = "Device(s) '{0}' already present in Cisco Catalyst Center".format(
+                        str(self.config[0].get("ip_address_list"))
+                    )
+                    self.log(self.msg, "INFO")
+                    self.result["msg"] = self.msg
+                    break
+                elif execution_details.get("isError"):
+                    self.status = "failed"
+                    failure_reason = execution_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = "Device addition for the device(s) '{0}' get failed because of {1}.".format(
+                            device_to_add_in_ccc, failure_reason
+                        )
+                    else:
+                        self.msg = "Device addition get failed for the device(s): '{0}'.".format(
+                            device_to_add_in_ccc
+                        )
+                    self.log(self.msg, "ERROR")
+                    self.result["response"] = self.msg
+                    break
 
+            return self
         except Exception as e:
             error_message = (
                 "Error while adding device in Cisco Catalyst Center: {0}".format(
@@ -5829,7 +5850,7 @@ class Inventory(DnacBase):
                 "DEBUG",
             )
             self.cred_updated_not_required.append(device_ip)
-            return
+            return device_data
 
         device_key_mapping = {
             "username": "userName",
@@ -5926,6 +5947,8 @@ class Inventory(DnacBase):
                 playbook_params["snmpRwCommunity"] = device_data.get(
                     "snmp_write_community", None
                 )
+
+        return playbook_params
 
     def get_diff_merged(self, config):
         """
