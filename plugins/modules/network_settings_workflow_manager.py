@@ -3253,6 +3253,9 @@ class NetworkSettings(DnacBase):
         want_ippool = want_global.get("settings").get("ippool")
         global_pool_index = 0
 
+        # Valid pool types enforced by API
+        VALID_POOL_TYPES = ["Tunnel", "Generic"]
+
         # Process each pool in the global_ippool
         for pool_details in global_ippool:
             cidr_value = pool_details.get("cidr")
@@ -3265,6 +3268,21 @@ class NetworkSettings(DnacBase):
                 continue
             subnet = cidr.get("network_prefix")
             prefix_len = cidr.get("prefix_length")
+
+            # Normalize pool_type: first letter capitalized, rest lowercase
+            user_pool_type = pool_details.get("pool_type", "")
+            normalized_pool_type = (
+                user_pool_type.capitalize() if isinstance(user_pool_type, str) else ""
+            )
+
+            if normalized_pool_type not in VALID_POOL_TYPES:
+                self.log(
+                    f"Invalid or missing pool_type '{user_pool_type}'. "
+                    f"Valid options are {VALID_POOL_TYPES}. Skipping this pool.",
+                    "ERROR"
+                )
+                continue
+
             pool_values = {
                 "addressSpace": {
                     "subnet": subnet,
@@ -3276,7 +3294,7 @@ class NetworkSettings(DnacBase):
                         pool_details.get("dns_server_ips")
                 },
                 "name": pool_details.get("name"),
-                "poolType": pool_details.get("pool_type")
+                "poolType": normalized_pool_type
             }
             self.log(f"Initial pool values: {pool_values}", "DEBUG")
 
