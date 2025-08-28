@@ -1089,9 +1089,10 @@ class PnP(DnacBase):
                 input_device_info = each_config.get("device_info", [])
                 for each_info in input_device_info:
                     if (each_info.get("serialNumber") == serial_number and
-                        each_info.get("authorize") is True):
+                       each_info.get("authorize") is True):
                         authorization_required = True
-                        self.log("Device '{0}' requires authorization based on config".format(serial_number), "DEBUG")
+                        self.log("Device '{0}' requires authorization based on config".format(
+                            serial_number), "DEBUG")
                         break
                 if authorization_required:
                     break
@@ -1832,7 +1833,7 @@ class PnP(DnacBase):
 
                     # Check authorization requirements
                     if (device_state == "Pending Authorization" and
-                        self.compare_dnac_versions(current_version, "2.3.7.9") >= 0):
+                       self.compare_dnac_versions(current_version, "2.3.7.9") >= 0):
 
                         self.log("Device '{0}' is in 'Pending Authorization' state and version supports authorization - proceeding with authorization".format(
                             serial_number), "INFO")
@@ -1901,7 +1902,7 @@ class PnP(DnacBase):
 
                 # Process device authorization if conditions are met
                 if (device_state == "Pending Authorization" and
-                    self.compare_dnac_versions(current_version, "2.3.7.9") >= 0):
+                   self.compare_dnac_versions(current_version, "2.3.7.9") >= 0):
 
                     self.log("Device '{0}' is in 'Pending Authorization' state and version supports authorization - initiating authorization process".format(
                         serial_number), "INFO")
