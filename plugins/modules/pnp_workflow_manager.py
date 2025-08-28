@@ -93,11 +93,18 @@ options:
             type: bool
             required: false
           authorize:
-            description:
-              - Set the authorize flag for the device.
-              - Supported from Cisco Catalyst Center release version 2.3.7.6 onwards.
+            description: |
+              - Set the authorization flag for PnP devices to enable provisioning after claiming.
+              - When set to true, devices in "Pending Authorization" state will be automatically authorized.
+              - This flag moves devices from "Pending Authorization" to "Authorized" state, allowing them to proceed with the provisioning workflow.
+              - Authorization is performed after successful device import (bulk operations) or device addition (single device operations).
+              - If not specified, devices will remain in their current authorization state and may require manual authorization.
+              - This parameter only applies to devices that support the authorization workflow in their PnP process.
+              - Authorization is skipped for devices that are not in "Pending Authorization" state.
+              - Supported from Cisco Catalyst Center release version 2.3.7.9 onwards.
             type: bool
             required: false
+            default: false
       site_name:
         description: Name of the site for which the
           device will be claimed.
@@ -854,8 +861,15 @@ class PnP(DnacBase):
         Returns:
             dict: The API response if the authorization is successful.
             None: If the authorization fails or an unexpected response is received.
+
+        Description:
+            This function authorizes a PnP device by setting the authorization flag, which moves the device
+            from "Pending Authorization" state to "Authorized" state. This is required for devices to be
+            provisioned after being claimed to a site. The function is supported from Cisco Catalyst Center
+            release version 2.3.7.9 onwards and handles both successful and failed authorization scenarios.
         """
-        self.log("Authorizing the device with device ID '{0}'.".format(device_id), "DEBUG")
+        self.log("Initiating device authorization process for device ID: '{0}'".format(
+            device_id), "DEBUG")
 
         if not device_id:
             self.msg = "No device ID provided for authorization."
@@ -873,23 +887,30 @@ class PnP(DnacBase):
                 op_modifies=True
             )
             self.log(
-                "Response from 'authorize_device' API for device authorization: {0}".format(
+                "Received API response from 'authorize_device' for device ID '{0}': {1}".format(
+                    device_id,
                     self.pprint(authorize_response)
                 ),
                 "DEBUG",
             )
 
             if authorize_response and isinstance(authorize_response, dict):
+                self.log("Device authorization completed successfully for device ID: '{0}'".format(
+                    device_id), "INFO")
                 return authorize_response
 
-            self.log("Received unexpected response from 'authorize_device' API for device ID {0}".
-                     format(device_id), "ERROR")
+            self.log(
+                "Received unexpected response format from 'authorize_device' API for device ID '{0}' - expected dict, got: {1}".format(
+                    device_id, type(authorize_response).__name__
+                ),
+                "ERROR"
+            )
 
         except Exception as e:
-            self.msg = "Unable to execute 'authorize_device' for device ID: '{0}'. ".format(
-                device_id)
-            self.log(self.msg + str(e), "ERROR")
-            return e
+            self.msg = "Exception occurred while executing 'authorize_device' for device ID: '{0}' - {1}".format(
+                device_id, str(e)
+            )
+            self.log(self.msg, "ERROR")
 
         return None
 
@@ -981,17 +1002,32 @@ class PnP(DnacBase):
             self.result['diff'] = self.validated_config
             self.result['changed'] = True
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") > 0:
+            # Check for authorization support and process if applicable
+            current_version = self.get_ccc_version()
+            if self.compare_dnac_versions(current_version, "2.3.7.9") >= 0:
+                self.log("Cisco Catalyst Center version {0} supports device authorization. Checking for authorization requirements.".format(
+                    current_version), "DEBUG")
+
                 authorize_status, serial_number_list = self.bulk_authorize_devices(add_devices)
+
                 if authorize_status:
-                    self.result['msg'] += " {0} device(s) authorized successfully".format(
-                        len(serial_number_list))
-                    self.log(self.result['msg'], "INFO")
+                    auth_count = len(serial_number_list)
+                    auth_msg = " {0} device(s) authorized successfully".format(auth_count)
+                    self.result['msg'] += auth_msg
+                    self.log("Device authorization completed successfully: {0} devices authorized".format(
+                        auth_count), "INFO")
                 else:
-                    msg = " Unable to authorize the device(s): {0}".format(
-                        serial_number_list)
-                    self.log(msg, "INFO")
-                return self
+                    if serial_number_list:
+                        auth_msg = " Unable to authorize the device(s): {0}".format(serial_number_list)
+                        self.log("Device authorization failed for devices: {0}".format(
+                            serial_number_list), "WARNING")
+                    else:
+                        self.log("No devices required authorization or authorization was skipped", "INFO")
+            else:
+                self.log("Cisco Catalyst Center version {0} does not support device authorization feature (requires 2.3.7.9+)".format(
+                    current_version), "INFO")
+
+            return self
 
         except Exception as e:
             msg = "Unable execute the function 'import_devices_in_bulk' for the payload: '{0}'. ".format(
@@ -1009,7 +1045,7 @@ class PnP(DnacBase):
 
     def bulk_authorize_devices(self, processed_devices):
         """
-        Authorizes multiple devices after bulk import is completed.
+        Authorizes multiple devices after bulk import is completed based on authorization flag.
 
         Parameters:
             processed_devices (list): A list of dictionaries containing bulk device information.
@@ -1018,55 +1054,129 @@ class PnP(DnacBase):
             tuple:
                 bool: True if all devices are successfully authorized, False otherwise.
                 list: A list of serial numbers of the authorized or unauthorized devices.
+
+        Description:
+            This function processes device authorization for devices that have the 'authorize' flag set to True
+            in the configuration. It checks each device's state and attempts authorization only for devices
+            in "Pending Authorization" state. The function is supported from Cisco Catalyst Center release
+            version 2.3.7.9 onwards and provides comprehensive status reporting for bulk authorization operations.
         """
-        self.log("Processing bulk authorize devices started for: {0}".format(
-            self.pprint(processed_devices)), "INFO")
+        self.log("Initiating bulk device authorization process for {0} devices".format(
+            len(processed_devices)), "DEBUG")
+
+        if not processed_devices:
+            self.log("No devices provided for bulk authorization - skipping process", "INFO")
+            return True, []
 
         authorized_devices = []
         unauthorized_devices = []
+        devices_requiring_auth = []
 
+        # First, identify devices that need authorization based on config
         for device in processed_devices:
-            self.log("Checking device '{0}' for authorization flag.".format(
-                str(device)), "INFO")
             device_info = device.get("deviceInfo", {})
             serial_number = device_info.get("serialNumber")
 
+            if not serial_number:
+                self.log("Device missing serial number - skipping authorization check: {0}".format(device), "WARNING")
+                continue
+
+            self.log("Checking authorization requirements for device: '{0}'".format(serial_number), "DEBUG")
+
+            # Check if this device has authorize flag set in config
+            authorization_required = False
             for each_config in self.config:
-                input_device_info = each_config.get("device_info")
-                if not any(each_info.get("serialNumber") == serial_number
-                           and each_info.get("authorize") is True
-                           for each_info in input_device_info):
-                    self.log("Config does not match with bulk processed serial number", "DEBUG")
-                    continue
+                input_device_info = each_config.get("device_info", [])
+                for each_info in input_device_info:
+                    if (each_info.get("serialNumber") == serial_number and
+                        each_info.get("authorize") is True):
+                        authorization_required = True
+                        self.log("Device '{0}' requires authorization based on config".format(serial_number), "DEBUG")
+                        break
+                if authorization_required:
+                    break
 
-                device_response = self.get_device_list_pnp(serial_number)
-                if device_response and isinstance(device_response, dict):
-                    device_info = device_response.get("deviceInfo", {})
-                    if device_info.get("state") == "Pending Authorization":
-                        authorize_response = self.authorize_device(device_response.get("id"))
-                        self.log("Device authorization response: '{0}'".format(
-                            authorize_response), "INFO")
+            if authorization_required:
+                devices_requiring_auth.append(serial_number)
+            else:
+                self.log("Device '{0}' does not require authorization (authorize flag not set)".format(serial_number), "DEBUG")
 
-                        if isinstance(authorize_response, dict):
-                            self.log("Device '{0}' authorized successfully.".format(
-                                serial_number), "INFO")
-                            authorized_devices.append(serial_number)
-                        else:
-                            self.log("Unable to authorized device: '{0}', error: {1}".format(
-                                serial_number, authorize_response), "INFO")
-                            unauthorized_devices.append(serial_number)
-                else:
-                    self.log("No valid device response for serial number: '{0}'".format(
-                        serial_number), "INFO"
-                    )
-                    unauthorized_devices.append(serial_number)
+        if not devices_requiring_auth:
+            self.log("No devices require authorization based on configuration", "INFO")
+            return True, []
 
+        self.log("Found {0} device(s) requiring authorization: {1}".format(
+            len(devices_requiring_auth), devices_requiring_auth), "INFO")
+
+        # Process authorization for devices that require it
+        for serial_number in devices_requiring_auth:
+            self.log("Processing authorization for device: '{0}'".format(serial_number), "DEBUG")
+
+            device_response = self.get_device_list_pnp(serial_number)
+            if not device_response or not isinstance(device_response, dict):
+                self.log("Unable to retrieve device details for serial number: '{0}' - skipping authorization".format(
+                    serial_number), "WARNING")
+                unauthorized_devices.append(serial_number)
+                continue
+
+            device_info = device_response.get("deviceInfo", {})
+            current_state = device_info.get("state")
+            device_id = device_response.get("id")
+
+            self.log("Device '{0}' current state: '{1}'".format(serial_number, current_state), "DEBUG")
+
+            if current_state != "Pending Authorization":
+                self.log("Device '{0}' is not in 'Pending Authorization' state (current: '{1}') - skipping authorization".format(
+                    serial_number, current_state), "INFO")
+                unauthorized_devices.append(serial_number)
+                continue
+
+            if not device_id:
+                self.log("Device '{0}' missing device ID - cannot authorize".format(serial_number), "ERROR")
+                unauthorized_devices.append(serial_number)
+                continue
+
+            # Attempt device authorization
+            self.log("Attempting to authorize device '{0}' with ID '{1}'".format(serial_number, device_id), "INFO")
+            authorize_response = self.authorize_device(device_id)
+
+            self.log("Authorization response for device '{0}': {1}".format(
+                serial_number, self.pprint(authorize_response)), "DEBUG")
+
+            if authorize_response and isinstance(authorize_response, dict):
+                self.log("Device '{0}' authorized successfully".format(serial_number), "INFO")
+                authorized_devices.append(serial_number)
+            else:
+                error_msg = str(authorize_response) if authorize_response else "No response received"
+                self.log("Failed to authorize device '{0}': {1}".format(serial_number, error_msg), "ERROR")
+                unauthorized_devices.append(serial_number)
+
+        # Generate final status summary
+        total_auth_required = len(devices_requiring_auth)
+        auth_success_count = len(authorized_devices)
+        auth_failed_count = len(unauthorized_devices)
+
+        self.log("Bulk authorization completed - Required: {0}, Successful: {1}, Failed: {2}".format(
+            total_auth_required, auth_success_count, auth_failed_count), "INFO")
+
+        if authorized_devices:
+            self.log("Successfully authorized devices: {0}".format(authorized_devices), "INFO")
+
+        if unauthorized_devices:
+            self.log("Failed to authorize devices: {0}".format(unauthorized_devices), "WARNING")
+
+        # Return success status and appropriate device list
         if authorized_devices and not unauthorized_devices:
-            self.log("Devices authorized successfully for '{0}'".format(
-                self.pprint(processed_devices)), "INFO")
+            self.log("All devices requiring authorization were successfully authorized", "INFO")
             return True, authorized_devices
 
-        return False, unauthorized_devices
+        if unauthorized_devices:
+            self.log("Some devices failed authorization or were not eligible", "WARNING")
+            return False, unauthorized_devices
+
+        # This should not be reached, but included for completeness
+        self.log("No authorization operations were performed", "INFO")
+        return True, []
 
     def compare_config_with_device_info(self, input_config, device_info):
         """
@@ -1571,18 +1681,28 @@ class PnP(DnacBase):
                             existing_device_info, device_info, device_response.get("id")
                         )
 
-                        if authorize_flag and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") > 0 \
+                        current_version = self.get_ccc_version()
+                        if authorize_flag and self.compare_dnac_versions(current_version, "2.3.7.9") >= 0 \
                            and claim_stat == "Pending Authorization":
-                            authorize_response = self.authorize_device(device_response.get("id"))
-                            self.log("Device authorize response: '{0}'".format(
-                                authorize_response), "INFO")
+                            self.log("Initiating device authorization process for device '{0}' - Version: {1}, State: {2}".format(
+                                serial_number, current_version, claim_stat), "INFO")
 
-                            if isinstance(authorize_response, dict):
-                                self.log("Device '{0}' authorized successfully.".format(
-                                    serial_number), "INFO")
+                            device_id = device_response.get("id")
+                            if not device_id:
+                                self.log("Device ID not found for device '{0}' - cannot proceed with authorization".format(
+                                    serial_number), "ERROR")
                             else:
-                                self.log("Unable to authorized device: '{0}', error: {1}".format(
-                                    serial_number, authorize_response), "INFO")
+                                authorize_response = self.authorize_device(device_id)
+                                self.log("Authorization API response for device '{0}': {1}".format(
+                                    serial_number, self.pprint(authorize_response)), "DEBUG")
+
+                                if authorize_response and isinstance(authorize_response, dict):
+                                    self.log("Device '{0}' authorized successfully and moved from 'Pending Authorization' state".format(
+                                        serial_number), "INFO")
+                                else:
+                                    error_msg = str(authorize_response) if authorize_response else "No response received"
+                                    self.log("Failed to authorize device '{0}': {1}".format(
+                                        serial_number, error_msg), "ERROR")
 
                     else:
                         self.log(
@@ -1699,22 +1819,47 @@ class PnP(DnacBase):
 
                 if self.have["deviceInfo"]:
                     self.result["msg"] = "Only Device Added Successfully"
-                    if self.have["deviceInfo"].get("state") == "Pending Authorization" \
-                       and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") > 0:
-                        authorize_response = self.authorize_device(dev_add_response.get("id"))
-                        self.log("Device authorize response: '{0}'".format(
-                            authorize_response), "INFO")
+                    self.log("Device successfully added to PnP database", "INFO")
 
-                        if isinstance(authorize_response, dict):
-                            self.log("Device '{0}' authorized successfully.".format(
-                                self.want.get("serial_number")), "INFO")
-                            self.result["msg"] += ". Device '{0}' authorized successfully.".format(
-                                self.want.get("serial_number"))
+                    # Check if device requires authorization based on state and version compatibility
+                    device_state = self.have["deviceInfo"].get("state")
+                    current_version = self.get_ccc_version()
+                    device_id = dev_add_response.get("id")
+                    serial_number = self.want.get("serial_number")
+
+                    self.log("Device '{0}' current state: '{1}', Catalyst Center version: '{2}'".format(
+                        serial_number, device_state, current_version), "DEBUG")
+
+                    # Check authorization requirements
+                    if (device_state == "Pending Authorization" and
+                        self.compare_dnac_versions(current_version, "2.3.7.9") >= 0):
+
+                        self.log("Device '{0}' is in 'Pending Authorization' state and version supports authorization - proceeding with authorization".format(
+                            serial_number), "INFO")
+
+                        if not device_id:
+                            self.log("Device ID not found for device '{0}' - cannot proceed with authorization".format(
+                                serial_number), "ERROR")
+                            self.result["msg"] += ". Unable to authorize Device '{0}' - missing device ID.".format(
+                                serial_number)
                         else:
-                            self.log("Unable to authorized device: '{0}', error: {1}".format(
-                                self.want.get("serial_number"), authorize_response), "INFO")
-                            self.result["msg"] += ". Unable to authorize Device '{0}'.".format(
-                                self.want.get("serial_number"))
+                            self.log("Initiating authorization process for device '{0}' with ID '{1}'".format(
+                                serial_number, device_id), "DEBUG")
+
+                            authorize_response = self.authorize_device(device_id)
+                            self.log("Authorization API response for device '{0}': {1}".format(
+                                serial_number, self.pprint(authorize_response)), "DEBUG")
+
+                            if authorize_response and isinstance(authorize_response, dict):
+                                self.log("Device '{0}' authorization completed successfully".format(
+                                    serial_number), "INFO")
+                                self.result["msg"] += ". Device '{0}' authorized successfully.".format(
+                                    serial_number)
+                            else:
+                                error_msg = str(authorize_response) if authorize_response else "No response received"
+                                self.log("Failed to authorize device '{0}': {1}".format(serial_number, error_msg), "ERROR")
+                                self.result["msg"] += ". Unable to authorize Device '{0}' - {1}.".format(
+                                    serial_number, error_msg)
 
                     self.log(self.result["msg"], "INFO")
                     self.result["response"] = dev_add_response
@@ -1743,18 +1888,44 @@ class PnP(DnacBase):
                 claim_params = self.get_claim_params()
                 claim_params["deviceId"] = dev_add_response.get("id")
 
-                if self.have["deviceInfo"].get("state") == "Pending Authorization" \
-                   and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") > 0:
-                    authorize_response = self.authorize_device(dev_add_response.get("id"))
-                    self.log("Device authorize response: '{0}'".format(
-                        authorize_response), "INFO")
+                # Check if device requires authorization based on state and version compatibility
+                device_state = self.have["deviceInfo"].get("state")
+                current_version = self.get_ccc_version()
+                device_id = dev_add_response.get("id")
+                serial_number = self.want.get("serial_number")
 
-                    if isinstance(authorize_response, dict):
-                        self.log("Device '{0}' authorized successfully.".format(
-                            self.want.get("serial_number")), "INFO")
+                self.log("Device addition completed - checking authorization requirements for device '{0}'".format(
+                    serial_number), "DEBUG")
+                self.log("Device '{0}' current state: '{1}', Catalyst Center version: '{2}'".format(
+                    serial_number, device_state, current_version), "DEBUG")
+
+                # Process device authorization if conditions are met
+                if (device_state == "Pending Authorization" and
+                    self.compare_dnac_versions(current_version, "2.3.7.9") >= 0):
+
+                    self.log("Device '{0}' is in 'Pending Authorization' state and version supports authorization - initiating authorization process".format(
+                        serial_number), "INFO")
+
+                    if not device_id:
+                        self.log("Device ID not found for device '{0}' - cannot proceed with authorization".format(
+                            serial_number), "ERROR")
+                        self.result["msg"] += ". Unable to authorize Device '{0}' - missing device ID.".format(serial_number)
                     else:
-                        self.log("Unable to authorized device: '{0}', error: {1}".format(
-                            self.want.get("serial_number"), authorize_response), "INFO")
+                        self.log("Attempting device authorization for device '{0}' with ID '{1}'".format(
+                            serial_number, device_id), "DEBUG")
+
+                        authorize_response = self.authorize_device(device_id)
+                        self.log("Authorization API response for device '{0}': {1}".format(
+                            serial_number, self.pprint(authorize_response)), "DEBUG")
+
+                        if authorize_response and isinstance(authorize_response, dict):
+                            self.log("Device '{0}' authorization completed successfully and moved from 'Pending Authorization' state".format(
+                                serial_number), "INFO")
+                            self.result["msg"] += ". Device '{0}' authorized successfully.".format(serial_number)
+                        else:
+                            error_msg = str(authorize_response) if authorize_response else "No response received"
+                            self.log("Failed to authorize device '{0}': {1}".format(serial_number, error_msg), "ERROR")
+                            self.result["msg"] += ". Unable to authorize Device '{0}' - {1}.".format(serial_number, error_msg)
 
                 claim_response = self.claim_device_site(claim_params)
                 self.log(
