@@ -1,0 +1,57 @@
+---
+- name: Get network devices info on Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Get Network Devices Info on Cisco Catalyst Center
+      cisco.dnac.network_devices_info_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: false
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: queried
+        config:
+          - network_devices:
+              - management_ip_address: ["91.1.1.6"]
+                mac_address: ["cc:70:ed:e1:c3:00"]
+                hostname: ["SJ-Border2-9500.cisco.com"]
+                serial_number: ["FCW2243F199"]
+                os_type: ["IOS-XE"]
+                software_version: ["17.15.2"]
+                role: ["BORDER ROUTER"]
+                device_type: ["Cisco Catalyst 9500 Switch"]
+                family: ["Switches and Hubs"]
+                site_hierarchy: ["Global/USA/SAN JOSE/BLD23"]
+                timeout: 10
+                retries: 1
+                interval: 1
+                requested_info:
+                  - device_info
+                  - interface_info
+                  - interface_vlan_info
+                  - line_card_info
+                  - supervisor_card_info
+                  - poe_info
+                  - module_count_info
+                  - connected_device_info
+                  - device_interfaces_by_range_info
+                  - device_config_info
+                  - device_summary_info
+                  - device_polling_interval_info
+                  - device_stack_info
+                  - device_link_mismatch_info
+                output_file_info:
+                  file_path: /Users/karthick/Downloads/testing
+                  file_format: json
+                  file_mode: a
+                  timestamp: true
