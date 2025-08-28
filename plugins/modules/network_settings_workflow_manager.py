@@ -3272,7 +3272,7 @@ class NetworkSettings(DnacBase):
             # Normalize pool_type: first letter capitalized, rest lowercase
             user_pool_type = pool_details.get("pool_type", "")
             normalized_pool_type = (
-            user_pool_type.capitalize() if isinstance(user_pool_type, str) else ""
+                user_pool_type.capitalize() if isinstance(user_pool_type, str) else ""
             )
 
             if normalized_pool_type not in VALID_POOL_TYPES:
