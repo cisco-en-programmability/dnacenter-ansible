@@ -3652,7 +3652,7 @@ class NetworkSettings(DnacBase):
             # Process IPv6 details if enabledx
             ipv6_address = item.get("ipv6_address_space")
             if not isinstance(ipv6_address, bool):
-                self.msg=f"Invalid value for ipv6_address_space: {ipv6_address}. It must be either True or False."
+                self.msg = f"Invalid value for ipv6_address_space: {ipv6_address}. It must be either True or False."
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # Check for missing required parameters in the playbook
