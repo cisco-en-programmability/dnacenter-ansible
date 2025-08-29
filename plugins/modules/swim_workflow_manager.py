@@ -6,6 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 __author__ = "Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari, Syed Khadeer Ahmed, Ajith Andrew J"
+
 DOCUMENTATION = r"""
 ---
 module: swim_workflow_manager
@@ -33,6 +34,7 @@ description:
   - Provides an API to distribute a software image to
     a device. The software image must be imported into
     Catalyst Center before it can be distributed.
+  - Provides an API to delete software images from Catalyst Center.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -50,7 +52,7 @@ options:
     description: The state of Catalyst Center after
       module completion.
     type: str
-    choices: [merged]
+    choices: [ merged, deleted]
     default: merged
   config:
     description: List of details of SWIM image being
@@ -59,6 +61,19 @@ options:
     elements: dict
     required: true
     suboptions:
+      image_name:
+        description:
+          - A list of image names to be deleted.
+          - This parameter is mandatory and exclusively used when the state is 'deleted'.
+          - Applicable for v3.1.3.0 and later.
+        type: list
+        elements: str
+      sync_cco:
+        description:
+          - Set to True to synchronize the image with Cisco Connection Online (CCO).
+          - Applicable for v3.1.3.0 and later.
+        type: bool
+        default: false
       import_image_details:
         description: Details of image being imported
         type: dict
@@ -539,6 +554,20 @@ options:
               ScheduleValidate, validates data before
               schedule (optional).
             type: bool
+          compatible_features:
+            description:
+              - List of compatible feature key-value pairs.
+              - Applicable for v3.1.3.0 and later.
+            type: list
+            elements: dict
+            suboptions:
+              key:
+                description: Feature name. (e.g., "ISSU", "Rommon update")
+                type: str
+              value:
+                description: Feature status (e.g., Enable or Disable)
+                type: str
+
 requirements:
   - dnacentersdk == 2.7.3
   - python >= 3.9
@@ -548,16 +577,17 @@ notes:
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,
+    software_image_management_swim.SoftwareImageManagementSwim.delete_image_v1,
+
   - Paths used are
     post /dna/intent/api/v1/image/importation/source/url,
     post /dna/intent/api/v1/image/importation/golden,
     post /dna/intent/api/v1/image/distribution,
-    post
-    /dna/intent/api/v1/image/activation/device,
-    - Added
-    the parameter 'dnac_api_task_timeout',
-    'dnac_task_poll_interval'
-    options in v6.13.2.
+    post /dna/intent/api/v1/image/activation/device,
+    delete /dna/intent/api/v1/images/{id},
+
+  - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
+
 """
 EXAMPLES = r"""
 ---
@@ -818,11 +848,64 @@ EXAMPLES = r"""
           site_name: Global/USA/San Francisco/BGL_18
           device_role: ALL
           device_family_name: Switches and Hubs
-          device_series_name: Cisco Catalyst 9300 Series
-            Switches
+          device_series_name: Cisco Catalyst 9300 Series Switches
           scehdule_validate: false
           activate_lower_image_version: true
           distribute_if_needed: true
+
+- name: Activate the given image on devices associated
+    to that site for v3.1.3.0.
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/USA/San Francisco/BGL_18
+          compatible_features:
+            - key: "ISSU"
+              value: Enable
+            - key: "Rommon update"
+              value: Disable
+
+- name: Sync cco images to Cisco Catalyst Center for v3.1.3.0.
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - sync_cco: true
+
+- name: Delete image from Cisco Catalyst Center for v3.1.3.0.
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    config_verify: true
+    dnac_api_task_timeout: 1000
+    dnac_task_poll_interval: 1
+    state: deleted
+    config:
+      - image_name: [C9800-SW-iosxe-wlc.17.07.01.SPA.bin]
 """
 RETURN = r"""
 #Case: SWIM image is successfully imported, tagged as golden, distributed and activated on a device
@@ -865,7 +948,7 @@ class Swim(DnacBase):
 
     def __init__(self, module):
         super().__init__(module)
-        self.supported_states = ["merged"]
+        self.supported_states = ["merged", "deleted"]
         self.images_to_import, self.existing_images = [], []
 
     def validate_input(self):
@@ -886,7 +969,6 @@ class Swim(DnacBase):
           will contain the validated configuration. If it fails, 'self.status' will be 'failed',
           'self.msg' will describe the validation issues.
         """
-
         if not self.config:
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
@@ -894,10 +976,12 @@ class Swim(DnacBase):
             return self
 
         temp_spec = dict(
-            import_image_details=dict(type="dict"),
-            tagging_details=dict(type="dict"),
-            image_distribution_details=dict(type="dict"),
-            image_activation_details=dict(type="dict"),
+            image_name=dict(type='list', elements='str'),
+            sync_cco=dict(type='bool', default=False),
+            import_image_details=dict(type='dict'),
+            tagging_details=dict(type='dict'),
+            image_distribution_details=dict(type='dict'),
+            image_activation_details=dict(type='dict'),
         )
 
         # Validate swim params
@@ -996,6 +1080,56 @@ class Swim(DnacBase):
             self.check_return_status()
 
         return image_id
+
+    def get_image_id_v1(self, name):
+        """
+        Retrieve the unique image ID based on the provided image name.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            name (str): The name of the software image to search for.
+        Returns:
+            str or None: The unique image ID (UUID) if a single matching image is found, otherwise None.
+        Description:
+            This function sends a request to Cisco Catalyst Center to retrieve details about a software image based on its name.
+            It extracts and returns the image ID if a single matching image is found. If no image or multiple
+            images are found with the same name, it raises an exception.
+        """
+
+        self.log("Attempting to find image ID for image with name: '{0}'".format(name), "DEBUG")
+        try:
+            image_response = self.dnac._exec(
+                family="software_image_management_swim",
+                function="get_software_image_details",
+                op_modifies=True,
+                params={"image_name": name},
+            )
+
+            self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
+
+            image_list = image_response.get("response", []) if isinstance(image_response, dict) else []
+
+            if len(image_list) == 1:
+                image_id = image_list[0].get("imageUuid")
+                if image_id:
+                    self.log("Successfully found SWIM image '{0}' with ID: {1}".format(name, image_id), "INFO")
+                    return image_id
+                else:
+                    self.log("Image found but missing imageUuid field for '{0}'".format(name), "WARNING")
+                    return None
+
+            if len(image_list) == 0:
+                self.log("No SWIM image found with name '{0}'".format(name), "INFO")
+                return None
+
+            self.log(
+                "Multiple SWIM images ({0}) found with name '{1}' - unable to uniquely identify".format(len(image_list), name),
+                "WARNING",
+            )
+            return None
+
+        except Exception as e:
+            self.log("An exception occurred while retrieving image ID for '{0}': {1}".format(name, str(e)), "ERROR")
+            return None
 
     def get_cco_image_id(self, cco_image_name):
         """
@@ -1679,6 +1813,25 @@ class Swim(DnacBase):
             device families, distribution devices, and activation devices based on user-provided data in the 'want' dictionary.
             It validates and retrieves the necessary information from Cisco Catalyst Center to support later actions.
         """
+        self.log("Retrieving and storing software image and device details from Cisco Catalyst Center", "DEBUG")
+
+        if self.want.get("image_name"):
+            self.log("Processing bulk image names for ID resolution", "DEBUG")
+            have = {}
+            names = self.want.get("image_name")
+            image_id_map = {}
+
+            for name in names:
+                image_id = self.get_image_id(name)
+                if image_id:
+                    image_id_map[name] = image_id
+                    self.log("Successfully resolved image ID for '{0}': {1}".format(name, image_id), "DEBUG")
+                else:
+                    self.log("Failed to resolve image ID for '{0}'".format(name), "WARNING")
+
+            have["image_ids"] = image_id_map
+            self.have.update(have)
+            self.log("Processed {0} image names for bulk operations".format(len(image_id_map)), "INFO")
 
         if self.want.get("tagging_details"):
             have = {}
@@ -1741,7 +1894,7 @@ class Swim(DnacBase):
             # check if image for distributon is available
             if distribution_details.get("image_name"):
                 name = distribution_details.get("image_name").split("/")[-1]
-                image_id = self.get_image_id(name)
+                image_id = self.get_image_id_v1(name)
                 have["distribution_image_id"] = image_id
 
             elif self.have.get("imported_image_id"):
@@ -1749,12 +1902,8 @@ class Swim(DnacBase):
 
             else:
                 self.log(
-                    "Image details required for distribution have not been provided",
+                    "Image details for distribution have not been provided, will proceed with the golden image",
                     "ERROR",
-                )
-                self.module.fail_json(
-                    msg="Image details required for distribution have not been provided",
-                    response=[],
                 )
 
             device_params = {
@@ -1800,7 +1949,7 @@ class Swim(DnacBase):
             # check if image for activation is available
             if activation_details.get("image_name"):
                 name = activation_details.get("image_name").split("/")[-1]
-                image_id = self.get_image_id(name)
+                image_id = self.get_image_id_v1(name)
                 have["activation_image_id"] = image_id
 
             elif self.have.get("imported_image_id"):
@@ -1809,10 +1958,6 @@ class Swim(DnacBase):
                 self.log(
                     "Image details required for activation have not been provided",
                     "ERROR",
-                )
-                self.module.fail_json(
-                    msg="Image details required for activation have not been provided",
-                    response=[],
                 )
 
             site_name = activation_details.get("site_name")
@@ -1893,7 +2038,6 @@ class Swim(DnacBase):
             import, tagging, distribution, and activation. It stores these details in the 'want' dictionary
             for later use in the Ansible module.
         """
-
         want = {}
         import_image_details = config.get("import_image_details", {})
         if import_image_details:
@@ -1956,6 +2100,8 @@ class Swim(DnacBase):
         want["tagging_details"] = config.get("tagging_details")
         want["distribution_details"] = config.get("image_distribution_details")
         want["activation_details"] = config.get("image_activation_details")
+        want["image_name"] = config.get("image_name")
+        want["sync_cco"] = config.get("sync_cco")
 
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
@@ -2905,7 +3051,7 @@ class Swim(DnacBase):
             )
 
         image_ids = {
-            image: self.get_image_id(image) for image in all_images_for_distribution
+            image: self.get_image_id_v1(image) for image in all_images_for_distribution
         }
         self.log("Resolved image IDs: {0}".format(image_ids), "DEBUG")
 
@@ -2939,84 +3085,161 @@ class Swim(DnacBase):
                 )
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
+            if (
+                self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9")
+                <= 0
+            ):
+                success_distribution_list = []
+                failed_distribution_list = []
 
-            success_distribution_list = []
-            failed_distribution_list = []
-
-            for image_name, image_id in image_ids.items():
-                self.log(
-                    "Initiating image distribution for '{0}' (ID: {1}) to device {2}".format(
-                        image_name, image_id, elg_device_ip
-                    ),
-                    "INFO",
-                )
-                distribution_params = {
-                    "payload": [{"deviceUuid": device_id, "imageUuid": image_id}]
-                }
-                self.log(
-                    "Generated distribution parameters: {0}".format(
-                        distribution_params
-                    ),
-                    "DEBUG",
-                )
-
-                response = self.dnac._exec(
-                    family="software_image_management_swim",
-                    function="trigger_software_image_distribution",
-                    op_modifies=True,
-                    params=distribution_params,
-                )
-                self.log(
-                    "Received API response from 'trigger_software_image_distribution': {0}".format(
-                        str(response)
-                    ),
-                    "DEBUG",
-                )
-
-                if (
-                    not response
-                    or "response" not in response
-                    or "taskId" not in response["response"]
-                ):
-                    failed_msg = "Failed to initiate image distribution for '{0}' (ID: {1}) to the device with IP {2}.".format(
-                        image_name, image_id, elg_device_ip
+                for image_name, image_id in image_ids.items():
+                    self.log(
+                        "Initiating image distribution for '{0}' (ID: {1}) to device {2}".format(
+                            image_name, image_id, elg_device_ip
+                        ),
+                        "INFO",
                     )
-                    failed_msg_parts.append(failed_msg)
-                    failed_distribution_list.append(image_name)
-                    self.log(failed_msg, "ERROR")
-                    continue
+                    distribution_params = {
+                        "payload": [{"deviceUuid": device_id, "imageUuid": image_id}]
+                    }
+                    self.log(
+                        "Generated distribution parameters: {0}".format(
+                            distribution_params
+                        ),
+                        "DEBUG",
+                    )
 
-                task_id = response["response"]["taskId"]
-                self.log(
-                    "Tracking distribution task with Task ID: {0}".format(task_id),
-                    "INFO",
-                )
-
-                while True:
-                    task_details = self.get_task_details(task_id)
-                    self.log("Task details received: {0}".format(task_details), "DEBUG")
-
-                    if not task_details.get(
-                        "isError"
-                    ) and "completed successfully" in task_details.get("progress"):
-                        success_msg = (
-                            "'{0}' (ID: {1}) successfully distributed.".format(
-                                image_name, image_id
-                            )
-                        )
-                        success_msg_parts.append(success_msg)
-                        success_distribution_list.append(image_name)
-                        self.log(success_msg, "INFO")
-                        break
-
-                    if task_details.get("isError"):
-                        failed_msg = "Image '{0}' (ID: {1}) distribution failed for device {2}.".format(
+                    response = self.dnac._exec(
+                        family="software_image_management_swim",
+                        function="trigger_software_image_distribution",
+                        op_modifies=True,
+                        params=distribution_params,
+                    )
+                    self.log(
+                        "Received API response from 'trigger_software_image_distribution': {0}".format(
+                            str(response)
+                        ),
+                        "DEBUG",
+                    )
+                    deviceip = self.get_device_ip_from_id
+                    if (
+                        not response
+                        or "response" not in response
+                        or "taskId" not in response["response"]
+                    ):
+                        failed_msg = "Failed to initiate image distribution for '{0}' (ID: {1}) to the device with IP {2}.".format(
                             image_name, image_id, elg_device_ip
                         )
                         failed_msg_parts.append(failed_msg)
                         failed_distribution_list.append(image_name)
                         self.log(failed_msg, "ERROR")
-                        break
+                        continue
+
+                    task_id = response["response"]["taskId"]
+                    self.log(
+                        "Tracking distribution task with Task ID: {0}".format(task_id),
+                        "INFO",
+                    )
+
+                    while True:
+                        task_details = self.get_task_details(task_id)
+                        self.log("Task details received: {0}".format(task_details), "DEBUG")
+
+                        if not task_details.get(
+                            "isError"
+                        ) and "completed successfully" in task_details.get("progress"):
+                            if image_id:
+                                success_msg = (
+                                    "'{0}' (ID: {1}) successfully distributed for device {2}.".format(
+                                        image_name, image_id, elg_device_ip
+                                    )
+                                )
+                            else:
+                                success_msg = (
+                                    "Golden image successfully distributed to device {0}.".format(
+                                        elg_device_ip
+                                    )
+                                )
+                            success_msg_parts.append(success_msg)
+                            success_distribution_list.append(image_name)
+                            self.log(success_msg, "INFO")
+                            break
+
+                        if task_details.get("isError"):
+                            failed_msg = "Image '{0}' (ID: {1}) distribution failed for device {2}.".format(
+                                image_name, image_id, elg_device_ip
+                            )
+                            failed_msg_parts.append(failed_msg)
+                            failed_distribution_list.append(image_name)
+                            self.log(failed_msg, "ERROR")
+                            break
+            else:
+                self.log(
+                    "Distribution device ID provided. Starting image distribution for device IP {0} (ID: {1}) with software version >= 2.3.7.9.".format(
+                        elg_device_ip, device_id
+                    ),
+                    "DEBUG",
+                )
+
+                distributed_images = [{"id": img_id} for img_id in image_ids.values()]
+
+                payload = [
+                    {
+                        "id": distribution_device_id,
+                        "distributedImages": distributed_images,
+                        "networkValidationIds": None  # Update after confirmation from DNAC team
+                    }
+                ]
+
+                self.log(
+                    "Payload for image distribution: {0}".format(str(payload)), "DEBUG"
+                )
+
+                try:
+                    response = self.dnac._exec(
+                        family="software_image_management_swim",
+                        function="distribute_images_on_the_network_device",
+                        op_modifies=True,
+                        id=distribution_device_id,
+                        params=payload
+                    )
+
+                    self.log(
+                        "Received API response from 'distribute_images_on_the_network_device': {0}".format(
+                            str(response)
+                        ),
+                        "DEBUG",
+                    )
+
+                    self.check_tasks_response_status(
+                        response, "distribute_images_on_the_network_device"
+                    )
+
+                    if self.status not in ["failed", "exited"]:
+                        self.msg = (
+                            "Image distribution completed successfully for the device IP {0} "
+                            "(ID: {1}).".format(elg_device_ip, device_id)
+                        )
+                        self.set_operation_result("success", True, self.msg, "INFO")
+                        return self
+
+                    if self.status == "failed":
+                        fail_reason = self.msg
+                        self.msg = (
+                            "Image distribution failed due to - {0}".format(fail_reason)
+                        )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
+
+                except Exception as e:
+                    self.log(
+                        "Error occurred while distributing image: {0}".format(str(e)),
+                        "ERROR",
+                    )
+                    self.set_operation_result(
+                        "failed", False, str(e), "ERROR"
+                    ).check_return_status()
 
             if success_msg_parts:
                 final_msg += "Successfully distributed: " + "; ".join(success_msg_parts)
@@ -3064,111 +3287,137 @@ class Swim(DnacBase):
         already_distributed_devices = []
         elg_device_list = []
         device_ip_for_not_elg_list = []
+        bulk_payload = []
 
-        for device_uuid in device_uuid_list:
-            device_ip = self.get_device_ip_from_id(device_uuid)
-            self.log("Processing device: {0}".format(device_ip), "DEBUG")
-            distributed = False
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            # -------- OLD VERSION (Sequential Distribution) -------- #
+            self.log(
+                "Using old version of SWIM API for image distribution (before 2.3.7.9)"
+            )
+            for device_uuid in device_uuid_list:
+                device_ip = self.get_device_ip_from_id(device_uuid)
+                self.log("Processing device: {0}".format(device_ip), "DEBUG")
+                distributed = False
 
-            for img_name, img_id in image_ids.items():
-                self.log(
-                    "Checking compliance for image '{0}' on device {1}".format(
-                        img_name, device_ip
-                    ),
-                    "DEBUG",
-                )
-                elg_device_ip, device_id = self.check_device_compliance(
-                    device_uuid, img_name
-                )
+                for img_name, img_id in image_ids.items():
+                    self.log("Checking compliance for image '{0}' on device {1}".format(img_name, device_ip), "DEBUG")
+                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, img_name)
 
-                if not elg_device_ip:
-                    device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
-                    device_ip_for_not_elg_list.append(device_ip_for_not_elg)
-                    self.log(
-                        "Device {0} is not eligible for image '{1}'".format(
-                            device_ip, img_name
-                        ),
-                        "WARNING",
+                    if not elg_device_ip:
+                        device_ip_for_not_elg_list.append(device_ip)
+                        self.log("Device {0} is not eligible for image '{1}'".format(device_ip, img_name), "WARNING")
+                        continue
+
+                    self.log("Device {0} is eligible for distribution of image {1}".format(elg_device_ip, img_name), "INFO")
+                    elg_device_list.append(elg_device_ip)
+
+                    distribution_params = {"payload": [{"deviceUuid": device_id, "imageUuid": img_id}]}
+                    self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
+
+                    response = self.dnac._exec(
+                        family="software_image_management_swim",
+                        function="trigger_software_image_distribution",
+                        op_modifies=True,
+                        params=distribution_params,
                     )
-                    continue
+                    self.log("Received API response: {0}".format(str(response)), "DEBUG")
 
-                self.log(
-                    "Device {0} is eligible for distribution of image {1}".format(
-                        elg_device_ip, image_name
-                    ),
-                    "INFO",
-                )
-                elg_device_list.append(elg_device_ip)
+                    if response:
+                        task_id = response.get("response", {}).get("taskId")
+                        distribution_task_dict[(device_ip, img_name)] = task_id
+                        distributed = True
 
-                self.log(
-                    "Starting distribution of '{0}' to device {1}".format(
-                        img_name, device_ip
-                    ),
-                    "INFO",
-                )
-                distribution_params = dict(
-                    payload=[dict(deviceUuid=device_id, imageUuid=img_id)]
-                )
-                self.log(
-                    "Distribution Params: {0}".format(str(distribution_params)), "INFO"
-                )
+                if not distributed:
+                    already_distributed_devices.append(device_ip)
 
+            # -------- Task Status Tracking --------
+            for (device_ip, img_name), task_id in distribution_task_dict.items():
+                task_name = "Distribution to {0}".format(device_ip)
+                success_msg = "Successfully distributed image {0} to device {1}".format(img_name, device_ip)
+
+                status_check = self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+                if status_check.status == "success":
+                    success_distribution_list.append((device_ip, img_name))
+                else:
+                    failed_distribution_list.append((device_ip, img_name))
+
+        else:
+            # -------- NEW VERSION (Bulk Distribution) -------- #
+            for device_uuid in device_uuid_list:
+                device_ip = self.get_device_ip_from_id(device_uuid)
+                self.log("Processing device: {0}".format(device_ip), "DEBUG")
+                device_distributed_images = []
+
+                for img_name, img_id in image_ids.items():
+                    elg_device_ip, elg_device_uuid = self.check_device_compliance(device_uuid, img_name)
+
+                    if not elg_device_ip:
+                        device_ip_for_not_elg_list.append(device_ip)
+                        self.log("Device {0} is not eligible for image '{1}'".format(device_ip, img_name), "WARNING")
+                        continue
+
+                    self.log("Device {0} is eligible for bulk image distribution of '{1}'".format(elg_device_ip, img_name), "INFO")
+                    elg_device_list.append(elg_device_ip)
+
+                    device_distributed_images.append({"id": img_id})
+
+                if device_distributed_images:
+                    bulk_payload.append({
+                        "id": device_uuid,
+                        "distributedImages": device_distributed_images,
+                        "networkValidationIds": []
+                    })
+
+            # -------- Bulk API Call --------
+            self.log(bulk_payload, "DEBUG")
+            try:
                 response = self.dnac._exec(
                     family="software_image_management_swim",
-                    function="trigger_software_image_distribution",
+                    function="bulk_distribute_images_on_network_devices",
                     op_modifies=True,
-                    params=distribution_params,
-                )
-                self.log(
-                    "Received API response from 'trigger_software_image_distribution': {0}".format(
-                        str(response)
-                    ),
-                    "DEBUG",
+                    params={"payload": bulk_payload},
                 )
 
-                if response:
-                    task_id = response.get("response", {}).get("taskId")
-                    distribution_task_dict[(device_ip, img_name)] = task_id
-                    distributed = True
+                self.log("API response from 'bulk_distribute_images_on_network_devices': {0}".format(str(response)), "DEBUG")
 
-            if not distributed:
-                already_distributed_devices.append(device_ip)
+                self.check_tasks_response_status(
+                    response, "bulk_distribute_images_on_network_devices"
+                )
 
-        # Check task status sequentially
-        self.log("Checking task statuses for distributed images", "INFO")
+                if response and self.status not in ["failed", "exited"]:
+                    self.msg = "Bulk image distribution completed successfully."
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    return self
+                else:
+                    self.msg = "Bulk image distribution failed."
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        for (device_ip, img_name), task_id in distribution_task_dict.items():
-            task_name = "Distribution to {0}".format(device_ip)
-            success_msg = "Successfully distributed image {0} to device {1}".format(
-                img_name, device_ip
-            )
+            except Exception as e:
+                self.msg = "Exception occurred during bulk image distribution: {0}".format(str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.log(self.msg, "ERROR")
 
-            status_check = self.get_task_status_from_tasks_by_id(
-                task_id, task_name, success_msg
-            )
-
-            if status_check.status == "success":
-                success_distribution_list.append((device_ip, img_name))
-            else:
-                failed_distribution_list.append((device_ip, img_name))
-
+        # -------- Final Summary Logging --------
         success_image_map = {}
         failed_image_map = {}
 
         for device_ip, img_name in success_distribution_list:
-            if img_name not in success_image_map:
-                success_image_map[img_name] = []
-            success_image_map[img_name].append(device_ip)
+            success_image_map.setdefault(img_name, []).append(device_ip)
 
         for device_ip, img_name in failed_distribution_list:
-            if img_name not in failed_image_map:
-                failed_image_map[img_name] = []
-            failed_image_map[img_name].append(device_ip)
+            failed_image_map.setdefault(img_name, []).append(device_ip)
 
-        success_msg_parts = [
-            "{} to {}".format(img, ", ".join(devices))
-            for img, devices in success_image_map.items()
-        ]
+        if list(success_image_map.keys()) == [None]:
+            success_msg_parts = [
+                "Golden image has been sent to {}".format(", ".join(devices))
+                for devices in success_image_map.values()
+            ]
+        else:
+            success_msg_parts = [
+                "{} to {}".format(img, ", ".join(devices))
+                for img, devices in success_image_map.items()
+            ]
 
         failed_msg_parts = [
             "{} to {}".format(img, ", ".join(devices))
@@ -3336,12 +3585,14 @@ class Swim(DnacBase):
             all_images_for_activation.extend([str(img) for img in sub_package_images])
 
         image_ids = {
-            image: self.get_image_id(image) for image in all_images_for_activation
+            image: self.get_image_id_v1(image) for image in all_images_for_activation
         }
-        self.log(
-            "Images identified for activation: {0}".format(", ".join(image_ids.keys())),
-            "INFO",
-        )
+
+        if image_ids and not (len(image_ids) == 1 and None in image_ids):
+            self.log(
+                "Images identified for activation: {0}".format(", ".join(str(k) for k in image_ids.keys())),
+                "INFO",
+            )
 
         if activation_device_id:
             success_msg_parts = []
@@ -3375,92 +3626,112 @@ class Swim(DnacBase):
             success_activation_list = []
             failed_activation_list = []
 
-            for image_name, image_id in image_ids.items():
-                payload = [
-                    {
-                        "activateLowerImageVersion": activation_details.get(
-                            "activate_lower_image_version"
-                        ),
-                        "deviceUpgradeMode": activation_details.get(
-                            "device_upgrade_mode"
-                        ),
-                        "distributeIfNeeded": activation_details.get(
-                            "distribute_if_needed"
-                        ),
-                        "deviceUuid": self.have.get("activation_device_id"),
-                        "imageUuidList": [image_id],
+            activation_payload_list = []
+
+            # OLD FLOW (for DNAC < 2.3.7.9)
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+                for image_name, image_id in image_ids.items():
+                    payload = [
+                        {
+                            "activateLowerImageVersion": activation_details.get("activate_lower_image_version"),
+                            "deviceUpgradeMode": activation_details.get("device_upgrade_mode"),
+                            "distributeIfNeeded": activation_details.get("distribute_if_needed"),
+                            "deviceUuid": self.have.get("activation_device_id"),
+                            "imageUuidList": [image_id],
+                        }
+                    ]
+
+                    activation_params = {
+                        "schedule_validate": activation_details.get("schedule_validate"),
+                        "payload": payload,
                     }
-                ]
 
-                activation_params = {
-                    "schedule_validate": activation_details.get("schedule_validate"),
-                    "payload": payload,
-                }
+                    self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
 
-                self.log(
-                    "Activation Params: {0}".format(str(activation_params)), "INFO"
-                )
-
-                response = self.dnac._exec(
-                    family="software_image_management_swim",
-                    function="trigger_software_image_activation",
-                    op_modifies=True,
-                    params=activation_params,
-                )
-                self.log(
-                    "Received API response from 'trigger_software_image_activation': {0}".format(
-                        str(response)
-                    ),
-                    "DEBUG",
-                )
-
-                if (
-                    not response
-                    or "response" not in response
-                    or "taskId" not in response["response"]
-                ):
-                    failed_msg = "Failed to initiate activation for image '{0}' (ID: {1}) on device with IP {2}.".format(
-                        image_name, image_id, elg_device_ip
+                    response = self.dnac._exec(
+                        family="software_image_management_swim",
+                        function="trigger_software_image_activation",
+                        op_modifies=True,
+                        params=activation_params,
                     )
-                    failed_msg_parts.append(failed_msg)
-                    failed_activation_list.append(image_name)
-                    self.log(failed_msg, "ERROR")
-                    continue
 
-                task_id = response["response"]["taskId"]
-                self.log(
-                    "Tracking activation task with Task ID: {0}".format(task_id), "INFO"
-                )
+                    self.log("Received API response from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
 
-                while True:
-                    task_details = self.get_task_details(task_id)
-
-                    if not task_details.get(
-                        "isError"
-                    ) and "completed successfully" in task_details.get("progress"):
-                        success_msg = "'{0}' (ID: {1})".format(image_name, image_id)
-                        success_msg_parts.append(success_msg)
-                        success_activation_list.append(image_name)
-                        self.log(
-                            "Image '{0}' (ID: {1}) activation success.".format(
-                                image_name, image_id
-                            ),
-                            "INFO",
-                        )
-                        break
-
-                    if task_details.get("isError"):
-                        failed_msg = "Activation of image '{0}' (ID: {1}) to the device with IP {2} has failed. Error: {3}".format(
-                            image_name,
-                            image_id,
-                            elg_device_ip,
-                            task_details.get("progress", "Unknown error"),
+                    if not response or "response" not in response or "taskId" not in response["response"]:
+                        failed_msg = "Failed to initiate activation for image '{0}' (ID: {1}) on device with IP {2}.".format(
+                            image_name, image_id, self.get_device_ip_from_id(self.have.get("activation_device_id"))
                         )
                         failed_msg_parts.append(failed_msg)
                         failed_activation_list.append(image_name)
                         self.log(failed_msg, "ERROR")
-                        break
+                        continue
 
+                    task_id = response["response"]["taskId"]
+                    self.log("Tracking activation task with Task ID: {0}".format(task_id), "INFO")
+
+                    while True:
+                        task_details = self.get_task_details(task_id)
+
+                        if not task_details.get("isError") and "completed successfully" in task_details.get("progress"):
+                            success_msg = "'{0}' (ID: {1})".format(image_name, image_id)
+                            success_msg_parts.append(success_msg)
+                            success_activation_list.append(image_name)
+                            self.log("Image '{0}' (ID: {1}) activation success.".format(image_name, image_id), "INFO")
+                            break
+
+                        if task_details.get("isError"):
+                            failed_msg = "Activation of image '{0}' (ID: {1}) to the device with IP {2} has failed. Error: {3}".format(
+                                image_name,
+                                image_id,
+                                self.get_device_ip_from_id(self.have.get("activation_device_id")),
+                                task_details.get("progress", "Unknown error"),
+                            )
+                            failed_msg_parts.append(failed_msg)
+                            failed_activation_list.append(image_name)
+                            self.log(failed_msg, "ERROR")
+                            break
+
+            # NEW FLOW (for Catalyst Center >= 2.3.7.9)
+            else:
+                self.log("Using new SWIM API for image activation (after 2.3.7.9)", "INFO")
+
+                activation_device_id = self.have.get("activation_device_id")
+
+                # Correct: Combine all image IDs into one installedImages list
+                activation_payload = {
+                    "id": activation_device_id,
+                    "installedImages": [{"id": image_id} for image_id in image_ids.values()],
+                    "compatibleFeatures": activation_details.get("compatible_features", []),
+                    "networkValidationIds": activation_details.get("network_validation_ids", []),
+                }
+
+                self.log("Payload for 'update_images_on_the_network_device': {0}".format(str(activation_payload)), "DEBUG")
+
+                try:
+                    response = self.dnac._exec(
+                        family="software_image_management_swim",
+                        function="update_images_on_the_network_device",
+                        op_modifies=True,
+                        params=activation_payload
+                    )
+
+                    self.log("API response from 'update_images_on_the_network_device': {0}".format(str(response)), "DEBUG")
+                    self.check_tasks_response_status(response, "update_images_on_the_network_device")
+
+                    device_ip = self.get_device_ip_from_id(activation_device_id)
+                    if response and self.status not in ["failed", "exited"]:
+                        success_msg_parts = ["All images activated successfully on device {0}".format(device_ip)]
+                        success_activation_list = list(image_ids.keys())
+                    else:
+                        failed_msg_parts = ["Image activation failed on device {0}".format(device_ip)]
+                        failed_activation_list = list(image_ids.keys())
+
+                except Exception as e:
+                    self.log("Exception during activation: {0}".format(str(e)), "ERROR")
+                    failed_msg_parts = ["Exception during activation: {0}".format(str(e))]
+                    failed_activation_list = list(image_ids.keys())
+
+            # Final status summary
             final_msg = ""
             if success_msg_parts:
                 final_msg += "Successfully activated: " + "; ".join(success_msg_parts)
@@ -3470,6 +3741,7 @@ class Swim(DnacBase):
                 final_msg += "Failed to activate: " + "; ".join(failed_msg_parts) + "."
 
             self.log("Final activation status: {0}".format(final_msg), "INFO")
+            self.msg = final_msg
 
             if not success_activation_list and failed_activation_list:
                 self.msg = final_msg
@@ -3509,148 +3781,138 @@ class Swim(DnacBase):
         elg_device_list = []
         device_ip_for_not_elg_list = []
 
-        for device_uuid in device_uuid_list:
-            device_ip = self.get_device_ip_from_id(device_uuid)
-            activated = False
-            self.log("Checking compliance for device {0}".format(device_ip), "INFO")
+        # OLD FLOW (for DNAC < 2.3.7.9)
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            for device_uuid in device_uuid_list:
+                device_ip = self.get_device_ip_from_id(device_uuid)
+                activated = False
+                self.log("Checking compliance for device {0}".format(device_ip), "INFO")
 
-            for image_name, image_id in image_ids.items():
+                for image_name, image_id in image_ids.items():
+                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
 
-                elg_device_ip, device_id = self.check_device_compliance(
-                    device_uuid, image_name
-                )
+                    if not elg_device_ip:
+                        device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
+                        device_ip_for_not_elg_list.append(device_ip_for_not_elg)
+                        self.log("Device {0} is not eligible for activation of image '{1}'".format(device_ip, image_name), "WARNING")
+                        continue
 
-                if not elg_device_ip:
-                    device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
-                    device_ip_for_not_elg_list.append(device_ip_for_not_elg)
-                    self.log(
-                        "Device {0} is not eligible for activation of image '{1}'".format(
-                            device_ip, image_name
-                        ),
-                        "WARNING",
+                    self.log("Device {0} is eligible for activation of image {1}".format(elg_device_ip, image_name), "INFO")
+                    elg_device_list.append(elg_device_ip)
+
+                    self.log("Starting activation of image '{0}' on device {1}".format(image_name, device_ip), "INFO")
+
+                    payload = [
+                        dict(
+                            activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
+                            deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
+                            distributeIfNeeded=activation_details.get("distribute_if_needed"),
+                            deviceUuid=device_id,
+                            imageUuidList=[image_id],
+                        )
+                    ]
+
+                    activation_params = dict(
+                        schedule_validate=activation_details.get("schedule_validate"),
+                        payload=payload,
                     )
-                    continue
+                    self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
 
-                self.log(
-                    "Device {0} is eligible for activation of image {1}".format(
-                        elg_device_ip, image_name
-                    ),
-                    "INFO",
-                )
-                elg_device_list.append(elg_device_ip)
-
-                self.log(
-                    "Starting activation of image '{0}' on device {1}".format(
-                        image_name, device_ip
-                    ),
-                    "INFO",
-                )
-
-                payload = [
-                    dict(
-                        activateLowerImageVersion=activation_details.get(
-                            "activate_lower_image_version"
-                        ),
-                        deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
-                        distributeIfNeeded=activation_details.get(
-                            "distribute_if_needed"
-                        ),
-                        deviceUuid=device_id,
-                        imageUuidList=[image_id],
+                    response = self.dnac._exec(
+                        family="software_image_management_swim",
+                        function="trigger_software_image_activation",
+                        op_modifies=True,
+                        params=activation_params,
                     )
-                ]
+                    self.log("Received API from from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
 
-                activation_params = dict(
-                    schedule_validate=activation_details.get("schedule_validate"),
-                    payload=payload,
-                )
-                self.log(
-                    "Activation Params: {0}".format(str(activation_params)), "INFO"
-                )
+                    if response:
+                        task_id = response.get("response", {}).get("taskId")
+                        activation_task_dict[(device_ip, image_name)] = task_id
+                        self.log("Task ID {0} assigned for image {1} activation on device {2}".format(task_id, image_name, device_ip), "INFO")
+                        activated = True
 
+                if not activated:
+                    already_activated_devices.append(device_ip)
+                    self.log("Image already activated on device {0}".format(device_ip), "INFO")
+
+            # Check activation status sequentially
+            for (device_ip, img_name), task_id in activation_task_dict.items():
+                task_name = "Activation for {0}".format(device_ip)
+                self.log("Checking activation status for device {0}, image {1}, Task ID {2}".format(device_ip, img_name, task_id), "INFO")
+                success_msg = "Successfully activated image {0} on device {1}".format(img_name, device_ip)
+
+                status_check = self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+                if status_check.status == "success":
+                    success_activation_list.append((device_ip, img_name))
+                    self.log("Activation successful for device {0}, image {1}".format(device_ip, img_name), "INFO")
+                else:
+                    failed_activation_list.append((device_ip, img_name))
+                    self.log("Activation failed for device {0}, image {1}".format(device_ip, img_name), "ERROR")
+
+            success_image_map = {}
+            failed_image_map = {}
+
+            for device_ip, img_name in success_activation_list:
+                success_image_map.setdefault(img_name, []).append(device_ip)
+
+            for device_ip, img_name in failed_activation_list:
+                failed_image_map.setdefault(img_name, []).append(device_ip)
+
+            success_msg_parts = [
+                "{} to {}".format(img, ", ".join(devices)) for img, devices in success_image_map.items()
+            ]
+
+            failed_msg_parts = [
+                "{} to {}".format(img, ", ".join(devices)) for img, devices in failed_image_map.items()
+            ]
+
+        # NEW FLOW (for DNAC >= 2.3.7.9)
+        else:
+            device_ips = []
+            activation_payload_list = []
+            for device_uuid in device_uuid_list:
+                device_ip = self.get_device_ip_from_id(device_uuid)
+                device_ips.append(device_ip)
+                self.log("Processing device: {0}".format(device_ip), "DEBUG")
+                for image_name, image_id in image_ids.items():
+                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
+
+                    if not elg_device_ip:
+                        device_ip_for_not_elg_list.append(device_ip)
+                        continue
+
+                    activation_payload_list.append(
+                        {
+                            "id": device_id,
+                            "installedImages": [{"id": image_id}],
+                            "compatibleFeatures": activation_details.get("compatible_features", []),
+                            "networkValidationIds": activation_details.get("network_validation_ids", []),
+                        }
+                    )
+            self.log("Activation Payload List: {0}".format(str(activation_payload_list)), "DEBUG")
+            try:
                 response = self.dnac._exec(
                     family="software_image_management_swim",
-                    function="trigger_software_image_activation",
+                    function="bulk_update_images_on_network_devices",
                     op_modifies=True,
-                    params=activation_params,
+                    params={"payload": activation_payload_list},
                 )
-                self.log(
-                    "Received API from from 'trigger_software_image_activation': {0}".format(
-                        str(response)
-                    ),
-                    "DEBUG",
-                )
-
-                if response:
-                    task_id = response.get("response", {}).get("taskId")
-                    activation_task_dict[(device_ip, image_name)] = task_id
-                    self.log(
-                        "Task ID {0} assigned for image {1} activation on device {2}".format(
-                            task_id, image_name, device_ip
-                        ),
-                        "INFO",
-                    )
-                    activated = True
-
-            if not activated:
-                already_activated_devices.append(device_ip)
-                self.log(
-                    "Image already activated on device {0}".format(device_ip), "INFO"
-                )
-
-        # Check activation status sequentially
-        for (device_ip, img_name), task_id in activation_task_dict.items():
-            task_name = "Activation for {0}".format(device_ip)
-            self.log(
-                "Checking activation status for device {0}, image {1}, Task ID {2}".format(
-                    device_ip, img_name, task_id
-                ),
-                "INFO",
-            )
-            success_msg = "Successfully activated image {0} on device {1}".format(
-                img_name, device_ip
-            )
-
-            status_check = self.get_task_status_from_tasks_by_id(
-                task_id, task_name, success_msg
-            )
-
-            if status_check.status == "success":
-                success_activation_list.append((device_ip, img_name))
-                self.log(
-                    "Activation successful for device {0}, image {1}".format(
-                        device_ip, img_name
-                    ),
-                    "INFO",
-                )
-            else:
-                failed_activation_list.append((device_ip, img_name))
-                self.log(
-                    "Activation failed for device {0}, image {1}".format(
-                        device_ip, img_name
-                    ),
-                    "ERROR",
-                )
-
-        success_image_map = {}
-        failed_image_map = {}
-
-        for device_ip, img_name in success_activation_list:
-            success_image_map.setdefault(img_name, []).append(device_ip)
-
-        for device_ip, img_name in failed_activation_list:
-            failed_image_map.setdefault(img_name, []).append(device_ip)
-
-        # Building message parts
-        success_msg_parts = [
-            "{} to {}".format(img, ", ".join(devices))
-            for img, devices in success_image_map.items()
-        ]
-
-        failed_msg_parts = [
-            "{} to {}".format(img, ", ".join(devices))
-            for img, devices in failed_image_map.items()
-        ]
+                self.log("API response from 'bulk_update_images_on_network_devices': {0}".format(str(response)), "DEBUG")
+                self.check_tasks_response_status(response, "bulk_update_images_on_network_devices")
+                if response and self.status not in ["failed", "exited"]:
+                    self.msg = "All eligible images activated successfully on the devices {0}.".format(", ".join(device_ips))
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    return self
+                else:
+                    self.msg = "Some or all image activations failed for the devices {0}.".format(", ".join(device_ips))
+                    failed_activation_list = list(image_ids.keys())
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            except Exception as e:
+                self.log("Exception during bulk activation: {0}".format(str(e)), "ERROR")
+                failed_msg_parts = ["Exception during bulk activation: {0}".format(str(e))]
+                failed_activation_list = list(image_ids.keys())
 
         # Final single-line message formation
         final_msg = ""
@@ -3661,17 +3923,15 @@ class Swim(DnacBase):
                 final_msg += ". "
             final_msg += "Failed to activate: " + "; ".join(failed_msg_parts) + "."
 
+        self.msg = final_msg
+        self.log("Final activation status: {0}".format(final_msg), "INFO")
+
         if not success_activation_list and failed_activation_list:
-            self.msg = final_msg
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         elif success_activation_list and failed_activation_list:
-            self.msg = final_msg
             self.set_operation_result("success", True, self.msg, "INFO")
             self.partial_successful_activation = True
         else:
-            self.msg = final_msg
             self.set_operation_result("success", True, self.msg, "INFO")
             self.complete_successful_activation = True
 
@@ -3692,6 +3952,10 @@ class Swim(DnacBase):
             operations are successful, 'changed' is set to True.
         """
 
+        config_cco = config.get("sync_cco", False)
+        if config_cco:
+            self.sync_cco_image()
+
         if config.get("tagging_details"):
             self.get_diff_tagging().check_return_status()
 
@@ -3702,6 +3966,53 @@ class Swim(DnacBase):
             self.get_diff_activation().check_return_status()
 
         return self
+
+    def sync_cco_image(self):
+        """
+        Synchronize software images from Cisco CCO to Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method synchronizes software images from Cisco CCO to Cisco Catalyst Center.
+            It retrieves the image details from the playbook and triggers the synchronization process.
+            The method logs the status of the synchronization and updates the result accordingly.
+        """
+        self.log("Starting synchronization of software images from Cisco CCO.", "INFO")
+
+        sync_cco = self.want.get("sync_cco")
+        self.log("CCO synchronization configuration: {0}".format(sync_cco), "DEBUG")
+
+        if not sync_cco:
+            self.log("No CCO synchronization details found. Skipping synchronization.", "INFO")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return None
+        try:
+            response = self.dnac._exec(
+                family="software_image_management_swim",
+                function="initiates_sync_of_software_images_from_cisco_com_v1",
+                op_modifies=True,
+            )
+            self.log("Received API response from 'initiates_sync_of_software_images_from_cisco_com_v1' for Update: {0}".format(response), "DEBUG")
+            self.check_tasks_response_status(response, "initiates_sync_of_software_images_from_cisco_com_v1")
+
+            # Handle successful update
+            if self.status not in ["failed", "exited"]:
+                self.msg = ("Synchronization of software images from Cisco CCO initiated successfully, Fetched recommended image(s) from cisco.com")
+                self.set_operation_result("success", True, self.msg, "INFO")
+                return self
+
+            # Handle failed update
+            if self.status == "failed":
+                fail_reason = self.msg
+                self.msg = "Synchronization of software images from Cisco CCO failed: {}".format(fail_reason)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        except Exception as e:
+            self.msg = ("Error occurred during CCO image synchronization: {}".format(e), "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
 
     def verify_diff_imported(self, import_type):
         """
@@ -3893,7 +4204,8 @@ class Swim(DnacBase):
         """
 
         image_id = self.have.get("distribution_image_id")
-        image_name = self.get_image_name_from_id(image_id)
+        if image_id:
+            image_name = self.get_image_name_from_id(image_id)
 
         if self.have.get("distribution_device_id"):
             if self.single_device_distribution:
@@ -3912,10 +4224,14 @@ class Swim(DnacBase):
                     "INFO",
                 )
         elif self.complete_successful_distribution:
-            self.msg = """The requested image '{0}', with ID '{1}', has been successfully distributed to all devices within the specified
-                     site in the Cisco Catalyst Center.""".format(
-                image_name, image_id
-            )
+            if image_id:
+                self.msg = """The requested image '{0}', with ID '{1}', has been successfully distributed to all devices within the specified
+                        site in the Cisco Catalyst Center.""".format(
+                    image_name, image_id
+                )
+            else:
+                self.msg = """The golden image has been successfully distributed to all devices within the specified site in the Cisco Catalyst Center."""
+
             self.log(self.msg, "INFO")
         elif self.partial_successful_distribution:
             self.msg = """T"The requested image '{0}', with ID '{1}', has been partially distributed across some devices in the Cisco Catalyst
@@ -4021,6 +4337,201 @@ class Swim(DnacBase):
 
         return self
 
+    def get_diff_deleted(self, config):
+        """
+        Deletes software images from Cisco Catalyst Center based on the image names provided in the configuration.
+
+        Args:
+            config (dict): A dictionary containing the configuration for image deletion.
+                        Expected to have a key "image_name" with a list of image names to be deleted.
+
+        Returns:
+            self (object): Returns the current object instance after processing the deletion request.
+
+        Raises:
+            None explicitly, but exceptions during API execution are caught and logged.
+
+        Description:
+            1. Extract the list of image names from the config.
+            2. For each image name:
+                - Retrieve the corresponding image ID using `get_image_id`.
+                - If image ID is found:
+                    - Attempt to delete the image using Cisco Catalyst Center API.
+                    - Log the response and update status based on API result.
+                - If image ID is not found or an exception occurs, log it as a failure.
+            3. After processing all images:
+                - Summarize the results into success and failure messages.
+                - Set final operation result status (`success` or `failed`) based on outcomes.
+        """
+        self.log("Initiating software image deletion process from Cisco Catalyst Center", "DEBUG")
+        image_names = config.get("image_name", [])
+        self.log("Image names to be deleted: {0}".format(image_names), "INFO")
+
+        if not image_names:
+            self.msg = "No image names provided for deletion."
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        results = []
+        success_deletions = []
+        failed_deletions = []
+
+        for image_name in image_names:
+            self.log("Processing deletion request for image: '{0}'".format(image_name), "DEBUG")
+            image_id = self.get_image_id(image_name)
+
+            if not image_id:
+                msg = "Image '{0}' does not exist in Cisco Catalyst Center.".format(image_name)
+                failed_deletions.append(image_name)
+                results.append({"image": image_name, "status": "failed", "message": msg})
+                continue
+
+            try:
+                self.log("Attempting to delete image '{0}' with ID '{1}'.".format(image_name, image_id), "INFO")
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='delete_image_v1',
+                    op_modifies=True,
+                    params={"id": image_id}
+                )
+
+                self.check_tasks_response_status(response, "delete_image_v1")
+                self.log("Received API response from 'delete_image_v1': {0}".format(str(response)), "DEBUG")
+
+                if self.status not in ["failed", "exited"]:
+                    msg = "Image '{0}' deleted successfully.".format(image_name)
+                    success_deletions.append(image_name)
+                    results.append({"image": image_name, "status": "success", "message": msg})
+                else:
+                    msg = "Image '{0}' failed to delete: {1}".format(image_name, self.msg)
+                    failed_deletions.append(image_name)
+                    results.append({"image": image_name, "status": "failed", "message": msg})
+
+            except Exception as e:
+                msg = "Image '{0}' failed to delete due to exception: {1}".format(image_name, str(e))
+                failed_deletions.append(image_name)
+                results.append({"image": image_name, "status": "failed", "message": msg})
+
+        # Summarize results
+        self.log("Image deletion process completed - generating final status report", "DEBUG")
+
+        success_count = len(success_deletions)
+        failed_count = len(failed_deletions)
+        total_count = len(image_names)
+
+        self.log("Deletion summary: {0} successful, {1} failed out of {2} total images".format(
+            success_count, failed_count, total_count), "INFO")
+
+        # Build final status message
+        status_parts = []
+
+        if success_deletions:
+            success_list = "', '".join(success_deletions)
+            status_parts.append("Successfully deleted image(s): '{0}'".format(success_list))
+
+        if failed_deletions:
+            failed_list = "', '".join(failed_deletions)
+            status_parts.append("Failed to delete image(s): '{0}'".format(failed_list))
+
+        final_message = ". ".join(status_parts) + "."
+
+        # Determine final operation status
+        if success_deletions and not failed_deletions:
+            # All deletions successful
+            self.msg = final_message
+            self.log("All image deletion operations completed successfully", "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO")
+            return self
+
+        if success_deletions and failed_deletions:
+            # Partial success
+            self.msg = final_message
+            self.log("Image deletion completed with partial success", "WARNING")
+            self.set_operation_result("success", True, self.msg, "WARNING")
+            return self
+
+        # All deletions failed
+        self.msg = final_message
+        self.log("All image deletion operations failed", "ERROR")
+        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        return self
+
+    def verify_diff_deleted(self, config):
+        """
+        Verify the successful deletion of software images from Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            config (dict): A dictionary containing the configuration with image names to verify deletion.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This function verifies that software images have been successfully deleted from Cisco Catalyst Center
+            by checking their existence status. It processes multiple images and provides comprehensive verification
+            results, logging the status of each image and providing a final summary of the verification process.
+        """
+        self.log("Initiating verification process for deleted software images from Cisco Catalyst Center", "DEBUG")
+
+        image_names = config.get("image_name", [])
+        self.log("Processing deletion verification for {0} image(s): {1}".format(len(image_names), image_names), "INFO")
+
+        verified_deleted = []
+        still_existing = []
+
+        for image_name in image_names:
+            self.log("Verifying deletion status for image: '{0}'".format(image_name), "DEBUG")
+
+            image_id = self.get_image_id(image_name)
+
+            if not image_id:
+                self.log("Verification successful: Image '{0}' no longer exists in Cisco Catalyst Center".format(image_name), "INFO")
+                verified_deleted.append(image_name)
+            else:
+                self.log("Verification failed: Image '{0}' still exists in Cisco Catalyst Center with ID '{1}'".format(image_name, image_id), "ERROR")
+                still_existing.append(image_name)
+
+        # Generate comprehensive verification summary
+        self.log("Deletion verification process completed - generating final status report", "DEBUG")
+
+        verified_count = len(verified_deleted)
+        existing_count = len(still_existing)
+        total_count = len(image_names)
+
+        self.log("Verification summary: {0} confirmed deleted, {1} still existing out of {2} total images".format(
+            verified_count, existing_count, total_count), "INFO")
+
+        # Build final status message
+        status_parts = []
+
+        if verified_deleted:
+            verified_list = "', '".join(verified_deleted)
+            status_parts.append("Successfully verified deletion of image(s): '{0}'".format(verified_list))
+
+        if still_existing:
+            existing_list = "', '".join(still_existing)
+            status_parts.append("Image(s) still exist and deletion not verified: '{0}'".format(existing_list))
+
+        final_message = ". ".join(status_parts) + "."
+
+        # Determine final verification status
+        if verified_deleted and not still_existing:
+            # All deletions verified successfully
+            self.msg = final_message
+            self.log("All image deletion operations have been successfully verified", "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO")
+            return self
+
+        if verified_deleted and still_existing:
+            # Partial verification success
+            self.msg = final_message
+            self.log("Image deletion verification completed with partial success", "WARNING")
+            self.set_operation_result("success", True, self.msg, "WARNING")
+            return self
+
+        # All verifications failed (all images still exist)
+        self.msg = final_message
+        self.log("All image deletion verification attempts failed - no images were successfully deleted", "ERROR")
+        self.set_operation_result("failed", False, self.msg, "ERROR")
+        return self
+
     def update_swim_profile_messages(self):
         """
         Verify the merged status (Importing/Tagging/Distributing/Activating) of the SWIM Image in devices in Cisco Catalyst Center.
@@ -4068,27 +4579,27 @@ class Swim(DnacBase):
 
 
 def main():
-    """main entry point for module execution"""
 
-    element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_log": {"type": "bool", "default": False},
-        "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged"]},
-    }
+    """ main entry point for module execution """
+
+    element_spec = {'dnac_host': {'required': True, 'type': 'str'},
+                    'dnac_port': {'type': 'str', 'default': '443'},
+                    'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'dnac_password': {'type': 'str', 'no_log': True},
+                    'dnac_verify': {'type': 'bool', 'default': 'True'},
+                    'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
+                    'dnac_debug': {'type': 'bool', 'default': False},
+                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
+                    "dnac_log_append": {"type": 'bool', "default": True},
+                    'dnac_log': {'type': 'bool', 'default': False},
+                    'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config_verify': {'type': 'bool', "default": False},
+                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
+                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
+                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
+                    'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+                    }
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 

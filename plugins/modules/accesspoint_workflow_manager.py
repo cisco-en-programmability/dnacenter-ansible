@@ -3787,8 +3787,12 @@ class Accesspoint(DnacBase):
                     radio_dtos["configureAntennaPatternName"] = True
 
                 if each_radio.get(self.keymap["radio_band"]) is not None:
-                    radio_dtos[self.keymap["radio_band"]] = "RADIO24" \
-                        if each_radio[self.keymap["radio_band"]] == "2.4 GHz" else "RADIO5"
+                    if each_radio[self.keymap["radio_band"]] == "2.4 GHz":
+                        radio_dtos[self.keymap["radio_band"]] = "RADIO24"
+                    elif each_radio[self.keymap["radio_band"]] == "5 GHz":
+                        radio_dtos[self.keymap["radio_band"]] = "RADIO5"
+                    else:
+                        radio_dtos[self.keymap["radio_band"]] = "RADIO6"
 
                 if each_radio.get(self.keymap["radio_role_assignment"]) is not None:
                     if each_radio.get(self.keymap["radio_role_assignment"]) == "Auto":
