@@ -5573,11 +5573,9 @@ class Inventory(DnacBase):
                 device_params.pop(param, None)
 
             if not device_params["snmpROCommunity"]:
-                self.status = "failed"
-                self.msg = "Required parameter 'snmpROCommunity' for adding device with snmmp version v2 is not present"
-                self.result["response"] = self.msg
-                self.log(self.msg, "ERROR")
-                return self
+                msg = "Required parameter 'snmpROCommunity' for adding device with snmmp version v2 is not present"
+                self.log(msg, "ERROR")
+                self.fail_and_exit(msg)
         else:
             if not device_params["snmpMode"]:
                 device_params["snmpMode"] = "AUTHPRIV"
@@ -5602,7 +5600,7 @@ class Inventory(DnacBase):
                 device_params.pop("snmpPrivPassphrase", None)
                 device_params.pop("snmpPrivProtocol", None)
 
-            return device_params
+        return device_params
 
     def parse_for_add_compute_device_params(self, device_params):
         """
@@ -5670,23 +5668,19 @@ class Inventory(DnacBase):
             )
 
             if not response or not isinstance(response, dict):
-                self.status = "failed"
                 self.msg = "Failed to add device(s) '{0}' to Cisco Catalyst Center".format(
                     str(self.config[0].get("ip_address_list"))
                 )
                 self.log(self.msg, "ERROR")
-                self.result["response"] = self.msg
-                return self
+                self.fail_and_exit(self.msg)
 
             task_id = response.get("response").get("taskId")
             if not task_id:
-                self.status = "failed"
                 self.msg = "Failed to retrieve task ID for device(s) '{0}'".format(
                     str(self.config[0].get("ip_address_list"))
                 )
                 self.log(self.msg, "ERROR")
-                self.result["response"] = self.msg
-                return self
+                self.fail_and_exit(self.msg)
 
             while True:
                 execution_details = self.get_task_details(task_id)
