@@ -2197,7 +2197,7 @@ class Template(NetworkProfileFunctions):
                 msg = (
                     "Attach profiles feature not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
                     "from '3.1.3.0' onwards.".format(ccc_version)
-                    )
+                )
                 errormsg.append(msg)
 
             if (
