@@ -1930,7 +1930,7 @@ import time
 import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
+    # DnacBase,
     validate_list_of_dicts,
     get_dict_result,
     dnac_compare_equality,
@@ -2466,32 +2466,32 @@ class Template(NetworkProfileFunctions):
 
         return templateParams
 
-    def get_templates_details(self, name):
-        """
-        Get the template details from the template name provided in the playbook.
+    # def get_templates_details(self, name):
+    #     """
+    #     Get the template details from the template name provided in the playbook.
 
-        Parameters:
-            name (str) - Name of the template provided in the playbook.
+    #     Parameters:
+    #         name (str) - Name of the template provided in the playbook.
 
-        Returns:
-            result (dict) - Template details for the given template name.
-        """
+    #     Returns:
+    #         result (dict) - Template details for the given template name.
+    #     """
 
-        result = None
-        items = self.dnac_apply["exec"](
-            family="configuration_templates",
-            function="get_templates_details",
-            op_modifies=True,
-            params={"name": name},
-        )
-        if items:
-            result = items
+    #     result = None
+    #     items = self.dnac_apply["exec"](
+    #         family="configuration_templates",
+    #         function="get_templates_details",
+    #         op_modifies=True,
+    #         params={"name": name},
+    #     )
+    #     if items:
+    #         result = items
 
-        self.log(
-            "Received API response from 'get_templates_details': {0}".format(items),
-            "DEBUG",
-        )
-        return result
+    #     self.log(
+    #         "Received API response from 'get_templates_details': {0}".format(items),
+    #         "DEBUG",
+    #     )
+    #     return result
 
     def get_project_defined_template_details(self, project_name, template_name):
         """
