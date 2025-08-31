@@ -1940,6 +1940,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.network_profiles import
     NetworkProfileFunctions,
 )
 
+
 class Template(NetworkProfileFunctions):
     """Class containing member attributes for template_workflow_manager module"""
 
@@ -3197,11 +3198,11 @@ class Template(NetworkProfileFunctions):
                 continue
 
             self.log(
-                    "Profile already assigned to template: {0}".format(
-                        profile_info["profile_name"]
-                    ),
-                    "INFO",
-                )
+                "Profile already assigned to template: {0}".format(
+                    profile_info["profile_name"]
+                ),
+                "INFO"
+            )
             profile_info["profile_status"] = "already assigned"
             profile_info["template_name"] = template_name
             current_profile_list.append(profile_info)
@@ -3245,12 +3246,13 @@ class Template(NetworkProfileFunctions):
                     parsed_current_profile = []
                     for each_type in device_type:
                         each_family = each_type.get("product_family")
-                        parsed_current_profile.extend(self.get_profile_details(each_family,
-                                                 configuration_templates.get("profiles"),
-                                                 configuration_templates.get("template_name")))
+                        parsed_current_profile.extend(
+                            self.get_profile_details(each_family,
+                                                     configuration_templates.get("profiles"),
+                                                     configuration_templates.get("template_name"))
+                        )
 
-                have["current_profile"] = self.deduplicate_list_of_dict(
-                  parsed_current_profile)
+                have["current_profile"] = self.deduplicate_list_of_dict(parsed_current_profile)
 
         project_config = config.get("projects", [])
         if project_config and isinstance(project_config, list):
@@ -3416,8 +3418,10 @@ class Template(NetworkProfileFunctions):
                 self.update_mandatory_parameters(template_params)
 
             ccc_version = self.get_ccc_version()
-            if (self.compare_dnac_versions(ccc_version, "3.1.3.0") >= 0
-              and configuration_templates.get("profiles")):
+            if (
+                self.compare_dnac_versions(ccc_version, "3.1.3.0") >= 0
+                and configuration_templates.get("profiles")
+            ):
                 want["profiles"] = configuration_templates.get("profiles")
 
             want["template_params"] = template_params
@@ -4317,9 +4321,11 @@ class Template(NetworkProfileFunctions):
                 each_profile_id = each_profile["profile_id"]
                 profile_status = each_profile.get("profile_status")
 
-                if (each_profile["template_name"] == name
+                if (
+                    each_profile["template_name"] == name
                     and profile_status == "Not Assigned"
-                    and not detach_profiles):
+                    and not detach_profiles
+                ):
                     self.log("Assigning profile '{0}' to template '{1}'.".format(
                         each_profile_name, name), "INFO")
 
@@ -4339,9 +4345,10 @@ class Template(NetworkProfileFunctions):
                             each_profile_name, name)
                         self.log(msg, "ERROR")
                         self.no_profile_assigned.append(each_profile_name)
-                elif (detach_profiles
-                     and each_profile["template_name"] == name
-                     and profile_status == "already assigned"):
+                elif (
+                    detach_profiles and each_profile["template_name"] == name
+                    and profile_status == "already assigned"
+                ):
                     self.log("Detaching profile '{0}' from template '{1}'.".format(
                         each_profile_name, name), "INFO")
 
