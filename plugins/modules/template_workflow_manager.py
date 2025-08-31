@@ -1432,6 +1432,7 @@ EXAMPLES = r"""
           project_description: string
           profiles:
             - string
+          detach_profiles: false
           software_type: string
           software_version: string
           tags:
@@ -1472,6 +1473,7 @@ EXAMPLES = r"""
           project_description: string
           profiles:
             - string
+          detach_profiles: true
           software_type: string
           software_version: string
           tags:
@@ -1930,7 +1932,6 @@ import time
 import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    # DnacBase,
     validate_list_of_dicts,
     get_dict_result,
     dnac_compare_equality,
@@ -2186,6 +2187,29 @@ class Template(NetworkProfileFunctions):
                 description = each_project.get("description")
                 if description and isinstance(description, str):
                     validate_str(description, param_spec_str, "description", errormsg)
+
+        configuration_templates = config[0].get("configuration_templates")
+        if configuration_templates and isinstance(configuration_templates, dict):
+            profiles = configuration_templates.get("profiles")
+            detach_profiles = configuration_templates.get("detach_profiles")
+            ccc_version = self.get_ccc_version()
+            if (profiles or detach_profiles) and self.compare_dnac_versions(ccc_version, "3.1.3.0") < 0:
+                msg = (
+                    "Attach profiles feature not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
+                    "from '3.1.3.0' onwards.".format(ccc_version)
+                    )
+                errormsg.append(msg)
+
+            if (
+                (detach_profiles and not profiles)
+                and self.compare_dnac_versions(ccc_version, "3.1.3.0") >= 0
+            ):
+                errormsg.append("Missing or invalid 'profiles' field in configuration_templates.")
+
+            if profiles and isinstance(profiles, list) and self.compare_dnac_versions(ccc_version, "3.1.3.0") >= 0:
+                for each_profile in profiles:
+                    if each_profile and isinstance(each_profile, str):
+                        validate_str(each_profile, param_spec_str, "profiles", errormsg)
 
         if errormsg:
             msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
@@ -2465,33 +2489,6 @@ class Template(NetworkProfileFunctions):
             i = i + 1
 
         return templateParams
-
-    # def get_templates_details(self, name):
-    #     """
-    #     Get the template details from the template name provided in the playbook.
-
-    #     Parameters:
-    #         name (str) - Name of the template provided in the playbook.
-
-    #     Returns:
-    #         result (dict) - Template details for the given template name.
-    #     """
-
-    #     result = None
-    #     items = self.dnac_apply["exec"](
-    #         family="configuration_templates",
-    #         function="get_templates_details",
-    #         op_modifies=True,
-    #         params={"name": name},
-    #     )
-    #     if items:
-    #         result = items
-
-    #     self.log(
-    #         "Received API response from 'get_templates_details': {0}".format(items),
-    #         "DEBUG",
-    #     )
-    #     return result
 
     def get_project_defined_template_details(self, project_name, template_name):
         """
