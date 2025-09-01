@@ -55,6 +55,13 @@ options:
               - Required for the operations in the SDA
                 fabric transits.
             type: str
+          site_name_hierarchy:
+            description:
+              - The site name hierarchy for the SDA
+                fabric transit.
+              - It is used to identify the location
+                of the fabric transit within the network.
+            type: str
           transit_type:
             description: Type of the fabric tranist.
               IP_BASED_TRANSIT - Responsible for managing
@@ -160,6 +167,8 @@ notes:
     put /dna/intent/api/v1/sda/transitNetworks,
     delete /dna/intent/api/v1/sda/transitNetworks/${id},
     get /dna/intent/api/v1/tasks/${id} get /dna/intent/api/v1/tasks/${id}/detail
+  - New parameter added 'site_name_hierarchy' for creating/updating the transit network
+    start supporting from Catalyst Center version 3.1.3.0 onwards.
 """
 EXAMPLES = r"""
 ---
@@ -183,6 +192,28 @@ EXAMPLES = r"""
         ip_transit_settings:
           routing_protocol_name: BGP
           autonomous_system_number: 1234
+- name: Create SDA fabric transit of transit_type IP_BASED_TRANSIT with newly added
+    parameter 'site_name_hierarchy'
+  cisco.dnac.sda_fabric_transits_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+        - sda_fabric_transits:
+            - name: sample_transit
+          site_name_hierarchy: Global/USA
+          transit_type: IP_BASED_TRANSIT
+          ip_transit_settings:
+            routing_protocol_name: BGP
+            autonomous_system_number: 134
 - name: Create SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -228,6 +259,28 @@ EXAMPLES = r"""
             - 10.0.0.2
             - 10.0.0.3
             - 10.0.0.4
+- name: Update SDA fabric transit of transit_type IP_BASED_TRANSIT with newly added
+    parameter 'site_name_hierarchy'
+  cisco.dnac.sda_fabric_transits_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+        - sda_fabric_transits:
+            - name: sample_transit
+          site_name_hierarchy: Global/India
+          transit_type: IP_BASED_TRANSIT
+          ip_transit_settings:
+            routing_protocol_name: BGP
+            autonomous_system_number: 134
 - name: Update SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -398,6 +451,7 @@ class FabricTransit(DnacBase):
                 "type": "list",
                 "elements": "dict",
                 "name": {"type": "str"},
+                "site_name_hierarchy": {"type": "str"},
                 "transit_type": {
                     "type": "str",
                     "choices": [
@@ -572,6 +626,7 @@ class FabricTransit(DnacBase):
         fabric_transit_info = {
             "name": fabric_transit_details.get("name"),
             "type": fabric_transit_details.get("type"),
+            "siteId": fabric_transit_details.get("siteId"),
         }
         ip_transit_settings = fabric_transit_details.get("ipTransitSettings")
         if ip_transit_settings:
@@ -616,7 +671,10 @@ class FabricTransit(DnacBase):
                 family="sda",
                 function="get_transit_networks",
                 op_modifies=True,
-                params={"offset": offset},
+                params={
+                    "name": name,
+                    "offset": offset
+                },
             )
             if not isinstance(response, dict):
                 self.msg = (
@@ -1163,6 +1221,41 @@ class FabricTransit(DnacBase):
         self.status = "success"
         return self
 
+    def fabric_transit_need_update(self, want_fabric_transit, have_fabric_transit):
+        """
+        Check if the SDA fabric transit requires an update.
+        Parameters:
+            want_fabric_transit (dict): Desired fabric transit details from the playbook.
+            have_fabric_transit (dict): Current fabric transit details from Cisco Catalyst Center.
+        Returns:
+            bool: True if the fabric transit requires an update, False otherwise.
+        Description:
+            This function checks if the fabric transit requires an update by comparing
+            the current details with the desired details.
+            If the type is IP_BASED_TRANSIT or if the details are not equal, it returns True.
+            Otherwise, it returns False.
+        """
+
+        name = want_fabric_transit.get("name")
+        if want_fabric_transit.get("type") == "IP_BASED_TRANSIT" or not self.requires_update(
+            have_fabric_transit.get("details").get("sdaTransitSettings"),
+            want_fabric_transit.get("sdaTransitSettings"),
+            self.fabric_transits_obj_params,
+        ):
+            self.log(
+                "SDA fabric transit '{name}' doesn't require an update".format(
+                    name=name
+                ),
+                "INFO",
+            )
+            return False
+
+        self.log(
+            "SDA fabric transit '{name}' requires an update".format(name=name), "INFO"
+        )
+
+        return True
+
     def update_fabric_transits(self, fabric_transits):
         """
         Create/Update fabric transit in Cisco Catalyst Center with fields provided in playbook.
@@ -1207,6 +1300,19 @@ class FabricTransit(DnacBase):
                     ),
                     "DEBUG",
                 )
+                if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+                    site_name_hierarchy = item.get("site_name_hierarchy")
+                    if site_name_hierarchy:
+                        site_exists, site_id = self.get_site_id(site_name_hierarchy)
+                        if site_exists:
+                            self.log(
+                                "Site ID '{0}' retrieved for site name '{1}'.".format(
+                                    site_id, site_name_hierarchy
+                                ),
+                                "DEBUG",
+                            )
+                            want_fabric_transit["siteId"] = site_id
+
                 payload = {"payload": [want_fabric_transit]}
                 task_name = "add_transit_networks"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
@@ -1237,27 +1343,73 @@ class FabricTransit(DnacBase):
                 )
                 continue
 
-            # Check update is required
+            transit_need_update = self.fabric_transit_need_update(want_fabric_transit, have_fabric_transit)
+            site_id = None
+            if not transit_need_update:
+                if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+                    site_name_hierarchy = item.get("site_name_hierarchy")
+                    if not site_name_hierarchy:
+                        self.log(
+                            "SDA fabric transit '{name}' doesn't require a update".format(
+                                name=name
+                            ),
+                            "INFO",
+                        )
+                        result_fabric_transit.get("msg").update(
+                            {name: f"SDA fabric transit '{name}' doesn't require an update."}
+                        )
+                        continue
 
-            if want_fabric_transit.get(
-                "type"
-            ) == "IP_BASED_TRANSIT" or not self.requires_update(
-                have_fabric_transit.get("details").get("sdaTransitSettings"),
-                want_fabric_transit.get("sdaTransitSettings"),
-                self.fabric_transits_obj_params,
-            ):
-                self.log(
-                    "SDA fabric transit '{name}' doesn't require a update".format(
-                        name=name
-                    ),
-                    "INFO",
-                )
-                result_fabric_transit.get("msg").update(
-                    {name: "SDA fabric transit doesn't require an update."}
-                )
-                continue
+                    site_exists, site_id = self.get_site_id(site_name_hierarchy)
+                    if not site_exists:
+                        self.msg = (
+                            "The site '{site_name}' doesn't exist in the Cisco Catalyst Center.".format(
+                                site_name=site_name_hierarchy
+                            )
+                        )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
 
-            self.log("Updating SDA fabric transit '{name}'.".format(name=name), "DEBUG")
+                    self.log(
+                        "Site ID '{0}' retrieved for site name '{1}'.".format(
+                            site_id, site_name_hierarchy
+                        ),
+                        "DEBUG",
+                    )
+                    site_in_ccc = have_fabric_transit.get("details").get("siteId")
+                    if site_in_ccc and site_in_ccc == site_id:
+                        self.log(
+                            "Site ID '{0}' in the SDA fabric transit '{1}' is same as the site ID '{2}' in the playbook.".format(
+                                site_in_ccc, name, site_id
+                            ),
+                            "DEBUG",
+                        )
+                        self.log(
+                            "SDA fabric transit '{name}' doesn't require a update".format(
+                                name=name
+                            ),
+                            "INFO",
+                        )
+                        result_fabric_transit.get("msg").update(
+                            {name: f"SDA fabric transit '{name}' doesn't require an update."}
+                        )
+                        continue
+                else:
+                    self.log(
+                        "SDA fabric transit '{name}' doesn't require a update".format(
+                            name=name
+                        ),
+                        "INFO",
+                    )
+                    result_fabric_transit.get("msg").update(
+                        {name: f"SDA fabric transit '{name}' doesn't require an update."}
+                    )
+                    continue
+
+            payload_site_id = site_id or have_fabric_transit.get("details").get("siteId")
+            if payload_site_id:
+                want_fabric_transit.update({"siteId": payload_site_id})
 
             # Tranist Exists
             self.log(
