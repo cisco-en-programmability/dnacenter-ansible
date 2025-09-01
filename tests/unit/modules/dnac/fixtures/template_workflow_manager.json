@@ -2516,7 +2516,7 @@
               "language": "velocity",
               "software_type": "IOS-XE",
               "profiles": [
-                "test_profile_1"
+                "TestProfile"
               ],
               "detach_profiles": false,
               "device_types": [
@@ -2558,7 +2558,7 @@
               "language": "velocity",
               "software_type": "IOS-XE",
               "profiles": [
-                "test_profile_1"
+                "TestProfile"
               ],
               "detach_profiles": true,
               "device_types": [
