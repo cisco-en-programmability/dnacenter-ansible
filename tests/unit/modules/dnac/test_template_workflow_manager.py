@@ -65,6 +65,12 @@ class TestDnacTemplateWorkflow(TestDnacModule):
     playbook_config_import_project_playbook_case_10 = test_data.get(
         "import_project_playbook_case_10"
     )
+    playbook_config_import_profile_add_playbook_case_11 = test_data.get(
+        "import_profile_add_playbook_case_11"
+    )
+    playbook_config_import_profile_remove_playbook_case_12 = test_data.get(
+        "import_profile_remove_playbook_case_12"
+    )
 
     def setUp(self):
         super(TestDnacTemplateWorkflow, self).setUp()
@@ -163,6 +169,31 @@ class TestDnacTemplateWorkflow(TestDnacModule):
                 self.test_data.get("get_projects_response_delete_case_10_call_1"),
                 self.test_data.get("get_projects_response_case_8_call_2"),
                 self.test_data.get("get_projects_response_case_8_call_1")
+            ]
+        elif "test_import_profile_add_playbook_case_11" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_project_details_new"),
+                self.test_data.get("get_profile_list_case_11_call_1"),
+                self.test_data.get("create_template_task_id"),
+                self.test_data.get("get_task_details_by_id_case_1_call_1"),
+                self.test_data.get("get_task_details_by_id_case_1_call_2"),
+                self.test_data.get("versioning_the_template"),
+                self.test_data.get("get_task_details_by_id_case_1_call_4"),
+                self.test_data.get("get_task_details_by_id_case_1_call_3"),
+                self.test_data.get("get_task_details_progress_case_11_call_3")
+            ]
+        elif "test_import_profile_remove_playbook_case_12" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_update_project_details"),
+                self.test_data.get("get_available_templates_update"),
+                self.test_data.get("get_profile_list_case_11_call_1"),
+                self.test_data.get("create_template_task_id"),
+                self.test_data.get("get_task_details_by_id_case_1_call_1"),
+                self.test_data.get("get_task_details_by_id_case_1_call_2"),
+                self.test_data.get("versioning_the_template"),
+                self.test_data.get("get_task_details_by_id_case_1_call_4"),
+                self.test_data.get("get_task_details_by_id_case_1_call_3"),
+                self.test_data.get("get_task_details_progress_case_11_call_3")
             ]
 
     def test_create_template_playbook_case_1(self):
@@ -410,4 +441,52 @@ class TestDnacTemplateWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Project(s) are deleted and verified successfully. ['test-rename-2']"
+        )
+
+    def test_import_profile_add_playbook_case_11(self):
+        """
+        Add Profile
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="3.1.3.0",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_import_profile_add_playbook_case_11,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.maxDiff = None
+        self.assertEqual(
+            result.get('msg'),
+            "Profile(s) added successfully. ['test-profile-1']"
+        )
+
+    def test_import_profile_remove_playbook_case_12(self):
+        """
+        Detach Profile
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="3.1.3.0",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_import_profile_remove_playbook_case_12,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.maxDiff = None
+        self.assertEqual(
+            result.get('msg'),
+            "Profile(s) removed successfully. ['test-profile-1']"
         )
