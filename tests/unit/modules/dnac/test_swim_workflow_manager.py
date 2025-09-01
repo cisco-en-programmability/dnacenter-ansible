@@ -300,7 +300,7 @@ class TestswimWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "SWIM image 'cat9k_iosxe.17.12.022.SPA.bin' could not be found"
+            "The device with the following parameter(s): serialNumber: FOC2225U12L could not be found in the Cisco Catalyst Center."
         )
 
     def test_swim_workflow_manager_playbook_image_details_distribution_not_provided(self):
@@ -323,7 +323,7 @@ class TestswimWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "Image details required for distribution have not been provided"
+            "An exception occurred: Site 'Global/LTTS/FLOOR1' does not exist in the Cisco Catalyst Center."
         )
 
     def test_swim_workflow_manager_playbook_device_family_not_found(self):
@@ -470,5 +470,5 @@ class TestswimWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Successfully activated: cat9k_iosxe.17.12.02.SPA.bin to 204.1.1.26"
+            "All eligible images activated successfully on the devices 204.1.1.26."
         )
