@@ -207,13 +207,13 @@ EXAMPLES = r"""
     state: merged
     config_verify: true
     config:
-        - sda_fabric_transits:
-            - name: sample_transit
-          site_name_hierarchy: Global/USA
-          transit_type: IP_BASED_TRANSIT
-          ip_transit_settings:
-            routing_protocol_name: BGP
-            autonomous_system_number: 134
+      - sda_fabric_transits:
+          - name: sample_transit
+        site_name_hierarchy: Global/USA
+        transit_type: IP_BASED_TRANSIT
+        ip_transit_settings:
+          routing_protocol_name: BGP
+          autonomous_system_number: 134
 - name: Create SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -274,13 +274,13 @@ EXAMPLES = r"""
     state: merged
     config_verify: true
     config:
-        - sda_fabric_transits:
-            - name: sample_transit
-          site_name_hierarchy: Global/India
-          transit_type: IP_BASED_TRANSIT
-          ip_transit_settings:
-            routing_protocol_name: BGP
-            autonomous_system_number: 134
+      - sda_fabric_transits:
+          - name: sample_transit
+        site_name_hierarchy: Global/India
+        transit_type: IP_BASED_TRANSIT
+        ip_transit_settings:
+          routing_protocol_name: BGP
+          autonomous_system_number: 134
 - name: Update SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
