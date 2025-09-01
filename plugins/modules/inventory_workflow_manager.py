@@ -5682,7 +5682,9 @@ class Inventory(DnacBase):
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
-            while True:
+            resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+            resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
+            while resync_retry_count > 0:
                 execution_details = self.get_task_details(task_id)
 
                 if "/task/" in execution_details.get("progress"):
@@ -5720,6 +5722,8 @@ class Inventory(DnacBase):
                     self.result["response"] = self.msg
                     break
 
+                time.sleep(resync_retry_interval)
+                resync_retry_count = resync_retry_count - resync_retry_interval
             return self
         except Exception as e:
             error_message = (
