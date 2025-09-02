@@ -23,28 +23,29 @@
         state: merged
         config:  # Minimum 1; Maximum 100 config hierarchy
           - floor_site_hierarchy: "Global/USA/San Francisco/BGL_18/Test_Floor6"
-            - accesspoint_name: main_wifi
-              mac_address: a4:b2:39:5b:9c:00 # Optional
-              serial_number: 9080V0I41J3 # Optional
-              accesspoint_model: AP1310
-              position:
-                x_position: 100  # x-axis: from 0 to 100
-                y_position: 200  # y-axis: from 0 to 88
-                z_position: 300  # height: from 3.0 to 10
-              radios:  # Minimum Items: 1; Maximum Items: 4
-                - bands: 2.4GHz  # can be 5Ghz and 6GHz
-                  channel: 6
-                  tx_power: 5  # Decibel milliwatts (dBm)
-                  antenna:
-                    antenna_name: C-ANT9104-2.4GHz
-                    azimuth: 1  # support upto 360
-                    elevation: 30  # support -90 upto 90
-                - bands: 5GHz  # can be 5Ghz and 6GHz
-                  channel: 6
-                  tx_power: 5  # Decibel milliwatts (dBm)
-                  antenna:
-                    antenna_name: AIR-ANT5135D-R
-                    azimuth: 1  # support upto 360
-                    elevation: 30  # support -90 upto 90
+            access_points:
+              - accesspoint_name: main_wifi
+                mac_address: a4:b2:39:5b:9c:00 # Optional
+                serial_number: 9080V0I41J3 # Optional
+                accesspoint_model: AP1310
+                position:
+                  x_position: 100  # x-axis: from 0 to 100
+                  y_position: 200  # y-axis: from 0 to 88
+                  z_position: 300  # height: from 3.0 to 10
+                radios:  # Minimum Items: 1; Maximum Items: 4
+                  - bands: 2.4GHz  # can be 5Ghz and 6GHz
+                    channel: 6
+                    tx_power: 5  # Decibel milliwatts (dBm)
+                    antenna:
+                      antenna_name: C-ANT9104-2.4GHz
+                      azimuth: 1  # support upto 360
+                      elevation: 30  # support -90 upto 90
+                  - bands: 5GHz  # can be 5Ghz and 6GHz
+                    channel: 6
+                    tx_power: 5  # Decibel milliwatts (dBm)
+                    antenna:
+                      antenna_name: AIR-ANT5135D-R
+                      azimuth: 1  # support upto 360
+                      elevation: 30  # support -90 upto 90
 
       register: output_list

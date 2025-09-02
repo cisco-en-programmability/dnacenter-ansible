@@ -775,27 +775,3 @@ class NetworkProfileFunctions(DnacBase):
                 if self.value_exists(item, target_key, target_value):
                     return True
         return False
-
-    def find_duplicate_value(self, config_list, key_name):
-        """
-        Identifies duplicate values for a given key in a list of dictionaries.
-
-        Parameters:
-            config_list (list of dict): A list where each dictionary contains key-value pairs.
-            key_name (str): The key whose values need to be checked for duplicates.
-
-        Returns:
-            list: A list of duplicate key_name values found in the input list.
-        """
-        seen = set()
-        duplicates = set()
-
-        for item in config_list:  # Ensure the item is a dictionary
-            value = item.get(key_name)
-            if value:
-                if value in seen:
-                    duplicates.add(value)
-                else:
-                    seen.add(value)
-
-        return list(duplicates)
