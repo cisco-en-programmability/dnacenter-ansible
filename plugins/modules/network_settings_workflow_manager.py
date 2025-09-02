@@ -3138,7 +3138,8 @@ class NetworkSettings(DnacBase):
             self.log("No matching global pool found in the current batch of results. Continuing to next batch.", "WARNING")
 
             self.log("Failed to find the global pool after exhausting all results.", "ERROR")
-            return None
+            self.msg = "Invalid global_pool_name '{0}' under reserve_pool_details".format(global_pool_name)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_want_global_pool_v1(self, global_ippool):
         """
@@ -3648,8 +3649,14 @@ class NetworkSettings(DnacBase):
             }
             self.log(f"Processed IPv4 address space: {ipv4_address_space}", "DEBUG")
 
-            # Process IPv6 details if enabledx
+            # Process IPv6 details if enabled
             ipv6_address = item.get("ipv6_address_space")
+            if ipv6_address is not None and not isinstance(ipv6_address, bool):
+                self.msg = "Invalid value for 'ipv6_address_space' parameter: '{0}'. Expected boolean value (True or False), but received {1}.".format(
+                    ipv6_address, type(ipv6_address).__name__)
+                self.log("IPv6 address space validation failed: {0}".format(self.msg), "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             # Check for missing required parameters in the playbook
             if ipv6_address is True:
                 self.log(f"Processing IPv6 details for reserve pool index {reserve_pool_index + 1}.", "DEBUG")
