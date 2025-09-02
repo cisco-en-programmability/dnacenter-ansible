@@ -5722,6 +5722,10 @@ class Inventory(DnacBase):
                     self.result["response"] = self.msg
                     break
 
+                self.log(
+                    "Pauses execution for {0} seconds.".format(resync_retry_interval),
+                    "INFO",
+                )
                 time.sleep(resync_retry_interval)
                 resync_retry_count = resync_retry_count - resync_retry_interval
             return self
