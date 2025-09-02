@@ -43,4 +43,4 @@
                 scope: CISCO_DNA_DATA_WITHOUT_ASSURANCE
           - restore_details:
               - name: BACKUP24_07
-                encryption_passphrase: Karthick@
+                encryption_passphrase: Syed@
