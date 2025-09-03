@@ -204,6 +204,7 @@ EXAMPLES = r"""
         ip_transit_settings:
           routing_protocol_name: BGP
           autonomous_system_number: 1234
+
 - name: Create SDA fabric transit of transit_type IP_BASED_TRANSIT with newly added
     parameter 'transit_site_hierarchy'
   cisco.dnac.sda_fabric_transits_workflow_manager:
@@ -226,6 +227,7 @@ EXAMPLES = r"""
         ip_transit_settings:
           routing_protocol_name: BGP
           autonomous_system_number: 134
+
 - name: Create SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -247,6 +249,7 @@ EXAMPLES = r"""
           control_plane_network_device_ips:
             - 10.0.0.1
             - 10.0.0.2
+
 - name: Create SDA fabric transit of transit_type SDA_LISP_PUB_SUB_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -271,6 +274,7 @@ EXAMPLES = r"""
             - 10.0.0.2
             - 10.0.0.3
             - 10.0.0.4
+
 - name: Update SDA fabric transit of transit_type IP_BASED_TRANSIT with newly added
     parameter 'transit_site_hierarchy'
   cisco.dnac.sda_fabric_transits_workflow_manager:
@@ -293,6 +297,7 @@ EXAMPLES = r"""
         ip_transit_settings:
           routing_protocol_name: BGP
           autonomous_system_number: 134
+
 # Basic fabric transit creation with site hierarchy
 - name: Create SDA fabric transit with site hierarchy
   cisco.dnac.sda_fabric_transits_workflow_manager:
@@ -316,6 +321,7 @@ EXAMPLES = r"""
               control_plane_network_device_ips:
                 - 10.1.1.10
                 - 10.1.1.11
+
 # Multi-site fabric transit deployment
 - name: Create multiple fabric transits across different sites
   cisco.dnac.sda_fabric_transits_workflow_manager:
@@ -348,6 +354,7 @@ EXAMPLES = r"""
               control_plane_network_device_ips:
                 - 172.16.20.1
                 - 172.16.20.2
+
 # Update fabric transit with site hierarchy change
 - name: Update fabric transit site association
   cisco.dnac.sda_fabric_transits_workflow_manager:
@@ -371,6 +378,7 @@ EXAMPLES = r"""
               control_plane_network_device_ips:
                 - 10.1.1.10
                 - 10.1.1.11
+
 # Campus deployment with multiple buildings
 - name: Deploy fabric transits across campus buildings
   cisco.dnac.sda_fabric_transits_workflow_manager:
@@ -402,6 +410,7 @@ EXAMPLES = r"""
               control_plane_network_device_ips:
                 - 10.200.1.1
                 - 10.200.1.2
+
 # Fabric transit without site hierarchy (legacy compatibility)
 - name: Create fabric transit without site hierarchy
   cisco.dnac.sda_fabric_transits_workflow_manager:
@@ -425,6 +434,7 @@ EXAMPLES = r"""
               control_plane_network_device_ips:
                 - 10.50.1.1
                 - 10.50.1.2
+
 - name: Update SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -446,6 +456,7 @@ EXAMPLES = r"""
           control_plane_network_device_ips:
             - 10.0.0.1
             - 10.0.0.2
+
 - name: Update the multicast over transit
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -465,6 +476,7 @@ EXAMPLES = r"""
         transit_type: SDA_LISP_PUB_SUB_TRANSIT
         sda_transit_settings:
           is_multicast_over_transit_enabled: true
+
 - name: Update the control plane network devices
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -487,6 +499,7 @@ EXAMPLES = r"""
             - 10.0.0.1
             - 10.0.0.2
             - 10.0.0.3
+
 - name: Delete SDA fabric transit
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
