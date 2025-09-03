@@ -215,7 +215,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
         print(result['response'])
         # download_msg = result["response"][0]["download_report"]["msg"]
         self.assertIn(
-            "Failed to retrieve execution ID for report 'compliance_report_test1'.",
+            "An error occurred while creating or scheduling the report: {'msg': 'An error occurred while downloading",
             result['response']
         )
 
