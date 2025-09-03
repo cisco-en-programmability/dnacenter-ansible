@@ -501,10 +501,12 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
 )
+import json
+import re
 
 
-class FlexibleReport(DnacBase):
-    """Class containing member attributes for Flexible Report Workflow Manager module"""
+class Reports(DnacBase):
+    """Class containing member attributes for Report Workflow Manager module"""
 
     def __init__(self, module):
         super().__init__(module)
@@ -520,14 +522,9 @@ class FlexibleReport(DnacBase):
 
         Parameters:
             self: The instance of the class containing the 'config' attribute to be validated.
-            self.config (dict): A dictionary representing the playbook configuration that needs validation.
-            Each key in the configuration should match the predefined data types and structure defined in `temp_spec`.
 
         Returns:
-            The method updates these attributes of the instance:
-                - self.msg: A message describing the validation result.
-                - self.status: The status of the validation ('success' or 'failed').
-                - self.validated_config (dict): The validated configuration, if successful, otherwise the method returns early with failure.
+            self - The current object with Global Pool, Reserved Pool, Network Servers information.
         """
 
         temp_spec = {
@@ -845,11 +842,24 @@ class FlexibleReport(DnacBase):
         return self
 
     def convert_to_epoch(self, date_str):
-        """Convert 'YYYY-MM-DD HH:MM AM/PM' to epoch milliseconds."""
+        """
+        Convert a date string in the format 'YYYY-MM-DD HH:MM AM/PM' to epoch time in milliseconds.
+
+        Parameters:
+            date_str (str): Date and time string to be converted.
+                Expected format: "YYYY-MM-DD HH:MM AM/PM"
+                (e.g., "2025-09-02 07:30 PM").
+
+        Returns:
+            int | None: Epoch time in milliseconds if conversion succeeds,
+            otherwise None if the input string is invalid or cannot be parsed.
+
+        """
         try:
             time_struct = time.strptime(date_str, "%Y-%m-%d %I:%M %p")
             return int(time.mktime(time_struct) * 1000)
         except ValueError:
+            self.log(f"exception occurred while converting date string to epoch time: {ValueError}", "ERROR")
             return None
 
     def validate_deliveries(self, deliveries):
@@ -858,6 +868,16 @@ class FlexibleReport(DnacBase):
         1. Must be a list with exactly one object.
         2. Type can be DOWNLOAD, NOTIFICATION (Email), or WEBHOOK.
         3. Enforce field-specific requirements for each type.
+
+        Parameters:
+            deliveries (list): User-provided delivery configuration.
+                            Expected format varies by delivery type.
+
+        Returns:
+            bool: True if the input passes validation and normalization.
+                False if the input is invalid, with error messages set
+                in self.msg and logged via self.set_operation_result.
+
         """
         # 1. Check it's a list with exactly one object
         if not isinstance(deliveries, list) or len(deliveries) != 1:
@@ -983,8 +1003,10 @@ class FlexibleReport(DnacBase):
             view_group_name (str): The name of the view group to retrieve.
 
         Returns:
-            view_group_id (str): The ID of the view group that matches the specified name.
-            If no view group is found for the specified name, returns None and sets an error message
+            tuple[str, str] | object:
+                - (view_group_id, data_category): When a matching view group is found.
+                - self: If no view group is found or an error occurs, with error details
+                logged and `self.msg` populated.
         """
         self.log("Retrieving all view groups for view_group_name: {0}".format(self.pprint(view_group_name)), "DEBUG")
         try:
@@ -1028,7 +1050,10 @@ class FlexibleReport(DnacBase):
             view_name (str): The name of the view to retrieve. If not provided, all views will be returned.
 
         Returns:
-            list: A list of views associated with the specified view group.
+            str | object:
+                - If a matching view is found: returns the view ID (str).
+                - If no matching view is found or an error occurs: returns `self` with the operation
+                result set to "failed".
         """
         self.log("Retrieving views for view group ID: {0}".format(view_group_id), "DEBUG")
         try:
@@ -1081,7 +1106,7 @@ class FlexibleReport(DnacBase):
             view_id (str): The ID of the view.
 
         Returns:
-            None: This method updates the 'view_details' attribute of the instance with the fetched details.
+            self: The current instance of the class with updated 'view_details' attribute.
         """
         self.log("Fetching view details for view group ID: {0}, view ID: {1}".format(view_group_id, view_id), "DEBUG")
         try:
@@ -1101,7 +1126,7 @@ class FlexibleReport(DnacBase):
         except Exception as e:
             self.msg = "An error occurred while fetching view details: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        return self
 
     def get_have(self, config):
         """
@@ -1235,7 +1260,7 @@ class FlexibleReport(DnacBase):
             generate_report (list): A list of report configurations to be created or scheduled.
 
         Returns:
-            None: This method updates the 'result' attribute with the response from the report creation API call.
+            self: The current instance of the class with updated 'result' attribute.
         """
         self.log("Creating or scheduling reports with configuration: {0}".format(self.pprint(generate_report)), "DEBUG")
         if not generate_report:
@@ -1365,7 +1390,7 @@ class FlexibleReport(DnacBase):
             report_id (str): The ID of the report for which to retrieve the execution ID.
 
         Returns:
-            str: The execution ID associated with the specified report ID, or None if not found.
+            str: The execution ID associated with the specified report ID.
         """
         time.sleep(20)  # Adding a delay to ensure the report is ready for execution
         self.log("Retrieving execution ID for report ID: {0}".format(report_id), "DEBUG")
@@ -1377,13 +1402,89 @@ class FlexibleReport(DnacBase):
         self.log("Response from get_execution_id_for_report: {0}".format(self.pprint(response)), "DEBUG")
         if not response or not response.get("executions"):
             self.msg = "No executions found for report ID '{0}'.".format(report_id)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return None
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         # Assuming the first execution is the one we want
         execution_id = response["executions"][0].get("executionId")
         self.log("Execution ID for report ID '{0}': {1}".format(report_id, execution_id), "DEBUG")
         return execution_id
+
+    def download_report_with_retry(self, report_id, execution_id):
+        """
+        Download report content from Catalyst Center with retry mechanism
+        if the file is temporarily unavailable (404 - file removed).
+
+        Parameters:
+            report_id (str): The report ID.
+            execution_id (str): The execution ID.
+
+        Returns:
+            download_data: The downloaded report content if successfully downloaded.
+        """
+
+        self.log(
+            f"Attempting to download report with report_id={report_id}, execution_id={execution_id}",
+            "INFO"
+        )
+
+        start_time = time.time()
+        retry_interval = int(self.payload.get("dnac_task_poll_interval", 5))
+        resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
+
+        while True:
+            try:
+                download_response = self.dnac._exec(
+                    family="reports",
+                    function="download_report_content",
+                    params={"report_id": report_id, "execution_id": execution_id}
+                )
+
+                download_data = download_response.data
+                self.log(
+                    "Response from download_report_content: {0}".format(download_data),
+                    "DEBUG"
+                )
+
+                # If data is present and not error, return it
+                if download_data and not isinstance(download_data, dict):
+                    return download_data
+
+            except Exception as e:
+                err_str = str(e)
+                error_code = None
+                error_msg = None
+
+                # Try to extract JSON part from exception
+                match = re.search(r'(\{.*\})', err_str)
+                if match:
+                    try:
+                        err_json = json.loads(match.group(1))
+                        if "error" in err_json:
+                            error_code = err_json["error"][0].get("errorCode")
+                            error_msg = err_json["error"][0].get("errorMessage")
+                    except json.JSONDecodeError:
+                        pass
+
+                if error_code == 4002:
+                    self.log(
+                        f"Report not ready yet (error {error_code}: {error_msg}), retrying...",
+                        "WARNING"
+                    )
+                else:
+                    self.msg = f"Exception during report download with retry: {err_str}"
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # Timeout check
+            if time.time() - start_time >= resync_retry_count:
+                self.msg = f"Max retries reached. Report file not available (report_id={report_id}, execution_id={execution_id})."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            # Wait before retry
+            self.log(
+                f"Waiting {retry_interval} seconds before retrying report download (report_id={report_id}, execution_id={execution_id})",
+                "DEBUG"
+            )
+            time.sleep(retry_interval)
 
     def report_download(self, report_entry, report_id):
         """
@@ -1395,7 +1496,7 @@ class FlexibleReport(DnacBase):
             response (dict): The response from the report creation or scheduling API call.
 
         Returns:
-            None: This method updates the 'result' attribute with the downloaded report content.
+            self: The current instance of the class with updated 'result' attribute.
         """
         self.log("Downloading report content for report entry: {0}".format(self.pprint(report_entry)), "DEBUG")
 
@@ -1412,20 +1513,7 @@ class FlexibleReport(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            download_response = self.dnac._exec(
-                family="reports",
-                function="download_report_content",
-                params={"report_id": report_id,
-                        "execution_id": execution_id
-                        }
-            )
-            download_data = download_response.data
-            self.log("Response from download_report_content: {0}".format(download_data), "DEBUG")
-
-            if not download_data:
-                self.msg = "Failed to download report content for '{0}'.".format(report_entry.get("name"))
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return
+            download_data = self.download_report_with_retry(report_id, execution_id)
 
             # Validate file_path
             deliveries = report_entry.get("deliveries", [])
@@ -1440,7 +1528,8 @@ class FlexibleReport(DnacBase):
 
             if not file_path:
                 self.log("No 'file_path' provided. Cannot save the downloaded file.", "WARNING")
-                return
+                self.msg = "File path is required for saving the downloaded report."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # Determine file format
             if not file_format.startswith("."):
@@ -1586,7 +1675,7 @@ class FlexibleReport(DnacBase):
         generate_report = self.have.get("generate_report", [])
         if not generate_report:
             self.msg = "No reports found in the current state after deletion."
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("Success", False, self.msg, "ERROR")
             return self
 
         for report_entry in generate_report:
@@ -1627,7 +1716,7 @@ def main():
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 
-    ccc_report = FlexibleReport(module)
+    ccc_report = Reports(module)
     state = ccc_report.params.get("state")
 
     if state not in ccc_report.supported_states:
