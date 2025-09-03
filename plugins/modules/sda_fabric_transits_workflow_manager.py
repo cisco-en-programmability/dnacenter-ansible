@@ -56,7 +56,7 @@ options:
                 fabric transits.
             type: str
           transit_site_hierarchy:
-            description:
+            description:|
                 - The site name hierarchy for the SDA fabric transit configuration.
                 - Specifies the hierarchical location of the fabric transit within the organizational network topology.
                 - The transit transit_site_hierarchy would be higher then fabric site hierarchy to have multiple fabric
