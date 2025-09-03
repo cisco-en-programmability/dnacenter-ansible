@@ -1001,7 +1001,7 @@ class NetworkDevicesInfo(DnacBase):
         desired_devices["network_devices"] = config.get("network_devices")
 
         required_device_keys = ['management_ip_address', 'mac_address', 'hostname', 'serial_number',
-                                'role', 'os_type', 'software_version', 'site_hierarchy', 'device_type']
+                                'role', 'os_type', 'software_version', 'site_hierarchy', 'device_type', 'family']
         valid_requested_info_options = ["all"] + DEFAULT_REQUESTED_INFO
         allowed_file_info_keys = {"file_path", "file_format", "file_mode", "timestamp"}
         allowed_file_formats = {"json", "yaml"}
@@ -1313,12 +1313,11 @@ class NetworkDevicesInfo(DnacBase):
                         "device_info": [
                             {
                                 "device_ip": <str>,
-                                "device_details": <list of device details or error string>
+                                "device_details": <list of device details, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an exception occurs during any API call.
         """
 
         self.log("Starting device info retrieval for device_ids: {0}".format(device_ids), "INFO")
@@ -1359,9 +1358,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting device list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                device_info_list.append({
+                    "device_ip": device_ip,
+                    "device_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"device_info": device_info_list}]
 
@@ -1400,12 +1401,11 @@ class NetworkDevicesInfo(DnacBase):
                         "interface_vlan_info": [
                             {
                                 "device_ip": <str>,
-                                "interface_vlan_details": <list of VLAN interface details or error string>
+                                "interface_vlan_details": <list of VLAN interface details, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an exception occurs during any API call.
         """
 
         self.log("Fetching VLAN interface data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -1446,9 +1446,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting VLAN interface data for device {0} (IP: {1}): {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                vlans_info_list.append({
+                    "device_ip": device_ip,
+                    "interface_vlan_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"interface_vlan_info": vlans_info_list}]
 
@@ -1481,12 +1483,11 @@ class NetworkDevicesInfo(DnacBase):
                         "line_card_info": [
                             {
                                 "device_ip": <str>,
-                                "linecard_details": <list of line card details or error string>
+                                "linecard_details": <list of line card details, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an exception occurs during any API call.
         """
 
         self.log("Fetching Line card data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -1527,9 +1528,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting line card info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                linecards_info_list.append({
+                    "device_ip": device_ip,
+                    "linecard_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"line_card_info": linecards_info_list}]
 
@@ -1564,12 +1567,11 @@ class NetworkDevicesInfo(DnacBase):
                         "device_stack_info": [
                             {
                                 "device_ip": <str>,
-                                "stack_details": <list of stack member details or error string>
+                                "stack_details": <list of stack member details, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an exception occurs during any API call.
         """
 
         self.log("Fetching stack details for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -1610,9 +1612,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting device stack info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                stack_info_list.append({
+                    "device_ip": device_ip,
+                    "stack_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"device_stack_info": stack_info_list}]
 
@@ -1642,12 +1646,11 @@ class NetworkDevicesInfo(DnacBase):
                         "device_config_info": [
                             {
                                 "device_ip": <str>,
-                                "device_config_details": <list of configuration lines or error string>
+                                "device_config_details": <list of configuration lines, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an error occurs during any API call.
         """
 
         self.log("Fetching Device config data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -1688,9 +1691,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting device config for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                device_config_list.append({
+                    "device_ip": device_ip,
+                    "device_config_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"device_config_info": device_config_list}]
 
@@ -1720,12 +1725,11 @@ class NetworkDevicesInfo(DnacBase):
                         "device_polling_interval_info": [
                             {
                                 "device_ip": <str>,
-                                "polling_interval_details": <list of polling interval values or error string>
+                                "polling_interval_details": <list of polling interval values, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an error occurs during any API call.
         """
 
         self.log("Fetching polling interval data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -1766,9 +1770,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting polling interval info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                polling_intervals_info_list.append({
+                    "device_ip": device_ip,
+                    "polling_interval_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"device_polling_interval_info": polling_intervals_info_list}]
 
@@ -1800,12 +1806,11 @@ class NetworkDevicesInfo(DnacBase):
                         "device_summary_info": [
                             {
                                 "device_ip": <str>,
-                                "device_summary_details": <list of summary details or error string>
+                                "device_summary_details": <list of summary details, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an error occurs during any API call.
         """
 
         self.log("Fetching device summary data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -1847,9 +1852,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting device summary list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                device_summary_info_list.append({
+                    "device_ip": device_ip,
+                    "device_summary_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"device_summary_info": device_summary_info_list}]
 
@@ -1882,12 +1889,11 @@ class NetworkDevicesInfo(DnacBase):
                         "supervisor_card_info": [
                             {
                                 "device_ip": <str>,
-                                "supervisor_card_details": <list of supervisor card details or error string>
+                                "supervisor_card_details": <list of supervisor card details, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an error occurs during data retrieval.
         """
 
         self.log("Fetching supervisor card data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -1928,9 +1934,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting supervisor card info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                supervisor_cards_info_list.append({
+                    "device_ip": device_ip,
+                    "supervisor_card_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"supervisor_card_info": supervisor_cards_info_list}]
 
@@ -1962,12 +1970,11 @@ class NetworkDevicesInfo(DnacBase):
                         "poe_info": [
                             {
                                 "device_ip": <str>,
-                                "poe_details": <list of PoE details or error string>
+                                "poe_details": <list of PoE details, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
         """
 
         self.log("Fetching PoE data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -2010,9 +2017,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting PoE Info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                poe_info_list.append({
+                    "device_ip": device_ip,
+                    "poe_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"poe_info": poe_info_list}]
 
@@ -2059,12 +2068,11 @@ class NetworkDevicesInfo(DnacBase):
                         "interface_info": [
                             {
                                 "device_ip": <str>,
-                                "interface_details": <list of interface details or error string>
+                                "interface_details": <list of interface details, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
         """
 
         self.log("Fetching interface info for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -2105,9 +2113,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting device interface info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                interface_info_list.append({
+                    "device_ip": device_ip,
+                    "interface_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"interface_info": interface_info_list}]
 
@@ -2137,12 +2147,11 @@ class NetworkDevicesInfo(DnacBase):
                         "module_count_info": [
                             {
                                 "device_ip": <str>,
-                                "module_count_details": <list of module count details or error string>
+                                "module_count_details": <list of module count details, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
         """
 
         self.log("Fetching module count data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -2184,9 +2193,11 @@ class NetworkDevicesInfo(DnacBase):
 
             except Exception as e:
                 self.msg = "Exception occurred while getting module count info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return None
+                module_counts_info_list.append({
+                    "device_ip": device_ip,
+                    "module_count_details": "Error: {0}".format(e)
+                })
+                continue
 
         result = [{"module_count_info": module_counts_info_list}]
 
@@ -2267,12 +2278,11 @@ class NetworkDevicesInfo(DnacBase):
                         "connected_device_info": [
                             {
                                 "device_ip": <str>,
-                                "connected_device_details": <list of connected device detail dictionaries or error string>
+                                "connected_device_details": <list of connected device detail dictionaries, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
         """
 
         self.log("Fetching connected device data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -2314,20 +2324,29 @@ class NetworkDevicesInfo(DnacBase):
                         else:
                             connected_device_details.append(detail)
 
+                    if connected_device_details:
+                        self.log("Found {0} connected device details for device IP: {1}".format(
+                            len(connected_device_details), device_ip), "DEBUG")
+                        connected_info_list.append({
+                            "device_ip": device_ip,
+                            "connected_device_details": connected_device_details
+                        })
+                    else:
+                        self.log("No connected device details found for device ip: {0}".format(device_ip), "INFO")
+                        connected_info_list.append({
+                            "device_ip": device_ip,
+                            "connected_device_details": []
+                        })
+
                 except Exception as e:
                     self.log("Failed to fetch connected device detail for device_id {0} interface_id {1}: {2}".format(
                         device_id, interface_uuid, str(e)
                     ), "ERROR")
-
-            if connected_device_details:
-                self.log("Found {0} connected device details for device IP: {1}".format(
-                    len(connected_device_details), device_ip), "DEBUG")
-                connected_info_list.append({
-                    "device_ip": device_ip,
-                    "connected_device_details": connected_device_details
-                })
-            else:
-                self.log("No connected device details found for device ip: {0}".format(device_ip), "INFO")
+                    connected_device_details.append({
+                        "device_ip": device_ip,
+                        "connected_device_details": "Error: {0}".format(e)
+                    })
+                    continue
 
         result = [{"connected_device_info": connected_info_list}]
 
@@ -2379,12 +2398,11 @@ class NetworkDevicesInfo(DnacBase):
                         "connected_device_info": [
                             {
                                 "device_ip": <str>,
-                                "connected_device_details": <list of connected device detail dictionaries or error string>
+                                "connected_device_details": <list of connected device detail dictionaries, exception or empty string>
                             },
                         ]
                     }
                 ]
-            Returns None if an error occurs during retrieval.
         """
 
         self.log("Fetching range interface data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -2423,11 +2441,12 @@ class NetworkDevicesInfo(DnacBase):
                         break
 
                     data_chunk = response['response']
-                    if not data_chunk:
-                        self.log("No more interfaces found for device_id: {0}".format(device_id), "DEBUG")
+                    if data_chunk:
+                        self.log("Found {0} interface records for device IP: {1}".format(len(data_chunk), device_ip), "DEBUG")
+                        interface_data.extend(data_chunk)
+                    else:
+                        self.log("No interface details found for device IP: {0}".format(device_ip), "DEBUG")
                         break
-
-                    interface_data.extend(data_chunk)
 
                     if len(data_chunk) < records_to_return:
                         self.log("Reached end of data - received {0} records (less than requested {1})".format(
@@ -2439,13 +2458,14 @@ class NetworkDevicesInfo(DnacBase):
                 except Exception as api_err:
                     self.log("Exception while calling get_device_interfaces_by_specified_range for device_id {0} due to {1}".format(device_id, api_err)
                              , "ERROR")
+                    interface_data = ["Error: {0}".format(api_err)]
                     break
 
+            self.log("No interface info found for device ip: {0}".format(device_ip), "INFO")
             interface_by_range_info_list.append({
                 "device_ip": device_ip,
-                "interface_info": [interface_data]
+                "interface_info": [interface_data] if interface_data else []
             })
-        self.log("No interface info found for device ip: {0}".format(device_ip), "INFO")
 
         result = [{"device_interfaces_by_range_info": interface_by_range_info_list}]
 
@@ -2504,14 +2524,13 @@ class NetworkDevicesInfo(DnacBase):
                             "speed-duplex": [
                                 {
                                     "device_ip": "<device_ip>",
-                                    "link_mismatch_details": <list_of_speed_duplex_mismatch_data_or_error_message>
+                                    "link_mismatch_details": <list of speed duplex mismatch data, exception or empty string>
                                 }
                             ]
                         },
                     ]
                 }
             ]
-            Returns None if an exception occurs.
         """
 
         self.log("Fetching device link mismatch data for {0} devices: {1}".format(len(device_ids), device_ids), "INFO")
@@ -2526,8 +2545,7 @@ class NetworkDevicesInfo(DnacBase):
             for device_id in device_ids:
                 if not site_id:
                     self.msg = "Invalid or missing site ID in site_ids list."
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return None
+                    continue
                 device_ip = self.get_device_ip_from_id(device_id)
                 device_ips.append(device_ip)
 
@@ -2582,8 +2600,11 @@ class NetworkDevicesInfo(DnacBase):
 
                     except Exception as e:
                         self.msg = "Exception occurred while getting {0} link mismatch data for site {1}: {2}".format(category, site_id, e)
-                        self.log(self.msg, "ERROR")
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status
+                        site_result[category].append({
+                            "device_ip": device_ip,
+                            "link_mismatch_details": "Error: {0}".format(e)
+                        })
+                        continue
 
                 self.log(site_result["vlan"])
                 self.log(site_result["speed-duplex"])
