@@ -1835,7 +1835,7 @@ class NetworkSettings(DnacBase):
         Returns:
             network_details: Processed Network data in a format suitable for configuration according to cisco catalyst center version.
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
             self.log(
                 "Using get_network_params_v1 based on version check",
                 "DEBUG",
@@ -3801,7 +3801,7 @@ class NetworkSettings(DnacBase):
             want_network_settings = want_network.get("settings")
             self.log("Current state (have): {0}".format(self.have), "DEBUG")
             have_network_details = self.have.get("network")[network_management_index].get("net_details").get("settings")
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update({
                         "dhcpServer": item.get("dhcp_server")
@@ -5884,7 +5884,7 @@ class NetworkSettings(DnacBase):
                 "Network parameters for 'update_network_v2': {0}".format(net_params),
                 "DEBUG",
             )
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
                 if "client_and_endpoint_aaa" in net_params["settings"]:
                     net_params["settings"]["clientAndEndpoint_aaa"] = net_params[
                         "settings"
