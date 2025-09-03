@@ -1065,7 +1065,7 @@
     ],
     "version": "1.0"
   },
-  "playbook_linecard_details": [
+  "playbook_linecard_details_error": [
     {
       "network_devices": [
         {
@@ -7226,27 +7226,24 @@
   ],
   "playbook_negative_scenario8": [
     {
-      "network_devices": [
-        {
-          "family": [
-            "Switches and Hubs"
-          ],
-          "output_file_info": {
-            "file_format": "json",
-            "file_mode": "a",
-            "file_path": "/Users/karthick/Downloads/slow",
-            "timestamp": true
-          },
-          "interval": 1,
-          "requested_info": [
-            "poe_info"
-          ],
-          "retries": 1,
-          "timeout": 10
-        }
-      ]
+        "network_devices": [
+            {
+                "interval": 1,
+                "output_file_info": {
+                    "file_format": "json",
+                    "file_mode": "w",
+                    "file_path": "/Users/karthick/Downloads/2808",
+                    "timestamp": true
+                },
+                "requested_info": [
+                    "connected_device_info"
+                ],
+                "retries": 1,
+                "timeout": 10
+            }
+        ]
     }
-  ],
+],
   "playbook_negative_scenario9": [
     {
       "network_devices": [
