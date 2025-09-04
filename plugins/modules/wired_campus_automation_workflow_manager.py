@@ -481,11 +481,7 @@ options:
                     must be set to TRANSPARENT or OFF.
                 type: str
                 required: false
-                choices:
-                - SERVER
-                - CLIENT
-                - TRANSPARENT
-                - OFF
+                choices: ['SERVER', 'CLIENT', 'TRANSPARENT', 'OFF']
                 default: SERVER
               vtp_version:
                 description: |
@@ -1105,14 +1101,7 @@ options:
                           - Choose based on desired negotiation behavior and protocol.
                         type: str
                         required: false
-                        choices:
-                        - ACTIVE
-                        - PASSIVE
-                        - AUTO
-                        - AUTO_NON_SILENT
-                        - DESIRABLE
-                        - DESIRABLE_NON_SILENT
-                        - ON
+                        choices:['ACTIVE', 'PASSIVE', 'AUTO', 'AUTO_NON_SILENT', 'DESIRABLE', 'DESIRABLE_NON_SILENT', 'ON']
                       port_channel_port_priority:
                         description: |
                           - Priority for this interface in port channel selection.
