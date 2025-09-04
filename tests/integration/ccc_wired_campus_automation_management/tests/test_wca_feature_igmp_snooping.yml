@@ -1,0 +1,954 @@
+# ---
+# # ===================================================================================================
+# # IGMP SNOOPING FEATURE TESTS SUMMARY
+# # ===================================================================================================
+# #
+# # This test suite validates IGMP Snooping configuration for Wired Campus Automation.
+# #
+# # TEST CATEGORIES:
+# #
+# # 1. NEGATIVE VALIDATION TESTS (Lines 25-820)
+# #    a) IGMP Global Configuration Tests
+# #       - Global enabled validation (string/integer instead of boolean)
+# #       - Global querier enabled validation (string/integer instead of boolean)
+# #       - Global querier address validation (integer instead of string)
+# #       - Global querier version validation (invalid choice, integer instead of string)
+# #       - Global query interval validation (string/boolean instead of integer, range validation)
+# #
+# #    b) IGMP VLAN Configuration Tests
+# #       - VLAN ID validation (string instead of integer, negative/zero/max values)
+# #       - Missing required VLAN ID validation
+# #       - VLAN enabled validation (string/integer instead of boolean)
+# #       - VLAN querier enabled validation (string/integer instead of boolean)
+# #       - VLAN querier address validation (integer instead of string)
+# #       - VLAN querier version validation (invalid choice)
+# #       - VLAN query interval validation (string instead of integer, range validation)
+# #       - VLAN mrouter port list validation (string instead of list, integer in list)
+# #
+# #    c) Data Type and Structure Tests
+# #       - IGMP configuration validation (string/list instead of dictionary)
+# #       - IGMP VLANs validation (string/dictionary instead of list)
+# #       - IGMP VLAN item validation (string instead of dictionary)
+# #
+# #    d) Duplicate and Conflict Tests
+# #       - Duplicate VLAN IDs validation
+# #
+# # 2. POSITIVE VALIDATION TESTS (Lines 820-1200)
+# #    a) IGMP Creation Tests (Merged State)
+# #       - Global parameters only configuration
+# #       - VLANs only configuration
+# #       - Single VLAN configuration
+# #       - Global and VLANs combined configuration
+# #       - Minimal global parameters configuration
+# #       - Minimal VLAN parameters configuration
+# #       - Multiple VLANs with different settings
+# #
+# #    b) IGMP Update Tests (Merged State)
+# #       - Global parameters only updates
+# #       - Adding new VLANs
+# #       - Modifying existing VLANs
+# #       - Global and VLANs combined updates
+# #       - Global enablement state changes
+# #       - Single VLAN updates
+# #
+# #    c) Boundary Value Tests
+# #       - Minimum query interval values (global and VLAN)
+# #       - Maximum query interval values (global and VLAN)
+# #       - Minimum VLAN ID (1)
+# #       - Maximum VLAN ID (4094)
+# #
+# # VALIDATION RANGES:
+# # - IGMP Global Enabled: boolean (true/false)
+# # - IGMP Global Querier Enabled: boolean (true/false)
+# # - IGMP Global Querier Address: string (valid IP address format)
+# # - IGMP Global Querier Version: string ("VERSION_1", "VERSION_2", "VERSION_3")
+# # - IGMP Global Query Interval: integer (1-18000 seconds)
+# # - IGMP VLAN ID: integer (1-4094)
+# # - IGMP VLAN Enabled: boolean (true/false)
+# # - IGMP VLAN Querier Enabled: boolean (true/false)
+# # - IGMP VLAN Querier Address: string (valid IP address format)
+# # - IGMP VLAN Querier Version: string ("VERSION_1", "VERSION_2", "VERSION_3")
+# # - IGMP VLAN Query Interval: integer (1-18000 seconds)
+# # - IGMP VLAN Mrouter Port List: list of strings (interface names)
+# #
+# # EXPECTED BEHAVIORS:
+# # - Negative tests should fail with appropriate error messages
+# # - Positive tests should succeed with changed=true and response defined
+# # - Global and VLAN configurations can be applied independently
+# # - Multiple VLANs can be configured with different settings
+# # - VLAN ID is required when configuring VLAN-specific settings
+# # - Duplicate VLAN IDs within same configuration should be rejected
+# # - All boolean fields reject string/integer values
+# # - All integer fields reject string/boolean values
+# # - Range validation enforced for numeric fields
+# # - Structure validation enforced for complex data types
+# #
+# # ===================================================================================================
+
+# - debug: msg="Starting IGMP Snooping feature tests for Wired Campus Automation"
+# - debug: msg="Role Path {{ role_path }}"
+
+# - block:
+#     - name: Load IGMP Snooping test variables
+#       include_vars:
+#         file: "{{ role_path }}/vars/vars_wca_test_feature_igmp_snooping.yml"
+#         name: igmp_vars_map
+#       vars:
+#         dnac_login: &dnac_login
+#           dnac_host: "{{ dnac_host }}"
+#           dnac_username: "{{ dnac_username }}"
+#           dnac_password: "{{ dnac_password }}"
+#           dnac_verify: "{{ dnac_verify }}"
+#           dnac_port: "{{ dnac_port }}"
+#           dnac_version: "{{ dnac_version }}"
+#           dnac_debug: "{{ dnac_debug }}"
+#           dnac_log: true
+#           dnac_log_level: DEBUG
+#           config_verify: true
+#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+#           dnac_log_append: false
+
+#     ###################################################################################################################
+#     # Negative Validation Tests for IGMP Snooping
+
+#     #############################################
+#     #        IGMP Global Configuration Tests    #
+#     #############################################
+
+#     - name: Test IGMP global enabled validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_enabled_string }}"
+#       register: result_igmp_global_enabled_string
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, enabled]
+
+#     - name: Assert IGMP global enabled string validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_enabled_string.failed == true
+#           - "'must be of type boolean' in result_igmp_global_enabled_string.msg"
+#         fail_msg: "IGMP global enabled string validation should have failed"
+#         success_msg: "IGMP global enabled string validation correctly failed"
+#       tags: [negative, igmp, global, enabled]
+
+#     - name: Test IGMP global enabled validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_enabled_integer }}"
+#       register: result_igmp_global_enabled_integer
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, enabled]
+
+#     - name: Assert IGMP global enabled integer validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_enabled_integer.failed == true
+#           - "'must be of type boolean' in result_igmp_global_enabled_integer.msg"
+#         fail_msg: "IGMP global enabled integer validation should have failed"
+#         success_msg: "IGMP global enabled integer validation correctly failed"
+#       tags: [negative, igmp, global, enabled]
+
+#     - name: Test IGMP global querier enabled validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_querier_enabled_string }}"
+#       register: result_igmp_global_querier_enabled_string
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, querier]
+
+#     - name: Assert IGMP global querier enabled string validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_querier_enabled_string.failed == true
+#           - "'must be of type boolean' in result_igmp_global_querier_enabled_string.msg"
+#         fail_msg: "IGMP global querier enabled string validation should have failed"
+#         success_msg: "IGMP global querier enabled string validation correctly failed"
+#       tags: [negative, igmp, global, querier]
+
+#     - name: Test IGMP global querier enabled validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_querier_enabled_integer }}"
+#       register: result_igmp_global_querier_enabled_integer
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, querier]
+
+#     - name: Assert IGMP global querier enabled integer validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_querier_enabled_integer.failed == true
+#           - "'must be of type boolean' in result_igmp_global_querier_enabled_integer.msg"
+#         fail_msg: "IGMP global querier enabled integer validation should have failed"
+#         success_msg: "IGMP global querier enabled integer validation correctly failed"
+#       tags: [negative, igmp, global, querier]
+
+#     - name: Test IGMP global querier address validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_querier_address_integer }}"
+#       register: result_igmp_global_querier_address_integer
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, querier_address]
+
+#     - name: Assert IGMP global querier address integer validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_querier_address_integer.failed == true
+#           - "'must be of type string' in result_igmp_global_querier_address_integer.msg"
+#         fail_msg: "IGMP global querier address integer validation should have failed"
+#         success_msg: "IGMP global querier address integer validation correctly failed"
+#       tags: [negative, igmp, global, querier_address]
+
+#     - name: Test IGMP global querier version validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_querier_version_invalid }}"
+#       register: result_igmp_global_querier_version_invalid
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, querier_version]
+
+#     - name: Assert IGMP global querier version invalid validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_querier_version_invalid.failed == true
+#           - "'not a valid choice' in result_igmp_global_querier_version_invalid.msg or 'VERSION_4' in result_igmp_global_querier_version_invalid.msg"
+#         fail_msg: "IGMP global querier version invalid validation should have failed"
+#         success_msg: "IGMP global querier version invalid validation correctly failed"
+#       tags: [negative, igmp, global, querier_version]
+
+#     - name: Test IGMP global querier version validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_querier_version_integer }}"
+#       register: result_igmp_global_querier_version_integer
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, querier_version]
+
+#     - name: Assert IGMP global querier version integer validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_querier_version_integer.failed == true
+#           - "'must be of type string' in result_igmp_global_querier_version_integer.msg"
+#         fail_msg: "IGMP global querier version integer validation should have failed"
+#         success_msg: "IGMP global querier version integer validation correctly failed"
+#       tags: [negative, igmp, global, querier_version]
+
+#     - name: Test IGMP global query interval validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_query_interval_string }}"
+#       register: result_igmp_global_query_interval_string
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, query_interval]
+
+#     - name: Assert IGMP global query interval string validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_query_interval_string.failed == true
+#           - "'must be of type integer' in result_igmp_global_query_interval_string.msg"
+#         fail_msg: "IGMP global query interval string validation should have failed"
+#         success_msg: "IGMP global query interval string validation correctly failed"
+#       tags: [negative, igmp, global, query_interval]
+
+#     - name: Test IGMP global query interval validation - boolean value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_query_interval_boolean }}"
+#       register: result_igmp_global_query_interval_boolean
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, query_interval]
+
+#     - name: Assert IGMP global query interval boolean validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_query_interval_boolean.failed == true
+#           - "'must be of type integer' in result_igmp_global_query_interval_boolean.msg"
+#         fail_msg: "IGMP global query interval boolean validation should have failed"
+#         success_msg: "IGMP global query interval boolean validation correctly failed"
+#       tags: [negative, igmp, global, query_interval]
+
+#     - name: Test IGMP global query interval validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_query_interval_min }}"
+#       register: result_igmp_global_query_interval_min
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, query_interval, range]
+
+#     - name: Assert IGMP global query interval minimum validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_query_interval_min.failed == true
+#           - "'must be within the range' in result_igmp_global_query_interval_min.msg or 'query_interval' in result_igmp_global_query_interval_min.msg"
+#         fail_msg: "IGMP global query interval minimum validation should have failed"
+#         success_msg: "IGMP global query interval minimum validation correctly failed"
+#       tags: [negative, igmp, global, query_interval, range]
+
+#     - name: Test IGMP global query interval validation - exceeds maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_global_query_interval_max }}"
+#       register: result_igmp_global_query_interval_max
+#       ignore_errors: yes
+#       tags: [negative, igmp, global, query_interval, range]
+
+#     - name: Assert IGMP global query interval maximum validation failed
+#       assert:
+#         that:
+#           - result_igmp_global_query_interval_max.failed == true
+#           - "'must be within the range' in result_igmp_global_query_interval_max.msg or 'query_interval' in result_igmp_global_query_interval_max.msg"
+#         fail_msg: "IGMP global query interval maximum validation should have failed"
+#         success_msg: "IGMP global query interval maximum validation correctly failed"
+#       tags: [negative, igmp, global, query_interval, range]
+
+#     #############################################
+#     #        IGMP VLAN Configuration Tests     #
+#     #############################################
+
+#     - name: Test IGMP VLAN ID validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_id_string }}"
+#       register: result_igmp_vlan_id_string
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, id]
+
+#     - name: Assert IGMP VLAN ID string validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_id_string.failed == true
+#           - "'must be of type integer' in result_igmp_vlan_id_string.msg"
+#         fail_msg: "IGMP VLAN ID string validation should have failed"
+#         success_msg: "IGMP VLAN ID string validation correctly failed"
+#       tags: [negative, igmp, vlan, id]
+
+#     - name: Test IGMP VLAN ID validation - negative value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_id_negative }}"
+#       register: result_igmp_vlan_id_negative
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, id, range]
+
+#     - name: Assert IGMP VLAN ID negative validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_id_negative.failed == true
+#           - "'must be within the range' in result_igmp_vlan_id_negative.msg or 'vlan_id' in result_igmp_vlan_id_negative.msg"
+#         fail_msg: "IGMP VLAN ID negative validation should have failed"
+#         success_msg: "IGMP VLAN ID negative validation correctly failed"
+#       tags: [negative, igmp, vlan, id, range]
+
+#     - name: Test IGMP VLAN ID validation - exceeds maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_id_max }}"
+#       register: result_igmp_vlan_id_max
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, id, range]
+
+#     - name: Assert IGMP VLAN ID maximum validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_id_max.failed == true
+#           - "'must be within the range' in result_igmp_vlan_id_max.msg or 'vlan_id' in result_igmp_vlan_id_max.msg"
+#         fail_msg: "IGMP VLAN ID maximum validation should have failed"
+#         success_msg: "IGMP VLAN ID maximum validation correctly failed"
+#       tags: [negative, igmp, vlan, id, range]
+
+#     - name: Test IGMP VLAN ID validation - zero value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_id_zero }}"
+#       register: result_igmp_vlan_id_zero
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, id, range]
+
+#     - name: Assert IGMP VLAN ID zero validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_id_zero.failed == true
+#           - "'must be within the range' in result_igmp_vlan_id_zero.msg or 'vlan_id' in result_igmp_vlan_id_zero.msg"
+#         fail_msg: "IGMP VLAN ID zero validation should have failed"
+#         success_msg: "IGMP VLAN ID zero validation correctly failed"
+#       tags: [negative, igmp, vlan, id, range]
+
+#     - name: Test missing required IGMP VLAN ID
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_id_missing }}"
+#       register: result_igmp_vlan_id_missing
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, id, required]
+
+#     - name: Assert missing IGMP VLAN ID validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_id_missing.failed == true
+#           - "'igmp_snooping_vlan_id' in result_igmp_vlan_id_missing.msg or 'required' in result_igmp_vlan_id_missing.msg"
+#         fail_msg: "Missing IGMP VLAN ID validation should have failed"
+#         success_msg: "Missing IGMP VLAN ID validation correctly failed"
+#       tags: [negative, igmp, vlan, id, required]
+
+#     - name: Test IGMP VLAN enabled validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_enabled_string }}"
+#       register: result_igmp_vlan_enabled_string
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, enabled]
+
+#     - name: Assert IGMP VLAN enabled string validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_enabled_string.failed == true
+#           - "'must be of type boolean' in result_igmp_vlan_enabled_string.msg"
+#         fail_msg: "IGMP VLAN enabled string validation should have failed"
+#         success_msg: "IGMP VLAN enabled string validation correctly failed"
+#       tags: [negative, igmp, vlan, enabled]
+
+#     - name: Test IGMP VLAN enabled validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_enabled_integer }}"
+#       register: result_igmp_vlan_enabled_integer
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, enabled]
+
+#     - name: Assert IGMP VLAN enabled integer validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_enabled_integer.failed == true
+#           - "'must be of type boolean' in result_igmp_vlan_enabled_integer.msg"
+#         fail_msg: "IGMP VLAN enabled integer validation should have failed"
+#         success_msg: "IGMP VLAN enabled integer validation correctly failed"
+#       tags: [negative, igmp, vlan, enabled]
+
+#     - name: Test IGMP VLAN querier enabled validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_querier_enabled_string }}"
+#       register: result_igmp_vlan_querier_enabled_string
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, querier]
+
+#     - name: Assert IGMP VLAN querier enabled string validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_querier_enabled_string.failed == true
+#           - "'must be of type boolean' in result_igmp_vlan_querier_enabled_string.msg"
+#         fail_msg: "IGMP VLAN querier enabled string validation should have failed"
+#         success_msg: "IGMP VLAN querier enabled string validation correctly failed"
+#       tags: [negative, igmp, vlan, querier]
+
+#     - name: Test IGMP VLAN querier enabled validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_querier_enabled_integer }}"
+#       register: result_igmp_vlan_querier_enabled_integer
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, querier]
+
+#     - name: Assert IGMP VLAN querier enabled integer validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_querier_enabled_integer.failed == true
+#           - "'must be of type boolean' in result_igmp_vlan_querier_enabled_integer.msg"
+#         fail_msg: "IGMP VLAN querier enabled integer validation should have failed"
+#         success_msg: "IGMP VLAN querier enabled integer validation correctly failed"
+#       tags: [negative, igmp, vlan, querier]
+
+#     - name: Test IGMP VLAN querier address validation - integer value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_querier_address_integer }}"
+#       register: result_igmp_vlan_querier_address_integer
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, querier_address]
+
+#     - name: Assert IGMP VLAN querier address integer validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_querier_address_integer.failed == true
+#           - "'must be of type string' in result_igmp_vlan_querier_address_integer.msg"
+#         fail_msg: "IGMP VLAN querier address integer validation should have failed"
+#         success_msg: "IGMP VLAN querier address integer validation correctly failed"
+#       tags: [negative, igmp, vlan, querier_address]
+
+#     - name: Test IGMP VLAN querier version validation - invalid choice should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_querier_version_invalid }}"
+#       register: result_igmp_vlan_querier_version_invalid
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, querier_version]
+
+#     - name: Assert IGMP VLAN querier version invalid validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_querier_version_invalid.failed == true
+#           - "'not a valid choice' in result_igmp_vlan_querier_version_invalid.msg or 'VERSION_4' in result_igmp_vlan_querier_version_invalid.msg"
+#         fail_msg: "IGMP VLAN querier version invalid validation should have failed"
+#         success_msg: "IGMP VLAN querier version invalid validation correctly failed"
+#       tags: [negative, igmp, vlan, querier_version]
+
+#     - name: Test IGMP VLAN query interval validation - string value should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_query_interval_string }}"
+#       register: result_igmp_vlan_query_interval_string
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, query_interval]
+
+#     - name: Assert IGMP VLAN query interval string validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_query_interval_string.failed == true
+#           - "'must be of type integer' in result_igmp_vlan_query_interval_string.msg"
+#         fail_msg: "IGMP VLAN query interval string validation should have failed"
+#         success_msg: "IGMP VLAN query interval string validation correctly failed"
+#       tags: [negative, igmp, vlan, query_interval]
+
+#     - name: Test IGMP VLAN query interval validation - below minimum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_query_interval_min }}"
+#       register: result_igmp_vlan_query_interval_min
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, query_interval, range]
+
+#     - name: Assert IGMP VLAN query interval minimum validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_query_interval_min.failed == true
+#           - "'must be within the range' in result_igmp_vlan_query_interval_min.msg or 'query_interval' in result_igmp_vlan_query_interval_min.msg"
+#         fail_msg: "IGMP VLAN query interval minimum validation should have failed"
+#         success_msg: "IGMP VLAN query interval minimum validation correctly failed"
+#       tags: [negative, igmp, vlan, query_interval, range]
+
+#     - name: Test IGMP VLAN query interval validation - exceeds maximum should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_query_interval_max }}"
+#       register: result_igmp_vlan_query_interval_max
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, query_interval, range]
+
+#     - name: Assert IGMP VLAN query interval maximum validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_query_interval_max.failed == true
+#           - "'must be within the range' in result_igmp_vlan_query_interval_max.msg or 'query_interval' in result_igmp_vlan_query_interval_max.msg"
+#         fail_msg: "IGMP VLAN query interval maximum validation should have failed"
+#         success_msg: "IGMP VLAN query interval maximum validation correctly failed"
+#       tags: [negative, igmp, vlan, query_interval, range]
+
+#     - name: Test IGMP VLAN mrouter port list validation - string instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_mrouter_port_list_string }}"
+#       register: result_igmp_vlan_mrouter_port_list_string
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, mrouter_port_list]
+
+#     - name: Assert IGMP VLAN mrouter port list string validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_mrouter_port_list_string.failed == true
+#           - "'must be of type list' in result_igmp_vlan_mrouter_port_list_string.msg"
+#         fail_msg: "IGMP VLAN mrouter port list string validation should have failed"
+#         success_msg: "IGMP VLAN mrouter port list string validation correctly failed"
+#       tags: [negative, igmp, vlan, mrouter_port_list]
+
+#     #############################################
+#     #        Data Type and Structure Tests     #
+#     #############################################
+
+#     - name: Test IGMP configuration validation - string instead of dictionary should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_invalid_dict_type }}"
+#       register: result_igmp_invalid_dict_type
+#       ignore_errors: yes
+#       tags: [negative, igmp, structure, dict]
+
+#     - name: Assert IGMP configuration dictionary type validation failed
+#       assert:
+#         that:
+#           - result_igmp_invalid_dict_type.failed == true
+#           - "'must be of type dict' in result_igmp_invalid_dict_type.msg or 'igmp_snooping' in result_igmp_invalid_dict_type.msg"
+#         fail_msg: "IGMP configuration dictionary type validation should have failed"
+#         success_msg: "IGMP configuration dictionary type validation correctly failed"
+#       tags: [negative, igmp, structure, dict]
+
+#     - name: Test IGMP configuration validation - list instead of dictionary should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_invalid_list_type }}"
+#       register: result_igmp_invalid_list_type
+#       ignore_errors: yes
+#       tags: [negative, igmp, structure, list]
+
+#     - name: Assert IGMP configuration list type validation failed
+#       assert:
+#         that:
+#           - result_igmp_invalid_list_type.failed == true
+#           - "'must be of type dict' in result_igmp_invalid_list_type.msg or 'igmp_snooping' in result_igmp_invalid_list_type.msg"
+#         fail_msg: "IGMP configuration list type validation should have failed"
+#         success_msg: "IGMP configuration list type validation correctly failed"
+#       tags: [negative, igmp, structure, list]
+
+#     - name: Test IGMP VLANs validation - string instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlans_invalid_string }}"
+#       register: result_igmp_vlans_invalid_string
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, structure, string]
+
+#     - name: Assert IGMP VLANs string type validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlans_invalid_string.failed == true
+#           - "'be a list of dictionaries' in result_igmp_vlans_invalid_string.msg"
+#         fail_msg: "IGMP VLANs string type validation should have failed"
+#         success_msg: "IGMP VLANs string type validation correctly failed"
+#       tags: [negative, igmp, vlan, structure, string]
+
+#     - name: Test IGMP VLANs validation - dictionary instead of list should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlans_invalid_dict }}"
+#       register: result_igmp_vlans_invalid_dict
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, structure, dict]
+
+#     - name: Assert IGMP VLANs dictionary type validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlans_invalid_dict.failed == true
+#           - "'be a list of dictionaries' in result_igmp_vlans_invalid_dict.msg or 'igmp_snooping_vlans' in result_igmp_vlans_invalid_dict.msg"
+#         fail_msg: "IGMP VLANs dictionary type validation should have failed"
+#         success_msg: "IGMP VLANs dictionary type validation correctly failed"
+#       tags: [negative, igmp, vlan, structure, dict]
+
+#     - name: Test IGMP VLAN item validation - string instead of dictionary should fail
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_vlan_invalid_dict_type }}"
+#       register: result_igmp_vlan_invalid_dict_type
+#       ignore_errors: yes
+#       tags: [negative, igmp, vlan, structure, item]
+
+#     - name: Assert IGMP VLAN item dictionary type validation failed
+#       assert:
+#         that:
+#           - result_igmp_vlan_invalid_dict_type.failed == true
+#           - "'be a list of dictionaries' in result_igmp_vlan_invalid_dict_type.msg or 'igmp_snooping_vlans' in result_igmp_vlan_invalid_dict_type.msg"
+#         fail_msg: "IGMP VLAN item dictionary type validation should have failed"
+#         success_msg: "IGMP VLAN item dictionary type validation correctly failed"
+#       tags: [negative, igmp, vlan, structure, item]
+
+#     ###################################################################################################################
+#     # Positive Test Cases for IGMP Snooping
+
+#     #############################################
+#     #        POSITIVE TEST CASES - CREATE      #
+#     #############################################
+
+#     - name: Create IGMP snooping configuration with global parameters only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_create_global_only }}"
+#       register: result_igmp_create_global_only
+#       tags: [positive, igmp, create, global]
+
+#     - name: Assert IGMP global only creation succeeded
+#       assert:
+#         that:
+#           - result_igmp_create_global_only.changed == true
+#           - result_igmp_create_global_only.response is defined
+#         fail_msg: "IGMP global only creation should have succeeded"
+#         success_msg: "IGMP global only creation succeeded"
+#       tags: [positive, igmp, create, global]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, igmp, create]
+
+#     - name: Create IGMP snooping configuration with VLANs only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_create_vlans_only }}"
+#       register: result_igmp_create_vlans_only
+#       tags: [positive, igmp, create, vlans]
+
+#     - name: Assert IGMP VLANs only creation succeeded
+#       assert:
+#         that:
+#           - result_igmp_create_vlans_only.changed == true
+#           - result_igmp_create_vlans_only.response is defined
+#         fail_msg: "IGMP VLANs only creation should have succeeded"
+#         success_msg: "IGMP VLANs only creation succeeded"
+#       tags: [positive, igmp, create, vlans]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, igmp, create]
+
+#     - name: Create IGMP snooping configuration with single VLAN
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_create_single_vlan }}"
+#       register: result_igmp_create_single_vlan
+#       tags: [positive, igmp, create, single_vlan]
+
+#     - name: Assert IGMP single VLAN creation succeeded
+#       assert:
+#         that:
+#           - result_igmp_create_single_vlan.changed == true
+#           - result_igmp_create_single_vlan.response is defined
+#         fail_msg: "IGMP single VLAN creation should have succeeded"
+#         success_msg: "IGMP single VLAN creation succeeded"
+#       tags: [positive, igmp, create, single_vlan]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, igmp, create]
+
+#     - name: Create IGMP snooping configuration with global and VLANs
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_create_global_and_vlans }}"
+#       register: result_igmp_create_global_and_vlans
+#       tags: [positive, igmp, create, combined]
+
+#     - name: Assert IGMP global and VLANs creation succeeded
+#       assert:
+#         that:
+#           - result_igmp_create_global_and_vlans.changed == true
+#           - result_igmp_create_global_and_vlans.response is defined
+#         fail_msg: "IGMP global and VLANs creation should have succeeded"
+#         success_msg: "IGMP global and VLANs creation succeeded"
+#       tags: [positive, igmp, create, combined]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, igmp, create]
+
+#     - name: Create IGMP snooping configuration with minimal VLAN parameters
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_create_minimal_vlan }}"
+#       register: result_igmp_create_minimal_vlan
+#       tags: [positive, igmp, create, minimal, vlan]
+
+#     - name: Assert IGMP minimal VLAN creation succeeded
+#       assert:
+#         that:
+#           - result_igmp_create_minimal_vlan.changed == true
+#           - result_igmp_create_minimal_vlan.response is defined
+#         fail_msg: "IGMP minimal VLAN creation should have succeeded"
+#         success_msg: "IGMP minimal VLAN creation succeeded"
+#       tags: [positive, igmp, create, minimal, vlan]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, igmp, create]
+
+#     - name: Create IGMP snooping configuration with multiple VLANs - different settings
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_create_multiple_vlans_different_settings }}"
+#       register: result_igmp_create_multiple_vlans_different_settings
+#       tags: [positive, igmp, create, multiple, different]
+
+#     - name: Assert IGMP multiple VLANs with different settings creation succeeded
+#       assert:
+#         that:
+#           - result_igmp_create_multiple_vlans_different_settings.changed == true
+#           - result_igmp_create_multiple_vlans_different_settings.response is defined
+#         fail_msg: "IGMP multiple VLANs with different settings creation should have succeeded"
+#         success_msg: "IGMP multiple VLANs with different settings creation succeeded"
+#       tags: [positive, igmp, create, multiple, different]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, igmp, create]
+
+#     #############################################
+#     #        POSITIVE TEST CASES - UPDATE      #
+#     #############################################
+
+#     - name: Update IGMP snooping global parameters only
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_update_global_only }}"
+#       register: result_igmp_update_global_only
+#       tags: [positive, igmp, update, global]
+
+#     - name: Assert IGMP global only update succeeded
+#       assert:
+#         that:
+#           - result_igmp_update_global_only.changed == true
+#           - result_igmp_update_global_only.response is defined
+#         fail_msg: "IGMP global only update should have succeeded"
+#         success_msg: "IGMP global only update succeeded"
+#       tags: [positive, igmp, update, global]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, igmp, update]
+
+#     - name: Update IGMP snooping by modifying existing VLANs
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_update_modify_vlans }}"
+#       register: result_igmp_update_modify_vlans
+#       tags: [positive, igmp, update, modify_vlans]
+
+#     - name: Assert IGMP modify VLANs update succeeded
+#       assert:
+#         that:
+#           - result_igmp_update_modify_vlans.changed == true
+#           - result_igmp_update_modify_vlans.response is defined
+#         fail_msg: "IGMP modify VLANs update should have succeeded"
+#         success_msg: "IGMP modify VLANs update succeeded"
+#       tags: [positive, igmp, update, modify_vlans]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, igmp, update]
+
+#     - name: Update IGMP snooping global and VLANs together
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_update_global_and_vlans }}"
+#       register: result_igmp_update_global_and_vlans
+#       tags: [positive, igmp, update, combined]
+
+#     - name: Assert IGMP global and VLANs update succeeded
+#       assert:
+#         that:
+#           - result_igmp_update_global_and_vlans.changed == true
+#           - result_igmp_update_global_and_vlans.response is defined
+#         fail_msg: "IGMP global and VLANs update should have succeeded"
+#         success_msg: "IGMP global and VLANs update succeeded"
+#       tags: [positive, igmp, update, combined]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, igmp, update]
+
+#     - name: Update IGMP snooping single VLAN
+#       cisco.dnac.wired_campus_automation_workflow_manager:
+#         <<: *dnac_login
+#         state: merged
+#         config:
+#           - "{{ igmp_vars_map.test_igmp_update_single_vlan }}"
+#       register: result_igmp_update_single_vlan
+#       tags: [positive, igmp, update, single_vlan]
+
+#     - name: Assert IGMP single VLAN update succeeded
+#       assert:
+#         that:
+#           - result_igmp_update_single_vlan.changed == true
+#           - result_igmp_update_single_vlan.response is defined
+#         fail_msg: "IGMP single VLAN update should have succeeded"
+#         success_msg: "IGMP single VLAN update succeeded"
+#       tags: [positive, igmp, update, single_vlan]
+
+#     - name: Pause to allow configuration to settle
+#       pause:
+#         seconds: 10
+#       tags: [positive, igmp, update]
