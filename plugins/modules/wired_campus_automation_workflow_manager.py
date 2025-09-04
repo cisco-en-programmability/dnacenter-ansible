@@ -1505,7 +1505,6 @@ options:
                       - Helps control which ports forward traffic in redundant topologies.
                     type: int
                     required: false
-                    multiples_of: 16
                     default: 128
                   stp_interface_per_vlan_cost:
                     description: |
@@ -1550,7 +1549,6 @@ options:
                           - Should be coordinated with overall STP design.
                         type: int
                         required: false
-                        multiples_of: 16
                       vlan_ids:
                         description: |
                           - List of VLAN IDs to apply this priority setting to.
