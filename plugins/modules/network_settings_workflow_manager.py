@@ -3529,16 +3529,21 @@ class NetworkSettings(DnacBase):
         max_addresses = 2 ** max_bits
         self.log(f"Max addresses for {ip_version}: {max_addresses}.", "DEBUG")
 
-        if total_hosts <= 0 or total_hosts > max_addresses or (total_hosts & (total_hosts - 1)) != 0:
+        # Validate total_hosts
+        if total_hosts <= 0 or total_hosts > (max_addresses - 2 if ip_version == "IPv4" else max_addresses):
             self.msg = (
                 f"Invalid total_hosts '{total_hosts}' for {ip_version}. "
-                f"Total hosts must be a positive power of 2 and not exceed {max_addresses}."
+                f"Total hosts must be greater than 0 and not exceed {max_addresses}."
             )
             self.log(self.msg, "WARNING")
             self.set_operation_result("failed", False, self.msg,
                                       "ERROR", self.global_pool_response).check_return_status()
 
-        prefix_length = max_bits - int(math.log2(total_hosts))
+        # Calculate host bits (add 2 for network + broadcast in IPv4)
+        adjustment = 2 if ip_version == "IPv4" else 0
+        host_bits = math.ceil(math.log2(total_hosts + adjustment))
+        prefix_length = max_bits - host_bits
+
         self.log(
             f"Calculated prefix length for total_hosts={total_hosts}, ip_version={ip_version}: {prefix_length}.",
             "INFO",
