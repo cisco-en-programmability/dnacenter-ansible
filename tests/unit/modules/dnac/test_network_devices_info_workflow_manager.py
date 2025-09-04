@@ -38,7 +38,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
     playbook_poe_details = test_data.get("playbook_poe_details")
     playbook_interface_vlan_details = test_data.get("playbook_interface_vlan_details")
     playbook_link_mismatch_details = test_data.get("playbook_link_mismatch_details")
-    playbook_linecard_details = test_data.get("playbook_linecard_details")
+    playbook_linecard_details_error = test_data.get("playbook_linecard_details_error")
     playbook_device_details = test_data.get("playbook_device_details")
     playbook_stack_details = test_data.get("playbook_stack_details")
     playbook_config_details = test_data.get("playbook_config_details")
@@ -146,7 +146,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 self.test_data.get("inventory_insight_device_link_mismatch1"),
                 self.test_data.get("inventory_insight_device_link_mismatch2"),
             ]
-        elif "playbook_linecard_details" in self._testMethodName:
+        elif "playbook_linecard_details_error" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list9"),
                 self.test_data.get("get_device_list10"),
@@ -243,20 +243,76 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 "The network devices found: ['204.192.4.2']",
                 [
                     {
-                        "connected_device_info": [
+                        'connected_device_info': [
                             {
-                                "connected_device_details": [
+                                'device_ip': '204.192.4.2',
+                                'connected_device_details': [
+
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.4.2',
+                                'connected_device_details': [
+
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.4.2',
+                                'connected_device_details': [
+
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.4.2',
+                                'connected_device_details': [
+
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.4.2',
+                                'connected_device_details': [
+
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.4.2',
+                                'connected_device_details': [
+
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.4.2',
+                                'connected_device_details': [
+
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.4.2',
+                                'connected_device_details': [
                                     {
-                                        "capabilities": [
-                                            "IGMP_CONDITIONAL_FILTERING",
-                                            "ROUTER",
-                                            "SWITCH"
-                                        ],
-                                        "neighborDevice": "TB1-DM-Fusion.cisco.com",
-                                        "neighborPort": "TenGigabitEthernet1/0/4"
+                                        'neighborDevice': 'TB1-DM-Fusion.cisco.com',
+                                        'neighborPort': 'TenGigabitEthernet1/0/4',
+                                        'capabilities': [
+                                            'IGMP_CONDITIONAL_FILTERING',
+                                            'ROUTER',
+                                            'SWITCH'
+                                        ]
                                     }
-                                ],
-                                "device_ip": "204.192.4.2"
+                                ]
+                            },
+                            {
+                                'device_ip': '204.192.4.2',
+                                'connected_device_details': [
+                                    {
+                                        'neighborDevice': 'TB1-DM-Fusion.cisco.com',
+                                        'neighborPort': 'TenGigabitEthernet1/0/4',
+                                        'capabilities': [
+                                            'IGMP_CONDITIONAL_FILTERING',
+                                            'ROUTER',
+                                            'SWITCH'
+                                        ]
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -583,7 +639,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
             ]
         )
 
-    def test_network_devices_info_workflow_manager_playbook_linecard_details(self):
+    def test_network_devices_info_workflow_manager_playbook_linecard_details_error(self):
         """
         Test the Network Devices Info Workflow Manager's line card details retrieval process.
 
@@ -600,14 +656,26 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 state="queried",
 
                 dnac_version="2.3.7.9",
-                config=self.playbook_linecard_details
+                config=self.playbook_linecard_details_error
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            ["The network devices found: ['85.1.1.9']", None]
+            [
+                "The network devices found: ['85.1.1.9']",
+                [
+                    {
+                        'line_card_info': [
+                            {
+                                'device_ip': '85.1.1.9',
+                                'linecard_details': "Error: 'NoneType' object has no attribute 'get'"
+                            }
+                        ]
+                    }
+                ]
+            ]
         )
 
     def test_network_devices_info_workflow_manager_playbook_device_details(self):
@@ -5495,7 +5563,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
             result.get("msg"),
             "At least one of the following parameters must be specified inside each network device: "
             "management_ip_address, mac_address, hostname, serial_number, role, "
-            "os_type, software_version, site_hierarchy, device_type."
+            "os_type, software_version, site_hierarchy, device_type, family."
         )
 
     def test_network_devices_info_workflow_manager_playbook_negative_scenario9(self):
