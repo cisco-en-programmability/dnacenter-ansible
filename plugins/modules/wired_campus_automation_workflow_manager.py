@@ -9,6 +9,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 __author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
 
+
 DOCUMENTATION = r"""
 module: wired_campus_automation_workflow_manager
 short_description: Manage wired campus automation operations in Cisco Catalyst Center
@@ -588,16 +589,16 @@ options:
                 required: false
                 default: false
               dhcp_snooping_database_agent_url:
-                description: 
+                description:
                   - URL for storing DHCP Snooping binding database remotely.
                   - Supports TFTP, FTP, and other file transfer protocols.
                   - Provides persistence of bindings across switch reboots.
                   - Minimum 5 characters, maximum 227 characters.
                   - Format protocol://server_ip/filename
-                  - The URL must start with one of the following protocol prefixes 
+                  - The URL must start with one of the following protocol prefixes
                    "bootflash:", "crashinfo:", "flash:", "ftp:", "http:",
                    "https:", "rcp:", "scp:", "sftp:", or "tftp:"
-                  - Examples of valid URLs 
+                  - Examples of valid URLs
                     tftp URL  "tftp://192.168.1.100/dhcp_bindings.db",
                     ftp URL "ftp://server.example.com/backups/dhcp_bindings.db",
                     flash URL "flash:dhcp_bindings.db",
@@ -1675,7 +1676,7 @@ options:
 requirements:
   - dnacentersdk >= 2.10.1
   - python >= 3.9
-notes: 
+notes:
    - SDK Method used are
     - devices.get_device_list
     - wired.Wired.get_configurations_for_an_intended_layer2_feature_on_a_wired_device
@@ -3548,32 +3549,37 @@ class WiredCampusAutomation(DnacBase):
 
                 # Check for boolean first since isinstance(False, int) returns True in Python
                 if expected_type == "bool" and not isinstance(value, bool):
-                    self.msg = "Parameter '{0}' in configuration '{1}' must be of type boolean. Provided value: '{2}' (type: {3}). Full configuration: {4}".format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    self.msg = (
+                        "Parameter '{0}' in configuration '{1}' must be of type boolean. "
+                        "Provided value: '{2}' (type: {3}). Full configuration: {4}"
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "str" and not isinstance(value, str):
-                    self.msg = "Parameter '{0}' in configuration '{1}' must be of type string. Provided value: '{2}' (type: {3}). Full configuration: {4}".format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    self.msg = (
+                        "Parameter '{0}' in configuration '{1}' must be of type string. "
+                        "Provided value: '{2}' (type: {3}). Full configuration: {4}"
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "int" and (
                     isinstance(value, bool) or not isinstance(value, int)
                 ):
                     # Explicitly reject boolean values for integer fields
-                    self.msg = "Parameter '{0}' in configuration '{1}' must be of type integer. Provided value: '{2}' (type: {3}). Full configuration: {4}".format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    self.msg = (
+                        "Parameter '{0}' in configuration '{1}' must be of type integer. "
+                        "Provided value: '{2}' (type: {3}). Full configuration: {4}"
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "list" and not isinstance(value, list):
-                    self.msg = "Parameter '{0}' in configuration '{1}' must be of type list. Provided value: '{2}' (type: {3}). Full configuration: {4}".format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    self.msg = (
+                        "Parameter '{0}' in configuration '{1}' must be of type list. "
+                        "Provided value: '{2}' (type: {3}). Full configuration: {4}"
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "dict" and not isinstance(value, dict):
-                    self.msg = "Parameter '{0}' in configuration '{1}' must be of type dictionary. Provided value: '{2}' (type: {3}). Full configuration: {4}".format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    self.msg = (
+                        "Parameter '{0}' in configuration '{1}' must be of type dictionary. "
+                        "Provided value: '{2}' (type: {3}). Full configuration: {4}"
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
 
             # Validate the range of the parameter
@@ -13132,9 +13138,10 @@ class WiredCampusAutomation(DnacBase):
             self.set_operation_result("success", True, self.msg, "INFO")
         elif deletion_results["summary"]["skipped_operations"] > 0:
             # When all operations were skipped (like in this VLAN 4001 case)
-            no_op_msg = "No Wired Campus Automation configuration changes required for device {0}. Requested configurations were not found or already in desired state.".format(
-                device_identifier
-            )
+            no_op_msg = (
+                "No Wired Campus Automation configuration changes required for device {0}. "
+                "Requested configurations were not found or already in desired state."
+            ).format(device_identifier)
             self.msg = no_op_msg
             self.set_operation_result("success", False, self.msg, "INFO")
         else:

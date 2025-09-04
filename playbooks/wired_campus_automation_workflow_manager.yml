@@ -3,7 +3,7 @@
 # WIRED CAMPUS AUTOMATION WORKFLOW MANAGER - EXAMPLE PLAYBOOK
 # ===================================================================================================
 #
-# This playbook demonstrates comprehensive usage examples for the Wired Campus Automation 
+# This playbook demonstrates comprehensive usage examples for the Wired Campus Automation
 # Workflow Manager module. It includes positive scenarios for both merged and deleted states
 # with inline configurations for easy reference.
 #
@@ -37,7 +37,7 @@
     dnac_port: 443
     dnac_version: "3.1.3.0"
     dnac_debug: false
-    
+
     # Common login anchor for reuse
     dnac_login: &dnac_login
       dnac_host: "{{ dnac_host }}"
