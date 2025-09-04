@@ -485,7 +485,7 @@ options:
                 - SERVER
                 - CLIENT
                 - TRANSPARENT
-                - false
+                - OFF
                 default: SERVER
               vtp_version:
                 description: |
@@ -1112,7 +1112,7 @@ options:
                         - AUTO_NON_SILENT
                         - DESIRABLE
                         - DESIRABLE_NON_SILENT
-                        - true
+                        - ON
                       port_channel_port_priority:
                         description: |
                           - Priority for this interface in port channel selection.
@@ -3603,17 +3603,19 @@ class WiredCampusAutomation(DnacBase):
             # Validate the minimum length of the parameter
             if "minLength" in rule and value is not None and isinstance(value, str):
                 if len(value) < rule["minLength"]:
-                    self.msg = "Parameter '{0}' in configuration '{1}' must be at least {2} characters long. Provided value length: {3}. Full configuration: {4}".format(
-                        param, config_name, rule["minLength"], len(value), config_values
-                    )
+                    self.msg = (
+                        "Parameter '{0}' in configuration '{1}' must be at least {2} characters long. "
+                        "Provided value length: {3}. Full configuration: {4}"
+                    ).format(param, config_name, rule["minLength"], len(value), config_values)
                     self.fail_and_exit(self.msg)
 
             # Validate the maximum length of the parameter
             if "maxLength" in rule and value is not None:
                 if len(value) > rule["maxLength"]:
-                    self.msg = "Parameter '{0}' in configuration '{1}' exceeds maximum length of {2}. Provided value length: {3}. Full configuration: {4}".format(
-                        param, config_name, rule["maxLength"], len(value), config_values
-                    )
+                    self.msg = (
+                        "Parameter '{0}' in configuration '{1}' exceeds maximum length of {2}. "
+                        "Provided value length: {3}. Full configuration: {4}"
+                    ).format(param, config_name, rule["maxLength"], len(value), config_values)
                     self.fail_and_exit(self.msg)
 
             # Validate maximum number of items in list
@@ -3639,7 +3641,10 @@ class WiredCampusAutomation(DnacBase):
                         # Convert item to uppercase for case-insensitive comparison
                         item_upper = item.upper() if isinstance(item, str) else item
                         if item_upper not in valid_choices:
-                            self.msg = "Item '{0}' at index {1} in parameter '{2}' of configuration '{3}' must be one of {4}. Provided value: '{5}'. Full configuration: {6}".format(
+                            self.msg = (
+                                "Item '{0}' at index {1} in parameter '{2}' of configuration '{3}' must be one of {4}. "
+                                "Provided value: '{5}'. Full configuration: {6}"
+                            ).format(
                                 item,
                                 i,
                                 param,
@@ -3668,7 +3673,10 @@ class WiredCampusAutomation(DnacBase):
                 min_vlan, max_vlan = rule["vlan_range"]
                 for i, item in enumerate(value):
                     if not isinstance(item, int) or not (min_vlan <= item <= max_vlan):
-                        self.msg = "Item {0} in list parameter '{1}' of configuration '{2}' must be an integer between {3} and {4}. Provided value: '{5}'. Full configuration: {6}".format(
+                        self.msg = (
+                            "Item {0} in list parameter '{1}' of configuration '{2}' must be an integer "
+                            "between {3} and {4}. Provided value: '{5}'. Full configuration: {6}"
+                        ).format(
                             i,
                             param,
                             config_name,
@@ -11252,9 +11260,10 @@ class WiredCampusAutomation(DnacBase):
                     deployment_error = deployment_result.get(
                         "error", "Unknown deployment error"
                     )
-                    failure_msg = "Failed to deploy Wired Campus Automation configuration for device {0}. Intent configuration was successful for {1} features, but deployment failed: {2}".format(
-                        device_identifier, successful_operations, deployment_error
-                    )
+                    failure_msg = (
+                        "Failed to deploy Wired Campus Automation configuration for device {0}. "
+                        "Intent configuration was successful for {1} features, but deployment failed: {2}"
+                    ).format(device_identifier, successful_operations, deployment_error)
                     self.msg = failure_msg
                     self.set_operation_result("failed", True, self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
@@ -12210,7 +12219,7 @@ class WiredCampusAutomation(DnacBase):
         Returns:
             bool: True if values match, False otherwise
         """
-        if type(desired) != type(current):
+        if not isinstance(desired, type(current)) and not isinstance(current, type(desired)):
             self.log(
                 "Type mismatch detected: desired={0}, current={1}".format(
                     type(desired).__name__, type(current).__name__
