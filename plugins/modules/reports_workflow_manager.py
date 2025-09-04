@@ -169,6 +169,11 @@ options:
                     type: list
                     elements: str
                     required: false
+              webhook_name:
+                description:
+                  - The name of the webhook to be triggered for the report.
+                type: str
+                required: false
           view:
             description:
               - Contains view details such as subdata_category, fields, filters, and format for the report.
@@ -381,13 +386,9 @@ EXAMPLES = r'''
               view_name: "Network Device Compliance"
               field_groups:
                 - name: "inventoryAllData"
-                  display_name: "All Data"
               format:
                 format_type: "CSV"
-              filters:
-                - name: "Location"
-                  display_name: "Location"
-                  type: "MULTI_SELECT_TREE"
+              filters: []
             tags: []
 
 - name: Delete a report from Catalyst Center
@@ -963,13 +964,90 @@ class Reports(DnacBase):
             delivery.update(normalized_delivery)
 
         elif delivery_type == "WEBHOOK":
-            webhook_id = delivery.get("webhookId")
-            if not webhook_id or not isinstance(webhook_id, str):
-                self.msg = "'webhookId' is required for WEBHOOK delivery type."
+            webhook_name = delivery.get("webhook_name")
+            if not webhook_name or not isinstance(webhook_name, str):
+                self.msg = "'webhook_name' is required for WEBHOOK delivery type."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
         return True
+
+    def get_webhook_destination_in_ccc(self, name):
+        """
+        Retrieve details of Rest Webhook destinations present in Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            name (str): The name of the syslog destination to retrieve details for.
+        Returns:
+            dict: A dictionary containing details of Rest Webhook destination present in Cisco Catalyst Center,
+                or None if no Rest Webhook destinations are found.
+        Description:
+            This function retrieves the details of Rest Webhook destinations present in Cisco Catalyst Center
+            using the 'event_management' API endpoint with the 'get_webhook_destination' function.
+            If an error occurs during the retrieval process, it logs the error message and raises an Exception.
+        """
+
+        try:
+            offset = 0
+            limit = 10
+            while True:
+                try:
+                    response = self.dnac._exec(
+                        family="event_management",
+                        function="get_webhook_destination",
+                        params={"offset": offset * limit, "limit": limit},
+                    )
+                    offset = offset + 1
+                    self.log(
+                        "Received API response from 'get_webhook_destination': {0}".format(
+                            str(response)
+                        ),
+                        "DEBUG",
+                    )
+                    response = response.get("statusMessage")
+
+                    if not response:
+                        self.log(
+                            "There is no Rest Webhook destination present in Cisco Catalyst Center",
+                            "INFO",
+                        )
+                        return response
+
+                    for destination in response:
+                        if destination.get("name") == name:
+                            self.log(
+                                "Webhook Destination '{0}' present in Cisco Catalyst Center".format(
+                                    name
+                                ),
+                                "INFO",
+                            )
+                            return destination
+
+                    time.sleep(1)
+                except Exception as e:
+                    expected_exception_msgs = [
+                        "Expecting value: line 1 column 1",
+                        "not iterable",
+                        "has no attribute",
+                    ]
+                    for msg in expected_exception_msgs:
+                        if msg in str(e):
+                            self.log(
+                                "An exception occurred while checking for the Webhook destination with the name '{0}'. "
+                                "It was not found in Cisco Catalyst Center.".format(
+                                    name
+                                ),
+                                "WARNING",
+                            )
+                            return None
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "Error while getting the details of Webhook destination(s) present in Cisco Catalyst Center: {0}".format(
+                str(e)
+            )
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def get_want(self, config):
         """
@@ -1143,7 +1221,17 @@ class Reports(DnacBase):
         generate_report = config.get("generate_report", [])
 
         for report_entry in generate_report:
-            # if self.state != "deleted":
+            if report_entry.get("deliveries").get("type") == "WEBHOOK":
+                webhook_name = report_entry.get("webhook_name")
+                webhook_destinations = self.get_webhook_destination_in_ccc(webhook_name)
+                if not webhook_destinations:
+                    self.msg = f"No Webhook destination found in Cisco Catalyst Center for '{webhook_name}'."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+                webhookId = webhook_destinations.get("webhookId")
+                report_entry["deliveries"]["webhook_id"] = webhookId
+                report_entry["deliveries"].pop("webhook_name", None)
+
             view_group_name = report_entry.get("view_group_name")
             if not view_group_name:
                 self.log(f"view_group_name '{view_group_name}' not found in view_groups_details", "WARNING")
