@@ -1221,7 +1221,7 @@ class Reports(DnacBase):
         generate_report = config.get("generate_report", [])
 
         for report_entry in generate_report:
-            if report_entry.get("deliveries").get("type") == "WEBHOOK":
+            if report_entry.get("deliveries")[0]["type"] == "WEBHOOK":
                 webhook_name = report_entry.get("webhook_name")
                 webhook_destinations = self.get_webhook_destination_in_ccc(webhook_name)
                 if not webhook_destinations:
