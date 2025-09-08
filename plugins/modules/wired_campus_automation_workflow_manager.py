@@ -591,12 +591,13 @@ options:
                 required: false
                 default: false
               dhcp_snooping_database_agent_url:
-                description:
+                description: |
                   URL for storing DHCP Snooping binding database remotely.
                   Supports TFTP, FTP, and other file transfer protocols.
                   Provides persistence of bindings across switch reboots.
                   Minimum 5 characters, maximum 227 characters.
-                  Format for the URL - "protocol://server_ip/filename"
+                  Format for the URL: 
+                    - "protocol://server_ip/filename"
                   The URL must start with one of the following protocol prefixes:
                     - "bootflash:"
                     - "crashinfo:"
