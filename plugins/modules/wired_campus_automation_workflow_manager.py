@@ -596,7 +596,7 @@ options:
                   Supports TFTP, FTP, and other file transfer protocols.
                   Provides persistence of bindings across switch reboots.
                   Minimum 5 characters, maximum 227 characters.
-                  Format: 
+                  Format for the URL:
                     - "protocol://server_ip/filename"
                   The URL must start with one of the following protocol prefixes:
                     - "bootflash:"
@@ -1875,20 +1875,20 @@ EXAMPLES = r"""
     state: merged
     config:
       - ip_address: 204.1.2.3
-          layer2_configuration:
-            dhcp_snooping:
-              dhcp_admin_status: true
-              dhcp_snooping_vlans:
-                - 100
-                - 200
-                - 300
-              dhcp_snooping_glean: true
-              dhcp_snooping_database_agent_url: tftp://192.168.1.100/dhcp_binding.db
-              dhcp_snooping_database_timeout: 600
-              dhcp_snooping_database_write_delay: 300
-              dhcp_snooping_proxy_bridge_vlans:
-                - 100
-                - 200
+        layer2_configuration:
+          dhcp_snooping:
+            dhcp_admin_status: true
+            dhcp_snooping_vlans:
+              - 100
+              - 200
+              - 300
+            dhcp_snooping_glean: true
+            dhcp_snooping_database_agent_url: tftp://192.168.1.100/dhcp_binding.db
+            dhcp_snooping_database_timeout: 600
+            dhcp_snooping_database_write_delay: 300
+            dhcp_snooping_proxy_bridge_vlans:
+              - 100
+              - 200
 
 - name: Configure IGMP Snooping for multicast
   cisco.dnac.wired_campus_automation_workflow_manager:
