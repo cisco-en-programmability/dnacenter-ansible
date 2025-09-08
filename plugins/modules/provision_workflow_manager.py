@@ -49,7 +49,7 @@ options:
         type: str
         required: true
       provisioning:
-        description:
+        description: |
           - Specifies whether the user intends to perform
             site assignment only or full provisioning
             for a wired device.
@@ -62,7 +62,7 @@ options:
         required: false
         default: true
       force_provisioning:
-        description:
+        description: |
           - Determines whether to force reprovisioning
             of a device.
           - A device cannot be re-provisioned to a different
@@ -85,7 +85,7 @@ options:
         type: str
         required: true
       managed_ap_locations:
-        description:
+        description: |
           - Specifies the site locations allocated for
             Access Points (APs).
           - Renamed to 'primary_managed_ap_locations'
@@ -102,7 +102,7 @@ options:
         type: list
         elements: str
       primary_managed_ap_locations:
-        description:
+        description: |
           - Specifies the site locations assigned to
             primary managed Access Points (APs).
           - Introduced as the updated name for 'managed_ap_locations'
@@ -117,7 +117,7 @@ options:
         type: list
         elements: str
       secondary_managed_ap_locations:
-        description:
+        description: |
           - Specifies the site locations assigned to
             secondary managed Access Points (APs).
           - Introduced in Cisco Catalyst version 2.3.7.6
@@ -129,7 +129,7 @@ options:
         type: list
         elements: str
       dynamic_interfaces:
-        description:
+        description: |
           - A list of dynamic interfaces on the wireless
             controller.
           - Each entry represents an interface with
@@ -161,7 +161,7 @@ options:
               Aggregation Group) identifier.
             type: str
       skip_ap_provision:
-        description:
+        description: |
           - If set to 'true', Access Point (AP) provisioning
             will be skipped during the workflow.
           - Use this option when AP provisioning is
@@ -171,7 +171,7 @@ options:
         type: bool
         default: false
       rolling_ap_upgrade:
-        description:
+        description: |
           - Configuration options for performing a rolling
             upgrade of Access Points (APs) in phases.
           - Allows control over the gradual rebooting
@@ -181,7 +181,7 @@ options:
         type: dict
         suboptions:
           enable_rolling_ap_upgrade:
-            description:
+            description: |
               - Enable or disable the rolling AP upgrade
                 feature.
               - If set to 'true', APs will be upgraded
@@ -192,7 +192,7 @@ options:
             type: bool
             default: false
           ap_reboot_percentage:
-            description:
+            description: |
               - The percentage of APs to reboot simultaneously
                 during an upgrade.
               - Supported in Cisco Catalyst version
@@ -232,7 +232,7 @@ options:
         required: false
         suboptions:
           design_name:
-            description:
+            description: |
               - The name of the feature template design to be applied during wireless controller provisioning.
               - This template name must match exactly with the template name defined in Cisco Catalyst Center.
               - The template defines standardized configuration parameters, policies, and settings to be applied to the wireless controller.
@@ -240,7 +240,7 @@ options:
             type: str
             required: true
           additional_identifiers:
-            description:
+            description: |
               - A list of additional context-specific identifiers that provide customization parameters for the feature template.
               - These identifiers enable site-specific and WLAN-specific customization of the template during deployment.
               - Each identifier contains key-value pairs that help adapt the template for specific deployment scenarios and locations.
@@ -250,7 +250,7 @@ options:
             required: false
             suboptions:
               wlan_profile_name:
-                description:
+                description: |
                   - The WLAN profile name to be associated with the feature template during wireless controller provisioning.
                   - This profile defines wireless network parameters including SSID, security settings, VLAN assignments, and QoS policies.
                   - The WLAN profile must exist in Cisco Catalyst Center and be properly configured before template application.
@@ -258,7 +258,7 @@ options:
                 type: str
                 required: false
               site_name_hierarchy:
-                description:
+                description: |
                   - The site name hierarchy where the feature template should be applied during wireless controller provisioning.
                   - Defines the specific site context for template deployment within the organizational hierarchy.
                   - Must follow the format 'Global/Area/Building/Floor' as configured in Cisco Catalyst Center site topology.
@@ -267,7 +267,7 @@ options:
                 type: str
                 required: false
           excluded_attributes:
-            description:
+            description: |
               - A list of specific template attributes to be excluded from the feature template application during wireless controller provisioning.
               - Use this to selectively apply only certain parts of a template while excluding others that may not be applicable to the specific deployment.
               - Attribute names must match the exact attribute names defined in the feature template configuration.
@@ -1594,6 +1594,16 @@ class Provision(DnacBase):
                     self.log("No attributes provided for feature template '{0}'".format(design_name), "DEBUG")
 
                 excluded_attributes = template.get("excluded_attributes", [])
+                if excluded_attributes:
+                    self.log("Processing {0} excluded attributes for template '{1}': {2}".format(
+                        len(excluded_attributes), design_name, excluded_attributes), "DEBUG")
+                    if not isinstance(excluded_attributes, list):
+                        self.log("Invalid 'excluded_attributes' format for template '{0}'. Expected list, got: {1}".format(
+                            design_name, type(excluded_attributes).__name__), "WARNING")
+                        excluded_attributes = []
+                else:
+                    self.log("No excluded attributes specified for feature template '{0}'".format(design_name), "DEBUG")
+
                 additional_identifiers = template.get("additional_identifiers", {})
 
                 if additional_identifiers:
@@ -2104,6 +2114,12 @@ class Provision(DnacBase):
         self.log("Received telemetry configuration: {0}".format(telemetry_config), "DEBUG")
 
         application_telemetry_details = telemetry_config.get("application_telemetry", [])
+        if not application_telemetry_details:
+            self.msg = "No application telemetry configuration entries found in telemetry config."
+            self.log(self.msg, "WARNING")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            return self
+
         self.log("Processing {0} telemetry configuration entries".format(len(application_telemetry_details)), "INFO")
 
         for detail in application_telemetry_details:
