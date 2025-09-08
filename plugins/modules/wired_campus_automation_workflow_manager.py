@@ -45,12 +45,12 @@ description: |
   - Refer to the following bug tracking numbers for known issues - CSCwr00884,
     CSCwr0107, CSCwr01764, CSCwr01131, CSCwr01195, CSCwr01309, CSCwr01255,
     CSCwr01321, CSCwr01327, CSCwr01879, CSCwr01895, CSCwr01148.
-version_added: 6.20.0
+version_added: "6.20.0"
 extends_documentation_fragment:
-- cisco.dnac.module_info
+  - cisco.dnac.module_info
 author:
-- Rugvedi Kapse (@rukapse)
-- Madhan Sankaranarayanan (@madhansansel)
+  - Rugvedi Kapse (@rukapse)
+  - Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
     description: Set to true to verify the Cisco Catalyst Center configuration after applying the playbook configuration.
