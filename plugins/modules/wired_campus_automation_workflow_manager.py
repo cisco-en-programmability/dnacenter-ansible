@@ -11,6 +11,7 @@ __author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
 
 
 DOCUMENTATION = r"""
+---
 module: wired_campus_automation_workflow_manager
 short_description: Manage wired campus automation operations in Cisco Catalyst Center
 description: |
@@ -488,7 +489,7 @@ options:
                 type: str
                 required: false
                 choices: ["SERVER", "CLIENT", "TRANSPARENT", "OFF"]
-                default: SERVER
+                default: "SERVER"
               vtp_version:
                 description: |
                   VTP protocol version to use:
@@ -502,7 +503,7 @@ options:
                 - "VERSION_1"
                 - "VERSION_2"
                 - "VERSION_3"
-                default: VERSION_1
+                default: "VERSION_1"
               vtp_domain_name:
                 description: |
                   - VTP domain name for switch participation.
@@ -1125,7 +1126,7 @@ options:
                           Choose based on desired negotiation behavior and protocol.
                         type: str
                         required: false
-                        choices: [ACTIVE, "PASSIVE", "AUTO", "AUTO_NON_SILENT", "DESIRABLE", "DESIRABLE_NON_SILENT", "ON"]
+                        choices: ["ACTIVE", "PASSIVE", "AUTO", "AUTO_NON_SILENT", "DESIRABLE", "DESIRABLE_NON_SILENT", "ON"]
                       port_channel_port_priority:
                         description: |
                           - Priority for this interface in port channel selection.
@@ -1215,7 +1216,7 @@ options:
                       - "DYNAMIC_AUTO"
                       - "DYNAMIC_DESIRABLE"
                       - "DOT1Q_TUNNEL"
-                    default: ACCESS
+                    default: "ACCESS"
                   access_vlan:
                     description: |
                       - VLAN ID for untagged traffic when interface is in access mode.
@@ -1273,7 +1274,7 @@ options:
                 type: dict
                 required: false
                 suboptions:
-                  dtp_negotiation:
+                  enable_dtp_negotiation:
                     description: |
                       - Dynamic Trunking Protocol (DTP) negotiation setting.
                       - Controls whether the interface participates in DTP negotiation.
@@ -1281,12 +1282,9 @@ options:
                       - When disabled, prevents DTP packet transmission (recommended for security).
                       - Disable DTP when connecting to non-Cisco devices or for security.
                       - DTP negotiation control REQUIRES "switchport_mode" to be "TRUNK" (not "DYNAMIC")
-                    type: str
+                    type: bool
                     required: false
-                    choices:
-                      - "ENABLE"
-                      - "DISABLE"
-                    default: "ENABLE"
+                    default: true
                   protected:
                     description: |
                       - Enable protected port functionality.
