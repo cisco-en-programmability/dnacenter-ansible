@@ -596,7 +596,7 @@ options:
                   Supports TFTP, FTP, and other file transfer protocols.
                   Provides persistence of bindings across switch reboots.
                   Minimum 5 characters, maximum 227 characters.
-                  Format for the URL: 
+                  Format for the URL:
                     - "protocol://server_ip/filename"
                   The URL must start with one of the following protocol prefixes:
                     - "bootflash:"
@@ -1019,7 +1019,7 @@ options:
                   - Based on MAC addresses - "SRC_MAC", "DST_MAC", "SRC_DST_MAC".
                   - Based on IP addresses - "SRC_IP", "DST_IP", "SRC_DST_IP".
                   - Based on TCP/UDP ports - "RC_PORT", "DST_PORT", "SRC_DST_PORT".
-                  - VLAN-based load balancing methods - "VLAN_SRC_IP", "VLAN_DST_IP", "VLAN_SRC_DST_IP", 
+                  - VLAN-based load balancing methods - "VLAN_SRC_IP", "VLAN_DST_IP", "VLAN_SRC_DST_IP",
                     "VLAN_SRC_MIXED_IP_PORT", "VLAN_DST_MIXED_IP_PORT", "VLAN_SRC_DST_MIXED_IP_PORT".
                   VLAN-based load balancing methods for port channels are only
                   supported on Cisco Catalyst 9600 Series Switches.
@@ -1903,7 +1903,7 @@ EXAMPLES = r"""
     config:
       - ip_address: 204.1.2.3
         layer2_configuration:
-            igmp_snooping:
+          igmp_snooping:
             enable_igmp_snooping: true
             igmp_snooping_querier: false
             igmp_snooping_querier_address: 192.168.1.10
@@ -1968,11 +1968,11 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-        - ip_address: 204.1.2.3
-          layer2_configuration:
-            authentication:
-            enable_dot1x_authentication: true
-            authentication_config_mode: NEW_STYLE
+      - ip_address: 204.1.2.3
+        layer2_configuration:
+          authentication:
+          enable_dot1x_authentication: true
+          authentication_config_mode: NEW_STYLE
 
 - name: Configure LACP and PAGP Port Channels
   cisco.dnac.wired_campus_automation_workflow_manager:
@@ -2024,52 +2024,52 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: merged
     config:
-        - ip_address: 204.1.2.3
+      - ip_address: 204.1.2.3
           layer2_configuration:
             port_configuration:
-            - interface_name: GigabitEthernet1/0/5
-              switchport_interface_config:
-                switchport_description: Access Port - Production Network
-                switchport_mode: ACCESS
-                access_vlan: 100
-                admin_status: true
-                voice_vlan: 200
-              vlan_trunking_interface_config:
-                enable_dtp_negotiation: false
-                protected: false
-              dot1x_interface_config:
-                dot1x_interface_authentication_order:
-                  - DOT1X
-                  - MAB
-                dot1x_interface_authentication_mode: OPEN
-                dot1x_interface_pae_type: AUTHENTICATOR
-                dot1x_interface_control_direction: BOTH
-                dot1x_interface_host_mode: MULTI_AUTHENTICATION
-                dot1x_interface_port_control: AUTO
-                dot1x_interface_inactivity_timer: 300
-                dot1x_interface_max_reauth_requests: 3
-                dot1x_interface_reauth_timer: 3600
-              mab_interface_config:
-                mab_interface_enable: true
-              stp_interface_config:
-                stp_interface_enable_portfast: true
-                stp_interface_enable_bpdu_guard: true
-                stp_interface_enable_bpdu_filter: false
-                stp_interface_enable_root_guard: false
-                stp_interface_enable_loop_guard: false
-                stp_interface_port_priority: 128
-                stp_interface_cost: 19
-              dhcp_snooping_interface_config:
-                dhcp_snooping_interface_rate_limit: 100
-                dhcp_snooping_interface_trust: true
-              cdp_interface_config:
-                cdp_interface_admin_status: true
-                cdp_interface_logging: true
-              lldp_interface_config:
-                lldp_interface_transmit: true
-                lldp_interface_receive: true
-              vtp_interface_config:
-                vtp_interface_admin_status: true
+              - interface_name: GigabitEthernet1/0/5
+                switchport_interface_config:
+                  switchport_description: Access Port - Production Network
+                  switchport_mode: ACCESS
+                  access_vlan: 100
+                  admin_status: true
+                  voice_vlan: 200
+                vlan_trunking_interface_config:
+                  enable_dtp_negotiation: false
+                  protected: false
+                dot1x_interface_config:
+                  dot1x_interface_authentication_order:
+                    - DOT1X
+                    - MAB
+                  dot1x_interface_authentication_mode: OPEN
+                  dot1x_interface_pae_type: AUTHENTICATOR
+                  dot1x_interface_control_direction: BOTH
+                  dot1x_interface_host_mode: MULTI_AUTHENTICATION
+                  dot1x_interface_port_control: AUTO
+                  dot1x_interface_inactivity_timer: 300
+                  dot1x_interface_max_reauth_requests: 3
+                  dot1x_interface_reauth_timer: 3600
+                mab_interface_config:
+                  mab_interface_enable: true
+                stp_interface_config:
+                  stp_interface_enable_portfast: true
+                  stp_interface_enable_bpdu_guard: true
+                  stp_interface_enable_bpdu_filter: false
+                  stp_interface_enable_root_guard: false
+                  stp_interface_enable_loop_guard: false
+                  stp_interface_port_priority: 128
+                  stp_interface_cost: 19
+                dhcp_snooping_interface_config:
+                  dhcp_snooping_interface_rate_limit: 100
+                  dhcp_snooping_interface_trust: true
+                cdp_interface_config:
+                  cdp_interface_admin_status: true
+                  cdp_interface_logging: true
+                lldp_interface_config:
+                  lldp_interface_transmit: true
+                  lldp_interface_receive: true
+                vtp_interface_config:
+                  vtp_interface_admin_status: true
 
 - name: Configure Trunk Port for inter-switch links
   cisco.dnac.wired_campus_automation_workflow_manager:
